@@ -1,5 +1,5 @@
-# 세션: 20260121_045354_23m3
-> 시작: 2026-01-21T04:53:54.381Z
+# 세션: 20260126_062533_jvxw
+> 시작: 2026-01-26T06:25:33.725Z
 > 카테고리키: 힙시트
 > 카테고리: 힙시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 힙시트 시장 현황
-- 인사이트: 힙시트는 아기를 앉히는 방식으로 무게 분산을 도와주는 것이 특징이며, 아기띠의 대안 또는 보완재로 활용됩니다. 최근에는 디자인과 소재를 강화한 신제품들이 출시되며 시장 경쟁이 치열해지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHoBDp94THH_U3j13PNaY-iY-ETKYbQfPxVn4GV38U1tZv4xX9vkt3KipkfbsB24iAHzqEwryBtbwbjn0ao76md957C28H4Pp7pGa7qnNpz7tLQNlTxfkA6TFQ9jzaiywwUMOfbaz5llyZE5h072gmZVn7l, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCeIw5idFz41DUnDulCHf2VRt2hV9jKPkWKG5dWjkI64i5RGOZ00xHKPpOAoST2TI5kQ8SqMAI4MiPMXvJ7lCCMhWeYugs5s7xzBe5mREN6jOMYy25P-PwC6qoWiY8Wx7rZgdbdfF3JuxTAonREHcf-wDSXUSNqgK3srrWedgsLpwTbuc08u5K, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5-VvJxnwWeN48eCHI29d8ogniBmO9o5wHd5auQXNzxzFuEYUdY3zrkE1q-IuBlRnjxXvb_jkbJD00gqM5zHZqUgm8inyOxIhpbdxFb_2PsBAabzCugumJyZ2OF5o0owukhbtto52XBthGqmMAc3uDSktHxRBUyA==
+- 인사이트: 힙시트는 아기를 안을 때 부모의 허리와 어깨 부담을 줄여주는 육아용품입니다. 최근에는 휴대성과 편의성을 강조한 다양한 디자인의 힙시트가 출시되고 있으며, 아기의 성장 단계와 부모의 사용 환경에 맞춰 선택할 수 있는 폭이 넓어졌습니다. 특히 신생아부터 유아까지 사용 가능한 올인원 형태의 힙시트가 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGT9PefIO2DplRg2mOSkqcQ67iRwXjiCxUhueEERGfITs1A2cUt__wn5KJAxIapU2-7eESoqI8dsWBlIt2aH4xd1fUQgeATU-6fC0TFircurMK4HK-YWWWa_A5DBSOjIPfz77h09WTAS-2xPMYPFMgJSTlSQxpxbTUWmHMcjM5LqVC32INDXJKgbhEP25U4L0pI0tvcdMdjstjyUoYAqpQ0kYUOxZ_YjxFH2GyQ5eFNx1rzhWCUPEVAbdoVNL9XtjUc_E5VFVUPQhbIK4NUI8n2SUGunoBxm-LKcH4SXm7GyFOp-qckD1YgXrwFNP925pq2Jfb_fTIKTB--d2s6uSEiEHlHL1FjxvPUlqbvtgIMKFhyAx7SkkLIBiUVp-PO7BMN-tLlY-qjrzwvjADIaMeeKX1Vc5Q_uMif34EIp9pWR2gjvX5Cj_XKl6s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRiQFPDVAmV2PYOYGNbOdPOphfulOXQ90Q2CnDPsoBzGQMQUp_2Qi8-oEju4DrTXSy8LjspOFXgSSGZXgpKZBZxhbX8Cvj6c9rjOqapsmWPhd0oiQJB5Hz0C8Xxz69eBEljJtQeFmSiZmkRjAc5tzIY47fe-PDYQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuBgPW45CIgU4WscVMZU9VoB9gr7yxkpZDPU0HNCvt9HSwx-013a3gH9EJIyXQG_mD2rzfwpqO-kWo_bRexbGMbmNd84MR87xAee8JwpMXytKKSHSFipxPlT9lyjC56Rfb_NFMQsMgpy4Vt5dN2XojVvARu7uP
 
 ---
 
@@ -16,39 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| 힙시트를 주로 어떤 상황에서 사용하실 예정인가요? | 힙시트만 |
-| 힙시트를 사용할 아기의 개월 수와 예상되는 최대 몸무게는 어떻게 되나요? | 6개월~24개월 (7~15kg) |
-| 보호자와 아기 모두에게 편안함을 제공하는 어떤 기능이 중요하신가요? | 체형 조절 기능, 편안한 쿠션/통기성 |
-| 힙시트의 소재나 관리 측면에서 중요하게 생각하시는 부분이 있으신가요? | 세탁 용이/위생적, 고급/부드러운 소재 |
-| 예산은 어느 정도로 생각하세요? (평균 11만 6천원, 6만 2천원~15만 1천원대가 가장 많아요) | 6만 2천원 ~ 15만 1천원, 6만 2천원 이하 |
-| __avoid_negatives__ | 여름철에 아기와 제가 너무 덥고 답답하게 느껴질까 봐 염려돼요,처음 사용하거나 급하게 사용할 때 착용법이 복잡해서 당황스러울 것 같아요 |
+| 아기의 개월 수를 알려주세요. (힙시트 사용 가능 시기 확인) | 신생아 ~ 6개월 |
+| 힙시트를 주로 어떤 상황에서 사용하실 예정인가요? | 외출 시 (짧은/장시간) |
+| 힙시트 외에 아기띠 기능이 포함된 올인원 제품을 선호하시나요? | 힙시트만 필요 |
+| 선호하는 힙시트 브랜드가 있으신가요? | 포브 (FOBE), 피에고 (Piego) |
+| 예산은 어느 정도로 생각하세요? (평균 약 16만원, 8만 5천원~20만원대가 가장 많아요) | 8만 5천원 ~ 20만원대, 24만원 이상 |
+| __avoid_negatives__ | 아기가 토하거나 흘릴 경우 힙시트 세탁 및 관리가 번거로울까 봐 염려돼요,아기 옷 재질에 따라 힙시트에서 아기가 미끄러질까 봐 불안해요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 40개 (전체 40개 중)
+현재 후보: 39개 (전체 39개 중)
 
 ### 후보 상품
-1. 아가방 엘츠 3in1 소프트 멀티 힙시트 아기띠 - 107,070원 - ⭐5
-2. 토드비 에어피셀 힙시트 올인원 아기띠 - 251,100원 - ⭐4.8
-3. 다이치 루이 틱톡 접이식 올인원 아기띠 색상 선택/슬리핑후드+어깨침받이 - 330,000원 - ⭐4
-4. 피에고 제로 베이비캐리어 아기띠 + 베이비캐리어 힙시트 - 132,343원 - ⭐5
-5. 피에고 베이비캐리어 힙시트 - 42,550원 - ⭐4.7
-6. 포브 힙노스 핏 멜란지 힙시트 - 119,970원 - ⭐5
-7. 메리튠 핏플렉스 베이비 힙시트 - 52,210원 - ⭐5
-8. 포브 프리아핏 에어 올인원 아기띠 베이지 - 306,900원 - ⭐5
-9. 피에고 베이비캐리어 힙시트 - 43,860원 - ⭐4.7
-10. 쿠아스 애니멀 프렌즈 힙시트 아기띠 - 63,270원 - ⭐4.8
-11. 파스텔 기저귀 가방 아기 외출 백팩 - 33,730원 - ⭐5
-12. 베베핏 시그니처7 올인원 힙시트 아기띠 - 181,540원 - ⭐5
-13. 이지베이비 국민포대기 포대기 아기띠 수제누빔 5부 - 20,070원 - ⭐5
-14. 클린힙 일회용 변기시트 50개입 - 6,860원 - ⭐5
-15. 맘스포유 M4U 미니 에코백 손목 피크닉가방 토트백 - 5,150원 - ⭐4
-16. 포브 프리아핏 에어 올인원 아기띠 아이보리 - 306,900원 - ⭐5
-17. 포브 프리아핏 에어 아기띠 4color - 306,900원 - ⭐5
-18. 루시로다 사이드힙시트 LUX101 아기띠 힙시트 육아용품 아기용품 출산선물 여름힙시트 럭셔리 육아용품 힙시트 - 49,500원 - ⭐4.9
-19. 오가닉붐 2만 인증받은 진짜 오가닉 몽이 배냇저고리 사계절 여름용 - 11,590원 - ⭐4.9
+1. 베이비멜 패션 기저귀가방 로빈 백팩 네이비 스트라이프 - 98,470원 - ⭐5
+2. 메리튠 핏플렉스 베이비 힙시트 - 52,210원 - ⭐5
+3. 베베핏 시그니처7 올인원 힙시트 아기띠 - 155,770원 - ⭐5
+4. 포브 프리아핏 에어 올인원 아기띠 베이지 - 306,900원 - ⭐5
+5. 피에고 베이비캐리어 힙시트 - 43,860원 - ⭐4.7
+6. 토드비 에어피셀 힙시트 올인원 아기띠 - 256,500원 - ⭐4.8
+7. 포브 힙노스 핏 멜란지 힙시트 - 188,900원 - ⭐4.5
+8. 포브 프리아핏 에어 올인원 아기띠 아이보리 - 306,900원 - ⭐5
+9. 포브 프리아핏 에어 아기띠 4color - 313,500원 - ⭐5
+10. 베이비뵨 베이비 캐리어 One+ - 231,100원 - ⭐4.9
+11. 아가방 엘츠 3in1 소프트 멀티 힙시트 아기띠 - 107,070원 - ⭐5
+12. 다이치 루이 틱톡 접이식 올인원 아기띠 색상 선택/슬리핑후드+어깨침받이 - 330,000원 - ⭐4
+13. 클린힙 일회용 변기시트 50개입 - 6,860원 - ⭐5
+14. 피에고 제로 베이비캐리어 아기띠 + 베이비캐리어 힙시트 - 153,720원 - ⭐5
+15. 이지베이비 국민포대기 포대기 아기띠 수제누빔 5부 - 20,070원 - ⭐5
+16. 맘스포유 M4U 미니 에코백 손목 피크닉가방 토트백 - 5,260원 - ⭐4
+17. 루시로다 사이드힙시트 LUX101 아기띠 힙시트 육아용품 아기용품 출산선물 여름힙시트 럭셔리 육아용품 힙시트 - 49,500원 - ⭐4.9
+18. 오가닉붐 2만 인증받은 진짜 오가닉 몽이 배냇저고리 사계절 여름용 - 11,657원 - ⭐4.9
+19. 파스텔 기저귀 가방 아기 외출 백팩 - 32,210원 - ⭐5
 20. 허그파파 코쿤 아기띠 패딩 워머 - 98,100원 - ⭐5
 
 ---
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 여름철에 아기와 제가 너무 덥고 답답하게 느껴질까 봐 염려돼요
-- 처음 사용하거나 급하게 사용할 때 착용법이 복잡해서 당황스러울 것 같아요
+- 아기가 토하거나 흘릴 경우 힙시트 세탁 및 관리가 번거로울까 봐 염려돼요
+- 아기 옷 재질에 따라 힙시트에서 아기가 미끄러질까 봐 불안해요
 
 ---
 

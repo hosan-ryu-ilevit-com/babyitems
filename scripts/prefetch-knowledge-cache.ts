@@ -101,6 +101,9 @@ const DEFAULT_QUERIES = [
 
 // 총 약 82개 카테고리
 
+// 🆕 멀티 정렬 크롤링: 인기상품순 + 상품평순 합집합으로 더 다양한 아이템풀 구성
+const USE_MULTI_SORT_CRAWL = true; // true: saveDESC + opinionDESC 합집합
+
 // ============================================================================
 // Types
 // ============================================================================
@@ -190,17 +193,72 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
     // 실시간 크롤링
     console.log(`\n📦 [Step 1] 제품 크롤링 중...`);
     try {
-      const searchResult = await crawlers.crawlDanawaSearchListLite(
-        { query, limit: productLimit },
-        (product: DanawaSearchListItem, index: number) => {
-          if (index % 20 === 0) {
-            console.log(`   진행: ${index + 1}/${productLimit}`);
+      if (USE_MULTI_SORT_CRAWL) {
+        // 🆕 멀티 정렬 크롤링: 인기상품순 + 상품평순 병렬 실행
+        console.log(`   🔀 Multi-sort: saveDESC + opinionDESC (${productLimit} each)`);
+
+        const [popularResult, reviewResult] = await Promise.all([
+          // 1. 인기상품순 (saveDESC)
+          crawlers.crawlDanawaSearchListLite(
+            { query, limit: productLimit, sort: 'saveDESC' },
+            (_product: DanawaSearchListItem, index: number) => {
+              if (index % 30 === 0) {
+                console.log(`   [인기순] 진행: ${index + 1}/${productLimit}`);
+              }
+            }
+          ),
+          // 2. 상품평 많은 순 (opinionDESC)
+          crawlers.crawlDanawaSearchListLite(
+            { query, limit: productLimit, sort: 'opinionDESC' },
+            (_product: DanawaSearchListItem, index: number) => {
+              if (index % 30 === 0) {
+                console.log(`   [상품평순] 진행: ${index + 1}/${productLimit}`);
+              }
+            }
+          ),
+        ]);
+
+        // pcode 기준 합집합 생성 (인기상품순 우선)
+        const seenPcodes = new Set<string>();
+        const mergedProducts: DanawaSearchListItem[] = [];
+
+        // 인기상품순 먼저 추가
+        for (const product of popularResult.items) {
+          if (!seenPcodes.has(product.pcode)) {
+            seenPcodes.add(product.pcode);
+            mergedProducts.push(product);
           }
         }
-      );
-      products = searchResult.items;
-      filters = searchResult.filters || [];
-      console.log(`   ✅ ${products.length}개 제품, ${filters.length}개 필터 섹션 크롤링 완료`);
+        const popularCount = mergedProducts.length;
+
+        // 상품평순에서 새로운 상품만 추가
+        let addedFromReview = 0;
+        for (const product of reviewResult.items) {
+          if (!seenPcodes.has(product.pcode)) {
+            seenPcodes.add(product.pcode);
+            mergedProducts.push(product);
+            addedFromReview++;
+          }
+        }
+
+        products = mergedProducts;
+        filters = popularResult.filters || [];
+        console.log(`   📊 Merge: ${popularCount} (인기순) + ${addedFromReview} (상품평순 추가) = ${products.length} total`);
+        console.log(`   ✅ ${products.length}개 제품, ${filters.length}개 필터 섹션 크롤링 완료`);
+      } else {
+        // 기존 단일 정렬 크롤링
+        const searchResult = await crawlers.crawlDanawaSearchListLite(
+          { query, limit: productLimit },
+          (_product: DanawaSearchListItem, index: number) => {
+            if (index % 20 === 0) {
+              console.log(`   진행: ${index + 1}/${productLimit}`);
+            }
+          }
+        );
+        products = searchResult.items;
+        filters = searchResult.filters || [];
+        console.log(`   ✅ ${products.length}개 제품, ${filters.length}개 필터 섹션 크롤링 완료`);
+      }
     } catch (error) {
       const msg = `제품 크롤링 실패: ${error instanceof Error ? error.message : 'Unknown'}`;
       console.error(`   ❌ ${msg}`);

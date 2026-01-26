@@ -8,7 +8,7 @@
  * - 펼친 상태: 3단계 Accordion (아이콘 + 라벨 + 시간)
  */
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import type { TimelineStep } from '@/types/recommend-v2';
@@ -46,35 +46,6 @@ function RealTimeTimer({ startTime }: { startTime: number }) {
   );
 }
 
-/**
- * Shimmer 효과 컴포넌트 (background-clip 방식)
- */
-function ShimmerText({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.span
-      className="inline-block"
-      style={{
-        background: 'linear-gradient(90deg, rgba(156, 163, 175, 0.5) 0%, rgba(156, 163, 175, 1) 25%, rgba(255, 255, 255, 0.4) 50%, rgba(156, 163, 175, 1) 75%, rgba(156, 163, 175, 0.5) 100%)',
-        backgroundSize: '200% 100%',
-        WebkitBackgroundClip: 'text',
-        backgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        color: 'transparent',
-      }}
-      animate={{
-        backgroundPosition: ['200% 0%', '0% 0%'],
-      }}
-      transition={{
-        duration: 2.3,
-        repeat: Infinity,
-        ease: 'linear',
-        delay: 0.5,
-      }}
-    >
-      {children}
-    </motion.span>
-  );
-}
 
 /**
  * 단계 카드 (항상 표시)
@@ -113,7 +84,6 @@ function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: numb
 
   // 부가 설명 추출 (details 배열의 첫 번째 항목)
   const subDescription = step.details && step.details.length > 0 ? step.details[0] : '';
-  const isLoading = step.status === 'in_progress';
 
   return (
     <motion.div
@@ -162,14 +132,10 @@ function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: numb
             </span>
           ) : null}
         </div>
-        {/* 부가 설명 with shimmer effect during loading */}
+        {/* 부가 설명 */}
         {subDescription && (
-          <div className="text-[12px] text-gray-400 leading-relaxed">
-            {isLoading ? (
-              <ShimmerText>{subDescription}</ShimmerText>
-            ) : (
-              subDescription
-            )}
+          <div className="text-[13px] text-gray-400 leading-relaxed">
+            {subDescription}
           </div>
         )}
       </div>
@@ -188,8 +154,22 @@ export function FinalRecommendLoadingView({
   // 현재 활성화된 단계 찾기
   const currentStep = steps.find(s => s.status === 'in_progress') || steps[steps.length - 1];
 
+  // 헤더 제목에서 [n/4] 패턴 제거
+  const headerTitle = (currentStep?.title || 'AI 추천 생성 중').replace(/\[\d+\/\d+\]\s*/, '');
+
   return (
     <div className="w-full">
+      {/* AI 메시지 스타일 안내 문구 */}
+      <div className="flex flex-col mb-4">
+        <p className="text-[20px] text-gray-800 font-semibold leading-[140%]">
+          맞춤 추천을 위해<br />
+          AI가 열심히 분석 중이에요
+        </p>
+        <p className="text-[14px] text-gray-400 font-medium leading-[140%] mt-2">
+          30초 내에 완료될 예정이니 조금만 기다려주세요.
+        </p>
+      </div>
+
       {/* 헤더 (현재 진행 중인 단계) */}
       <div className="w-full py-4 px-1 flex items-center gap-3">
         {/* AI 아이콘 with wiggle animation */}
@@ -229,7 +209,7 @@ export function FinalRecommendLoadingView({
             ease: 'linear',
           }}
         >
-          {currentStep?.title || 'AI 추천 생성 중'}...
+          {headerTitle}...
         </motion.span>
       </div>
 

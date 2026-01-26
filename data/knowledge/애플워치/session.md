@@ -1,5 +1,5 @@
-# 세션: 20260121_053045_tnv3
-> 시작: 2026-01-21T05:30:45.556Z
+# 세션: 20260126_055145_behw
+> 시작: 2026-01-26T05:51:45.338Z
 > 카테고리키: 애플워치
 > 카테고리: 애플워치
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 애플워치 시장 현황
-- 인사이트: 애플워치는 북미 스마트워치 시장에서 4분기 연속 1위를 차지하며 독보적인 입지를 굳혔습니다. 특히 고급형 모델에 대한 수요가 높으며, 아이폰과의 연동성을 선호하는 충성도 높은 iOS 사용자층에 의해 시장 지배력이 뒷받침되고 있습니다. 최근 시장은 교체 주기 연장과 제품 혁신 부족으로 출하량 감소를 경험하기도 했으나, 지속적인 신제품 출시와 가격 할인 프로모션으로 시장 점유율 확대가 전망됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvvDw_wSVmszQkvErydpMSEdj6Z4xldEO0rSiHpGs6tF0w4CPO4CDTTRonruLo8IinM8DjPRW0AYCWQQVwBBBpKpw5L1kNBWxLHQMD5Sw2CF4hQc9cHRZOU_xSP3tAy-nf1UJBuw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaHkF7QmETCLDdtCf-v6X1OqRCmNOy8o5JiqbyGDJ027n2Kfit7IEhrU3AJokkQ41fEhbO2w8488LoNgaIABoGe6EKLKteYcOOc7bxr2c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4wCN3b2jXIiavNOEnka4EOrjYSZvs-gGAtCegEm_NoM96FaPUtvysjGlMBwd2ViV4yfYVqoHgKA6rQfecnS47lmdj3HMMcwhNdYLnxvzZAl_do0WHfBCDzPzcfT2WAtl2bDXtEfbooPjt_XNYGODZi38=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLajqlySSwMLTL06eaglXSCiEP0EauqNgbfHU5ImdkQDCwDND_Iam7KEWOmFbXqiWadF5Ib-kpTgcv3y7RhxgOjwT51OjVier7EsRcT_H1z8p_9Ran5o7bWbyq4ds-iEYUGDbHh8yGnRc8jl7wGmvyiCXuRAr35NpQ8z7oB_J2SK2A_i2heglOD77mvFjlN2b9HsOmlasxOhEQNkyVuVFDt368wzfG1ICg94UDsdMVbBCA24UCLw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOictX85aLSNvHgFmzs4AGt2rH9iQeuHZknEFrVA0PfPWzrJTjU3HbLrNvAeX3Qr3712lIPszT3eKlrJI86fGNAQ7SbWV2UDlM1ETf8HI3goVq1cnOAK05A6TUbYRA7J-tWpoliQJQHSS2pvngpATk4jPpLKSkUHbhAszG1E1Nvi49tKR2_y5nxQ7ij1DfIfVGPWJyzjaqu7K5eYk6dX5b3V0103ECJ5E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRe2N-jQHz0ryoKKcIzS9eepRxa6GH_kk2ulabSBbzo4rFdihhCw5J_U0jScs8v_QPZ37RJ9WrXHjxc0P4SRaPtv5VSEy73GDFR9ptFhTiNKixd9cVa14BjTbfFG4bcLMmaJtx0TT1ONxvaHr8
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpXCqrzibKblvkcqabjPSlRR1TWi-0B93umnkvFU_KUHWoRxBpWISP1S5hcCYieRyy1j-apvtrIAEtPRrJkbYae8oth1sPYSZXYGOcLWrxXxwfjuUbjA8IPKuEsriegqgkeuo_vYn45Y3eoz_HtpDGjoaH1W3FYGTt_m_EoisRVBXy3TWLqBp1hJ1a1SWvJvle8CmfYwVaFUoj5GqznA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBfmlrY3cUhVkFb4Ph8f2uMbQgXZFHE_2fMwi3CLjEfBMDghsNft5bdvStu-dkXEZrAORiq37IEYtNY7RqjpoDOxswQ2He-YJgs9WRopVpztFHZpXP7WF6DuzBBa_blLfBRwsrUxQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtOHYk1mIi8ue_sWQG93fKG9ohgGLqykSUa6T4MiSPeLqEGRBRTUtY5j3HEmzfwTxR4UVYKMKi33Mf6xq1olcJiKOKs0iBwqOWU8J1hA5u8GnVHM8yMPQOXhp_2rf0WOMFATIF3SkTHRdBVM1G5FYNBawfWos7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF49lNmQWs7MYo7QqB7qMoRNs-oGDFxCK2BBKfA_DW1YRTyLRBaMAYrQek7dJ2YWOt9JDawCLkrI9s1VmeBHFPwWuV_wNn8LRT1NWeN91Nc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3oFTA0GCUXi3GhCr4MEDrSw7VdCMxuJLK7W_dtts8xcBKYpsYiGJRTssETueq0p8H8CQJ2leglzDd97Jzle3xn4HXVAe1ZTxS1T1FertzQkRH022TuqT2sQeJ0DXfcHBwDQdwVSlyGRctpoXgFWnbXl3KaShFgUJiBDyFK8WSNwYdkyXLTXnIFUSPRMSVV7Tgk5Jqp0kaViwd0mxIG4LrBF7xlg-oqCAnxmQRnA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHytDbUq0-8wBQpqdnAREa3YtzkIG5q1FFQHd2jIhM3Kcgawlh309HiSgUofHXptQjRP_o6DsAV56wNSYY3PupdHy2PCrmDoJMykXsJT9XVhnZjkyLg5KOdQzs3QmfB_yXeFdC_MZ4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXgPyuBOINl1sKu3DU1bFAAudwwNdxf_xFMhC752og_12jG2UWrMdWrub1pDCNXItpbKFz2ix-9qiBtUPuCyoRpVLJ8rjg35jJa8RT5CfYw0dscw58sSeJkKTCveQLdwkGjIJOdc4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrxlLvYisJ5oXZTHHeoM2w5m2MG37CZ1Cklwrw2VxNBrO0twEzunCbhW9ZYW5I1fU_E-6VCjAbydFIXqsZDUACU6rm-rKvI8N1tcjXoTB00-AlspXLqcnEBLnMgJCOfWBmT0DvjKE=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpXCqrzibKblvkcqabjPSlRR1TWi-0B93umnkvFU_KUHWoRxBpWISP1S5hcCYieRyy1j-apvtrIAEtPRrJkbYae8oth1sPYSZXYGOcLWrxXxwfjuUbjA8IPKuEsriegqgkeuo_vYn45Y3eoz_HtpDGjoaH1W3FYGTt_m_EoisRVBXy3TWLqBp1hJ1a1SWvJvle8CmfYwVaFUoj5GqznA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBfmlrY3cUhVkFb4Ph8f2uMbQgXZFHE_2fMwi3CLjEfBMDghsNft5bdvStu-dkXEZrAORiq37IEYtNY7RqjpoDOxswQ2He-YJgs9WRopVpztFHZpXP7WF6DuzBBa_blLfBRwsrUxQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtOHYk1mIi8ue_sWQG93fKG9ohgGLqykSUa6T4MiSPeLqEGRBRTUtY5j3HEmzfwTxR4UVYKMKi33Mf6xq1olcJiKOKs0iBwqOWU8J1hA5u8GnVHM8yMPQOXhp_2rf0WOMFATIF3SkTHRdBVM1G5FYNBawfWos7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF49lNmQWs7MYo7QqB7qMoRNs-oGDFxCK2BBKfA_DW1YRTyLRBaMAYrQek7dJ2YWOt9JDawCLkrI9s1VmeBHFPwWuV_wNn8LRT1NWeN91Nc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3oFTA0GCUXi3GhCr4MEDrSw7VdCMxuJLK7W_dtts8xcBKYpsYiGJRTssETueq0p8H8CQJ2leglzDd97Jzle3xn4HXVAe1ZTxS1T1FertzQkRH022TuqT2sQeJ0DXfcHBwDQdwVSlyGRctpoXgFWnbXl3KaShFgUJiBDyFK8WSNwYdkyXLTXnIFUSPRMSVV7Tgk5Jqp0kaViwd0mxIG4LrBF7xlg-oqCAnxmQRnA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHytDbUq0-8wBQpqdnAREa3YtzkIG5q1FFQHd2jIhM3Kcgawlh309HiSgUofHXptQjRP_o6DsAV56wNSYY3PupdHy2PCrmDoJMykXsJT9XVhnZjkyLg5KOdQzs3QmfB_yXeFdC_MZ4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEXgPyuBOINl1sKu3DU1bFAAudwwNdxf_xFMhC752og_12jG2UWrMdWrub1pDCNXItpbKFz2ix-9qiBtUPuCyoRpVLJ8rjg35jJa8RT5CfYw0dscw58sSeJkKTCveQLdwkGjIJOdc4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrxlLvYisJ5oXZTHHeoM2w5m2MG37CZ1Cklwrw2VxNBrO0twEzunCbhW9ZYW5I1fU_E-6VCjAbydFIXqsZDUACU6rm-rKvI8N1tcjXoTB00-AlspXLqcnEBLnMgJCOfWBmT0DvjKE=
 
 ---
 
@@ -16,39 +16,40 @@
 
 | 항목 | 답변 |
 |------|------|
-| 애플워치를 주로 어떤 목적으로 사용하실 예정인가요? | 건강 및 운동 기록, 일상생활 편의 기능 활용 |
-| 선호하시는 화면 크기가 있으신가요? | 상관없어요 |
-| 애플워치를 스마트폰 없이 단독으로 사용하고 싶으신가요? | 스마트폰과 함께 사용 |
-| 애플워치 구매 예산은 어느 정도로 생각하세요? (평균 약 60만원, 40~78만원대가 가장 많아요) | 42만원 이하 |
-| __avoid_negatives__ | 상관없어요 |
+| 어떤 애플워치 모델을 찾으시나요? | Series 모델 |
+| 선호하는 애플워치 사이즈가 있으신가요? | 40mm/41mm, 44mm/45mm |
+| 애플워치를 어떤 방식으로 사용하실 예정인가요? | GPS |
+| 어떤 소재의 애플워치를 선호하시나요? | 스테인리스 스틸, 알루미늄 |
+| 예산은 어느 정도로 생각하세요? (평균 59만원, 42만원~77만원대가 가장 많아요) | 42만원 이하 |
+| __avoid_negatives__ | 일상생활에서 흠집이나 찍힘이 쉽게 생길까 봐 염려돼요,작은 화면으로 정보를 확인하거나 조작하는 것이 답답하게 느껴질까 봐 걱정돼요 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 103개 (전체 103개 중)
+현재 후보: 163개 (전체 163개 중)
 
 ### 후보 상품
-1. APPLE 워치 SE 3세대 40mm 스타라이트 알루미늄 - 339,730원 - ⭐4.8
+1. APPLE 워치 SE 3세대 40mm 스타라이트 알루미늄 - 332,100원 - ⭐4.8
 2. APPLE 워치 SE 2세대 40mm 스타라이트 알루미늄 - 244,990원 - ⭐4.9
-3. APPLE 워치 SE 2세대 40mm 실버 알루미늄 - 281,290원 - ⭐4.8
-4. APPLE 워치 시리즈11 46mm 제트블랙 알루미늄 - 588,830원 - ⭐4.9
-5. APPLE 워치 울트라3 49mm Cellular 블랙 티타늄 - 1,150,950원 - ⭐5
-6. APPLE 워치 SE 3세대 40mm 미드나이트 알루미늄 - 339,730원 - ⭐4.9
-7. APPLE 워치 SE 3세대 44mm 미드나이트 알루미늄 - 380,370원 - ⭐4.8
-8. APPLE 워치 시리즈11 42mm 제트블랙 알루미늄 - 551,970원 - ⭐4.8
-9. APPLE 워치 울트라3 49mm Cellular 내추럴 티타늄 - 1,150,950원 - ⭐5
-10. APPLE 워치 SE 3세대 44mm 스타라이트 알루미늄 - 380,370원 - ⭐5
-11. APPLE 워치 시리즈11 42mm 실버 알루미늄 - 551,970원 - ⭐5
-12. APPLE 워치 울트라2 49mm Cellular 내추럴 티타늄 - 1,114,530원 - ⭐4.9
-13. APPLE 워치 시리즈11 42mm 스페이스그레이 알루미늄 - 551,970원 - ⭐4.8
-14. APPLE 워치 울트라 49mm Cellular 티타늄 - 690,000원 - ⭐4.9
-15. APPLE 워치 SE 2세대 44mm 미드나이트 알루미늄 - 299,000원 - ⭐4.9
-16. APPLE 워치 시리즈11 42mm 로즈골드 알루미늄 - 551,970원 - ⭐4.7
-17. APPLE 워치 시리즈9 45mm 미드나이트 알루미늄 - 449,000원 - ⭐4.9
-18. APPLE 워치 SE 3세대 44mm Cellular 미드나이트 알루미늄 - 455,050원 - ⭐5
-19. APPLE 워치 시리즈11 46mm 실버 알루미늄 - 588,830원 - ⭐5
-20. APPLE 워치 SE 3세대 40mm Cellular 스타라이트 알루미늄 - 417,050원 - ⭐5
+3. APPLE 워치 시리즈11 46mm 제트블랙 알루미늄 - 576,680원 - ⭐4.9
+4. APPLE 워치 SE 3세대 44mm 미드나이트 알루미늄 - 380,770원 - ⭐4.8
+5. APPLE 워치 울트라3 49mm Cellular 블랙 티타늄 - 1,186,550원 - ⭐5
+6. APPLE 워치 시리즈11 42mm 제트블랙 알루미늄 - 540,580원 - ⭐4.8
+7. APPLE 워치 SE 3세대 40mm 미드나이트 알루미늄 - 332,100원 - ⭐4.9
+8. APPLE 워치 시리즈11 42mm 실버 알루미늄 - 540,580원 - ⭐5
+9. APPLE 워치 시리즈11 42mm Cellular 내추럴 티타늄 - 920,570원 - ⭐5
+10. APPLE 워치 울트라2 49mm Cellular 내추럴 티타늄 - 1,103,040원 - ⭐4.9
+11. APPLE 워치 SE 3세대 44mm 스타라이트 알루미늄 - 380,770원 - ⭐5
+12. APPLE 워치 울트라3 49mm Cellular 내추럴 티타늄 - 1,150,950원 - ⭐5
+13. APPLE 워치 시리즈11 42mm 로즈골드 알루미늄 - 557,660원 - ⭐4.7
+14. APPLE 워치 SE 2세대 44mm 미드나이트 알루미늄 - 298,990원 - ⭐4.9
+15. APPLE 워치 시리즈9 45mm 미드나이트 알루미늄 - 448,990원 - ⭐4.9
+16. APPLE 워치 SE 2세대 40mm 실버 알루미늄 - 331,670원 - ⭐4.8
+17. APPLE 워치 울트라 49mm Cellular 티타늄 - 690,000원 - ⭐4.9
+18. APPLE 워치 시리즈11 46mm 스페이스그레이 알루미늄 - 576,680원 - ⭐5
+19. APPLE 워치 시리즈11 42mm 스페이스그레이 알루미늄 - 540,580원 - ⭐4.8
+20. APPLE 워치 시리즈11 46mm 실버 알루미늄 - 576,680원 - ⭐5
 
 ---
 
@@ -60,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 상관없어요
+- 일상생활에서 흠집이나 찍힘이 쉽게 생길까 봐 염려돼요
+- 작은 화면으로 정보를 확인하거나 조작하는 것이 답답하게 느껴질까 봐 걱정돼요
 
 ---
 

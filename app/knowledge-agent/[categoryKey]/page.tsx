@@ -1064,10 +1064,10 @@ export default function KnowledgeAgentPage() {
     const step1Duration = getRandomDuration(5000);
     const step1: TimelineStep = {
       id: 'step-1',
-      title: '사용자 취향 심층 분석',
+      title: '[1/4] 사용자 취향 심층 분석 중',
       icon: '',
       details: [
-        `${conditionText}을 바탕으로 선호 패턴과 핵심 우선순위를 파악합니다.`
+        `${conditionText}을 바탕으로 선호하시는 조건과 우선순위를 파악합니다.`
       ],
       timestamp: Date.now(),
       startTime: Date.now(),
@@ -1084,7 +1084,7 @@ export default function KnowledgeAgentPage() {
     const candidateText = candidateCount > 0 ? `${candidateCount}개` : '전체';
     const step2: TimelineStep = {
       id: 'step-2',
-      title: `${candidateText} 제품 스펙 수집 및 분석`,
+      title: `[2/4] ${candidateText} 후보 제품 스펙 수집 및 분석 중`,
       icon: '',
       details: [
         '제품 상세 스펙 데이터와 제조사 공식 정보를 수집하여 비교 분석합니다.'
@@ -1103,10 +1103,10 @@ export default function KnowledgeAgentPage() {
     const step3Duration = getRandomDuration(6000);
     const step3: TimelineStep = {
       id: 'step-3',
-      title: '실제 사용자 리뷰 데이터 분석',
+      title: '[3/4] 실제 사용자 리뷰 데이터 분석 중',
       icon: '',
       details: [
-        '수천 건의 실제 구매 리뷰를 분석하여 장단점과 만족도를 파악합니다.'
+        '수만 건의 실제 구매 리뷰를 분석하여 장단점과 만족도를 파악합니다.'
       ],
       timestamp: Date.now(),
       startTime: Date.now(),
@@ -1121,10 +1121,10 @@ export default function KnowledgeAgentPage() {
     // 4단계: 최종 TOP 5 추천 생성 (API 완료될 때까지 계속 in_progress 유지)
     const step4: TimelineStep = {
       id: 'step-4',
-      title: 'Top 5 맞춤 추천 생성',
+      title: '[4/4] Top 5 맞춤 추천 생성 중',
       icon: '',
       details: [
-        '분석 결과를 종합하여 사용자님께 최적화된 Top 5 제품을 선정하고 추천 이유를 작성합니다.'
+        '분석 결과를 종합하여 가장 적합한 Top 5 제품을 선정하고 추천 이유를 작성합니다.'
       ],
       timestamp: Date.now(),
       startTime: Date.now(),
@@ -5055,7 +5055,7 @@ function MessageBubble({
                         setCustomInputValue('');
                       }
                     }}
-                    placeholder="원하는 조건을 입력하세요"
+                    placeholder="조건을 자유롭게 입력하세요"
                     className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
                       ${isCustomInputActive ? 'opacity-100' : 'opacity-0'}`}
                     style={{ pointerEvents: isCustomInputActive ? 'auto' : 'none' }}

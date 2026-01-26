@@ -1,5 +1,5 @@
-# 세션: 20260123_022757_rjb4
-> 시작: 2026-01-23T02:27:57.296Z
+# 세션: 20260126_060125_7o22
+> 시작: 2026-01-26T06:01:25.832Z
 > 카테고리키: 보틀워머
 > 카테고리: 보틀워머
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 보틀워머 시장 현황
-- 인사이트: 보틀워머 시장은 유아 영양 및 부모의 편의성에 대한 관심 증가로 꾸준히 성장하고 있으며, 특히 휴대성과 스마트 기능이 강조된 제품들이 인기를 얻고 있습니다. 전 세계적으로 2035년까지 약 1억 4,632만 달러 규모로 성장할 것으로 예상되며, 전기 및 증기 기반 워머가 시장의 상당 부분을 차지하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFy_AfJlkPq4c37Hh-QMbFk-P1hBTgZrYEYXLcgDEWMUcSug8bUu1-8caCv7eHNtpYBbCmzwddD16gKcY6lEKVnlFNuUeGeoSAj7c7lZaq_HiDJL9koOS8EfofHNDEi3RfnuaC1KqBc0w5GSHI9dRGzNhFME0s32AT6_4CaI6Kr2ANxl5RKQNw3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFT4skGbdojVWxV-5b-Em0GdZq7b7qpunVpY-xmPnuyJn7KgODybeKz1ijxF1WIvLLtDYiV6ytI_cUX1qhm-TADyVOqp-uSF6oSUWLTJDVG4_9WvXdkfCUsgqDUBIwYILVTE9kqwRUxIW2qxPKwodzHsFibvA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhV1TYuUz-KAc7-RJg6-qqVOvMZdaK1KjDVRhNEb9raH1cH-AK9zQl0oBjUs53UXO3hYG0s36Wh9y-c39Mch7LceWJko5eHcXZYSintKXWPjxyo8jovtZntvYh5zBeRTcVh3gFI80EFhQLRVf3KYoV7toY-xhgEg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxDgJgOgq10IkhwISkxJxSW1dr9anrZ3T2RE1fgw2IVr8d-o9HJKsLF7wwCF5aei8rzprM0_YL2aqWsyV6bKL7sgH3s2N4szMOQLqTIiuDZUIm5RqHLFgDtTrIlLxiEKhaRb12we8=
+- 인사이트: 보틀워머 시장은 아기에게 일정한 온도의 분유나 모유를 제공하는 편리함 때문에 꾸준히 성장하고 있습니다. 특히 휴대용 보틀워머는 외출 시 전자레인지나 뜨거운 물 없이도 간편하게 수유 온도를 맞출 수 있어 인기가 높습니다. USB 충전식, 차량용 시가잭, 배터리식 등 다양한 전원 공급 방식과 저온 균일 가열 방식, 과열 방지 기능 등이 주요 특징으로 부각되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBXMuY_QSTjtqt-DExM8dp0c-S53zXJba_ReECyl-wVa32rWAAWbhIzUg16G9FyXuc3PCDyWBJIiMQx6yGUjd1_QrHvZtnL0Mtx2GhDjU1W7hnpqE0Ma7P4DCN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4tNevGrJsPJXEboHEnYOr7HC2JA_-xXT0kKVRZJQY6jgCD7hXpHGCxRfvGhyXMHOHyZa49y_dPOAMV6n5DPLovZlaUaDcq4f_mWfUlHzMzPwL1ccEzjs7vuikjdFdc9FCCViwIxYdY-b78RPyeAJEGi2XNRReingwmu19rF8aLDyDixGXzNjcY2dXyasFwigxTge195_ijA-XsrRO3Dqy, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGboiRIMmdUi1lKwb9C--SV3ED9NFdmri5GsVCi0V_Uk3a7I6me8dm444-hZ7wfS5WyuA0kCk4lT6bMnAl5UZqYxt3pjurcwe6HfEEy9-Vx3jgit9VrcuGv7j2n3xe_mGX7z5uuci-nXefTh9HfhpGldQoE91FO3KyhOyv6jn1RnuqJNHT9uVmJ37mGbdkTmlHxdOk_K7Xs_w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBbaXzIhjEgmn0U6GMjywK2L5jHJ79yhJOTYcGef92l2oBY2Rbc6uI1Gwg42wLEbOIJmuVwpWmBf_DHOMFWBzMj2osozK3I8xsH5JIVo-9Xur-G2PbaVvaoMDfyqck2bOC6242Y2ASPfa9bbgDBUe7AA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRH8TzcE50kR3qbchBQ3YbxoiXfAiwGGBQJPYjAm0oBf5BVcQnrXpg8FsyYc6cb08PJ3bYhO1od68ZWSTeOtNUkhgdZ3G0uAMVAKseCbHsGILd5LEZpOZvHMITi3cI-hHmaG9J7aEyOQ==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 보틀워머를 주로 어떤 상황에서 사용하실 예정인가요? | 외출 시 자주 사용 |
-| 젖병이나 이유식을 얼마나 빨리 데우고 싶으신가요? | 일반적인 속도 |
-| 어떤 종류의 용기를 주로 사용하시나요? | 일반 젖병 (유리, 플라스틱), 넓은 입구 젖병 |
-| 특별히 선호하시는 보틀워머 브랜드가 있으신가요? | 오아, 스펙트라, 보아르 |
-| 예산은 어느 정도로 생각하세요? (평균 5만 6천원, 3만원~7만원대가 가장 많아요) | 3만원 ~ 7만원대 |
-| __avoid_negatives__ | 사용하는 이유식 용기가 보틀워머에 맞지 않아 사용이 제한될까 봐 걱정돼요,외출 시 휴대하기에 무게감이 있어서 짐이 많이 될까 봐 불편해요 |
+| 보틀워머로 주로 무엇을 데우시나요? | 분유 |
+| 보틀워머를 주로 어디서 사용하실 예정인가요? | 외출 시 자주 사용 |
+| 선호하시는 보틀워머 브랜드가 있으신가요? | 필립스 |
+| 젖병이나 이유식을 얼마나 빨리 데우는 것이 중요하신가요? | 보통 (적당한 속도) |
+| 예산은 어느 정도로 생각하세요? (평균 5만 6천원, 3만 2천원~7만 3천원대가 가장 많아요) | 3만 2천원 ~ 7만 3천원 |
+| __avoid_negatives__ | 분유 온도가 일정하게 데워지지 않고 너무 뜨겁거나 차가울까 봐 걱정돼요. |
 
 ---
 
@@ -61,8 +61,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 사용하는 이유식 용기가 보틀워머에 맞지 않아 사용이 제한될까 봐 걱정돼요
-- 외출 시 휴대하기에 무게감이 있어서 짐이 많이 될까 봐 불편해요
+- 분유 온도가 일정하게 데워지지 않고 너무 뜨겁거나 차가울까 봐 걱정돼요.
 
 ---
 

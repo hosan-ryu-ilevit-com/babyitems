@@ -1,5 +1,5 @@
-# 세션: 20260126_041023_rz27
-> 시작: 2026-01-26T04:10:23.316Z
+# 세션: 20260126_061015_ez2t
+> 시작: 2026-01-26T06:10:15.313Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기에게 안정감을 주고 빨기 욕구를 충족시켜주는 육아템으로 활용됩니다. 생후 4주 이후부터 사용하며, 돌 전후로 떼는 것이 일반적입니다. 하지만 모유 수유 시 유두 혼동을 일으킬 수 있고, 치아 발달에 영향을 줄 수 있다는 단점도 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGY71SGn670M2UBhi4gLi2dbRa8ubPy1l4iuyUaDo3JyeeUD8K3zRXKHuclXzMhOAh5loXf1BPNHMvZtNSpD5W2c6vZkBPXwQOPP51wO0dEpS4G0CONKiiH3CFLLs48gbUAgQVfygK-1c-i8FdPdNv3GkOBLE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUJYlqZGDeHVggFzCnAC_XumGFn14KAtX6gKQITHF7inJqdOn4JSR3N0AjbRZUqaXt7tbyRfyEG_MFuq0d19I4eIzzidvzsxGCDoLKqhJK7-avnSSPOtdiGFRrwwywi8wVZN9eHlYQHs2bbTFOWGKrUC1XMzqB6PiLwz4JcCndM5mU_K-z3ormjKZMZXl4SLFRPaMMI6xUPVQAhpG_YdoO-ftjo7KEE1OtNCHLsDezWRamtNE7PYfsrSCpUMThzNEGtg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKoy-aDXf5g0DW1o7NnsM6-w7EzvJTBf_Yz2AV5PIzWGSfWUip_KkvAACPsvPfJSTo_NI0K5bDaNZcIRTcQkPWcUyHlzFlV3-vhsHrYEVqeSRqfKPVXHX0YFlF5XBimMA_sNuh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnYnNyl4YlxWsOOXY8mKAavoqXJT-df7LGoDXk7KUfrNzr3L37hdBlNCO1LqOYBjHN8aNUe1iDR0b-wwxYEGX2gtW-KEUkuXf4FnUg0vDBOCTJS4QJeGsWegndv_M2koERlckkM5nTJXsyjatNASH4w8poUewjFx46jw4_-8KkenMXV4Y0CpvI3iUFwQ-UTe5eTkSY3T4Fh1VioWKvT6Xa2gs2JT1PXTxOaxz6d3U0Wg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFIKUw7bJkNqbk0TpX-mSGV2THZvXom_ZNlfRelITBJAFCkabK611tT3un265XMyFC9_l9eIIaj3wDIXkR1zExLctF3a8H4LHVZXpG_5ZSRV88niuMSYcx9Wy8v8ijDBrzP0ucQDVPw4z9IozMrbGemgWM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOd1EarFg8aqpbsZz0zcJlaTfIp-qYK0Zg52LoFDFCWqWnx7myvs1fOQFhJGc6kkYeoAbrkwjF_f8H26fOddfM1r-dTebzuF81JJZA1x8E7M9PeqAr62UVffhjOJHgQwqdRdsHQPAJh16qQO31NK10ayAhjd01aeGkZUd2HvRUInEhDRBLl6mBz6Wtz6ffzrRVYCq1g6uAHLrBXlEhaA==
+- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기의 빨기 욕구 충족, 안정감 제공, 손빨기 방지 등의 장점으로 인해 꾸준한 수요를 보이고 있습니다. 특히 최근에는 성인들의 스트레스 해소용으로도 주목받으며 새로운 시장을 형성하고 있습니다. 다만, 유두 혼동, 치아 발달 영향, 떼기 어려움 등의 단점도 존재하여 신중한 사용이 요구됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwpPzDurtjpkExkwKGVl14yKYNyBRxW3Z0oP-_scRyfOk3Zcb2isbN7n6mHoo4Cy5z10Tuy7Nz-68X2NevCYztYR6wWVLwyRLKLPgrq1NWrWfqttExx4qg0bpFVic=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXFI0xu2rRTq_1Usy2nWdjeoi-vmcUAAXRNDczVFZROuEBJiZCml3qnlm08BjQYTOjUEWMtwWS1zuM_AVxVq82P6hOhJxr6GWMgaokzvnYZTw3bCUJc4ABXwRPqHKMD0h0Q28GfbEaMw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaoLfP-tqZH9MQk2u4Na48CSDz0_Ot3UTNqGgl9OK7KRaphz6LUi_JOnJ2RDiXr3t3P1xhe1kRxAPjFdL2WKYIoqQYzud9gUAPkPmgdYVV6vduOORvjLWsaD3ELiVy09SnEADegw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfS8X83ul7SRbx4c90ZVDySf30hM09G2rsl33dnLTMgNoeFGwICBE0zuZ_RGRQL-j4XOkJXvS2GkIvGbY-uj6WdbYmuRTzWQXeZR0roJTlSQxWw48zt-NF4hQLOeCzF9-uEk3WkJTJePU6vKkZhYPdG-Ep, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5k9J64RbP10XkRHtj36R8hcABV0sJ7OaqiBNJ6WbSPcJv5oSxBiuE78YZqB0oiNA8WXTg14TiSiCYI5xI-mD8ZD0tHuERkCpOrRIwHd66dy43CHPe9GamFL8lQJouDqN9rhP7f4H2STXpu4W4HX4c6li6Ss3I, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRZ0o5JrRHggYA18jRw5Iho1JFNFYCFk3IDooeWahsBnTQNtLNveBzsuV95vDtP0X-dONsFZgFgNiCtctUR_lDhfeJbaATg3ELHgAjTFA-hHMxI_TgqZfIr-xbCoGzx6p6r8CNNzvFP_w=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기에게 가장 안심하고 사용할 수 있는 쪽쪽이 재질은 무엇인가요? | 실리콘, 천연고무 |
-| 아기의 구강 발달과 편안한 수유를 위해 선호하는 쪽쪽이 모양이 있으신가요? | 둥근형 (엄마 젖꼭지 닮은 모양) |
-| 쪽쪽이 구매 시 특별히 선호하는 브랜드가 있으신가요? | 더블하트, 스와비넥스, 모윰 |
-| 아기의 개월 수와 성장 발달에 맞는 쪽쪽이 사이즈 및 유속을 선택하는 것이 중요해요. 어떤 점을 고려하시겠어요? | 신생아용 (느린 유속) |
-| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 14,414원, 1만원 이하~2만원대가 가장 많아요) | 1만원대 ~ 2만원대 |
-| __avoid_negatives__ | 쪽쪽이 사용으로 인해 아기의 치아 발달에 부정적인 영향이 있을까 봐 염려돼요,아기가 젖병이나 모유 수유에 어려움을 겪을까 봐 유두 혼동이 걱정돼요 |
+| 아기의 개월 수를 알려주세요. 개월 수에 따라 적합한 쪽쪽이가 달라질 수 있어요. | 0~6개월 |
+| 쪽쪽이 소재는 어떤 것을 선호하시나요? 소재에 따라 아기의 민감한 피부에 닿는 느낌이 달라질 수 있어요. | 천연고무 (라텍스), 실리콘 |
+| 쪽쪽이는 아기에게 직접 닿는 제품이라 브랜드 신뢰도가 중요할 수 있어요. 특별히 선호하는 브랜드가 있으신가요? | 누크, 아벤트 |
+| 쪽쪽이 디자인에서 특별히 고려하는 부분이 있으신가요? 디자인에 따라 아기의 안정감이나 빨기 욕구 충족에 영향을 줄 수 있어요. | 둥근 모양 |
+| 쪽쪽이 예산은 어느 정도로 생각하세요? (평균 1만 4천원, 1만원~2만원대가 가장 많아요) | 1만 5천원 ~ 2만원대 |
+| __avoid_negatives__ | 아기가 쪽쪽이에 너무 의존하게 되어 나중에 떼어내기 힘들까 봐 염려돼요.,쪽쪽이 사용이 아기의 치아 발달이나 구강 구조에 부정적인 영향을 줄까 봐 걱정돼요. |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 쪽쪽이 사용으로 인해 아기의 치아 발달에 부정적인 영향이 있을까 봐 염려돼요
-- 아기가 젖병이나 모유 수유에 어려움을 겪을까 봐 유두 혼동이 걱정돼요
+- 아기가 쪽쪽이에 너무 의존하게 되어 나중에 떼어내기 힘들까 봐 염려돼요.
+- 쪽쪽이 사용이 아기의 치아 발달이나 구강 구조에 부정적인 영향을 줄까 봐 걱정돼요.
 
 ---
 

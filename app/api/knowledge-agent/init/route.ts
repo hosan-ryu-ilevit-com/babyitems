@@ -550,6 +550,9 @@ const PRODUCT_CRAWL_LIMIT = 120; // 40 → 120개로 확장
 const REVIEWS_PER_PRODUCT = 10;  // 리뷰 10개씩
 const FIRST_BATCH_COMPLETE_COUNT = 5; // 5개 도착 시 '실시간 인기상품 분석' 토글 완료
 
+// 🆕 멀티 정렬 크롤링: 인기상품순 + 상품평순 합집합으로 더 다양한 아이템풀 구성
+const USE_MULTI_SORT_CRAWL = true; // true: saveDESC + opinionDESC 합집합, false: saveDESC만
+
 async function crawlProductsWithStreaming(
   _categoryKey: string,
   categoryName: string,
@@ -624,29 +627,108 @@ async function crawlProductsWithStreaming(
   let pendingBatch: DanawaSearchListItem[] = [];
   const batchSize = 5;
   let firstBatchNotified = false;
+  let headerParsedCalled = false;
 
+  // 🆕 멀티 정렬 크롤링: 인기상품순 + 상품평순 병렬 실행
+  if (USE_MULTI_SORT_CRAWL) {
+    console.log(`[Step2] 🔀 Multi-sort crawling: saveDESC + opinionDESC (${PRODUCT_CRAWL_LIMIT} each)`);
+
+    // 두 정렬을 병렬로 실행
+    const [popularResponse, reviewResponse] = await Promise.all([
+      // 1. 인기상품순 (saveDESC) - 스트리밍 콜백 포함
+      crawlDanawaSearchListLite(
+        { query: categoryName, limit: PRODUCT_CRAWL_LIMIT, sort: 'saveDESC' },
+        (product, _index) => {
+          collectedProducts.push(product);
+          pendingBatch.push(product);
+          if (pendingBatch.length >= batchSize && onProductBatch) {
+            const isFirstBatchComplete = !firstBatchNotified && collectedProducts.length >= FIRST_BATCH_COMPLETE_COUNT;
+            if (isFirstBatchComplete) firstBatchNotified = true;
+            onProductBatch([...pendingBatch], false, isFirstBatchComplete);
+            pendingBatch = [];
+          }
+        },
+        (header) => {
+          if (onHeaderParsed && !headerParsedCalled) {
+            headerParsedCalled = true;
+            onHeaderParsed({ searchUrl: header.searchUrl, filters: header.filters });
+          }
+        }
+      ),
+      // 2. 상품평 많은 순 (opinionDESC) - 콜백 없이 조용히 실행
+      crawlDanawaSearchListLite(
+        { query: categoryName, limit: PRODUCT_CRAWL_LIMIT, sort: 'opinionDESC' }
+      ),
+    ]);
+
+    // pcode 기준 합집합 생성 (인기상품순 우선)
+    const seenPcodes = new Set<string>();
+    const mergedProducts: DanawaSearchListItem[] = [];
+
+    // 인기상품순 먼저 추가
+    for (const product of popularResponse.items) {
+      if (!seenPcodes.has(product.pcode)) {
+        seenPcodes.add(product.pcode);
+        mergedProducts.push(product);
+      }
+    }
+    const popularCount = mergedProducts.length;
+
+    // 상품평순에서 새로운 상품만 추가
+    let addedFromReview = 0;
+    for (const product of reviewResponse.items) {
+      if (!seenPcodes.has(product.pcode)) {
+        seenPcodes.add(product.pcode);
+        mergedProducts.push(product);
+        addedFromReview++;
+      }
+    }
+
+    console.log(`[Step2] 📊 Merge result: ${popularCount} (인기순) + ${addedFromReview} (상품평순 추가) = ${mergedProducts.length} total`);
+
+    // 상품평순에서 추가된 상품들을 배치로 전송
+    if (addedFromReview > 0 && onProductBatch) {
+      const newProducts = mergedProducts.slice(popularCount);
+      onProductBatch(newProducts, false, false);
+    }
+
+    // 완료 신호 전송
+    if (onProductBatch) {
+      if (pendingBatch.length > 0) {
+        onProductBatch(pendingBatch, true);
+      } else {
+        onProductBatch([], true);
+      }
+    }
+
+    if (mergedProducts.length > 0) {
+      // 캐시는 인기순 응답 기준으로 저장 (필터 정보 포함)
+      setQueryCache({ ...popularResponse, items: mergedProducts, totalCount: mergedProducts.length });
+      console.log(`[Step2] ✅ Multi-sort crawl complete: ${mergedProducts.length} products`);
+      return { products: mergedProducts, cached: false, searchUrl: popularResponse.searchUrl, filters: popularResponse.filters };
+    }
+
+    console.error('[Step2] Multi-sort crawling failed');
+    return { products: [], cached: false, searchUrl: popularResponse.searchUrl };
+  }
+
+  // 기존 단일 정렬 크롤링 (USE_MULTI_SORT_CRAWL = false인 경우)
   const response = await crawlDanawaSearchListLite(
     {
       query: categoryName,
-      limit: PRODUCT_CRAWL_LIMIT, // 120개로 확장
+      limit: PRODUCT_CRAWL_LIMIT,
       sort: 'saveDESC',
     },
-    // onProductFound 콜백 - 상품이 발견될 때마다 호출
     (product, _index) => {
       collectedProducts.push(product);
       pendingBatch.push(product);
-
-      // 5개가 모이면 배치 전송
       if (pendingBatch.length >= batchSize && onProductBatch) {
-        // 10개 도착 시점에 firstBatchComplete 플래그 전송
         const isFirstBatchComplete = !firstBatchNotified && collectedProducts.length >= FIRST_BATCH_COMPLETE_COUNT;
         if (isFirstBatchComplete) firstBatchNotified = true;
-        
         onProductBatch([...pendingBatch], false, isFirstBatchComplete);
         pendingBatch = [];
       }
     },
-    // onHeaderParsed 콜백 - 필터/URL 파싱 즉시 호출
     (header) => {
       if (onHeaderParsed) {
         onHeaderParsed({ searchUrl: header.searchUrl, filters: header.filters });
@@ -658,7 +740,7 @@ async function crawlProductsWithStreaming(
   if (pendingBatch.length > 0 && onProductBatch) {
     onProductBatch(pendingBatch, true);
   } else if (onProductBatch && collectedProducts.length > 0) {
-    onProductBatch([], true); // 완료 신호만
+    onProductBatch([], true);
   }
 
   if (response.success && response.items.length > 0) {

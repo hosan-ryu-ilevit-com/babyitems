@@ -1,26 +1,29 @@
 # 기저귀 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T05:54:06.751Z
-> 분석 상품: 20개 | 분석 리뷰: 3,665개
+> 마지막 업데이트: 2026-01-26T07:20:10.459Z
+> 분석 상품: 20개 | 분석 리뷰: 3,722개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 지속 가능성 및 친환경 제품
-- 개인화 및 맞춤형 서비스
-- 소셜 커머스 및 모바일 쇼핑 활성화
+- 프리미엄 및 친환경 기저귀 수요 증가
+- 온라인 판매 및 새벽 배송 강화
+- 개인 맞춤형 제품 및 기능성 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 통기성
-- ✓ 피부 자극 최소화
-- ✓ 친환경 소재 사용
-- ✓ 우수한 흡수력
-- ✓ 얇고 편안한 착용감
+- ✓ 뛰어난 흡수력
+- ✓ 피부 자극 적음
+- ✓ 편리한 사용성
+- ✓ 우수한 통기성
+- ✓ 경제성 (천 기저귀)
+- ✓ 안전성 검증 (과불화화합물 불검출)
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대
-- ⚠ 일부 제품의 뭉침 현상
-- ⚠ 잦은 교체 필요성
+- ⚠ 높은 비용 (일회용)
+- ⚠ 기저귀 발진 가능성 (낮은 통기성)
+- ⚠ 세탁 및 관리 번거로움 (천 기저귀)
+- ⚠ 쓰레기 발생량 많음 (일회용)
+- ⚠ 까끌거리는 옆부분 (일부 팬티형)
 
 ### 가격대 인사이트
 
@@ -29,15 +32,15 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 하기스 2023 네이처메이드 팬티형 4단계-여아용
-- **브랜드**: 하기스
-- **가격**: 29,990원
-- **평점**: ⭐4.9 (34개 리뷰)
-- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 9~13kg / 여아용 / 울트라슬림흡수패드 / 스피드흡수 / 교체시기알림 / 소프트안커버 / 천연식물성커버: 사탕수수 / 시어버터 / 판테놀 기저귀 / 판테놀
+### 1. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 63,870원
+- **평점**: ⭐4.8 (303개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=30154592)
+- [상세보기](https://prod.danawa.com/info/?pcode=68369591)
 
 ### 2. 킨도 오슬림 에어 팬티형 6단계-공용
 - **브랜드**: 킨도
@@ -59,15 +62,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=68369606)
 
-### 4. 나비잠 울트라씬 듀얼핏 팬티형 중형-공용
-- **브랜드**: 나비잠
-- **가격**: 9,450원
-- **평점**: ⭐4.8 (2,822개 리뷰)
-- **핵심 스펙**: 기저귀 / 3단계 / 팬티형 / 권장무게: 6~11kg / 공용 / 3중샘방지밴드 / 에어쿠션흡수패드 / 초강력흡수 / 파워흡수 / 無자극 기저귀 / 無자극
+### 4. 하기스 2025 네이처메이드 밴드형 2단계-공용
+- **브랜드**: 하기스
+- **가격**: 54,840원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 기저귀 / 2단계 / 밴드형 / 권장무게: 4~8kg / 공용 / 앞뒤샘방지 / 에어홀 / 듀얼흡수 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21217892)
+- [상세보기](https://prod.danawa.com/info/?pcode=98772785)
 
 ### 5. 하기스 2025 맥스드라이 팬티형 8단계-공용
 - **브랜드**: 하기스
@@ -79,7 +82,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=98772776)
 
-### 6. 킨도 오슬림 밴드형 4단계-공용
+### 6. 나비잠 울트라씬 듀얼핏 팬티형 중형-공용
+- **브랜드**: 나비잠
+- **가격**: 9,450원
+- **평점**: ⭐4.8 (2,823개 리뷰)
+- **핵심 스펙**: 기저귀 / 3단계 / 팬티형 / 권장무게: 6~11kg / 공용 / 3중샘방지밴드 / 에어쿠션흡수패드 / 초강력흡수 / 파워흡수 / 無자극 기저귀 / 無자극
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21217892)
+
+### 7. 킨도 오슬림 밴드형 4단계-공용
 - **브랜드**: 킨도
 - **가격**: 46,370원
 - **평점**: ⭐4.8 (78개 리뷰)
@@ -89,17 +102,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21228938)
 
-### 7. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 62,460원
-- **평점**: ⭐4.8 (303개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
+### 8. 보솜이 NEW 액션핏 팬티형 5단계-공용
+- **브랜드**: 보솜이
+- **가격**: 17,080원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 13~18kg / 공용 / 2중샘방지밴드 / 파워흡수 / 안심흡수 기저귀 / 안심흡수
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=68369591)
+- [상세보기](https://prod.danawa.com/info/?pcode=71906600)
 
-### 8. 하기스 맥스드라이 팬티형 5단계-남아용
+### 9. 하기스 맥스드라이 팬티형 5단계-남아용
 - **브랜드**: 하기스
 - **가격**: 29,510원
 - **평점**: ⭐5 (12개 리뷰)
@@ -109,7 +122,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21239537)
 
-### 9. 하기스 2024 네이처메이드 밤부 팬티형 5단계-남아용
+### 10. 하기스 2024 네이처메이드 밤부 밴드형 5단계-공용
+- **브랜드**: 하기스
+- **가격**: 21,000원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 밴드형 / 권장무게: 11~16kg / 공용 / 샘방지안심포켓 / 빠른흡수시트 / 교체시기알림 / 통기성시트 / 식물성분로션 / 병풀 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=42729719)
+
+### 11. 하기스 2024 네이처메이드 밤부 팬티형 5단계-남아용
 - **브랜드**: 하기스
 - **가격**: 39,600원
 - **평점**: ⭐5 (1개 리뷰)
@@ -119,17 +142,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=37297181)
 
-### 10. 하기스 2025 맥스드라이 밴드형 3단계-공용
-- **브랜드**: 하기스
-- **가격**: 47,880원
+### 12. 스너글스 허니드림 기저귀 팬티형 대형-공용
+- **브랜드**: 스너글스
+- **가격**: 29,990원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 기저귀 / 3단계 / 밴드형 / 권장무게: 6~10kg / 공용 / 앞뒤샘방지 / 12시간흡수유지 / 순간흡수 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
+- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 10~14kg / 공용 / 2중샘방지밴드 / 3D엠보싱 / 고속흡수트랙 / 교체시기알림 / 더마테스트인증 기저귀 / 더마테스트인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=98550308)
+- [상세보기](https://prod.danawa.com/info/?pcode=73698875)
 
-### 11. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용
+### 13. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용
+- **브랜드**: 팸퍼스
+- **가격**: 63,870원
+- **평점**: ⭐4.7 (107개 리뷰)
+- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 9~14kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=68369555)
+
+### 14. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용
 - **브랜드**: 팸퍼스
 - **가격**: 20,720원
 - **평점**: ⭐5 (14개 리뷰)
@@ -139,47 +172,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=68369594)
 
-### 12. 팸퍼스 2024 베이비 드라이 팬티형 5단계-공용
-- **브랜드**: 팸퍼스
-- **가격**: 20,900원
-- **평점**: ⭐4.8 (66개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 12~17kg / 공용 / 샘방지밴드 / 12시간흡수유지 기저귀 / 12시간흡수유지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=31989599)
-
-### 13. 하기스 맥스드라이 팬티형 5단계-남아용
-- **브랜드**: 하기스
-- **가격**: 52,000원
-- **평점**: ⭐4.5 (2개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 남아용 기저귀 / 남아용
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=30082955)
-
-### 14. 스너글스 허니드림 기저귀 팬티형 대형-공용
-- **브랜드**: 스너글스
-- **가격**: 29,990원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 10~14kg / 공용 / 2중샘방지밴드 / 3D엠보싱 / 고속흡수트랙 / 교체시기알림 / 더마테스트인증 기저귀 / 더마테스트인증
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=73698845)
-
-### 15. 하기스 2024 네이처메이드 밤부 팬티형 5단계-여아용
-- **브랜드**: 하기스
-- **가격**: 59,500원
-- **평점**: ⭐4.8 (6개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 여아용 / 샘방지안심포켓 / 샘방지밴드 / 흡수액션시트 / 통기홀 / 교체시기알림 / 소프트안커버 / 천연식물성커버: 사탕수수 / 식물성분로션 / 병풀 / 판테딘시카케어로션 기저귀
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=37297100)
-
-### 16. 하기스 2024 맥스드라이 밴드형 5단계-공용
+### 15. 하기스 2024 맥스드라이 밴드형 5단계-공용
 - **브랜드**: 하기스
 - **가격**: 30,880원
 - **평점**: ⭐0 (0개 리뷰)
@@ -189,45 +182,55 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=42947834)
 
-### 17. 하기스 2025 네이처메이드 썸머 팬티형 5단계-공용
+### 16. 하기스 맥스드라이 팬티형 5단계-남아용
 - **브랜드**: 하기스
-- **가격**: 27,000원
-- **평점**: ⭐4.8 (6개 리뷰)
-- **핵심 스펙**: 여름기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 공용 / 앞뒤샘방지 / 통기홀 여름기저귀 / 통기홀
+- **가격**: 52,000원
+- **평점**: ⭐4.5 (2개 리뷰)
+- **핵심 스펙**: 기저귀 / 5단계 / 팬티형 / 권장무게: 11~16kg / 남아용 기저귀 / 남아용
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=77862380)
+- [상세보기](https://prod.danawa.com/info/?pcode=30082955)
 
-### 18. 슈퍼대디 2021 미스터펭 매직슬림 밴드형 특대형-공용
-- **브랜드**: 슈퍼대디
-- **가격**: 60,480원
-- **평점**: ⭐4.8 (15개 리뷰)
-- **핵심 스펙**: 기저귀 / 5단계 / 밴드형 / 권장무게: 12kg부터 / 공용 / 3중샘방지밴드 / 슬림패드 / 다이아몬드엠보싱 / 강력흡수 기저귀 / 강력흡수
+### 17. 스너글스 허니드림 기저귀 팬티형 대형-공용
+- **브랜드**: 스너글스
+- **가격**: 29,990원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 10~14kg / 공용 / 2중샘방지밴드 / 3D엠보싱 / 고속흡수트랙 / 교체시기알림 / 더마테스트인증 기저귀 / 더마테스트인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21229853)
+- [상세보기](https://prod.danawa.com/info/?pcode=73698845)
 
-### 19. 하기스 2024 보송보송 팬티형 6단계-공용
-- **브랜드**: 하기스
-- **가격**: 36,170원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 기저귀 / 6단계 / 팬티형 / 권장무게: 14~19kg / 공용 / 샘방지안심포켓 / 와이드흡수 / 스피드흡수 / 강력흡수 / 교체시기알림 / 판테놀시어버터 기저귀 / 판테놀시어버터
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=71906522)
-
-### 20. 나비잠 시그니처 팬티형 대형-공용
+### 18. 나비잠 시그니처 팬티형 대형-공용
 - **브랜드**: 나비잠
 - **가격**: 10,900원
-- **평점**: ⭐4.9 (154개 리뷰)
+- **평점**: ⭐4.9 (157개 리뷰)
 - **핵심 스펙**: 기저귀 / 4단계 / 팬티형 / 권장무게: 8~13kg / 공용 / 3중샘방지밴드 / 스피드흡수 / 잠자리안심흡수 / 에어쓰루 기저귀 / 에어쓰루
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21238580)
+
+### 19. 하기스 2024 네이처메이드 팬티형 6단계-여아용
+- **브랜드**: 하기스
+- **가격**: 51,390원
+- **평점**: ⭐4 (1개 리뷰)
+- **핵심 스펙**: 기저귀 / 6단계 / 팬티형 / 권장무게: 14~19kg / 여아용 / 교체시기알림 / 에어커버 / 천연식물성커버: 사탕수수 / 식물성분로션 / 병풀 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=37831391)
+
+### 20. 하기스 2024 네이처메이드 밴드형 1단계-공용
+- **브랜드**: 하기스
+- **가격**: 19,890원
+- **평점**: ⭐4.9 (73개 리뷰)
+- **핵심 스펙**: 기저귀 / 1단계 / 밴드형 / 권장무게: 3~4.5kg / 공용 / 교체시기알림 / 에어커버 / 천연식물성커버: 사탕수수 / 식물성분로션 / 병풀 / 판테딘시카케어로션 기저귀 / 판테딘시카케어로션
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=37279841)
 
 ---
 
@@ -242,8 +245,9 @@
 ---
 
 ## 📊 데이터 출처
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFww6v70mCAunnxJCKu7iouh4yYfP27Ahe-DkzVa0CNiVuJJlxW4usSETEOGmGAo-YH_9W6HOz9s3iGcGB2SKxI88Z4l5xoHaojgVCHT1r6-jQ73AnPcgrxOKVgtCy19DVsJVErQcCyvdZqO-X-itDjifmyMVBQjk61lEfz6alxYh879ngrXAMQaW8U3uRGUg==)
-- [imarcgroup.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcFmltpe04u24pqEuCGvOcbyDciFI7lb_cgIeBt6ebjULYRWIxi8G8XTHYH6a4yOo2G5yA6esTtxeeguBQMzWzSyzPhhol_Gzv1jnBvvblRznj0lD7wrbXZpBT088I09IE0k9tainz43_ynYsV5QvK4AXGN3-kwYQD)
-- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmL_bwrTkOYZZ53ygwPR3v94PWAb3wOcrS4XEsK8xVC-XR7LJXM8y7OvwMm-576phOokyseCqYSzAj_J7Aql8p0kFtHHcEe_KIH9Ph-kGIeghbTQmLgFw6v1lT99nEAiDn2oFwzhclfcM4sOWD1_6RSzR9ZZnkFDYeFHcrcw==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSjryfxOOMN2T4PzAAFObF7gmqPZAH1GX6sfTq17PZwl07ZsjSJaFvw0mMNun68tYR2LQeXhEnGJ2rRhh8TMatsNcbiBgvvNPCEcy7Zi7infEEOT-wOzK1Hqlcu8lEOV54rMF3gUIdbkJfx4asCoJopoNmpanfpHfArr49vUiQAn8=)
-- [newsspace.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0aEjDHzFMvGURRZuyZmC-5AORB4nl0PopqO1Bf1zud9hkPEVKGwqn82UX5l4-fU54CGXCFvuTal-7fDNvwEF7xhWasgVFpOFRStkLNcjgYdodJK5t-5DbUM5f-KSTF4EBNoBSzXNhuK5he98Z)
+- [imarcgroup.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu2f_u8dQ1IYuN0P7a4BPExtRfcQPleI56r3oXqBbUZpBdPHwNqPvsMS8rqiGV-WM8YPDiGEHrOJChILjlrjtvPAR5MRjFQctNdNVF22O6QZxwPBV6cEg1LVoviU6s5XwYTDSbBiWIEcIF9rIDrFTjZqmCvFxdSR0C)
+- [datasom.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7EWMu308KjW6C8Oco0wFhegwng7AtnzB2W8urqu9fRhDTOErVQLvhZ9M3eUWBOyGvwY9PDZhbDGu4j70U1_pLrVzwQfJK7-7N8qn-wb1mAhP9D8VUpkzMo0GnhSRKbC6EG0SSYRRjT0TN7OuA9hiQuIRX5M-h3w==)
+- [straightnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvxfyb-aO0vZVP6dMm2egMsVKVrAXkkyUK1qR8K3i4Xd8j_DzEkTIvzhBseyV9pwEplqNKpo2GPnlfJ5WpFEeBL6QbDkS12e4vDgMUG5poqQize8ysLGdGuUWi4Ekww5wTQMnSwIY7ERKOIuXj25e8WIrSSx2NU3PCtJD8)
+- [careyounews.org](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEncbaxsk9MWENJySXIovG1GBE9smgnHA_gMRrPEiBHS3zAO48Q_57rNwTBBOqEwxNmRXf607A27SV72YFhkU79GbxgKwL0LsRgaOtbnIwm1e72T8sTEmfZkF5O-EpKDS2VHKcZnfAJrwUqM5Cz-WA0sgFe5rElWA==)
+- [newsspace.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgVpBST0B5QR5Hh6HGZImfO1Q3hz0RY3tCSemwuQCZh6m7EJQDGLgF2p4xXIAT6UX0jWIqXbP6FxWSC55_h96Om9ie6R2A_CQ0E_ZwgHDOBHy02Zg9f7J6VpdKpn23itZCURzExeG0B1tNvxjL)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtwiXXSQN1ZsUG8i-2Pk66r-bC6P8Mxf3EeIlhkJLO9yurJCMM-t5agNL2hvarOaL2rxh_fBidqasvqN2P6T9BzmP-gLAfx3kjKMBgK4C5j_kblxIYy55vSqladr9LAcfOUr3by_U1_KsOJyXh9tbVstF8_otfphMHAcQ=)
