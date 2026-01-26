@@ -1,5 +1,5 @@
-# 세션: 20260123_113857_ybls
-> 시작: 2026-01-23T11:38:57.838Z
+# 세션: 20260126_044457_rj51
+> 시작: 2026-01-26T04:44:57.106Z
 > 카테고리키: 빨대컵
 > 카테고리: 빨대컵
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 빨대컵 시장 현황
-- 인사이트: 2026년 1월 기준으로 빨대컵 시장에서는 그로미미, 릿첼, 써모스 푸고 등의 브랜드가 인기 있는 것으로 나타났습니다. 특히 육아용품으로서 아기의 구강 발달을 돕고 흘림 방지 기능이 있는 제품들이 주목받고 있습니다. 환경 규제 강화로 인해 친환경 소재에 대한 관심도 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHE0RPgXsDRcFTsOT0-Pq91XOwYgD4tlbRldqZYb4jRmcDGrZHpKEYNiSksVadYF_yyowEHx0H5mIfY_pnHLEeeled9fUGmfviAvdnn7sKS50r1IT7RPFYRWTs4aCnSFJTyDWz9Mv3yn5BGUgxLfHuv_cUZu7t, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWgLbwWgRvJhhvFk-1MP8rpfr1kQLYBBoUbFJzu8Z4mxaNlV1reFAr1PElFwnAT0JJXTIrvHctYQKLavkZyjVvKgpAueVP_6TQ3ZsmIGapvfM35N-6whbjNaUg8VoNPNE452vNU9n4VkDXbIRcFNKb62JvKTgLBrUk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7FnhQOlzoxvnxdNMbQTk7CE_Au8SOMpLMdtCwr7EViy2R3sBil6Ka_WBN8R6DkuQSTmjOxYWHWKjRSSznNC_DKi8rNBJEAR6xq8q3BvRBCO5jXlZ5BHnZDgwhVpQej5rAJz5Ztlo2Cglv96py0V6kxll0yIIg8g==
+- 인사이트: 빨대컵 시장은 다양한 브랜드와 기능성을 갖춘 제품들이 경쟁하고 있으며, 특히 육아용품으로서 안전성과 세척 편의성이 중요한 요소로 작용하고 있습니다. 최근에는 친환경 소재에 대한 관심도 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0OTwcDM2N8LHCcbG1XWT81YbzM6txWMTsjS1yoCDpFbkLGntu4sFp4UUbuPU7K_yKDRrWjugE6KeKva6XjE7wF51xpAj3eXRJn2lM319Q59ODMY-PnihzK_FFU-o0JrR-l1LVRJQ37HqHC2h4gPajSJzX, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzB_T2_bqbIZhMKfRaaZ-TUWi-JpjZSn1ez-1AEPO2TpLdLYgsY7N1gd1iR3MEEgwHqhW06bzMjyPEuirpjqFazSxry3soEbsq6rdKGR-UmcMnIMcRPeZTIK-757EoNAXLBLKRNBdQ4k67c_lLOYQ8Hz_4xE4rqXWQ9K4EUFsjtDqkVrYDOlXEJf9Q3V3qdd0U4zMN1pgeakt_e3okbA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFLhV1OFrAuFKurpNlKzmyrUFl7wHoeIZZEhj84_be3Q8pPDqoyftnU02D7jD303M6K5ElskhYTe7ICAfOk57-8gkFPHueZnKrEE-6W_mt_UpgH82m3mDfkuzsYR2cHtaKPEx6prc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfMIZHBQ_XrFqbmyq7ZZGiijUApbiqJ0lhLGukDxxFeFEJowifLtobkiNMUWS7ktobcJXRkOX6BVAjVyXTD6LbU51MKxeoOZmDboV-oMwwf3aS4ISOhuUzdIC00xar7CRBRHohhXuYpcJ0qlPOxufbZvRFfnj7aGaD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGydAV5L70bWzfKvVfDRZHRYcuiyOdaUC41e9dVv1VXH5aqUUILOfo2oaEFER6vO86Auu_ucxdC15SQOD_CtzL_wYkR0RI7qcnde4uAi1T95z8On4kp0F_MYuhWePhJ49zvMyZkGQPgB8M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUOLyXCvs5Pe7VsPtSaJlyBpZ4l51yynJG9KOfMY1mXBHp_kLok1yxlNdi7UXIyHonTjnOhrSn2YCdy0s2LZk4iUIJSk6nImMXULFal3WQ_UIG9MqzbaI2auF2X1zQ15UEKDxkABk=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 사용할 빨대컵, 어떤 소재를 선호하시나요? | 실리콘 빨대, 스테인리스 빨대 |
-| 흘림 방지 기능은 어느 정도가 좋을까요? | 완벽한 흘림 방지 |
-| 믿고 구매할 만한 선호하는 브랜드가 있으신가요? | 써모스, 그로미미, 리첼 |
-| 빨대컵 구매 시 가장 중요하게 생각하는 기능은 무엇인가요? | 아기 구강 발달 지원, 휴대 및 보관 용이성 |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 8천원, 1만원 이하~2만원대가 가장 많아요) | 1만원대 ~ 2만원대 |
-| __avoid_negatives__ | 빨대와 컵 안쪽 구석구석을 깨끗하게 세척하기 어려울까 봐 걱정돼요,아이가 단 음료를 빨대로 오래 마시면 충치가 생길까 봐 염려돼요 |
+| 아이가 안심하고 사용할 수 있도록, 어떤 소재의 빨대컵을 선호하시나요? | 스테인리스 (위생, 보온/보냉), PPSU (가볍고 내열성) |
+| 매일 사용하는 빨대컵, 세척이 얼마나 간편한 것이 중요하신가요? | 보통 |
+| 외출 시 가방에 넣어도 물이 새지 않는 기능이 얼마나 중요하신가요? | 필수 (완벽 누수 방지) |
+| 믿고 구매할 수 있는 선호하는 브랜드가 있으신가요? | 그로미미, 리첼 |
+| 예산은 어느 정도로 생각하세요? (평균 약 1만 8천원, 1만원 이하~2만원대가 가장 많아요) | 1만원대 ~ 2만원대, 1만원 이하 |
+| __avoid_negatives__ | 빨대컵 부품을 분리하거나 결합할 때 손목에 힘이 많이 들어가서 불편해요,빨대 안쪽까지 깨끗하게 세척하고 건조하는 것이 번거로워서 곰팡이가 생길까 봐 걱정돼요,원터치로 열리는 기능이 고장 나면 아이가 사용하기 어려울까 봐 걱정돼요 |
 
 ---
 
@@ -61,8 +61,9 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 빨대와 컵 안쪽 구석구석을 깨끗하게 세척하기 어려울까 봐 걱정돼요
-- 아이가 단 음료를 빨대로 오래 마시면 충치가 생길까 봐 염려돼요
+- 빨대컵 부품을 분리하거나 결합할 때 손목에 힘이 많이 들어가서 불편해요
+- 빨대 안쪽까지 깨끗하게 세척하고 건조하는 것이 번거로워서 곰팡이가 생길까 봐 걱정돼요
+- 원터치로 열리는 기능이 고장 나면 아이가 사용하기 어려울까 봐 걱정돼요
 
 ---
 
