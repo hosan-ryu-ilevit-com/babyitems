@@ -1004,6 +1004,66 @@ function extractReviewKeywords(reviews: ReviewLite[]): {
 }
 
 /**
+ * 리뷰 기반 fallback 장단점 생성
+ * - 키워드/자주 언급 특징/리뷰 지표를 활용해 최소 3/2개 확보
+ */
+function buildFallbackProsCons(reviews: ReviewLite[]): {
+  pros: string[];
+  cons: string[];
+} {
+  const { pros: keywordPros, cons: keywordCons } = extractReviewKeywords(reviews);
+  const qualitative = analyzeReviewsQualitative(reviews);
+  const mentions = qualitative.topMentions || [];
+
+  const pros: string[] = [];
+  const cons: string[] = [];
+
+  const pushUnique = (list: string[], text?: string) => {
+    if (!text) return;
+    if (!list.includes(text)) list.push(text);
+  };
+
+  keywordPros.forEach((kw) => {
+    pushUnique(pros, `**${kw}**: 긍정적으로 언급돼요`);
+  });
+  mentions.forEach((m) => {
+    pushUnique(pros, `**${m}**: 리뷰에서 자주 언급돼요`);
+  });
+  if (pros.length < 3 && qualitative.avgRating >= 4) {
+    pushUnique(pros, `**만족도**: 평균 ${qualitative.avgRating}점으로 평가가 좋아요`);
+  }
+  if (pros.length < 3 && qualitative.sentimentScore > 0.1) {
+    pushUnique(pros, `**호평**: 긍정 의견이 더 많아요`);
+  }
+  if (pros.length < 3) {
+    pushUnique(pros, `**사용경험**: 실제 사용 후기가 꾸준히 있어요`);
+  }
+
+  keywordCons.forEach((kw) => {
+    pushUnique(cons, `**${kw}**: 아쉽다는 의견이 있어요`);
+  });
+  if (cons.length < 2 && qualitative.sentimentScore < -0.1) {
+    pushUnique(cons, `**호불호**: 만족도 편차가 있어요`);
+  }
+  if (cons.length < 2) {
+    pushUnique(cons, `**개인차**: 사용감은 아기마다 다를 수 있어요`);
+  }
+  mentions.forEach((m) => {
+    if (cons.length < 2) {
+      pushUnique(cons, `**${m}**: 사용감 의견이 나뉘어요`);
+    }
+  });
+  if (cons.length < 2) {
+    pushUnique(cons, `**선택 팁**: 사용 환경에 따라 달라질 수 있어요`);
+  }
+
+  return {
+    pros: pros.slice(0, 3),
+    cons: cons.slice(0, 2),
+  };
+}
+
+/**
  * 리뷰 정성적 분석 (심층 분석)
  * - 별점 분포
  * - 긍정/부정 감정 비율
@@ -1318,6 +1378,33 @@ ${productInfos}
 ⚠️ 리뷰에 언급 없는 내용은 작성 금지
 ⚠️ 뻔한 스펙 나열 금지 - USP와 Trade-off 관점으로!`;
 
+        const fallbackResults = products.map(p => {
+          const { pros, cons } = buildFallbackProsCons(reviews[p.pcode] || []);
+          return {
+            pcode: p.pcode,
+            pros,
+            cons,
+          };
+        });
+
+  const normalizeResults = (results: ProductProsConsResult[]) => {
+    return products.map((product, index) => {
+      const match = results.find((result) => String(result?.pcode) === String(product.pcode));
+      if (!match) {
+        return fallbackResults[index];
+      }
+
+          const nextPros = Array.isArray(match.pros) ? match.pros.filter(Boolean) : [];
+          const nextCons = Array.isArray(match.cons) ? match.cons.filter(Boolean) : [];
+
+          return {
+            pcode: product.pcode,
+            pros: nextPros.length > 0 ? nextPros : fallbackResults[index].pros,
+            cons: nextCons.length > 0 ? nextCons : fallbackResults[index].cons,
+          };
+    });
+  };
+
   try {
     console.log('[Pros/Cons] Generating for products...');
     const result = await model.generateContent(prompt);
@@ -1328,8 +1415,79 @@ ${productInfos}
     if (jsonMatch) {
       const parsed = await parseWithRetry(jsonMatch[0], 'ProsCons', 1);
       if (parsed && parsed.results && Array.isArray(parsed.results)) {
-        console.log(`[Pros/Cons] Generated for ${parsed.results.length} products`);
-        return parsed.results;
+        const initialResults = parsed.results as ProductProsConsResult[];
+        const initialMap = new Map(initialResults.map(r => [String(r?.pcode), r]));
+        const missingProducts = products.filter(p => !initialMap.has(String(p.pcode)));
+
+        if (missingProducts.length > 0) {
+          console.warn(`[Pros/Cons] Missing ${missingProducts.length}/${products.length} products, retrying for missing only...`);
+          const missingInfos = missingProducts.map((p) => {
+            const productReviews = reviews[p.pcode] || [];
+            const qualitative = analyzeReviewsQualitative(productReviews);
+            const reviewTexts = productReviews.slice(0, 7).map((r, i) =>
+              `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 100)}${r.content.length > 100 ? '...' : ''}"`
+            ).join('\n');
+            const insightsText = qualitative.keyInsights.length > 0
+              ? `\n핵심 인사이트:\n${qualitative.keyInsights.map(i => `  ${i}`).join('\n')}`
+              : '';
+
+            return `### ${p.brand} ${p.name} (pcode: ${p.pcode})
+- 가격: ${p.price?.toLocaleString()}원
+- 스펙: ${p.specSummary || '정보 없음'}
+- 리뷰 분석: 평균 ${qualitative.avgRating}점, 감정점수 ${qualitative.sentimentScore}, 신뢰도 ${(qualitative.reliabilityScore * 100).toFixed(0)}%
+- 자주 언급: ${qualitative.topMentions.join(', ') || '없음'}${insightsText}
+- 리뷰 원문:
+${reviewTexts || '(리뷰 없음)'}`;
+          }).join('\n\n');
+
+          const missingPrompt = `## 역할
+${categoryName} 전문가로서 **실제 리뷰 내용을 기반**으로 각 상품의 장단점을 정리합니다.
+
+## 사용자 컨텍스트
+${userContext}
+
+## 누락된 상품 + 리뷰 분석 정보
+${missingInfos}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 📤 응답 JSON
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{
+  "results": [
+    {
+      "pcode": "상품코드",
+      "pros": ["**키워드**: 장점 설명1", "**키워드**: 장점2", "**키워드**: 장점3"],
+      "cons": ["**키워드**: 고려사항1", "**키워드**: 고려사항2"]
+    }
+  ]
+}
+
+⚠️ JSON만 출력
+⚠️ **반드시 위의 모든 제품(${missingProducts.length}개)에 대해 장단점 생성**
+⚠️ 리뷰에 언급 없는 내용은 작성 금지`;
+
+          try {
+            const missingResult = await model.generateContent(missingPrompt);
+            let missingText = missingResult.response.text().trim();
+            missingText = missingText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+            const missingMatch = missingText.match(/\{[\s\S]*\}/);
+            if (missingMatch) {
+              const missingParsed = await parseWithRetry(missingMatch[0], 'ProsConsMissing', 1);
+              if (missingParsed && Array.isArray(missingParsed.results)) {
+                missingParsed.results.forEach((r: ProductProsConsResult) => {
+                  if (r?.pcode) initialMap.set(String(r.pcode), r);
+                });
+              }
+            }
+          } catch (retryError) {
+            console.error('[Pros/Cons] Missing-only retry failed:', retryError);
+          }
+        }
+
+        const normalizedResults = normalizeResults(Array.from(initialMap.values()));
+        console.log(`[Pros/Cons] Generated for ${initialResults.length} products, normalized to ${normalizedResults.length}`);
+        return normalizedResults;
       }
     }
   } catch (error) {
@@ -1337,14 +1495,15 @@ ${productInfos}
   }
 
   // Fallback: 리뷰 키워드 추출 기반
-  return products.map(p => {
-    const { pros, cons } = extractReviewKeywords(reviews[p.pcode] || []);
+  const finalFallbackResults = products.map(p => {
+    const { pros, cons } = buildFallbackProsCons(reviews[p.pcode] || []);
     return {
       pcode: p.pcode,
-      pros: pros.slice(0, 3),
-      cons: cons.slice(0, 2),
+      pros,
+      cons,
     };
   });
+  return normalizeResults(finalFallbackResults);
 }
 
 // ============================================================================

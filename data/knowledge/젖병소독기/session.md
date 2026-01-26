@@ -1,5 +1,5 @@
-# 세션: 20260123_070423_a6bg
-> 시작: 2026-01-23T07:04:23.238Z
+# 세션: 20260126_032939_mak9
+> 시작: 2026-01-26T03:29:39.350Z
 > 카테고리키: 젖병소독기
 > 카테고리: 젖병소독기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 젖병소독기 시장 현황
-- 인사이트: 젖병소독기 시장은 다양한 브랜드와 기능의 제품들이 경쟁하며, UV 살균, 스팀 살균, 복합 방식 등 여러 소독 기술이 적용된 제품들이 인기를 얻고 있습니다. 특히 유팡, 스펙트라, 폴레드, 벤브와, 필립스 아벤트 등의 브랜드가 시장에서 높은 점유율을 차지하고 있으며, 사용자 편의성과 위생 관리의 중요성이 강조되고 있습니다. 2026년에도 UV LED 기술의 발전과 함께 젖병소독기 시장은 지속적인 성장이 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhDU1Xx1--AHwHenP8jJbC9v5LMs8Rd_Sq2XxaGCD1cwSQwjLQdtDMM1d2Z79D8NDkplC5rsIGi-OREY4_UBHKcbQUbMYOz2-tuXczV-3YcNnxll3nCM08CI7fKrLr4OgAxzHmVWR5Ba44AtVQ7KHumjllOnXLLqDRNXz7V2oLrPK8vmsPbqKz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF34MMbiI6I-ajxWz_e8QdeIYMVNNtlyZqZMvllVXYY13JfuxiCt1TYtXr6LXfvBGnmEoEVJiyWHvS8Btl2oyK_mQ6LpBzhrgqNZwPuRt4lPJzyKm5_q8pfF-hS7LFmx4VJ27p7U7v474I0AmhF2snLiA7jnZ3-Fd-d3eBLZLNPzgeiM2Gc2YmmM8Zi_bqH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2cZU9jZOoKI1Ke9GoosaCkKztRNxMjPMdCFhGN8oqtFzF0klp7vMoegQe-gl9CL9Xxr7tfwar4KY5pjBLPwAvPYhUB3YnWL-8WyLNmYPB_EmDOWv5rAmOJQ2vtee-ZQE0sGyQISMYbpptOTetZyNKfS2spYcoemD0S0vKmDnC70KD1tZUJC_XK7WcDrZkE2JTMgcdvfL9H5-jEPg2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEldDKjyO2ZiLq_uPefvC7MFDrie5zQ6AnFr9ltoDc5Y0Ny0kuMgdnY2bG5I1-YoV5TSTo4qtgaA4hsP5PhD0KHbegaA_1H-pAyIqlaXWyYvzjFBZJIdqitMOpUb9OCXBunWkxBxhHMgTNsqjpoEtE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvXSbjwGLDG4J4v83QrTRUHeXq_NLqPPD_XPL6Sq91UT58zXn0teyH1XQDKhBseI47YTbWK4SRkSa0XVv3ldDbVUjMzEuFsL0zXC-AMKIzHJyn9zjZY9wmYHwduuU5j1ZP_0YnhRPl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbIV_9q3A-afHIqqDTc5ozDr2vtb83N0zfskzmwvaWo_kcVX326-4bp1fAYa5kd291_ADjRbhjaOEErz4LQd75dIQlBFB1zal8nWX-STIx5GCb-lUL2o6epgSMi7I4GejCS0DXJ8cOcYDt89RetrfO3awjucXzGMdmyKr_4TUwMRs9g2KWf2DPdHnleEiTS5gBCabNoyy-GEnGBzgagqj0EckFwG_9gCmryw==
+- 인사이트: 2026년 1월 기준으로 유팡, 폴레드, 스펙트라 등의 브랜드가 젖병소독기 시장에서 인기 있는 상위권을 차지하고 있습니다. UV 살균 방식이 주로 사용되며, 다양한 기능과 디자인을 갖춘 제품들이 출시되고 있습니다. 가격대는 10만원대부터 30만원대까지 다양하게 분포되어 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHm6ZsPHGkCo4gff21mWn6dlCWQoeK71ETWQ_6CmgdNhH2tdu4M5q36XbsW5AjalncDpVTf-NRKOchGAf2yf4rXtCAA_DOUx5hSmjrY3JkESf2Ysp4T_Vnyu_fVZ0zKSsuwTBmHknt2izqU0MtA3XRF7l7UWStNlvT5sPYAritp9aETkG1xKouG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUX1Ohk-TcCzSsiVQxFmuC5-2b1n5kQBbEDd8_KKddXUG7RzfWAzEl95lDAKo7WndhBToB067qh-Os3L5vlw7XSdAnLOgLgAJH4W1bKCkmhK3VrDl00F29hBkqjR10aOAP3_PzK0U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGA-dAcEwXcvMeaESF5OYJkgPszesl54v2xY0fXlFdsVrimeS6AEqNoi5mS2bZLGVoln6NXR3DpMp3jSPj6hpqeUEH1sFZAcOroNJ8iX0krx5t8Lrbx44f2HomBdHtwxIaQjF5DbqmH8I7ovM9VMJY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMY0oTbbHaUPEjE8by0-qXZArYCh4h0XEhtMgRXMaxLt0sF5y9i5V3w7lFUWqW8O-hAdcj-_piGe8NEQysDWk8IAU56jPh-5IUcitZsFau0ReZO4L-YgC1O-NvbOJ9aLWPsMqyCkpwCKNR2ttBe5SaA8bzfdhIVWcYfN8jbu-CGcvDEpYEibQR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCFhVj0sEsgl6TVYNShLDD1fh3hS8LLJ4S8_Ry8_gmrZkcHT3hWkXxvW7Peu-fwhmxrmedqWxVtCsnvu8fzuLYlrczjUbeLP_A-HBj6Gzx_GufUuL-yXyy92pppKs1hvX3-mTWjl43bUcS_QRPOPZA6PlWANAlQl_QI0fXJ_5LUBEdQbEeZoUIz_mAe2WcoMIFcRo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlA8U_185NcAOyugEbU1u16rXKNA9mVpFl0Nmd-BC87dL_x51eI7XSvWlEG_1UgbAazICOqsluGkoIsbaR7eWMRseY-5ZTf0PNBkKFdg_d6L104PImOUhzjzHBgUhuj-QSV7Cp-IkSyFgDApO8IabT24cjqqMgL4Mzwgfxt8LTAe-_nkvBS27xtSpJgGNxYGciKbnVki0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFE3lGCSi2jREvVx4SeLLCQjRk0RLrIIfpVDqioJYtups_Yzgh-nvFyO2k_zyMndDA3xmdGSN19k_At6dbd76QP_U9PYLcq55UKb31hZA_AhMFXAsn-YWhGI6bpm4NagvyPGxp6up05_bSBcow0sMhWAX3kCS5t0KfNm0vzume5, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8a9JLdYrazqQP96ueO24zOwXIebVeN1c_Li-ndRRZcPPbGkfl47VveTLJvL3Wpu2LBaN6QLf8oyaBWZ36prCUN_663lHomsV8Qxgq_88MV9QCl0h-fttt4g==
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 젖병을 가장 깨끗하고 안전하게 소독하고 싶으신가요? 어떤 소독 방식을 선호하시나요? | UV LED 살균 |
+| 소독 후 젖병을 얼마나 빠르고 완벽하게 건조하고 싶으신가요? | 자연 건조 |
+| 한 번에 몇 개의 젖병을 소독하시나요? 소독기 크기는 어느 정도가 적당할까요? | 중용량 (2~3개) |
+| 믿고 사용할 수 있는 선호하는 브랜드가 있으신가요? | 보본, 스노우베어 |
+| 젖병소독기 예산은 어느 정도로 생각하세요? (평균 12만원대, 6만원~16만원대가 가장 많아요) | 6만원 ~ 16만원대 |
+| __avoid_negatives__ | 한 번에 2~3개만 소독할 수 있어서 여러 개의 젖병을 사용하면 불편할 것 같아요,주방 공간을 많이 차지하는 큰 사이즈는 부담스러울 것 같아요 |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 한 번에 2~3개만 소독할 수 있어서 여러 개의 젖병을 사용하면 불편할 것 같아요
+- 주방 공간을 많이 차지하는 큰 사이즈는 부담스러울 것 같아요
 
 ---
 

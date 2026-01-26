@@ -78,6 +78,7 @@ interface KnowledgePDPModalProps {
     bestFor?: string;
     concerns?: string[];
     variants?: ProductVariant[];  // 다른 구성 옵션
+    specSummary?: string;  // 스펙 요약
   };
   categoryKey: string;
   categoryName?: string;

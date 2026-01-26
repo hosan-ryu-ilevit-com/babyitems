@@ -1,5 +1,5 @@
-# 세션: 20260123_065122_ja1z
-> 시작: 2026-01-23T06:51:22.245Z
+# 세션: 20260126_034143_d8l6
+> 시작: 2026-01-26T03:41:43.219Z
 > 카테고리키: 이유식
 > 카테고리: 이유식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 이유식 시장 현황
-- 인사이트: 저출산 현상에도 불구하고 이유식 시장은 프리미엄 제품 선호, 온라인 채널 성장, 유기농 및 클린 라벨 트렌드에 힘입어 꾸준히 성장하고 있습니다. 특히 중국과 인도 등 신흥 시장의 성장이 두드러지며, 다양한 맛과 형태의 제품 개발이 활발히 이루어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbkAoG9KuGKIEEPI4k902IKV2--I3SWoM4KpG5a29ngMBN7FCJ034uo7m8fYbyZ7JdEEWLhGjOwgrvUThoHIlioQpncd5bifVArDb2UtstgFwU4WHSjwZJERcUBcx0ue3kbgHNj3J4e9iEGyJQQE9zHHp6CO9Itj1iaUi98yYaTeSOKB_PDcN4sYKvynho57FFxWqEa6HPEhgesT_EF7CPXL-afBnpckEHMA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWmvV0jy9BK64TyWCowBtUQVcnAdVLeKJSMi5kNvTrvIL2LhE_L0HsbNthMvek8JSJypv5d6AM4VBgA4wJWbGO89-7A3vcxfypn8RQWaWVfwHaNVkDjK-vkoKfCmaSEnhnV4GlJzlPykR8csSxpJGOQW7JOO8NdXph1nrchg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWpGe0PVJ3-ZvFrH9MYwQ41Cy3m0E6lXogtihfHFddhXUwOepTfq9o0GaBxdPDqpID4y6EVKNX5KaWkaxjMcXsrgPgrcerAjZ1fWMdUUFRd1e2f64eOH9zbSFRqodE6iaCIvHKdKcudn4uHcOwHqeE, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTxTWZsvaVSB-xWn-IyPesQ0-kDPb7-QQAQ8SV_3Hs4FVh2CA_a_LwGGv7NG9cmlB0w7Wjl0OgxTmMBU2HvkSdkKHckSJoNpjmg-eZhfQaHL-4hdnFYRW9VHE2ij4AdBTruGWM7EUJp88GAl6mWvYMw1rQirw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-zWjX9aFkKmfE7mdY9_zZsoz5QMImOlC9Yg74-pos-SGQ9dc9yLUuQ0fmTzvcuJO6-bVil9m3nfKawuDR2Bn1OIa_jTmnYdFYqA-xlWAdBJH6P3P4vu9YT9I7GaUUE2n0It3MMPGLaEVuuXl-iX2ao3fzI1jrOo8SvL09ZIzp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi-Zn8YtgHcDQbwkeQWkbZ5bBmh-9FNYD9KzXQs_7ij1W_CvEgZ82csHLH57ci6gvD62yp1xL-_PXE2rxzqNgM1x3DCsi-Xiw06cMpgtj22XhvHdKGDgE8ZkWSK0SLCLgEesA=
+- 인사이트: 국내 영유아 간편식 시장은 지난 10년간 5배 성장하여 2022년 2,530억원을 돌파했으며, 2023년에는 3,000억원을 넘어섰습니다. 이는 저출산 추세에도 불구하고 맞벌이 부부 증가와 육아 편의성을 추구하는 경향이 반영된 결과입니다. 특히 프리미엄 및 간편식 트렌드가 시장 성장을 견인하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhrRwU4mS-ShmOm56xCFYSmnqOozotQhklnEDwVkor92ByR4O5tOEMeSMqJOBV3z9NnBqJQJtMND-RPvtH1BWVd2xC4VLx1xqQcF2X1mnkN0e-r4u-DAoetmMjxHfMEy_gEi8pSA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkZwuUQooGzO1SRWmh1DDTnOe6F84KOm4YVhqOx-VDIB8chMcyI4dzNZMmt417SOK9rqcCD0o2i5SChaBBz900WdcCKo4Z7dn4m9JuSFqqDrj0kMcZxWxr_ZHksvs17MAZWNFlUZ89wweKv62UxOLyh6H2zxLL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHD6MhaHEC4HoWOnE9c4a2rYpFjNfPL5lPwebtlJIGHBi7xmqCDWy3PKjiT9BEHRirTIII3Pejcgjrnk5apw5m_uz-HpgFruDiNsk3cI3VwX3EFPfRv3nF4FWLQmyIwBrw8bgA0ouNgZ_XOUJ11IEiU8kCYzWEkdGIk1759-msq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5V_7d-z1wxCp5Z_QrxbudIbwU81i4Udq-oYjXHTi4KoBwfEJai3neh5fIdQ4mz8UVh_lz2v720MykpzQhCGoL42HjKtEOZUx1A5v_EmI5rcVgqokMLxLs-1YUOoIMvQtnj4o=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEAwyGWk5uriMUUQfl8DoOWm0HxBT8JCrukDeSxIeVBa5O1TvAq-UMDkJr0-ryzbaTyjL7EGDLzgmhZxPvnX1EM0U8VS9TvinheFXKhnbLx1MnNUHsxOT5bPy0IIkvepGFXbQO4qAzcLP1vw==
 
 ---
 
@@ -17,11 +17,11 @@
 | 항목 | 답변 |
 |------|------|
 | 아기의 개월 수를 알려주세요. | 4~6개월 (초기) |
-| 이유식 재료 선택 시 가장 중요하게 생각하는 것은 무엇인가요? | 유기농/천연, 신선/안전 |
-| 어떤 형태의 이유식을 선호하시나요? | 냉동 이유식 |
-| 이유식 브랜드 중 특별히 선호하는 곳이 있으신가요? | 아이배냇, 베베쿡 |
-| 이유식 예산은 어느 정도로 생각하세요? (평균 약 1만 9천원, 1만원~2만 5천원대가 가장 많아요) | 1만 5천원 ~ 2만 5천원대, 1만원 이하 |
-| __avoid_negatives__ | 아기가 다양한 재료 본연의 맛을 배우는 데 어려움이 있을까 봐 걱정돼요,단조로운 식감 때문에 아기의 씹고 삼키는 능력 발달이 늦어질까 봐 염려돼요 |
+| 선호하는 이유식 형태가 있으신가요? | 건조 이유식 |
+| 이유식 브랜드 중 특별히 선호하는 곳이 있으신가요? | 베베쿡, 짱죽 |
+| 이유식을 고를 때 가장 중요하게 확인하는 성분이나 특징은 무엇인가요? | 무첨가 (설탕, 소금 등), 저자극/알레르기 유발 성분 배제, 영양 성분 강화 |
+| 이유식 예산은 어느 정도로 생각하세요? (평균 약 1만 9천원, 1만원~2만 5천원대가 가장 많아요) | 1만 5천원 ~ 2만 5천원대 |
+| __avoid_negatives__ | 건조 이유식은 아기가 특정 재료에 거부 반응을 보이는지 파악하기 어려울 것 같아 불편해요,건조 이유식은 식감이 부드러워 아기의 씹고 삼키는 식감 발달이 늦어질까 봐 염려돼요 |
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아기가 다양한 재료 본연의 맛을 배우는 데 어려움이 있을까 봐 걱정돼요
-- 단조로운 식감 때문에 아기의 씹고 삼키는 능력 발달이 늦어질까 봐 염려돼요
+- 건조 이유식은 아기가 특정 재료에 거부 반응을 보이는지 파악하기 어려울 것 같아 불편해요
+- 건조 이유식은 식감이 부드러워 아기의 씹고 삼키는 식감 발달이 늦어질까 봐 염려돼요
 
 ---
 

@@ -1,5 +1,5 @@
-# 세션: 20260123_121537_e2rs
-> 시작: 2026-01-23T12:15:37.971Z
+# 세션: 20260126_035755_mlyw
+> 시작: 2026-01-26T03:57:55.345Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 시장 현황
-- 인사이트: 유아 간식 시장은 저출산에도 불구하고 '골드 키즈', '에잇 포켓' 트렌드에 힘입어 성장세를 보이고 있습니다. 특히 간편 영유아식 시장은 연평균 20% 이상의 급격한 성장세를 보이며 전체 시장을 견인하고 있습니다. 맞벌이 부부 증가로 인한 편리함 추구와 더불어, 아이에게 더 좋은 것을 먹이고자 하는 부모들의 심리가 프리미엄 제품 수요 증가로 이어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKq38FT17OJBPbewkNFyoBGnL6WVVUsEQlN1xfkfBt2LJDTOemlfIGQ8qNyO_7i4Pkdtu2OeQ-XyW9mvv-yU7jsjnovo6nSjByRrBwcdugothWcP4x5CRfLJXnV1UizqCyulhvu4q0UjDfkvdIuNCGMoW6-PnPFrVbKBiCFIOfsHL8jmIViFrj04hMKTHoCA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDXbyaG80VEbTMQnkmYzgos4ED4QD81YeJp9Hcfm6bV1cd-lcFIghVwRXkSXhxnSSQdCL2UpbbcjutNVQAecFeAgi4G4SlgOqVIVO3JF2FmrNq2TbKKfVxw46g_rjNeZX-S8V6N1Z3V7TxEMYJelNn8i_ebfPXfz0FeQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfTVf7Iv1meFC-DBKhDihHp9VvcAQDKAl8gmipnKM1Chp3qNt_ulmPdHtqvtwYQ1aNuDb_naLJVg1rkalbXVVeCdqSbVCABoFVzpRQYNJzv1FgznfpJ2fTVoglWszW5LcJDdk_hlT_JgiMK2qmicNhxzPdmG2CiNMtJ5zHrB2tuNO3msQZadg8gNXQWTo=
+- 인사이트: 국내 영유아식 시장은 저출산 영향으로 성장이 정체되었으나, 미음, 퓨레, 유아간식 등 간편 영유아식이 최근 3년간 연평균 20%의 급격한 성장세를 보이며 시장을 견인하고 있습니다. 맞벌이 부부 증가로 편리한 주문배달 영유아식 수요가 커졌으며, 코로나19 이후 집콕 생활로 인해 직접 조리에 대한 관심도 다시 확산되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHu5h71o4fkC5cp6PzHEEwMJ0SkUy7r4KtgtoMXg22VFGQ7ZjM0F1B7cNhxofR0UM4OzF0V7cx-ovuGDktitQRS8jh22S9tZVUbxxG7ppvSu7drlZQjRjnhLsiumeqkx7Ghyz9-GejKW6RJ5byWOTPG2qkzeLiQFcJZCcs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7slfePHylK0DIK7_IiWP5yd5GJUKP7ugtINtNzcOR2oM_s8WeODY7u8HycLK9UZd-8SVEOQ-F1vQaDhjkdAJk39VeGqWGzyqvtTrQGE1BxJlDCL7iFNPqYY8Ufydg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELaN8kM2KS2HeUgEu4AgLncWf2l6nv1JoKrMySwMYoKmAW7jfgc0FDjEylXEyNxwGGMaAl0dJpNY7BmP3coXVf23uVdpH1TJv5DagL1hC9MRrZicvT_dO6UAKagj2jrfgjOzhk0ueQS271ItA1PghmVkwp8lVube_6Kuxt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHali-_M3eqUlhAl3aG5DscTMtAOJZRFcpZVP9jKjZfLUprFLktNPdlWd-p_J5GTfRqrENN90C5f5VHlqFg3tAXP0AIqEvZRy7Ceo7q_CdnxFrhR00ldUZf55Ai7b4jSNOvAojsyKpHBkErS3HhAboX_HjC0TI-L9xh3k0e7BHe23WV4GPlplcyBdd0-vmr3IlsvZRInls=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-VswhKsY4SHG8Cpc9lQ4SgUdj3BBg_nb_xjMbW1Ws2_gtmAOmRPCfoQlGGPfBvUDXyfUY8cY5FTB0_RABoF0qf_G6pre-ep4wZEPSYeajqbXHv512c2BboHAaBBXgeS_i4HWDvzU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOKCcuAnFDWA1hAB557eIcmbkUQds0mrz89oQWx90Te2f6S1yBz8mE8_j6z8cSvFl4GCTbpvcqcxri7bg12JDlTbxQaflp-0QdEhqixYJytzfBa-fsRivVRqbHp-fPT_HW9kknLiAKTazk9MBboSFr8vnE1yJZ-c0=
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이의 개월 수를 알려주세요. 연령에 맞는 간식을 추천해 드릴게요. | 0~6개월 |
+| 간식 선택 시 가장 중요하게 생각하는 원재료는 무엇인가요? | 유기농/친환경 |
+| 아이에게 어떤 형태나 질감의 간식을 선호하시나요? | 부드러운, 바삭한 |
+| 혹시 선호하시는 유아간식 브랜드가 있으신가요? | 핑크퐁 |
+| 유아 간식 예산은 어느 정도로 생각하세요? (평균 2만 3천원, 1만 3천원~3만원대가 가장 많아요) | 1만 3천원 ~ 3만원대 |
+| __avoid_negatives__ | 원재료나 영양 성분 정보가 부족해서 아이에게 안심하고 먹이기 어려울 것 같아요,아이가 특정 성분에 민감할 수 있어서 어떤 재료가 들어갔는지 꼼꼼히 확인하고 싶어요 |
 
 ---
 
@@ -55,7 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-(아직 선택 없음)
+- 원재료나 영양 성분 정보가 부족해서 아이에게 안심하고 먹이기 어려울 것 같아요
+- 아이가 특정 성분에 민감할 수 있어서 어떤 재료가 들어갔는지 꼼꼼히 확인하고 싶어요
 
 ---
 

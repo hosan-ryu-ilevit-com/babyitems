@@ -264,10 +264,114 @@ ${productInfos}
 }
 
 ⚠️ JSON만 출력하세요!
+⚠️ **반드시 모든 상품(${products.length}개)을 results에 포함**
+⚠️ pcode는 입력값과 정확히 일치해야 함 (누락/변형 금지)
+⚠️ results의 순서는 입력 products 순서와 동일해야 함
 ⚠️ prosFromReviews/consFromReviews: "**키워드**: 짧은 설명" 형식, 15~25자 (길면 안됨!)
 ⚠️ oneLiner: 이모지 + 볼드 키워드 + 맞춤 포인트, 30~50자
 ⚠️ reviewProof: 실제 리뷰 인용 (따옴표 필수), 35~55자
 ⚠️ 금지: 장황한 설명, "당신은 ~를 선택했으므로", "리뷰에 따르면"`;
+
+  const parseProsConsResponse = (text: string) => {
+    const cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+    const jsonMatch = cleaned.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return null;
+    try {
+      return JSON.parse(jsonMatch[0]);
+    } catch {
+      return null;
+    }
+  };
+
+  const normalizeResults = (results: ProductProsConsResult[]) => {
+    return results.map((r) => ({
+      ...r,
+      pcode: String(r.pcode),
+      prosFromReviews: Array.isArray(r.prosFromReviews) ? r.prosFromReviews.filter(Boolean) : [],
+      consFromReviews: Array.isArray(r.consFromReviews) ? r.consFromReviews.filter(Boolean) : [],
+      oneLiner: r.oneLiner && r.oneLiner.trim() ? r.oneLiner.trim() : '',
+      reviewProof: r.reviewProof && r.reviewProof.trim() ? r.reviewProof.trim() : '',
+      comparativeOneLiner: r.comparativeOneLiner && r.comparativeOneLiner.trim() ? r.comparativeOneLiner.trim() : '',
+    }));
+  };
+
+  const findInvalidProducts = (resultsMap: Map<string, ProductProsConsResult>) => {
+    return products.filter(p => {
+      const result = resultsMap.get(String(p.pcode));
+      if (!result) return true;
+      // 최소 요구사항: pros 2개, cons 1개 (더 관대하게 설정)
+      return result.prosFromReviews.length < 2 || result.consFromReviews.length < 1;
+    });
+  };
+
+  const buildProductInfos = (targetProducts: RequestBody['products']) => {
+    return targetProducts.map((p) => {
+      const productReviews = reviews[p.pcode] || reviews[String(p.pcode)] || [];
+      const qualitative = analyzeReviewsQualitative(productReviews);
+      const reviewTexts = productReviews.slice(0, 12).map((r, i) =>
+        `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 150)}${r.content.length > 150 ? '...' : ''}"`
+      ).join('\n');
+
+      return `### ${p.brand || ''} ${p.name} (pcode: ${p.pcode})
+- 가격: ${p.price?.toLocaleString() || '정보없음'}원
+- 스펙: ${p.specSummary || '정보 없음'}
+- 매칭된 조건: ${p.matchedConditions?.join(', ') || '없음'}
+- 추천 포인트: ${p.bestFor || '없음'}
+- 리뷰 분석: 평균 ${qualitative.avgRating}점 (${productReviews.length}개 리뷰)
+- 리뷰 원문:
+${reviewTexts || '(리뷰 없음)'}`;
+    }).join('\n\n');
+  };
+
+  // 재시도용 프롬프트 생성 (사용자 컨텍스트 및 작성 규칙 포함)
+  const buildRetryPrompt = (targetProducts: RequestBody['products']) => {
+    return `## 역할
+당신은 ${categoryName} 전문 컨설턴트입니다. 아래 상품들의 장단점/한줄평을 **반드시** 생성하세요.
+
+## 👤 사용자 프로필
+### 중요시하는 가치
+${userPriorities}
+
+### 피하고 싶은 단점
+${userAvoid}
+
+## 📦 상품 + 리뷰 (${targetProducts.length}개)
+${buildProductInfos(targetProducts)}
+
+## ✍️ 작성 규칙 (반드시 준수!)
+### 장점 (prosFromReviews) - 3가지 필수
+- 형식: "**키워드**: 짧은 설명" (15~25자)
+- 예시: "**저소음**: 밤중에도 아기 안 깸"
+
+### 단점 (consFromReviews) - 2가지 필수
+- 형식: "**키워드**: 짧은 설명" (15~25자)
+- 예시: "**무게감**: 이동 시 무거움"
+
+### 맞춤 포인트 (oneLiner)
+- 이모지 + **볼드키워드** + 맞춤 포인트 (30~50자)
+- 예시: "🤫 **밤수유 필수템!** 소음 걱정 없이 사용 가능해요."
+
+### 리뷰 인용 (reviewProof)
+- 실제 리뷰 따옴표 인용 + 한 문장 (35~55자)
+- 예시: "\\"숨소리보다 조용해서 아기가 깨지 않았다\\"는 후기가 많아요."
+
+## 📤 응답 JSON
+{
+  "results": [
+    {
+      "pcode": "상품코드 (입력값 그대로)",
+      "prosFromReviews": ["**키워드**: 설명", "**키워드**: 설명", "**키워드**: 설명"],
+      "consFromReviews": ["**키워드**: 설명", "**키워드**: 설명"],
+      "oneLiner": "이모지 + 맞춤 포인트",
+      "reviewProof": "\\"리뷰 인용\\" 기반 문장",
+      "comparativeOneLiner": ""
+    }
+  ]
+}
+
+⚠️ JSON만 출력! 반드시 ${targetProducts.length}개 상품 모두 포함!
+⚠️ pcode는 입력값 그대로 사용 (${targetProducts.map(p => p.pcode).join(', ')})`;
+  };
 
   try {
     console.log(`[GenerateProsCons] Generating for ${products.length} products with reviews...`);
@@ -277,46 +381,94 @@ ${productInfos}
     const responseText = result.response.text();
     console.log(`[GenerateProsCons] Raw LLM response (first 500 chars):`, responseText.slice(0, 500));
 
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
+    const parsed = parseProsConsResponse(responseText);
+    if (parsed) {
       console.log(`[GenerateProsCons] Parsed JSON:`, JSON.stringify(parsed, null, 2).slice(0, 1000));
 
       if (parsed.results && Array.isArray(parsed.results)) {
-        // oneLiner, reviewProof, comparativeOneLiner 검증 및 보정
-        const validatedResults = parsed.results.map((r: ProductProsConsResult) => ({
-          ...r,
-          oneLiner: r.oneLiner && r.oneLiner.trim() ? r.oneLiner.trim() : '',
-          reviewProof: r.reviewProof && r.reviewProof.trim() ? r.reviewProof.trim() : '',
-          comparativeOneLiner: r.comparativeOneLiner && r.comparativeOneLiner.trim() ? r.comparativeOneLiner.trim() : '',
-        }));
+        const normalizedResults = normalizeResults(parsed.results);
+        const resultsMap = new Map(normalizedResults.map((r) => [String(r.pcode), r]));
+        const invalidProducts = findInvalidProducts(resultsMap);
 
-        // LLM 응답에서 누락된 상품들에 대해 빈 결과 추가 (pcode 매칭)
-        const resultPcodes = new Set(validatedResults.map((r: ProductProsConsResult) => String(r.pcode)));
-        const missingProducts = products.filter(p => !resultPcodes.has(String(p.pcode)));
-
-        if (missingProducts.length > 0) {
-          console.log(`[GenerateProsCons] ⚠️ Missing ${missingProducts.length} products in LLM response:`, missingProducts.map(p => p.pcode));
-          missingProducts.forEach(p => {
-            // 리뷰가 있는데 누락된 경우 vs 리뷰가 없어서 누락된 경우 구분
-            const hasReviewsForProduct = (reviews[p.pcode] || reviews[String(p.pcode)] || []).length > 0;
-            validatedResults.push({
-              pcode: p.pcode,
-              prosFromReviews: [],
-              consFromReviews: [],
-              // 리뷰 없는 상품은 스펙 기반 간단 메시지
-              oneLiner: hasReviewsForProduct ? '' : (p.specSummary ? `📦 ${p.brand || ''} ${categoryName} 상품` : ''),
-              reviewProof: '',
-              comparativeOneLiner: '',
-            });
+        // 최대 2회 재시도로 누락 상품 처리
+        let retryCount = 0;
+        const MAX_RETRIES = 2;
+        
+        while (retryCount < MAX_RETRIES) {
+          const invalidProducts = findInvalidProducts(resultsMap);
+          
+          if (invalidProducts.length === 0) {
+            console.log(`[GenerateProsCons] ✅ All ${products.length} products have valid pros/cons`);
+            break;
+          }
+          
+          retryCount++;
+          console.log(`[GenerateProsCons] ⚠️ Retry #${retryCount}: ${invalidProducts.length} products need regeneration`, invalidProducts.map(p => p.pcode));
+          
+          // 각 누락 상품의 현재 상태 로깅
+          invalidProducts.forEach(p => {
+            const current = resultsMap.get(String(p.pcode));
+            console.log(`  - ${p.pcode}: pros=${current?.prosFromReviews?.length || 0}, cons=${current?.consFromReviews?.length || 0}`);
           });
+
+          const retryPrompt = buildRetryPrompt(invalidProducts);
+
+          try {
+            const retryResult = await model.generateContent(retryPrompt);
+            const retryText = retryResult.response.text();
+            console.log(`[GenerateProsCons] Retry #${retryCount} raw response (first 500):`, retryText.slice(0, 500));
+            
+            const retryParsed = parseProsConsResponse(retryText);
+            if (retryParsed?.results && Array.isArray(retryParsed.results)) {
+              console.log(`[GenerateProsCons] Retry #${retryCount} parsed ${retryParsed.results.length} results`);
+              const retryNormalized = normalizeResults(retryParsed.results);
+              
+              // 결과 병합 (기존 데이터보다 좋은 경우에만)
+              retryNormalized.forEach(r => {
+                const existing = resultsMap.get(String(r.pcode));
+                const newProsCount = r.prosFromReviews.length;
+                const newConsCount = r.consFromReviews.length;
+                const existingProsCount = existing?.prosFromReviews?.length || 0;
+                const existingConsCount = existing?.consFromReviews?.length || 0;
+                
+                // 새 결과가 더 나은 경우에만 교체
+                if (newProsCount >= existingProsCount && newConsCount >= existingConsCount) {
+                  console.log(`  - ${r.pcode}: Updated (pros ${existingProsCount}->${newProsCount}, cons ${existingConsCount}->${newConsCount})`);
+                  resultsMap.set(String(r.pcode), r);
+                } else {
+                  console.log(`  - ${r.pcode}: Kept existing (retry had fewer items)`);
+                }
+              });
+            } else {
+              console.log(`[GenerateProsCons] Retry #${retryCount} failed to parse JSON`);
+            }
+          } catch (retryError) {
+            console.error(`[GenerateProsCons] Retry #${retryCount} error:`, retryError);
+          }
+        }
+        
+        // 최종 누락 상품 로깅
+        const finalInvalid = findInvalidProducts(resultsMap);
+        if (finalInvalid.length > 0) {
+          console.log(`[GenerateProsCons] ❌ After ${MAX_RETRIES} retries, still ${finalInvalid.length} products incomplete:`, finalInvalid.map(p => p.pcode));
         }
 
-        console.log(`[GenerateProsCons] Generated for ${validatedResults.length} products, oneLiners:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.oneLiner}"`));
-        console.log(`[GenerateProsCons] reviewProofs:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.reviewProof}"`));
-        console.log(`[GenerateProsCons] comparativeOneLiners:`, validatedResults.map((r: ProductProsConsResult) => `${r.pcode}: "${r.comparativeOneLiner}"`));
-        return validatedResults;
+        const finalResults = products.map((p) => {
+          const result = resultsMap.get(String(p.pcode));
+          return result || {
+            pcode: String(p.pcode),
+            prosFromReviews: [],
+            consFromReviews: [],
+            oneLiner: '',
+            reviewProof: '',
+            comparativeOneLiner: '',
+          };
+        });
+
+        console.log(`[GenerateProsCons] Generated for ${finalResults.length} products, oneLiners:`, finalResults.map((r) => `${r.pcode}: "${r.oneLiner}"`));
+        console.log(`[GenerateProsCons] reviewProofs:`, finalResults.map((r) => `${r.pcode}: "${r.reviewProof}"`));
+        console.log(`[GenerateProsCons] comparativeOneLiners:`, finalResults.map((r) => `${r.pcode}: "${r.comparativeOneLiner}"`));
+        return finalResults;
       }
     } else {
       console.error(`[GenerateProsCons] No JSON found in response`);

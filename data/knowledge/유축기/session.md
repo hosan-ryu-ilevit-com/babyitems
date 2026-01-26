@@ -1,5 +1,5 @@
-# 세션: 20260120_022246_bivw
-> 시작: 2026-01-20T02:22:46.868Z
+# 세션: 20260126_044022_tq0x
+> 시작: 2026-01-26T04:40:22.553Z
 > 카테고리키: 유축기
 > 카테고리: 유축기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유축기 시장 현황
-- 인사이트: 유축기 시장은 2024년 31억 6천만 달러 규모로 추정되며, 2033년까지 연평균 9.33% 성장하여 69억 6천만 달러에 이를 것으로 전망됩니다. 모유 수유에 대한 인식 증가, 여성 경제 활동 인구 증가, 기술 혁신 등이 시장 성장을 견인하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtkeHbnS2ka3fCs-WAza5-qu7ppJL0U4SYzEwcNMENAVUrVXMTFI5TEAT0tP1dFveY9XMWyzJEpX_6I3fwpqYZ1I9oojIf5PVD5U4uUSOgrs65GwlWdCzc9Ul4whwllT-T1ouKCTI_CVtAHUunMU_R2ALH7QXJELk4LXztUETY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlwZMSgZZ09hs9QdXHjApt0Ezwyrdl_Y4VUrWXd6i3zBzziUCY33sC5GC6VRsQ-hG7izrTAlWvp5ErQAsxi3U2bj3Ju0nK5hEKWfhH9uZYklvD0c5xaDR28FztqCV8najZINj-QdQWgAxmvWiykoBcNwImjEUJzzQ4evor8OzfVmMRjcjGCT2q2M09V1ykHWj6X5S_6Ppy8FF49GgQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtB3qgVGiSCYaGfe85oO1r1vSXEzP9w42oQvfr0LqknM4y3TpvPVpR0iqC5GEeTdjis0iECp6Tb7SERd82CfZ_8k2YPi6t5kMIz0IwmeBp1jigssLG-TDNrnQA3oBeIPxnJ44cHjuzWK8YS7ssr_RGrErt5TilFA3ceQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOTzchR25XcvtBQ8rgXCIO4uxgSW5GVIXRvYGrNcmeUEaJN60obieW-1EVn9sjWNqWLB2UOVRR78V5EO5NBpi3vLLJiZPHDPRFkN_Z7tvLKC-AEBzXhKLvt3PRvmqmq-iNtcAKPw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1MN-MJfdlZYq3s0yvI_mNIFq2FMzdnZiQcrLg77r8eYiYehgnupT2acU9eXPS8rEEXHBZwYdINy7LddPvn6gr_7sIKgH0lsYocFCvX5kjnwvVLaC4EnSmXC0Daxl9p4yLy4tFuxbSrSQrbxS1ZpHC2Us=
+- 인사이트: 유축기 시장은 산모의 편의성과 아기의 건강을 최우선으로 고려하며 발전하고 있습니다. 특히 병원 등급의 성능을 갖춘 휴대용 및 웨어러블 유축기가 주목받고 있으며, 디자인 혁신과 사용자 맞춤형 기능 강화가 주요 트렌드로 자리 잡고 있습니다. 스펙트라와 같은 브랜드는 이러한 트렌드를 반영하여 감각적인 디자인과 무드등 기능 등을 탑재한 신제품을 선보이며 시장을 선도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE24eawf35Q4I9cR6jlQbfeNzEpPx7ydFUD9WxGkh29Htxj56ah_07HrVt74iuLNoW6aXNf5TpI40e5xbm6CMDHijrIRFLT7aB3x9T3HIOeEQtIjFWiNdhpk9kEXNtWAdNiOTscw77b36dgeJDbKQ5469AMp6GjdFPI5Pc5Ess=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNw7Gtirny0jYv90w0N30f-b-17_vlGxgpj0EqO5-WGKA4IQV5Ym3OWhc9I4e1ugsJf0vb72SrptEcugK4B4rClLPRfQwZYJeL13kPUcTDf9aPsEi6Q0MX0AAvgo-zsQXFvjvt8h0pLbhvh1FcwP14GNImfusKX6fcDKVyoStqXtmjHt501VF_G1glIQv7-1gPtuVu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpfnlqwXnQ2RanYt2s2IbDp9Gl0qfro7nc6FIBE_ceRv2_OLCs0Cb_eK7sgb_q4SepPWuRdWLc3Mb5iI_LR4Kp3oRfvAXq4zzdQ_V20MbLdG91QhFYKJpMEunWPaiB6SCPlj6gYW0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFsZuNsm-JAdABkSa21GfONwCQnYbyk6uub7aLnyMm4itnXzsrp6UvwPqK2-jmecQcQp75KmNbNYQid5Ms1GZqYikBtZ1B4HB-5C9MTUf69SrRzaaJrYJKLKrxJdyLn-o4iB7FfWxq2o3YEYGTzZF7sx8ULKxONSoPdHO9nlcX1pYwL02ljkzjOcCpuqwBe8j2vG4Fea8NgukBKg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3tF3fTH7tBqDT6SX-JXRt79259sHLFAytnNqvJi7-rR0qlcPjrR4YyRbx6Bv8LfuZenxslfNLX9AaitC8NcFrpBFlvUbYPcEXvoPNXzuoq_O4klvfLSn8ZiJ0p24NkzmbNVHdGKDk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHoGRZQSSU-1jliZi2QFMjc40PI_ZhVfNzbgJr1xBITOZofDLmhgXAKARp5zPcXKp2ln0vmv4BOJuHEMYrPEACyIIBpI7ACixGCPr-VjAtrJD2YCho_djsDbSJ18_1YptbyanordKo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERJ8QD_diXlZ7UtJDHH47_-1D_QG11pldNZwyaMnkUZYFDD9Fp8xWzfSFd7xj8YEr3Sz-yykgQoDhaWkB_bBbvTmfNkHItnOaa79lz2IpmAClkKpHKtQoAWHfRaEBjpjosLsh7QzQ=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 유축 시 가장 중요하게 생각하시는 기능은 무엇인가요? | 강력하고 섬세한 흡입력 조절, 부드러운 마사지 기능 위주 |
-| 유축기를 주로 어디서, 어떻게 사용하실 예정인가요? | 휴대성과 핸즈프리 기능이 최우선, 집에서 주로 사용, 안정적인 성능 중시 |
-| 양쪽 유방을 동시에 유축하는 기능이 필요하신가요? | 양방향 유축 필요 |
-| 유축기 세척 및 관리의 편리성은 얼마나 중요하신가요? | 간편하고 위생적인 세척 |
-| 유축기 예산은 어느 정도로 생각하세요? (평균 6만 2천원, 3만 3천원 ~ 8만 1천원대가 가장 많아요) | 3만 3천원 ~ 8만 1천원 |
-| __avoid_negatives__ | 복잡한 부품 때문에 유축기 세척하고 관리하는 것이 너무 번거로울까 봐 걱정돼요,휴대성이 좋다고 해도 부피가 커서 외출 시 가지고 다니기 불편할 것 같아요 |
+| 어머니의 유두 민감도나 편안함에 맞춰 흡입력 조절이 얼마나 중요한가요? | 매우 중요 (개인 맞춤 설정 필수) |
+| 유두 사이즈에 맞는 깔때기(플랜지) 선택이 얼마나 중요하다고 생각하시나요? | 중요하지만 기본 사이즈로도 괜찮음 |
+| 주로 어디서, 어떻게 유축기를 사용하실 예정인가요? | 내부 휴대 (집 안/이동 시 간편 사용), 집에서 사용 (강력한 성능 중요) |
+| 유축 시 소음 수준은 어느 정도가 괜찮으신가요? | 적당히 조용하면 괜찮음 |
+| 예산은 어느 정도로 생각하세요? (평균 6만원, 3만원~8만원대가 가장 많아요) | 3만원 이하 |
+| __avoid_negatives__ | 집 밖에서 유축기를 사용해야 할 때 다른 사람들의 시선 때문에 어색하고 불편할 것 같아요,직접 수유하는 것보다 유축하는 데 시간이 너무 오래 걸리고 에너지가 소모될까 봐 걱정돼요 |
 
 ---
 
@@ -30,26 +30,26 @@
 현재 후보: 42개 (전체 42개 중)
 
 ### 후보 상품
-1. 스펙트라 S1 Pro 유축기 - 160,650원 - ⭐5
+1. 스펙트라 S1 Pro 유축기 - 160,200원 - ⭐5
 2. 메델라 스윙 전동식 유축기 - 274,000원 - ⭐5
-3. 유니맘 미뉴엣 전동유축기 - 54,000원 - ⭐4.6
-4. 스펙트라 웨어러블 핸즈프리 전동유축기 - 108,000원 - ⭐4.8
-5. 헤겐 신형 수동 유축기 키트 - 80,593원 - ⭐4.8
-6. 유니맘 유니맘 포르테샵 전동유축기 - 69,000원 - ⭐5
-7. 스펙트라 스펙트라 유축기 핸즈프리 2세트 - 32,000원 - ⭐4.6
-8. 스펙트라 유축기 에어호스 - 3,500원 - ⭐4.7
-9. 스펙트라 스펙트라 S2 유축기 대여 - 14,400원 - ⭐4.7
-10. 스펙트라 유축기 소모품 6종류 S M L 흡입기 깔대기 - 9,000원 - ⭐4.6
-11. 보생 잉어가물치즙 30포 15일분 - 76,000원 - ⭐4.7
+3. 스펙트라 웨어러블 핸즈프리 전동유축기 - 105,840원 - ⭐4.8
+4. 스펙트라 유축기 에어호스 - 3,500원 - ⭐4.7
+5. 스펙트라 스펙트라 유축세트 - 13,770원 - ⭐4.5
+6. 헤겐 신형 수동 유축기 키트 - 73,590원 - ⭐4.8
+7. 유니맘 미뉴엣 전동유축기 - 54,000원 - ⭐4.6
+8. 스펙트라 Q 휴대용 유축기 - 52,200원 - ⭐4.6
+9. 스펙트라 스펙트라 유축기 핸즈프리 2세트 - 32,000원 - ⭐4.6
+10. 순수아 헤겐 젖병 모유 이유식 보관 뚜껑 2개 이유식 보관 뚜껑-2개 헤겐호환 - 7,800원 - ⭐4.6
+11. 하이베베 플러스 전동식 모유착유기 (BT-100) - 69,000원 - ⭐4.6
 12. 각시밀 프리미엄 흡입기 깔대기 세트 수유컵 G1 유축기 시거잭 부속품 스펙트라 시밀레 유니맘 - 9,110원 - ⭐4.2
-13. 스펙트라 Q 휴대용 유축기 - 52,200원 - ⭐4.6
-14. 하이베베 플러스 전동식 모유착유기 (BT-100) - 69,000원 - ⭐4.6
-15. 스펙트라 스펙트라 유축세트 - 13,770원 - ⭐4.5
-16. 스펙트라 흡입기 유축기 소모품 - 9,480원 - ⭐4.8
-17. 순수아 헤겐 젖병 모유 이유식 보관 뚜껑 2개 이유식 보관 뚜껑-2개 헤겐호환 - 7,800원 - ⭐4.6
-18. 베벨라 유축기 깔대기 20mm - 4,440원 - ⭐4.6
-19. 스펙트라 와이드 흡입기세트 유축기깔대기 - 10,300원 - ⭐4.6
-20. 스펙트라 듀얼 컴팩트 전동식 유축기 - 177,000원 - ⭐4.8
+13. 스펙트라 흡입기 유축기 소모품 - 9,480원 - ⭐4.8
+14. 보생 잉어가물치즙 30포 15일분 - 71,000원 - ⭐4.7
+15. 스펙트라 흡입기세트/유축기부품/소모품/깔대기 - 9,500원 - ⭐4
+16. 스펙트라 유축기 소모품 6종류 S M L 흡입기 깔대기 - 9,000원 - ⭐4.6
+17. 뽀로로 뽀로로 주머니물통 PR0552 핑크 유아 아기 물병 - 5,560원 - ⭐5
+18. 스펙트라 스펙트라 S2 유축기 대여 - 14,400원 - ⭐4.7
+19. 마이비 항균 모유저장팩 25매 - 4,199원 - ⭐4.1
+20. 베벨라 유축기 깔대기 20mm - 4,440원 - ⭐4.6
 
 ---
 
@@ -61,8 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 복잡한 부품 때문에 유축기 세척하고 관리하는 것이 너무 번거로울까 봐 걱정돼요
-- 휴대성이 좋다고 해도 부피가 커서 외출 시 가지고 다니기 불편할 것 같아요
+- 집 밖에서 유축기를 사용해야 할 때 다른 사람들의 시선 때문에 어색하고 불편할 것 같아요
+- 직접 수유하는 것보다 유축하는 데 시간이 너무 오래 걸리고 에너지가 소모될까 봐 걱정돼요
 
 ---
 

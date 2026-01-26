@@ -41,6 +41,7 @@ interface ProductDetailModalProps {
       thumbnail: string;
       reviewUrl?: string;
       reviewCount: number;
+      specSummary?: string;  // 스펙 요약
     };
     rank: 1 | 2 | 3 | 4;
     finalScore: number;

@@ -1,26 +1,24 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-01-26T03:20:36.749Z
+> 마지막 업데이트: 2026-01-26T04:20:54.364Z
 > 분석 상품: 20개 | 분석 리뷰: 45,514개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄화 가속
-- 수출 증대
-- 기능성 및 특수 분유 개발
+- 출생아 수 증가에 따른 분유 시장 반등
+- 수입 분유의 시장 점유율 확대
+- 프리미엄 및 기능성 분유 제품 강화
 
 ### 구매자 만족 포인트
-- ✓ 모유 대체 영양 공급
-- ✓ 육아 부담 분산
-- ✓ 정확한 섭취량 확인
-- ✓ 다양한 영양 성분 강화
+- ✓ 국내 시장 반등
+- ✓ 프리미엄 제품 강화
+- ✓ 수출 확대
 
 ### 주의해야 할 단점
-- ⚠ 모유와 영양 구성 차이
-- ⚠ 분유 선택의 어려움
-- ⚠ 분유 제조 및 보관 주의 필요
-- ⚠ 가격 부담
+- ⚠ 수입 분유 경쟁 심화
+- ⚠ 국내 생산량 감소
+- ⚠ 중국 시장 의존도 리스크
 
 ### 가격대 인사이트
 
@@ -242,9 +240,11 @@
 ---
 
 ## 📊 데이터 출처
-- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDfNenGMkmWNkJdDFqhsiMP40JMEhM75RhJaNQjH6rZig5SyvQXC4EcFp0xWuuuL1Kn5deP-zrmn7pyVxgeml_UInxphWyZtYXHxEC0W1ozJdOgPUaZlDeL6sDnQRVkfwTTfOfT3pIylccQoIfB_Pl5w==)
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE77RrWRlJYrmXfL1iZTWFLt_yYYES51-koRfj_COrJoQHysl0HgY-b6meJYX0IgGEGvg41Q5ki8sgM2cS_72qM9Nf2mcpKY7_mybQ8Gcib7WLE2mzdGKPgss7fuAsQ01MxG54H5RjSj8GpZ5sJaV7OO8A8JskWjI9lmCNGE3Ey7xzCUirz5Q2sNxY=)
-- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhh_egApf1CR2vyGRW0VyHzqm6aRdZK7quyGEKTf_7e4muwY01SpkPEQsnDozMe4w7m0vKZgODnx7_x9WhUg9kWg5BiLNDBx93nl4ukxfo-mlcZGgIJOGpnyLVd9HCg4q6uy5FtA==)
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGE-t0mekckA0qu3nzyTD4e5LRuGWfI6FW8ZdQE7R6fzBoBfU6tbdeaRItPQ_0x_gI74IcrxS8l7A9-8gNoODXMfeHCG1jeYlSZ5TAc3XbmNKiImGd8T0YtNgGHgFsPQSKunE0t0knEcRkJVWZEuG8B_vWoC9BZVfu9WZTGGIiehMCFYBZLhSaPaCc=)
-- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv5DUHikpoBZ6WPUXJpXBtLnhdXqRU-_ccoMGpsjDOyO6n1UKE8nPMOsAYomxi9PRKqgpH9vhhBeKrXC4winyWDSxK6MoikLpPzFP7thLb-ktm5qI0Edzr8kkLrD7O4Cw6pmJO3rc=)
-- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrLeHVXqU9-iPhLbEVGK8N2vrZQ9Q4OTE1nuO8Bfk-e5qPoakWvLmTOQhhlDsW8tzKhRhckGRcPFmtH_fHab85ok9-ox0UaO97hUeiUDgkBr8BmnS7lSxvVhY_fDQF1xJ-IgqSBvXsMRlvkbLimJoShw==)
+- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMlKu2idemPsTxKB2xd5rwJ2QorYt55LtU5d60pPty2diRZpjjy0qRuPX66dUwo4pVKEVF8SCz1JQkk92qhkG-quOBt30IERhmTx5KijEeqe282lhja53tDTvQQGNJuI0M2v4110S1CrDzGexYRpHGdQYX1vDHc6ajb_Z2837IQPSEXpPf9MssNEk=)
+- [ddaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkFs4Qdp_7st8TJ7r17wJ7VXAa6goO9_b7qXwdPA0pIats9G4YMDTo5ep4nLgujBhJ54WKA-nntTNWXlidhPjJcMX6HNRyGUPg0jhQjc-7plmXsRgOJjEour3ftHwW-mXntcjzOB3VPANQLBLqhWgcog==)
+- [newsian.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCMvGclgslvaa58Gw8p8_Xdh6bM8BvsQgO8gqQP4hk2LIG3Nl_abPIUE1P1qdDRolWsPqGPhZF_RzV7dIbuepNCe06DJDlUj2WiHEqVvb15uFO2ecC3uFK0T6zQJD12JtvvVK9zsX0jABPt-yhCvyn0L3PSRg=)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ-na2WUCJPTAZgU9kuoSvVzS4mA8C0qXAaj5BkL2z-h24F55zuwdvdp5dF1RepWUTL3uwc0z4IvzxnH3DHXmwzYJHaWGsQ19h5SSkhmwvdIf3nE5PiHpVhAd5jT1yHc6jPgQ_H9s2z_NPKPZN19kMNbxg_BN_soZA161R9LVYyg==)
+- [newsian.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnatM2qmK0H_Uvd3s-cR_Yl8vs3YpLEkXckfK0BoeBjPX-8aNKumOBUDRLC5AZ58Y_ZLqGOxQUxuPBzLV5RW3K2Zr2KSNwXaD6qFbmBr9tg6ItjHvvJJv-WUR7gjxejzr6Y0wdI1eGv2EryAuioU_7cxbyhRA=)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVqm54FtXa-qXwfbcZi9l2YZE6cZMT5IyaSu_W1ZiDxtkUnQlGUeyOseTC-36y3EGVtFVJ3xVSE56qzrlIq8uXhIUVVKh61C0M9tAcJaCoedXbEM30KpVRb_AMuuDQ5rCyORatF_MTgwJ0uaemqTIs2qaLR7gLyF-f2SGoioBS0fOKZ7ey3sGByuUe)
+- [ibabynews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtH3s6wQgJfh13za0p7FnuhNH0z627LiRZ7LohvgLQeqkofLXkUHuNFv-AbCfPP9jhTayME9uYTUKesO96V7fImX1Jzu2i6tIc8DO7lob4IDZSN3QQPWFFwj_BnTwh__BDFAgSgQCU_AHZ9La-YQsDaKDSS36f)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIbzuxn_lvejUgLafPsNcJA3eGS5W2ICzjQHPPwn5-jMugUkWn4bEbhCIjkpN65spw_kURTTefufBS1fLaL3ufcHb49yEq6sTtTjckxsiWN3y1U9vR1Jq6VvnrVuGfqjpdzLqMpow=)

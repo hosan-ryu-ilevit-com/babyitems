@@ -1,5 +1,5 @@
-# 세션: 20260122_123510_syh8
-> 시작: 2026-01-22T12:35:10.650Z
+# 세션: 20260126_035956_5uaz
+> 시작: 2026-01-26T03:59:56.043Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유포트 시장 현황
-- 인사이트: 분유포트는 아기 분유를 탈 때 필요한 물을 적정 온도로 유지해주는 육아 필수템입니다. 최근에는 온도 조절, 보온 기능 외에도 살균, 티포트 기능, 자동 세척 등 다양한 부가 기능이 탑재된 제품들이 인기를 얻고 있습니다. 특히 휴대용 분유포트는 외출 시에도 편리하게 사용할 수 있어 많은 부모들에게 사랑받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXIJGlau7_5ZnDiK0EWPd7pLRHI8Ma-R-8QPvrTWvagivAiKiFyr6k4qgiatNAFKtEedfipMTNWeDetuLN8xztVaceeNtzI605iO0wTAqO8Vi-93TnjhAO7fmAQa82LScfwndgxE5Te08A4mVTEUzCys7cVZxZH12_eHJIFFuQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4MgKuOE8uTwceGdrao1DKQMmLN9djQQkg93QdDhm_H-dTcx3oKTljmaSCWpjP8Utr6BhZEFzDMJFJm8FvkfZuPllpJmtX-G68oa_Nl6vu20-4e5IgKCaAAMh8MJX0Fo5AlDs1Dxk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfSPp8ZeowybtYBS5fTWNbMmv5TZmffFhAgmpjh_m0S1BZAboedLBsiq1qSazQ7aANNGSHXfcO5XdHNdslJ3miqj0Y199x-IMt99_7X3ITjtuz4aFNm7G2vU-mqwvVXnT2gg_IhJE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZRVbaf85yuFY0zI6cJGjJhin1U_zPHHTq5Ex2SRZJe84URnMHN-zRQGYQLZ4vqr83sgk7fMf-CcaeaCiaDFfgk2G5qQkgp1NdqbaUbLmn2O4X8My_2dHrMeKbUWwo8KNnSMNSGkwsyGzqZm0YSOGNFIkXjaRzxA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTwiwily3_7IIISf9xSFwddgQsey2NBqt0i60bBzVK-ohVRtolzxHP4LQ6IcqtX2fykMVoHqAngmH7cMV78v2yDiCtT846SOBVXrj4FCTJ1P00P2-ZYJaDeY8okGfr9GWNTmgpDJoNosPxt3OjQV1AByGo82ChaA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOoHI12pdz8ITpd3bGi0GWLeRThYnMvKTNT1JW36JGbHMKjltkfQAhKMPsYaIay4FeH7h0OUvTzZhsoN3RnKfE2la-Gw-9w53mPNYlLf7R-VVSm9_0ampiMslVZUwUCIL-4oFS4wmVG9Gjn2VC7GEpqCG-5DxPEQWToXNCGnzyV3lP5HwEtyxlts_x, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6sZA_BMr347UG8V-aQ1CaMebDaL6FDUmK2lT_PO6_u5t0wskGJh4p1YhAHvIlYuTCDZKmQg2vhe1V5TwTAV4aqWdP85vn-HqYrkP96kP7CHHE0HHtKtaLvH0AaunCJoAFiOEQrwUFzUAe_bwt6E6auEE-Hi-usGYCqtyVAOBp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcjZaFK1sc6hpzmTyjbe2RkQD0n6cZML8R2j_DBlibl-6WwqFe5iLaDLOI36aqtiB7q8Mj56pUMCH5DSUP0qTn5pCnFxpENI3j6tMPJayfOdolfKmKEoDMORt6en4r1nGdhKfvz_tDo2Oc3CURi1MzghdBDycow9O183hH1RhO-Z4GqQHo
+- 인사이트: 분유포트는 분유 수유를 하는 아기에게 필수적인 육아용품으로, 분유 제조 과정의 시간과 노력을 절약해주는 자동 가열, 보온, 온도 조절 기능을 제공합니다. 최근에는 휴대용 분유포트의 인기가 높아지면서 외출 시에도 편리하게 사용할 수 있는 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnGiqfmM9295uQ92ApEIzKC7CAFxpOYyRyVtrtl9AseRyL5IsV-NQOODuqX1UBXVeuhQMs1_RZe8by7gTqWAngn1TPeLA8WKFoNzsgtP3a_pXhBGETY7b-4jUBYM6eW1Ydu96erz6KNyj9DaDQzuRYRGtQrDi_6wONZoD3xFMk0M4VohFW, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhCHba7_ijPm9Sx3MaoYOizj1Ulldv6_yCqyF7w-fR-ewxcdRZuu6jnGwGeZ7XCsBtxX_rwoo94ZZ-rop5OUN3Owc87iPogjlECHOua18A4O9AX3GNurWqB4Pt9gbpZopNZgfD2MY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEb0tWMwyzqa2VLaFczOJyyzoM7MTCj36cSg0WfCM9ONqlLSNdbh8AeVoJ4_TGczYuPVne9rMLAEazywdEyK4jKpdZ-03Yg2Yzh9vKd62e_vWMY-rGzrU2t2Xlh9OBmqpmZVKh1SXo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfP3nhkBn4FDmX7wrezEwBNUWUg8pTVhi_Ap6RcN4s-unk0jDdBRI_IMG9VsCxi3o9djujs5w20ihzWh_WreJHxhCz62F0XpYVsKbDj9QDd5NSBqQ-l16TQfxZNdGWXgByxcQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWi-hPAxc-XJPfHoa7ZlaZpJys4ja1f9FjB1MsS_0TCtbo7XT42m5MAm3-orazFdkxwvjvArI81IEaRkq0tnWdOwIVEqbBOQJvz62lITzMdR5Ou7iqMlCnbzPDQXRBi_qzyn3beDY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNUVsaPnYiXy70wHbAGi4nI0RIiLdDTKGFTumKQ9Yfcnal6MyxIBbvzHmxKtw1ExVfBb3-NARNft2GzFV5LG6SkWlrN1uge69lEmezyg6B6m7sX3jnmbMyr5NftAgbRw_fCGjHMw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDxhEdpEsWHes9yeIQSSSZ8PcfUZOwdTRqSdqo8NH6lJ7pEFXG72isxsrU77SoGcKZ3772JVXwtnLx0pPVol5dwWWZ3j-h0EbneEsRXSzJcv9LS4O6eOyU0fEn2IwV0k5nRAKHdCxgVSdrgZgDgMbrJlgti3s9ZAQeG1zOOfhsubFq_DhuubPR2FWyJxc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE95mPcjjnH1SR9zsQGK_Z5XxdcGPEW9-HZcMewS8DIIwKiSoEI559dbG2nfrDHXuDDo11eRmSBc9DBvE5FcP_xXMAadqM-JmpZMY15TqQaDngqeKI_8Y4NWJW7_r4zk0w6VW1upBTm5ajFj22smOcKhB7YXtE5bh8KR_wnMag=
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 분유포트의 내부 재질은 어떤 것을 선호하시나요? | 유리 |
-| 주로 몇 리터 용량의 분유포트를 사용하시나요? | 1.5L ~ 2L |
-| 분유포트 구매 시 선호하는 브랜드가 있으신가요? | 보아르, 보르르, 신일전자 |
-| 분유 타기 좋은 온도로 빠르게 가열하고, 물을 끓여주는 기능이 중요하신가요? | 매우 중요해요 |
-| 분유포트 예산은 어느 정도로 생각하세요? (평균 약 8만 6천원, 3만 원대 ~ 11만 원대가 가장 많아요) | 11만 1천원대, 5만 7천원 이하 |
-| __avoid_negatives__ | 내부 세척이 꼼꼼하게 되지 않거나 틈새가 많으면 위생 관리가 어려울까 봐 걱정돼요,분유 탈 때 급하게 필요한데,물 끓는 속도가 너무 느리면 답답할 것 같아요 |
+| 외출 시에도 분유포트를 자주 사용하시나요? | 거의 사용 안 함 |
+| 자동 출수나 자동 세척 기능이 필요하신가요? | 기능 불필요 |
+| 온도 조절 기능은 어느 정도로 정밀해야 할까요? | 1℃ 단위 정밀 조절 |
+| 선호하시는 브랜드가 있으신가요? | 보랄, 보르르, 신일전자 |
+| 분유포트 예산은 어느 정도로 생각하세요? (평균 약 7만원, 4만 6천원~9만원대가 가장 많아요) | 4만 6천원 ~ 9만원대, 4만 6천원 이하 |
+| __avoid_negatives__ | 몇 년 쓰다가 고장 나면 새로 사야 해서 경제적으로 부담될까 봐 걱정돼요,분유 탈 때마다 물을 데우는 데 시간이 너무 오래 걸리면 아기가 기다리다 울 것 같아요 |
 
 ---
 
@@ -33,23 +33,23 @@
 1. 신일전자 SEP-WH17KP - 28,900원 - ⭐5
 2. 키친아트 소렐 KIA-EK15 - 42,000원 - ⭐4.5
 3. 보르르 B17-505 - 95,000원 - ⭐4.8
-4. 보아르 이지 전기포트C VPEP-003IV - 54,350원 - ⭐4.8
-5. 보랄 BR-P30L - 70,450원 - ⭐4.6
-6. 테팔 테이스티 BJ551BKR - 73,460원 - ⭐4.7
-7. 모즈 온도조절 전기포트 MC-1500 - 65,550원 - ⭐4.6
-8. 아이닉 iEK01 - 129,000원 - ⭐4.8
-9. 마이어 H2405D - 44,910원 - ⭐5
-10. 하트만 HMF-M0803ABK - 65,760원 - ⭐5
-11. 신일전자 SEP-S16LKP - 52,630원 - ⭐5
-12. 블루필 힛백 가열식 텀블러 BHT210 - 103,300원 - ⭐5
-13. 남양키친플라워 KEK-JP750WH - 53,280원 - ⭐4.6
-14. 휴빅 HB-90TW - 36,800원 - ⭐5
-15. 한경희생활과학 HEK-B176 - 36,800원 - ⭐4.3
-16. 신일전자 SEP-D800WSN - 53,430원 - ⭐4.8
-17. 엘프슈타펠 BNB-7500W - 296,000원 - ⭐4.8
-18. 레벤호프 캔디 전기 포트 1.5L - 60,820원 - ⭐5
-19. 코멕스 무선 전기티포트 유리 전기주전자 커피포트 차탕기 포트기 전기포트 분유포트 - 35,030원 - ⭐4.2
-20. 오아 보아르 이지 전기포트 C - 58,400원 - ⭐4.8
+4. 보랄 BR-P30L - 70,450원 - ⭐4.6
+5. 보아르 이지 전기포트C VPEP-003IV - 53,910원 - ⭐4.8
+6. 모즈 온도조절 전기포트 MC-1500 - 65,550원 - ⭐4.6
+7. 테팔 테이스티 BJ551BKR - 71,830원 - ⭐4.7
+8. 마이어 H2405D - 44,420원 - ⭐5
+9. 아이닉 iEK01 - 119,000원 - ⭐4.8
+10. 블루필 힛백 가열식 텀블러 BHT210 - 117,390원 - ⭐5
+11. 베이비부스트 이지 분유포트 BBE1002A - 174,785원 - ⭐4.8
+12. 테팔 인퓨자 BJ800D - 81,140원 - ⭐4.6
+13. 하트만 HMF-M0803ABK - 65,760원 - ⭐5
+14. 신일전자 SEP-S16LKP - 58,090원 - ⭐5
+15. 남양키친플라워 KEK-JP750WH - 53,840원 - ⭐4.6
+16. 한경희생활과학 HEK-B176 - 36,800원 - ⭐4.3
+17. 벤하임코리아 BMT-04-001 - 22,870원 - ⭐2
+18. 리웨이 허그 분유포트 전기 티포트 - 53,820원 - ⭐4.3
+19. 한경희생활과학 HEP-2010TW - 34,900원 - ⭐4.5
+20. 클래파 CEK-S220 - 47,130원 - ⭐4.1
 
 ---
 
@@ -61,9 +61,8 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 내부 세척이 꼼꼼하게 되지 않거나 틈새가 많으면 위생 관리가 어려울까 봐 걱정돼요
-- 분유 탈 때 급하게 필요한데
-- 물 끓는 속도가 너무 느리면 답답할 것 같아요
+- 몇 년 쓰다가 고장 나면 새로 사야 해서 경제적으로 부담될까 봐 걱정돼요
+- 분유 탈 때마다 물을 데우는 데 시간이 너무 오래 걸리면 아기가 기다리다 울 것 같아요
 
 ---
 

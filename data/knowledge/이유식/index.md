@@ -1,30 +1,28 @@
 # 이유식 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T06:51:13.375Z
+> 마지막 업데이트: 2026-01-26T03:41:37.581Z
 > 분석 상품: 20개 | 분석 리뷰: 16,286개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 유기농 및 천연 성분 선호
-- 온라인 유통 채널 확대
-- 프리미엄 및 간편식 이유식 수요 증가
-- 다양한 맛과 형태의 제품 개발 (건조 이유식, 밀키트 등)
-- 클린 라벨 트렌드
+- 프리미엄 및 간편식 선호 증가
+- 온라인 유통 채널의 성장
+- 건조 이유식 시장의 성장
 
 ### 구매자 만족 포인트
-- ✓ 엄마의 정성 (홈메이드)
-- ✓ 간편함 (시판)
 - ✓ 균형 잡힌 영양 공급
-- ✓ 오감 발달 촉진
-- ✓ 바른 식습관 형성 기초
+- ✓ 염분 제한
+- ✓ 간편성 및 시간 절약
+- ✓ 신선한 재료 사용 (가정식 대비)
+- ✓ 엄마의 정성 (가정식 대비)
 
 ### 주의해야 할 단점
-- ⚠ 재료 맛 학습 어려움 (죽 이유식)
-- ⚠ 식감 발달 지연 가능성 (단조로운 질감)
-- ⚠ 알레르기/거부 반응 파악 어려움
-- ⚠ 과도한 당분 함유 가능성 (파우치 이유식)
-- ⚠ 영양 불균형 위험 (파우치 이유식 과다 섭취 시)
+- ⚠ 재료 맛 학습 어려움 (죽 이유식 대비)
+- ⚠ 식감 발달 지연 가능성 (죽 이유식 대비)
+- ⚠ 거부 반응 파악 어려움 (죽 이유식 대비)
+- ⚠ 과일 외 당분 함유 가능성 (파우치 이유식)
+- ⚠ 치아 건강 문제 유발 가능성 (파우치 이유식)
 
 ### 가격대 인사이트
 
@@ -246,9 +244,8 @@
 ---
 
 ## 📊 데이터 출처
-- [atfis.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbkAoG9KuGKIEEPI4k902IKV2--I3SWoM4KpG5a29ngMBN7FCJ034uo7m8fYbyZ7JdEEWLhGjOwgrvUThoHIlioQpncd5bifVArDb2UtstgFwU4WHSjwZJERcUBcx0ue3kbgHNj3J4e9iEGyJQQE9zHHp6CO9Itj1iaUi98yYaTeSOKB_PDcN4sYKvynho57FFxWqEa6HPEhgesT_EF7CPXL-afBnpckEHMA==)
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWmvV0jy9BK64TyWCowBtUQVcnAdVLeKJSMi5kNvTrvIL2LhE_L0HsbNthMvek8JSJypv5d6AM4VBgA4wJWbGO89-7A3vcxfypn8RQWaWVfwHaNVkDjK-vkoKfCmaSEnhnV4GlJzlPykR8csSxpJGOQW7JOO8NdXph1nrchg==)
-- [kingsresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWpGe0PVJ3-ZvFrH9MYwQ41Cy3m0E6lXogtihfHFddhXUwOepTfq9o0GaBxdPDqpID4y6EVKNX5KaWkaxjMcXsrgPgrcerAjZ1fWMdUUFRd1e2f64eOH9zbSFRqodE6iaCIvHKdKcudn4uHcOwHqeE)
-- [idalhealth.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTxTWZsvaVSB-xWn-IyPesQ0-kDPb7-QQAQ8SV_3Hs4FVh2CA_a_LwGGv7NG9cmlB0w7Wjl0OgxTmMBU2HvkSdkKHckSJoNpjmg-eZhfQaHL-4hdnFYRW9VHE2ij4AdBTruGWM7EUJp88GAl6mWvYMw1rQirw=)
-- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-zWjX9aFkKmfE7mdY9_zZsoz5QMImOlC9Yg74-pos-SGQ9dc9yLUuQ0fmTzvcuJO6-bVil9m3nfKawuDR2Bn1OIa_jTmnYdFYqA-xlWAdBJH6P3P4vu9YT9I7GaUUE2n0It3MMPGLaEVuuXl-iX2ao3fzI1jrOo8SvL09ZIzp)
-- [babyinnovationawards.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi-Zn8YtgHcDQbwkeQWkbZ5bBmh-9FNYD9KzXQs_7ij1W_CvEgZ82csHLH57ci6gvD62yp1xL-_PXE2rxzqNgM1x3DCsi-Xiw06cMpgtj22XhvHdKGDgE8ZkWSK0SLCLgEesA=)
+- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhrRwU4mS-ShmOm56xCFYSmnqOozotQhklnEDwVkor92ByR4O5tOEMeSMqJOBV3z9NnBqJQJtMND-RPvtH1BWVd2xC4VLx1xqQcF2X1mnkN0e-r4u-DAoetmMjxHfMEy_gEi8pSA==)
+- [farminsight.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkZwuUQooGzO1SRWmh1DDTnOe6F84KOm4YVhqOx-VDIB8chMcyI4dzNZMmt417SOK9rqcCD0o2i5SChaBBz900WdcCKo4Z7dn4m9JuSFqqDrj0kMcZxWxr_ZHksvs17MAZWNFlUZ89wweKv62UxOLyh6H2zxLL)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHD6MhaHEC4HoWOnE9c4a2rYpFjNfPL5lPwebtlJIGHBi7xmqCDWy3PKjiT9BEHRirTIII3Pejcgjrnk5apw5m_uz-HpgFruDiNsk3cI3VwX3EFPfRv3nF4FWLQmyIwBrw8bgA0ouNgZ_XOUJ11IEiU8kCYzWEkdGIk1759-msq)
+- [babyinnovationawards.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5V_7d-z1wxCp5Z_QrxbudIbwU81i4Udq-oYjXHTi4KoBwfEJai3neh5fIdQ4mz8UVh_lz2v720MykpzQhCGoL42HjKtEOZUx1A5v_EmI5rcVgqokMLxLs-1YUOoIMvQtnj4o=)
+- [lpk.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEAwyGWk5uriMUUQfl8DoOWm0HxBT8JCrukDeSxIeVBa5O1TvAq-UMDkJr0-ryzbaTyjL7EGDLzgmhZxPvnX1EM0U8VS9TvinheFXKhnbLx1MnNUHsxOT5bPy0IIkvepGFXbQO4qAzcLP1vw==)

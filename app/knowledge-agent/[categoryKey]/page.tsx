@@ -385,6 +385,7 @@ interface CrawledProductPreview {
   price: number | null;
   thumbnail: string | null;
   danawaRank?: number | null;
+  specSummary?: string;
 }
 
 // ============================================================================
@@ -2588,6 +2589,8 @@ export default function KnowledgeAgentPage() {
             highlightData: rec.highlightData || null,
             // 🆕 태그 충족도 (full/partial/null)
             tagScores: rec.tagScores || {},
+            // 🆕 스펙 요약 (PDP 모달용)
+            specSummary: rec.product?.specSummary || originalProduct?.specSummary || '',
           };
         });
         setResultProducts(mappedResultProducts);
@@ -3201,6 +3204,10 @@ export default function KnowledgeAgentPage() {
 
               // 2. 장단점 재생성 (선택적 - 리뷰 기반 향상)
               try {
+                // ✅ 최신 리뷰 데이터 병합: 크롤링 결과(top3Reviews) + 기존 상태(reviewsData)
+                const mergedReviews = { ...reviewsData, ...top3Reviews };
+                console.log('[V2 Flow] Merged reviews for pros/cons:', Object.keys(mergedReviews).map(k => `${k}: ${mergedReviews[k]?.length || 0}개`).join(', '));
+                
                 const prosConsRes = await fetch('/api/knowledge-agent/generate-pros-cons', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
@@ -3214,7 +3221,7 @@ export default function KnowledgeAgentPage() {
                       matchedConditions: rec.product?.matchedConditions || [],
                       bestFor: rec.bestFor,
                     })),
-                    reviews: reviewsData, // 🆕 final-recommend에서 받은 리뷰 사용
+                    reviews: mergedReviews, // ✅ 크롤링된 최신 리뷰 사용 (클로저 문제 해결)
                     categoryName,
                     collectedInfo,
                     balanceSelections: savedBalanceSelections.map((s: any) => s.selectedLabel),
@@ -3241,10 +3248,16 @@ export default function KnowledgeAgentPage() {
                     setResultProducts((prev: any[]) => prev.map((p: any) => {
                       const prosConsResult = resultsMap.get(String(p.pcode)) as any;
                       if (prosConsResult) {
+                        const nextPros = Array.isArray(prosConsResult.prosFromReviews)
+                          ? prosConsResult.prosFromReviews.filter(Boolean)
+                          : null;
+                        const nextCons = Array.isArray(prosConsResult.consFromReviews)
+                          ? prosConsResult.consFromReviews.filter(Boolean)
+                          : null;
                         return {
                           ...p,
-                          prosFromReviews: prosConsResult.prosFromReviews || p.prosFromReviews,
-                          consFromReviews: prosConsResult.consFromReviews || p.consFromReviews,
+                          prosFromReviews: (nextPros && nextPros.length > 0) ? nextPros : p.prosFromReviews,
+                          consFromReviews: (nextCons && nextCons.length > 0) ? nextCons : p.consFromReviews,
                           oneLiner: prosConsResult.oneLiner || p.oneLiner,
                           reviewProof: prosConsResult.reviewProof || p.reviewProof,
                           comparativeOneLiner: prosConsResult.comparativeOneLiner || '',
@@ -3261,10 +3274,16 @@ export default function KnowledgeAgentPage() {
                           resultProducts: msg.resultProducts.map((p: any) => {
                             const prosConsResult = resultsMap.get(String(p.pcode)) as any;
                             if (prosConsResult) {
+                              const nextPros = Array.isArray(prosConsResult.prosFromReviews)
+                                ? prosConsResult.prosFromReviews.filter(Boolean)
+                                : null;
+                              const nextCons = Array.isArray(prosConsResult.consFromReviews)
+                                ? prosConsResult.consFromReviews.filter(Boolean)
+                                : null;
                               return {
                                 ...p,
-                                prosFromReviews: prosConsResult.prosFromReviews || p.prosFromReviews,
-                                consFromReviews: prosConsResult.consFromReviews || p.consFromReviews,
+                                prosFromReviews: (nextPros && nextPros.length > 0) ? nextPros : p.prosFromReviews,
+                                consFromReviews: (nextCons && nextCons.length > 0) ? nextCons : p.consFromReviews,
                                 oneLiner: prosConsResult.oneLiner || p.oneLiner,
                                 reviewProof: prosConsResult.reviewProof || p.reviewProof,
                                 comparativeOneLiner: prosConsResult.comparativeOneLiner || '',
@@ -3809,7 +3828,7 @@ export default function KnowledgeAgentPage() {
                       questionId: 'final_guide',
                       content: `추천 상품들을 잘 추렸어요! 🎯
 
-마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 [최종 추천 결과 보기] 버튼을 눌러주세요!`,
+마지막으로 추가하고 싶은 조건이 있으시면 자유롭게 입력해주세요. 없다면 아래 **최종 추천 결과 보기** 버튼을 눌러주세요!`,
                       typing: true,
                       timestamp: Date.now()
                     }];
@@ -4299,6 +4318,7 @@ export default function KnowledgeAgentPage() {
                 price: selectedProduct.price,
                 thumbnail: selectedProduct.thumbnail || selectedProduct.image,
                 reviewCount: selectedProduct.reviewCount || 0,
+                specSummary: selectedProduct.specSummary,
               },
               rank: selectedProduct.rank || 1,
               finalScore: selectedProduct.matchScore || 0,
@@ -5002,7 +5022,11 @@ function MessageBubble({
             {/* 직접 입력 버튼 - 맨 아래로 이동 */}
             {!isInactive && !addedCustomOption && (
               <div
-                className="w-full py-4 px-5 relative rounded-[12px] border border-gray-200 bg-white hover:border-blue-200 hover:bg-blue-50/30 transition-all cursor-pointer"
+                className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                  borderRadius: '12px'
+                }}
                 onPointerDown={() => {
                   if (!isCustomInputActive) {
                     activateCustomInput();
@@ -5042,7 +5066,7 @@ function MessageBubble({
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-500">
                         <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      <span className="text-[16px] font-medium text-gray-600">직접 입력하기</span>
+                      <span className="text-[16px] font-medium text-gray-600">기타 - 직접 입력하기</span>
                     </div>
                   )}
 

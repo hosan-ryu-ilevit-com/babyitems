@@ -1,27 +1,25 @@
 # 젖병소독기 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T07:04:13.672Z
+> 마지막 업데이트: 2026-01-26T03:29:33.542Z
 > 분석 상품: 20개 | 분석 리뷰: 0개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - UV LED 기술 적용 확대
-- 스팀 및 복합 살균 방식 인기
-- 대용량 및 다기능 제품 선호
+- 스팀 소독 및 건조 기능 강화
+- 대용량 및 다기능 소독기 인기
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 살균력
-- ✓ 자동 건조 기능
-- ✓ 넓은 내부 공간
-- ✓ 인테리어 효과
-- ✓ 사용 편의성
+- ✓ 뛰어난 살균력 (99.9%)
+- ✓ 자동 살균 및 건조 기능
+- ✓ 다양한 육아용품 소독 가능
+- ✓ 간편한 사용법
+- ✓ 다양한 디자인 및 색상
 
 ### 주의해야 할 단점
-- ⚠ 작동 시 소음 발생
-- ⚠ 내부 용량 부족
-- ⚠ 건조 후 물기 잔존 가능성
-- ⚠ 중간 작동 시 초기화
+- ⚠ 상대적으로 큰 부피
+- ⚠ 일부 제품의 높은 가격대
 
 ### 가격대 인사이트
 
@@ -243,9 +241,11 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhDU1Xx1--AHwHenP8jJbC9v5LMs8Rd_Sq2XxaGCD1cwSQwjLQdtDMM1d2Z79D8NDkplC5rsIGi-OREY4_UBHKcbQUbMYOz2-tuXczV-3YcNnxll3nCM08CI7fKrLr4OgAxzHmVWR5Ba44AtVQ7KHumjllOnXLLqDRNXz7V2oLrPK8vmsPbqKz)
-- [abc-d.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF34MMbiI6I-ajxWz_e8QdeIYMVNNtlyZqZMvllVXYY13JfuxiCt1TYtXr6LXfvBGnmEoEVJiyWHvS8Btl2oyK_mQ6LpBzhrgqNZwPuRt4lPJzyKm5_q8pfF-hS7LFmx4VJ27p7U7v474I0AmhF2snLiA7jnZ3-Fd-d3eBLZLNPzgeiM2Gc2YmmM8Zi_bqH)
-- [kisti.re.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2cZU9jZOoKI1Ke9GoosaCkKztRNxMjPMdCFhGN8oqtFzF0klp7vMoegQe-gl9CL9Xxr7tfwar4KY5pjBLPwAvPYhUB3YnWL-8WyLNmYPB_EmDOWv5rAmOJQ2vtee-ZQE0sGyQISMYbpptOTetZyNKfS2spYcoemD0S0vKmDnC70KD1tZUJC_XK7WcDrZkE2JTMgcdvfL9H5-jEPg2)
-- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEldDKjyO2ZiLq_uPefvC7MFDrie5zQ6AnFr9ltoDc5Y0Ny0kuMgdnY2bG5I1-YoV5TSTo4qtgaA4hsP5PhD0KHbegaA_1H-pAyIqlaXWyYvzjFBZJIdqitMOpUb9OCXBunWkxBxhHMgTNsqjpoEtE=)
-- [elpsip.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvXSbjwGLDG4J4v83QrTRUHeXq_NLqPPD_XPL6Sq91UT58zXn0teyH1XQDKhBseI47YTbWK4SRkSa0XVv3ldDbVUjMzEuFsL0zXC-AMKIzHJyn9zjZY9wmYHwduuU5j1ZP_0YnhRPl)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbIV_9q3A-afHIqqDTc5ozDr2vtb83N0zfskzmwvaWo_kcVX326-4bp1fAYa5kd291_ADjRbhjaOEErz4LQd75dIQlBFB1zal8nWX-STIx5GCb-lUL2o6epgSMi7I4GejCS0DXJ8cOcYDt89RetrfO3awjucXzGMdmyKr_4TUwMRs9g2KWf2DPdHnleEiTS5gBCabNoyy-GEnGBzgagqj0EckFwG_9gCmryw==)
+- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHm6ZsPHGkCo4gff21mWn6dlCWQoeK71ETWQ_6CmgdNhH2tdu4M5q36XbsW5AjalncDpVTf-NRKOchGAf2yf4rXtCAA_DOUx5hSmjrY3JkESf2Ysp4T_Vnyu_fVZ0zKSsuwTBmHknt2izqU0MtA3XRF7l7UWStNlvT5sPYAritp9aETkG1xKouG)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUX1Ohk-TcCzSsiVQxFmuC5-2b1n5kQBbEDd8_KKddXUG7RzfWAzEl95lDAKo7WndhBToB067qh-Os3L5vlw7XSdAnLOgLgAJH4W1bKCkmhK3VrDl00F29hBkqjR10aOAP3_PzK0U=)
+- [fetv.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGA-dAcEwXcvMeaESF5OYJkgPszesl54v2xY0fXlFdsVrimeS6AEqNoi5mS2bZLGVoln6NXR3DpMp3jSPj6hpqeUEH1sFZAcOroNJ8iX0krx5t8Lrbx44f2HomBdHtwxIaQjF5DbqmH8I7ovM9VMJY=)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMY0oTbbHaUPEjE8by0-qXZArYCh4h0XEhtMgRXMaxLt0sF5y9i5V3w7lFUWqW8O-hAdcj-_piGe8NEQysDWk8IAU56jPh-5IUcitZsFau0ReZO4L-YgC1O-NvbOJ9aLWPsMqyCkpwCKNR2ttBe5SaA8bzfdhIVWcYfN8jbu-CGcvDEpYEibQR)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCFhVj0sEsgl6TVYNShLDD1fh3hS8LLJ4S8_Ry8_gmrZkcHT3hWkXxvW7Peu-fwhmxrmedqWxVtCsnvu8fzuLYlrczjUbeLP_A-HBj6Gzx_GufUuL-yXyy92pppKs1hvX3-mTWjl43bUcS_QRPOPZA6PlWANAlQl_QI0fXJ_5LUBEdQbEeZoUIz_mAe2WcoMIFcRo=)
+- [ajd.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlA8U_185NcAOyugEbU1u16rXKNA9mVpFl0Nmd-BC87dL_x51eI7XSvWlEG_1UgbAazICOqsluGkoIsbaR7eWMRseY-5ZTf0PNBkKFdg_d6L104PImOUhzjzHBgUhuj-QSV7Cp-IkSyFgDApO8IabT24cjqqMgL4Mzwgfxt8LTAe-_nkvBS27xtSpJgGNxYGciKbnVki0=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFE3lGCSi2jREvVx4SeLLCQjRk0RLrIIfpVDqioJYtups_Yzgh-nvFyO2k_zyMndDA3xmdGSN19k_At6dbd76QP_U9PYLcq55UKb31hZA_AhMFXAsn-YWhGI6bpm4NagvyPGxp6up05_bSBcow0sMhWAX3kCS5t0KfNm0vzume5)
+- [brunch.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8a9JLdYrazqQP96ueO24zOwXIebVeN1c_Li-ndRRZcPPbGkfl47VveTLJvL3Wpu2LBaN6QLf8oyaBWZ36prCUN_663lHomsV8Qxgq_88MV9QCl0h-fttt4g==)

@@ -59,7 +59,7 @@ const BABY_CATEGORY_ICONS: Record<string, string> = {
   '유아치약': '/images/카테고리 아이콘/유아치약.png',
   '유아칫솔': '/images/카테고리 아이콘/유아칫솔.png',
   '유아변기': '/images/카테고리 아이콘/유아변기.png',
-  '손톱깎이': '/images/카테고리 아이콘/손톱깎이.png',
+  '유아 손톱깎기': '/images/카테고리 아이콘/손톱깎이.png',
   '유아세제': '/images/카테고리 아이콘/유아세제.png',
   '아기체육관': '/images/카테고리 아이콘/아기체육관.png',
   '바운서': '/images/카테고리 아이콘/바운서.png',
@@ -157,7 +157,7 @@ export const CATEGORIES_DATA: Record<string, any> = {
       "code": "BABY_005",
       "emoji": "🧼",
       "children": [
-        "아기욕조", "콧물흡입기", "체온계", "유아치약", "유아칫솔", "유아변기", "손톱깎이", "유아세제"
+        "아기욕조", "콧물흡입기", "체온계", "유아치약", "유아칫솔", "유아변기", "유아 손톱깎기", "유아세제"
       ]
     },
     "신생아/영유아 완구": {
