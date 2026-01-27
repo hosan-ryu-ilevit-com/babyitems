@@ -1370,20 +1370,19 @@ export default function ProductDetailModal({ productData, category, categoryName
                     return [...withoutQuestionId, ...fromGroups];
                   })();
 
-                  // 추천 이유 문장 리스트 생성
-                  const recommendationSentences = [];
+                  // 추천 이유 문장 리스트 생성 (중복 제거)
+                  const recommendationSentencesSet = new Set<string>();
 
                   // 1. 내 상황과의 적합성 설명 (있다면 첫 번째로)
                   if (initialContext && contextMatchData && contextMatchData.explanation) {
-                    recommendationSentences.push(contextMatchData.explanation);
+                    recommendationSentencesSet.add(contextMatchData.explanation);
                   }
 
                   // 2. 충족된 조건들 (shortReason 사용)
                   hardFilterConditions.forEach(cond => {
                     if (cond.status === '충족') {
-                      // shortReason만 사용 (두 문장 evidence는 사용하지 않음)
                       if (cond.shortReason) {
-                        recommendationSentences.push(cond.shortReason);
+                        recommendationSentencesSet.add(cond.shortReason);
                       }
                     }
                   });
@@ -1391,7 +1390,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                   balanceConditions.forEach(cond => {
                     if (cond.status === '충족' || cond.status === '부분충족') {
                       if (cond.shortReason) {
-                        recommendationSentences.push(cond.shortReason);
+                        recommendationSentencesSet.add(cond.shortReason);
                       }
                     }
                   });
@@ -1399,10 +1398,13 @@ export default function ProductDetailModal({ productData, category, categoryName
                   negativeConditions.forEach(cond => {
                     if (cond.status === '회피됨' || cond.status === '부분회피') {
                       if (cond.shortReason) {
-                        recommendationSentences.push(cond.shortReason);
+                        recommendationSentencesSet.add(cond.shortReason);
                       }
                     }
                   });
+
+                  // Set을 배열로 변환 (최대 6개)
+                  const recommendationSentences = Array.from(recommendationSentencesSet).slice(0, 6);
 
                   return (
                     <div className="space-y-4">

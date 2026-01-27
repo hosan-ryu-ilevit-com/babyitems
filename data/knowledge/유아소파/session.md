@@ -1,5 +1,5 @@
-# 세션: 20260127_063055_4q3v
-> 시작: 2026-01-27T06:30:55.407Z
+# 세션: 20260127_105528_v6gx
+> 시작: 2026-01-27T10:55:28.820Z
 > 카테고리키: 유아소파
 > 카테고리: 유아소파
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아소파 시장 현황
-- 인사이트: 유아소파 시장은 전 세계적으로 성장세를 보이며, 2024년 365억 달러 규모에서 2034년 742억 달러까지 연평균 7.6%의 성장률을 기록할 것으로 예상됩니다. 특히 아시아 태평양 지역의 성장이 두드러지며, 안전과 편안함에 대한 부모의 관심 증가가 시장 성장을 견인하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_3xAWTAoW_mp21uYnviFeDCRsQ2rHqszJZ2PufTCqYS4SblBu0sxY2qTjQgUuK3mWRMyjqHrUL93-W-f40-QxeFYnjPzrVcVOaKq6_6sAAszknxvVX03cX0ktx1MrUzc7cnjTwUm8vCvYsWVSqXmmk-tQkPxuramQV-Mp51lfMQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTnEkdvuYWQB4tCPlmarJJqHjGUeXAK5J7tJdfPZn_4Wsf_EHNbo2jig-lT72DzC78WA4zhMtZaiTH_U4R83mEcMKTurVs74EJCBQ3puqrwofiWFuLL4jWq7EobIgC3u0ECQoGaSBr4wH1VD1hSWljIXDXv-c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVoi9DfqQ6yi-eyyVgxYNYBi62mcTdxibJ2JVHH6YssM1aKkAF1BKLOU3XFKYrGKisbYHoVqVuj-l1Dxv9qxEihJvIk9AMr9LQNPVkHxm8Tf8hJ3NzrzNsn5v2gu8-ZvgWppIOoBQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOptr3nf6QqXS6LCSIdM1D8Gz6NqM92QfkzmVAWGBVvsjSTLYSjs2kbwDFSZZv6G5y9z3b1POLXxOrVELn47oqTIsTusXSJ6ClE2t5PXVRFKwhDL3pP7z0BqYWCLVFT1xHuJISPum_DD8dNawrOYrjpA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-eixwQE2D1PRcMW5F4Y3Z4y_bV1hdI3Hc5nqdc9N_1XnJPPOVdiGJSTHyuyJ7paON6-CWAipt5q7ii61S8t_P8YEqdgdhTg8MnKA41QBa_j4ionNe4KrEGFhNsar6VnYNI9t2iHU=
+- 인사이트: 유아소파 시장은 글로벌 아동 가구 시장의 성장과 함께 꾸준히 성장하고 있습니다. 2024년 글로벌 아동 가구 시장 규모는 365억 달러로 평가되었으며, 2034년까지 연평간 7.6%의 성장률을 보일 것으로 예상됩니다. 특히, 아이 한 명에게 쏟는 관심이 커지면서 유아동 가구 시장의 비중도 확대되는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPvblpFI0EkNgFND-FR9UQ7pOX7D3BUo9OxVaDP4jsX9cSAJiHTDbIR4pJiKO6_kDFyLp1JFTE8x1lSGam-qTR_K53zq73dVoZO-b5jkQdTLthZiK3BoPhzf7axt1lNs1898by7A47uoEzdfud8LgXAnfGFMQrxwa4W2jknErS7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzqFNP6GgDmHi77Tm9ZfYuBH339jLUxclFHRpKZ2AITKtu6YfQKV7bp33cibhXmhpIhoF_Lh7d1f7G70p_--8Ihx2IqT3AgcwVPIQp73BxWTJeTKb-gMjJFcws1W6r5GtMo3aWPdf_7eIq2PzmEYxRO_i-9uF0wZDWua3cyBTE2UJUx0jWsyEryPK6O3lFMg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3PPOd0nKGzy6KdwbnlnT1-SwTs_aCqkBRbVHiHt8lnfrDiTnhc-rRKb3MXYOr3QOoTiEU07_m5nv4DYgvNy4yxTOFio6iFK_iG-eoLuxg7c0cvm0mtuyvdPX5WQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkTymbZkdc86FqVyn6-5WP8NIlpEXRz4VvNsjvi6kjbdgVB6Y7OiAWSFfOC6EgXaiLHmf6x6V7ivqIkFIVL23euZfXBcggajQF2SW8GWUzVfmmECeR4Ukf8ZR4xKL7WKuQiX85abSHVWz3lTnJhYkCSGRRuWRUYGUcMWsgTb_tlW-bYKoF7eXjXOWfUJi55g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5OjIGU324qrIczKYsdPsYf7UOrKyLhxw8SdlziS8X84iiBfB2S8LXOzmhyNRfh7O7uBpoj03bXk9AdpJohc84BgfYNy9HiQyQHXgchQ4DxQYHKN7LelrNK23SV2_C5h97W-Se31ZBdevtlOJVeY5sUWi7BVKj6pu2tBkjFGg99Gh0Bv0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1D_EqFu0QT8Fg9_r88St-J5NNl60pfUgcxUlIPcJ9bwC80b7vLv0SSsDtvGQJxOQ-Rq5Z1gHgDYhg4Kek5UaqAhqxbm5df7RBJVHbU2oCZGiDZsOv1ESe2q1V3Y0HFXz8381KCcfJj1e3ldKgY5dtjSwaTNU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYvfsuMCVZc3ThvSXRQSCEz7h_MopcTUoAfMugIbyWIUKhFGijC95yxfRX7NqkfzQWzw1ao2GrTL8t0OgI_zqcXa8fLGS3KXtXLyPYPRViulw7W8kRZpqKGXCweHPriFqmv98NvGQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc98Vhhr3zaGj-zUPcXojrxQ_R4y98UYP0ugn6lip5kNxuzi0E4kA7DuqbjC0t8fogysZ8EDv5DQTe1K2Q5jQq3_FQCD7KFMeLpLUTew46_Ug0bEuCW5gDjOk=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이 피부에 직접 닿는 만큼, 어떤 소재의 유아소파를 선호하시나요? | 패브릭 |
-| 유아소파의 형태는 어떤 디자인을 선호하시나요? | 2인용 이상 |
-| 믿고 구매하고 싶은 유아소파 브랜드가 있으신가요? | 상관없어요 |
-| 유아소파에 특별히 원하시는 기능이 있으신가요? | 세탁 용이성, 친환경 소재 |
-| 예산은 어느 정도로 생각하세요? (평균 12만원, 8만원~15만원대가 가장 많아요) | 8만원 ~ 15만원대 |
+| 아이 피부에 직접 닿는 만큼, 어떤 소재의 유아소파를 선호하시나요? | 포근하고 부드러운 패브릭, 친환경 소재 |
+| 유아소파의 형태는 어떤 디자인을 선호하시나요? | 1인용, 놀이 기능 소파 |
+| 믿고 구매할 수 있는 선호하는 브랜드가 있으신가요? | 일룸, 뒹굴러 |
+| 아이의 편안한 착석감을 위해 등쿠션은 어느 정도로 선호하시나요? | 적당히 탄탄한 쿠션감, 푹신하고 부드러운 쿠션감 |
+| 예산은 어느 정도로 생각하세요? (평균 약 12만원, 8만원~15만원대가 가장 많아요) | 8만원 ~ 15만원대 |
 
 ---
 

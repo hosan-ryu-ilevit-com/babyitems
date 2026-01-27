@@ -1,5 +1,5 @@
-# 세션: 20260127_014002_tot5
-> 시작: 2026-01-27T01:40:02.533Z
+# 세션: 20260127_110535_r4tm
+> 시작: 2026-01-27T11:05:35.783Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 2026년 1월 기준, 하기스, 팸퍼스, 페넬로페가 인기 기저귀 브랜드 상위 3위를 차지하며 시장을 이끌고 있습니다. 전반적인 기저귀 시장은 출산율 저하의 영향을 받고 있으나, 고령 인구 증가로 인해 성인용 기저귀 시장은 꾸준히 성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpUnwRnmDnmboJzYV9K_-f3Mlo3I2-cS0Lnvrx8e-JCejk5nN67J_JPfVFbWj0_klR3i4ObklpOWdi1bjgNGUFZM1Z2u7EEkMS3Zw5_IesJ6fp_H8EnDGKljt-7RmPPjYaYCkRN1dp-b21J3ogMWTOI-2P, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnwILXnkuDh8mBvU_dAkR7XWlwPNFRo4ge9AroBbU-4TH8IS4nClrhRuIPxjuIpq9t1NuT-Udla4CKY1jnOX-uMPeQYlCTN1lcmfgknz_MjTLSurpoHc3agtIcU8CRFs_eSKod2VDVT5IoaQtpS71020JeMu7MKK2sU625UWds5jU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0z474Dcx75O0SzRRLA8mVmAnLAl1slO-O7AAETs6y48HJCAJ1M3BSYB11x3VtZjxDjFVZDbPHsZw6mrA8nf-ctPfcm0b7tzxL4O_0Sm0N9TSYb_wXbwobSFIPFOFBkwLiVHDxZ0BMp4siUiBMRrYW-HG8VWWTzw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhFyBKmoCV1B-5iW5ZVOM4IzpW7TTwp4BuXiU8rKkFa5n1K1gEt1AFckdX_tg0F8qs3UTT9wI2rBx616yV46ooUvyJAYU3ylRIfbThQe-SP57GXH0oNDud2G18Emq_IKEUQjTEHNchT43uG_FComM_czGuhZ0_75OLiQY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4QgCS4EzSodZe2IFHXZ_D5QhyPts-qr5bYphMaf-22JyU2_rCsusRfOUnjQXy2bFG70HWVhBHeV0fd0vERlTuxvES2iNka85RIQh2ZbivYf3BnFshAymtIu8-6h50wttXxxvTtgUg_Ds9ijIgO2Y90UbIkqfmY3Uf8aNxzg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMJVeXRtewk7FjwD15dyeAos2eRw5cQNXcKvhucfK3-UH0ytwP5h4X4ruaqZLd7hYCA73Ht5ETANUSiGI6TzlUe79XZeDxld0k4M_g8Ldtg5RMxMBFfbt0cIbjGRLTVQwlHQqIFcuM27UjAmPkL_hfz7ELlvN9jPUrVuVPr9cexIA=
+- 인사이트: 글로벌 기저귀 시장은 2025년 693억 3천만 달러에서 2030년 924억 7천만 달러로 연평균 5.93% 성장할 것으로 예상됩니다. 한국 기저귀 시장 역시 2024년 17억 달러에서 2033년 31억 달러로 연평균 6.1% 성장할 전망입니다. 저출생과 고령화로 인해 성인용 기저귀 시장이 유아용 기저귀 시장을 추월하는 등 시장 구조에 변화가 나타나고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-VE5E0ionhM2KBx_GqEEZA0GMajjzawLsb20WWR0bCygiaOu6biLEYPx1IqCVVOBzEPwdPHqkSbOy3hcRC0uxnH2kobohuEJnVoHTvcb19iFxX7YImMlma-exH6M4eNwgi861YcMpm_nFcldAAhX977fcsoGpG9DC7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1q0MOksF1ha6qg2iFyB0FoMdTDpFdIiCiSC11Rgp612jY_GZTQhnuVcqXIja4HlvyKtVwTycVlZaOY4Y9jkWfiZSS2igMsK7XyBoC-2Xjp8-ScgwDouhFV3kvhMsQvtBuPNZLga5_w33A-zzEJRk1EW9rIU3gJ9E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpnbEA8Mj6nJME2x0v0oNJ0S_sGkpE8XKZM4vihiAI-W0utLuRopr43OuR1qth_XURLcTO_BLOvgrnyKDM_H95L9ziDXQbxtJTw0tJ0So37AKTsV-6-TxWcxZa3hPizZ7ZKdASKthpj7g0Ek8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-SKFr993HBMc57SN0KYoAIsd0Ect7Ocq7pWz5rVR_UtBJ1OAaKxOagVyrHhJRuYrIbsP6Vr4USBohS3e65g5zSLijOAx5e_PFjn0_knuQ1HBLgtP5ETEw8lO0py1Y_F66HjYc1UPCGVk50U7co14HYL27HEKGmg0EFtusgSBmE2k1srmUk-fBnPZJDGRXWveUUI8y09dAGV0K_BSQfdZg8kFNgygMzq3bE5WYozqSA-xSJaaHxqZk1A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGa3FLk8x21wv71DEXhR2i6vwytXlwDyHhI7OmJhdP94EK6K_bcdeGFNglToJDfKnpT1O8es8QU9UqF26WjBRt0wZoX1RW1NE75W0f1SQgPVAuT5Q6M1r6gyKwwEJG3T-B3OhpfavoUF4bPqqhIgBLH6f0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeFLy7WVW4XC-9i52l1WZnRx60MlEAz_LfiBuoMKkKBObe-kI7Hj8iF3ZcRb199GIcQhAgg22FPQbwkZMBJuWireUzi20RhRKH0Edw5B8vtkV7ZpqbEiogsfQ4_10uf5qc3XhPBvfhuui2EJJaHzNHPpMKRcYwvGEY_6dR8yHO4y5YVO6nnAxxxZrPC-Gr7CwF8LAcZqNdpN-B6uq9_Sg_HpdKxW-eBYufjCCm6eJNVTetwmAI2HHZtzD29hufCYpery1NARpFKIcUb7yw1CDMWuTJtLINPg5BZE8vKhlj3IgUnMnx98pWyKzKAl8_nGmcft8ApysD1WgekzP3XxLubHcMNQOB58Egc97Pi8Y=
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 몸무게는 어떻게 되나요? (사이즈 선택에 가장 중요해요!) | 신생아 (2.5kg ~ 5kg) |
-| 아기의 활동량에 따라 어떤 형태의 기저귀가 더 편할까요? | 밴드형 |
-| 기저귀 소재에서 가장 중요하게 생각하는 부분은 무엇인가요? | 통기성, 부드러움과 피부 자극 최소화 |
-| 소변 흡수력 관련해서 어떤 점을 가장 중요하게 생각하시나요? | 샘 방지 및 오랜 시간 유지 |
-| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 4천원, 2만 2천원~4만 5천원대가 가장 많아요) | 2만 2천원 이하 |
+| 아기의 현재 몸무게는 어떻게 되나요? | 소형 (4~8kg), 중형 (6~11kg) |
+| 어떤 형태의 기저귀를 선호하시나요? | 팬티형 |
+| 기저귀 소재에 특별히 고려하는 점이 있으신가요? | 친환경/생분해성 소재 |
+| 혹시 선호하시는 기저귀 브랜드가 있으신가요? | 팸퍼스, 나비잠, 모모래빗 |
+| 예산은 어느 정도로 생각하세요? (평균 3만 7천원, 2만 1천원~4만 8천원대가 가장 많아요) | 4만 8천원 이상, 2만 1천원 ~ 4만 8천원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 84개 (전체 84개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용 - 63,870원 - ⭐4.8

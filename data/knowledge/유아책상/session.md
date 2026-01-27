@@ -1,5 +1,5 @@
-# 세션: 20260127_021004_5pnx
-> 시작: 2026-01-27T02:10:04.255Z
+# 세션: 20260127_104627_t96d
+> 시작: 2026-01-27T10:46:27.479Z
 > 카테고리키: 유아책상
 > 카테고리: 유아책상
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아책상 시장 현황
-- 인사이트: 유아 책상은 아이의 성장 발달과 학습 환경 조성에 중요한 역할을 합니다. 최근 유아 책상 시장은 아이의 성장 단계에 맞춰 높이와 각도 조절이 가능한 인체공학적 디자인이 주목받고 있으며, 안전하고 친환경적인 소재 사용이 강조되는 추세입니다. 또한, 아이의 흥미를 유발하는 디자인과 스마트 기능을 접목한 제품들도 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrdprR5xooIJOO6zCTgyZ6ytiBcXUQv8VO8xjw8gpRNO-_Q3qj7kwtimqX0B40FiUh-IkDC9tAJMPkz1lcyImuZevEDGz1aWorfq2PAo54zYRTq-kBlM7o8MQMFMR90ddHegD3HQ7OhXvFX1lO65MSBC9S1c0yB2Xz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFu2Fp2jHbMKhxR1UYAD8Pp7LIMhYaaC6erPf9pnrA2I_zfexZUjo_yE3ZCu8lwaSvA05SXCDPeO0Et4jQfSnsJUzFW9HuEiv1YC1agsxyEvOf8t6GYHOSTCLNj_jFjR8XjoIGcHmpzJFaIYgiK7Q7qMfZo7Ko=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEMZNE84XxFsBsad4G-BUQ4P5b1Elx23BMMeWNfK08WkYgSEDIGSLHpyycFpfwbZ5NQ4ZUoacqBTVoekUDR-un_q5_C-FGxTLXykqNB5i9cxZWUgZ6cDp5F28wgLkeMX09jz3_t5dGUIxLlicw6Q6i1-GNo3MeKfZYw0dImtsDC0yi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnUJBXwEMhbzlEBrTq8pBsEobmLMdBbzUCZArAgRvWUab6WCWL34B4RZ-e1o7DfLtlPTGhzraaZwLFwZcX2kASPvls4DFPul_tiwzKP6ugIExr21DncL5fwulu07UV9mqFYAsXacsTYCqH3d9wRyXsbjMtVQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5orBgFc9s8c9oiq8RuKSX-szDRPO3TKpDqOTyVwkC_grvLCclUeHWP4xdP4Cwl_U8qHz6WxLkrBe_mz6vmmWF3regNOGE2PdFo0Sz-z9yUrzB1jYL9mj67nPuPvarNNCY-QZiGgUwDpi5CmIt
+- 인사이트: 유아 책상 시장은 아이들의 발달과 안전을 고려한 디자인이 중요해지고 있으며, 인체공학적 설계와 친환경 소재 사용이 트렌드로 자리 잡고 있습니다. 또한, 아이의 성장에 맞춰 높이 조절이 가능한 책상이 인기를 얻고 있으며, 수납 공간 확보와 함께 아이 스스로 정리하는 습관을 길러주는 디자인도 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEir3OKoM0wbY0sodG_BtRu1ctMJvBFQNDu7DJH3TlH78hw975ebsvLEnOzszhzye5_9EdWyLSbiPa8-SwRA7OjQFw_nH17_r-g5ING8edeF2AVhQLN2bdDwl_0EBTk9n-y1N8hz-WshjY2W8ii4l41pelhUo890sc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFADndvJ9wC-CG_KPZvqRjek2gg1gp4-Icjn8hMW1HZb8xrYpHBnfQlw3ytdcnAanHR5mQd8IrECVX7-jXDoWvv9f-BXGD5wMKnnPjZHZ91bK2owZXhLsByy9ix5-rQ3xAHJ3YE6MWkyxgKWf-Vi6JZ6Ss=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGeyygQuSewgeUoTR8fLOth-cNM7ix3GSekgEyO_gsmqSnIfDt5QDSLTmYA5G-lEU5qrlPEa-elg2vnRhsuEQiDS0mGAbuwFzDpjsQEjmTPaIKD6haQuyW0FeHu3pMeTX4AWF3nxcAlrAInw4j45t7vcDQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHHgULGQcI9v4PuM5HuD349O0mOJ6QckfhCdyG4_X3gUbU9_Y2Uzzm-5gMGAY2e86h8OHe5dZWTUN2xl1p5g87P9oGjObYogMX6nfqpkyP5NgKl9oUac70RHQCV3IhM4IK7fe5cnA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg3IsAksbFp7rw9jq9xF0QZmXdg-i8n_KpMpSW-admcBgMZJLkOanXHTvsgtT3A8LlNt-ei_eu00pNrjOZ-QS_24LfZpSdD9a36iIJVJLvnmORBW77oBmXWFUoszV48mnBJ-vcEMk=
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 성장함에 따라 책상 높이 조절이 가능한 제품을 선호하시나요? | 높이 조절 가능 |
-| 책상 소재는 어떤 점을 가장 중요하게 생각하시나요? | 튼튼하고 관리하기 쉬운 소재 |
-| 책상에 특별히 선호하는 디자인이나 기능이 있으신가요? | 수납 공간, 각도 조절 기능 |
-| 혹시 선호하시는 유아책상 브랜드가 있으신가요? | 이케아 (IKEA), 시디즈 (Sidiz) |
-| 유아책상 예산은 어느 정도로 생각하세요? (평균 11만원대, 7만원~14만원대가 가장 많아요) | 7만원 ~ 14만원대 |
+| 아이의 안전을 위해 가장 중요하게 생각하는 책상 특징은 무엇인가요? | 모서리 라운드 처리, 견고하고 안정적인 구조 |
+| 아이의 성장 발달에 맞춰 책상을 오래 사용하려면 어떤 기능이 중요할까요? | 높이 조절 가능 |
+| 책상 주변을 깔끔하게 정리하고 학습 효율을 높이기 위해 어떤 수납/활용 기능이 필요하신가요? | 놀이/학습 겸용 다기능 디자인, 넉넉한 수납 공간 |
+| 믿고 구매할 수 있는 선호하는 유아책상 브랜드가 있으신가요? | 야마토야, 시디즈 |
+| 예산은 어느 정도로 생각하세요? (평균 약 10만원, 6만원~13만원대가 가장 많아요) | 6만원 ~ 13만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 43개 (전체 43개 중)
+현재 후보: 63개 (전체 63개 중)
 
 ### 후보 상품
 1. 리바트 꼼므 유아책상 - 124,410원 - ⭐4.8

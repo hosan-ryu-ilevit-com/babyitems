@@ -3932,7 +3932,7 @@ export default function KnowledgeAgentPage() {
                         id: loadingMsgId,
                         role: 'assistant',
                         questionId: 'followup_loading',
-                        content: 'AI가 추가 질문 생성하는 중...',
+                        content: '추가 질문 필요 판단하는 중...',
                         isLoading: true,
                         typing: true,
                         timestamp: Date.now()
