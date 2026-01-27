@@ -5181,7 +5181,7 @@ function MessageBubble({
                     <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
                       showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
                     }`}>
-                      비교표로 한눈에 보기
+                      비교표로 보기
                     </span>
                   </div>
                   <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0 ${
