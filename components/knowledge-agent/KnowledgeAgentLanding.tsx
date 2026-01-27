@@ -619,38 +619,40 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
       />
 
       {/* 우하단 플로팅 AI 버튼 */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => setIsAIHelperOpen(true)}
-        className="fixed px-5 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg z-50"
-        style={{
-          right: '16px',
-          bottom: 'calc(16px + env(safe-area-inset-bottom))',
-          background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
-        }}
-      >
-        <motion.svg
-          className="w-4 h-4 text-white"
-          viewBox="0 0 24 24"
-          fill="none"
-          animate={{
-            rotate: [0, -15, 15, -15, 0],
-            y: [0, -2.5, 0]
-          }}
-          transition={{
-            duration: 0.8,
-            repeat: Infinity,
-            repeatDelay: 2,
-            ease: "easeInOut"
-          }}
-        >
-          <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
-        </motion.svg>
-        뭘 사야 할지 모르겠어요
-      </motion.button>
+      <div className="fixed inset-x-0 bottom-0 flex justify-center pointer-events-none z-50">
+        <div className="w-full max-w-[480px] relative h-0">
+          <motion.button
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setIsAIHelperOpen(true)}
+            className="absolute right-4 bottom-[calc(16px+env(safe-area-inset-bottom))] px-5 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg pointer-events-auto"
+            style={{
+              background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
+            }}
+          >
+            <motion.svg
+              className="w-4 h-4 text-white"
+              viewBox="0 0 24 24"
+              fill="none"
+              animate={{
+                rotate: [0, -15, 15, -15, 0],
+                y: [0, -2.5, 0]
+              }}
+              transition={{
+                duration: 0.8,
+                repeat: Infinity,
+                repeatDelay: 2,
+                ease: "easeInOut"
+              }}
+            >
+              <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+            </motion.svg>
+            뭘 사야 할지 모르겠어요
+          </motion.button>
+        </div>
+      </div>
 
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
         {/* Header Bar */}
