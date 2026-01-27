@@ -68,6 +68,7 @@ interface TrendAnalysis {
 
 interface QuestionTodo {
   id: string;
+  contextIntro?: string;  // 앞선 선택 기반 연결 문장
   question: string;
   options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
   type: 'single' | 'multi';
@@ -199,7 +200,7 @@ async function repairJSONWithLLM(brokenJSON: string): Promise<QuestionTodo[] | n
 
   // 2차: LLM으로 JSON 복구 시도
   const model = ai.getGenerativeModel({
-    model: 'gemini-2.0-flash-lite',
+    model: 'gemini-2.5-flash-lite',
     generationConfig: {
       temperature: 0.0,
       maxOutputTokens: 2500,
@@ -958,7 +959,7 @@ ${negativeText || '(없음)'}
     const startTime = Date.now();
 
     const model = ai.getGenerativeModel({
-      model: 'gemini-2.0-flash-lite',
+      model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.2,
         maxOutputTokens: 800,
@@ -1351,7 +1352,7 @@ function generateAvoidNegativesQuestion(): QuestionTodo {
 }
 
 /**
- * 필수 질문(예산 + 피하고 싶은 단점) 생성
+ * 필수 질문(예산) 생성
  * - 맞춤질문과 분리하여 항상 생성됨을 보장
  */
 async function generateRequiredQuestions(
@@ -1359,14 +1360,14 @@ async function generateRequiredQuestions(
   minPrice: number,
   avgPrice: number,
   maxPrice: number,
-): Promise<{ budgetQuestion: QuestionTodo; avoidNegativesQuestion: QuestionTodo }> {
-  console.log(`[Step3.6] Generating required questions (budget + avoid_negatives)`);
+): Promise<{ budgetQuestion: QuestionTodo }> {
+  console.log(`[Step3.6] Generating required questions (budget)`);
 
-  // 예산 질문은 LLM 호출, 단점 질문은 placeholder만 (동적 생성)
+  // 예산 질문은 LLM 호출
   const budgetQuestion = await generateBudgetQuestion(categoryName, minPrice, avgPrice, maxPrice);
-  const avoidNegativesQuestion = generateAvoidNegativesQuestion();
+  // const avoidNegativesQuestion = generateAvoidNegativesQuestion();
 
-  return { budgetQuestion, avoidNegativesQuestion };
+  return { budgetQuestion };
 }
 
 // ============================================================================
@@ -1937,7 +1938,7 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
 2. **결정적 요인 식별:** 상위 제품들의 스펙과 필터 정보를 대조하여, 제품이 가장 크게 갈리는 기준(Factor)을 찾으세요. (예: 가습기의 가열식 vs 초음파식)
 3. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
 4. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
-5. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE).
+5. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE). 직접 입력 기능은 따로 존재하기 때문에, '기타' 와 같은 옵션은 생성하지 마세요. 
 6. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션에 \`isPopular: true\`를 표시하세요. **한 질문당 인기 옵션은 반드시 0~2개 사이여야 합니다 (3개 이상 절대 금지).** 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
 7. **브랜드 질문 생성 조건:**
    - **⭐ 표시가 있을 경우 (브랜드 중요도 높음)**, 반드시 브랜드 선호도 질문을 생성하세요.
@@ -2145,16 +2146,16 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
   // ✅ 필수 질문 대기 및 합치기
   const { budgetQuestion, avoidNegativesQuestion } = await requiredQuestionsPromise;
 
-  // 맞춤질문 + 예산(priority 99) + 피하고싶은단점(priority 100) 순서로 합치기
+  // 맞춤질문 + 예산(priority 99) 순서로 합치기
   const allQuestions = [
     ...customQuestions,
     budgetQuestion,
-    avoidNegativesQuestion,
+    // avoidNegativesQuestion, // 피하고 싶은 단점 질문 제거
   ];
 
   // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
   const questionsWithSkip = addSkipOptionToQuestions(allQuestions);
-  console.log(`[Step3] Final questions: ${questionsWithSkip.length} (custom: ${customQuestions.length}, required: 2)`);
+  console.log(`[Step3] Final questions: ${questionsWithSkip.length} (custom: ${customQuestions.length}, required: 1)`);
   
   return questionsWithSkip;
 }

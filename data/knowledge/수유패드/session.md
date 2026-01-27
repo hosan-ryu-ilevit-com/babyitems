@@ -1,5 +1,5 @@
-# 세션: 20260126_064906_jp3x
-> 시작: 2026-01-26T06:49:06.155Z
+# 세션: 20260126_125149_b8g8
+> 시작: 2026-01-26T12:51:49.592Z
 > 카테고리키: 수유패드
 > 카테고리: 수유패드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 수유패드 시장 현황
-- 인사이트: 수유패드는 모유 수유 중 새는 모유를 흡수하여 옷이 젖는 것을 방지하고, 민감한 젖꼭지에 속옷이 닿아 발생하는 통증을 완화하는 데 도움을 주는 제품입니다. 모유 분비량에 따라 필요성이 달라지므로 처음부터 대량 구매하기보다는 필요에 따라 구매하는 것이 좋습니다. 일회용과 천 타입이 있으며, 각각의 장단점을 고려하여 선택할 수 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8-68orHK3esqY2-lKL8Yz2sJpNZHRbOpzpBhiS6MMe1AyKdpeRHLrIrw-0ATisdPUA5gdbcCRp1fSPFfdve-SIDdV4yPC-tvSr1lO2BQi2ueo4Wbdpn4YesceoPcQclb7m2OVUU4WbbLclCBbUxDW2YS0LxQKcpuHP5U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFT1LpVcdDqIlvPTcRIfOvZa-IHpgOBB06edI6E_dyrPNmyVKGVGBxfE0ddfrG-gnRDzy4N3aLxZR-v80jQ19Iu8YRDfeSc1_ZPoM9xYYa-yA3_Fl_qhzDvZKRjKe4s9IOLvxbtrerU_jp4Fp8nELfKQegDtck1VPZ33WSXpE1iPfbzmnlKda7eD5qS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExwtTxB8Jspu3qiSXSiXfVQ6kuAgL3XtW2lRCq1BkCsIteEkb83WBZy1v4dZX4BBDYfCXZifp0eIXhQ862QZDA1ZPipum9ypDAJ2ersFnUmpnSwCOnKoHT4H7Ru_m1xll766YWQ7PLKNKTdH6fbsMwy0TU5g8MuX4laOrK66JuL22hSUmjxQNz_mEBOCAeMpQXXh-jYkVu_RI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqgkSquXKcuAPcv1PeWR2VcYw1p16OWgaNZA9WmPWkHv6A238HED3A9haoHwXkd-MeFqDuiUbehxlCoG6EVCxuzzvssLkThNK-_p0YtpCtZATMvVlwraHdZ2Pj6tY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8bnZLyepYjE_HT13-2U9qgRDzDOBRVMmsdyNHdJFHi5KwVLE01TULEjFn5sZmC87U0c-WEoPIZCdMN9PYVOdPKGopeooB4r5nBBuEgeYNcl5iZy1xMKL2nyv8URteh4u_0_nY7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBfwzvY7ERRTYJyTWYcnVY4wp7ZB5gpwcZ8kqs4IwzIj7onJvQooQhiRfUTpoM8x_3EOuWu8naaDEWfKPxEDI6h-adL0dG9wTntllAsZoVj5Yw0yi7z1vsJLtjkpnx
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFY-bnlWNeYCx5lBLpqTvfCGVYyFr2C0KyaePVhYSe7wgfpyupLzIc0HaP3icmEkulJVNC05EchcFlPnXgRCe2Tkr0Mjoptg6m6wdDZjMPrgt1P4UUCkLwyIKMRGg4bUDDKfkU4wzouiGNnixows8A12dzjuRx-xNEYpFVg3g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQUKJqPSrYhvbHbjdAe3XqhamF0tTDnwPdRXvBlV91dCPkwi-OgxWOkBQU7NA22uoMU9LWUQpqessRs2foKzoXejUdPnMg3QQbLiwBdEDotKv8fwbEB2_jZKnZJdNWcRADTg9hBJBj6r8XY3igPqVKnYyxQzXaDHTzrVbFJm1W0BczO2rhs-gRHrrrTrbH81DczN0E9A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSZRCopGMYaYXbuXngrO2AhG3In8woaVp1-05NWLNdy131VUemcxIazA2hCMqh5yneLPoAYdVjVLPPiraHorHF20VfdCVt1vJ5MdZO2eMsnuPQ6DgXGG-7JML0DZJH7iAa-hA4rULWbFyJMcaKye4Wp19tCW8OXTHyt_Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR-Y-x_tl-Cbac-u0qXenZJhHIQuQHq3CuyEHPm59KdMS9ioQGI18_Sx5qGQwryYKkYnKJkMlq7mQ3ypNtK52Buwohmj2bnYX68KYJJjM8qPc5WupvkX7dOJ6TpGp4mY-qvqIP4K_kho0EiBYxwS_bDuIaZnLpaOyWHSY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIykHD0r_S8r7aDmP4s0RefvyV2YcBMDwhSbQuRgrwFTk6GN6jTypMcXcpnY4uI-o7RLF58wJw8n_tR7JuQmcgOPxgJo3Uq7L9QZIla0EJ4LJ1X7a1N3h43GjVguNnXCT-v9zj2kkb5J7in7ephyBqSZpdMjtN_mefQGmzFftDao_tBsBvTe0_Hiva, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu0mhBl3Mx11l-Q99DBxYpmHgM2OycqSxGhpsXHVWP9LczNNfcac3CSc357boT63GBgKSEZXqVXNkDZlqY5LIWVLM9RZpWca4U0j5bSiwNFgwBRIJwX4lK4nmeqVhlJpS9zVd_ktDRcV2Cx7B462iZ35uMm5HRDckgn1AE4Lcg7rM4akim4BdSLLUkM61FNB9JIO4_WmHffQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIHHUnlTVOTRZwVhzeReXfGtnqVJIUhjk7Dsjsbk4Y5iyOwKGyY1bReL-h-NlMdMvEjkqOeXarEBXiF62vJMICuNpq2e8FV47iicR79VzLgsXlC3PKJsTv4irlp-E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT5J6bu1UaZQeCD0ml-UpTaopBpV3zL6g4LnbkoTlj1e2Elwufto1g0trbzzH91ELFYBOJkGnX_Ntkx9tSLIp8elBhQtV2V8PuW-QNU1MRsAVB1_PdmUM7ps6Ul8EABXHVrUk3Jg==
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFY-bnlWNeYCx5lBLpqTvfCGVYyFr2C0KyaePVhYSe7wgfpyupLzIc0HaP3icmEkulJVNC05EchcFlPnXgRCe2Tkr0Mjoptg6m6wdDZjMPrgt1P4UUCkLwyIKMRGg4bUDDKfkU4wzouiGNnixows8A12dzjuRx-xNEYpFVg3g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQUKJqPSrYhvbHbjdAe3XqhamF0tTDnwPdRXvBlV91dCPkwi-OgxWOkBQU7NA22uoMU9LWUQpqessRs2foKzoXejUdPnMg3QQbLiwBdEDotKv8fwbEB2_jZKnZJdNWcRADTg9hBJBj6r8XY3igPqVKnYyxQzXaDHTzrVbFJm1W0BczO2rhs-gRHrrrTrbH81DczN0E9A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSZRCopGMYaYXbuXngrO2AhG3In8woaVp1-05NWLNdy131VUemcxIazA2hCMqh5yneLPoAYdVjVLPPiraHorHF20VfdCVt1vJ5MdZO2eMsnuPQ6DgXGG-7JML0DZJH7iAa-hA4rULWbFyJMcaKye4Wp19tCW8OXTHyt_Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR-Y-x_tl-Cbac-u0qXenZJhHIQuQHq3CuyEHPm59KdMS9ioQGI18_Sx5qGQwryYKkYnKJkMlq7mQ3ypNtK52Buwohmj2bnYX68KYJJjM8qPc5WupvkX7dOJ6TpGp4mY-qvqIP4K_kho0EiBYxwS_bDuIaZnLpaOyWHSY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIykHD0r_S8r7aDmP4s0RefvyV2YcBMDwhSbQuRgrwFTk6GN6jTypMcXcpnY4uI-o7RLF58wJw8n_tR7JuQmcgOPxgJo3Uq7L9QZIla0EJ4LJ1X7a1N3h43GjVguNnXCT-v9zj2kkb5J7in7ephyBqSZpdMjtN_mefQGmzFftDao_tBsBvTe0_Hiva, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu0mhBl3Mx11l-Q99DBxYpmHgM2OycqSxGhpsXHVWP9LczNNfcac3CSc357boT63GBgKSEZXqVXNkDZlqY5LIWVLM9RZpWca4U0j5bSiwNFgwBRIJwX4lK4nmeqVhlJpS9zVd_ktDRcV2Cx7B462iZ35uMm5HRDckgn1AE4Lcg7rM4akim4BdSLLUkM61FNB9JIO4_WmHffQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIHHUnlTVOTRZwVhzeReXfGtnqVJIUhjk7Dsjsbk4Y5iyOwKGyY1bReL-h-NlMdMvEjkqOeXarEBXiF62vJMICuNpq2e8FV47iicR79VzLgsXlC3PKJsTv4irlp-E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT5J6bu1UaZQeCD0ml-UpTaopBpV3zL6g4LnbkoTlj1e2Elwufto1g0trbzzH91ELFYBOJkGnX_Ntkx9tSLIp8elBhQtV2V8PuW-QNU1MRsAVB1_PdmUM7ps6Ul8EABXHVrUk3Jg==
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 소재의 수유패드를 선호하시나요? | 일반 소재 |
-| 모유 샘 방지를 위해 어느 정도의 흡수력을 중요하게 생각하시나요? | 보통 흡수력 |
-| 선호하시는 수유패드 브랜드가 있으신가요? | 마더케이, 퍼펙션 |
-| 수유패드 사용 시 어떤 편의 기능을 중요하게 생각하시나요? | 고정 테이프 |
-| 예산은 어느 정도로 생각하세요? (평균 약 2만 7천원, 1만 7천원~3만 5천원대가 가장 많아요) | 1만 7천원 ~ 3만 5천원대 |
-| __avoid_negatives__ | 피부가 예민한 편이라 수유패드 소재 때문에 가렵거나 따가울까 봐 염려돼요,활동 중에 수유패드가 속옷 안에서 돌아다녀서 새어 나올까 봐 불편해요 |
+| 어떤 브랜드를 선호하시나요? 브랜드별로 특징이 다르니 참고해주세요. | 더블하트, 마더케이 |
+| 수유패드의 흡수력은 어느 정도가 필요하신가요? | 일상적인 흡수력 |
+| 어떤 재질의 수유패드를 선호하시나요? | 면 소재 |
+| 수유패드의 두께는 어느 정도가 좋으신가요? | 매우 얇은 두께 |
+| 수유패드 예산은 어느 정도로 생각하세요? (평균 2만 7천원, 1만 7천원~3만 5천원대가 가장 많아요) | 1만 7천원 ~ 3만 5천원대 |
 
 ---
 
@@ -36,12 +35,12 @@
 4. 더블하트 컴포트필 수유패드60P - 9,600원 - ⭐4.9
 5. 마더케이 허니콤 수유패드 120매 - 13,830원 - ⭐4.6
 6. 란시노 일회용 수유패드 60매 출산준비물 Lansinoh - 15,000원 - ⭐5
-7. 바디듀 수유패드가 필요없는 압소브라 소프트밴드 Champagne Gold - 82,422원 - ⭐5
+7. 바디듀 수유패드가 필요없는 압소브라 소프트밴드 Champagne Gold - 82,859원 - ⭐5
 8. 바디듀  수유패드가 필요없는 압소브라 Black - 84,550원 - ⭐5
 9. 아이앤비 아이앤비프리미엄수유패드 100매 SH_0852 - 7,900원 - ⭐4.7
 10. 더블하트 블루코어 수유패드 60매입 - 11,740원 - ⭐4.7
 11. 더블하트 컴포트필 수유패드 126매입 - 13,400원 - ⭐4.8
-12. 아이팜 역류방지쿠션 더푹잠 아기침대 뒤집기방지 - 67,740원 - ⭐5
+12. 아이팜 역류방지쿠션 더푹잠 아기침대 뒤집기방지 - 68,343원 - ⭐5
 13. 마이비 마이비 플라워 수유패드 132매 - 10,350원 - ⭐4.5
 14. 마이비 허니콤 수유패드 120매 - 20,500원 - ⭐4.7
 15. 마이비 허니콤 수유패드 120매 - 25,600원 - ⭐4.7
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 피부가 예민한 편이라 수유패드 소재 때문에 가렵거나 따가울까 봐 염려돼요
-- 활동 중에 수유패드가 속옷 안에서 돌아다녀서 새어 나올까 봐 불편해요
+(아직 선택 없음)
 
 ---
 

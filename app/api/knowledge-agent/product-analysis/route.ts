@@ -54,7 +54,8 @@ interface ConditionEvaluation {
   condition: string;
   conditionType: 'hardFilter' | 'balance' | 'negative';
   status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
-  evidence: string;
+  evidence: string;          // "주요 포인트"용 상세 설명 (2문장)
+  shortReason?: string;      // "왜 추천했나요?"용 심플 설명 (1문장)
   questionId?: string;
 }
 
@@ -220,34 +221,49 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
       "conditionType": "hardFilter",
       "questionId": "${c.questionId}",
       "status": "충족 또는 불충족",
-      "evidence": "근거 1문장"
+      "shortReason": "심플한 1문장 (왜 추천했나요?용)",
+      "evidence": "자세한 2문장 (주요 포인트용)"
     }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
     ${balanceConditions.map(c => `{
       "condition": "${c.questionText}: ${c.selectedLabel}",
       "conditionType": "balance",
       "questionId": "${c.questionId}",
       "status": "충족/부분충족/불충족 중 하나",
-      "evidence": "근거 1문장"
+      "shortReason": "심플한 1문장 (왜 추천했나요?용)",
+      "evidence": "자세한 2문장 (주요 포인트용)"
     }`).join(',\n    ')}${(hardFilterConditions.length > 0 || balanceConditions.length > 0) && negativeConditions.length > 0 ? ',' : ''}
     ${negativeConditions.map(c => `{
       "condition": "${c}",
       "conditionType": "negative",
       "status": "회피됨/부분회피/회피안됨 중 하나",
-      "evidence": "근거 1문장"
+      "shortReason": "심플한 1문장 (왜 추천했나요?용)",
+      "evidence": "자세한 2문장 (주요 포인트용)"
     }`).join(',\n    ')}
   ],` : '';
 
   // 상황 적합성 섹션
-  const contextSection = hasConversation ? `
-## 사용자 대화 요약
-"${userContext.conversationSummary}"
+  const userConditions = userContext.collectedInfo
+    ? Object.entries(userContext.collectedInfo)
+        .filter(([key]) => !key.startsWith('__'))
+        .map(([q, a]) => `- ${q}: ${a}`)
+        .join('\n')
+    : '';
 
-이 제품이 사용자 상황에 얼마나 적합한지 평가해주세요.
+  const userPriorities = userContext.balanceSelections && userContext.balanceSelections.length > 0
+    ? userContext.balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n')
+    : '';
+
+  const contextSection = hasConversation ? `
+## 사용자 조건 및 우선순위
+${userConditions ? `### 질문 응답\n${userConditions}\n` : ''}
+${userPriorities ? `### 우선순위\n${userPriorities}\n` : ''}
+${userContext.conversationSummary ? `### 대화 요약\n"${userContext.conversationSummary}"\n` : ''}
+위 조건들을 기반으로 이 제품이 사용자에게 **얼마나 적합한지** contextMatch.explanation에 작성해주세요.
 ` : '';
 
   const contextFormat = hasConversation ? `
   "contextMatch": {
-    "explanation": "사용자 상황에 맞는 이유 1문장",
+    "explanation": "사용자 맞춤형 추천 이유 (2-3문장, 아래 규칙 참고)",
     "matchedPoints": ["매칭 포인트1", "매칭 포인트2"]
   },` : '';
 
@@ -270,26 +286,81 @@ ${conditionSection}${contextSection}${preEvalHints.length > 0 ? `
 ${preEvalHints.join('\n')}
 ` : ''}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## evidence 작성 규칙 (매우 중요!)
+## 응답 필드 작성 규칙 (매우 중요!)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-evidence는 PDP 상단 "왜 추천했나요?" 섹션에 표시되는 핵심 문장입니다.
-전문적이면서도 친근한 톤으로, 사용자에게 확신을 주는 문장을 작성하세요.
+각 조건마다 **shortReason**과 **evidence** 두 개의 필드를 모두 생성해야 합니다.
 
-### 작성 원칙
-1. 스펙 또는 리뷰에서 명확한 근거를 찾아 작성
-2. 근거가 없으면 절대 추측하지 말고, "확인 필요" 문장 사용
-3. 사용자 조건과 제품 특성을 자연스럽게 연결
+### 1️⃣ shortReason - "왜 추천했나요?" 섹션용
 
-### Good Example
-- 텐키리스(87키) 배열로 책상 공간을 효율적으로 활용할 수 있어요.
-- 3단계 가열 조절이 가능해 상황에 맞게 사용할 수 있어요.
-- 리뷰에서 "소음이 거의 없다"는 평가가 많아요.
+**용도**: PDP 상단의 "왜 추천했나요?" 리스트 항목으로 표시
+**형식**: 심플한 1문장 (15-25자 내외)
+**톤**: 핵심만 간결하게
+
+#### ✅ Good Examples
+- "IH 압력 방식으로 빠르고 균일하게 가열돼요."
+- "에코 스테인리스 내솥을 사용해 내구성이 뛰어나요."
+- "10인용 대용량으로 대가족도 충분히 사용할 수 있어요."
+- "쿠쿠전자의 프리미엄 라인으로 품질이 검증됐어요."
+- "저소음 설계로 조용한 사용 환경을 제공해요."
+
+#### ❌ Bad Examples
+- "IH 압력밥솥 방식을 선호하시는군요. 이 제품은 IH 압력밥솥입니다." ← 사용자 조건 반복
+- "좋은 제품입니다." ← 구체성 없음
+
+### 2️⃣ evidence - "주요 포인트" 섹션용
+
+**용도**: PDP의 "주요 포인트" Q/A 섹션에서 상세 설명으로 표시
+**형식**: 자세한 2문장 (첫 문장: 핵심 특성, 두 번째 문장: 구체적 근거/리뷰)
+**톤**: 설득력 있고 전문적
+
+#### ✅ Good Examples
+- "IH 압력 방식으로 빠르고 균일하게 가열돼요. 리뷰에서도 '밥이 고르게 익어 맛있다'는 평가가 많습니다."
+- "에코 스테인리스 내솥을 사용해 내구성이 뛰어나요. 코팅이 벗겨질 걱정 없이 오래 사용할 수 있습니다."
+- "10인용 대용량으로 대가족도 충분히 사용할 수 있어요. 실제 리뷰에서 '한번에 많이 지어도 문제없다'는 의견이 많습니다."
+- "쿠쿠전자의 프리미엄 라인으로 품질이 검증됐어요. A/S도 전국 서비스센터에서 신속하게 받을 수 있습니다."
+
+#### ❌ Bad Examples
+- "IH 압력밥솥입니다." ← 1문장만, 근거 없음
+- "좋은 제품입니다. 추천합니다." ← 구체적 근거 없음
+
+### 공통 규칙
+1. **제품 관점**으로 작성 - "이 제품은 ~해요" 형식
+2. **이점 중심** - 스펙만 나열하지 말고 사용자가 얻는 이점 설명
+3. **자연스러운 톤** - 전문적이면서도 친근하게
+4. **사용자 조건 반복 금지** - "~하시는군요", "~를 원하시는군요" 사용 금지
+5. 근거가 없으면 절대 추측하지 말고, "확인 필요" 문장 사용
 
 ### 근거 부족 시
-스펙이나 리뷰에서 해당 조건을 확인할 수 없을 때:
 - status: "부분충족" 또는 "불충족"
+- shortReason: "상세 스펙에서 확인이 어려워요."
 - evidence: "스펙이나 리뷰에서 관련 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## contextMatch.explanation 작성 규칙 (PDP 상단 표시)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+이 필드는 PDP 모달 상단의 "왜 추천했나요?" 섹션 **최상단에 표시**되는 핵심 추천 이유입니다.
+사용자의 조건/상황과 제품 특성을 **명확하게 연결**해주세요.
+
+### 작성 원칙
+1. **2-3문장**으로 작성 (50-120자)
+2. 사용자가 답변한 조건/우선순위를 **구체적으로 언급**
+3. "~하신다고 하셨는데", "~를 중요하게 생각하시는데" 등으로 자연스럽게 시작
+4. 제품이 해당 조건을 어떻게 충족하는지 **근거와 함께** 설명
+5. 리뷰 인용 시 "리뷰에서도 ~라는 평가가 많아요" 형식 사용
+6. **개별 조건을 반복하지 말고**, 전체적인 추천 이유를 종합적으로 설명
+
+### ✅ Good Examples
+- "조용한 제품을 원하신다고 하셨는데, 이 제품은 수면풍 모드가 있어 밤에도 조용하게 사용할 수 있어요. 실제 리뷰에서도 소음이 거의 없다는 평가가 많습니다."
+- "IH 압력 방식과 스테인리스 내솥을 선호하신다고 하셨는데, 이 제품은 두 조건을 모두 충족하며 리뷰에서도 밥맛이 우수하다는 평가가 많아요."
+- "대용량과 합리적인 가격을 중요하게 생각하신다고 하셨는데, 이 제품은 10인용 대용량이면서 24만원대로 가성비가 뛰어나요."
+
+### ❌ Bad Examples (피할 것)
+- "이 제품은 좋은 제품입니다." (사용자 조건 언급 없음)
+- "실제 사용자들이 좋다고 평가한 제품입니다." (구체성 없음)
+- "리뷰에 따르면..." (금지 패턴)
+- "말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요." (너무 일반적)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 응답 JSON 형식
@@ -378,11 +449,17 @@ function generateFallbackAnalysis(
                    preEval.score === 'partial' ? '부분충족' : '불충족';
         }
 
+        const fullEvidence = preEval.evidence || '상세 스펙에서 해당 정보를 확인하기 어려워요.';
+        // 첫 문장 추출 (shortReason용)
+        const firstSentenceMatch = fullEvidence.match(/^[^.!?]+[.!?]/);
+        const shortReason = firstSentenceMatch ? firstSentenceMatch[0] : fullEvidence;
+
         selectedConditionsEvaluation.push({
           condition: tag.label,  // PLP 태그와 동일한 label 사용 (일관성)
           conditionType,
           status,
-          evidence: preEval.evidence || '상세 스펙에서 해당 정보를 확인하기 어려워요.',
+          evidence: fullEvidence,
+          shortReason: shortReason,
         });
       }
     });
@@ -392,11 +469,31 @@ function generateFallbackAnalysis(
       const additionalPros = (product.highlights || []).map(text => ({ text, citations: [] }));
       const cons = (product.concerns || []).map(text => ({ text, citations: [] }));
 
+      // contextMatch.explanation 생성 (fallback)
+      let contextExplanation = '말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요.';
+
+      // 사용자 조건에서 주요 조건 추출 시도
+      const mainConditions: string[] = [];
+      if (userContext.collectedInfo) {
+        Object.values(userContext.collectedInfo)
+          .filter((val) => val && val !== '상관없어요' && typeof val === 'string')
+          .slice(0, 2)
+          .forEach((val) => mainConditions.push(val as string));
+      }
+      if (userContext.balanceSelections && userContext.balanceSelections.length > 0) {
+        mainConditions.push(userContext.balanceSelections[0].selectedLabel);
+      }
+
+      if (mainConditions.length > 0) {
+        const condStr = mainConditions.slice(0, 2).join(', ');
+        contextExplanation = `${condStr} 등 말씀하신 조건들을 고려해 선정한 제품이에요. 상세 스펙과 리뷰를 확인해보시면 더 많은 정보를 얻으실 수 있어요.`;
+      }
+
       return {
         pcode: product.pcode,
         selectedConditionsEvaluation,
-        contextMatch: userContext.conversationSummary ? {
-          explanation: '말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요.',
+        contextMatch: userContext.conversationSummary || (userContext.collectedInfo && Object.keys(userContext.collectedInfo).length > 0) ? {
+          explanation: contextExplanation,
           matchedPoints: [],
         } : undefined,
         additionalPros,
@@ -425,6 +522,7 @@ function generateFallbackAnalysis(
           conditionType: 'hardFilter',
           questionId: questionId,
           status: '부분충족',
+          shortReason: '상세 스펙에서 확인이 어려워요.',
           evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
         });
       }
@@ -439,6 +537,7 @@ function generateFallbackAnalysis(
       conditionType: 'balance',
       questionId: b.questionId,
       status: '부분충족',
+      shortReason: '상세 스펙에서 확인이 어려워요.',
       evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
     });
   });
@@ -449,6 +548,7 @@ function generateFallbackAnalysis(
       condition: neg,
       conditionType: 'negative',
       status: '부분회피',
+      shortReason: '상세 스펙에서 확인이 어려워요.',
       evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
     });
   });
@@ -464,11 +564,31 @@ function generateFallbackAnalysis(
     citations: [],
   }));
 
+  // contextMatch.explanation 생성 (fallback)
+  let contextExplanation = '말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요.';
+
+  // 사용자 조건에서 주요 조건 추출 시도
+  const mainConditions: string[] = [];
+  if (userContext.collectedInfo) {
+    Object.values(userContext.collectedInfo)
+      .filter((val) => val && val !== '상관없어요' && typeof val === 'string')
+      .slice(0, 2)
+      .forEach((val) => mainConditions.push(val as string));
+  }
+  if (userContext.balanceSelections && userContext.balanceSelections.length > 0) {
+    mainConditions.push(userContext.balanceSelections[0].selectedLabel);
+  }
+
+  if (mainConditions.length > 0) {
+    const condStr = mainConditions.slice(0, 2).join(', ');
+    contextExplanation = `${condStr} 등 말씀하신 조건들을 고려해 선정한 제품이에요. 상세 스펙과 리뷰를 확인해보시면 더 많은 정보를 얻으실 수 있어요.`;
+  }
+
   return {
     pcode: product.pcode,
     selectedConditionsEvaluation,
-    contextMatch: userContext.conversationSummary ? {
-      explanation: '말씀하신 조건들을 종합적으로 고려해 선정한 제품이에요.',
+    contextMatch: userContext.conversationSummary || (userContext.collectedInfo && Object.keys(userContext.collectedInfo).length > 0) ? {
+      explanation: contextExplanation,
       matchedPoints: [],
     } : undefined,
     additionalPros,

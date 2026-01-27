@@ -137,6 +137,7 @@ export interface Recommendation {
 
 export interface QuestionTodo {
   id: string;
+  contextIntro?: string;  // 앞선 선택 기반 연결 문장 (예: "IH 압력밥솥을 선호하시는군요. 그렇다면...")
   question: string;
   reason: string;
   options: QuestionOption[];

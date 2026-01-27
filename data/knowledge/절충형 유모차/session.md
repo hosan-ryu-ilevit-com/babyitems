@@ -1,5 +1,5 @@
-# 세션: 20260126_080845_tcp4
-> 시작: 2026-01-26T08:08:45.681Z
+# 세션: 20260127_030941_bj0p
+> 시작: 2026-01-27T03:09:41.154Z
 > 카테고리키: 절충형
 > 카테고리: 절충형 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 절충형 유모차 시장 현황
-- 인사이트: 절충형 유모차는 디럭스 유모차의 안정성과 휴대용 유모차의 경량성을 결합한 제품으로, 신생아부터 유아기까지 사용 가능하며 도심 생활에 적합한 구조와 기능을 갖추고 있어 인기가 높습니다. 최근 몇 년간 유모차 시장은 도시화 증가, 가처분 소득 증가, 어린이 안전 및 편의성에 대한 인식 증가 등의 요인으로 인해 상당한 성장을 보였습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRIfdAE0zJ1tOslN2jqv3ICwuJRGZ-_eL_Rj6Zoyrii-CKJ5VisIETEdpinx_U7LePiXk3f7FAr7U1cQ0J7P6IVZxhinToKiDOHA9qC7OHYeGPLJqTBdYRLFS66nMV6aV1FwW6SDHHaKgr2zO2XT2dGwiRhVXY8Bdr2D_WYjWCOk82huJXbejEdKvTm3bTLVjVWrIKLKwqnPgerRcjW_sKv3edW-a9VWQelinrMEp8JlM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuY3OvJtkJ9hqRdFpX9JgzjGuuRiO9aZS7kqW3Y3qPUcVcbteeeu66H50xaAigh0vPy9XDCAILDsjzyZh-HtwSxfK48SqwwF7A7inVfn484m5SANoeqSZ36ItGFOvO4vtNbGKZvxLbVyMcFmFVQb8ICR3KGiJIUVPjPZoS4icbu9phqJmJyX6ewwLmTGU4UyFf7JCihwDRQU5J, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdIFqN-jruvGqzavZl3p_ikvOf3-gnql0gL-ovx3KkAAN_72fSSkysRS2tQXMIMRwLhvn60zH5PtbwKNiS4Qz-ldPndJaVt3vcnsYWkHhD73a7pb9rPOY4KxB4GyrphKYv6KtM9gSJVXE6klw0LTno6qbG43PzQg-HxMNLoiB5_zoyXxxvY__J, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvxo2HVB8Z3u4juovfHri1HtYChz4wmqahcHnHnpvcrBifJu8E9AwJrCu-MmhKDDIpyi0TRTVVUQAlUmTcuN7Uoji97p9q4gSsy1u1fk5MdJBFrJcW5tg0Nhlz2UCqMkvQ0cbXkwIRZLAK1BR3mWtl-4_QYErRS769-P31E-Yz5WmDQEhCqBn8i00sQU0kpcIIDmHKgcPtW9pX7z_k3lsHRRN7Qclk4Zh7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqFtLMf-70BINPdQrhpgAMd3AHlZ68AWt_tQvHJcOXfhpyyr7hYSX9LUkbhkcK5TXCQj2SCcHqgPfDatg_B8OeI8Z27JoQsgakf46R0RxfdeN7ZEK_HWHqak1zGnG3sRQkLXP-BjSEKNoi9TqlEY6jmM3eFMj2l15sA57Ug_VfrMrJrB7vAVGIs72REGJJ0WrCD0QjYmOBEyE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5T_Qv1qio_zC9ooPZAejo2r_rBue1_m-0M6yZC-kWydaSjRVCSeZBbR0Et-59H7hH9hUFX89JYaU1TRrSitosYLP8QmQ-M6KsfmS8NwfoKCkS0qYM3XBsHQ==
+- 인사이트: 절충형 유모차는 디럭스 유모차의 안정성과 휴대용 유모차의 휴대성을 결합한 형태로, 신생아부터 36개월까지 사용할 수 있어 유모차를 하나만 구매하려는 경우에 적합합니다. 최근에는 휴대성과 안정성을 모두 갖춘 절충형 유모차가 인기를 얻고 있으며, 다양한 가격대의 제품이 출시되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnDqIQucK-tKJB3VuimMnvISj9_VDfVmMBBBIPq_pEk2uPv0yqUBG7iYkNdqR6ZFfPktqHJGUnkpN5x5id2n7fml_7LOpcj3v_MknN8uR2txi8qPcAau4wpQXm6BDjcELFw8a53ss=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGHOY_53lHMvtcbTMiSpZHrfuhujPPfLQvtQBha2BZ8GVuyw1fWJd2iASn9rfw-kgeWHLxnqpupMJNRvJIkwdlrFQYBOn-D1AIy1KTT6RCubIYrR8XohmZY0dDkkkHoAXgmrg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwabqDu53IVe6KKZMK0FGmZ9_Dh1-bHkwrM-J58oRH1NZ5oSrdBAPN5Q568mYuedxKTFX9kVvW5CyafrARDi_KJI4WKXhW09_aYjvvdvgw0s2LmNa5KB2X6KJvOb1QPxc7ZaY0B_K2j8QvVgITeZaxNA2L3sYSFa7mYLXTIgxKBJT_a6geT3Md9jVATDKcLZjWIQy9dii1LbD4iUGju1jSn474B75hmPaSsIwJIUb_8vHzrmibqir7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYH9C7yFJ67dsYW7fdhLuXrGYY0fxsCYoEg7pUc0ElDJTMQ4a62aNwVaTklxysOfxo1gkxYRUhwl350uI3XE2y1Dvv4MSDeUTz9qjCZwp8CAI9kkHF4nHW6yuSnZImHoGZnF-nKYEPlKMg4JsR4cCG5xMyLbKbHDYOSndwl2vqlYJ-m0nyAYGStAGTbTYwLiZlKNZ41tZ2Zrho, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdPMxXdZT9MCyUDw-yAKsN6lXfymUQsRM1mXGK3Eq9kCU19o5ZrPWTPCYHs-fb0TYxgtlzdnf8qD7Kb_dqCoVEvheIQnzRS9EFjx4HYVa2JXbhEuTWNhnVBUiVOu-69smWux1xpojmRwFUtlr7cFRy7qQqwDr7Njc_Amvxeg-UTfZwUxeTHBhnDzdOaA5BxsE_0M9D2VRblcQwnloqZr6Fwb1s2mabkMzVjg==
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 선호하는 브랜드가 있으신가요? | 다이치, 싸이벡스 |
-| 아기의 개월 수를 알려주세요. 개월 수에 따라 적합한 유모차가 달라질 수 있습니다. | 7~12개월 |
-| 유모차를 얼마나 자주 휴대하고 보관하시나요? 휴대성과 보관 편의성이 중요한 선택 기준이 될 수 있습니다. | 자주 휴대하고 보관 |
-| 유모차를 사용할 때 가장 중요하게 생각하는 기능은 무엇인가요? 안정적인 주행과 안전은 필수입니다. | 부드러운 핸들링 및 조작 편의성 |
+| 아기의 개월 수를 알려주세요. | 6개월 ~ 12개월, 신생아 ~ 6개월 |
+| 선호하는 유모차 브랜드가 있으신가요? | 다이치, 부가부, 싸이벡스 |
+| 유모차를 얼마나 쉽게 조작하고 휴대하고 싶으신가요? | 한 손 조작 및 폴딩, 작은 보관 |
+| 아기가 편안하게 앉고 누울 수 있도록 어떤 시트 기능을 중요하게 생각하시나요? | 양대면/앞보기 전환 |
 | 예산은 어느 정도로 생각하세요? (평균 82만원, 44만원~107만원대가 가장 많아요) | 44만원 ~ 107만원 |
-| __avoid_negatives__ | 접고 펴는 과정이 복잡하거나 무거워서 혼자서 휴대하고 보관하기 어려울 것 같아요,자주 휴대하고 보관해야 하는데,부피가 크고 무거워서 이동이 불편할까 봐 걱정돼요 |
 
 ---
 
@@ -34,7 +33,7 @@
 2. 잉글레시나 일렉타 프리미엄 절충형 유모차 - 995,100원 - ⭐5
 3. 리안 솔로 절충형 유모차 - 539,600원 - ⭐4.9
 4. 싸이벡스 멜리오 카본 3.0 초경량 절충형 유모차 - 864,500원 - ⭐5
-5. 리안 트윈 쌍둥이 절충형 유모차 - 390,000원 - ⭐4.8
+5. 리안 트윈 쌍둥이 절충형 유모차 - 381,400원 - ⭐4.8
 6. 잉글레시나 2024 앱티카 프리미엄 절충형 유모차 - 1,236,900원 - ⭐5
 7. 잉글레시나 2024 앱티카 프리미엄 절충형 유모차 - 1,258,290원 - ⭐5
 8. 다이치 스무즈 절충형 유모차 - 488,000원 - ⭐5
@@ -61,9 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 접고 펴는 과정이 복잡하거나 무거워서 혼자서 휴대하고 보관하기 어려울 것 같아요
-- 자주 휴대하고 보관해야 하는데
-- 부피가 크고 무거워서 이동이 불편할까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

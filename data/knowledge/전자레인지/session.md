@@ -1,5 +1,5 @@
-# 세션: 20260123_080105_ixaz
-> 시작: 2026-01-23T08:01:05.470Z
+# 세션: 20260127_013555_48ub
+> 시작: 2026-01-27T01:35:55.455Z
 > 카테고리키: 전자레인지
 > 카테고리: 전자레인지
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전자레인지 시장 현황
-- 인사이트: 전자레인지 시장은 꾸준한 성장세를 보이며, 특히 가정용 부문이 스마트홈 기기와의 연동 확대에 힘입어 연평간 5.44% 성장할 것으로 예상됩니다. LG전자와 삼성전자 등 대기업이 시장 점유율의 상당 부분을 차지하고 있으며, 합리적인 가격대의 제품부터 고급 기능이 탑재된 제품까지 다양한 소비자의 니즈를 충족시키고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExEXgLR29syUSBUibX_lLBsCF_uDFiOOlK4wA3vDMN_51a1p2htGYDcMxeW9TTGKZ4Sytv604Z9sIpKof2Bp4wYSvUBOM0n7ryroftZ5qs-XHPgTeHQYrsg-DaHeRvCVEkjwkTz82awJE9JviXQEh6hbcxC7z3fPKBSu2FwniJbRtA, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE25cfd41E5nJsjETFlH-8LXv-OT4sVbR94wRoBQ0QiUZycyEqRNSscAx_zO46p7m5ozXYHYC44yogWsBHiW6rYTfXm6kfydwQ7DgbypFFGjtoBiANuNWH57tVwkXe0xZf2g18yW1OI42LWPOaf8PTz0jFmvGJyng==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEuQkmkEKWAg0euFxuORqACNWyhs-O7NhvrjrKeNQwtQjTzmK2eOXTdwtLssdOpCIQQHU488DZeLwlQ6xq9H59X1faS6ANwYvnMqYiWUlGxwB1KzWw9PAjiYAULD1Iox4-wSCqcVN-55e_wK5QTWPflln3Ooz0
+- 인사이트: 전자레인지 시장은 2024년 약 105억 달러 규모로 평가되었으며, 2025년부터 2034년까지 연평균 4.6% 성장할 것으로 예상됩니다. 특히 가정용 고객이 시장의 상당 부분을 차지하며, 스마트홈 상품 확대와 함께 꾸준한 성장이 전망됩니다. 삼성전자는 유럽 시장에서 9년 연속 점유율 1위를 기록하는 등 글로벌 경쟁력을 보여주고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQmh2Qr7VMveopBVkEMP9Pg_eUXPcrmsrvwZodKyZUetkSXWtGv0jFZc049fiumOtNdTh4ENDYlBqfWvI5OVQiHaB9I-LjXBeXbbi7Z-YJ-c_RpPpMD7KIv7kY-c8E_tRf0n28CWarGoAzsnjTB16d0MPpodeHQQrhMQSNpH3P8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEORLC4utNw27Rp2OnHZUvt1p1PcBKequoE02BRpTmquGCKwdNRJMpyrv5hOhq_a9nGM7CL8orfH2R2RfO40un8-GSWY8XctnsTUsLKUACs_k0OGWnLjLnM30GaImQ0AwWG_ih1HpDrjeI3Dbe26V5ZYfU79MwZjsQBbMmsvtKMSuNFw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdYCMVKBvCe7U2otx-Vqh4cM1q551BChxC_g-jfrdDwsU4Pf-fImeejTD91VUS_O-ylFfvWvceY7m-a4tQ6tlqs40dk-DRnFKcy9bw6OW47_8h2d2-FuwdmB7zRQRP8T0VYp4uY_O17yno7C825WKljsGCb54v-w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfxy4gtxIdL_pudOZQ_BX261USfrHTeMJFPiwLX1wMvlS8HV0i34OAFotHFKUxM_tE0lHzOTa53rsipcCZVH-pqh1trk4H5r6QgDUhpHtbBIj6LMYGSXFdxk773s03Z8aZ1cj1wMZ_xr-Uo-eJobWSvzWKffo8K3UiMg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpOpiqI5MAQCwmJ_z-4BCYIm20gG4q1F_4P8ar23veAZIrC_LM8PWjUfW68RJOT6q2m28kr95tp14JGrukWdu_7Prl8t4JDTOVcD9idas0jkDV7SAGAN0ZkTTrbV7eSWxhU5L834WFewdoblL9Hr77OwHs24KILlnrwUHVqHWAyFtiK-YuY5WN49wC7TfyJDp6zWJWpeDCctzaVjoC3VU5rTcG5sUuKNcG7Sy8mZCqxJNadTtHeRFJu0vdX1gPPw2it9g1VD3aPHaHhUwQUwmZ_47B3ZlpuXzU0FB2HlzTylIe7XflGd6AK5RBndq_4-ZWz1gUDT1i-qiwMXHqXRCo3-wySeun66DH1Ko6JN3i9ij4MMGsbZib_bdmVMMwzqf8fiVtePVKlvFo-OfRMzr-TT4kZC-ky9FELHrolJVY5TX7I1IFrRtnz-ys5XONziEahGVYh9ormGN1uRUd-_z_8x4RYGDJayaLI8Yu3jOesFviawnqW03VelOla_a4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz_xOyfKLFIiponV_CB5NpBQq3CUVz5wjHE6KDE1htesJdRr2CZWDbGMMBDErKN_VkOFj_Sq9D2ooRYstzVNe_k8U12K2dQ7GsLoiMkAvWqDNn4Guq_ylr0rObCUazgH-aAywptncpIzONjPRZ7Lr3HEcfLC8=
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 가족 구성원 수나 주로 조리할 음식의 양을 고려했을 때, 어느 정도 용량의 전자레인지가 필요하신가요? | 20L 이하 |
-| 전자레인지로 어떤 종류의 요리를 주로 하실 예정인가요? | 간단한 데우기 및 해동, 그릴, 오븐 기능 활용 |
-| 전자레인지 조작부는 어떤 방식이 사용하기 편리하실까요? | 상관없어요 |
-| 선호하시는 전자레인지 제조사가 있으신가요? | 삼성전자, 쿠쿠전자, LG전자 |
-| 예산은 어느 정도로 생각하세요? (평균 13만 4천원, 9만 5천원~17만 4천원대가 가장 많아요) | 10만원 이하, 10만원 ~ 17만원대 |
-| __avoid_negatives__ | 상관없어요 |
+| 몇 인 가족이 사용하시나요? 또는 주로 어떤 크기의 식기를 데우시나요? | 1~2인 가구 또는 소형 주방 |
+| 전자레인지 외에 어떤 기능을 주로 활용하고 싶으신가요? | 기본 가열 및 해동 |
+| 어떤 방식의 조작부를 선호하시나요? | 상관없어요 |
+| 선호하는 제조사가 있으신가요? | 상관없음 |
+| 예산은 어느 정도로 생각하세요? (평균 13만 4천원, 9만 5천원 ~ 17만 4천원대가 가장 많아요) | 10만원 이하, 10만원 ~ 17만원대 |
 
 ---
 
@@ -61,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 상관없어요
+(아직 선택 없음)
 
 ---
 

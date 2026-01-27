@@ -1,5 +1,5 @@
-# 세션: 20260119_105417_q0m9
-> 시작: 2026-01-19T10:54:17.447Z
+# 세션: 20260126_134840_5ffo
+> 시작: 2026-01-26T13:48:40.633Z
 > 카테고리키: 공기청정기
 > 카테고리: 공기청정기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 공기청정기 시장 현황
-- 인사이트: 2025년 공기청정기 시장은 LG전자와 삼성전자의 양강 구도가 더욱 공고해지며, LG전자가 43.7%의 점유율로 선두를 달리고 있습니다. 소비자들이 브랜드 인지도와 신뢰도를 중요하게 여기는 경향이 강해지고 있으며, 시장은 대형 제품과 10평 이하 소형 제품으로 양극화되는 추세를 보입니다. 또한, 스마트 기능 탑재율이 80.4%에 달하는 등 스마트 기술이 핵심 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGE_o0ITb4wmRQRtma4CVnkGRoh6bWNQ6jnZXfvvUAiXTKy3-kWw6ngomFHkDncrt9fuZv9xj9sB3hhjco08Nus40LPQbNEitiwjJ1TMEm_wsjvb8kZ43QD_7PwZS0_eDjVDGgkClWSijFt6wiUuKxEof_u12TFJxXFo-MOOVj2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOKcqBzlzlSpVBM6yKgc8od8UsTzHLuvTltaP0K_a5W3iPFJRfB_aJ0aG24MX32UOHSH5ENRLUZI-YyQcU4rRdIBmRi_m2RNckaH23vX3EoT_-8rlQ_xbHrCRv_fpX6SCy-QOjTZqzuKVnExhtxHqZU_l6sfcXi4rWfaVQg0l_-V1Q5e7_wYd4Ffh2Yay3qfck4NsLzCd239QqmQMLEDxr09ZznE9KhjgmibxifO_GGznzzg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAl5Bpz_xUM4B85XZuRXZSWLy5_AGUVCe7LSdn2AaoeUmzv1hofs_JyzvZxNNga757Jw4fyjJ2qMs76HO2tutJjgdyJcZ_xOQkfMDTntb9-XHJ_hELUoYcwuU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFt3Pq97ZFAirLN-iNCxFqgzyNb4fPixUqBrGFmPBIfw2xdcEz4NTF3b_hVK4XvaMXzN0XeKOqub5a9RScvHbgsZI44rsVGxn2S8yik98Qxg5pzYmlicZqqQ6sBBOH7KETeXQPw1ARwjyHykgUB02D_TTZorJQXfIAnjfhXbMivUQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9B1dZuWO8i1jGSeZ_RwlMyCl99Czt0QFjag_kmmG8uW2DiiiFqXyeVJ3kJFmiNUQ_VW0nACL4dOw0soTPDd8mzDyHOHH2z7OHlx3HuxQgGEQz8DjsKG3ZP_gSHWfyihUcoo32SQg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDmT5ooaqr4Gr0SbYp30ScivFkuyIf6zPws7YvdSfydp4g0r-Oez3PICwjtJMkCOiRClP79zLY98CsFuI9vqSHTHBU2gmh1AkVys74frxClCm0NsdV5DWQihHYV9DesVlm98ok
+- 인사이트: 공기청정기 시장은 전 세계적으로 꾸준히 성장하고 있으며, 2025년에는 180억 달러를 넘어 2035년에는 370억 달러 이상에 이를 것으로 예상됩니다. 이는 대기 오염 증가와 건강에 대한 관심 증대가 주요 원인으로 작용하고 있습니다. 특히 북미와 아시아 태평양 지역의 시장 성장이 두드러지며, 상업용 공기청정기 시장 또한 크게 확대될 전망입니다. HEPA 필터 기술이 주목받고 있으며, 스마트 기능과 대형화가 주요 트렌드로 떠오르고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOGVZmo9fljQqjC34mE5zbJ77iusWzf65CViWOaqeNW2GQFyx4Ma8CmKkYdOuDZLeACqb0Gt2HQShh3ETOwLKONkIY7xW6A2J1SgAftqAF9ZGI7vM4WQdtK55_HfUVKQe4UxiUElXU1vBYYH1K9GU-GHhNcQ91uiK2qZ58Zg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJ49S0mFWhkQCAon9dUkl0d8E0cIdsPZIhYvVpu6k4f8FM5GE-tVx_6ElpHkItqFOZf6gwSSlZedhJIxjUyESVi2Ir8kqwfxQ1iGPdPQF6vM93SC7Jubu_BI9yWcW6dBIOSykHL1A-VEckXHChNNkWerceFEhusnPqGi1ugUmA, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjRUVT4XJJbsIm8jf2WszkY_mtpnhcwcn_UUva9RAfbKCUKBxhkOdvQACMOMzQ_hwDxdEQou_WLH0Wpn3sKnjbo7gsg4hZk5EkUTwYkkC2-DmGtCQ6dWOgXaJ04GseKR_-dChVfWfKTXTTv2LuTQpqTBWkuHAo5pF1hEYxvnzHGw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkY9GDEvZfnZlZN7JwR-DKpdRFuETYTf4pMfweR8PLYnPwMIHriKiGtf1OXw8D2ndaX-Ws9xz-YyJb7AEELLve1bQqCGNR0EF3-CJbIj6j6BVPzpACaNmwv33pqTNZq-bM2AmEBpKhCZMIerBu5MSUK-zkNBnQrsFHj2H9SemKTA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhZviJq3hTclrEpryRFrJDCCIPgx4kGzIzCZVmGCF_zwz63lvy6S03_xIYHdlX6JwjAZ4Zy1eDv5PPC_7v802ZfGIpH3kmhfHlEk5ifrkGutxjO9WeN3xu-1W91_uvslTtKfhuVMkxxR4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe1-qtCdBqWMj6SNuOwJH6wQbVS6IeiXYIaccBUwqiyQpPyQ6Smy3el_2TPVhyUa3-aDf6b_xUb_4cWjgPhjVOk5iXCcLQriqtFqlWuhGQbo59SxnJnX3XdMKPAsONSuWUP6PMBbS6aWo=
 
 ---
 
@@ -16,27 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어느 정도 크기의 공간을 주로 사용하시나요? | 작은 공간 (10평 이하) |
-| 어떤 종류의 오염 물질 제거에 가장 신경 쓰시나요? | 미세먼지 및 초미세먼지, 유해가스 및 생활 냄새 |
-| 스마트 기능 활용에 관심이 있으신가요? | 적극 활용 |
-| 공기청정기 예산은 어느 정도로 생각하세요? (평균 약 54만원, 28만원~70만원대가 가장 많아요) | 30만원 ~ 70만원대 |
-| __avoid_negatives__ | 인지도 낮은 중소기업 제품은 성능이나 AS가 부족할까 봐 망설여져요,필터 교체 외에도 주기적인 내부 청소나 관리가 필요해서 번거로울 것 같아요 |
+| 사용하시는 공간의 크기에 맞는 청정 면적을 선택해주세요. | 10평 이하 |
+| 어떤 종류의 필터 성능을 중요하게 생각하시나요? | HEPA 필터 (초미세먼지 제거), 탈취 필터 (냄새 제거), 종합 필터 (탈취 + 초미세먼지 제거) |
+| 스마트 기능 활용에 대한 선호도를 알려주세요. | 스마트 기능 불필요 |
+| 선호하는 제조사가 있으신가요? | 삼성전자, LG전자 |
+| 예산은 어느 정도로 생각하세요? (평균 55만원, 36만원~72만원대가 가장 많아요) | 55만원대, 36만원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 8개 (전체 8개 중)
+현재 후보: 101개 (전체 101개 중)
 
 ### 후보 상품
-1. 벤타 LW-25W 컴포트 플러스 - 465,110원 - ⭐4.9
-2. LG전자 퓨리케어 에어로 Hit AS105GWJC - 277,681원 - ⭐5
-3. 쿠쿠전자 W8300 AC-28W20FWS - 223,790원 - ⭐4.8
-4. 3M 차량용 공기청정기 G3 - 18,030원 - ⭐4.6
-5. 벤타 LW-25B - 386,100원 - ⭐4.8
-6. 베스토 차량용 소형 공기 청정기 BS-AP13 - 13,500원 - ⭐4.6
-7. 코웨이 AP-1019C - 156,750원 - ⭐4.8
-8. 벤타 LW-15W - 292,970원 - ⭐4.9
+1. LG전자 퓨리케어 360˚ 플러스 AS305DWWA - 647,960원 - ⭐4.8
+2. 삼성전자 블루스카이 5500 AP70F06103RTD - 264,550원 - ⭐4.9
+3. LG전자 퓨리케어 360˚ Hit AS153HWWC - 273,420원 - ⭐4.8
+4. LG전자 오브제컬렉션 퓨리케어 AI+ 360˚ AS355NSNA - 1,213,060원 - ⭐4.9
+5. 삼성전자 블루스카이 3100 AP70F03102RTD - 166,840원 - ⭐4.7
+6. LG전자 퓨리케어 360˚ Hit AS183HWWA - 324,380원 - ⭐4.8
+7. LG전자 퓨리케어 HW500DAS - 240,807원 - ⭐4.8
+8. LG전자 퓨리케어 360˚ 플러스 AS185DWWD - 518,050원 - ⭐4.8
+9. 위닉스 타워 프라임 APRM833-JWK - 276,920원 - ⭐4.8
+10. 삼성전자 비스포크 큐브 Air 인피니트 라인 AX100DB990UDD - 1,157,955원 - ⭐4.8
+11. 삼성전자 블루스카이 3100 AP70F03102RVD - 166,840원 - ⭐4.7
+12. LG전자 오브제컬렉션 퓨리케어 에어로캣타워 AS065CWHA - 681,610원 - ⭐4.8
+13. 위닉스 타워 엣지 AT8E430-MWK - 181,690원 - ⭐4.8
+14. LG전자 오브제컬렉션 퓨리케어 에어로부스터 AS155GWDL - 543,280원 - ⭐4.9
+15. LG전자 오브제컬렉션 퓨리케어 AI+ 360˚ AS355NGNA - 1,201,960원 - ⭐4.9
+16. LG전자 퓨리케어 360˚ 플러스 AS195DWWA - 573,130원 - ⭐4.9
+17. LG전자 오브제컬렉션 퓨리케어 에어로타워 Hit FS065PSKA - 729,021원 - ⭐4.9
+18. LG전자 오브제컬렉션 퓨리케어 AI 360˚ AS205NSJA - 920,830원 - ⭐4.9
+19. 삼성전자 비스포크 큐브 Air 인피니트 라인 AX033DB990UGD - 609,450원 - ⭐5
+20. 위닉스 타워 프라임 플러스 ATTM115-MWK - 375,250원 - ⭐4.8
 
 ---
 
@@ -48,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 인지도 낮은 중소기업 제품은 성능이나 AS가 부족할까 봐 망설여져요
-- 필터 교체 외에도 주기적인 내부 청소나 관리가 필요해서 번거로울 것 같아요
+(아직 선택 없음)
 
 ---
 

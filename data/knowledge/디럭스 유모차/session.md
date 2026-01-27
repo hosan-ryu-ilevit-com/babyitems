@@ -1,5 +1,5 @@
-# 세션: 20260126_104029_lkke
-> 시작: 2026-01-26T10:40:29.745Z
+# 세션: 20260127_021257_uo5h
+> 시작: 2026-01-27T02:12:57.837Z
 > 카테고리키: 디럭스
 > 카테고리: 디럭스 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 시장 현황
-- 인사이트: 디럭스 유모차는 안정감과 핸들링이 뛰어나지만 무게가 무겁다는 특징이 있습니다. 최근에는 디럭스급의 기능성과 휴대용 유모차의 편리함을 결합한 절충형 유모차가 인기를 얻고 있으며, 디자인과 패션성을 중시하는 경향도 나타나고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCgTNf1zGLaOzvqYZpJO1aq4b75WT4_cuXiCKMi_8z96n9na9X4NV2JOYLiiUhpT2G_skwBoGXNz-PIkCMxgpR8QiRbiuprsDNRKsDeQo9stya_6Sa2ZoN_OI6YSNJlHEv3vM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmRYAblpPnof56OILJJ9Yj8uqfwySbNBc7TNJPCgt3GJxmbyjmicUPF0HdnYHlSOYhibh0gM1iNo9qM3_vtuPYGNYh3QI6z7OhlzKQfq1neb1fb7Rf3MKTkZv6Bfp7pWfoCNM9oQVfhR1I5BVYEB_z6QN6s4pvQw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv-G3FaYocoIkD0XfjknxAz_1Ibckj9MYDhrSubVFyrVdcnaE00z3iV5u0FZrhd4ZkacGZEVuvd4G5K2uVH6en-f4ZLPgOBW5ykuCFTe_8UYLJszajAvScbjRVvJ4GcWJQ9czi2kJBf6eR9L5w, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZwDgc-2YBC8qOL4rR6hI1W7kDNunOrEBdfwiEG6-MUFL-hN0lEbORSXWRf8gExCNQcalxax5hlUCdY3LP2OIlQdB0xV66xFawJmaUJetTKpMT7a6bzr0-PfUm_5iD7azt-mH38rRCIVAV7Ak-LsfWLzjePIYErqQvHaisVBrMhRma_sp2fB-4CXjiNbwLrfFnlReY9nKJBE26tvjVmrkKstQ1BZLzMTk_UQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbQknlljUR6e9FjKtL8_jJhguIGzQq6RGalHf2unRfGD7mEbqMCueXwSxW-SEfazuOTPB7u_cpRKd1Uhq-gnK64TQkNZoLgxVMQktOmsv6j_bDIEjccPfuYOFLQ76dFwoyDT-y2h8A1v50wM3ax_BVN8KMWgwuTGHghMlYv3PqLM4VM3mZCCSCzAk1Gk_b9UNB8hRGrbEPNfIQepF4gbSapWbNQg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFt3JcuCieW23CM3VPTdLVm5XXGcS0JgYN5rLt_lR7RPMVXWz7GwHTUP7DsbieNPBc6lcde0ma5wRNxd2O3OzWDgG2bjg3spn9wtEqS9UK2MeUJhBDgc_B9A889ZCnrGVN7BtMuhLt2z-WB9Ap7etNVjxJGI2UHNcnu_2U5Gi-gv6xS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-PKR3bpxm-vJk-CJvLsOpCdCc00MeLE19trKiIAnzHapDn0gNmWeDupx5TyPsFsmqmAlDISc6UEtsqQWvDb85kG7zn9K-w2d-g7_tGwL3FqVxTyMoiZjtflVjZOy70f2Zqg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbrpNQd8D010QxAo1_jFJtIU2AySbMDlwe44z_tgzrfdlrBEVAL18jEyza_x8IGwITaOksnVZ7Ro87deONxja9FAXXjhCTzh4WA-MSivEaCeSs_PLh4JXaQYA=
+- 인사이트: 디럭스 유모차 시장은 다기능성과 사용 편의성을 중심으로 진화하고 있으며, 2025년에는 고급 기능과 편안함을 갖춘 모델들이 인기를 끌 것으로 예상됩니다. 특히 시트 높이 조절 기능과 안전성이 중요한 구매 요인으로 작용하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH361DmrY7DhoeqygxeeTBswO98gWceBjhKvBqGqji2WvCsQ-4aE69LB48pZyZnFki26u3x8Px7K8eiNcmp_OJe8v6BKBkC2zsEq-pT--nTG2Kg5F4FPlDScrwpAQXzYQBCzoILQqhGIlvmn770a0V6D2mjS-ulti2FMlBCWmVpTWpeNgWaM7X_BsPSVNcYu_cuinySTONI5asyQ4ImIk8mD-3mpCfMLIThTA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4TOv3Fwq4UwtiKUO4c4sgj5yMJHbZvURRUKzIy499FPFYpoN542WA9Wg4jTZ9gWs3qwa19LPJPTvmXbwRj8c_OaRDb9TD1sjUFevDdCN5IJ0oT6uziKV8NWSa6Ozch2vytN-fMgPN23nU57_h5LVyxBkwJxoEo9q4plqIcx5lT-zOH-OTk_-AFGs8lRfhoGk5VIdeBfkRMtGk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHI_F5R0X6vxZrkx_RAWtaKLPl_3PkfFSwrhtnSaN0Zj8Vy8Ts3G0W-Ib7wMqNIZ6DygwvpxJqxW7VQocVxKmgvE0fLU3VBIJE9W1M0JJMBB1pDhH53iN2s0VuXhtnriR9EqwL-g21Okwh2qGfDOA2qkWtUS0aHs5bV28lWJ1kCn3bRDcebSWuMJxPl22uX768AZ8VGb32gLPSCg6liiBfjIHpbUUNqdS7jA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESTiPaa5Tr-LvzvPEV5W9yHUyxnDhIGAwIf0Q-_N-13aF3CzW4LUpjICF3iAT1qw6DCdwH-UwZrXqNeFtiA-LPu1BO7akpNmFdpIiq0q898TArcNvAqSChCt5dwSRdBOHp9y6a2CI7BxwaT4-axIffYCgfG3O4adcYzLkCqvnmqaJR
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기의 개월 수를 알려주세요. (개월 수에 따라 적합한 유모차가 달라질 수 있어요.) | 13~24개월 |
+| 유모차를 주로 어떤 환경에서 사용하시나요? (주행 편의성과 관련된 중요한 질문입니다.) | 매끄러운 도심 |
+| 유모차를 접고 펼칠 때 어떤 방식이 편리하신가요? | 한 손으로 간편하게, 최대한 작게 접히는 방식 |
 | 선호하시는 유모차 브랜드가 있으신가요? | 부가부, 에그 |
-| 주로 어떤 환경에서 유모차를 사용하실 예정인가요? | 도심, 평탄한 길 위주 |
-| 아이가 앉는 시트의 높이가 얼마나 중요하신가요? | 높은 시트 선호 |
-| 유모차를 접고 펴는 방식에 대한 선호도가 있으신가요? | 원핸드 폴딩 |
-| 예산은 어느 정도로 생각하세요? (평균 약 123만원, 30만원~160만원대가 가장 많아요) | 63만원 ~ 160만원대 |
-| __avoid_negatives__ | 부피가 커서 좁은 상점이나 엘리베이터 통과 시 불편할 것 같아요,접었을 때 부피가 커서 현관이나 차 트렁크에 보관하기 어려울까 봐 염려돼요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 123만원, 63만원~160만원대가 가장 많아요) | 63만원 ~ 160만원대 |
 
 ---
 
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 부피가 커서 좁은 상점이나 엘리베이터 통과 시 불편할 것 같아요
-- 접었을 때 부피가 커서 현관이나 차 트렁크에 보관하기 어려울까 봐 염려돼요
+(아직 선택 없음)
 
 ---
 

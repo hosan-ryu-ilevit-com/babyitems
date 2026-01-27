@@ -1,25 +1,27 @@
 # 유아치약 전문가 지식
 
-> 마지막 업데이트: 2026-01-21T04:34:58.850Z
-> 분석 상품: 20개 | 분석 리뷰: 1,710개
+> 마지막 업데이트: 2026-01-26T11:22:29.668Z
+> 분석 상품: 20개 | 분석 리뷰: 1,470개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 무불소/저불소 유아 치약 수요 증가 (안전성 우려)
-- 천연 유래 성분 및 유기농 원료 사용 확대
-- 캐릭터 디자인 및 달콤한 향으로 양치 거부감 해소
+- 불소 함유 및 무불소 치약 선택의 다양화
+- 천연 및 유기농 성분 강조
+- 캐릭터 디자인 및 다양한 향 적용
+- 안전한 성분 및 친환경 패키징 고려
 
 ### 구매자 만족 포인트
-- ✓ 안전한 성분 (불소 0ppm, 천연 유래)
-- ✓ 충치 예방 효과 (불소 함유)
-- ✓ 아이들이 좋아하는 맛과 향
-- ✓ 성장 단계별 불소 함량 선택 가능
-- ✓ 친환경 포장
+- ✓ 충치 예방 효과
+- ✓ 안전한 성분
+- ✓ 아이들이 좋아하는 향
+- ✓ 즐거운 양치 경험 유도
+- ✓ 친환경 패키징
 
 ### 주의해야 할 단점
-- ⚠ 무불소 치약의 낮은 충치 예방 효과
-- ⚠ 연마도 및 불소 함량 표기 부족으로 인한 선택 어려움
+- ⚠ 삼킴 위험 (무불소/저불소 선택 시)
+- ⚠ 치약 맛에 대한 아이의 선호도 차이
+- ⚠ 과도한 마케팅으로 인한 선택의 어려움
 
 ### 가격대 인사이트
 
@@ -28,7 +30,17 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 키즈세이프 어린이 유아치약 포도향 90g
+### 1. 뷰카 주니어 마일드 고불소 구취케어 치약 포도향 110g
+- **브랜드**: 뷰카
+- **가격**: 12,900원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 불소함량: 1,450ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76878005)
+
+### 2. 키즈세이프 어린이 유아치약 포도향 90g
 - **브랜드**: 키즈세이프
 - **가격**: 1,535원
 - **평점**: ⭐4.6 (5개 리뷰)
@@ -38,27 +50,37 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93390587)
 
-### 2. 뷰카 주니어 마일드 고불소 구취케어 치약 포도향 110g
-- **브랜드**: 뷰카
-- **가격**: 12,400원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 불소함량: 1,450ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+### 3. 키즈세이프 어린이 유아치약 포도향 90g
+- **브랜드**: 키즈세이프
+- **가격**: 1,510원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 1단계 / 대상연령: 2~6세 / 튜브형 / 저불소 / 무파라벤 / 무동물성원료 / 불소함량: 489ppm / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76878005)
+- [상세보기](https://prod.danawa.com/info/?pcode=93391070)
 
-### 3. 페리오 키즈 포켓몬 꼬부기 사과향 75g
-- **브랜드**: 페리오
-- **가격**: 6,980원
-- **평점**: ⭐5 (29개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 무동물성원료 / 불소함량: 1,000ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+### 4. 벨레다 어린이 치약 50ml
+- **브랜드**: 벨레다
+- **가격**: 6,200원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 6개월~12세 / 튜브형 / 무불소 / 무합성계면활성제 / 무파라벤 / 프라그제거 / 심미효과 / 구취제거 치약 / 구취제거
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=31106291)
+- [상세보기](https://prod.danawa.com/info/?pcode=101212763)
 
-### 4. 2080 키즈 크리닉 4스텝 치약 80g
+### 5. 2080 1450 고불소 주니어 치약 80g
+- **브랜드**: 
+- **가격**: 18,250원
+- **평점**: ⭐4.8 (86개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 무계면활성제 / 무색소 / 무파라벤 / 불소함량: 1,450ppm 치약 / 불소함량: 1,450ppm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25300508)
+
+### 6. 2080 키즈 크리닉 4스텝 치약 80g
 - **브랜드**: 
 - **가격**: 1,410원
 - **평점**: ⭐4.7 (950개 리뷰)
@@ -68,9 +90,39 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=5962296)
 
-### 5. 2080 키즈 3스텝 브레드 이발소 치약 베리믹스향 80g
+### 7. 아이코닉스 뽀로로 3분 치과놀이
+- **브랜드**: 아이코닉스
+- **가격**: 30,820원
+- **평점**: ⭐5 (3개 리뷰)
+- **핵심 스펙**: 병원놀이 / 대상연령: 37개월이상 / 뽀로로 / 특징: 소리
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=78991616)
+
+### 8. 2080 키즈 크리닉 4스텝 치약 80g
 - **브랜드**: 
-- **가격**: 8,850원
+- **가격**: 14,570원
+- **평점**: ⭐4.6 (193개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 4단계 / 대상연령: 8세이상 / 튜브형 / 고불소 / 무색소 / 무합성계면활성제 / 무파라벤 / 무동물성원료 / 불소함량: 1,000ppm / 잇몸(치주)질환예방 / 인증정보: 튼튼이마크 치약 / 인증정보: 튼튼이마크
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=27172511)
+
+### 9. 페리오 키즈 포켓몬 꼬부기 사과향 75g
+- **브랜드**: 페리오
+- **가격**: 6,980원
+- **평점**: ⭐5 (29개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 무동물성원료 / 불소함량: 1,000ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=31106291)
+
+### 10. 2080 키즈 3스텝 브레드 이발소 치약 베리믹스향 80g
+- **브랜드**: 
+- **가격**: 8,750원
 - **평점**: ⭐4.7 (12개 리뷰)
 - **핵심 스펙**: 치약 / 어린이용 / 3단계 / 대상연령: 6~9세 / 튜브형 / 저불소 / 무알콜 / 무합성계면활성제 / 무파라벤 / 무동물성원료 / 불소함량: 769ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과
 - **장점 요약**: 분석 중
@@ -78,37 +130,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=101212424)
 
-### 6. 조르단 뉴스텝1 어린이 치약 딸기향 90g
-- **브랜드**: 조르단
-- **가격**: 12,240원
+### 11. 금호덴탈제약 에이카랩스 어린이 고불소 코뿔소 치약 사과향 60g
+- **브랜드**: 금호덴탈제약
+- **가격**: 9,600원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 1단계 / 대상연령: 5세이하 / 튜브형 / 저불소 / 무합성계면활성제 / 무설탕 / 무파라벤 / 불소함량: 500ppm / 충치예방 / 구취제거 / 인증정보: 비건 치약 / 인증정보: 비건
+- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 3세이상 / 튜브형 / 고불소 / 무계면활성제 / 무색소 / 무파라벤 / 무트리클로산 / 무CMIT MIT / 불소함량: 1,450ppm / 충치예방 치약 / 충치예방
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93808790)
+- [상세보기](https://prod.danawa.com/info/?pcode=76877594)
 
-### 7. 키즈세이프 충치집중케어 치약 60g
-- **브랜드**: 키즈세이프
-- **가격**: 7,020원
-- **평점**: ⭐4.7 (110개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 2단계 / 대상연령: 7세이상 / 튜브형 / 고불소 / 무색소 / 무파라벤 / 무동물성원료 / 불소함량: 1,000ppm / 프라그제거 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76877693)
-
-### 8. 예꼬맘 어린이 치약 60g 3개+소형치약15- 치약3개3단계
-- **브랜드**: 예꼬맘
-- **가격**: 13,620원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 구강세정제 / 칫솔 / 위생 / 목욕용품 / 출산 / 육아용품 구강세정제 / 육아용품
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=43546160)
-
-### 9. 조르단 뉴스텝1 어린이 치약 딸기향 90g
+### 12. 조르단 뉴스텝1 어린이 치약 딸기향 90g
 - **브랜드**: 조르단
 - **가격**: 22,000원
 - **평점**: ⭐0 (0개 리뷰)
@@ -118,17 +150,37 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93808673)
 
-### 10. 제니튼 닥터제니 1450 고불소 주니어 치약 60g + 15g
-- **브랜드**: 제니튼
-- **가격**: 14,570원
-- **평점**: ⭐4.8 (7개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 무합성계면활성제 / 무파라벤 / 무트리클로산 / 무CMIT MIT / 불소함량: 1,450ppm / 충치예방 치약 / 충치예방
+### 13. 페리오 엄마 치약이 투명해요 고불소 80g
+- **브랜드**: 페리오
+- **가격**: 11,400원
+- **평점**: ⭐4.6 (6개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 6세이상 / 튜브형 / 고불소 / 무색소 / 불소함량: 1,450ppm / 충치예방 치약 / 충치예방
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76877834)
+- [상세보기](https://prod.danawa.com/info/?pcode=79118861)
 
-### 11. 2080 키즈 자일리톨 치약 80g
+### 14. 뷰카 주니어 마일드 고불소 구취케어 치약 복숭아향 110g
+- **브랜드**: 뷰카
+- **가격**: 9,890원
+- **평점**: ⭐0 (0개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 불소함량: 1,450ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=93390284)
+
+### 15. 레드씰 키즈 치약 75g
+- **브랜드**: 레드씰
+- **가격**: 4,410원
+- **평점**: ⭐4.8 (23개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 무불소 / 무계면활성제 / 무색소 / 무파라벤 / 무트리클로산 / 프라그제거 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76877792)
+
+### 16. 2080 키즈 자일리톨 치약 80g
 - **브랜드**: 
 - **가격**: 19,610원
 - **평점**: ⭐4.7 (49개 리뷰)
@@ -138,95 +190,45 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=18425153)
 
-### 12. 뷰카 주니어 마일드 고불소 구취케어 치약 복숭아향 110g
-- **브랜드**: 뷰카
-- **가격**: 21,900원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 불소함량: 1,450ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
+### 17. 키즈세이프 충치집중케어 치약 60g
+- **브랜드**: 키즈세이프
+- **가격**: 7,020원
+- **평점**: ⭐4.7 (110개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 2단계 / 대상연령: 7세이상 / 튜브형 / 고불소 / 무색소 / 무파라벤 / 무동물성원료 / 불소함량: 1,000ppm / 프라그제거 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93390284)
+- [상세보기](https://prod.danawa.com/info/?pcode=76877693)
 
-### 13. 2080 키즈 크리닉 1스텝 치약 80g
-- **브랜드**: 
-- **가격**: 1,600원
+### 18. 라이온코리아 새싹 영구치 충치집중케어 치약 60g
+- **브랜드**: 라이온코리아
+- **가격**: 10,710원
 - **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 1단계 / 대상연령: 0~2세 / 튜브형 / 무불소 / 무색소 / 무합성계면활성제 / 무파라벤 / 무동물성원료 / 잇몸(치주)질환예방 / 인증정보: 튼튼이마크 치약 / 인증정보: 튼튼이마크
+- **핵심 스펙**: 치약 / 어린이용 / 2단계 / 대상연령: 7세이상 / 튜브형 / 고불소 / 무파라벤 / 무동물성원료 / 불소함량: 1,000ppm / 충치예방 / 구취제거 치약 / 구취제거
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=101212586)
+- [상세보기](https://prod.danawa.com/info/?pcode=76877903)
 
-### 14. 예꼬맘 고고 불소 1450 어린이 치약 60g
+### 19. 브리스틱 어린이 불소 1000 치약 딸기향 50g
+- **브랜드**: 브리스틱
+- **가격**: 7,190원
+- **평점**: ⭐5 (2개 리뷰)
+- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 3세이상 / 튜브형 / 고불소 / 불소함량: 1,000ppm / 무CMIT MIT / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 구취제거 / 인증정보: 에코서트, 비건, USDA 치약 / 인증정보: 에코서트, 비건, USDA
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=51969065)
+
+### 20. 예꼬맘 고고 불소 1450 어린이 치약 60g
 - **브랜드**: 예꼬맘
-- **가격**: 16,940원
+- **가격**: 5,670원
 - **평점**: ⭐5 (1개 리뷰)
 - **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 무방부제 / 무합성계면활성제 / 무트리클로산 / 무CMIT MIT / 불소함량: 1,450ppm / 충치예방 / 인증정보: 비건, USDA 치약 / 인증정보: 비건, USDA
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74185442)
-
-### 15. 금호덴탈제약 에이카랩스 어린이 불소 코뿔소 치약 청포도향 60g
-- **브랜드**: 금호덴탈제약
-- **가격**: 9,600원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 6개월이상 / 튜브형 / 고불소 / 무계면활성제 / 무색소 / 무파라벤 / 무트리클로산 / 무CMIT MIT / 불소함량: 1,000ppm / 충치예방 치약 / 충치예방
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76877318)
-
-### 16. 벨레다 어린이 치약 50ml
-- **브랜드**: 벨레다
-- **가격**: 6,270원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 6개월~12세 / 튜브형 / 무불소 / 무합성계면활성제 / 무파라벤 / 프라그제거 / 심미효과 / 구취제거 치약 / 구취제거
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=101212910)
-
-### 17. 키즈세이프 어린이 유아치약 딸기향 90g
-- **브랜드**: 키즈세이프
-- **가격**: 10,560원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 1단계 / 대상연령: 2~6세 / 튜브형 / 저불소 / 무파라벤 / 무동물성원료 / 불소함량: 489ppm / 잇몸(치주)질환예방 / 충치예방 / 심미효과 / 구취제거 치약 / 구취제거
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93390572)
-
-### 18. 2080 1450 고불소 주니어 치약 80g
-- **브랜드**: 
-- **가격**: 10,260원
-- **평점**: ⭐4.7 (525개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 튜브형 / 고불소 / 무계면활성제 / 무색소 / 무파라벤 / 불소함량: 1,450ppm 치약 / 불소함량: 1,450ppm
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25300310)
-
-### 19. 리치 키즈 피규어 펌핑치약 어피치 160g
-- **브랜드**: 리치
-- **가격**: 9,240원
-- **평점**: ⭐5 (16개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 펌프형 / 저불소 / 무동물성원료 / 불소함량: 597ppm / 프라그제거 / 잇몸(치주)질환예방 / 충치예방 / 구취제거 치약 / 구취제거
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76951766)
-
-### 20. 제니튼 닥터제니 저불소 어린이 치약 60g
-- **브랜드**: 제니튼
-- **가격**: 4,490원
-- **평점**: ⭐5 (3개 리뷰)
-- **핵심 스펙**: 치약 / 어린이용 / 대상연령: 5~7세 / 튜브형 / 저불소 / 무합성계면활성제 / 무트리클로산 / 무CMIT MIT / 불소함량: 500ppm / 프라그제거 / 충치예방 치약 / 충치예방
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76877375)
 
 ---
 
@@ -241,11 +243,9 @@
 ---
 
 ## 📊 데이터 출처
-- [verifiedmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEE9jIuR_19jvSnJflGBh0LEhqBKoGzseguYs3pfk7izSX7SmSEz9cMlaRZ1URN7LSpH2IcXza_BhhKU_gFxQ7gDwSTv3_Vuqn5P6Am2pLtzeB1tjdN-oS1q-QaWQnGB_4Jv8AfFuq-DUXuufIscsYgCP49XtrFiaFhf7QzJWw8598dj5oOXHJ)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESa_U7dhAnhAHyLrIMSp7xl4O53jFa8T2CfBut60xDX3zwEJ02sk9rDjp_pRxIlIIdByZQ4cmXTaTB5AXmpKL7Q9bc4j8LUY6_aOe4asd-lDsXbRLtUgJ1XRX8AProPIDx)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErwrFg7PrXlQ10lxePd61LDBQRri44PhD5THcpWgeMjesGp9cobkZ-5WQ7hWqbuY_7RjrVOPliXodd8ejVK4x5WC9s2KKLwdgbySEyZZEkKep-kLqZfmi4XCG7GzUg8Dcwy12nZrKmgBKGOkbp-Y5fV_46vUAuQrhtj7cQm6MiTuQYaczxrniTbb9DQMY9Rn6d1G62vU7-peL_XiLMCnCV7A==)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaJCT3Z4X1N8sw_R4ioc2CSF3HA9ZJTR_NTmbwGFSmvnNtBWqja7nJ_wuYFQ-Q0tRSTPbQZIkFwBNYeDQwC3-Hs99Nv7WYNV6z_2HgeygN15BGF9-ncBgxscpT4JvWLi48rHw_h8kSxP7TRVRdSRhj8X2cdPMw7_bEmLyqQY42iLmsMHgKzNILdPPq5SDfVz07g2VP-9gs)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFImxYrjy9r5hDQfsL72nCsF6EZPqmrGbTpZECnoVGVGAAYMJbcYbb26C5S1QAhUkCExAccmihVA6l7YmOSgzMEaN1L_Cb3e-KI2IGLrvDwfNncc53NeVwDqjMtBnXZuN3sJ338ALtr066jnjORqApNocKEm-A8cMt68P-QuuDRiKlHLagTqf4gGGrzZQX)
-- [doctornow.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbph9GquF29Jwn47BzF4uamyzSiQAjYkqcZEAd8qhCehtp9v0jpJq7nl0c5weU6k6NxEl9jovcP3UMFBZyTfr8TckcE_HZWGEfFU278NVuwzWyYB_pN3Ilwz5zeOdT53JEsWGMeyAMTrfKUMjt9sKMdqmSM2xkwzkNvwZBvXpj)
-- [onthesweet.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhlrW_QKjXCyqTglxyCvX2Ovc-D-Kg3d0aAr60MkdgvC4cC1-TZ3tt6v6gvMaR5x1inF1nySPFl2uOBa8SD6LRKBUTfM-geMfsfKE3DWcHsAk2NDNkSrv-xvVW)
-- [medicalworldnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0v0UZNnycLpe6c0zaNzxDfc_cEdEwWvSaa37mRXRz8x_TOejTziW1vDFuhLGczqiZadB1d-kdApkfuiwogU1DR-89kpNIL4fyp3M20fjOXDYp81yqHYdCbgVF6FMVKKYQR3lWOVksU8m0PALZt1c64e__)
+- [themomstory.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-qS4NOAEJEXQj1Ghof_lA5tHeixyf7w4ZSIyUyPofHACBvMWarfz04r-Q3jKDD16TrFxeTdr1tFkySvvCHH2mw7Gu878AybYdLd9AMqkspR4-MhcPEmzyg2rZ5nG8VOhNCPNxgqIeYdSt_nQHUSb0ZVO2txOFIndc)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6q629-qOJDlVHlIj_YlA8ny3HN6mMpYdpCHTcw0jxG_ksLfjw6uZCG5WtYOTFFb6ID_edLOxhbV1-JJsAmCj8q6GOhoLE0IiMDl5bTpCq0VdYgJLQf36UvGHf--dn8HpUtftp_FHvRbo1qsA7fizyRzoTCORafZkwi0IX2Q==)
+- [promotioncoup.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuzrl9qcnv9Xu3misbk7QunYCk85YNuoPkVtU2tK4kJ0u8vd6TQAE1aG3OoYWp3Nblw7pF0CZy862iQWQhvBhD8Q1PURd4IlgmIGV5B9JNo5xVO1frShGDdud6-XRGl_wLgZdRrFrWbqo18OO66pQvtWnT-CQSHcjO2k0DQDuN81DKbPNZ-qmy5c0xy6lGzNgE28vOHyQE4D0_jKDs0wG3imYd6pzCQsYQ)
+- [themomstory.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6UA5emGKxyNLxjGDwFeZ6ELpE4X5zCNuZuPPAW3l4uthhmaOogxnkC8GN34rG5IoH4n3quqGvI3soFxQriFAx8hFIZLsSXrqQhwXamtBosSvFzyORfPKaUVahmzvAiCj__iAMCypqiOccDwTiK-LasHaP47esrHFmbA==)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCAg2xBkkO7zHPq1z6dHvZXT-N25D9n-5ZQQF7wVNqkGwzQrLEB3F7ghRhBYmhpIrS4ncJEpz687oXEteuqiesu4PzCEAuXBzbmOQU_FgEmmSYTUP29AyHjZmIccgKiSfpJObaO1I7BGv0PibHYBeX4ru84sfOQm-0ubNePt6WFIhGO1zMe6m35-3xdXTN1DO_Dxg=)
+- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-FDU0vTEA7Pg5ZcnIN79Z3sufELPGCnEd0YvY5XHFN70nWrZS-R_PmnJweG3hS4IBTpj7vRW8wvRQq16E16W8t4UnQmnQiut-aMkXOTKvBrXIe2VVRVovxn7p516kb5Q=)

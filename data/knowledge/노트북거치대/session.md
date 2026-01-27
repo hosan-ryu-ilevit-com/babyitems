@@ -1,5 +1,5 @@
-# 세션: 20260123_033338_66ab
-> 시작: 2026-01-23T03:33:38.182Z
+# 세션: 20260127_013333_mq9n
+> 시작: 2026-01-27T01:33:33.468Z
 > 카테고리키: 노트북거치대
 > 카테고리: 노트북거치대
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 노트북 거치대 시장 현황
-- 인사이트: 노트북 거치대 시장은 휴대성과 디자인, 그리고 사용자의 건강까지 고려하는 방향으로 성장하고 있습니다. 특히 재택근무 및 원격 수업 증가로 인해 노트북 사용 시간이 늘면서, 자세 교정 및 편의성 증대를 위한 노트북 거치대의 수요가 꾸준히 증가하고 있습니다. 알루미늄 소재의 휴대용 거치대가 인기를 얻고 있으며, 쿨링 성능을 강화한 제품들도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVKttNw_T9E0Tj0IhkRWJniAR-lhdUSTz1laxe5ilLSrrq_516g5SAW56zU8-rk6WT5uY91Ez0azL10D0XPxpa6mya78ViGcfAJ9whPt-LAYkruT7yyV7xvbVqMUc0GZNKGvwFO9GHc9rmCqhOba1mLnH1MM8VSYHYxmkNqXwdZi4g2WMYyOwSqkjID5AWEu2ioHOpsaDVy0Rj1vE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiWoxKsOpzQpw5jSn5L0RRkOqPjTmbXNaNAoezk_xTUoIDkjs6SGSpHagNDw-o_MgAp-LJ8RryuZXFTuugFHwFdqwXQVJHnfQCkpXJg4UUwp4fHot4PNWwLkZtjkEl53pw2XKpin9koRi7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQVekkXLw5Z1l_6xZ2HNxVlnXrhbxqXzQBjWG73ezMb4q3dQl0QmqudOxAUwe6BQhA9QBfO9PhKenOGVwyUSFZMsQoJgaTpk8wiTJ0aJ6POcgM-IXL95CFnUCaopDg2aW90SoSXfNL_WjCBMssWGiyuRQT65a6PXJX6LnEM8b-R4EHHli9TwhI7BNP6JdiZ-5-dcU82PKRtjHYJQ5ZN002HjWkZ8JX56QXa3-9Uagd7n_VbbnQsahvkxrl-nUqy7iBDALPiwGjsHARVsCbq4yydWopQNg84lAfYElyrXPZCvlpk7zge-Oze2TWRKAQBULwuKvBiHSasmip4LoQ9pjKa3Ms7bdVeOHOiZ25Y_rWO98OBXsVuXR-kg==
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqouClBxTfzA0kMZoZpJtZqo0k7Mf5SsFOv5eOJvWqJUaDzeUYJTC-1KGqdJr7Am38cM_3NzDNbotPfFaEpKd3ko64vaxlb91iDei7YvrbOUEpvUKD4o1A2gJnvcMDkp0cImoK3B9VQIoPcUTttZBhB-vUDSjuKPvDilPPVeABWfYnS3sW2hpcADNUFgbhfna-Htij4Xft_bXSwQ7NSvWEQPX-5W8iJe-t-zT9k3A-O7FY6lZDDaExAYPKcw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyNhQiJH5_jcElRk1oQPb65ZTF2QpRdXrmYG6PGoyS0RldWb4NCZf5_gTvXOsJ_mjjMwQWrZ57zo1Im9JxXe4DUV_YGuXI1rST63r5ruNFe4IHSl0ASRNyyu2YBeakRKFuU20E16FJI-FSnEfN2IJsYuY-PnzV0rlOC-aZFbZDQ261zZ514u4PQFMxRrVyDO2WYcvJ2PD06nNaKig-_wgG1E6Li4zggKKElF5vXHNZEzvAWnSSbyQT73XHBT4H7qkGefhhb-ZbjWN8UgBI7lfSsOskuenpC4NR9A5E9viiBUyNUAxSx2-QREOUJyaK-NstAz4azZy3EjhZRaTRzYU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHreRDd8gyUGtL8UN2vX9L-m4tKp2wm-LnuRk8cnYpnZQ047uP-gIx9fnlaEXuG8C0Y2SFpjUt_OqyAFdU_J05wgDj8Lufp1pwkZ0C_LpjImTL8t8pRT7lsB4Hz2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHciCUsTQbZJfRyaGz69Vb7u1OW2ytn-WfK3X3zBJS9NtIIQf4ZLKK0tsfA4VFz32f_lgkeJxEev_barGJKXKG-V0th0ZyTC0Zxg1dCwESP7mUh_RNRSfTd_aoSTKrM7vx7-9PrFIbWoeDVoW5pWI6bjF2UMH4puEUO7wQWDMqFqa0N6rMAXCOGNM1CJd5xPDixqMgjp3G4EErE6w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzD9MT-bhuKO_SVWvE9Jr0tpQlzQq0s2QONDD59DZpboYdHrHzygi22_qhuonMclzGiEv6h8N9HZTiINSq9cFipImzV-NIxC_n05sXA-h-aymBF1g6utelyoObYz82ih17JaSb6PVdFoY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgIZzXRmsXtITcGAvuz1Hu0r0MH1CWzwzFV9MNNF2gHLS6lQrC2gPxiZuWJTIH_ZlRt0SbtwmMTc7DtNEF-Jf2EhQXgzRVswYyUEUKb0sIQ0AUlaG9QxF_Cum9GYDm_R77wg0=
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqouClBxTfzA0kMZoZpJtZqo0k7Mf5SsFOv5eOJvWqJUaDzeUYJTC-1KGqdJr7Am38cM_3NzDNbotPfFaEpKd3ko64vaxlb91iDei7YvrbOUEpvUKD4o1A2gJnvcMDkp0cImoK3B9VQIoPcUTttZBhB-vUDSjuKPvDilPPVeABWfYnS3sW2hpcADNUFgbhfna-Htij4Xft_bXSwQ7NSvWEQPX-5W8iJe-t-zT9k3A-O7FY6lZDDaExAYPKcw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyNhQiJH5_jcElRk1oQPb65ZTF2QpRdXrmYG6PGoyS0RldWb4NCZf5_gTvXOsJ_mjjMwQWrZ57zo1Im9JxXe4DUV_YGuXI1rST63r5ruNFe4IHSl0ASRNyyu2YBeakRKFuU20E16FJI-FSnEfN2IJsYuY-PnzV0rlOC-aZFbZDQ261zZ514u4PQFMxRrVyDO2WYcvJ2PD06nNaKig-_wgG1E6Li4zggKKElF5vXHNZEzvAWnSSbyQT73XHBT4H7qkGefhhb-ZbjWN8UgBI7lfSsOskuenpC4NR9A5E9viiBUyNUAxSx2-QREOUJyaK-NstAz4azZy3EjhZRaTRzYU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHreRDd8gyUGtL8UN2vX9L-m4tKp2wm-LnuRk8cnYpnZQ047uP-gIx9fnlaEXuG8C0Y2SFpjUt_OqyAFdU_J05wgDj8Lufp1pwkZ0C_LpjImTL8t8pRT7lsB4Hz2w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHciCUsTQbZJfRyaGz69Vb7u1OW2ytn-WfK3X3zBJS9NtIIQf4ZLKK0tsfA4VFz32f_lgkeJxEev_barGJKXKG-V0th0ZyTC0Zxg1dCwESP7mUh_RNRSfTd_aoSTKrM7vx7-9PrFIbWoeDVoW5pWI6bjF2UMH4puEUO7wQWDMqFqa0N6rMAXCOGNM1CJd5xPDixqMgjp3G4EErE6w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzD9MT-bhuKO_SVWvE9Jr0tpQlzQq0s2QONDD59DZpboYdHrHzygi22_qhuonMclzGiEv6h8N9HZTiINSq9cFipImzV-NIxC_n05sXA-h-aymBF1g6utelyoObYz82ih17JaSb6PVdFoY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgIZzXRmsXtITcGAvuz1Hu0r0MH1CWzwzFV9MNNF2gHLS6lQrC2gPxiZuWJTIH_ZlRt0SbtwmMTc7DtNEF-Jf2EhQXgzRVswYyUEUKb0sIQ0AUlaG9QxF_Cum9GYDm_R77wg0=
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 노트북 발열 해소를 위해 어떤 소재나 기능에 중점을 두시나요? | 알루미늄 소재와 통풍 구조 |
-| 노트북 거치대의 높이와 각도 조절은 어느 정도가 필요하신가요? | 기본적인 각도 조절, 높고 다양한 각도 조절 |
-| 휴대성을 얼마나 중요하게 생각하시나요? | 가끔 휴대 |
-| 선호하시는 노트북 거치대 브랜드가 있으신가요? | 쿠팡, 앱코, 잘만 |
-| 예산은 어느 정도로 생각하세요? (평균 약 2만 1천원, 1만 5천원~2만 7천원대가 가장 많아요) | 1만 5천원 ~ 2만 7천원대, 1만 5천원 이하 |
-| __avoid_negatives__ | 다양한 각도 조절이 필요한데,기본적인 각도만 조절되면 불편할 것 같아요.,노트북이 미끄러지지 않도록 잡아주는 패드가 부족하면 불안할 것 같아요. |
+| 선호하시는 노트북 거치대 브랜드가 있으신가요? | 상관없어요 |
+| 노트북 거치대의 높이와 각도 조절 기능은 어느 정도 필요하신가요? | 높이 및 각도 조절 필수 |
+| 휴대성을 얼마나 중요하게 생각하시나요? | 어느 정도 중요 (적당한 무게/크기) |
+| 노트북의 발열 관리를 위해 어떤 소재나 기능이 필요하신가요? | 메탈 소재와 통풍구, 쿨링팬 기능 |
+| 예산은 어느 정도로 생각하세요? (평균 약 2만 1천원, 1만 4천원~2만 7천원대가 가장 많아요) | 1만 5천원 이하, 1만 5천원 ~ 3만원대 |
 
 ---
 
@@ -61,9 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 다양한 각도 조절이 필요한데
-- 기본적인 각도만 조절되면 불편할 것 같아요.
-- 노트북이 미끄러지지 않도록 잡아주는 패드가 부족하면 불안할 것 같아요.
+(아직 선택 없음)
 
 ---
 

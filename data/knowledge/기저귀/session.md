@@ -1,5 +1,5 @@
-# 세션: 20260126_072016_2u8g
-> 시작: 2026-01-26T07:20:16.774Z
+# 세션: 20260127_014002_tot5
+> 시작: 2026-01-27T01:40:02.533Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 한국의 기저귀 시장은 2024년 기준 약 17억 달러 규모로 추정되며, 향후 꾸준한 성장세를 보일 것으로 전망됩니다. 다만, 출산율 감소로 인해 유아용 기저귀 시장은 축소되는 경향을 보이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu2f_u8dQ1IYuN0P7a4BPExtRfcQPleI56r3oXqBbUZpBdPHwNqPvsMS8rqiGV-WM8YPDiGEHrOJChILjlrjtvPAR5MRjFQctNdNVF22O6QZxwPBV6cEg1LVoviU6s5XwYTDSbBiWIEcIF9rIDrFTjZqmCvFxdSR0C, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7EWMu308KjW6C8Oco0wFhegwng7AtnzB2W8urqu9fRhDTOErVQLvhZ9M3eUWBOyGvwY9PDZhbDGu4j70U1_pLrVzwQfJK7-7N8qn-wb1mAhP9D8VUpkzMo0GnhSRKbC6EG0SSYRRjT0TN7OuA9hiQuIRX5M-h3w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvxfyb-aO0vZVP6dMm2egMsVKVrAXkkyUK1qR8K3i4Xd8j_DzEkTIvzhBseyV9pwEplqNKpo2GPnlfJ5WpFEeBL6QbDkS12e4vDgMUG5poqQize8ysLGdGuUWi4Ekww5wTQMnSwIY7ERKOIuXj25e8WIrSSx2NU3PCtJD8, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEncbaxsk9MWENJySXIovG1GBE9smgnHA_gMRrPEiBHS3zAO48Q_57rNwTBBOqEwxNmRXf607A27SV72YFhkU79GbxgKwL0LsRgaOtbnIwm1e72T8sTEmfZkF5O-EpKDS2VHKcZnfAJrwUqM5Cz-WA0sgFe5rElWA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgVpBST0B5QR5Hh6HGZImfO1Q3hz0RY3tCSemwuQCZh6m7EJQDGLgF2p4xXIAT6UX0jWIqXbP6FxWSC55_h96Om9ie6R2A_CQ0E_ZwgHDOBHy02Zg9f7J6VpdKpn23itZCURzExeG0B1tNvxjL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtwiXXSQN1ZsUG8i-2Pk66r-bC6P8Mxf3EeIlhkJLO9yurJCMM-t5agNL2hvarOaL2rxh_fBidqasvqN2P6T9BzmP-gLAfx3kjKMBgK4C5j_kblxIYy55vSqladr9LAcfOUr3by_U1_KsOJyXh9tbVstF8_otfphMHAcQ=
+- 인사이트: 2026년 1월 기준, 하기스, 팸퍼스, 페넬로페가 인기 기저귀 브랜드 상위 3위를 차지하며 시장을 이끌고 있습니다. 전반적인 기저귀 시장은 출산율 저하의 영향을 받고 있으나, 고령 인구 증가로 인해 성인용 기저귀 시장은 꾸준히 성장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpUnwRnmDnmboJzYV9K_-f3Mlo3I2-cS0Lnvrx8e-JCejk5nN67J_JPfVFbWj0_klR3i4ObklpOWdi1bjgNGUFZM1Z2u7EEkMS3Zw5_IesJ6fp_H8EnDGKljt-7RmPPjYaYCkRN1dp-b21J3ogMWTOI-2P, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnwILXnkuDh8mBvU_dAkR7XWlwPNFRo4ge9AroBbU-4TH8IS4nClrhRuIPxjuIpq9t1NuT-Udla4CKY1jnOX-uMPeQYlCTN1lcmfgknz_MjTLSurpoHc3agtIcU8CRFs_eSKod2VDVT5IoaQtpS71020JeMu7MKK2sU625UWds5jU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0z474Dcx75O0SzRRLA8mVmAnLAl1slO-O7AAETs6y48HJCAJ1M3BSYB11x3VtZjxDjFVZDbPHsZw6mrA8nf-ctPfcm0b7tzxL4O_0Sm0N9TSYb_wXbwobSFIPFOFBkwLiVHDxZ0BMp4siUiBMRrYW-HG8VWWTzw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhFyBKmoCV1B-5iW5ZVOM4IzpW7TTwp4BuXiU8rKkFa5n1K1gEt1AFckdX_tg0F8qs3UTT9wI2rBx616yV46ooUvyJAYU3ylRIfbThQe-SP57GXH0oNDud2G18Emq_IKEUQjTEHNchT43uG_FComM_czGuhZ0_75OLiQY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4QgCS4EzSodZe2IFHXZ_D5QhyPts-qr5bYphMaf-22JyU2_rCsusRfOUnjQXy2bFG70HWVhBHeV0fd0vERlTuxvES2iNka85RIQh2ZbivYf3BnFshAymtIu8-6h50wttXxxvTtgUg_Ds9ijIgO2Y90UbIkqfmY3Uf8aNxzg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMJVeXRtewk7FjwD15dyeAos2eRw5cQNXcKvhucfK3-UH0ytwP5h4X4ruaqZLd7hYCA73Ht5ETANUSiGI6TzlUe79XZeDxld0k4M_g8Ldtg5RMxMBFfbt0cIbjGRLTVQwlHQqIFcuM27UjAmPkL_hfz7ELlvN9jPUrVuVPr9cexIA=
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 몸무게는 어떻게 되나요? | 4kg 미만 (신생아) |
-| 어떤 형태의 기저귀를 선호하시나요? | 팬티형 |
-| 기저귀의 흡수력 중 가장 중요하게 생각하는 부분은 무엇인가요? | 오래가는 흡수력 |
-| 선호하시는 기저귀 브랜드가 있으신가요? | 하기스 |
-| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 4천원, 2만 2천원~4만 5천원대가 가장 많아요) | 4만 5천원대, 2만 2천원 이하 |
-| __avoid_negatives__ | 매일 많은 양의 기저귀 쓰레기가 나와 환경에 부담이 될까 봐 걱정돼요,아기 피부에 자극이 되어 기저귀 발진이 생길까 봐 걱정돼요 |
+| 아기의 현재 몸무게는 어떻게 되나요? (사이즈 선택에 가장 중요해요!) | 신생아 (2.5kg ~ 5kg) |
+| 아기의 활동량에 따라 어떤 형태의 기저귀가 더 편할까요? | 밴드형 |
+| 기저귀 소재에서 가장 중요하게 생각하는 부분은 무엇인가요? | 통기성, 부드러움과 피부 자극 최소화 |
+| 소변 흡수력 관련해서 어떤 점을 가장 중요하게 생각하시나요? | 샘 방지 및 오랜 시간 유지 |
+| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 4천원, 2만 2천원~4만 5천원대가 가장 많아요) | 2만 2천원 이하 |
 
 ---
 
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 매일 많은 양의 기저귀 쓰레기가 나와 환경에 부담이 될까 봐 걱정돼요
-- 아기 피부에 자극이 되어 기저귀 발진이 생길까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

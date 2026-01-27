@@ -1,26 +1,29 @@
 # 전자레인지 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T08:00:58.668Z
+> 마지막 업데이트: 2026-01-27T01:35:47.327Z
 > 분석 상품: 20개 | 분석 리뷰: 36,673개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 스마트홈 기기 연동 확대
-- 편의성 및 다기능화 추구
-- 친환경 및 에너지 효율성 고려
+- 스마트홈 연동 기능 강화
+- 다양한 부가 기능 탑재 (예: 의류 관리, 혈당 측정)
+- 구독 모델 도입 확대
+- 스마트홈 통합 및 AI 기반 제어: 음성 인식, 앱 연동, 사용자 패턴 학습 등 AI 기술이 전자레인지를 포함한 가전제품에 더욱 통합될 것입니다.
+- 다기능 복합 조리: 에어프라이, 스팀, 그릴, 오븐 기능 등이 결합된 복합 전자레인지가 인기를 얻을 것입니다.
 
 ### 구매자 만족 포인트
+- ✓ 편리한 조리 및 해동
+- ✓ 다양한 요리 활용 가능
 - ✓ 빠른 조리 시간
 - ✓ 에너지 효율성
-- ✓ 다양한 활용도
-- ✓ 영양소 보존
-- ✓ 안전성
+- ✓ 뛰어난 가성비 (일부 모델)
 
 ### 주의해야 할 단점
-- ⚠ 조리실 깊이 제한
-- ⚠ 완벽주의 성향
-- ⚠ 계획 집착 성향
+- ⚠ 조리실 크기 제약
+- ⚠ 수분 손실 가능성
+- ⚠ 일부 모델의 소음
+- ⚠ 스마트 기능 복잡성
 
 ### 가격대 인사이트
 
@@ -242,6 +245,9 @@
 ---
 
 ## 📊 데이터 출처
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExEXgLR29syUSBUibX_lLBsCF_uDFiOOlK4wA3vDMN_51a1p2htGYDcMxeW9TTGKZ4Sytv604Z9sIpKof2Bp4wYSvUBOM0n7ryroftZ5qs-XHPgTeHQYrsg-DaHeRvCVEkjwkTz82awJE9JviXQEh6hbcxC7z3fPKBSu2FwniJbRtA)
-- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE25cfd41E5nJsjETFlH-8LXv-OT4sVbR94wRoBQ0QiUZycyEqRNSscAx_zO46p7m5ozXYHYC44yogWsBHiW6rYTfXm6kfydwQ7DgbypFFGjtoBiANuNWH57tVwkXe0xZf2g18yW1OI42LWPOaf8PTz0jFmvGJyng==)
-- [electimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEuQkmkEKWAg0euFxuORqACNWyhs-O7NhvrjrKeNQwtQjTzmK2eOXTdwtLssdOpCIQQHU488DZeLwlQ6xq9H59X1faS6ANwYvnMqYiWUlGxwB1KzWw9PAjiYAULD1Iox4-wSCqcVN-55e_wK5QTWPflln3Ooz0)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQmh2Qr7VMveopBVkEMP9Pg_eUXPcrmsrvwZodKyZUetkSXWtGv0jFZc049fiumOtNdTh4ENDYlBqfWvI5OVQiHaB9I-LjXBeXbbi7Z-YJ-c_RpPpMD7KIv7kY-c8E_tRf0n28CWarGoAzsnjTB16d0MPpodeHQQrhMQSNpH3P8Q==)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEORLC4utNw27Rp2OnHZUvt1p1PcBKequoE02BRpTmquGCKwdNRJMpyrv5hOhq_a9nGM7CL8orfH2R2RfO40un8-GSWY8XctnsTUsLKUACs_k0OGWnLjLnM30GaImQ0AwWG_ih1HpDrjeI3Dbe26V5ZYfU79MwZjsQBbMmsvtKMSuNFw==)
+- [electimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdYCMVKBvCe7U2otx-Vqh4cM1q551BChxC_g-jfrdDwsU4Pf-fImeejTD91VUS_O-ylFfvWvceY7m-a4tQ6tlqs40dk-DRnFKcy9bw6OW47_8h2d2-FuwdmB7zRQRP8T0VYp4uY_O17yno7C825WKljsGCb54v-w==)
+- [juddblack.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfxy4gtxIdL_pudOZQ_BX261USfrHTeMJFPiwLX1wMvlS8HV0i34OAFotHFKUxM_tE0lHzOTa53rsipcCZVH-pqh1trk4H5r6QgDUhpHtbBIj6LMYGSXFdxk773s03Z8aZ1cj1wMZ_xr-Uo-eJobWSvzWKffo8K3UiMg==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpOpiqI5MAQCwmJ_z-4BCYIm20gG4q1F_4P8ar23veAZIrC_LM8PWjUfW68RJOT6q2m28kr95tp14JGrukWdu_7Prl8t4JDTOVcD9idas0jkDV7SAGAN0ZkTTrbV7eSWxhU5L834WFewdoblL9Hr77OwHs24KILlnrwUHVqHWAyFtiK-YuY5WN49wC7TfyJDp6zWJWpeDCctzaVjoC3VU5rTcG5sUuKNcG7Sy8mZCqxJNadTtHeRFJu0vdX1gPPw2it9g1VD3aPHaHhUwQUwmZ_47B3ZlpuXzU0FB2HlzTylIe7XflGd6AK5RBndq_4-ZWz1gUDT1i-qiwMXHqXRCo3-wySeun66DH1Ko6JN3i9ij4MMGsbZib_bdmVMMwzqf8fiVtePVKlvFo-OfRMzr-TT4kZC-ky9FELHrolJVY5TX7I1IFrRtnz-ys5XONziEahGVYh9ormGN1uRUd-_z_8x4RYGDJayaLI8Yu3jOesFviawnqW03VelOla_a4)
+- [bizwatch.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz_xOyfKLFIiponV_CB5NpBQq3CUVz5wjHE6KDE1htesJdRr2CZWDbGMMBDErKN_VkOFj_Sq9D2ooRYstzVNe_k8U12K2dQ7GsLoiMkAvWqDNn4Guq_ylr0rObCUazgH-aAywptncpIzONjPRZ7Lr3HEcfLC8=)

@@ -86,7 +86,7 @@ async function filterRelevantProducts(
   console.log(`\n🤖 [Relevance] LLM 기반 관련성 필터링 시작 (${products.length}개 상품)`);
   
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
     
     // 상품 리스트 준비 (이름만 추출)
     const productList = products.map((p, i) => `${i + 1}. ${p.name}`).join('\n');

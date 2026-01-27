@@ -1,5 +1,5 @@
-# 세션: 20260122_125111_sv4s
-> 시작: 2026-01-22T12:51:11.821Z
+# 세션: 20260126_133619_job2
+> 시작: 2026-01-26T13:36:19.546Z
 > 카테고리키: 전기밥솥
 > 카테고리: 전기밥솥
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전기밥솥 시장 현황
-- 인사이트: 전기밥솥 시장은 IH 압력밥솥이 주도하고 있으며, 가성비를 중시하는 소비자층을 중심으로 열판압력밥솥과 비압력밥솥의 수요도 꾸준히 증가하고 있습니다. 1인 가구 증가와 즉석밥 시장 확대로 인해 국내 전기밥솥 시장 성장세는 둔화되고 있으며, 이에 따라 제조사들은 해외 시장 진출, 사업 다각화, 중저가 라인 강화 등의 전략으로 활로를 모색하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHr1piAOekdMieXMbkGeS9pCO42uxGwOA213ff0wPvWpJNXYpJbOi84VbzoSpttWLoGskSOvbF-BBrw9R4UyAj8BajJ6QZN6vDj6afqTOvd8EojUsf_TfDYDVjgAPby_lWGSC8vt2NwpQDaksNK__7ipA0w_cF6pFInhIZKEmjB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJJw_F9BA-57eLZrRtxy6sxdEzqLYYB4OlAoH3pH4HRRdDE4TpCigdp_hUleMDEig171O9277d9CElbrTUW4jZN3dN1Mm-v8JO7MPryZeTAfkUChlUivgErJXaizBI2vXF-FvAH8sqskgdlA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG91IMmCn3gatrHjcPXk0ikYHnwpHrXTig4SCGcYchTKqmvrt4GFP2jc1P7JSlZXlOXkPKeMq-Md5sJ9dZujHGWaF8bRYonqGgJZ3m_4bj-ris2_zSawKgm0tMhiyew2B7tXvxhufGA_7bQOcQYg7_YTUlk_3eWXN5AFpAesUV_HGCntlONds8X, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQES0bVUZ3-W8PLB0GA8D1YIIFDC2UOB--a9uNT21loJXFk84CiOYXx-leWrzg1YXdhL6XciO8y7Uq4zk9Xa4MGuLN0lyZsyY2iHbsKVZBhWOu2KEtrOErl2-0SQZxn8TCUw8GSz51XDbZcgatlopass6Ht1ZW5PcjRhZvKxJot3TOj_oZejySgVrpE11DibkP65nQ14N2a4a-zcM2dw4gunFgJJBdJMdJ4Bk2o0EBptJNNewb_5bPLNjZyQqTpv2QQuMfz2w5_w1ujj_L_B5fjLGkToojo49IkNh8kF3bkhWitR0E0KnEOgLKNVZjtW0_-zM4cUHUQSrhMlprf0TI-6hDV07T5O_euyyThWtym6orTcjqsKYJUJmSJFLV8hhdSi3Z4RjTMY_fE8GHbRmi9jLK6qrjrksBLSLMIvMpGBJQjQQt_sLolQBHLve2td6Fmcaw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnYeH-PmaBiFVwegqHwDq73hBLiN2rWy1Bw_iu1BVD3GwjyWw8JfRw37AW0GLlsrWKCS0BqVroYhoHsC84fyOCQ8bMUq8uUL2Eugu_htieeTex9Ro6MMgtkLjbC07gm7P4DjoeAqQUtBBZrDqdCYF11lxAYgw=
+- 인사이트: 국내 전기밥솥 시장은 쿠쿠와 쿠첸이 약 95%를 점유하며 양강 구도를 형성하고 있습니다. 최근 1인 가구 증가와 즉석밥 시장 확대 등으로 인해 성장세가 둔화되고 있으나, IH압력밥솥이 여전히 시장을 주도하고 있으며 스테인리스 내솥에 대한 선호도가 높습니다. 해외 시장 진출 및 사업 다각화를 통해 돌파구를 모색하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdMidtrHBteKmKbgX6pImHLFkmcSDAjBnUtsKEVZSe2mKm8-lymCuXhZ-2KLFmaZZJHf6wn1hu4kp-KCPcWGqE2lEP2gS1dQYYc8cDq528nsASOySJtexLydOMe6khy-4A7QCxxadHAoCgyg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHx9omhMoAv8dg-4vwY-YU6DA6053f_-WdkKCyBLr83f-BwFc2x0FhkArnEIXIGgI4nfNy3g87dMuDtXV_n19dcrGMBvR9JWBhFA9fHSfTB5m8KR1iDGTVKLavKPLgOafGyAipFg8c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsHuQlZ5LfnsFlvpOmXvAosLrHNFNbtQw3BrpGm0uTAXv7PvkHZohHKnXk6ahAHHiZMJsGls5LHPKkaIUUborK3_FuZxT1HkPpqgBybd4qXFS6QBUGog5-pQvz5hJIh_nUuw7zQfNsuWLsJ6njEm50AcFGfs7OaAKBf3MsXqmrDbprvifk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxZsBzpOhxGvkPsMgeeC1PuhuDc97e_wJUu3iXaVWviBcw-nqu9h_kHSWTvuar8JaSWnJ-RVNrnhDnXPxaZrE0aHA91pF_4nVWsiuMDNlpgeI3X5CM64lhYaZm2hg2GkOBayb03fsQr-drPNkUWBUW0BKPu9Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJ5O3yR9dwnHLPr_03SPsF899n_EBFM9ZbvqszM7BLYxE9sugLsUooB3XnrRPaDnp-gnlCQXVXhkNQD-wYjJM13KbriCK8JlCPltdygJnIdf2LbCGFZUgDfdv7PrRzvq-i0hbn_Xk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH33W3uKGI0iznno5WjvBESBt_PTtuEq8YQCMFB3CfwYEVPecRAtsDc8AfB3R9L5800bDu94GAeLZpBtWEPS0PXmYJfFDYL0gUaNMjoU2KIon45YDk9dhNpOIG-s5aQAx6F8vxwUG6XXJzOk2J_p6C--fz9pUSkTtG77zF85JqRrhbGbqAN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGammcHs86sMtYY_rMx-8MxHWoYIO02jDQsDAWOB9IDbWrRRE8RGhkPJmwVxP0HeM_s99b0yqdHOnCGmN4t6XR33tQf77g8GgWMlZgfrAc2KCfX-rj5XFtHtfb4DUqViZvo_gZhZt4wB1QxQ1Y8vDebxr8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmCg_CE0M_PeS60pKx3rhxAnGoXJGbCpmHAtE0vyNSSBwbrrHe3fNdX7Dnb21Y4qe_jp_WV13lUXVKMmkv4PoOl6bPLvBtovxnLpIj5wTytUbtIfkHB66nRn6KJJhYoAvqr4wspIt__396GSibnPJ74jXJA6yXb-Yb9nW_S2of_lAWPEJs
 
 ---
 
@@ -16,40 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식으로 밥을 짓는 방식을 선호하시나요? | IH 압력 방식 |
-| 밥솥 내솥은 어떤 소재를 선호하시나요? | 코팅 내솥 |
-| 몇 인용 밥솥을 찾으시나요? | 1~2인용 |
-| 밥솥의 압력 기능은 어느 정도를 선호하시나요? | 고압력 (2.0기압 이상) |
-| 예산은 어느 정도로 생각하세요? (평균 25만 5천원, 20만~33만원대가 가장 많아요) | 20만원 이하, 20만원 ~ 33만원 |
-| __avoid_negatives__ | 보온 기능 사용 시 밥의 영양소가 파괴되거나 맛이 변할까 봐 염려돼요,잦은 사용으로 인해 코팅 내솥이 벗겨져 건강에 좋지 않을까 걱정돼요 |
+| 어떤 방식의 밥솥을 선호하시나요? | IH 압력밥솥, 열판 압력밥솥 |
+| 내솥은 어떤 소재를 선호하시나요? | 스테인리스 내솥 |
+| 몇 인용 밥솥을 찾으시나요? | 10인용 |
+| 선호하는 제조사가 있으신가요? | 쿠쿠전자 |
+| 예산은 어느 정도로 생각하세요? (평균 약 24만원, 15만원대~31만원대가 가장 많아요) | 15만원 ~ 31만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 112개 (전체 112개 중)
+현재 후보: 111개 (전체 111개 중)
 
 ### 후보 상품
-1. 쿠쿠전자 CRP-DHP0610FW - 231,420원 - ⭐4.6
-2. 쿠쿠전자 CRP-CHP1010FD - 246,430원 - ⭐4.7
-3. 쿠쿠전자 CRP-DHP0610FD - 212,060원 - ⭐4.7
-4. 쿠쿠전자 트윈프레셔 마스터셰프 CRP-LHTR0610FW - 300,161원 - ⭐4.7
-5. 쿠첸 브레인 듀얼프레셔 CRH-TWS0610W - 206,600원 - ⭐4.7
-6. 쿠쿠전자 CRP-P1055FD - 140,230원 - ⭐4.6
+1. 쿠쿠전자 CRP-DHP0610FW - 208,730원 - ⭐4.6
+2. 쿠쿠전자 CRP-DHP0610FD - 208,730원 - ⭐4.7
+3. 쿠쿠전자 CRP-CHP1010FD - 239,760원 - ⭐4.7
+4. 쿠첸 브레인 듀얼프레셔 CRH-TWS0610W - 202,200원 - ⭐4.7
+5. 쿠쿠전자 트윈프레셔 마스터셰프 CRP-LHTR0610FW - 304,280원 - ⭐4.7
+6. 쿠쿠전자 CRP-P1055FD - 144,360원 - ⭐4.6
 7. 쿠쿠전자 CRP-DHAS069FWM - 272,860원 - ⭐4.4
-8. 쿠쿠전자 CRP-P0660FD - 147,016원 - ⭐4.6
-9. 쿠첸 그레인 CRT-UPDS1070W - 296,100원 - ⭐4.7
-10. 쿠쿠전자 CRP-CHAS109FW - 297,780원 - ⭐4.5
-11. 쿠쿠전자 CRP-HUF10BS - 169,864원 - ⭐4.6
-12. 쿠첸 그레인 CRT-UPDS1070SB - 296,100원 - ⭐4.7
-13. 쿠쿠전자 트윈프레셔 마스터셰프 CRP-LHTR1010FW - 353,490원 - ⭐4.7
-14. 쿠쿠전자 CRP-CHAS109FWM - 298,290원 - ⭐4.4
-15. 쿠쿠전자 트윈프레셔 CRP-FHTAS0610FW - 286,050원 - ⭐4.6
-16. 쿠쿠전자 CRP-JHR1060FD - 276,510원 - ⭐4.7
-17. 쿠첸 그레인 CRT-UPDS0671W - 275,848원 - ⭐4.7
-18. 쿠쿠전자 CRP-JHR0660FD - 244,020원 - ⭐4.7
-19. 쿠쿠전자 CRP-FHXB0610FD - 272,000원 - ⭐4.7
-20. 쿠첸 123 듀얼프레셔 CRT-XPD0680SEGI - 332,100원 - ⭐4.8
+8. 쿠첸 그레인 CRT-UPDS1070SB - 289,670원 - ⭐4.7
+9. 쿠쿠전자 CRP-P0660FD - 147,790원 - ⭐4.6
+10. 쿠쿠전자 트윈프레셔 마스터셰프 사일런스 프로 CRP-PHNLTR0610FGW - 414,390원 - ⭐4.6
+11. 쿠첸 그레인 CRT-UPDS1070W - 289,670원 - ⭐4.7
+12. 쿠쿠전자 트윈프레셔 마스터셰프 CRP-LHTR1010FW - 353,250원 - ⭐4.7
+13. 쿠쿠전자 CRP-CHAS109FW - 284,510원 - ⭐4.5
+14. 쿠첸 그레인 CRT-UPDS0671W - 274,500원 - ⭐4.7
+15. 쿠쿠전자 CRP-JHR0660FD - 237,910원 - ⭐4.7
+16. 쿠쿠전자 에그 CR-0375FW - 61,970원 - ⭐4.6
+17. 쿠쿠전자 CRP-HUF10BS - 169,864원 - ⭐4.6
+18. 쿠쿠전자 트윈프레셔 CRP-FHTAS0610FW - 286,050원 - ⭐4.6
+19. 쿠첸 브레인 CRT-TWS1030W - 234,350원 - ⭐4.8
+20. 쿠쿠전자 에그 CR-0675FW - 62,210원 - ⭐4.6
 
 ---
 
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 보온 기능 사용 시 밥의 영양소가 파괴되거나 맛이 변할까 봐 염려돼요
-- 잦은 사용으로 인해 코팅 내솥이 벗겨져 건강에 좋지 않을까 걱정돼요
+(아직 선택 없음)
 
 ---
 

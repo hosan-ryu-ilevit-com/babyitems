@@ -82,7 +82,7 @@ const DEFAULT_QUERIES = [
   // 신생아/영유아 완구
   '아기체육관', '바운서', '점퍼루', '보행기', '모빌',
   // 인기 완구/교구
-  '블록장난감', '로봇장난감', '소꿉놀이', '인형', '킥보드', '놀이방매트',
+  '블록장난감', '로봇장난감', '소꿉놀이', '인형', '유아동 킥보드', '놀이방매트',
 
   // === 생활/주방가전 ===
   // PC/주변기기
@@ -542,6 +542,7 @@ async function main() {
 
   const queryArg = getArg('query');
   const runAll = hasFlag('all');
+  const resume = hasFlag('resume');  // 이미 완료된 쿼리 스킵
   const productLimit = parseInt(getArg('products') || '120', 10);
   const reviewsTopN = parseInt(getArg('reviews-top') || '10', 10);  // 상위 10개 제품 리뷰
   const reviewsPerProduct = parseInt(getArg('reviews-per') || '5', 10);  // 제품당 5개 = 총 50개 리뷰
@@ -563,6 +564,7 @@ Knowledge Agent 캐시 프리페치 스크립트
 옵션:
   --query=<키워드>     검색 키워드 (단일)
   --all                모든 기본 카테고리 실행
+  --resume             이미 완료된 쿼리 스킵 (--all과 함께 사용)
   --products=<N>       크롤링할 제품 수 (기본: 120)
   --reviews-top=<N>    리뷰를 가져올 상위 제품 수 (기본: 10)
   --reviews-per=<N>    제품당 리뷰 수 (기본: 5)
@@ -578,13 +580,46 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
   }
 
   // 실행할 쿼리 목록
-  const queries = runAll ? DEFAULT_QUERIES : [queryArg!];
+  let queries = runAll ? DEFAULT_QUERIES : [queryArg!];
+
+  // --resume 플래그: 이미 완료된 쿼리 필터링
+  if (resume && runAll) {
+    console.log(`\n🔄 Resume 모드: 이미 완료된 쿼리 확인 중...`);
+    try {
+      const db = getSupabase();
+      if (!db) {
+        console.error(`⚠️ Supabase 클라이언트 초기화 실패`);
+      } else {
+        const { data: completedData, error } = await db
+          .from('knowledge_products_cache')
+          .select('query')
+          .in('query', queries);
+
+        if (error) {
+          console.error(`⚠️ 완료된 쿼리 조회 실패:`, error.message);
+        } else {
+          const completedSet = new Set(completedData?.map((r: { query: string }) => r.query) || []);
+          const skippedCount = completedSet.size;
+          queries = queries.filter(q => !completedSet.has(q));
+          console.log(`   ✅ 이미 완료됨: ${skippedCount}개`);
+          console.log(`   ⏳ 남은 쿼리: ${queries.length}개\n`);
+        }
+      }
+    } catch (error) {
+      console.error(`⚠️ Resume 체크 실패:`, error);
+    }
+  }
+
+  if (queries.length === 0) {
+    console.log(`\n✅ 모든 쿼리가 이미 완료되었습니다!`);
+    return;
+  }
 
   console.log(`\n${'#'.repeat(60)}`);
   console.log(`#  Knowledge Cache Prefetch`);
   console.log(`#  쿼리: ${queries.length}개`);
   console.log(`#  제품: ${productLimit}개, 리뷰 대상: ${reviewsTopN}개 x ${reviewsPerProduct}개`);
-  console.log(`#  옵션: ${skipProducts ? 'skip-products ' : ''}${skipReviews ? 'skip-reviews ' : ''}${skipPrices ? 'skip-prices ' : ''}${dryRun ? 'dry-run' : ''}`);
+  console.log(`#  옵션: ${resume ? 'resume ' : ''}${skipProducts ? 'skip-products ' : ''}${skipReviews ? 'skip-reviews ' : ''}${skipPrices ? 'skip-prices ' : ''}${dryRun ? 'dry-run' : ''}`);
   console.log(`${'#'.repeat(60)}`);
 
   const results: PrefetchResult[] = [];

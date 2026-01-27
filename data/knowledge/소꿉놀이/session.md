@@ -1,5 +1,5 @@
-# 세션: 20260123_052822_l9ht
-> 시작: 2026-01-23T05:28:22.934Z
+# 세션: 20260127_054132_s7ez
+> 시작: 2026-01-27T05:41:32.949Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: 소꿉놀이는 아이들의 역할 놀이를 돕는 대표적인 장난감으로, 특히 여자아이들이 선호하는 경향이 있으나 성별에 관계없이 아이들의 상징적 사고 능력 발달에 중요한 역할을 합니다. 최근에는 다양한 교육적 요소를 결합한 스마트 장난감 시장이 성장하면서 소꿉놀이 제품 역시 이러한 트렌드를 반영하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_b37EsREZjIHFrfcS2BvnplntuYxWjgcOn0wQTzA2obFpY9nzgg7uwAxOTFWHAhg7y2GUF2OcI20ty-jkJhlpao91AHjOEEMXHu-CE9k8Hs0I3GXpRXFzNJ0CrfulFL72STS6xpO_lYySWWOsY3oK_0g2AQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdnmyn3RmcFmUEKfU7G0TUjBQMme95VzfpGf35yoS_wEreD9L84oRJSX2NxGlO1bB4RfbA_YqQ8PNTWU49426yi3GP6rdvK0SX3DC_xuHKSK7WaznTIlrnruhaDjDNk26hsiIElijydLuCnwXjSxWyBfxR0LzaDSVK7gjJBQs1sazIhIjv3XU-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-kD20aAsGiScG-3r0ePrZk-EQFwE30qet7uoW6NsNePiH23q4UOC-M7POzqkj3C9ANUYruo_cEUcg7l1VaQqiTEs4S4Ix_AarOME0c2qln8pQuon2bujnH0Af1P99bqqzRKnathsy9u5F3rFC5cJjrBoYqkxHQrkwiXT-
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFChU6Wk3TslzU2dxP24E7ZJ74aw1wvlxFU343Z7YHw0PpKoMr8Z3RGDPpgPf8VeTIpoxr5prwHYceeUi3QtJaZUEuZlnHrDfbwAcls3Z4RVROOGxwdEtCBy-vd-B1gRHQ_RdSNevb-7-GHitHCLBhE_gr9oL2jZ39bk6fzVBj3PU3psg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZLF2Nw5HzIaaryzI-4tDQ9VURK-Pi73scFmiAFG_fbWnpiNtbchfUb8p8Gsd6XYPHHIrKSCf6BkC8a9AiHkZUZ3IAUkxzyqoR990fAJDqHY_4qtBtI0KjZ1EHanVdkobNAnkw8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKT-vGPq4JwPhWL7s03SqdrnSHzwSet7HXHUfVGHKUfFVgrRt1f5ER-r8xR-wIgDdipyjYtSIsnhAVHVgGQbAgR9aH0WRa2R4uvLGtkB_ldhHYEvm-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ-MsjBgK1XjEjYf_a3CFInbDhXUeRXX0uXfoGV5WN9YjlqD_F7y7aHxu6_C710Ok0SHS3D-YKzZYXUTlkKJoVyvtFBxUNhRFhnlRVLUz-hcSkAeJxI89oIbqr4ceUg0KZ03P92w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYog2qjtMCEQE731jyZGCxt5f2lrQV4OAkmlip-k-KHUjW6aC-q2qMKQRV2CDbrPV5RWHecu94bhiG5BcdMoCGpFY3SM3eSvw458fq8kIdlFnaM4Z85pZ-KgNXzy9xkdwLZSU9L8WtzMNwLOSSDPMeTNHWZMk9TjPPaPDVEqWDutJ0Do0ifZcT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpviVHPjTpK15XE2mnaFtuHBtAaaDkwESSnGEnpmAp7vcDvSPftTtPqJLFJ31L8dyZcIVq0uBkSD18OP0CkgPfFr4ZD8-ad-htnESI_1gUCTuN70Bbyo5mSyo5cBysRsKPm4ck6FgT7kc0EI-Aq3j7XqahGd0BxpI08KWSknSt2JyGXHCmkS8TVVd7ksPOF2Mc5CrpzgeebQFkM6aCEGJG6A4t-qPdjUFaXQicH8xIEFUXSA0jdf7uMIsR_GuekwN4C6IsR3Sh95Y2aCh06xw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJWcEpoVAQQEhG0EinGT8qzIFqKuAsSQJewJXTINpw1GNFX9cJanyQVveWDexesUdssFyuNedueSUGd3i0oeroz5kelEIBZQ6TY5AeaBOHNUxkPwdQW6PWa5dbdtQJPZdtRDcVMu2T2K2SWYL0Nck7zcMZqucsEG2w9ixOUpuz6Scv44vDWBBYAIlwoFNan6hYcvF7VGFfkdiiqMPnLudEPUghsSCH6OcnEpSrFICzKHn6vN_1OI1xG-zzo0jsRgcl5Ew9GBo3FRr61ck0mZaRR-tjH8c1FlIjDLcwcID0, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdT9sXny0rBPIAUFbFOoCTd1vyyG4nz7UKCgPVhE0132x-AIXlF55d2nC1fiXIHZauqeNeigLpHU-FxhNU_NFYG4Y8j2Zey0mPYS9Dau_fgG18KxHCr-AIIL_IMTJgiInOQyCRBeArUJ1KM8SSBBb1BeR-IeSq6Ald2w==
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFChU6Wk3TslzU2dxP24E7ZJ74aw1wvlxFU343Z7YHw0PpKoMr8Z3RGDPpgPf8VeTIpoxr5prwHYceeUi3QtJaZUEuZlnHrDfbwAcls3Z4RVROOGxwdEtCBy-vd-B1gRHQ_RdSNevb-7-GHitHCLBhE_gr9oL2jZ39bk6fzVBj3PU3psg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZLF2Nw5HzIaaryzI-4tDQ9VURK-Pi73scFmiAFG_fbWnpiNtbchfUb8p8Gsd6XYPHHIrKSCf6BkC8a9AiHkZUZ3IAUkxzyqoR990fAJDqHY_4qtBtI0KjZ1EHanVdkobNAnkw8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKT-vGPq4JwPhWL7s03SqdrnSHzwSet7HXHUfVGHKUfFVgrRt1f5ER-r8xR-wIgDdipyjYtSIsnhAVHVgGQbAgR9aH0WRa2R4uvLGtkB_ldhHYEvm-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ-MsjBgK1XjEjYf_a3CFInbDhXUeRXX0uXfoGV5WN9YjlqD_F7y7aHxu6_C710Ok0SHS3D-YKzZYXUTlkKJoVyvtFBxUNhRFhnlRVLUz-hcSkAeJxI89oIbqr4ceUg0KZ03P92w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYog2qjtMCEQE731jyZGCxt5f2lrQV4OAkmlip-k-KHUjW6aC-q2qMKQRV2CDbrPV5RWHecu94bhiG5BcdMoCGpFY3SM3eSvw458fq8kIdlFnaM4Z85pZ-KgNXzy9xkdwLZSU9L8WtzMNwLOSSDPMeTNHWZMk9TjPPaPDVEqWDutJ0Do0ifZcT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpviVHPjTpK15XE2mnaFtuHBtAaaDkwESSnGEnpmAp7vcDvSPftTtPqJLFJ31L8dyZcIVq0uBkSD18OP0CkgPfFr4ZD8-ad-htnESI_1gUCTuN70Bbyo5mSyo5cBysRsKPm4ck6FgT7kc0EI-Aq3j7XqahGd0BxpI08KWSknSt2JyGXHCmkS8TVVd7ksPOF2Mc5CrpzgeebQFkM6aCEGJG6A4t-qPdjUFaXQicH8xIEFUXSA0jdf7uMIsR_GuekwN4C6IsR3Sh95Y2aCh06xw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJWcEpoVAQQEhG0EinGT8qzIFqKuAsSQJewJXTINpw1GNFX9cJanyQVveWDexesUdssFyuNedueSUGd3i0oeroz5kelEIBZQ6TY5AeaBOHNUxkPwdQW6PWa5dbdtQJPZdtRDcVMu2T2K2SWYL0Nck7zcMZqucsEG2w9ixOUpuz6Scv44vDWBBYAIlwoFNan6hYcvF7VGFfkdiiqMPnLudEPUghsSCH6OcnEpSrFICzKHn6vN_1OI1xG-zzo0jsRgcl5Ew9GBo3FRr61ck0mZaRR-tjH8c1FlIjDLcwcID0, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdT9sXny0rBPIAUFbFOoCTd1vyyG4nz7UKCgPVhE0132x-AIXlF55d2nC1fiXIHZauqeNeigLpHU-FxhNU_NFYG4Y8j2Zey0mPYS9Dau_fgG18KxHCr-AIIL_IMTJgiInOQyCRBeArUJ1KM8SSBBb1BeR-IeSq6Ald2w==
 
 ---
 
@@ -16,12 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이의 연령에 맞는 소꿉놀이를 찾고 계신가요? | 유아 (3~4세) |
-| 어떤 종류의 역할 놀이를 가장 중요하게 생각하시나요? | 병원/동물병원 놀이, 가게/마트 놀이 |
-| 소꿉놀이 제품의 소재는 어떤 것을 선호하시나요? | 안전한 플라스틱, 부드러운 소재 |
-| 선호하는 소꿉놀이 브랜드가 있으신가요? | 오즈토이, 피에스타 |
-| 예산은 어느 정도로 생각하세요? (평균 5만 6천원, 3만원~7만원대가 가장 많아요) | 3만원 ~ 7만원대, 8만원 이상 |
-| __avoid_negatives__ | 아이가 거칠게 다룰 경우 쉽게 파손될 수 있어 내구성이 부족할까 봐 걱정돼요,작은 부품이 떨어져 나오거나 날카로운 부분이 있어 아이가 다칠까 봐 안전성이 걱정돼요 |
+| 아이의 연령에 맞는 소꿉놀이를 선택하는 것이 중요해요. 아이는 몇 세인가요? | 3~6세 (유아/유치원) |
+| 소꿉놀이의 소재는 아이의 안전과 직결될 수 있어요. 어떤 소재를 선호하시나요? | 원목 |
+| 어떤 종류의 역할 놀이를 가장 즐겁게 할 수 있을까요? | 주방/음식 놀이 |
+| 소꿉놀이 제품은 아이가 직접 만지고 사용하는 만큼, 선호하는 브랜드가 있으신가요? | 상관없어요 |
+| 소꿉놀이 제품 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대 |
 
 ---
 
@@ -30,26 +29,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 헬로키티 클래식 티타임 소꿉놀이 - 13,300원 - ⭐3.6
-2. 러닝리소스 러닝리소스 조리도구 6종세트 역할놀이 - 61,500원 - ⭐0
-3. 러닝리소스 러닝리소스 뉴스프라우츠 음식세트 LER7711 - 43,450원 - ⭐0
-4. 키앤비 모더닉 소꿉놀이 자석 자르기 55pcs 세트 - 101,130원 - ⭐4.2
-5. 꼬마스타 펫스퀴시 소스보틀/말랑말랑/촉감놀이 - 3,140원 - ⭐4.8
-6. 핑크 공주구두 유리구두 핑크  소꿉놀이 여아장난감 - 3,830원 - ⭐4.2
-7. 숲소리 소꿉놀이세트 V2 - 198,700원 - ⭐4.9
-8. 피에스타 원목 소꿉놀이 애프터눈 티 세트 - 42,110원 - ⭐5
-9. 한립토이스 한립 과일농장 HL641 - 85,840원 - ⭐5
-10. 브랜드B 뉴마이펫키트 동물병원놀이 의사놀이 소꿉놀이 - 53,300원 - ⭐0
-11. 러닝리소스 건강간식세트/LER9744/역할놀이/소꿉놀이 - 41,850원 - ⭐0
-12. 업스케일 아이러브펫 가방속에 토끼하우스 소꿉놀이 - 35,910원 - ⭐5
-13. 비앤씨 어린이 주방놀이 요리 소꿉놀이 장난감 콩순이 파티 TMN68F062 - 27,710원 - ⭐0
-14. 리틀타익스 홈그로운키친 주방 놀이 조립 652868요리도구 소꿉 역할장난감 어린이 - 285,730원 - ⭐0
-15. 탑브라이트 h30 도형맞추기시계 120351 수입 쇼핑몰 소꿉놀이세트 손씻기 용게임 신체놀이 교육 - 19,120원 - ⭐0
-16. 오즈토이 R 편의점 소꿉놀이 세트 623-s107 도너츠 주방 음식 모형 미니어쳐 소품 - 4,200원 - ⭐0
-17. 피에스타 원목 소꿉놀이 케이크 세트 - 15,700원 - ⭐5
-18. 오즈토이 R 스마트 쿡 소꿉놀이 전자레인지 세트 핑크 ld-883b 주방놀이 전자렌지 치킨 소품 - 23,400원 - ⭐0
-19. 오즈토이 R 스마트 쿡 소꿉놀이 식기 세척기 세트 핑크 ld-886b 주방 청소 엄마 놀이 소품 - 21,320원 - ⭐0
-20. 들딸기 스위트 카페 소꿉놀이 세트 - 30,820원 - ⭐0
+1. 플레이맥스 내 마음대로 초이스 주방놀이소품 소꿉놀이 01망고 - 400원 - ⭐4.8
+2. 해피플레이 리틀쉐프 리얼밥솥 주방놀이 장난감 유아 아기 소꿉놀이 - 25,120원 - ⭐5
+3. 업스케일 아이러브펫 가방속에 토끼하우스 소꿉놀이 - 35,910원 - ⭐5
+4. 공주구두 유리구두 소꿉놀이 여아장난감 - 3,830원 - ⭐4.8
+5. 키앤비 모더닉 소꿉놀이 자석 자르기 55pcs 세트 - 101,130원 - ⭐4.2
+6. 피에스타 원목 소꿉놀이 홈카페 세트 - 29,870원 - ⭐4.7
+7. 피에스타 원목 소꿉놀이 케이크 세트 - 15,700원 - ⭐5
+8. 핑크 공주구두 유리구두 핑크  소꿉놀이 여아장난감 - 3,830원 - ⭐4.2
+9. 피에스타 원목 소꿉놀이 텃밭 세트 - 25,550원 - ⭐4.3
+10. 바니랜드 홈키친 시그니처 주방놀이 소꿉놀이 엄마놀이 - 85,760원 - ⭐4
+11. 숲소리 소꿉놀이세트 V2 - 192,920원 - ⭐4.9
+12. 리틀타익스 원목 자르기29종 /소꿉놀이 - 40,950원 - ⭐4.4
+13. 리틀타익스 원목자석 요리놀이 20종세트  소꼽놀이 - 39,020원 - ⭐4.5
+14. 러닝리소스 과일 야채 색깔구분 세트 - 76,650원 - ⭐4.5
+15. 플레이맥스 캐니멀 싹둑싹둑 과일자르기 (+대형바구니) - 45,173원 - ⭐4.7
+16. 플레이맥스 과일자르기 소꿉놀이세트 - 19,900원 - ⭐4.5
+17. 플레이맥스 아이사랑 과일야채 시장놀이 소꿉놀이세트 - 14,170원 - ⭐4.7
+18. 코발트블루 뽀로로 캐리어 소꿉세트 - 22,900원 - ⭐4.5
+19. 바니랜드 뽀로로 캠핑놀이 - 21,400원 - ⭐4.6
+20. 플레이맥스 소꿉놀이 16종 - 15,470원 - ⭐4.6
 
 ---
 
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 아이가 거칠게 다룰 경우 쉽게 파손될 수 있어 내구성이 부족할까 봐 걱정돼요
-- 작은 부품이 떨어져 나오거나 날카로운 부분이 있어 아이가 다칠까 봐 안전성이 걱정돼요
+(아직 선택 없음)
 
 ---
 

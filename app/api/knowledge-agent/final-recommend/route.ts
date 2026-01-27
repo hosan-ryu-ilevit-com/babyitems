@@ -58,14 +58,13 @@ interface ExpandedKeywords {
 }
 
 /**
- * collectedInfo와 negativeSelections에서 리뷰 검색용 키워드 추출 + 동의어 확장
+ * collectedInfo에서 리뷰 검색용 키워드 추출 + 동의어 확장
  * - "조용한 거 원해요" → ["조용", "소음", "정숙", "저소음", "시끄럽"]
  * - "세척 쉬운 거" → ["세척", "청소", "분해", "씻", "닦"]
  */
 async function extractExpandedKeywords(
   categoryName: string,
   collectedInfo: Record<string, string>,
-  negativeSelections: string[]
 ): Promise<ExpandedKeywords> {
   // 기본 키워드 (LLM 실패 시 fallback)
   const fallback: ExpandedKeywords = {
@@ -77,7 +76,7 @@ async function extractExpandedKeywords(
   const infoEntries = Object.entries(collectedInfo).filter(
     ([key]) => !key.startsWith('__') // 내부 키 제외
   );
-  if (infoEntries.length === 0 && negativeSelections.length === 0) {
+  if (infoEntries.length === 0) {
     return fallback;
   }
 
@@ -103,18 +102,14 @@ async function extractExpandedKeywords(
 ## 사용자 선호 조건
 ${userConditions}
 
-## 피하고 싶은 단점
-${negativeSelections.join(', ') || '없음'}
-
 ## 작업
 1. 선호 조건에서 리뷰 검색용 핵심 키워드 추출 (동의어/유사어 포함)
-2. 피할 단점에서 리뷰 검색용 핵심 키워드 추출 (동의어/유사어 포함)
+2. 피할 단점이 암시되어 있다면 리뷰 검색용 핵심 키워드 추출 (동의어/유사어 포함)
 3. 각 키워드는 2-4글자의 한글 단어로 (조사 제외)
 
 ## 예시
 - "조용한 거 원해요" → ["조용", "소음", "정숙", "저소음", "시끄럽"]
 - "세척 쉬운 거" → ["세척", "청소", "분해", "씻"]
-- "무거워요" (피할 단점) → ["무거", "무게", "휴대"]
 - "6개월 아기" → ["개월", "신생아", "아기"]
 
 ## 응답 (JSON만, 설명 없이)
@@ -234,7 +229,7 @@ async function repairJSONWithFlashLite(brokenJSON: string): Promise<any | null> 
   if (!ai) return null;
 
   const model = ai.getGenerativeModel({
-    model: 'gemini-2.0-flash-lite',
+    model: 'gemini-2.5-flash-lite',
     generationConfig: {
       temperature: 0.0,
       maxOutputTokens: 2000,
@@ -684,13 +679,35 @@ ${productInfos.map((p, i) => `
 ${p.reviewStr}
 `).join('\n')}
 
-## evidence 작성 규칙
-evidence는 사용자에게 보여지는 핵심 문장입니다.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## evidence 작성 규칙 (매우 중요!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-### Good Examples
-- "저소음 설계로 조용한 사용 환경을 제공해요."
-- "리뷰에서 '소음이 거의 없다'는 평가가 많아요."
-- "3단계 온도 조절이 가능해 상황에 맞게 사용할 수 있어요."
+evidence는 PDP의 "주요 포인트" (선호속성/피할단점) 섹션에 표시됩니다.
+**제품의 특성과 이점을 실제 스펙/리뷰 근거와 함께 자세히 설명하세요. 사용자 조건을 반복하지 마세요.**
+
+### 작성 원칙
+1. **2문장으로 작성** - 첫 문장: 핵심 특성, 두 번째 문장: 구체적 근거/리뷰
+2. **제품 관점**으로 작성 - "이 제품은 ~해요" 형식
+3. **이점 중심** - 스펙만 나열하지 말고 사용자가 얻는 이점 설명
+4. **구체적 근거 포함** - 스펙 수치, 리뷰 인용구, 기술명 등 구체적으로
+5. **자연스러운 톤** - 전문적이면서도 친근하게
+6. 근거가 없으면 절대 추측하지 말고, "확인 필요" 문장 사용
+
+### ✅ Good Examples (반드시 이 형식으로!)
+- "IH 압력 방식으로 빠르고 균일하게 가열돼요. 리뷰에서도 '밥이 고르게 익어 맛있다'는 평가가 많습니다."
+- "에코 스테인리스 내솥을 사용해 내구성이 뛰어나요. 코팅이 벗겨질 걱정 없이 오래 사용할 수 있습니다."
+- "10인용 대용량으로 대가족도 충분히 사용할 수 있어요. 실제 리뷰에서 '한번에 많이 지어도 문제없다'는 의견이 많습니다."
+- "쿠쿠전자의 프리미엄 라인으로 품질이 검증됐어요. A/S도 전국 서비스센터에서 신속하게 받을 수 있습니다."
+- "저소음 설계로 조용한 사용 환경을 제공해요. 리뷰에서 '밤에 사용해도 아기가 안 깬다'는 평가가 다수 있습니다."
+
+### ❌ Bad Examples (절대 금지!)
+- "IH 압력밥솥 방식을 선호하시는군요. 이 제품은 IH 압력밥솥입니다." ← 사용자 조건 반복
+- "10인용을 찾으시는군요. 이 제품은 10인용입니다." ← 기계적 나열
+- "IH 압력밥솥입니다." ← 이점 없이 스펙만 나열 (1문장)
+- "좋은 제품입니다. 추천합니다." ← 근거 없음
+- "사용자가 선택한 조건을 충족합니다." ← 너무 일반적
+- "~하시는군요", "~를 원하시는군요" ← 이런 표현 사용 금지
 
 ### 근거 부족 시
 - status: "partial" 또는 null
@@ -1507,24 +1524,23 @@ ${missingInfos}
 }
 
 // ============================================================================
-// 🆕 120개 병렬 LLM 평가
+// 🆕 배치 통합 LLM 평가 (10개씩 묶어서 평가 → API 호출 90% 감소)
 // ============================================================================
 
-const PARALLEL_EVAL_MODEL = 'gemini-2.5-flash-lite'; // 비용 효율 + 속도
-const REVIEWS_PER_PRODUCT = 20; // 제품당 리뷰 샘플 수 (50 → 20 최적화)
-const PARALLEL_BATCH_SIZE = 120; // 전체 동시 요청
+const BATCH_EVAL_MODEL = 'gemini-2.5-flash-lite'; // 비용 효율 + 속도
+const REVIEWS_PER_PRODUCT_BATCH = 5; // 배치 평가 시 제품당 리뷰 수 (간결하게)
+const BATCH_SIZE = 10; // 한 번에 평가할 제품 수
+const MAX_CONCURRENT_BATCHES = 5; // 동시 배치 요청 수 (rate limit 방지)
 
 interface ProductEvaluation {
   pcode: string;
   score: number;  // 0-100
-  reason: string;
-  avoidanceScore: number; // 피할단점 회피 점수 (0-100, 높을수록 잘 회피)
 }
 
 /**
- * 120개 전체 제품을 병렬로 LLM 평가
- * - 각 제품: 메타데이터 + 리뷰 30개 + 사용자 조건 → 점수 (0-100)
- * - 피할단점 회피 여부를 맥락 있게 평가
+ * 배치 통합 LLM 평가
+ * - 10개씩 묶어서 한 번의 LLM 호출로 평가
+ * - 500개 → 50회 호출 (기존 500회 대비 90% 감소)
  */
 async function evaluateAllCandidatesWithLLM(
   categoryName: string,
@@ -1532,29 +1548,26 @@ async function evaluateAllCandidatesWithLLM(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
-  negativeSelections: string[],
-  expandedKeywords?: ExpandedKeywords,  // 🆕 키워드 정보 (프롬프트에 활용)
+  expandedKeywords?: ExpandedKeywords,
 ): Promise<ProductEvaluation[]> {
   if (!ai) {
-    console.log('[ParallelEval] No AI, fallback to score-based');
+    console.log('[BatchEval] No AI, fallback to score-based');
     return candidates.map(p => ({
       pcode: p.pcode,
       score: p.matchScore || 50,
-      reason: '기본 점수',
-      avoidanceScore: 50,
     }));
   }
 
   const model = ai.getGenerativeModel({
-    model: PARALLEL_EVAL_MODEL,
+    model: BATCH_EVAL_MODEL,
     generationConfig: {
       temperature: 0.2,
-      maxOutputTokens: 200,
+      maxOutputTokens: 500, // 10개 제품 점수만 (reason 제거로 절반)
       responseMimeType: 'application/json',
     },
   });
 
-  // 🔥 브랜드 선택 추출 (brand_preference, brand, 또는 질문에 "브랜드"/"제조사" 포함)
+  // 브랜드 선택 추출
   let selectedBrand: string | null = null;
   for (const [question, answer] of Object.entries(collectedInfo)) {
     if (question.includes('brand') || question.includes('브랜드') || question.includes('제조사')) {
@@ -1567,146 +1580,144 @@ async function evaluateAllCandidatesWithLLM(
     }
   }
 
-  // 🆕 카테고리 관여도 추출 및 브랜드 보너스 계산
+  // 카테고리 관여도 및 브랜드 보너스
   const categoryInvolvement = (collectedInfo['__category_involvement'] as 'high' | 'trust' | 'low') || 'trust';
-  const BRAND_BONUS = {
-    high: 20,   // 고관여 제품: 브랜드 매우 중요 (유모차, 카시트 등)
-    trust: 15,  // 신뢰기반: 브랜드 중요 (기저귀, 물티슈 등)
-    low: 10     // 저관여: 브랜드 덜 중요 (양말, 턱받이 등)
-  };
+  const BRAND_BONUS = { high: 20, trust: 15, low: 10 };
   const brandBonus = BRAND_BONUS[categoryInvolvement];
-  console.log(`[FinalRecommend] 카테고리 관여도: ${categoryInvolvement}, 브랜드 보너스: +${brandBonus}점`);
+  console.log(`[BatchEval] 카테고리 관여도: ${categoryInvolvement}, 브랜드 보너스: +${brandBonus}점`);
 
-  // 사용자 조건 문자열 (브랜드 제외 - 별도 표시)
+  // 사용자 조건 문자열
   const userConditions = Object.entries(collectedInfo)
     .filter(([k]) => !k.startsWith('__'))
-    .filter(([k]) => !k.includes('brand') && !k.includes('브랜드') && !k.includes('제조사')) // 브랜드는 별도 표시
+    .filter(([k]) => !k.includes('brand') && !k.includes('브랜드') && !k.includes('제조사'))
     .map(([q, a]) => `- ${q}: ${a}`)
     .join('\n') || '없음';
 
   const priorities = balanceSelections.map(b => b.selectedLabel).join(', ') || '없음';
-  const avoidList = negativeSelections.join(', ') || '없음';
 
-  // 🆕 키워드 정보 (프롬프트에 활용)
+  // 키워드 정보
   const { preferKeywords = [], avoidKeywords = [] } = expandedKeywords || {};
   const keywordInfo = (preferKeywords.length > 0 || avoidKeywords.length > 0)
-    ? `\n## 🔍 리뷰에서 주목할 키워드\n- 선호 관련: ${preferKeywords.slice(0, 8).join(', ') || '없음'}\n- 회피 관련: ${avoidKeywords.slice(0, 5).join(', ') || '없음'}`
+    ? `\n선호 키워드: ${preferKeywords.slice(0, 5).join(', ') || '없음'} / 회피 키워드: ${avoidKeywords.slice(0, 3).join(', ') || '없음'}`
     : '';
 
-  console.log(`[ParallelEval] Starting evaluation of ${candidates.length} products... (keywords: prefer=${preferKeywords.length}, avoid=${avoidKeywords.length})`);
+  const totalBatches = Math.ceil(candidates.length / BATCH_SIZE);
+  console.log(`[BatchEval] Starting: ${candidates.length}개 제품 → ${totalBatches}개 배치 (${BATCH_SIZE}개씩)`);
   const startTime = Date.now();
 
-  // 단일 제품 평가 함수
-  const evaluateOne = async (product: HardCutProduct): Promise<ProductEvaluation> => {
-    const productReviews = reviews[product.pcode] || [];
+  // 배치 평가 함수 (10개 제품을 한 번에 평가)
+  const evaluateBatch = async (batchProducts: HardCutProduct[], batchIndex: number): Promise<ProductEvaluation[]> => {
+    // 각 제품 정보를 간결하게 정리
+    const productList = batchProducts.map((p, idx) => {
+      const productReviews = reviews[p.pcode] || [];
+      const avgRating = productReviews.length > 0
+        ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1)
+        : '0';
 
-    // 리뷰 균형 샘플링 (고평점 절반 + 저평점 절반, 중복 제거)
-    const sorted = [...productReviews].sort((a, b) => b.rating - a.rating);
-    let sampledReviews: string[];
+      // 리뷰 요약 (상위 5개만, 핵심 내용만)
+      const reviewSummary = productReviews
+        .slice(0, REVIEWS_PER_PRODUCT_BATCH)
+        .map(r => `[${r.rating}점]${r.content.slice(0, 80)}`)
+        .join(' | ') || '리뷰 없음';
 
-    if (sorted.length <= REVIEWS_PER_PRODUCT) {
-      // 리뷰가 20개 이하면 전체 사용
-      sampledReviews = sorted.map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
-    } else {
-      // 고평점/저평점 균형 샘플링
-      const halfCount = Math.floor(REVIEWS_PER_PRODUCT / 2);
-      const highRated = sorted.slice(0, halfCount);
-      const lowRated = sorted.slice(-halfCount);
-      sampledReviews = [...highRated, ...lowRated]
-        .map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
-    }
+      // 브랜드 매칭 체크
+      const isBrandMatch = selectedBrand && p.brand
+        ? p.brand.toLowerCase().includes(selectedBrand.toLowerCase()) ||
+          selectedBrand.toLowerCase().includes(p.brand.toLowerCase())
+        : false;
 
-    // 브랜드 매칭 여부 체크
-    const isBrandMatch = selectedBrand && product.brand
-      ? product.brand.toLowerCase().includes(selectedBrand.toLowerCase()) ||
-        selectedBrand.toLowerCase().includes(product.brand.toLowerCase())
-      : false;
+      return `[${idx + 1}] ${p.pcode}
+브랜드: ${p.brand}${isBrandMatch ? '⭐선호브랜드' : ''} | 제품명: ${p.name}
+가격: ${p.price?.toLocaleString()}원 | 리뷰: ${productReviews.length}개(${avgRating}점) | 스펙: ${p.specSummary?.slice(0, 100) || ''}
+리뷰요약: ${reviewSummary}`;
+    }).join('\n\n');
 
-    const prompt = `## ${categoryName} 제품 평가
+    const prompt = `## ${categoryName} 제품 ${batchProducts.length}개 평가
 
-## 제품 정보
-- 브랜드: ${product.brand}${isBrandMatch ? ' ⭐ (사용자 선호 브랜드!)' : ''}
-- 제품명: ${product.name}
-- 가격: ${product.price?.toLocaleString()}원
-- 스펙: ${product.specSummary || ''}
-- 리뷰 ${productReviews.length}개, 평균 ${productReviews.length > 0 ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1) : 0}점
+## 사용자 조건
+${selectedBrand ? `⭐ 선호 브랜드: ${selectedBrand}\n` : ''}${userConditions}
+${priorities !== '없음' ? `특히 중요: ${priorities}` : ''}${keywordInfo}
 
-## 사용자가 원하는 조건 (필수 충족)
-${selectedBrand ? `⭐ **선호 브랜드**: ${selectedBrand}${isBrandMatch ? ' → 이 제품이 해당!' : ''}\n` : ''}${userConditions}
-${priorities !== '없음' ? `\n⭐ 특히 중요: ${priorities}` : ''}
+## 제품 목록
+${productList}
 
-## 피해야 할 단점 (회피 필수)
-${avoidList !== '없음' ? avoidList.split(', ').map(item => `- ${item}`).join('\n') : '없음'}
-${keywordInfo}
+## 평가 기준 (중요도 순)
+1. **예산**: 사용자 예산 범위 내인지 최우선 확인
+   - 예산 내: 기본 점수 유지
+   - 예산 초과 15% 이내: -10점
+   - 예산 초과 15% 이상: -30점 (큰 감점)
+2. **카테고리 적합성**: "${categoryName}" 본품인가? (액세서리/소모품 제외)
+   - 불일치 시 score: 0
+3. **조건 충족도**: 사용자 조건을 얼마나 만족하는가?
+   - 선호 브랜드 일치 시 +${brandBonus}점
+   - "특히 중요" 항목 가중치 높게
 
-## 리뷰 샘플 (${sampledReviews.length}개)
-${sampledReviews.join('\n')}
-
-## 평가 방법
-⚠️ **0단계: 카테고리 적합성 (필수)**
-- 이 제품이 "${categoryName}" 카테고리에 해당하는가?
-- 액세서리, 소모품, 관련 용품이 아닌 **본품**인가?
-- 예: "와인셀러" 카테고리 → 와인 오프너, 와인잔은 ❌ / 와인 냉장고는 ✅
-- 카테고리 불일치 시 → categoryMatch: false, score: 0
-
-1. **조건 충족도 (60점)**: 사용자 조건을 이 제품이 얼마나 만족하는가?
-   - 스펙에서 직접 확인되는 기능/수치가 있는가?
-   - 🔍 리뷰에서 **주목할 키워드(선호 관련)**가 언급되면 가점
-   - "특히 중요" 항목은 가중치 높게 평가
-   - ⭐ **브랜드 매칭**: 선호 브랜드와 일치하면 +${brandBonus}점 가산
-
-2. **단점 회피 (40점)**: 피해야 할 단점이 이 제품에 있는가?
-   - 🔍 리뷰에서 **주목할 키워드(회피 관련)**가 부정적으로 언급되면 감점
-   - "~없다", "~좋다", "~만족" 등 긍정 표현은 회피 성공으로 판단
-   - 저평점(1-2점) 리뷰에서 반복 언급되면 감점
-
-## 응답 (JSON만)
-{"categoryMatch":true/false,"score":0~100,"avoidanceScore":0~100,"reason":"15자 이내"}`;
+## 응답 (JSON 배열만)
+[{"pcode":"제품코드","score":0-100}]`;
 
     try {
       const result = await model.generateContent(prompt);
       let text = result.response.text().trim();
       text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
 
-      const jsonMatch = text.match(/\{[\s\S]*?\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        // 카테고리 불일치 시 score 0으로 처리
-        const isCategoryMatch = parsed.categoryMatch !== false;
-        return {
-          pcode: product.pcode,
-          score: isCategoryMatch ? (parsed.score || 50) : 0,
-          avoidanceScore: parsed.avoidanceScore || 50,
-          reason: isCategoryMatch ? (parsed.reason || '') : '카테고리 불일치',
-        };
+      // JSON 배열 파싱
+      const arrayMatch = text.match(/\[[\s\S]*\]/);
+      if (arrayMatch) {
+        const parsed = JSON.parse(arrayMatch[0]) as Array<{pcode: string; score: number}>;
+
+        // pcode 검증 및 매핑
+        const pcodeSet = new Set(batchProducts.map(p => p.pcode));
+        const validResults = parsed.filter(r => pcodeSet.has(r.pcode)).map(r => ({
+          pcode: r.pcode,
+          score: r.score,
+        }));
+
+        // 누락된 제품은 fallback 점수 부여
+        const resultPcodes = new Set(validResults.map(r => r.pcode));
+        const missingProducts = batchProducts.filter(p => !resultPcodes.has(p.pcode));
+
+        const fallbackResults = missingProducts.map(p => ({
+          pcode: p.pcode,
+          score: p.matchScore || 50,
+        }));
+
+        return [...validResults, ...fallbackResults];
       }
     } catch (error) {
-      // 개별 실패는 조용히 처리
+      console.error(`[BatchEval] Batch ${batchIndex + 1} failed:`, error);
     }
 
-    // Fallback
-    return {
-      pcode: product.pcode,
-      score: product.matchScore || 50,
-      avoidanceScore: 50,
-      reason: 'fallback',
-    };
+    // 배치 전체 실패 시 fallback
+    return batchProducts.map(p => ({
+      pcode: p.pcode,
+      score: p.matchScore || 50,
+    }));
   };
 
-  // 배치 병렬 처리 (rate limit 고려)
+  // 배치 분할
+  const batches: HardCutProduct[][] = [];
+  for (let i = 0; i < candidates.length; i += BATCH_SIZE) {
+    batches.push(candidates.slice(i, i + BATCH_SIZE));
+  }
+
+  // 동시성 제어된 병렬 처리
   const results: ProductEvaluation[] = [];
 
-  for (let i = 0; i < candidates.length; i += PARALLEL_BATCH_SIZE) {
-    const batch = candidates.slice(i, i + PARALLEL_BATCH_SIZE);
-    const batchResults = await Promise.all(batch.map(evaluateOne));
-    results.push(...batchResults);
+  for (let i = 0; i < batches.length; i += MAX_CONCURRENT_BATCHES) {
+    const concurrentBatches = batches.slice(i, i + MAX_CONCURRENT_BATCHES);
+    const batchResults = await Promise.all(
+      concurrentBatches.map((batch, idx) => evaluateBatch(batch, i + idx))
+    );
+    results.push(...batchResults.flat());
 
-    console.log(`[ParallelEval] Batch ${Math.floor(i / PARALLEL_BATCH_SIZE) + 1}/${Math.ceil(candidates.length / PARALLEL_BATCH_SIZE)} complete (${results.length}/${candidates.length})`);
+    const progress = Math.min(i + MAX_CONCURRENT_BATCHES, batches.length);
+    console.log(`[BatchEval] Progress: ${progress}/${batches.length} batches (${results.length}/${candidates.length} products)`);
   }
 
   const elapsed = Date.now() - startTime;
-  const categoryMismatch = results.filter(r => r.reason === '카테고리 불일치').length;
-  console.log(`[ParallelEval] ✅ Complete: ${results.length} products in ${elapsed}ms (${(elapsed / results.length).toFixed(0)}ms/product)${categoryMismatch > 0 ? ` ⚠️ 카테고리 불일치: ${categoryMismatch}개` : ''}`);
+  const apiCalls = batches.length;
+  const categoryMismatch = results.filter(r => r.score === 0).length;
+  console.log(`[BatchEval] ✅ Complete: ${results.length} products in ${elapsed}ms (${apiCalls} API calls, ${(elapsed / apiCalls).toFixed(0)}ms/batch)${categoryMismatch > 0 ? ` ⚠️ 카테고리 불일치: ${categoryMismatch}개` : ''}`);
 
   // 점수순 정렬
   results.sort((a, b) => b.score - a.score);
@@ -1725,7 +1736,6 @@ function prescreenCandidates(
   candidates: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
-  negativeSelections: string[],
   expandedKeywords?: ExpandedKeywords, // 🆕 확장된 키워드 (flash-lite로 추출)
   rankMap?: Record<string, number> // 🆕 다나와 랭크 맵
 ): HardCutProduct[] {
@@ -1778,23 +1788,10 @@ function prescreenCandidates(
       }
     }
 
-    // 6. 피할 키워드 매칭 (확장된 키워드 우선, 없으면 기존 로직)
+    // 6. 피할 키워드 매칭 (확장된 키워드 우선)
     const effectiveAvoidKeywords = new Set<string>(
       avoidKeywords.map(k => k.toLowerCase())
     );
-    // 기존 negativeSelections에서도 키워드 추출 (fallback)
-    if (effectiveAvoidKeywords.size === 0) {
-      for (const neg of negativeSelections) {
-        const words = neg.match(/[가-힣]{2,}/g) || [];
-        words.forEach(w => effectiveAvoidKeywords.add(w.toLowerCase()));
-        if (neg.includes('무거') || neg.includes('무게')) effectiveAvoidKeywords.add('무거');
-        if (neg.includes('소음') || neg.includes('시끄')) effectiveAvoidKeywords.add('소음');
-        if (neg.includes('세척') || neg.includes('청소')) effectiveAvoidKeywords.add('세척');
-        if (neg.includes('가격') || neg.includes('비싸')) effectiveAvoidKeywords.add('비싸');
-        if (neg.includes('고장') || neg.includes('내구')) effectiveAvoidKeywords.add('고장');
-        if (neg.includes('크기') || neg.includes('부피')) effectiveAvoidKeywords.add('크기');
-      }
-    }
 
     let negativeMatchCount = 0;
     for (const keyword of effectiveAvoidKeywords) {
@@ -1865,7 +1862,6 @@ async function selectTopNPcodes(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
-  negativeSelections: string[],
   count: number = RECOMMENDATION_COUNT,
 ): Promise<{ pcode: string; briefReason: string }[]> {
   if (!ai) {
@@ -1903,7 +1899,6 @@ async function selectTopNPcodes(
 ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
 
 ## 우선순위: ${balanceSelections.map(b => b.selectedLabel).join(', ') || '없음'}
-## 피할 단점: ${negativeSelections.join(', ') || '없음'}
 
 ## 후보 (${candidates.length}개)
 ${candidateInfo}
@@ -1911,7 +1906,6 @@ ${candidateInfo}
 ## 작업
 사용자 조건에 가장 적합한 상품 ${count}개를 선정하세요.
 - 리뷰 평점/개수 + 스펙 매칭 + 사용자 우선순위 종합 고려
-- 피할 단점과 관련된 상품은 제외
 
 ## 응답 (JSON만)
 {"topN":[{"pcode":"코드1","briefReason":"선정이유(15자)"},{"pcode":"코드2","briefReason":"이유"},...]}`;
@@ -1955,7 +1949,6 @@ async function generateDetailedReasons(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
-  negativeSelections: string[],
   freeInputAnalysis?: FreeInputAnalysis | null,
 ): Promise<FinalRecommendation[]> {
   if (!ai || selectedProducts.length === 0) {
@@ -2027,9 +2020,6 @@ ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]
 
 ### 우선순위
 ${balanceSelections.map(b => `- ${b.selectedLabel}`).join('\n') || '없음'}
-
-### 피할 단점
-${negativeSelections.join(', ') || '없음'}
 ${freeInputSection}
 
 ## 선정된 Top ${productCount} 상품
@@ -2039,7 +2029,7 @@ ${productDetails}
 
 ### oneLiner (한줄 평) - 50~80자
 - 이모지 + 핵심 강점 + 리뷰 인용
-- 사용자 조건에 맞는 이유도 자연스럽게 포함
+- 제품 자체의 강점 표현 (사용자 조건과 무관)
 - 예: 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** 수면풍 모드가 있어 조용히 사용 가능해요
 
 ## 🚫 금지 패턴
@@ -2080,7 +2070,7 @@ ${productDetails}
           rank: i + 1,
           pcode: product.pcode,
           product,
-          reason: oneLiner,
+          reason: oneLiner, // reason은 oneLiner와 동일 (호환성)
           oneLiner,
         };
       });
@@ -2090,13 +2080,16 @@ ${productDetails}
   }
 
   console.log('[Step2] ⚠️ Fallback to basic reasons');
-  return selectedProducts.map((p, i) => ({
-    rank: i + 1,
-    pcode: p.pcode,
-    product: p,
-    reason: `${p.brand} ${p.name} - ${(p.specSummary || '').slice(0, 60)}`,
-    oneLiner: `✨ ${p.brand} 제품`,
-  }));
+  return selectedProducts.map((p, i) => {
+    const oneLiner = `✨ ${p.brand} 제품`;
+    return {
+      rank: i + 1,
+      pcode: p.pcode,
+      product: p,
+      reason: oneLiner,
+      oneLiner,
+    };
+  });
 }
 
 /**
@@ -2111,10 +2104,9 @@ async function selectTopProducts(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
-  negativeSelections: string[],
   expandedKeywords?: ExpandedKeywords,
   freeInputAnalysis?: FreeInputAnalysis | null
-): Promise<{ selectedProducts: HardCutProduct[]; enhancedNegativeSelections: string[] }> {
+): Promise<{ selectedProducts: HardCutProduct[] }> {
   // 🆕 다나와 랭크 조회 (사전 스크리닝용)
   let rankMap: Record<string, number> = {};
   if (candidates.length > PRESCREEN_LIMIT) {
@@ -2131,13 +2123,6 @@ async function selectTopProducts(
     } catch (e) {
       console.error('[FinalRecommend] rank 조회 실패:', e);
     }
-  }
-
-  // 자유 입력에서 추출한 피할 단점을 negativeSelections에 추가
-  const enhancedNegativeSelections = [...negativeSelections];
-  if (freeInputAnalysis?.avoidAttributes?.length) {
-    enhancedNegativeSelections.push(...freeInputAnalysis.avoidAttributes);
-    console.log(`[FinalRecommend] Added ${freeInputAnalysis.avoidAttributes.length} avoid attributes from free input`);
   }
 
   // ============================================================================
@@ -2157,7 +2142,6 @@ async function selectTopProducts(
       reviews,
       collectedInfo,
       balanceSelections,
-      enhancedNegativeSelections,
       expandedKeywords,  // 🆕 키워드 전달 (프롬프트에 활용)
     );
 
@@ -2166,12 +2150,35 @@ async function selectTopProducts(
       if (e.score <= 0) return false; // 카테고리 불일치
       return true;
     });
-    topNSelection = validEvaluations.slice(0, RECOMMENDATION_COUNT).map(e => ({
+
+    // 🆕 Top 10 → 리뷰 필터 로직
+    // 1. 점수순 Top 10 선정
+    // 2. 리뷰 10개 이상인 제품 우선 선택
+    // 3. 부족하면 점수순으로 채움
+    const MIN_REVIEW_COUNT = 10;
+    const TOP_N_POOL = 10; // Top 10에서 필터링
+
+    const top10 = validEvaluations.slice(0, TOP_N_POOL);
+    const withEnoughReviews = top10.filter(e => {
+      const reviewCount = reviews[e.pcode]?.length || 0;
+      return reviewCount >= MIN_REVIEW_COUNT;
+    });
+    const withoutEnoughReviews = top10.filter(e => {
+      const reviewCount = reviews[e.pcode]?.length || 0;
+      return reviewCount < MIN_REVIEW_COUNT;
+    });
+
+    // 리뷰 충분한 제품 우선 + 부족하면 점수순으로 채움
+    const finalSelection = [...withEnoughReviews, ...withoutEnoughReviews].slice(0, RECOMMENDATION_COUNT);
+
+    topNSelection = finalSelection.map(e => ({
       pcode: e.pcode,
-      briefReason: `${e.score}점 (회피:${e.avoidanceScore}) ${e.reason}`,
+      briefReason: `${e.score}점(리뷰${reviews[e.pcode]?.length || 0})`,
     }));
 
-    console.log(`[FinalRecommend] 🆕 Top ${RECOMMENDATION_COUNT} by LLM eval:`, topNSelection.map(t => `${t.pcode}(${t.briefReason})`).join(', '));
+    console.log(`[FinalRecommend] 🆕 Top 10 pool: ${top10.map(e => `${e.pcode}(${e.score}점,리뷰${reviews[e.pcode]?.length || 0})`).join(', ')}`);
+    console.log(`[FinalRecommend] 🆕 리뷰 ${MIN_REVIEW_COUNT}개 이상: ${withEnoughReviews.length}개, 미만: ${withoutEnoughReviews.length}개`);
+    console.log(`[FinalRecommend] 🆕 Final Top ${RECOMMENDATION_COUNT}:`, topNSelection.map(t => `${t.pcode}(${t.briefReason})`).join(', '));
   } else {
     // 기존 방식: 규칙 기반 사전 스크리닝 + LLM Top N 선정
     console.log(`[FinalRecommend] Using legacy rule-based prescreen`);
@@ -2179,7 +2186,7 @@ async function selectTopProducts(
     // 50개 이상이면 사전 스크리닝으로 25개로 줄임
     let filteredCandidates = candidates;
     if (candidates.length > PRESCREEN_LIMIT) {
-      filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, negativeSelections, expandedKeywords, rankMap);
+      filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, expandedKeywords, rankMap);
     }
 
     console.log(`[FinalRecommend] 2-Step Architecture: ${candidates.length} → ${filteredCandidates.length} candidates`);
@@ -2191,7 +2198,6 @@ async function selectTopProducts(
       reviews,
       collectedInfo,
       balanceSelections,
-      enhancedNegativeSelections,
       RECOMMENDATION_COUNT,
     );
   }
@@ -2226,7 +2232,7 @@ async function selectTopProducts(
 
   console.log(`[FinalRecommend] Step1 완료: ${selectedProducts.map((p: HardCutProduct) => p.pcode).join(', ')}`);
 
-  return { selectedProducts, enhancedNegativeSelections };
+  return { selectedProducts };
 }
 
 export async function POST(request: NextRequest) {
@@ -2263,7 +2269,7 @@ export async function POST(request: NextRequest) {
 
     const [expandedKeywords, freeInputAnalysisResult] = await Promise.all([
       // 키워드 확장 (LLM 평가 프롬프트용)
-      extractExpandedKeywords(catName, collectedInfo || {}, negativeSelections || []),
+      extractExpandedKeywords(catName, collectedInfo || {}),
       // 자유 입력 분석
       (additionalCondition && additionalCondition.trim().length >= 2)
         ? analyzeFreeInput(catName, additionalCondition)
@@ -2299,7 +2305,6 @@ export async function POST(request: NextRequest) {
         reviews || {},
         collectedInfo || {},
         balanceSelections || [],
-        negativeSelections || [],
         expandedKeywords,
         freeInputAnalysisResult
       ),
@@ -2308,12 +2313,12 @@ export async function POST(request: NextRequest) {
         catName,
         collectedInfo || {},
         balanceSelections || [],
-        negativeSelections || [],
+        [], // negativeSelections 제거
         null
       )
     ]);
 
-    const { selectedProducts, enhancedNegativeSelections } = topProductsResult;
+    const { selectedProducts } = topProductsResult;
     console.log(`[FinalRecommend] ⚡ Step 1 완료 (${Date.now() - step1StartTime}ms): Top ${selectedProducts.length}, FilterTags ${filterTagsResult.length}개`);
 
     // 추천된 상품들의 pcode 추출
@@ -2354,7 +2359,6 @@ export async function POST(request: NextRequest) {
         enrichedReviews,  // 🆕 Step 1.5에서 가져온 50개 리뷰 사용
         collectedInfo || {},
         balanceSelections || [],
-        enhancedNegativeSelections,
         freeInputAnalysisResult,
       ),
       // 태그 충족도 평가 (PLP 필터 필수)

@@ -20,8 +20,8 @@ const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 
 // 모델 설정
-const ANALYSIS_MODEL = 'gemini-2.0-flash-lite';  // 빠른 분석용
-const QUESTION_MODEL = 'gemini-2.0-flash-lite';  // 질문 생성용
+const ANALYSIS_MODEL = 'gemini-2.5-flash-lite';  // 빠른 분석용
+const QUESTION_MODEL = 'gemini-2.5-flash-lite';  // 질문 생성용
 
 export const maxDuration = 30;
 
@@ -42,15 +42,18 @@ interface GenerateFollowUpQuestionsRequest {
   categoryName: string;
   collectedInfo: Record<string, string>;
   products: any[];
-  reviews?: Record<string, ReviewLite[]>;  // 🆕 리뷰 데이터
+  reviews?: Record<string, ReviewLite[]>;
   trendData?: TrendData;
+  buyingFactors?: string[];  // 🆕 핵심 구매 고려사항 (가장 중요!)
 }
 
 interface AnalysisResult {
-  reviewInsights: string[];      // 리뷰에서 추출한 인사이트
+  sampledReviews: string[];      // 샘플링된 리뷰 원문 (LLM에 직접 전달)
   specVariances: string[];       // 스펙 분산 분석 결과
   priceRanges: string[];         // 가격대 분석
   tradeoffs: string[];           // 트레이드오프 포인트
+  answeredKeywords: string[];    // 이미 답변한 키워드 (중복 방지용)
+  buyingFactors: string[];       // 🆕 핵심 구매 고려사항 (가장 중요!)
 }
 
 // ============================================================================
@@ -106,66 +109,86 @@ function enrichProductsWithSpecs(products: any[]): any[] {
 // ============================================================================
 
 /**
- * 리뷰에서 인사이트 추출 (샘플링 후 LLM 분석)
+ * 리뷰 샘플링 (LLM 분석 없이 원문 직접 전달)
+ * - 길이 긴 순으로 고평점 10개, 저평점 10개
  */
-async function analyzeReviews(
-  reviews: Record<string, ReviewLite[]>,
-  categoryName: string
-): Promise<string[]> {
-  if (!ai || Object.keys(reviews).length === 0) {
+function sampleReviews(
+  reviews: Record<string, ReviewLite[]>
+): string[] {
+  if (Object.keys(reviews).length === 0) {
     return [];
   }
 
-  // 리뷰 샘플링: 각 상품에서 최대 3개씩, 총 30개 제한
-  const sampledReviews: string[] = [];
-  const pcodes = Object.keys(reviews);
-
-  for (const pcode of pcodes.slice(0, 10)) {
-    const productReviews = reviews[pcode] || [];
-    const samples = productReviews
-      .slice(0, 3)
-      .map(r => `[${r.rating}점] ${r.content.slice(0, 150)}`);
-    sampledReviews.push(...samples);
-  }
-
-  if (sampledReviews.length === 0) {
-    return [];
-  }
-
-  const model = ai.getGenerativeModel({
-    model: ANALYSIS_MODEL,
-    generationConfig: { temperature: 0.3, maxOutputTokens: 800 },
+  // 모든 리뷰를 평점별로 그룹핑
+  const allReviews: ReviewLite[] = [];
+  Object.values(reviews).forEach(productReviews => {
+    allReviews.push(...productReviews);
   });
 
-  const prompt = `## ${categoryName} 리뷰 분석
+  // 고평점 (4점 이상) - 길이 긴 순으로 10개
+  const highRatingReviews = allReviews
+    .filter(r => r.rating >= 4)
+    .sort((a, b) => b.content.length - a.content.length)
+    .slice(0, 10);
 
-아래 리뷰들에서 구매 결정에 영향을 주는 **핵심 포인트**를 추출하세요.
+  // 저평점 (2점 이하) - 길이 긴 순으로 10개
+  const lowRatingReviews = allReviews
+    .filter(r => r.rating <= 2)
+    .sort((a, b) => b.content.length - a.content.length)
+    .slice(0, 10);
 
-### 리뷰 샘플 (${sampledReviews.length}개)
-${sampledReviews.slice(0, 20).join('\n')}
+  // 포맷팅: [평점] 리뷰 내용
+  const sampledReviews = [
+    ...highRatingReviews.map(r => `[${r.rating}점] ${r.content}`),
+    ...lowRatingReviews.map(r => `[${r.rating}점] ${r.content}`)
+  ];
 
-### 추출할 것
-1. 사람들이 자주 언급하는 **만족 포인트**
-2. 사람들이 자주 언급하는 **불만 포인트**
-3. 선택 시 **갈리는 포인트** (A를 좋아하는 사람 vs B를 좋아하는 사람)
+  console.log(`[Follow-up] Sampled reviews: 고평점 ${highRatingReviews.length}개, 저평점 ${lowRatingReviews.length}개`);
+  return sampledReviews;
+}
 
-### 응답 (JSON 배열만, 설명 없이)
-["인사이트1", "인사이트2", "인사이트3", ...]`;
+/**
+ * 이미 답변한 질문에서 키워드 추출 (중복 방지용)
+ * - 질문 텍스트를 토큰화하여 의미있는 단어 추출
+ */
+function extractAnsweredKeywords(collectedInfo: Record<string, string>): string[] {
+  const keywords: Set<string> = new Set();
 
-  try {
-    const result = await callGeminiWithRetry(() => model.generateContent(prompt));
-    const text = result.response.text();
-    const jsonMatch = text.match(/\[[\s\S]*\]/);
-    if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      console.log(`[Follow-up] Review insights: ${parsed.length}개`);
-      return Array.isArray(parsed) ? parsed.slice(0, 10) : [];
-    }
-  } catch (error) {
-    console.error('[Follow-up] Review analysis failed:', error);
-  }
+  // 제거할 조사/어미 패턴
+  const particlesToRemove = [
+    '은', '는', '이', '가', '을', '를', '에', '의', '와', '과', '로', '으로',
+    '에서', '부터', '까지', '만', '도', '요', '어요', '아요', '해요', '습니까',
+    '인가요', '나요', '세요', '시나요', '하나요', '니까', '습니다'
+  ];
 
-  return [];
+  Object.keys(collectedInfo)
+    .filter(k => !k.startsWith('__'))
+    .forEach(question => {
+      // 물음표, 쉼표, 마침표 제거
+      const cleaned = question.replace(/[?!.,]/g, ' ').trim();
+
+      // 공백으로 토큰화
+      const tokens = cleaned.split(/\s+/);
+
+      tokens.forEach(token => {
+        if (token.length < 2) return; // 1글자 제외
+
+        // 조사 제거
+        let keyword = token;
+        particlesToRemove.forEach(particle => {
+          if (keyword.endsWith(particle)) {
+            keyword = keyword.slice(0, -particle.length);
+          }
+        });
+
+        // 2글자 이상만 추가
+        if (keyword.length >= 2) {
+          keywords.add(keyword);
+        }
+      });
+    });
+
+  return Array.from(keywords);
 }
 
 /**
@@ -187,16 +210,16 @@ async function analyzeSpecs(
     });
   });
 
-  // 분산이 높은 스펙 추출
+  // 분산이 높은 스펙 추출 (최적화: 상위 6개만)
   const highVarianceSpecs = Object.entries(specValues)
     .filter(([, values]) => values.size > 1 && values.size < products.length * 0.9)
     .map(([key, values]) => ({
       key,
-      values: Array.from(values).slice(0, 5),
+      values: Array.from(values).slice(0, 4), // 값도 4개로 제한
       variance: values.size / products.length,
     }))
     .sort((a, b) => b.variance - a.variance)
-    .slice(0, 8);
+    .slice(0, 6); // 8개 → 6개로 축소
 
   if (!ai || highVarianceSpecs.length === 0) {
     return { variances: [], tradeoffs: [] };
@@ -204,24 +227,23 @@ async function analyzeSpecs(
 
   const model = ai.getGenerativeModel({
     model: ANALYSIS_MODEL,
-    generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
+    generationConfig: { temperature: 0.3, maxOutputTokens: 500 },
   });
 
   const specText = highVarianceSpecs
-    .map(s => `- ${s.key}: ${s.values.join(', ')} (분산 ${Math.round(s.variance * 100)}%)`)
+    .map(s => `- ${s.key}: ${s.values.join(', ')}`)
     .join('\n');
 
   const prompt = `## ${categoryName} 스펙 분석
 
-후보 상품들의 스펙 분포입니다:
 ${specText}
 
-### 분석할 것
-1. 사용자가 선택해야 할 **주요 스펙 차이점** (어떤 게 더 좋다가 아니라, 상황에 따라 다른 것)
-2. **트레이드오프 관계** (예: 용량↑ = 무게↑, 성능↑ = 가격↑)
+### 추출 (각 최대 3-4개)
+1. 주요 스펙 차이점 (상황에 따라 다름)
+2. 트레이드오프 관계 (예: 용량↑=무게↑)
 
-### 응답 (JSON만, 설명 없이)
-{"variances":["차이점1","차이점2"],"tradeoffs":["트레이드오프1","트레이드오프2"]}`;
+### 출력 (JSON만)
+{"variances":["차이1","차이2"],"tradeoffs":["트레이드오프1"]}`;
 
   try {
     const result = await callGeminiWithRetry(() => model.generateContent(prompt));
@@ -289,7 +311,7 @@ async function generateQuestions(
 
   const model = ai.getGenerativeModel({
     model: QUESTION_MODEL,
-    generationConfig: { temperature: 0.5, maxOutputTokens: 2000 },
+    generationConfig: { temperature: 0.3, maxOutputTokens: 1500 },
   });
 
   const answeredText = Object.entries(collectedInfo)
@@ -297,23 +319,42 @@ async function generateQuestions(
     .map(([q, a]) => `- ${q}: ${a}`)
     .join('\n') || '(없음)';
 
-  const productsText = sampleProducts.slice(0, 10)
+  const productsText = sampleProducts.slice(0, 8)
     .map(p => `- ${p.brand || ''} ${p.name} (${p.price?.toLocaleString() || '?'}원)`)
     .join('\n');
 
-  const prompt = `## ${categoryName} 꼬리질문 생성
+  // 리뷰 샘플 제한 (프롬프트 길이 최적화)
+  const reviewsText = analysis.sampledReviews.length > 0
+    ? analysis.sampledReviews.slice(0, 20).join('\n')
+    : '(리뷰 데이터 없음)';
 
-사용자가 기본 질문에 답변했습니다. 아래 분석 결과를 바탕으로 **더 정확한 추천을 위한 추가 질문 1~3개**를 생성하세요.
+  const prompt = `당신은 "${categoryName}" 구매 결정을 돕는 전문 AI 쇼핑 컨시어지입니다.
+당신의 목표는 앞단에서의 사용자 선택과 남은 상품 후보군 정보를 보고, 더욱 디테일한 추천을 위한 꼬리 질문을 생성하는 것입니다.
+
+## 꼬리질문 생성 지침
+1. **사용자 언어:** 기술 용어 대신 효익(Benefit)과 상황 중심으로 질문하세요.
+2. **옵션 설계:** 선택지는 3~4개로 구성하며, MECE 원칙을 준수하세요.
+3. **예산 질문 금지:** 예산 관련 질문은 이미 이전 단계에서 완료되었으므로, 추가 질문에서는 절대 생성하지 마세요.
 
 ---
 
 ## 사용자가 이미 답변한 내용
 ${answeredText}
 
+## 🚫 중복 금지 키워드 (이미 답변한 질문에서 추출됨)
+${analysis.answeredKeywords.length > 0 ? analysis.answeredKeywords.join(', ') : '(없음)'}
+**중요:** 위 키워드들과 의미적으로 중복되는 질문은 절대 생성하지 마세요.
+
+---
+
 ## 📊 분석 결과
 
-### 리뷰 인사이트 (실제 구매자들의 의견)
-${analysis.reviewInsights.length > 0 ? analysis.reviewInsights.map(i => `- ${i}`).join('\n') : '(분석 데이터 없음)'}
+### ⭐ 핵심 구매 고려사항 (가장 중요!)
+${analysis.buyingFactors.length > 0 ? analysis.buyingFactors.map(f => `- ${f}`).join('\n') : '(정보 없음)'}
+**→ 위 항목들은 이 카테고리에서 구매 결정에 가장 중요한 요소입니다. 아직 질문하지 않은 항목이 있다면 우선적으로 질문하세요!**
+
+### 실제 구매자 리뷰 (${analysis.sampledReviews.length}개)
+${reviewsText}
 
 ### 스펙 차이점 (후보들 간 갈리는 포인트)
 ${analysis.specVariances.length > 0 ? analysis.specVariances.map(v => `- ${v}`).join('\n') : '(분석 데이터 없음)'}
@@ -331,20 +372,34 @@ ${productsText}
 
 ## 꼬리질문 생성 규칙
 
-**반드시 1~3개의 질문을 생성하세요.** 분석 결과에서 아직 물어보지 않은 중요한 포인트를 질문으로 만드세요.
+**현재 남은 후보 제품: ${sampleProducts.length}개**
 
-질문 유형 예시:
-- 트레이드오프 질문: "A와 B 중 뭐가 더 중요하세요?"
-- 사용 환경 질문: "주로 어디서 사용하시나요?"
-- 구체적 선호: "이 기능이 필요하신가요?"
-- 리스크 확인: "이런 단점은 괜찮으세요?"
+### 질문 개수 결정 기준
+- 후보 10개 이상 → 3-5개 질문 (중요 포인트만)
+- 후보 5-9개 → 2-3개 질문 (최소한의 정보만)
 
-**주의:**
-- 이미 답변한 내용과 겹치면 안 됨
-- 전문 용어 대신 쉬운 표현
-- 옵션은 2~4개, 각각 한 줄 설명
-- **중요:** "둘 다", "모두", "기타", "직접 입력"과 같은 옵션은 절대 생성하지 마세요. (시스템에서 자동으로 처리됨)
-- **중요:** "상관없어요" 옵션도 절대 생성하지 마세요. (시스템에서 자동으로 추가됨)
+### 질문 생성 시 주의사항
+- **중복 금지:** 위의 "중복 금지 키워드"와 겹치는 질문 절대 금지
+- **옵션 금지:** "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "별로 안 중요해요" 등 회피성 옵션 절대 생성 금지 (시스템에서 "상관없어요" 버튼을 별도 제공함)
+- **리뷰 활용:** 실제 구매자 리뷰에서 언급된 갈리는 포인트를 질문으로 활용
+- **효과성:** 후보군을 실제로 나눌 수 있는 질문만 생성
+- **contextIntro 규칙 (매우 중요!):**
+  - 왜 이 질문을 하는지 맥락을 설명하는 **평서문 1문장** 작성
+  - **🚫 질문 간 중복 금지:** 각 질문의 contextIntro는 서로 다른 포인트를 언급해야 함. 앞선 질문에서 이미 언급한 내용 반복 절대 금지!
+  - **🚫 의문문 금지:** "~할까요?", "~일까요?", "~나요?" 등 물음표(?) 포함 의문문 문장 금지
+  - **✅ 필수:** 마침표(.)로 끝나는 평서문만 사용
+- **핵심 원칙:** 앞선 답변들 중 **이 질문과 가장 관련 있는 1개만** 선택. 모든 답변을 나열하지 말 것!
+- **중복 금지:** 각 질문마다 서로 다른 포인트를 언급해야 함
+- **할루시네이션 금지**만약 앞선 사용자 답변에 새로 만든 질문과 관련 있는 정보가 없다면, '~가 중요하다고 생각하시는군요, ~를 선택하셨군요' 식으로 말하지 말고, '남은 후보군을 추리기 위해 이런 것이 중요합니다' 식으로 말하기
+- **형식:** 1문장으로 간결하게 (30~40자 내외 권장)
+- **톤:** 친근하고 공감하는 톤 ("~하시네요.", "~를 원하시는군요.")
+- **✅ 올바른 예시 (간결하게!):**
+  - "대용량 밥솥을 찾으신다고 하셨습니다."
+  - "메쉬 소재를 선호하신다고 하셨어요."
+  - "가성비를 중시하신다고 하셨어요."
+- **❌ 잘못된 예시:**
+  - "12-24개월이고, 유기농/무첨가를 원하시고, 과자형태를 선호하시고..." ← 모든 답변 나열 금지
+  - "보온 성능도 체크해볼까요?" ← 의문문 금지
 
 ## 출력 (JSON 배열만)
 
@@ -352,6 +407,7 @@ ${productsText}
 [
   {
     "id": "followup_1",
+    "contextIntro": "메쉬 소재를 선호하신다고 하셨네요. 통기성 좋은 제품 중에서 착용감도 확인해볼게요.",
     "question": "질문 내용?",
     "reason": "이 질문이 필요한 이유 (내부용)",
     "options": [
@@ -365,6 +421,8 @@ ${productsText}
   }
 ]
 \`\`\`
+
+
 
 JSON만 출력:`;
 
@@ -399,12 +457,14 @@ function parseQuestionsResponse(response: string): QuestionTodo[] {
       .filter((q: any) => q.question && Array.isArray(q.options) && q.options.length >= 2)
       .map((q: any, index: number) => ({
         id: q.id || `followup_${index + 1}`,
+        contextIntro: q.contextIntro || '',  // 앞선 선택 기반 연결 문장
         question: q.question,
         reason: q.reason || '',
         options: q.options.map((opt: any) => ({
           value: opt.value || opt.label,
           label: opt.label,
           description: opt.description || '',
+          isPopular: !!opt.isPopular,
         })),
         type: q.type || 'single',
         priority: q.priority || index + 1,
@@ -426,12 +486,20 @@ export async function POST(request: NextRequest) {
 
   try {
     const body: GenerateFollowUpQuestionsRequest = await request.json();
-    const { categoryName, collectedInfo, products, reviews = {}, trendData } = body;
+    const {
+      categoryName,
+      collectedInfo,
+      products,
+      reviews = {},
+      trendData,
+      buyingFactors = [],  // 🆕 핵심 구매 고려사항만 사용
+    } = body;
 
     console.log(`[Follow-up] Starting for ${categoryName}`);
     console.log(`  - Products: ${products.length}`);
     console.log(`  - Reviews: ${Object.keys(reviews).length} products`);
     console.log(`  - Answered: ${Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length} questions`);
+    console.log(`  - BuyingFactors: ${buyingFactors.length > 0 ? buyingFactors.join(', ') : '(없음)'}`);
 
     // 유효성 검사
     if (!categoryName || !products || products.length === 0) {
@@ -467,26 +535,31 @@ export async function POST(request: NextRequest) {
     console.log(`[Follow-up] ⚡ Starting parallel analysis...`);
     const analysisStart = Date.now();
 
-    const [reviewInsights, specAnalysis, priceRanges] = await Promise.all([
-      analyzeReviews(reviews, categoryName),
+    const [sampledReviews, specAnalysis, priceRanges, answeredKeywords] = await Promise.all([
+      Promise.resolve(sampleReviews(reviews)),
       analyzeSpecs(enrichedProducts, categoryName),
       Promise.resolve(analyzePriceRanges(enrichedProducts)),
+      Promise.resolve(extractAnsweredKeywords(collectedInfo)),
     ]);
 
     const analysisResult: AnalysisResult = {
-      reviewInsights,
+      sampledReviews,
       specVariances: specAnalysis.variances,
       priceRanges,
       tradeoffs: [
         ...specAnalysis.tradeoffs,
         ...(trendData?.cons || []).slice(0, 3),
       ],
+      answeredKeywords,
+      buyingFactors,  // 🆕 핵심 구매 고려사항만 전달
     };
 
     console.log(`[Follow-up] ⚡ Analysis done in ${Date.now() - analysisStart}ms`);
-    console.log(`  - Review insights: ${reviewInsights.length}`);
+    console.log(`  - Sampled reviews: ${sampledReviews.length}`);
     console.log(`  - Spec variances: ${specAnalysis.variances.length}`);
     console.log(`  - Tradeoffs: ${analysisResult.tradeoffs.length}`);
+    console.log(`  - Answered keywords: ${answeredKeywords.join(', ')}`);
+    console.log(`  - BuyingFactors: ${buyingFactors.join(', ') || '(없음)'}`);
 
     // 질문 생성
     const questions = await generateQuestions(

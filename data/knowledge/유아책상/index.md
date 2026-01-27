@@ -1,28 +1,29 @@
 # 유아책상 전문가 지식
 
-> 마지막 업데이트: 2026-01-26T10:30:28.686Z
+> 마지막 업데이트: 2026-01-27T02:09:57.401Z
 > 분석 상품: 20개 | 분석 리뷰: 1,046개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 인체공학적 설계 및 안전성 강화
-- 맞춤형 가구 및 친환경 소재 선호
-- 캐릭터 IP 활용 디자인
-- 스마트 기능 및 학습 효과 증대
+- 성장 맞춤형 인체공학 디자인 (높이/각도 조절)
+- 안전하고 친환경적인 소재 사용
+- 스마트 기능 및 캐릭터 IP 접목
+- 자기 주도 학습 지원 기능 강화
 
 ### 구매자 만족 포인트
-- ✓ 인체공학적 설계
-- ✓ 안전성
-- ✓ 맞춤형 조절 가능
-- ✓ 친환경 소재
-- ✓ 다양한 디자인
-- ✓ 수납 공간 확보
+- ✓ 바른 자세 유지
+- ✓ 학습 효율 증진
+- ✓ 안전한 소재
+- ✓ 높이 조절 가능
+- ✓ 다양한 수납공간
+- ✓ 아이 성장 발달 지원
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격대
 - ⚠ 부피 차지
-- ⚠ 조립의 어려움
+- ⚠ 조립 어려움
+- ⚠ 활용 기간 제한
 
 ### 가격대 인사이트
 
@@ -244,9 +245,8 @@
 ---
 
 ## 📊 데이터 출처
-- [moll.world](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGijyO_Yi1JQMHMH1cc12Bu2XjSYiHZ384o6mj1b1TuGXkU0p_9Ajm6BUa9VciocgMpP3M2fW7N55phrsufNfIfN0HIXNxondG0gUhDqTN6ycaDAQWJYyRR0V20QkJFbGFKQK64pQ2lmmasbn9OrV3dgRP5ykMPMg6T)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyo6OMLs6dxAyu6tTe8cpZsGB5-yZiaVb0Q_nBWKG_PGseVuCfhjMBhChLdj5y7seY20VJV7YCkk0daB107B4pWVHcpHMJb4GpQkwKACkmh-g5_6vvClbBThFWYAdojkQxZ3RfTU_MRNQS8qV5rAk0BLcIfRNBSLRBoHo8G6AJaA==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6iZTtIjIUw05sH2RTDq5G6QoKD02eTv_-CB-sajsh0oYR7nxKoWpuYUpNJts9Ky-au2UEAc2wbRaGluLRCqXjng-eJuhGByVhH0pdcyJp3i3jVtT9oDKpvHE6SFVKSQRkKiojgJZbEKTi0GRyFWz0uwScet-hERynq1gGjTUl3jmDQPxhxlEumY-zodzvxw==)
-- [kyobit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDwwJL5Kz-8Gj4rktFRUh2qx_g08AjTXNBs-sagUKzxmMsbFTxWmZa0WDXGYb7Xj4jQYm2ail1jaz24jENWQ1UZj-SzMHKE-bPTef0-KnURkxKG-yK67W9xPL_VR8ziFQN1gb2UVN-8yAxBUtZcZJjB3g=)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjLH09gZ5J4e3afaZAvHMi18JtwVQqqiWpupEMhTW9AGHpacPuSbOND8pEZY8ynpTjGBMhwXQ_D4jd_OzPoWlATgN17c_zsc5aB_z_gd4LqUi3JlKwKDsryTkrc9v68ppoUNpUVfxQpE93khW4Zc7lPu94swz9pg==)
-- [newswire.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4sSMBZ7y2kP_75ATc80Rqglpi1HNB6sonhM1jD6E0XdiLOqhYTKagx2GBk6Jdee9DWxmy3noArPEAwdciMulYFB0RTmlERbzMmvu7NRyP2IVwbpyz4effwL5TVuMYm9jw3asvbp-Rfnka8we6)
+- [moll.world](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrdprR5xooIJOO6zCTgyZ6ytiBcXUQv8VO8xjw8gpRNO-_Q3qj7kwtimqX0B40FiUh-IkDC9tAJMPkz1lcyImuZevEDGz1aWorfq2PAo54zYRTq-kBlM7o8MQMFMR90ddHegD3HQ7OhXvFX1lO65MSBC9S1c0yB2Xz)
+- [kingsresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFu2Fp2jHbMKhxR1UYAD8Pp7LIMhYaaC6erPf9pnrA2I_zfexZUjo_yE3ZCu8lwaSvA05SXCDPeO0Et4jQfSnsJUzFW9HuEiv1YC1agsxyEvOf8t6GYHOSTCLNj_jFjR8XjoIGcHmpzJFaIYgiK7Q7qMfZo7Ko=)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEMZNE84XxFsBsad4G-BUQ4P5b1Elx23BMMeWNfK08WkYgSEDIGSLHpyycFpfwbZ5NQ4ZUoacqBTVoekUDR-un_q5_C-FGxTLXykqNB5i9cxZWUgZ6cDp5F28wgLkeMX09jz3_t5dGUIxLlicw6Q6i1-GNo3MeKfZYw0dImtsDC0yi)
+- [hblabgroup.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnUJBXwEMhbzlEBrTq8pBsEobmLMdBbzUCZArAgRvWUab6WCWL34B4RZ-e1o7DfLtlPTGhzraaZwLFwZcX2kASPvls4DFPul_tiwzKP6ugIExr21DncL5fwulu07UV9mqFYAsXacsTYCqH3d9wRyXsbjMtVQ==)
+- [newswire.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5orBgFc9s8c9oiq8RuKSX-szDRPO3TKpDqOTyVwkC_grvLCclUeHWP4xdP4Cwl_U8qHz6WxLkrBe_mz6vmmWF3regNOGE2PdFo0Sz-z9yUrzB1jYL9mj67nPuPvarNNCY-QZiGgUwDpi5CmIt)

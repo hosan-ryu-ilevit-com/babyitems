@@ -26,7 +26,8 @@ interface V2ConditionEvaluation {
   condition: string;
   conditionType: 'hardFilter' | 'balance' | 'negative';
   status: '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨';
-  evidence: string;
+  evidence: string;          // "주요 포인트"용 상세 설명 (2문장)
+  shortReason?: string;      // "왜 추천했나요?"용 심플 설명 (1문장)
   tradeoff?: string;
   questionId?: string;  // 하드필터 질문 ID (같은 질문 내 옵션 그룹화용)
 }
@@ -1331,16 +1332,23 @@ export default function ProductDetailModal({ productData, category, categoryName
 
                   // 추천 이유 문장 리스트 생성
                   const recommendationSentences = [];
-                  
+
                   // 1. 내 상황과의 적합성 설명 (있다면 첫 번째로)
                   if (initialContext && contextMatchData && contextMatchData.explanation) {
                     recommendationSentences.push(contextMatchData.explanation);
                   }
-                  
-                  // 2. 충족된 하드 필터들
+
+                  // 2. 충족된 하드 필터들 (shortReason 사용)
                   hardFilterConditions.forEach(cond => {
                     if (cond.status === '충족') {
-                      recommendationSentences.push(cond.evidence || cond.condition);
+                      // shortReason이 있으면 사용, 없으면 evidence에서 첫 문장 추출 (fallback)
+                      if (cond.shortReason) {
+                        recommendationSentences.push(cond.shortReason);
+                      } else {
+                        const evidence = cond.evidence || cond.condition;
+                        const firstSentence = evidence.match(/^[^.!?]+[.!?]/) ? evidence.match(/^[^.!?]+[.!?]/)![0] : evidence;
+                        recommendationSentences.push(firstSentence);
+                      }
                     }
                   });
 
@@ -1382,7 +1390,8 @@ export default function ProductDetailModal({ productData, category, categoryName
                       {(balanceConditions.length > 0 || negativeConditions.length > 0) && (
                         <div className="mt-8 space-y-4">
                           <div className="flex items-center gap-2 mb-2">
-                             <span className="text-[#6344FF] text-lg">✦</span>
+                             {/* eslint-disable-next-line @next/next/no-img-element */}
+                             <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
                              <h4 className="text-[16px] font-bold text-[#6344FF] leading-tight">
                                주요 포인트
                              </h4>
@@ -1390,8 +1399,7 @@ export default function ProductDetailModal({ productData, category, categoryName
 
                           {/* 선호 속성 */}
                           {balanceConditions.length > 0 && (
-                            <div className="bg-gray-50 rounded-xl p-5">
-                              <h5 className="text-[15px] font-bold text-gray-900 mb-5">선호속성</h5>
+                            <div className="p-1">
                               <div className="space-y-8">
                                 {balanceConditions.map((cond, i) => {
                                   let badgeColor = '';
@@ -1426,7 +1434,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                                         </div>
                                       </div>
                                       
-                                      <div className="bg-gray-100 rounded-[12px] p-4">
+                                      <div className="bg-gray-50 rounded-[12px] p-4">
                                         <div className="mb-2">
                                           <span className={`px-2 py-1 rounded text-xs font-bold ${badgeColor}`}>
                                             {badgeText}
@@ -1443,8 +1451,8 @@ export default function ProductDetailModal({ productData, category, categoryName
                             </div>
                           )}
 
-                          {/* 피할 단점 */}
-                          {negativeConditions.length > 0 && (
+                          {/* 피할 단점 제거 */}
+                          {/* {negativeConditions.length > 0 && (
                             <div className="bg-gray-50 rounded-xl p-5">
                               <h5 className="text-[15px] font-bold text-gray-900 mb-5">피할 단점</h5>
                               <div className="space-y-8">
@@ -1496,7 +1504,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                                 })}
                               </div>
                             </div>
-                          )}
+                          )} */}
                         </div>
                       )}
                     </div>

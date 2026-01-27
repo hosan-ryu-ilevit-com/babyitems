@@ -1,5 +1,5 @@
-# 세션: 20260126_073837_cea2
-> 시작: 2026-01-26T07:38:37.485Z
+# 세션: 20260127_055026_5ewl
+> 시작: 2026-01-27T05:50:26.457Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기 진정 및 수면 보조, 스트레스 해소 등 다양한 용도로 인해 꾸준히 성장하고 있습니다. 특히 실리콘 소재의 제품이 내구성과 안전성으로 인기를 얻고 있으며, 온라인 채널을 통한 구매가 증가하는 추세입니다. 최근에는 성인용 쪽쪽이 시장도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSkdIzr6Zhw_ztsSkGH_iT9ewDcVoQmH2z0MP04CEDMkCab9HIAo-z319u4GT5YWi6agV04EL7uRmNWvm4sAFSM7RF5tFqN5AQ2wu48YNj8nhA6gHitSHDntCbQ9K_8efRaXuGA5_Pqbzq09RdvnAs, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8MaxMcFeXXwMLLk0WzvdRRippn7HD8IHAbK4ytceVso3TsS6vqNlWPP5YcBRXj7ti5M5orVlstFRaCkQbFKZ9YS2HKbA-8xP6npURZyBqvonQUEHRpLPuX5jjgA1aWsGMw1jOuQPvg7nNyISf8sv6dzERtz-qxYbSbNDLdg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHX99Rq67oh_kNXkZS1a2lWGttHf57IK4MT9ixfOfq0d_mEo-YfhaeLtm6hpiBpdx2hk3jzS2CHN5kYGotRNwmu_B83XFu-Y56fN2RPyWkjtizVjKnPocON6BXUUeVKs0GX, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYv57-I5V0R4z3KSHAaAqtY5sGIG9oXwS-gRbN5UhOaeyc-dDAMMW-0eZnXwhy_nZHF3XqHKF8rXmILJdKKKtsXG4h30vstQGnGLDhmXBL1qUqIfydcBlMG80aIQMRXES9UDyfv8vqn2MeQ7QokETVh8M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_whHTzZkLuiHlGasuXv-DtYt49nqdF2cEjfjGSi05mEcKPZYVpHTS1Sl_mmbpULheGDz95BgYQyf7ED-5-QXuFq1cd3e1KI2LoXcOFywTTjq9khtYcPIlknz-Qsyu4uiV6XueKy0F7Lnd5ivN9LxQ8rQmPHk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEws0Tk1VMcyN5xXhSYBGbiT4nF9vbm1SmNKzcETG2XA2htAePj0B_kZQ35NYrImoFSVjDfCLXNaa9LkW_UObQExUllSahG8Tcs_oXWWHz-6eTk9pDg3jd-h0GO7aMwXgvklPc=
+- 인사이트: 쪽쪽이(공갈 젖꼭지) 시장은 아기에게 안정감을 주고 빨기 욕구를 충족시켜주는 육아 필수템으로 자리 잡고 있습니다. 최근에는 성인들의 스트레스 해소용으로도 주목받으며 새로운 소비 트렌드로 떠오르고 있습니다. 전 세계 아기 공갈 젖꼭지 시장은 2027년까지 5억 달러 이상 규모로 성장할 것으로 예상되며, 특히 실리콘 소재의 내구성과 안전성이 강조되는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkr7ZQifURWqQmcuuIJkK443aBC3pGIutsG2QFBSVJkzDTUhj6iR1OmhpbojffiBCZJswWVSDuQnVdqhJotPWAzx8uw2znm1KZEfAbEUHF9GIhWy9jqwYnubYlWd6mb_9Uch2pQP1BR8bbMCR82-wY1eAo_RFJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiaxDmK_nIcbwep4B_NW135fzi7GyCyiH2oJAmcwm6fTqZMrZB4g7HOI6A_JJJ2KZSTyzhVdXsrSUNTbJH8YGAZtXl14RogMje8vqP76hSYLE-yf1iPwi4R3ud1Vx3JfSgGJZefiuDMdmGChHwxQP1E05EIQaVyBl3TYxuPVh1-ST4rgZFz9zeEB57Gpqw-SSV39OY1OWleCyUk5eEN2jh, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGW3XCShBNgjWjNcbvq5pWVgC94L2ozazomiS8Ow0z2ng8XIPKRh13vOjl7DwRt2v8_oSnmqQNJh-aeEsr3sctiuz3FSZuQXrG8lTeWqnYp3yVqG5xT3Vz8JN4y4k_Gka-tqQ5Vkaz7b6rhnput-gs=
 
 ---
 
@@ -16,18 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 쪽쪽이 소재는 어떤 것을 선호하시나요? | 실리콘 |
-| 쪽쪽이 모양은 어떤 디자인을 선호하시나요? | 치아 교정형 |
-| 아기의 개월 수에 맞는 사이즈를 선택하는 것이 중요해요. 현재 아기는 몇 개월인가요? | 0-3개월 |
-| 아기에게 직접 닿는 제품이니만큼, 믿고 쓰는 브랜드가 있으신가요? | 모윰, 그린핑거 |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 3천원, 9천원~1만 7천원대가 가장 많아요) | 9천원 ~ 1만 7천원대 |
-| __avoid_negatives__ | 실리콘 소재라 먼지가 잘 붙어서 위생적으로 관리하기 어려울 것 같아요 |
+| 아기의 개월 수를 알려주세요. (개월 수에 따라 적합한 사이즈가 달라져요!) | 6개월 이상 |
+| 어떤 모양의 쪽쪽지를 선호하시나요? (아기 구강 발달에 영향을 줄 수 있어요.) | 자연형, 정형 |
+| 어떤 소재의 쪽쪽지를 찾으시나요? (안전성과 내구성을 고려해주세요.) | 실리콘 |
+| 쪽쪽이 브랜드는 특별히 선호하는 것이 있으신가요? (신뢰도와 안전성을 고려하는 경우가 많아요.) | 더블하트, 모윰 |
+| 예산은 어느 정도로 생각하세요? (평균 약 2만원, 1만 2천원 이하~2만 5천원대가 가장 많아요) | 1만 2천원 ~ 2만 5천원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 50개 (전체 50개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 그린핑거 올 실리콘 나비 쪽쪽이 2단계 - 10,720원 - ⭐4.6
@@ -61,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 실리콘 소재라 먼지가 잘 붙어서 위생적으로 관리하기 어려울 것 같아요
+(아직 선택 없음)
 
 ---
 

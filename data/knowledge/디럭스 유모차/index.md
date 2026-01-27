@@ -1,28 +1,25 @@
 # 디럭스 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-26T10:40:23.044Z
+> 마지막 업데이트: 2026-01-27T02:12:51.138Z
 > 분석 상품: 20개 | 분석 리뷰: 149개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 절충형 유모차 인기 증가
-- 기능성 및 디자인 중시
-- 경량 유모차 선호도 상승 (글로벌 시장)
+- 다기능성 및 모듈형 디자인
+- 스마트 기능 (예: 자동 접이식)
+- 친환경 소재 적용
 
 ### 구매자 만족 포인트
-- ✓ 안정적인 주행
+- ✓ 안정감
 - ✓ 뛰어난 핸들링
-- ✓ 높은 시트 높이
-- ✓ 넓은 수납공간
-- ✓ 양대면 시트 가능
+- ✓ 편안한 승차감
+- ✓ 튼튼함
 
 ### 주의해야 할 단점
 - ⚠ 무거운 무게
-- ⚠ 부피가 큼
-- ⚠ 휴대 및 이동 불편
+- ⚠ 큰 부피
 - ⚠ 높은 가격대
-- ⚠ 보관 공간 필요
 
 ### 가격대 인사이트
 
@@ -143,7 +140,7 @@
 
 ### 12. 제스파 피카노리 디럭스 스위트 PECA1006
 - **브랜드**: 제스파
-- **가격**: 215,260원
+- **가격**: 210,270원
 - **평점**: ⭐0 (0개 리뷰)
 - **핵심 스펙**: 유모차 / 특징: 양대면, 브레이크, 이지폴딩 / 내하중: 25kg / 무게: 7.4kg / 크기: 62x91x52cm / 폴딩크기: 28x81x27cm / 캐리어크기: 64x37x47cm 유모차 / 캐리어크기: 64x37x47cm
 - **장점 요약**: 분석 중
@@ -244,11 +241,7 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCgTNf1zGLaOzvqYZpJO1aq4b75WT4_cuXiCKMi_8z96n9na9X4NV2JOYLiiUhpT2G_skwBoGXNz-PIkCMxgpR8QiRbiuprsDNRKsDeQo9stya_6Sa2ZoN_OI6YSNJlHEv3vM=)
-- [sejongilbo.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmRYAblpPnof56OILJJ9Yj8uqfwySbNBc7TNJPCgt3GJxmbyjmicUPF0HdnYHlSOYhibh0gM1iNo9qM3_vtuPYGNYh3QI6z7OhlzKQfq1neb1fb7Rf3MKTkZv6Bfp7pWfoCNM9oQVfhR1I5BVYEB_z6QN6s4pvQw==)
-- [asiae.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv-G3FaYocoIkD0XfjknxAz_1Ibckj9MYDhrSubVFyrVdcnaE00z3iV5u0FZrhd4ZkacGZEVuvd4G5K2uVH6en-f4ZLPgOBW5ykuCFTe_8UYLJszajAvScbjRVvJ4GcWJQ9czi2kJBf6eR9L5w)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZwDgc-2YBC8qOL4rR6hI1W7kDNunOrEBdfwiEG6-MUFL-hN0lEbORSXWRf8gExCNQcalxax5hlUCdY3LP2OIlQdB0xV66xFawJmaUJetTKpMT7a6bzr0-PfUm_5iD7azt-mH38rRCIVAV7Ak-LsfWLzjePIYErqQvHaisVBrMhRma_sp2fB-4CXjiNbwLrfFnlReY9nKJBE26tvjVmrkKstQ1BZLzMTk_UQ==)
-- [anbbaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbQknlljUR6e9FjKtL8_jJhguIGzQq6RGalHf2unRfGD7mEbqMCueXwSxW-SEfazuOTPB7u_cpRKd1Uhq-gnK64TQkNZoLgxVMQktOmsv6j_bDIEjccPfuYOFLQ76dFwoyDT-y2h8A1v50wM3ax_BVN8KMWgwuTGHghMlYv3PqLM4VM3mZCCSCzAk1Gk_b9UNB8hRGrbEPNfIQepF4gbSapWbNQg==)
-- [bambibaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFt3JcuCieW23CM3VPTdLVm5XXGcS0JgYN5rLt_lR7RPMVXWz7GwHTUP7DsbieNPBc6lcde0ma5wRNxd2O3OzWDgG2bjg3spn9wtEqS9UK2MeUJhBDgc_B9A889ZCnrGVN7BtMuhLt2z-WB9Ap7etNVjxJGI2UHNcnu_2U5Gi-gv6xS)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-PKR3bpxm-vJk-CJvLsOpCdCc00MeLE19trKiIAnzHapDn0gNmWeDupx5TyPsFsmqmAlDISc6UEtsqQWvDb85kG7zn9K-w2d-g7_tGwL3FqVxTyMoiZjtflVjZOy70f2Zqg==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbrpNQd8D010QxAo1_jFJtIU2AySbMDlwe44z_tgzrfdlrBEVAL18jEyza_x8IGwITaOksnVZ7Ro87deONxja9FAXXjhCTzh4WA-MSivEaCeSs_PLh4JXaQYA=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH361DmrY7DhoeqygxeeTBswO98gWceBjhKvBqGqji2WvCsQ-4aE69LB48pZyZnFki26u3x8Px7K8eiNcmp_OJe8v6BKBkC2zsEq-pT--nTG2Kg5F4FPlDScrwpAQXzYQBCzoILQqhGIlvmn770a0V6D2mjS-ulti2FMlBCWmVpTWpeNgWaM7X_BsPSVNcYu_cuinySTONI5asyQ4ImIk8mD-3mpCfMLIThTA==)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4TOv3Fwq4UwtiKUO4c4sgj5yMJHbZvURRUKzIy499FPFYpoN542WA9Wg4jTZ9gWs3qwa19LPJPTvmXbwRj8c_OaRDb9TD1sjUFevDdCN5IJ0oT6uziKV8NWSa6Ozch2vytN-fMgPN23nU57_h5LVyxBkwJxoEo9q4plqIcx5lT-zOH-OTk_-AFGs8lRfhoGk5VIdeBfkRMtGk)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHI_F5R0X6vxZrkx_RAWtaKLPl_3PkfFSwrhtnSaN0Zj8Vy8Ts3G0W-Ib7wMqNIZ6DygwvpxJqxW7VQocVxKmgvE0fLU3VBIJE9W1M0JJMBB1pDhH53iN2s0VuXhtnriR9EqwL-g21Okwh2qGfDOA2qkWtUS0aHs5bV28lWJ1kCn3bRDcebSWuMJxPl22uX768AZ8VGb32gLPSCg6liiBfjIHpbUUNqdS7jA==)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESTiPaa5Tr-LvzvPEV5W9yHUyxnDhIGAwIf0Q-_N-13aF3CzW4LUpjICF3iAT1qw6DCdwH-UwZrXqNeFtiA-LPu1BO7akpNmFdpIiq0q898TArcNvAqSChCt5dwSRdBOHp9y6a2CI7BxwaT4-axIffYCgfG3O4adcYzLkCqvnmqaJR)

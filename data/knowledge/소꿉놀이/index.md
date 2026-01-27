@@ -1,27 +1,15 @@
 # 소꿉놀이 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T05:28:16.093Z
-> 분석 상품: 20개 | 분석 리뷰: 148개
+> 마지막 업데이트: 2026-01-27T05:41:25.375Z
+> 분석 상품: 20개 | 분석 리뷰: 2,791개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 역할 놀이 강화
-- 교육적 기능 통합
-- 안전 및 친환경 소재 중시
-- 스마트 기술 접목
 
 ### 구매자 만족 포인트
-- ✓ 역할 놀이 발달
-- ✓ 상상력 증진
-- ✓ 사회성 함양
-- ✓ 창의력 향상
 
 ### 주의해야 할 단점
-- ⚠ 단순한 구성
-- ⚠ 높은 가격대
-- ⚠ 부족한 내구성
-- ⚠ 안전성 문제
 
 ### 가격대 인사이트
 
@@ -30,117 +18,27 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 헬로키티 클래식 티타임 소꿉놀이
-- **브랜드**: 헬로키티
-- **가격**: 13,300원
-- **평점**: ⭐3.6 (3개 리뷰)
-- **핵심 스펙**: 장난감 / 완구 / 주방 / 가게놀이 / 주방놀이 장난감 / 주방놀이
+### 1. 플레이맥스 내 마음대로 초이스 주방놀이소품 소꿉놀이 01망고
+- **브랜드**: 플레이맥스
+- **가격**: 400원
+- **평점**: ⭐4.8 (969개 리뷰)
+- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 주방놀이 장난감
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25281197)
+- [상세보기](https://prod.danawa.com/info/?pcode=25377014)
 
-### 2. 러닝리소스 러닝리소스 조리도구 6종세트 역할놀이
-- **브랜드**: 러닝리소스
-- **가격**: 61,500원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 소꿉놀이 장난감 / 소꿉놀이
+### 2. 해피플레이 리틀쉐프 리얼밥솥 주방놀이 장난감 유아 아기 소꿉놀이
+- **브랜드**: 해피플레이
+- **가격**: 25,120원
+- **평점**: ⭐5 (1개 리뷰)
+- **핵심 스펙**: 완구 / 블록 / 매트 / 주방 / 가게놀이 / 역할놀이 완구 / 역할놀이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25323347)
+- [상세보기](https://prod.danawa.com/info/?pcode=25103258)
 
-### 3. 러닝리소스 러닝리소스 뉴스프라우츠 음식세트 LER7711
-- **브랜드**: 러닝리소스
-- **가격**: 43,450원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 소꿉놀이 장난감 / 소꿉놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25324919)
-
-### 4. 키앤비 모더닉 소꿉놀이 자석 자르기 55pcs 세트
-- **브랜드**: 키앤비
-- **가격**: 101,130원
-- **평점**: ⭐4.2 (4개 리뷰)
-- **핵심 스펙**: 스포츠완구 / 승용 / 완구 / 블록 / 매트 스포츠완구 / 매트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=31419398)
-
-### 5. 꼬마스타 펫스퀴시 소스보틀/말랑말랑/촉감놀이
-- **브랜드**: 꼬마스타
-- **가격**: 3,140원
-- **평점**: ⭐4.8 (5개 리뷰)
-- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 소꿉놀이 장난감 / 소꿉놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25299242)
-
-### 6. 핑크 공주구두 유리구두 핑크  소꿉놀이 여아장난감
-- **브랜드**: 핑크
-- **가격**: 3,830원
-- **평점**: ⭐4.2 (4개 리뷰)
-- **핵심 스펙**: 
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21130550)
-
-### 7. 숲소리 소꿉놀이세트 V2
-- **브랜드**: 숲소리
-- **가격**: 198,700원
-- **평점**: ⭐4.9 (119개 리뷰)
-- **핵심 스펙**: 소꿉놀이 / 대상연령: 12개월이상 / 구성: 음식모형,식기도구 소꿉놀이 / 구성: 음식모형,식기도구
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21330374)
-
-### 8. 피에스타 원목 소꿉놀이 애프터눈 티 세트
-- **브랜드**: 피에스타
-- **가격**: 42,110원
-- **평점**: ⭐5 (3개 리뷰)
-- **핵심 스펙**: 주방놀이 / 대상연령: 36개월이상 주방놀이 / 대상연령: 36개월이상
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=28653950)
-
-### 9. 한립토이스 한립 과일농장 HL641
-- **브랜드**: 한립토이스
-- **가격**: 85,840원
-- **평점**: ⭐5 (7개 리뷰)
-- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 소꿉놀이 장난감 / 소꿉놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25294946)
-
-### 10. 브랜드B 뉴마이펫키트 동물병원놀이 의사놀이 소꿉놀이
-- **브랜드**: 브랜드B
-- **가격**: 53,300원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 병원 / 공구놀이 / 역할놀이 완구 / 역할놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=49547459)
-
-### 11. 러닝리소스 건강간식세트/LER9744/역할놀이/소꿉놀이
-- **브랜드**: 러닝리소스
-- **가격**: 41,850원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 유아동의류 / 잡화 / 도서 / 퍼즐 / 전자펜 / 학습기 / 가베 / 칠교 유아동의류 / 칠교
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25992443)
-
-### 12. 업스케일 아이러브펫 가방속에 토끼하우스 소꿉놀이
+### 3. 업스케일 아이러브펫 가방속에 토끼하우스 소꿉놀이
 - **브랜드**: 업스케일
 - **가격**: 35,910원
 - **평점**: ⭐5 (2개 리뷰)
@@ -150,47 +48,37 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=34395002)
 
-### 13. 비앤씨 어린이 주방놀이 요리 소꿉놀이 장난감 콩순이 파티 TMN68F062
-- **브랜드**: 비앤씨
-- **가격**: 27,710원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 장난감 / 완구 / 주방 / 가게놀이 / 주방놀이 장난감 / 주방놀이
+### 4. 공주구두 유리구두 소꿉놀이 여아장난감
+- **브랜드**: 공주구두
+- **가격**: 3,830원
+- **평점**: ⭐4.8 (20개 리뷰)
+- **핵심 스펙**: 
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25252310)
+- [상세보기](https://prod.danawa.com/info/?pcode=21129053)
 
-### 14. 리틀타익스 홈그로운키친 주방 놀이 조립 652868요리도구 소꿉 역할장난감 어린이
-- **브랜드**: 리틀타익스
-- **가격**: 285,730원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 인형 / 피규어 / 인형집 / 인형옷 완구 / 인형옷
+### 5. 키앤비 모더닉 소꿉놀이 자석 자르기 55pcs 세트
+- **브랜드**: 키앤비
+- **가격**: 101,130원
+- **평점**: ⭐4.2 (4개 리뷰)
+- **핵심 스펙**: 스포츠완구 / 승용 / 완구 / 블록 / 매트 스포츠완구 / 매트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=72478208)
+- [상세보기](https://prod.danawa.com/info/?pcode=31419398)
 
-### 15. 탑브라이트 h30 도형맞추기시계 120351 수입 쇼핑몰 소꿉놀이세트 손씻기 용게임 신체놀이 교육
-- **브랜드**: 탑브라이트
-- **가격**: 19,120원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 블록놀이 블록놀이
+### 6. 피에스타 원목 소꿉놀이 홈카페 세트
+- **브랜드**: 피에스타
+- **가격**: 29,870원
+- **평점**: ⭐4.7 (4개 리뷰)
+- **핵심 스펙**: 주방놀이 / 대상연령: 36개월이상 주방놀이 / 대상연령: 36개월이상
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=41490617)
+- [상세보기](https://prod.danawa.com/info/?pcode=21419114)
 
-### 16. 오즈토이 R 편의점 소꿉놀이 세트 623-s107 도너츠 주방 음식 모형 미니어쳐 소품
-- **브랜드**: 오즈토이
-- **가격**: 4,200원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 역할놀이 완구 / 역할놀이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=92111138)
-
-### 17. 피에스타 원목 소꿉놀이 케이크 세트
+### 7. 피에스타 원목 소꿉놀이 케이크 세트
 - **브랜드**: 피에스타
 - **가격**: 15,700원
 - **평점**: ⭐5 (1개 리뷰)
@@ -200,35 +88,135 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=49174571)
 
-### 18. 오즈토이 R 스마트 쿡 소꿉놀이 전자레인지 세트 핑크 ld-883b 주방놀이 전자렌지 치킨 소품
-- **브랜드**: 오즈토이
-- **가격**: 23,400원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 역할놀이 완구 / 역할놀이
+### 8. 핑크 공주구두 유리구두 핑크  소꿉놀이 여아장난감
+- **브랜드**: 핑크
+- **가격**: 3,830원
+- **평점**: ⭐4.2 (4개 리뷰)
+- **핵심 스펙**: 
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76337711)
+- [상세보기](https://prod.danawa.com/info/?pcode=21130550)
 
-### 19. 오즈토이 R 스마트 쿡 소꿉놀이 식기 세척기 세트 핑크 ld-886b 주방 청소 엄마 놀이 소품
-- **브랜드**: 오즈토이
-- **가격**: 21,320원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 인형 / 피규어 / 인형집 완구 / 인형집
+### 9. 피에스타 원목 소꿉놀이 텃밭 세트
+- **브랜드**: 피에스타
+- **가격**: 25,550원
+- **평점**: ⭐4.3 (3개 리뷰)
+- **핵심 스펙**: 역할놀이 / 대상연령: 36개월이상 역할놀이 / 대상연령: 36개월이상
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=77385902)
+- [상세보기](https://prod.danawa.com/info/?pcode=21419204)
 
-### 20. 들딸기 스위트 카페 소꿉놀이 세트
-- **브랜드**: 들딸기
-- **가격**: 30,820원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 화장 / 미용놀이 / 역할놀이 완구 / 역할놀이
+### 10. 바니랜드 홈키친 시그니처 주방놀이 소꿉놀이 엄마놀이
+- **브랜드**: 바니랜드
+- **가격**: 85,760원
+- **평점**: ⭐4 (2개 리뷰)
+- **핵심 스펙**: 장난감 / 완구 / 주방 / 가게놀이 / 주방놀이 장난감 / 주방놀이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29894687)
+- [상세보기](https://prod.danawa.com/info/?pcode=25217225)
+
+### 11. 숲소리 소꿉놀이세트 V2
+- **브랜드**: 숲소리
+- **가격**: 192,920원
+- **평점**: ⭐4.9 (119개 리뷰)
+- **핵심 스펙**: 소꿉놀이 / 대상연령: 12개월이상 / 구성: 음식모형,식기도구 소꿉놀이 / 구성: 음식모형,식기도구
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21330374)
+
+### 12. 리틀타익스 원목 자르기29종 /소꿉놀이
+- **브랜드**: 리틀타익스
+- **가격**: 40,950원
+- **평점**: ⭐4.4 (143개 리뷰)
+- **핵심 스펙**: 장난감 / 완구 / 주방 / 가게놀이 / 주방놀이 장난감 / 주방놀이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25284062)
+
+### 13. 리틀타익스 원목자석 요리놀이 20종세트  소꼽놀이
+- **브랜드**: 리틀타익스
+- **가격**: 39,020원
+- **평점**: ⭐4.5 (10개 리뷰)
+- **핵심 스펙**: 장난감 / 완구 / 주방 / 가게놀이 / 주방놀이 장난감 / 주방놀이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25260185)
+
+### 14. 러닝리소스 과일 야채 색깔구분 세트
+- **브랜드**: 러닝리소스
+- **가격**: 76,650원
+- **평점**: ⭐4.5 (2개 리뷰)
+- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 소꿉놀이 장난감 / 소꿉놀이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25332065)
+
+### 15. 플레이맥스 캐니멀 싹둑싹둑 과일자르기 (+대형바구니)
+- **브랜드**: 플레이맥스
+- **가격**: 45,173원
+- **평점**: ⭐4.7 (974개 리뷰)
+- **핵심 스펙**: 소꿉놀이 / 대상연령: 37개월이상 / 구성: 대형바구니,야채과일자르기64종,소꿉놀이세트24종,미니백과사전 소꿉놀이 / 구성: 대형바구니,야채과일자르기64종,소꿉놀이세트24종,미니백과사전
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21285317)
+
+### 16. 플레이맥스 과일자르기 소꿉놀이세트
+- **브랜드**: 플레이맥스
+- **가격**: 19,900원
+- **평점**: ⭐4.5 (184개 리뷰)
+- **핵심 스펙**: 역할놀이 / 대상연령: 37개월이상 역할놀이 / 대상연령: 37개월이상
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21240485)
+
+### 17. 플레이맥스 아이사랑 과일야채 시장놀이 소꿉놀이세트
+- **브랜드**: 플레이맥스
+- **가격**: 14,170원
+- **평점**: ⭐4.7 (113개 리뷰)
+- **핵심 스펙**: 장난감 / 완구 / 주방놀이 / 소꿉놀이 장난감 / 소꿉놀이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=25324409)
+
+### 18. 코발트블루 뽀로로 캐리어 소꿉세트
+- **브랜드**: 코발트블루
+- **가격**: 22,900원
+- **평점**: ⭐4.5 (108개 리뷰)
+- **핵심 스펙**: 역할놀이 / 대상연령: 3세부터 역할놀이 / 대상연령: 3세부터
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21248738)
+
+### 19. 바니랜드 뽀로로 캠핑놀이
+- **브랜드**: 바니랜드
+- **가격**: 21,400원
+- **평점**: ⭐4.6 (64개 리뷰)
+- **핵심 스펙**: 소꿉놀이 / 대상연령: 37개월이상 / 뽀로로 / 구성: 버너,코펠,식기류,통조림식품,야전삽,망치,수통,다용도칼,수납가방 소꿉놀이 / 구성: 버너,코펠,식기류,통조림식품,야전삽,망치,수통,다용도칼,수납가방
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21245198)
+
+### 20. 플레이맥스 소꿉놀이 16종
+- **브랜드**: 플레이맥스
+- **가격**: 15,470원
+- **평점**: ⭐4.6 (64개 리뷰)
+- **핵심 스펙**: 역할놀이 / 대상연령: 37개월부터 역할놀이 / 대상연령: 37개월부터
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21255785)
 
 ---
 
@@ -243,6 +231,11 @@
 ---
 
 ## 📊 데이터 출처
-- [openads.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_b37EsREZjIHFrfcS2BvnplntuYxWjgcOn0wQTzA2obFpY9nzgg7uwAxOTFWHAhg7y2GUF2OcI20ty-jkJhlpao91AHjOEEMXHu-CE9k8Hs0I3GXpRXFzNJ0CrfulFL72STS6xpO_lYySWWOsY3oK_0g2AQ==)
-- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdnmyn3RmcFmUEKfU7G0TUjBQMme95VzfpGf35yoS_wEreD9L84oRJSX2NxGlO1bB4RfbA_YqQ8PNTWU49426yi3GP6rdvK0SX3DC_xuHKSK7WaznTIlrnruhaDjDNk26hsiIElijydLuCnwXjSxWyBfxR0LzaDSVK7gjJBQs1sazIhIjv3XU-)
-- [edaily.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-kD20aAsGiScG-3r0ePrZk-EQFwE30qet7uoW6NsNePiH23q4UOC-M7POzqkj3C9ANUYruo_cEUcg7l1VaQqiTEs4S4Ix_AarOME0c2qln8pQuon2bujnH0Af1P99bqqzRKnathsy9u5F3rFC5cJjrBoYqkxHQrkwiXT-)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFChU6Wk3TslzU2dxP24E7ZJ74aw1wvlxFU343Z7YHw0PpKoMr8Z3RGDPpgPf8VeTIpoxr5prwHYceeUi3QtJaZUEuZlnHrDfbwAcls3Z4RVROOGxwdEtCBy-vd-B1gRHQ_RdSNevb-7-GHitHCLBhE_gr9oL2jZ39bk6fzVBj3PU3psg==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZLF2Nw5HzIaaryzI-4tDQ9VURK-Pi73scFmiAFG_fbWnpiNtbchfUb8p8Gsd6XYPHHIrKSCf6BkC8a9AiHkZUZ3IAUkxzyqoR990fAJDqHY_4qtBtI0KjZ1EHanVdkobNAnkw8Q==)
+- [careet.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKT-vGPq4JwPhWL7s03SqdrnSHzwSet7HXHUfVGHKUfFVgrRt1f5ER-r8xR-wIgDdipyjYtSIsnhAVHVgGQbAgR9aH0WRa2R4uvLGtkB_ldhHYEvm-)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ-MsjBgK1XjEjYf_a3CFInbDhXUeRXX0uXfoGV5WN9YjlqD_F7y7aHxu6_C710Ok0SHS3D-YKzZYXUTlkKJoVyvtFBxUNhRFhnlRVLUz-hcSkAeJxI89oIbqr4ceUg0KZ03P92w==)
+- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYog2qjtMCEQE731jyZGCxt5f2lrQV4OAkmlip-k-KHUjW6aC-q2qMKQRV2CDbrPV5RWHecu94bhiG5BcdMoCGpFY3SM3eSvw458fq8kIdlFnaM4Z85pZ-KgNXzy9xkdwLZSU9L8WtzMNwLOSSDPMeTNHWZMk9TjPPaPDVEqWDutJ0Do0ifZcT)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpviVHPjTpK15XE2mnaFtuHBtAaaDkwESSnGEnpmAp7vcDvSPftTtPqJLFJ31L8dyZcIVq0uBkSD18OP0CkgPfFr4ZD8-ad-htnESI_1gUCTuN70Bbyo5mSyo5cBysRsKPm4ck6FgT7kc0EI-Aq3j7XqahGd0BxpI08KWSknSt2JyGXHCmkS8TVVd7ksPOF2Mc5CrpzgeebQFkM6aCEGJG6A4t-qPdjUFaXQicH8xIEFUXSA0jdf7uMIsR_GuekwN4C6IsR3Sh95Y2aCh06xw=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJWcEpoVAQQEhG0EinGT8qzIFqKuAsSQJewJXTINpw1GNFX9cJanyQVveWDexesUdssFyuNedueSUGd3i0oeroz5kelEIBZQ6TY5AeaBOHNUxkPwdQW6PWa5dbdtQJPZdtRDcVMu2T2K2SWYL0Nck7zcMZqucsEG2w9ixOUpuz6Scv44vDWBBYAIlwoFNan6hYcvF7VGFfkdiiqMPnLudEPUghsSCH6OcnEpSrFICzKHn6vN_1OI1xG-zzo0jsRgcl5Ew9GBo3FRr61ck0mZaRR-tjH8c1FlIjDLcwcID0)
+- [prow.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdT9sXny0rBPIAUFbFOoCTd1vyyG4nz7UKCgPVhE0132x-AIXlF55d2nC1fiXIHZauqeNeigLpHU-FxhNU_NFYG4Y8j2Zey0mPYS9Dau_fgG18KxHCr-AIIL_IMTJgiInOQyCRBeArUJ1KM8SSBBb1BeR-IeSq6Ald2w==)

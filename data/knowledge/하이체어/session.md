@@ -1,5 +1,5 @@
-# 세션: 20260126_110044_9jgk
-> 시작: 2026-01-26T11:00:44.901Z
+# 세션: 20260126_110950_qvz1
+> 시작: 2026-01-26T11:09:50.425Z
 > 카테고리키: 하이체어
 > 카테고리: 하이체어
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 하이체어 시장 현황
-- 인사이트: 하이체어는 아기가 안정적으로 앉아 식사를 할 수 있도록 돕고, 부모가 아기를 돌보기 편리하게 하는 육아 필수템입니다. 주로 생후 6개월부터 사용하며, 아기의 성장 발달 상태에 맞춰 사용하는 것이 중요합니다. 안전한 식사 시간 확보, 올바른 식습관 형성, 가족과의 유대감 강화 등의 장점이 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCRRwm2GgvzkrWC_9y0TOXfv2haG3h-SPPd7fn5AHSHkbCUcmNG76yRDeU4lAs5lgJr3xgmRFfdEDGS2LQ2sDjAfwKQtya4BIKzlAWua2YqN92poxjyehhc1k9G0LHBxISS0P6CbORq4rm7GXg2vp2OWC57dGZJkP7o9RwM1Jhsw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJVK8FoYdpxZIS2H74IAPN62OOaDU20dTpzx_g4D3iWN8xB7wBlzxMFRXFvXHFdxCMlGrtIb0oba-DmavAhwlL12mTiLMG4rbJmlawUACRyJez9AWdg0BZE7VepsXJZHfj6cEsSx-pUNIPgfzZn_rX4a5g9rxIe__lOpH7q3VsJmqfqnDognPFcQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpN6AbP0SxLwH6iiBmXQa2_nNwI52fpvC8G8mpgdjgIvdAwSVo4pBbSnTBJvvjgXRQgGNzyJaqu1lf_VD4pRPA0PRSw651iXVPUdgnmCjGE3Rbdo1Aeu4ntklki4B4QWfu_cDKRuNfeKeM0mRBXI-CAQ==
+- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrNmy2Nfx9O03HZSE4nrng7oHZuHJGmLOfS-txCNKsw6Yau7C4IRMAlw8bBfzEaGFm1eJVxXsACEwquXBS4bUGIGoj6jDZKqKe8It1ZQaIodyU3U3UyGDJOKD5wA6yf2ug8cudP0-hGy8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIZM2rRhgmDnP4JF0cAv3dlBBhi_eMmo_9WUygf8d7MwqT28AqSXpkVSZexA0K4je-OoYAxG8AmJ2Wh_FDO6nt-ZK-T-0HWs3s21Z5hFbR7w1sHXWS399tjA0GDO0TrEPPxsuc3HJv3LQdvL9lzuwDKNOVUu3MXIfP5cxnXU6urgjkd3UUpcI2PKFsMAPrzfhfBayO-lUM_QkVzlOJx2UVA1ee, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEikbugtnuutFqtzYv34jHKVxpXa9YXmBU2z6fO2u3DT8aCeo9D3khiFLUw4s2aYWczIv9UIOiE2Px4lftZK7U-aSf6uB11-20j6-3UKp-1ytq_zK_ehtT7iVZPUZadYu1CpxePowgQVC9Q_NeUJGCIKJOq9ti28m4PvWWtW_CcZ-jNNFP9dLzi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH5j-dnweo_xhHrZnu4xlrrW4aPPAdBdfXLl_Pn5xCzr2bfP5vVaNXWW1bGw8ydyLaK8IIV0mtP59DLPzhX2qyErf0DCr61fLieaCbYAJqSU72Zwh7Y178ul9yP9FFZUm0UARnDzG0mK7xsT7W3d0rPVemO1c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHc9D0RhimfsvdJr4tfyLFfsyehBChM0CC5ZVISrgaFLanVnhd1aWg2A--lxfEtEt3dpR57V8ZmhvCHovz3xw83W_M9LhUOhaDyyUGc0tPONBqbvOZAZPpstMTKXhmNWIZVBwgq0HUgkzK170uQ2WTT57dJ0G41aRL4s2tqs3t08FQ4yQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqd7YLvddKPQTATtw_iOwgCDjDAVE7y7edKzShvHq7cMEujK9aUfWhYcM02amTdtscrtMmqgMsBIy6vVCiJ9BqbbL-INzLx_I5O6tSRR4J1hv58fe6aEm_ZkrhIDai-6kv1RYKHX0tzEvMCdcgrdp5eCRddOhAW0TqWVevW_aVL_FGCZgoUwXybd3vsNDTs0D226C-Lw80DAj95wn5erYH-cBW8d_ghGOD20TctilmzW4eeo5B1nbV2H7EnhAU4pf5xIXm1dHZ06crkx5zyQv9sUaAXRGyxMKr17n2qrJaDG_g6OttQqNDr_y1q-cF_Ij9jjlZRrJZ8037SUBJqMFVfBGtoYm_O4ndYmKQfkONhcncQ8W_q4BmmkR_c5l7Jl33djxbGZy6lMQitjAAgLSfBM8An7yPzdCnvY2hx96Ob-yiFOBDBWez9Qz9rF7wXZSzjlYrZsmTxTKLm_oVqJeH7g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCRfDDPpkaG7qJRyNPPrrRDmsm4EtVyrsuEO7MYK_0qyh1mpNwYXOhdS1vaCD9yGwk5fUhvj_URKSwyKrAQK5jrZnetwkAVDmZ9OGomZnP5rkZhgYlScL3jQHB9I6r2MhZisqY3dlsU4E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtARI4rNktbkuWl9v38iXv0s8bFEYlKy9XC-EOmY7ZNtHFBrl4mhOgrccSuFdOqgxS-tf80175XdZlPpo8w51dJ2YWJRe5UDALsuhTaLMbjsKRsN4owk9LWm11PTXdCZRue8ops_wN3U2PbgIjR6ti5wg8
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrNmy2Nfx9O03HZSE4nrng7oHZuHJGmLOfS-txCNKsw6Yau7C4IRMAlw8bBfzEaGFm1eJVxXsACEwquXBS4bUGIGoj6jDZKqKe8It1ZQaIodyU3U3UyGDJOKD5wA6yf2ug8cudP0-hGy8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIZM2rRhgmDnP4JF0cAv3dlBBhi_eMmo_9WUygf8d7MwqT28AqSXpkVSZexA0K4je-OoYAxG8AmJ2Wh_FDO6nt-ZK-T-0HWs3s21Z5hFbR7w1sHXWS399tjA0GDO0TrEPPxsuc3HJv3LQdvL9lzuwDKNOVUu3MXIfP5cxnXU6urgjkd3UUpcI2PKFsMAPrzfhfBayO-lUM_QkVzlOJx2UVA1ee, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEikbugtnuutFqtzYv34jHKVxpXa9YXmBU2z6fO2u3DT8aCeo9D3khiFLUw4s2aYWczIv9UIOiE2Px4lftZK7U-aSf6uB11-20j6-3UKp-1ytq_zK_ehtT7iVZPUZadYu1CpxePowgQVC9Q_NeUJGCIKJOq9ti28m4PvWWtW_CcZ-jNNFP9dLzi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH5j-dnweo_xhHrZnu4xlrrW4aPPAdBdfXLl_Pn5xCzr2bfP5vVaNXWW1bGw8ydyLaK8IIV0mtP59DLPzhX2qyErf0DCr61fLieaCbYAJqSU72Zwh7Y178ul9yP9FFZUm0UARnDzG0mK7xsT7W3d0rPVemO1c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHc9D0RhimfsvdJr4tfyLFfsyehBChM0CC5ZVISrgaFLanVnhd1aWg2A--lxfEtEt3dpR57V8ZmhvCHovz3xw83W_M9LhUOhaDyyUGc0tPONBqbvOZAZPpstMTKXhmNWIZVBwgq0HUgkzK170uQ2WTT57dJ0G41aRL4s2tqs3t08FQ4yQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqd7YLvddKPQTATtw_iOwgCDjDAVE7y7edKzShvHq7cMEujK9aUfWhYcM02amTdtscrtMmqgMsBIy6vVCiJ9BqbbL-INzLx_I5O6tSRR4J1hv58fe6aEm_ZkrhIDai-6kv1RYKHX0tzEvMCdcgrdp5eCRddOhAW0TqWVevW_aVL_FGCZgoUwXybd3vsNDTs0D226C-Lw80DAj95wn5erYH-cBW8d_ghGOD20TctilmzW4eeo5B1nbV2H7EnhAU4pf5xIXm1dHZ06crkx5zyQv9sUaAXRGyxMKr17n2qrJaDG_g6OttQqNDr_y1q-cF_Ij9jjlZRrJZ8037SUBJqMFVfBGtoYm_O4ndYmKQfkONhcncQ8W_q4BmmkR_c5l7Jl33djxbGZy6lMQitjAAgLSfBM8An7yPzdCnvY2hx96Ob-yiFOBDBWez9Qz9rF7wXZSzjlYrZsmTxTKLm_oVqJeH7g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCRfDDPpkaG7qJRyNPPrrRDmsm4EtVyrsuEO7MYK_0qyh1mpNwYXOhdS1vaCD9yGwk5fUhvj_URKSwyKrAQK5jrZnetwkAVDmZ9OGomZnP5rkZhgYlScL3jQHB9I6r2MhZisqY3dlsU4E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtARI4rNktbkuWl9v38iXv0s8bFEYlKy9XC-EOmY7ZNtHFBrl4mhOgrccSuFdOqgxS-tf80175XdZlPpo8w51dJ2YWJRe5UDALsuhTaLMbjsKRsN4owk9LWm11PTXdCZRue8ops_wN3U2PbgIjR6ti5wg8
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 믿고 쓰는 브랜드가 있으신가요? | 스토케, 도노도노 |
+| 하이체어의 주 소재는 어떤 것을 선호하시나요? | 플라스틱, 철제/알루미늄 |
+| 하이체어에 꼭 있었으면 하는 기능이 있나요? | 발걸이 조절, 식판 탈부착 |
+| 어떤 형태의 하이체어를 찾으시나요? | 바형, 벤치형 |
+| 예산은 어느 정도로 생각하세요? (평균 약 29만원, 17만원~38만원대가 가장 많아요) | 50만원대 |
 
 ---
 

@@ -9,8 +9,7 @@ export function StepIndicator({ currentStep = 1, className }: StepIndicatorProps
   const steps = [
     { id: 1, label: '조건 고르기' },
     { id: 2, label: '밸런스 게임' },
-    { id: 3, label: '피할 단점' },
-    { id: 4, label: '예산 설정' },
+    { id: 3, label: '예산 설정' },
   ];
 
   return (
