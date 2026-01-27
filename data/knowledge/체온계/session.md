@@ -1,5 +1,5 @@
-# 세션: 20260126_083307_tnlt
-> 시작: 2026-01-26T08:33:07.433Z
+# 세션: 20260127_115940_2ovm
+> 시작: 2026-01-27T11:59:40.546Z
 > 카테고리키: 체온계
 > 카테고리: 체온계
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 체온계 시장 현황
-- 인사이트: 체온계 시장은 코로나19 팬데믹 이후 비접촉식 체온계 수요가 급증하며 성장세를 보이고 있습니다. 기술 발전으로 정확성과 사용 편의성이 향상된 디지털 및 스마트 체온계가 주목받고 있으며, 특히 영유아를 위한 제품 개발이 활발합니다. 또한, 수은 체온계 사용이 줄어들면서 친환경적이고 안전한 대체재로서 디지털 체온계의 보급이 확대되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeUysfzql59TMTtCaVJ53t7mOLN4oJHbX0v0aoJvtZVoUA3_e10jLJ8PnqUxnPsjPDRwzGl2fbicy8Ktg8afwXobLVxpDjyoyUeM_5CQchvDe7bEiCf_tcEHejVflu9s6se-P3mK9Ii-oWu3cD5-RNhaKpmSFwRXj4YZCOaE0V1VH-WUVaUIQoALMU5DwZotNm, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEKKxubrIPIyrQq3scC-wrR2fkJpc4aFVHwoHOK5Y1r9ssv1oJbZoz_IVyZ1W89gh_hgT9d11PadYgTJfA4Li9krmohrkk6IGx2QE2YKurFW9hq_9bQsYCXGzYgHqlsyGcQHLCuVvu4X5ixCC6O2xZDwF3_PsFLdsYEUg_WpzrNrtrUimfwNO33A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8nWNgrweuNpJd-7DMI9GpClEqZPso_EgBo8TpRbYP9EYF9OxguFeDzBM8YSCXty2dmTIMCHUleHB2kfDr81K4IJ5Sq-iOUKOwYcms6iaL0GJrCDl5_bR6Xq62ey0CcPY1TgjSRWo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1ZWnT9IPq0JkkF9u6DWd7-C8QMi3qQcEs-dOB7x-O47WVjukkrMZAQZo-O3OBsXdVs8VZbabMCWikTIFTVVAyBd0pT0n79pPUkCdoueLLSA_xcEr3_hiJlbTUPEEk25h8ncKv7Ms=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlYY23WnGrPeZHb11dd7tvS-vlBGiOIppgj1gbM_e51xrmPYV0dbcN4_gBgFJU_eUEcrnze5OJWyd5dtcLqKeCJMP2UbbMk0kDNyjX8XSqOiBgy96RqHVKU8ISTIuroKtQliNCqiE=
+- 인사이트: 체온계 시장은 감염병 확산으로 인해 비접촉식 적외선 체온계 수요가 급증하며 성장세를 보이고 있습니다. 특히 스마트 체온계에 대한 연구 개발이 활발하며, 영유아 등 특정 소비층을 겨냥한 제품도 출시되고 있습니다. 중국 시장에서는 디지털 체온계 보급이 확대되고 있으며, 수은 체온계에서 디지털 체온계로의 전환이 가속화되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEA6qlcclA6Pim6POeyDRVg-pUFXUhjDkN58_bdAI8uTlC87sktR8iUiTe-Jx7t50tAnD9lB7miKem_2WHXx8iV6GtZcK1lZ4uiU0t4IoR9zIl8B2Ko7Tej6bKMLtScLI1goJmtpbkt4gk134Z96R___9_6fZ4-Xkw2VMLJHdoOgza8hzcXJL1qu49JXKjlv-Or, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvEaQCwqtoqgU1ct1-Tsm-c6YErP9WOoMR4aFNJz5jO4zfwh2ReQGbYsq_rSMlNpAgSkaPlgKdCk9cN9whSeTSMx0wBchCiE56Oopa6CnN49iWQQNfxV-cAFAoSdNer0U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH-FH4aIZroR_aElGIAgWxPk8c-_d-HM7buQHRZYx5vdN6z7N5bmOBsQllO9Ck-ZDjafXpCVGZO9b_Z4iKYR_vnRD4RbJhlLtxksNDcenNHUOVWRSC-dvOqck7izgnwyOLo09s8XbxX1wYRvjFsdyRRAefk2FinmTTzrTJOm2rQThE3InFL7Lt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOKk9nn9Q5whUMQxe3LYcQkBD8t9wgsmywhburiSo72BTqtHcmJDceXRDt3hcv0OMwEdbiKpazZwqWPcwkfRvalzmDNcKckaI2gNWIN2_h9HL5xSbM__e_lGKOttEIe4CRt-50x0-X67EC4T7cyVM2q_bKWLhxiZRY7A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5C4qqkTH1I0WVbPO9uusdnMwgp39dbO1kzElZFKODBW-D8sgN0uMZpS6981ATT6BIDfd-9prZqBnaRrjpV8SMwIoj1750GA1CoGZK9LA5dwu0S6sLOzCKzbiH2pxcPH-Klfc8Wgw4lB60w59Nol8SJpW6gg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH943tc4sIG8AUeLPPwpLpoyGwSJOzPYJUT1hZr2S6N0YVdcW9ir6I73Z73RWd5xmqA338OFNZmZYTZSlyk1znfiCJ-OpRyZD-d0hqdmjrgHLxigXY2SU0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEP7Ojub1gJ8uxmaTE8oegC8CNzxzsW_2D3jUC11Oh46Su9hIaJyXq6_ULpmw1trLZmFOF7idYjNyP3Ac-R4ScCdq3quZrqP_g9K5FR1wAz7JaXxu9z8gc0WtsevM9tk_iV8JEDPX3Th8WS1A2NxyNXMDqbeo1TY1c-Zt9s1EQQAfvPWPA=
 
 ---
 
@@ -16,23 +16,22 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식으로 체온을 측정하는 것이 편하신가요? | 비접촉식 (이마) |
-| 체온계에 어떤 스마트 기능이 필요하신가요? | 상관없어요 |
-| 체온 측정 시 가장 중요하게 생각하는 부분은 무엇인가요? | 높은 측정 정확도 |
-| 선호하는 체온계 브랜드가 있으신가요? | 오므론, 마이크로라이프 |
-| 체온계 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 이하 |
-| __avoid_negatives__ | 측정하는 각도나 거리에 따라 결과가 달라질까 봐 사용법이 까다로울까 봐 불편해요 |
+| 어떤 방식의 체온계를 찾으시나요? | 비접촉식 체온계 |
+| 체온 측정 시 어느 정도의 속도를 중요하게 생각하시나요? | 3초 이내 |
+| 체온 측정 외에 추가적으로 필요하신 기능이 있으신가요? | 상관없어요 |
+| 선호하시는 브랜드가 있으신가요? | 브라운 |
+| 체온계 예산은 어느 정도로 생각하세요? (평균 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 60개 (전체 60개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 브라운 써모스캔 IRT-6030 - 56,390원 - ⭐4.7
+1. 브라운 써모스캔 IRT-6030 - 55,350원 - ⭐4.7
 2. 브라운 써모스캔 IRT-6525KO - 77,340원 - ⭐4.8
-3. 브라운 써모스캔 IRT-6510 - 59,470원 - ⭐4.7
+3. 브라운 써모스캔 IRT-6510 - 58,020원 - ⭐4.7
 4. 오므론 MC-523 - 37,600원 - ⭐4.4
 5. 마이크로라이프 MT-1681 - 1,890원 - ⭐4.4
 6. 브라운 BNT400 - 70,380원 - ⭐4.6
@@ -42,7 +41,7 @@
 10. 마이크로라이프 MT-200 - 3,880원 - ⭐4.6
 11. 브라운 써모스캔 IRT-6520 - 87,920원 - ⭐4.7
 12. MS테크 MS103 - 46,590원 - ⭐4.7
-13. 녹십자MS TS-7 - 30,000원 - ⭐4.5
+13. 녹십자MS TS-7 - 24,230원 - ⭐4.5
 14. 휴비딕 FS-300 - 31,920원 - ⭐4.6
 15. 오므론 MC-172L - 18,900원 - ⭐4.6
 16. 브라운 렌즈필터 LF-20 20개 - 1,150원 - ⭐4.7
@@ -61,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 측정하는 각도나 거리에 따라 결과가 달라질까 봐 사용법이 까다로울까 봐 불편해요
+(아직 선택 없음)
 
 ---
 

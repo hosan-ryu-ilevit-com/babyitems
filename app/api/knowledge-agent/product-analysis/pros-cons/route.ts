@@ -138,7 +138,7 @@ async function generateProsConsWithLLM(
 
   const model = ai.getGenerativeModel({
     model: 'gemini-2.5-flash-lite',
-    generationConfig: { temperature: 0.3, maxOutputTokens: 4000 },
+    generationConfig: { temperature: 0.2, maxOutputTokens: 8000 },
   });
 
   // 각 제품별 정보 구성
@@ -159,7 +159,7 @@ ${reviewTexts || '(리뷰 없음)'}`;
   }).join('\n\n');
 
   const prompt = `## 역할
-${categoryName} 전문가로서 **실제 리뷰 내용을 기반**으로 각 상품의 장단점을 정리합니다.
+${categoryName} 전문가로서 각 상품의 장단점을 정리합니다.
 
 ## 상품 + 리뷰 정보
 ${productInfos}
@@ -167,6 +167,10 @@ ${productInfos}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## ✍️ 작성 규칙
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+### 데이터 우선순위
+1. **리뷰가 있으면**: 리뷰 내용 기반으로 장단점 작성
+2. **리뷰가 없으면**: 스펙/가격/브랜드 정보 기반으로 장단점 작성
 
 ### 장점 (pros) - 3가지
 - **사용자가 얻게 되는 구체적 이익(Benefit)**을 작성
@@ -188,8 +192,7 @@ ${productInfos}
 }
 
 ⚠️ JSON만 출력
-⚠️ 반드시 모든 제품(${products.length}개)에 대해 생성
-⚠️ 리뷰에 언급 없는 내용은 작성 금지`;
+⚠️ 반드시 모든 제품(${products.length}개)에 대해 pros 3개, cons 2개씩 생성`;
 
   try {
     console.log('[pros-cons] Generating with LLM for', products.length, 'products...');
@@ -202,13 +205,39 @@ ${productInfos}
       const parsed = JSON.parse(jsonMatch[0]);
       if (parsed.results && Array.isArray(parsed.results)) {
         console.log('[pros-cons] LLM generated for', parsed.results.length, 'products');
-        // 누락된 제품 fallback 처리
-        const resultMap = new Map(parsed.results.map((r: ProsConsResult) => [String(r.pcode), r]));
+
+        // 디버깅: LLM이 반환한 pcode들 확인
+        const llmPcodes = parsed.results.map((r: ProsConsResult) => ({
+          pcode: r.pcode,
+          type: typeof r.pcode,
+          prosCount: r.pros?.length || 0,
+        }));
+        console.log('[pros-cons] LLM returned pcodes:', JSON.stringify(llmPcodes));
+
+        // 입력 제품 pcode들
+        const inputPcodes = products.map(p => ({ pcode: p.pcode, type: typeof p.pcode }));
+        console.log('[pros-cons] Input pcodes:', JSON.stringify(inputPcodes));
+
+        // 누락된 제품 fallback 처리 (pcode trim 적용)
+        const resultMap = new Map(
+          parsed.results.map((r: ProsConsResult) => [String(r.pcode).trim(), r])
+        );
+
         return products.map(p => {
-          const match = resultMap.get(String(p.pcode)) as ProsConsResult | undefined;
+          const pcodeTrimmed = String(p.pcode).trim();
+          const match = resultMap.get(pcodeTrimmed) as ProsConsResult | undefined;
+
           if (match && match.pros?.length > 0) {
             return match;
           }
+
+          // 디버깅: fallback 사유
+          if (!match) {
+            console.log(`[pros-cons] Fallback: pcode ${pcodeTrimmed} not found in LLM results`);
+          } else if (!match.pros || match.pros.length === 0) {
+            console.log(`[pros-cons] Fallback: pcode ${pcodeTrimmed} has empty pros`);
+          }
+
           return generateSingleFallback(p);
         });
       }

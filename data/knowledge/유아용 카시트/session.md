@@ -1,5 +1,5 @@
-# 세션: 20260127_080908_lgiz
-> 시작: 2026-01-27T08:09:08.936Z
+# 세션: 20260127_113402_kbwd
+> 시작: 2026-01-27T11:34:02.916Z
 > 카테고리키: 유아용
 > 카테고리: 유아용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아용 카시트 시장 현황
-- 인사이트: 유아용 카시트 시장은 안전 규제 강화와 함께 지속적으로 성장하고 있습니다. 특히 프리미엄화, 키즈테크 접목, 캐릭터 IP 활용 등의 트렌드가 두드러지며, 온라인 판매 채널의 성장이 시장 확대에 기여하고 있습니다. 하지만 높은 가격대는 일부 소비자에게 부담이 될 수 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvEIanXDaaSYBtZq8aF_68cU-_BvZnxCSImg3KE5kK2q6Ob3LTwkYma4y3tTLbg5H61jPGx7IEs4zV3W58meAVZczbq6f2cQEtMd2UAPbx9mhLjLwNmXeQdWn04L_IKNw5jtruzlIsPwMMq9my0Ng-I4exbNT8WQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdQkOAVNOpzZfold23tGHJKUif44vTC-MgtoFfLdi9p5KaM-maQ6cCPe0Tn3XFetOek13XIvCV2UYSbGScFJBvZzY7_eEJxgdMfbXIZzTncRfIgRT9GCVUzmoCLYCTjA3pV53prnzJ2aLIyTf_8Igz7gBI6v68hynEOKebqfjarTBnrnsqonZEZOiiYt-Ikm0OEDs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhCfmdzxLotJ8RZjQ4DvPuL_HWxk8OoBRPtRVU9iNtUioSfED8Zlzpqfkk1I-IT-CvS8_arIRwEwNdGSy3Adixj_loG9w-QMTYk3tMQ1GdQ2Oec0R3IInzEameiEiG3BeBUDB4svTC2tRapfkn4dnBeIwx11oQ4BVZTZn_ZyDMJIxcgWCCAGcSVI-ddUeFPEktgmzh8jM0s6ynuFGsCCjcW68mmmWN4XcU-kv8-b1doN_FFDRKGGEQ2OZjECthPCUdVZBIlly2Jh-Jo8cfAVSwAjJfiLxbAWHs5E3gYHXwQ02dbZLxROvbRFYN1jWZmZQLqke9EW-O6j8OvwINy5WPLo7gAxsfvqeJ2nwsZLAcMGiwhMxhwu4cvu_r45vzcLm_vscdZzc_XjhNklorZbGL1Z6FA527HdzAznqnvl0ISCxvnC7dITcqhsLrRvT6nBk54cq-jmVpV7dvf5LADUetIKBLvh06SnbxGg6esE9b9Mfs2d8tAY7p2M_GpIhZvIDG8DVYqkcNT_CzqbWLgaBpZ3Hpyw==
+- 인사이트: 유아용 카시트 시장은 정부의 안전 규제 강화와 아동 안전에 대한 인식 증대로 인해 꾸준히 성장하고 있습니다. 2022년 약 4.82억 달러 규모였던 시장은 2030년까지 97억 달러 이상으로 성장할 것으로 예상되며, 연평간 성장률은 6.46%에서 7.5%에 이를 전망입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsgZC1E0joQDKgttTdUQo0ock5EfSjP07Rg9Nee8tIx4IWqYvk1T3f4ygngKf8iGA0HWSR4ePmFsDD6mQ8feCfvXyvLvtURnztN7XyMVUI6KSSkar2E326jt5X1GfeZIi_Pf0Wceh_Eau5sWZTY159lVl-MRojWQBeGZ7MR0wu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2d6qfiN8jXDxKEVbfWGsgjrZb0ByeaPxade5-PMqNnPMh33CyfMGOjREMRf80lObxM7VVd15cjr4UrrVNc6avJjeOo-l7wD2llLB_16lV4a-Rv03XAYXivHBnYrIYmgdeaPwxxv30uiexYRQT2tL9AgsaIKSncgRidl8ceJOQRMPOEFee8AFGuX7HrZYnCPrfAKh4lK_8tVxuqCtXZtI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmUCp8lNHOB5tRmfKD3D2ZCzZ6Cwoz6qVTfeXpqoS5lcoBvt0AJG-XeyYUyRjfX3SrKNdrldSmtfI0j1cU-jP82YNnpAVp3y5ZVaLK-uuw2VtuLEIDj24DY_S03hLrRq_NKkac4sR3azC7LMEiIv3wckyM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3OdA--14EBFV8irRTy9QdJf4sJk9cyrmsndKwRDEXYtTjYbPrVq_blrN3kEIcXA2AIQHhmNXMmhwBoVC2VuMPZvMkbQtmHCW2KVPnzArW_G3pUwin4mdPh8J4e4MtyRiaxp2hXYJwQ-vHxWJyscFmUCgS10hQbg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFCVMJiJFB1askqASIMk26b4Byna3QQQyZiOhcCTdVerloKt30sLhM6QwE78dZn7AYOFMAGJ1gYM7_lj35cahES6Gf_iWvfgfSyA2ZOz_brvpVcRZoWktGmrPXj5sHWIzQsxGNkDwfXcg_KRgCeGE88068hp3CfV5g9RCKkawHfVtxUIMaTp-OlD2d1IC8gXNRZq-E, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2vBByz3zH_MUUMkK_p4Mvjaq86O2z0KM9gZixZfpMnBqSSzfHo95DRjTbfz_RQ6x_SRxsTVzG_ZZzJtOACsP27iWE3ki8ItGuAGhqEMQOP_okoAq4JYg6BItZ1u4mWbQKDj91Os0oxw2LYY6srQjfR77s0xh7yHbrIyTaHIQqbHNauAxsJcGPfGh7i9k1wHAX
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수 또는 몸무지를 알려주시겠어요? (카시트 선택에 가장 중요해요!) | 영유아 (10kg ~ 18kg) |
-| 카시트를 차량에 어떻게 설치하시겠어요? | 안전벨트, ISOFIX |
-| 카시트에서 가장 중요하게 생각하는 기능은 무엇인가요? | 안전 강화 기술, 회전 기능 |
-| 혹시 선호하시는 카시트 브랜드가 있으신가요? | 베이비뵨, 폴레드 |
+| 아기의 개월 수 또는 몸무게는 어떻게 되나요? | 신생아 (~10kg) |
+| 카시트 설치는 어떤 방식을 선호하시나요? | 안전벨트 고정, ISOFIX |
+| 카시트 사용 시 가장 중요하게 생각하는 기능은 무엇인가요? | 등받이 각도 조절, 측면 충격 보호 |
+| 믿고 구매할 만한 선호하는 브랜드가 있으신가요? | 상관없어요 |
 | 예산은 어느 정도로 생각하세요? (평균 6만 5천원, 3만 3천원~8만 4천원대가 가장 많아요) | 3만 3천원 ~ 8만 4천원대 |
 
 ---

@@ -457,7 +457,7 @@ async function generateFilterTags(
   const model = ai.getGenerativeModel({
     model: FILTER_TAG_MODEL,
     generationConfig: {
-      temperature: 0.3,
+      temperature: 0.1, // 🔧 0.3→0.1 (JSON 안정성)
       maxOutputTokens: TOKEN_LIMITS.FILTER_TAGS, // 🆕 2500 (여유 있게)
       responseMimeType: 'application/json',
     },
@@ -504,6 +504,11 @@ ${conditionList}
     const result = await model.generateContent(prompt);
     let text = result.response.text().trim();
     text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+    // 디버깅: LLM 원문 응답 (파싱 실패 시 확인용)
+    if (text.length < 2000) {
+      console.log('[FilterTags] LLM raw response:', text.slice(0, 500));
+    }
 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
@@ -842,6 +847,13 @@ evidence는 PDP의 "주요 포인트" (선호속성/피할단점) 섹션에 표�
         }
       }
 
+      // 디버깅: 각 제품별 태그 점수 요약
+      for (const [pcode, scores] of Object.entries(tagScoresMap)) {
+        const scoreList = Object.entries(scores).map(([tagId, data]) =>
+          `${tagId}:${(data as { score: string }).score}`
+        );
+        console.log(`[TagScores] ${pcode}: ${scoreList.join(', ') || '(없음)'}`);
+      }
       console.log(`[TagScores] ✅ 상세 평가 완료 (${Date.now() - startTime}ms): ${Object.keys(tagScoresMap).length}개 제품`);
       return tagScoresMap;
     }
@@ -2161,6 +2173,11 @@ export async function POST(request: NextRequest) {
       filterTagsResult,
       selectedProducts
     );
+
+    // 디버깅: tagScoresMap 확인
+    console.log('[FinalRecommend] rawTagScoresMap pcodes:', Object.keys(rawTagScoresMap));
+    console.log('[FinalRecommend] tagScoresMap pcodes:', Object.keys(tagScoresMap));
+    console.log('[FinalRecommend] selectedProducts pcodes:', selectedProducts.map((p: HardCutProduct) => p.pcode));
 
     // 실패한 작업 로깅
     parallelResults.forEach((result, i) => {

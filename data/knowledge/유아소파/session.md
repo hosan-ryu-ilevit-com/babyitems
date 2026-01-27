@@ -1,5 +1,5 @@
-# 세션: 20260127_105528_v6gx
-> 시작: 2026-01-27T10:55:28.820Z
+# 세션: 20260127_121137_kqh3
+> 시작: 2026-01-27T12:11:37.922Z
 > 카테고리키: 유아소파
 > 카테고리: 유아소파
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아소파 시장 현황
-- 인사이트: 유아소파 시장은 글로벌 아동 가구 시장의 성장과 함께 꾸준히 성장하고 있습니다. 2024년 글로벌 아동 가구 시장 규모는 365억 달러로 평가되었으며, 2034년까지 연평간 7.6%의 성장률을 보일 것으로 예상됩니다. 특히, 아이 한 명에게 쏟는 관심이 커지면서 유아동 가구 시장의 비중도 확대되는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPvblpFI0EkNgFND-FR9UQ7pOX7D3BUo9OxVaDP4jsX9cSAJiHTDbIR4pJiKO6_kDFyLp1JFTE8x1lSGam-qTR_K53zq73dVoZO-b5jkQdTLthZiK3BoPhzf7axt1lNs1898by7A47uoEzdfud8LgXAnfGFMQrxwa4W2jknErS7w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzqFNP6GgDmHi77Tm9ZfYuBH339jLUxclFHRpKZ2AITKtu6YfQKV7bp33cibhXmhpIhoF_Lh7d1f7G70p_--8Ihx2IqT3AgcwVPIQp73BxWTJeTKb-gMjJFcws1W6r5GtMo3aWPdf_7eIq2PzmEYxRO_i-9uF0wZDWua3cyBTE2UJUx0jWsyEryPK6O3lFMg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3PPOd0nKGzy6KdwbnlnT1-SwTs_aCqkBRbVHiHt8lnfrDiTnhc-rRKb3MXYOr3QOoTiEU07_m5nv4DYgvNy4yxTOFio6iFK_iG-eoLuxg7c0cvm0mtuyvdPX5WQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkTymbZkdc86FqVyn6-5WP8NIlpEXRz4VvNsjvi6kjbdgVB6Y7OiAWSFfOC6EgXaiLHmf6x6V7ivqIkFIVL23euZfXBcggajQF2SW8GWUzVfmmECeR4Ukf8ZR4xKL7WKuQiX85abSHVWz3lTnJhYkCSGRRuWRUYGUcMWsgTb_tlW-bYKoF7eXjXOWfUJi55g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5OjIGU324qrIczKYsdPsYf7UOrKyLhxw8SdlziS8X84iiBfB2S8LXOzmhyNRfh7O7uBpoj03bXk9AdpJohc84BgfYNy9HiQyQHXgchQ4DxQYHKN7LelrNK23SV2_C5h97W-Se31ZBdevtlOJVeY5sUWi7BVKj6pu2tBkjFGg99Gh0Bv0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1D_EqFu0QT8Fg9_r88St-J5NNl60pfUgcxUlIPcJ9bwC80b7vLv0SSsDtvGQJxOQ-Rq5Z1gHgDYhg4Kek5UaqAhqxbm5df7RBJVHbU2oCZGiDZsOv1ESe2q1V3Y0HFXz8381KCcfJj1e3ldKgY5dtjSwaTNU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYvfsuMCVZc3ThvSXRQSCEz7h_MopcTUoAfMugIbyWIUKhFGijC95yxfRX7NqkfzQWzw1ao2GrTL8t0OgI_zqcXa8fLGS3KXtXLyPYPRViulw7W8kRZpqKGXCweHPriFqmv98NvGQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc98Vhhr3zaGj-zUPcXojrxQ_R4y98UYP0ugn6lip5kNxuzi0E4kA7DuqbjC0t8fogysZ8EDv5DQTe1K2Q5jQq3_FQCD7KFMeLpLUTew46_Ug0bEuCW5gDjOk=
+- 인사이트: 유아소파 시장은 전 세계적으로 성장세를 보이고 있으며, 2024년 기준 약 365억 달러 규모로 평가되었습니다. 향후 2034년까지 연평균 7.6%의 성장률을 기록하며 742억 달러 규모에 이를 것으로 전망됩니다. 특히 아시아 태평양 지역의 성장이 두드러질 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUvYfs_VfNGdurX6N7IYc_8AvRl38epGTMoODDAGyOJltPgEYaVwmASi0rpgS58o2i2WNlK3aNKk63ZLriWF5Suuk67i8tdkHElNyoGVEcUOV4LoQtKsBA8BhVVVdRSJo5WSGiftZPQ1m_ZMc1ijktu1d-HSnwTN4N1WC635qTrg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERarBOC-Di_8Lq30t40EEzsJ5P1-tTPwa8daDZopXAYCwTs5RZMlh7UD9F9ffQDXTebIdjoT2YJHbMZmQMIv_hNr0yaImGXNwkDluwlaW6QwgDuLg0AUxyd91Apu8iSrDdSSfPzeTM_OgL3sg0343aaWI-drs2EFwghex3TwAvdWcFc-36MyKEWsxzl9zY-Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtBoCzOsj10Dxyrn5tOh_PbvClu_l-h1olO2buDLMbE-bjWpoimKI0N5-4VTLM-9im7gLxJ0zRjDUtRbZ8YmNkXNFZAPJ8h7ilFT2wXecv843hHqMPQFAn6uZRy6Z5d8vbD6tLy71foSMwM9PQ_-vMU0XyAok=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUUQpa9px_8eQVIMPFDgdRrku377s5J8rcb4D6L45NArW9IBnjX5N-ut0RTss-r8SacOd3jYdIU-0Qg3rmpdfCRcZKwX3jZbgqZaj7tWoS31GXOtjuz1F6Ic_n-5g0KtY2JFKY56xsM9QKbQxV9Lz8laHrPKN3HaVi8Bitdp_GeAEJ3WLzgRadX_pkA5tHTTAaf5pgTBBv7W2hqyEBdlvEdu_sVX5CXSdGQdQTJiGSIV-MoOPnQ8WXVzvY8xeitV7bK097YdurqrQJYZlfiitErE4BBeeuXH0Okn8Ly5yAaEtwUb935_jyeh_bPH6D-HLkKJBeRGk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmsOuew50zdw5VP5Vp7eSu7YdgaEOi5B4hFVZjPcv3-zuepmhLIspcxjJXCxDCybhLNlcZObVDV6HaSwnpFl6ndfLEpg7uEnhSHQl9V_W2_spIgXpYiv8pejRPaJrkve-r58ItPuv6tEpGTGNsnms891vC6ArQazmmzsu8bEwDP4gC3K1IpmpEsBXaowVg74Ll8KvvfGIW0BbU997pPI4-4WiDyqaeExNNbP00nMLpUhtHcrgJT0u5lvJ3NUHVwiEun9ChqXGmpv4dnsaCWNySTaP6RayeZRzc1qhEbb2_ZQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVwsm0yr3hwXtH7pKTIG73g2rE3gBz6KbjhZfVZXSuGI-KsSdHpQZrq6ehWnEghkZyEhwdXDARojn6XOwPv_WyCmSE9O-13MwITlnKsTxsuEKKJReOkiXdjlZfFw3q7gt_VG-796pmdRLxhRejZ3ay-eoIbVJxXhT7P4OPikkHyDmw3PQUMi301e4tdpzEJKhuQhFVS4PXne49c1VhrrdW49lHnNq53yvPQv2ZAc-uSFJBVBf-bDhOEkavxUJCtLpDxfmQc8PInr7Ib0OgtBkSxxf9vs8b5Moe0TofxluL3YK5aBjJR7nFlYzqpE5cNgrXMBU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmG1ONNkGADlmegUYfmOI0gPPmMcUn4aveckriIMW2kDY83ZTgsZxBMRzvSwGdanoiabq40-2_Q-hvGpUEnlwrMn3P_ELHMSTDTcR3nlyXpRZUOEZtpBdUGblyxJeqSH2jf9OoeTM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETqB0uhaw8IXdcKqCRoEE3Rb2BrjX4S6Di64dOgt2y0r4-06CHLGXtnjWuUyQQi-YeJCyxQq7oBHhHKYQHxegvmfB7VVZRG4PV1bZCprxRFgZKBIE85429ytmN_ahCLn41xfF_x-ZdQzevV1MWP5a4u6l_rJgyBpCySu13_fshh5lugpEI9UKHH1KujFmGbDDLBc19BkA4ypRMDDwFdA==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이 피부에 직접 닿는 만큼, 어떤 소재의 유아소파를 선호하시나요? | 포근하고 부드러운 패브릭, 친환경 소재 |
-| 유아소파의 형태는 어떤 디자인을 선호하시나요? | 1인용, 놀이 기능 소파 |
-| 믿고 구매할 수 있는 선호하는 브랜드가 있으신가요? | 일룸, 뒹굴러 |
-| 아이의 편안한 착석감을 위해 등쿠션은 어느 정도로 선호하시나요? | 적당히 탄탄한 쿠션감, 푹신하고 부드러운 쿠션감 |
-| 예산은 어느 정도로 생각하세요? (평균 약 12만원, 8만원~15만원대가 가장 많아요) | 8만원 ~ 15만원대 |
+| 아이 피부에 직접 닿는 만큼, 어떤 소재의 유아소파를 선호하시나요? | 인조가죽, 패브릭 |
+| 유아소파를 놓을 공간의 크기와 인테리어를 고려하여 어떤 형태를 선호하시나요? | 2인용 |
+| 안전성과 품질을 고려했을 때, 특별히 선호하는 브랜드가 있으신가요? | 일룸, 디자인스킨, 알집매트 |
+| 아이들이 사용하는 만큼, 소파의 청결 유지가 중요할 텐데요. 어떤 점을 가장 중요하게 생각하시나요? | 생활 방수, 오염에 강한 소재 |
+| 예산은 어느 정도로 생각하세요? (평균 약 12만원, 8만원~15만원대가 가장 많아요) | 15만원 이하 |
 
 ---
 

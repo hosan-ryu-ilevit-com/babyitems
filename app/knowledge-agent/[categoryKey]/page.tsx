@@ -4376,6 +4376,7 @@ export default function KnowledgeAgentPage() {
                 conditionType: e.conditionType as 'hardFilter' | 'balance' | 'negative',
                 status: e.status as '충족' | '부분충족' | '불충족' | '회피됨' | '부분회피' | '회피안됨',
                 evidence: e.evidence || '',
+                shortReason: e.shortReason,  // ✅ 추가: "왜 추천했나요?" 섹션용
                 tradeoff: e.tradeoff,
                 questionId: e.questionId,
               })) || []),

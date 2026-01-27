@@ -1,14 +1,14 @@
-# 세션: 20260127_051937_db9z
-> 시작: 2026-01-27T05:19:37.655Z
+# 세션: 20260127_120232_53uq
+> 시작: 2026-01-27T12:02:32.137Z
 > 카테고리키: 신생아용
 > 카테고리: 신생아용 카시트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 신생아용 카시트 시장 현황
-- 인사이트: 신생아용 카시트는 신생아의 안전과 편안함을 최우선으로 고려하여 설계됩니다. 최근 시장에서는 안전성 강화와 함께 사용 편의성을 높인 제품들이 주목받고 있으며, 다양한 브랜드에서 혁신적인 기능과 디자인을 갖춘 신제품을 출시하고 있습니다. 특히, 휴대성과 설치 용이성을 갖춘 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXhz0ZNzfbmATCN-t1_fLNSJkwNs1kR10eQ6lRhrMgTkZoArA7rD5lBFzHrjPvNvcf9g3YtmeRf0USPmeUBfasbM_oh0mxNPbHVBHMD0zbCApxs0NRWhHC6Vra6_i4Cp_RwMuqRQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEnJcYvtcUteCsUOhNP2RgRscJWz_veXBYEfXYAnVgXQebmQ_HDrNmIVZ8dYkUZIHmmTnQJY4Ex_OOtnc5CPpPZHOjnhN6T3zFzpaoppekrlAHqVIzaCfw8nMTCJZkJdsgkS8EXSA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtNv5y7LuC4Ot9MmKYig6I6Ktv6fqDXgpFsjwIeZ-zLnrjb8xhfkjt66kt1P_A1uhDm9uxAhfx2HGO5kQ6DDv1YLmgYX8qh3WynzTMP_8q0ws_0cobYArJLZ_QV6usut62VUVYv64OaWyFtJWJ0GJ5GMHOltGRbz7HvWbw
+- 쿼리: 신생아 카시트 시장 현황
+- 인사이트: 신생아용 카시트는 목을 제대로 가누지 못하는 신생아의 안전과 편안한 호흡을 위해 수평에 가까운 각도로 눕혀 사용하는 제품입니다. 가격대는 10~30만원대로 비교적 저렴하며, ADAC 등 각종 충돌 테스트에서 높은 안전 점수를 받는 제품들이 많습니다. 또한, 유모차와 호환되는 트래블 시스템 제품도 인기가 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSSt4mXN4qMylkdzDn9fT9Tfx6DQIYW-OxMfrRGtST8XKLJvY7CHx_quRtI8j9D9EIyPkKVtHKey_uhQ0Ia3x1AEOfbA0qTXL64Gj9GnFFcpCoFoDXNzc4SclShkw3wNr_Zf-nEAqTKxVaILm0pXBo3LleO161Hg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-hVeGFgFB3RIHwWYHfWRkl6WJ3ilISVO_UV6DeGBWBiMsW0bRn1U75px835clqnEW0VC93_sbmV7DbsVDN9NhMIklKPx7TRBJCDZVzCutXb2vQJcknUCuKOzG4fV8j75AIgW7xSc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgsqSfea4W-5y32DLdkhvrKrJRkhZW9JLmyyRwmYLzl-kTGjDO_qfOQCT6F8XhKu9fm4Mq9SzCpEMwQ-XkTmn9eKQJdD2Q-gVdfPj1oz-i_sQj3R1znIYt_rPL4U_8EAkclX5alBY_9OeKHCOEsITMlEIm3zMuGNZJ-F2Hjk8=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 안전을 위해 가장 중요하게 생각하는 안전 인증은 무엇인가요? | i-Size (유럽 신생아 카시트 표준) |
-| 카시트 설치는 어떤 방식을 선호하시나요? | ISOFIX (차량 고정 장치) |
-| 카시트 사용 시 휴대성과 편의 기능 중 어떤 점을 더 중요하게 생각하시나요? | 편의 기능 (회전, 각도 조절) |
-| 신생아 카시트 구매 시 특별히 선호하는 브랜드가 있으신가요? | 조이 (Joy), 싸이벡스 (Cybex) |
-| 신생아용 카시트 예산은 어느 정도로 생각하세요? (평균 56만원, 29만원~73만원대가 가장 많아요) | 29만원 ~ 73만원대, 29만원 이하 |
+| 아기의 성장 단계와 사용 편의성을 고려하여 어떤 타입의 카시트를 선호하시나요? | 신생아 바구니형 + 컨버터블형 호환 (모듈러 시스템) |
+| 안전은 가장 중요하죠! 어떤 안전 기준을 충족하는 제품을 원하시나요? | 최신 유럽 i-Size 인증, 국내 안전 기준 충족 |
+| 카시트 장착은 어떤 방식을 선호하시나요? | ISOFIX (아이소픽스) |
+| 신생아 카시트는 안전과 직결되는 만큼, 특별히 선호하시는 브랜드가 있으신가요? | 브라이텍스, 조이 |
+| 예산은 어느 정도로 생각하세요? (평균 56만원, 29만원~73만원대가 가장 많아요) | 29만원 ~ 73만원 |
 
 ---
 
