@@ -2144,13 +2144,12 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
   }
 
   // ✅ 필수 질문 대기 및 합치기
-  const { budgetQuestion, avoidNegativesQuestion } = await requiredQuestionsPromise;
+  const { budgetQuestion } = await requiredQuestionsPromise;
 
   // 맞춤질문 + 예산(priority 99) 순서로 합치기
   const allQuestions = [
     ...customQuestions,
     budgetQuestion,
-    // avoidNegativesQuestion, // 피하고 싶은 단점 질문 제거
   ];
 
   // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
