@@ -1055,8 +1055,8 @@ export default function KnowledgeAgentPage() {
       return baseMs + (Math.random() * variation * 2 - variation);
     };
 
-    // 🆕 20초 기준 부드러운 프로그레스 애니메이션 시작
-    animateProgressSmoothly(20000);
+    // 🆕 22초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(22000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
@@ -1070,8 +1070,8 @@ export default function KnowledgeAgentPage() {
       ? conditionParts.join('과 ')
       : '선택하신 조건';
 
-    // 1단계: 선호도 분석 (5초 ±10%)
-    const step1Duration = getRandomDuration(5000);
+    // 1단계: 선호도 분석 (6.2초 ±10%)
+    const step1Duration = getRandomDuration(6200);
     const step1: TimelineStep = {
       id: 'step-1',
       title: '[1/4] 사용자 취향 심층 분석 중',
@@ -1089,8 +1089,8 @@ export default function KnowledgeAgentPage() {
     // 1단계 완료 처리
     const step1Completed = { ...step1, status: 'completed' as const, endTime: Date.now() };
 
-    // 2단계: 제품 스펙 수집 (5초 ±10%)
-    const step2Duration = getRandomDuration(5000);
+    // 2단계: 제품 스펙 수집 (6.2초 ±10%)
+    const step2Duration = getRandomDuration(6200);
     const candidateText = candidateCount > 0 ? `${candidateCount}개` : '전체';
     const step2: TimelineStep = {
       id: 'step-2',
@@ -1109,8 +1109,8 @@ export default function KnowledgeAgentPage() {
     // 2단계 완료 처리
     const step2Completed = { ...step2, status: 'completed' as const, endTime: Date.now() };
 
-    // 3단계: 리뷰 데이터 종합 평가 (5초 ±10%)
-    const step3Duration = getRandomDuration(5000);
+    // 3단계: 리뷰 데이터 종합 평가 (6.2초 ±10%)
+    const step3Duration = getRandomDuration(6200);
     const step3: TimelineStep = {
       id: 'step-3',
       title: '[3/4] 실제 사용자 리뷰 데이터 분석 중',
