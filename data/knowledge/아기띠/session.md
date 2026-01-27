@@ -1,5 +1,5 @@
-# 세션: 20260127_041002_hct4
-> 시작: 2026-01-27T04:10:02.825Z
+# 세션: 20260127_070314_9vyj
+> 시작: 2026-01-27T07:03:14.286Z
 > 카테고리키: 아기띠
 > 카테고리: 아기띠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기띠 시장 현황
-- 인사이트: 아기띠 시장은 힙시트 기능이 결합된 올인원 제품이 인기를 얻고 있으며, 신생아부터 사용 가능한 제품들이 주목받고 있습니다. 해외 시장에서도 K-스타트업이 만든 아기띠가 큰 성공을 거두며 글로벌 경쟁력을 입증하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpTEM7MOyq_Z67dgS3htMuYyIwqFqb7EIzFf0-JFxeToJORcuZLa3TvfZZZf7diStzFrl7NLDQvm-CjQK8O4fJCs21Id5IcH_o0oFq3Aw2mQURzG4nt4aoYeVWeETgsZNn3Tjcu65NUwZo3Mq9fK6oqb-BOsRw070=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOc9QquhHocx-crLOkfPk0sEEFjEybOhZSvB11wu3retO7jVQ6cc98gxyGTWOXlXUMWiHhvPxnwOjXmdGNlUrp5DsdXA9My2YWz3mooe6IoSO4SXBi1iG5z3AaqbnnPkyVuT6PEEc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtlfqbSAujAEjOXmqDCNW3WNbOYVSjOSEYRpajP2TXyHZsZ94awLU8cJgaW0-s8DiN4wbAM3Z8ajKjUShCyUp0avXrbWAt--s0mNjNTAX_EEs9NTDKycuWq5c2r7jnDyMq-YEFRwwkue2PbHan35ruZmC8BnfY9w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrXakn0_HKWiCnX_l1pQBIGNR1cT8gk0JZ0x1TRFwdnTfqFvmroUS7csOhDLgEz3kHMl1PeCR3LCLdFhAHz_QbL3qEpGGmSVxZsocCbJOhyeP69suTdXw1uPLMrEMlclEDH0QlAFCMzC7b-hXzpQaAHQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErYswLzxnJx8LbHXVivqqxE2L51tW8Z6Keg6NeRYlM6Lyg5DF5VDb7ffW8nK13HhRYJB6YJQTBopvja2cm56KOkq1ZWo3cbuh0Mef19zHLln26J-PtavRtDo1xTWFKx78UXmKtX0pjKWDw283p4OPpKhljPQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeoTcbVWuSilP-XEjl_gLDSNL5hRCDCe_bwXdgo2UluKaPJLxW9M61aWBeGdI-BTEVvQfdz9H1xPSMeMR-WVPspiYbj-9QLKlXAvVQWLOmFXaxS9r7tvNJp8UL-cf4UcDjU9Pe6LMZZoqmKA==
+- 인사이트: 아기띠 시장은 2026년 약 6억 9,812만 달러에서 2031년 9억 7,549만 달러로 연평균 6.92% 성장할 것으로 예상됩니다. 이는 변화하는 라이프스타일과 함께 슬링형 아기띠의 성장이 두드러질 것으로 보입니다. 또한, 기술 도입과 지속가능성 인증에 대한 투자가 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRhJ7xRxHltTXdson5DkkIg9knkvNDkWNd_j7H66tvlrNsJAdkzF6I235D25sziBGoclG8wGBcuLbeT4y2iUyLi2utAC8SA72cqda0kTDEKIBSQU_byeJU2kDPP8iQkotE9LbBgEc5XtZBCRApVh1jtYKUwblpYWeeLwU-bRFHkMo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAgKjYHQugzw1gd-eH8RKlamVC52-QhhqdIqKgP-lrY8bABe5LZYwqScuOSm7NjU-9ApfhAoX1BUM6rEjcnpxUCyyEURApXxmL03P1qQ5tBRIdus_E-W4L3-P3Dr_0hJT2WoVxUD_sCWFnbOI58B5i-0fB75-f0pjhgJjfQqPa7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmZsuaq4rGP0EitqgfumXbGGB4lmzpkyeaCp4jP9I9Tb1VsFlSVmaCqqbiJRJ4btIQ4BxmOfh0xPe4OGuLwY5N_AWDmur5aAa_k7RCMnGxcdg297P6UVHC01PUlJTQNUEl_6wMHrZy7f1Ry0rQEIIT8-J3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZoVVJa219YSVSsabtmszXX7-sAbuj0OwYbaD51WrUN-U4mUp9uA3BdJUcj4XoWEXwqA37e1GqqyHpZXYCotXVM4l1E4meLnShJdhUfT2XgAi6J-xnq6FNyzrd1X6zS6sZu0H5mnA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWu7Hlp-osNUmvbio7I4xlB2umbZDfR0toFC8PdFPSf2Cs2_RfnSF9xpS4rTbTY2LkdLHDBHzOIPr5uox7D5-AH4gK4h7P9reTm6VdsHBomXuHZRkcPOe-z6r8McHc1yc3cATlm6lV_l1dxA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG96od2cGA1KezDdWNbkT1WLj1Th3Q4Olg6fmyu_BVa9dOi2Q-pVgnQtROhHH3tw6x-sCuXsppQ82JAv9fwmgKRSbC23nmXRCmQ3GyeWWo06c-AsIUgmhpe785KUtrRg3BYqTFGVyY5sFEEOVmwm0N9uno5h8DccE1wojLYxSpg2nnv6RrHDqfow80NiXbWnYp4iAS0F_ZFZzqQvGh0le6yCF6YJuG4OzXuzoCS752oXVRTReD7xgbjFOBZSxf1dmJBQ0BOsl02PW2TIEZSddQN2m-lwbZWq9oaezNX9M02s2tmLx3MONruP_Kpzy1wKYCvK47fPZL_AG6lhq5rsaGkmO80FGgiUsimXFIdkxV2x7h72E-3
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. (신생아부터 사용 가능한지 여부가 중요해요!) | 0~12개월 |
-| 어떤 형태의 아기띠를 선호하시나요? | 힙시트 올인원 |
-| 아기띠의 소재나 통기성은 얼마나 중요하신가요? | 통기성 좋은 소재, 부드러운 천연 소재 |
-| 혹시 선호하시는 아기띠 브랜드가 있으신가요? | 베이비뵨, 아이엔젤, 포그내 |
-| 예산은 어느 정도로 생각하세요? (평균 15만원, 8만원~20만원대가 가장 많아요) | 8만원 ~ 20만원 |
+| 아기의 개월 수 또는 몸무게를 알려주세요. | 신생아 (0-1개월, 3.2kg 이하) |
+| 아기를 주로 어떤 자세로 안고 싶으신가요? | 마주보기 (신생아부터) |
+| 어떤 소재와 계절에 주로 사용하실 예정인가요? | 통기성 좋은 메쉬 소재 (사계절) |
+| 믿고 구매하고 싶은 브랜드가 있으신가요? | 베이비뵨, 아이엔젤, 포그내 |
+| 예산은 어느 정도로 생각하세요? (평균 14만 7천원, 7만 6천원 ~ 19만 1천원대가 가장 많아요) | 7만 6천원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 56개 (전체 56개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 에르고베이비 옴니 브리즈 메쉬 아기띠 - 259,000원 - ⭐5

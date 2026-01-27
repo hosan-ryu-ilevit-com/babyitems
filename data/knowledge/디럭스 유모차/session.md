@@ -1,5 +1,5 @@
-# 세션: 20260127_021257_uo5h
-> 시작: 2026-01-27T02:12:57.837Z
+# 세션: 20260127_083836_difb
+> 시작: 2026-01-27T08:38:36.015Z
 > 카테고리키: 디럭스
 > 카테고리: 디럭스 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 시장 현황
-- 인사이트: 디럭스 유모차 시장은 다기능성과 사용 편의성을 중심으로 진화하고 있으며, 2025년에는 고급 기능과 편안함을 갖춘 모델들이 인기를 끌 것으로 예상됩니다. 특히 시트 높이 조절 기능과 안전성이 중요한 구매 요인으로 작용하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH361DmrY7DhoeqygxeeTBswO98gWceBjhKvBqGqji2WvCsQ-4aE69LB48pZyZnFki26u3x8Px7K8eiNcmp_OJe8v6BKBkC2zsEq-pT--nTG2Kg5F4FPlDScrwpAQXzYQBCzoILQqhGIlvmn770a0V6D2mjS-ulti2FMlBCWmVpTWpeNgWaM7X_BsPSVNcYu_cuinySTONI5asyQ4ImIk8mD-3mpCfMLIThTA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4TOv3Fwq4UwtiKUO4c4sgj5yMJHbZvURRUKzIy499FPFYpoN542WA9Wg4jTZ9gWs3qwa19LPJPTvmXbwRj8c_OaRDb9TD1sjUFevDdCN5IJ0oT6uziKV8NWSa6Ozch2vytN-fMgPN23nU57_h5LVyxBkwJxoEo9q4plqIcx5lT-zOH-OTk_-AFGs8lRfhoGk5VIdeBfkRMtGk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHI_F5R0X6vxZrkx_RAWtaKLPl_3PkfFSwrhtnSaN0Zj8Vy8Ts3G0W-Ib7wMqNIZ6DygwvpxJqxW7VQocVxKmgvE0fLU3VBIJE9W1M0JJMBB1pDhH53iN2s0VuXhtnriR9EqwL-g21Okwh2qGfDOA2qkWtUS0aHs5bV28lWJ1kCn3bRDcebSWuMJxPl22uX768AZ8VGb32gLPSCg6liiBfjIHpbUUNqdS7jA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESTiPaa5Tr-LvzvPEV5W9yHUyxnDhIGAwIf0Q-_N-13aF3CzW4LUpjICF3iAT1qw6DCdwH-UwZrXqNeFtiA-LPu1BO7akpNmFdpIiq0q898TArcNvAqSChCt5dwSRdBOHp9y6a2CI7BxwaT4-axIffYCgfG3O4adcYzLkCqvnmqaJR
+- 인사이트: 디럭스 유모차 시장은 다기능성과 사용 편의성을 중심으로 진화하고 있으며, 특히 디럭스 및 절충형 유모차가 높은 판매량을 보이고 있습니다. 소비자들은 공간 효율성, 편안함, 모듈형 디자인을 선호하는 추세입니다. 2025년에는 휴대용 유모차와 스마트 기능이 더욱 주목받을 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqlGrohpzT444WH73AirAu4jTX1vEFs0ZZ2j4CzemhF6EWI9N4qp5r0TPx1o9dXnTGsd9wDQbM8oDuxL3Zwii6ZrlpK8tbPJvk601FriYsuUlhTEFQUVUV6ve05M_LMVajs3lrEs4p4SOZ6SK7AFp5LDQCraeHeU37LT9o1dpuZWdUQDT-1Fmi2xCMJNKYhvGlIf6dm7s2KauRWI0Fs_YtoQnqZqs1-b7k, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPciyUMVOtHoMTkjYQbXcMNINWJIAgdO-O2c0I5nwbmJ4XX79TizEA99uDPqVja8N5CJvyz43PbIbxCVkhmvGa1yoi5TswGTDZUroIOWPd409PDTvoygmxPMho421i4Efn8dCsK6z4cu_5kaDrfYP5WPnx29OavcymAg6KuiTtiIBWx0uPJRpQivyTfAUWPcH9BT_ezhdCgX4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOk7KbFTGpH-0ysvx3VMivepMerivt6kz63CmLhtBFyTYbQ-2A1wCfFyFsWOTfxTaDQ0NYJIf_o62ITT8lKeCPb4xdG0hIftNeyggwnWRFdfZ9Mbxdis-E0LOwJ8_Tr8TnnXoTmsSqrd_OQZiukS5cogUkZN_QdHIDysLb72oWfFGTM80SZRDjJ5UV6uzY_hg_QyVc4k9jpM94W54w33eYLZ4p_l7lHpEM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEanK1rjPgn7obv_7Uu71BQ3E9fMrufHK_cNXPTvR1LLI3XhcorOKDm-BAgDN1TinJkkRT5b-fHT9-dcB58Unb2AhuNumt3b3boIEBO9qQJCVy02rnFE1bf7pqXYJ3v1luay1mMDY9gFcABetooYMA75yRD9J9p-7L9mn2U3XQo1LI=
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. (개월 수에 따라 적합한 유모차가 달라질 수 있어요.) | 13~24개월 |
-| 유모차를 주로 어떤 환경에서 사용하시나요? (주행 편의성과 관련된 중요한 질문입니다.) | 매끄러운 도심 |
-| 유모차를 접고 펼칠 때 어떤 방식이 편리하신가요? | 한 손으로 간편하게, 최대한 작게 접히는 방식 |
-| 선호하시는 유모차 브랜드가 있으신가요? | 부가부, 에그 |
-| 예산은 어느 정도로 생각하세요? (평균 약 123만원, 63만원~160만원대가 가장 많아요) | 63만원 ~ 160만원대 |
+| 아기의 개월 수를 알려주세요. 신생아에게는 특히 안정성과 편안함이 중요해요. | 신생아 (0~6개월) |
+| 선호하시는 유모차 브랜드가 있으신가요? | 리안, 부가부, 에그 |
+| 유모차를 사용할 때 가장 중요하게 생각하는 주행 관련 기능은 무엇인가요? | 안정감 있는 승차감 |
+| 유모차를 접고 펴는 방식 중 어떤 것을 선호하시나요? | 원터치 폴딩, 컴팩트한 폴딩 |
+| 예산은 어느 정도로 생각하세요? (평균 약 78만원, 40만원대 이하가 가장 많아요) | 40만원 ~ 100만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 29개 (전체 29개 중)
+현재 후보: 30개 (전체 30개 중)
 
 ### 후보 상품
 1. 조이 피니티 시그니처 디럭스 유모차 - 701,100원 - ⭐4.7

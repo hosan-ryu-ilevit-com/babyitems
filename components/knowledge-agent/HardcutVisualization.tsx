@@ -41,11 +41,11 @@ export function HardcutVisualization({
   useEffect(() => {
     const timer1 = setTimeout(() => {
       setPhase('filtering');
-    }, 600);
+    }, 800);
 
     const timer2 = setTimeout(() => {
       // 숫자 감소 애니메이션
-      const duration = 1200;
+      const duration = 1500;
       const steps = 25;
       const decrement = (totalBefore - totalAfter) / steps;
       let current = totalBefore;
@@ -62,12 +62,12 @@ export function HardcutVisualization({
           setTimeout(() => {
             setPhase('result');
             onComplete?.();
-          }, 200);
+          }, 300);
         }
       }, duration / steps);
 
       return () => clearInterval(interval);
-    }, 1000);
+    }, 1200);
 
     return () => {
       clearTimeout(timer1);

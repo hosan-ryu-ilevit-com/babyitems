@@ -1,5 +1,5 @@
-# 세션: 20260127_055547_obz5
-> 시작: 2026-01-27T05:55:47.239Z
+# 세션: 20260127_074705_oiyb
+> 시작: 2026-01-27T07:47:05.816Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGY3w1bf-lOlp3LDdLmK8c1CpvHRNqEHWC7YoImLRVlqMHNYVO7H1sOPU909N9jDvd1--H_QkljSPgme5bIzB4UFDFvMiQ0kuBah_z8ARGMncEVnuZhjCWKijMsEqmkA3XMlseusl6R6SP4JBHRBRK_l6Cqd5aaslND_RaFBwfD_0xF5p5Hwwf0aA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiCM8I35aGkDVjntUVwWQIHdbnaB3hRvW8SNEwiuibIA_MBnS9II8jp-NFbNrAO3yN6rzZA1J-S4P6cC-mRwxXSI-Uptadps1D6Owncy9cC8J3FtUVf5AjJuHWZ5QWe5_3JAc7ESyIc0ZASRmcLr8cGv3xEw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEp58ZarMY-HsKqu8vk_KhezechivHq7zNLomGUfHxhYMTUr7-Nmboa555NpaJfyhIJFQa6V-jq6PtvkR2vYUoTn7VIwppRQ-0_xdlD8cOTbIcCF5fVG35TKB7LoaDHIWircxsMIUBuP8bLoLSemSR8rrgvJUJCow==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGroKKomry62ohafA4Yob0C7K247ObdrV_aoNuNL315Jna6mxIYxvXnPHxY0v8KglA9OpdGPUZM1ofSa7VQMVehf9Fm7tz8sMSdeH8f15-XAAYc48IzHPtYFy-mOMrP6B-cj5nrdLjzeE5rCQQTOB0I8d7u28w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdXCjmIcpUJFNELn_8d0stIziWEIpZLfOd5TwTrXEr7VumwApGFF1_DqbiDGDPJxffM_E-Tt1omwCI0NPqtJ0fz5KjRS7NOChccSjzeiheaF01XEQoAYujWdJ_TcxUWblxlg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3tRzf4q1yXvklO24WMWdlUZhlKccMT6LtKD5souu5Qu3Az5KYWKxjjWW-5xAIwZw8MEBe_oYSdInPf2Ro8e81u6AWJUnqsp_XQ63Z5B6A8t_w3_HTPpbkealBf4MH-LjSoL-pGgtuzaek7erum0vgnbOwItrrHg==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGY3w1bf-lOlp3LDdLmK8c1CpvHRNqEHWC7YoImLRVlqMHNYVO7H1sOPU909N9jDvd1--H_QkljSPgme5bIzB4UFDFvMiQ0kuBah_z8ARGMncEVnuZhjCWKijMsEqmkA3XMlseusl6R6SP4JBHRBRK_l6Cqd5aaslND_RaFBwfD_0xF5p5Hwwf0aA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHiCM8I35aGkDVjntUVwWQIHdbnaB3hRvW8SNEwiuibIA_MBnS9II8jp-NFbNrAO3yN6rzZA1J-S4P6cC-mRwxXSI-Uptadps1D6Owncy9cC8J3FtUVf5AjJuHWZ5QWe5_3JAc7ESyIc0ZASRmcLr8cGv3xEw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEp58ZarMY-HsKqu8vk_KhezechivHq7zNLomGUfHxhYMTUr7-Nmboa555NpaJfyhIJFQa6V-jq6PtvkR2vYUoTn7VIwppRQ-0_xdlD8cOTbIcCF5fVG35TKB7LoaDHIWircxsMIUBuP8bLoLSemSR8rrgvJUJCow==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGroKKomry62ohafA4Yob0C7K247ObdrV_aoNuNL315Jna6mxIYxvXnPHxY0v8KglA9OpdGPUZM1ofSa7VQMVehf9Fm7tz8sMSdeH8f15-XAAYc48IzHPtYFy-mOMrP6B-cj5nrdLjzeE5rCQQTOB0I8d7u28w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdXCjmIcpUJFNELn_8d0stIziWEIpZLfOd5TwTrXEr7VumwApGFF1_DqbiDGDPJxffM_E-Tt1omwCI0NPqtJ0fz5KjRS7NOChccSjzeiheaF01XEQoAYujWdJ_TcxUWblxlg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3tRzf4q1yXvklO24WMWdlUZhlKccMT6LtKD5souu5Qu3Az5KYWKxjjWW-5xAIwZw8MEBe_oYSdInPf2Ro8e81u6AWJUnqsp_XQ63Z5B6A8t_w3_HTPpbkealBf4MH-LjSoL-pGgtuzaek7erum0vgnbOwItrrHg==
+- 인사이트: 최근 출산율 반등과 함께 국내 분유 시장에 활기가 돌고 있으며, 시장은 프리미엄화 추세를 보이고 있습니다. 저출산 기조로 인해 시장 규모는 축소되었으나, 프리미엄 분유의 점유율은 높아지고 있으며, 해외 시장 진출 및 고가 제품 출시로 돌파구를 모색하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtVYjQuWHM_uGovAV5MsNH3JfT9r13sYnTTnY6uP6I1G7VcBSPhToF4fa-yNK8QSwQcUmDOYzUB83d-0avyxc99LFPyZXrL8GawJ6NrsX8tRbOmPsA3vcHjgDUTv3Nh4A6wvZeoI3XNEbR7FLYwOIQFdBpYAP7xfwe0rNddWF2K2vFVG6b9fQwQHU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEceDeGZ0Gehh_nxZPAbmrzskhRFIKvYNenjhG6QP_2c5MCor9eC0_N2iuRmpkn6GJAL5XkXMF_Za1u9khcrosL-PV0u-_h1UzEc7scBM7e3vCPme0QKa9kX6oQuxoxEzQW6c7SS4k266Y-QVB87KqlEoD40tFD-as=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEu5kvP6HogtvTp69Lkg944FkSM39lo2fJfsg68e_3kofSUTXZstjtI6zkVbODF3qXw-8rYXledBesBRPrZ4nzPY0DagB-IY86eWywLeVPqv6i3CFOPC85LjywwUN1Wb08t-E69c-yJkqleRwwkdYchgSSbQHD5wb9kI12UDXeXRbLaokdC1A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwgMy1dMPEF2tPWNg5t3qVpjrV9p1YO7tHg_Zvb4laM-Aog-TOa9Rf6WL4CCiILoFv3f4MlXPIUANoc12hFJaqGk7Q5O0dle8VRqAs7VWTQTjAHzuRC3vni9dGb2-jpVXhtd1rxhAiPk4pt5lHXGTg8L4tVvMl5FLa4Fs53oZlyRGOvoyfzHLKfw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUaMZTvWaWD-OjK1DNPc8JCVD9rjQbOpBGDux6U1JNsjxl8twfvkYSK9a8QwA3W6LEO64M-IckI6jVqx2fj2StIIktVDf6RSnwfya2DgzBIReZuYxuM6AGDRzJ_-ck8BzEucRcw1yhxveRv6wu7kniCOHS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGl2R4dU3loIYSCVOlOUHR3kPdXk1HUAcROQDQI85WyCGgh7d1E0iRYMDUzCIOxixZ0TBO4yFyJUc7wEdVAAbKSO8Q1ctdQuB6NWh3iRe782lxuOC52pmymb0EwIrx_wUxyrOVbPVL0LwYkhL0nOxiiXFlxjLBXQA8iCclxOS7Z, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0sIK10llW6VhgdXg55P3nd-a2EXnYymJKIxkFsNbekFxrs56WWe1-uqSulpX40b_FB5gJwFGIEpfhd9Znjp8SUE93oHW1E8HGDVnu74Nu9nuOUOavKoesrQefCxz2KXdSpqiZqA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9q8tfBUGinjA8yUqrefqSMc_vul9JcrMosNw0sWfnW2S2lRmWwMC7oMPq1ntkTXVDhUbwIx2dYHomjK4Pc9H5YNy4H3zInLS9WwyrL5EbdR5Iv1atU5V3aiRDxBVLw_wDy-6oltNvCEElUf_O7Xd_jygELbsFceU5VCmSKoIjurVCcUtt18l5W08=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 사용하시는 분유 브랜드와 종류를 알려주세요. (예: 앱솔루트 명작, 위드마이 베이비) | 일반 분유 (브랜드 무관) |
-| 분유 제조기 세척은 어떻게 하는 것이 가장 편리하실까요? | 자동 세척 기능이 있는 것 |
-| 한 번에 어느 정도 양의 분유를 제조하시나요? | 1.6~1.8L (일반) |
-| 분유 제조 시 어떤 조작 방식을 선호하시나요? | 상관없어요 |
-| 예산은 어느 정도로 생각하세요? (평균 약 20만원, 10만원대~20만원대가 가장 많아요) | 11만원 ~ 27만원 |
+| 분유제조기를 주로 어떤 상황에서 사용하실 예정인가요? | 주로 밤중 수유 시 |
+| 한 번에 어느 정도 용량의 분유를 준비하시나요? | 1.5L 미만 |
+| 분유 제조기 본체 재질로 어떤 것을 선호하시나요? | 스테인리스 |
+| 특별히 선호하는 브랜드가 있으신가요? | 베이비브레짜, 아이닉, 리하스 |
+| 예산은 어느 정도로 생각하세요? (평균 약 20만원, 10만 원대~20만 원대가 가장 많아요) | 11만원 ~ 27만원 |
 
 ---
 

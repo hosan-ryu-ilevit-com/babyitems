@@ -1,5 +1,5 @@
-# 세션: 20260127_044005_7qam
-> 시작: 2026-01-27T04:40:05.016Z
+# 세션: 20260127_082915_6btz
+> 시작: 2026-01-27T08:29:15.082Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아의자 시장 현황
-- 인사이트: 유아의자 시장은 아동 발달 및 안전에 대한 관심 증가와 함께 지속적으로 성장하고 있습니다. 특히 프리미엄화, 키즈테크, 캐릭터 IP 활용 등 다양한 트렌드가 나타나고 있으며, 어린이용 의자는 2031년까지 가장 빠른 연평균 성장률을 기록할 것으로 전망됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8Qg433IfHw0zbq8ahpdZKb0kFp_KBafwY1K3oQmzhEjZ-Y4N9kcuCi_zJxRk7jl2dsVAAZzPgi9a-jIxgsI_4yZ8V0cEEKFC11W4cnvRCbhnMcfLQz5Yc1x5p7RjqzwTnc55iYI22oB9NAm5JDzv6asDTqlMfZ7PPTiv0tksm6L_wWmDDLyau9XI2KfMsJvyzgXTnq6GSJizpEgVoCHtWOfztBD5FCdXFwoJRZZzyhFj1zLIED_ySuq2w39Psfhn5blH6d8O5Em-4qkiVh9UjkZrqnEyrkxFCrzoNdTH_d49oh9hWlvUj2tkbvzwUONzt5TzEM-drWkjCK7oJioqidUSnMf95zlDKgbDpyv75SSswvH8zqIGWNHizg7a5uiz-0zADiMW2QeYLQpmuB5nTJA78O0jdtbFFIEyMf6c_93Jv9JrKSFGDmtg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyLOohGPEbIugADlaz6h3cu3P-dwXSBRWg5GVpzNJYSn7u5Nld0qV-sZwGtZzah92kO6f6_ONrrQXApuc4WRbP0qJgevEzLAkfWITq1SZxpZRawO_xC8yrYiBBwDgeIadKwN_c26Ep8Uil5JPKEjNzr_AR9RgYo-InHZz_Zkvt_VcEVdc7Jael93C8uMiR6g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVk8005z-gFBpFY9s0mZ416_LWr8l91t6nRTiwBhtD94z-Hc8Y3bawQ0Y-AaarbAxhUJuCZRX27jrrYCm7NRCYtou0fYTXIlkcpqZA_Rmz8icgQ87pzCkt5tmgh3xo4xxjyI8LdrdSzZBdTb3y50TE9jn-BVltLZWN0aA4_z8COA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFumtQ6Wq699k0ZCYSAiECo5SG-KcegUjuVhLm_zvPgVHp5WtLeH-sU7UipL7S-edgmxBJYA7L5YfVOlxobji7tyyTazWLSTSKlA6jAh9LKjKiITgYJhSb7JyzbXJrr7FfLOYc79dKe7HczTlFu14EUFRNt2XQEZfAyMI8kUeC2pyCKR58PtmPUMgGbvUceTtX65o3OVgSey1PoJYDNP_7murE4jLCxMeGUgy4K1AXfGR5n9ZVpJXxUOOwS6TBFeOmIz0D5wJo38gJMy0TvSVtarUdpW9ji6uJzfVdosF-1r_k_tI5tzr13_gVyrz9-3TQM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHD9amke9OAcs9nj2p2RQ4LOpRAO5jLem41WJG3wqFg_-6BqGCMG_XJmqhaNmpKnXjP26SWs0r2QKp8J9evoPlWyiCV884Ms9JpJ5zVKNFFVR_aR03uncqMpA2rOByOL0YoyZDxrbo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQELvlCYYjl-AoYN4nO4G9kckl2ij8G4DPM-OLK9FwL0g9Sw4ZLS3Fzj3Ai7ckCmw_3xgw61CLEsLdTZgREIaByNJzPszjphu2b_hqpm8oSfk-ut4S-YTGXlVcGBvBFn6AWLSF7PKfzfZxHT9HxNm1vPbdtfMR_BH1zumYCtH7px7W_p2730_lViWmkWbYuysmd5CmyDIwlxWyjJt4MYqak7X3R1ePSNNgd7todO5kZURTUjkD_juEMErR_g8JvBpPXdjFFdGoNgQUhFprDcL_OgUcvP2pSxqAMeHk1AYcxqhyduZWVLoIiYVZ9BTft1lAMp-NNGiR
+- 인사이트: 유아의자 시장은 아동 발달과 복지에 대한 관심 증가, 경제 성장으로 인한 가처분 소득 증대, 그리고 미적으로 만족스럽고 기능적인 가구에 대한 선호도 변화에 힘입어 꾸준히 성장하고 있습니다. 특히 친환경 및 지속가능한 소재를 사용한 제품이 MZ세대 부모들 사이에서 인기를 얻고 있으며, 기술 발전과 함께 인터랙티브하고 스마트한 기능이 탑재된 유아의자도 주목받고 있습니다..
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPuEEsGuyV7mRry_ybj8u_WaI3aPM0jTpiXg6ojT5qIwTizCw6TWeivEoGavHdK5ywT-lNCCEfZklh-NTwD4v_vbuWcE5JpTn6MBIlCIn6nVXDmeQPSxJqfq1mDu_8uC36Th8Uw5izTklbw-AwtqRuZKUfeYDKHvBEj1HImeuHxXRt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvdJapqT215V9mwL64kS9j9XHS-CN_bCJ6NkMhTQQH3lbxfInj_BKwqAhvsQ3iUd74Znp-Ozu6PnI0r_gdtYTYKRf3sxgfUfSLCMRJ6jNx0AINbM8Hi3_2S_Nqb73_3aBtko6KgnduoTu6MqGFTFtCUuz610Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFl0qqdRkqRbmfOxb4p-LojPq1Ls-F8W2DNBwIDDbnbVZFajC8gQaaJGbWOqMrYxVPp6rmQR1t9Diroj89A8WsojKycfmvphI3gB9GuCZx2Nlbt7ScTWzD4reSE8fYDxhPM11LDkcCF3Y1sOTpRSixIQAmoUxkFLUpufkJgew4pA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_8f6536K-k4z2h0Bv4IXVFwxy6LtnrncUkQ8Yu4hMCFhnKtgTY4Zf8auuLY3vo90wTO7KbK3pn2FREyn4MMh5YrjLuQ7V9abC9JDLZKTt4h1LmyE4DgPBjhQEUiu7ht7zKZbkNX2r5J7tOu3UvqVoqpdsQN6qc8oBM7y3-JvC6e4tZs-76yEQEdI6w3nHJlZ_OaDDLihps73hKjdKGPvlRIcg2SHEzzlPWioJyglCniRWQsCag5VnLqAfyQOfB7mdbiPegOJO7fqsJAQ33z9xlxhST8FAetYA83-wmzfugeq4C9MeYCijTZy4FOOzI4dw, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2LBs_U1tiQpJmv7qMVj-ecbsQp8Krz3xG2yEg2MO5OpxlrJjnyTdpPwa2SBTpixrOHBDlkdE8J9fOJb2-iMEJFPNTE6OwN-H3BSLzle34Cva54ZIaMzhl8EvPth8uaaNcAkCsJiw5uQii_Wps066Pyx2vxfnBXMM0WFBG_AaOw93YrmfH96BE_ZkLW-inQnBMMLnM9HmyP9ipTe-6GL8Bb6H-k0aZoy5aZDn19pDmb4AOznrKsD5mDUMgDXsJvlpNOxyOKkNSqUY3SxOYL6I1_UCe_pWJSxtHJuqkpXJZIH4KPOYFSY68X0DbZS1-vizK2NDNUHhM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiOr_BLrfDru44uUUQsz-NnZrVnDGFbF1P6xAHlcFU0qSYCMGyH0-XfucMuaN5YzueR9on5k4WVNisphHqslsCd4UbGasGIIU9GqEZK13-YvJVZ30cicNwiW0YcDjf7wiQdfmLZuDWSq75AWdexVYY_SrNaQF690-5q2y5nOIZVA==
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 유아의자를 주로 어떤 상황에서 사용하게 될까요? | 식사/놀이/학습 시간 |
-| 유아의자 소재는 어떤 것을 선호하시나요? | 플라스틱, 패브릭/인조가죽 |
-| 아기의 성장 발달에 맞춰 오래 사용할 수 있는 의자를 찾으시나요? | 높이/발판 조절 기능 필요 |
-| 혹시 선호하시는 유아의자 브랜드가 있으신가요? | 베이비캠프, 싸이벡스, 도노도노 |
-| 예산은 어느 정도로 생각하세요? (평균 25만원, 15~32만원대가 가장 많아요) | 상관없어요 |
+| 아기의 개월 수를 알려주세요. 개월 수에 따라 적합한 유아의자가 달라질 수 있어요. | 0~24개월 |
+| 유아의자를 주로 어떤 용도로 사용하실 예정인가요? | 식사, 놀이 및 휴식 |
+| 선호하는 유아의자 소재가 있으신가요? | 플라스틱, 원목 |
+| 특별히 선호하시는 유아의자 브랜드가 있으신가요? | 싸이벡스, 야마토야 |
+| 예산은 어느 정도로 생각하세요? (평균 26만원, 15만원~34만원대가 가장 많아요) | 15만원 ~ 34만원 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 90개 (전체 90개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 스토케 트립트랩 하이체어 - 372,000원 - ⭐4.9

@@ -1,14 +1,14 @@
-# 세션: 20260127_031618_twdd
-> 시작: 2026-01-27T03:16:18.641Z
+# 세션: 20260127_064520_fsid
+> 시작: 2026-01-27T06:45:20.325Z
 > 카테고리키: 로봇장난감
 > 카테고리: 로봇장난감
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 로봇장난감 시장 현황
-- 인사이트: 2025년 기준, 로봇 장난감 시장은 AI 기술 통합, 교육 및 STEM 콘텐츠 강화, 그리고 가성비와 기술력을 앞세운 중국 브랜드의 강세가 두드러지고 있습니다. 특히 로봇 청소기 시장은 경쟁이 치열하며, 프리미엄 제품의 인기가 높아지고 있습니다. 교육용 로봇 장난감 시장 또한 AR, AI, 로봇 공학 기술을 통합하며 성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxse2d_D8oxUoKlhsp2m0-M69jOIHTG0np-RyzQRqpjRI63XRQMQpUJvCTSkptgwIuASCwg-fJGKMXU_k_JuL6f3oxLoGmyrJGKFkyYE0zWd1UffTT-3AtWsJwHvHwHftM8g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGM3N53EUoVX3LXmYI5WcE92nf6AgCL-jvUGdf_RCx0AnzQKVBT7895ZoNerNLSWgV_RzJWb7Cu2XG_kyBLG6n3ibziCUBFXf97o8hoVa53bygx6bCQ6whfRTHg8nknNzVuOaT3xe8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbm_LxmdYBynHMrn6OXfsoYkVcAzX_u_sXufGw60IlNc2gLlqbCNlgT1iuke1sJf8lqRSnIqdlk0T7_wPSYwwY_q-JrVWwKHd5mXruIzNFKug2LUs-n4zD7sU6K1oYKHbzqJjNQqxMhJOhy0wDExYJkmNAAiQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhDgZ3jC6tC9JPIL17EPJQa7YzUS4Lg9vzuWhh077z1koQirbnWdgRHtOdKBjWzIE_pNMkMgnI6v2OwppGt0MagD2BXrozwra_WN9Sx-_ZLiXAxJrJkdq1HNVjTya5WFsYKjIokeQ9bjtqqr6VwkJh5bR5L06r60GKQQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHuPU1ScY4Wo-kGjvddWv13Uk6PgSKPSIbby-k4NR2rMrnuSe4nSvpX5msgVI553OaKA4dWIiTVvJwkWuqLg8CsJGYCsFzRuDAua-bawvEHbGZMRllncg3rBKDt7Sfaeyz9J9QnNQ==
+- 쿼리: 로봇 장난감 시장 현황
+- 인사이트: 로봇 장난감 시장은 교육용 및 STEM(과학, 기술, 공학, 수학) 기능 통합으로 성장하고 있으며, AI와 AR 기술이 접목된 제품들이 주목받고 있습니다. 특히, 아이들의 창의력과 문제 해결 능력을 키워주는 교육적 가치가 높은 장난감에 대한 수요가 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvljO132-AjBjExKygQeapBs-reNVHQ8gA9iJCyBr8M8vEJAx0mlEYSPaFx4o_Scr4chLjlj0HNxZKqKTpQdahuGdlT8QsjBwp1QvnVz_qjXAOOPe-udbnAS9JarkK1Ag2JkYikggE61E2Vr1T5TIeExlx6aA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKouLV-eq4JhIuMIlEIn8HMxqC5-I0w_Ad1_PDGc1xRvwprGj-o-N7nFKbsknElo6Ttox3XySKOZof1fvzSLdxS-eOKYGuel151FVD3nvz2CQ4YEVEYD_DLVkT5kXjPN1_95WYBw6Uhpg3qHElPEKYrjaYOeckFz2wB8MXPN3sfaKu, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoOcOyCjBjy_yqkjYeVH2ZfjgUU63edPhvnt4U0-DJKVzgTALM_0o5JCokSP1B3LHcaPOytlSzYekQJkzqn4ECJoeDR7IBn5bd86dZTRhmtX13dpeUfv6AZ-6RVYfVI7zGzoQgFGMk_lFzXymWik6NsOqme_VAlTbBn4eY6L60vL34aVodBz5JKiB23xIKw7pTYNy9PacxTOM0fxIecboJCvYI10pOJnyogw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_xZS0IwfPkjXE-lqxR-9wYUXLvLJ3J1Qk1xfIcrhKi6HS3hZE24HrJ_X0H9R44F18THETkg-JOmYdvJ06qqQ3q2xiKcdpGXJN6D8NUYSTwddeZ2LUI2ML6bbh2azaSvhuY8bds08=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEY843mCne-JGmRMMAxcAC2A-T1lj3Y5J_-A1ZfwVK0lAcP-Z56pClVH35ikEp_J1J76QTl0JK9V3zFyGgR2s62IQ2J8vPna-TCxv7m2XNJCCOaljkKFgu3vXTr3WakR_xkcm58EPm_OC7ggTLAhyY7kS7KRCChHWFBlY9U9e6FmEMKWUerrfGWQ7uEiQ6UxmtkSvC9VSx9-BBvX6MVeYr9LPiill0=
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 로봇 장난감이 어떤 방식으로 아이와 상호작용하길 원하시나요? | 음성 인식 및 대화, 터치 및 움직임 반응 |
-| 로봇 장난감을 통해 아이가 어떤 종류의 학습 경험을 하길 바라시나요? | 창의적 놀이 및 역할극, STEM 교육 |
-| 로봇 장난감이 주변 환경을 얼마나 인지하길 원하시나요? | 카메라, 마이크 등 첨단 센서 활용 |
-| 로봇 장난감이 다른 기기나 서비스와 연결되길 원하시나요? | 상관없어요 |
-| 예산은 어느 정도로 생각하세요? (평균 약 8만 3천원, 4만 6천원 이하가 가장 많아요) | 4만 6천원 이하 |
+| 로봇 장난감과 어떤 방식으로 주로 상호작용하길 원하시나요? | 음성 인식 및 대화, 터치 및 동작 반응 |
+| 로봇 장난감을 통해 어떤 종류의 학습 경험을 제공하고 싶으신가요? | STEM 교육 및 코딩, 감성 지능 및 상호작용 |
+| 로봇 장난감이 어떤 스마트한 센서 기능을 갖추길 바라시나요? | 장애물 회피 및 이동, 사물 및 얼굴 인식 |
+| 혹시 특별히 선호하는 캐릭터나 시리즈가 있으신가요? | 또봇 |
+| 예산은 어느 정도로 생각하세요? (평균 8만 6천원, 4만 7천원~11만원대가 가장 많아요) | 5만원 ~ 12만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 92개 (전체 92개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 아카데미과학 메가포스 KAR98K 스나이퍼건 어린이 장난감총 - 65,860원 - ⭐4.6

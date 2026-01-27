@@ -1,5 +1,5 @@
-# 세션: 20260122_130737_ku1k
-> 시작: 2026-01-22T13:07:37.336Z
+# 세션: 20260127_063705_y6qi
+> 시작: 2026-01-27T06:37:05.867Z
 > 카테고리키: 모빌
 > 카테고리: 모빌
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 모빌 시장 현황
-- 인사이트: 모빌 시장은 스마트 모빌리티, 자율 주행, 전기 모빌리티 등 다양한 기술 트렌드를 중심으로 빠르게 성장하고 있습니다. 특히 MaaS(Mobility as a Service) 시장은 2025년까지 1900억 달러 규모로 성장할 것으로 예상되며, AI 기반 인간 중심 기술과 로보택시 분야의 혁신이 주목받고 있습니다. E-모빌리티 시장 역시 2031년까지 1조 6천억 달러 이상으로 성장할 전망이며, 친환경 운송 수단에 대한 수요 증가가 성장을 견인하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6rrB9o-ucYw7QZuPZoeDM2qz23US79X6iIuTbUAN-Qf4bJ77-n0Jf8olarpjhsy5BRol9tz9CX--FibRQpB85t1MEFbL12m9vikvJB7T2FQDE4OM-03UaN3LicjN_zpXd8yL2iOzZOb3JoG4Hfs7YuJn6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXHf89zRhgciep1zWBSoMYVEafGxSxL9klD_4j2XmPhZ3I1-auishBPE7SqjfHWIbIad0cFb82ir7i3x_0rED167wK2MMx-iN5xD-90L9Kr0_mnz_evBe2DS3keuFe3epO_Rh9nQbIAxcn2cf5U45dIWdAc_I8ay1Xscs31EjDD3s0IUfC-Qnun-3m1ByePS0g_w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaLKFcki1jhwZ1T8nmDlmmDfKoM4-kX9CGlsjfZWHI0iRbO1xCgRICN28DJAGWpOA1VsnzkXo14k4xT7mtDmqifZG_y8wUyjYOMSIRRv0P7U4Kgp9_xuyC4TG6M2CIDbOoskBviVqGoHQyzhMzMUVWJw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFluv8j8U3q95WYwMgs2SmbyZbRfPO08XH6_cCv_IB6cumzpopULxpm1rcPSIRg3cbDkVaxe_NV_Ys6NjKwnLxwOEjkMXIhEa7_H06SrzhrTibVXUaHNQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYn8MlwiTGZVxN-WJFHrGEKDlNwn_11puVfXCjtqDo2-QioFtzkS6PXs17PzsmtmtsBSMRZP4XD9EwDhW_t7QzLPvOJZhbS1yFrbEbjWANcKVDqq9rFU-jfVkstWlve3zy4g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGErkjENXW4yUHDoNLdgudxTH2TjwnS8du5wXehEEXFcTkghAh0cP3WfY1mllAA_zEGtNIYhSP9kCeOCR3Q76iCtFYsSKumtQOiHZLhUw841AXHZXXrjndW0w==
+- 인사이트: 모빌 시장은 스마트 모빌리티와 전기 모빌리티 분야를 중심으로 빠르게 성장하고 있습니다. 특히 차량 공유, 자율 주행 기술, 개인화된 이동 서비스 등이 주요 트렌드로 부상하고 있으며, 관련 시장 규모는 2034년까지 지속적으로 확대될 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvtNghP6-KhLfJhE5azW6ImVE-ZTZqNVgAsvMQYemg6uvJ8kXjqjtxcjWeo-xsXx1HgqXHW23hYmvay_oN4vQB1Ek_iBpYtQTPNdzaXickkLUcFvFuEyMUiCg9Q3mFZkPMt9jjq4olx67QFeJbHdRCg1kh0DnjxiI6zv9XN58rBNo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-XDvr9hkBR7GHRUBYRw6Y6MzLqMRiWjaj_8-7EhpkNt6uCZO6Rtwjbo-23zt5e4pND4v7SDbGYKPXuIM4aA69bdQgcQl2C5XhegzaUrkmdgw2nZH_vf4weEEKGwA5-Pd3CDUAUpgWf2t1gYPf4GqsoyGpm-bfOT6d0dpk2j2u0jU77HXFfD2D4nDrKRj1CzGW, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNvKW1iJTP6UPOeb-QCUTu_YKI-mC3MOuChRxXMyRUpjszm4hDAVln2oN7GAgY4-f-eD0F-jSkDI4zoVrFfFD_kqXmbMEMrNUnFzf8dVUtcimt_Aq4fpgA3txAdkEhjmwW7wlnkeYpZxh0r4yMEZGuGuw41rspzJZqxAulmf6POttOIgc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECaSDhENAStcqPq5fphbBCgSqelemoorpIRQCjfEnmTRVcJBjTDnQU-pu5djWuKefkD0N-BqVDMStq3DRoSLJygPbForVyuEH-uhd7uudotuQ6HljKxESgkFQERjw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFK3P4y6bpxw9Ze5Ce1lO3I68-gFqnvMNFilfgRsQu8Hg36-pVPH_TWniq_6zYTd0XTB6BBY4cBwtgV5NZagbkyUjeo-eouv0dO7TiqtNxLDp4Cu-cXR55YD8QPAVJ5YsLAgA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIsDatahlr5b4jBPk99KZG_cPbEdb_SI_8omPxVGGerfy5udmgRg2r8hOWvOsI1aqUtrkxLcGj3ZV6W9tENUFqR5EO8DikQnrXaUhG0KU1Ogi2R7OH8P7Ajez935E-vR1ZEdyNKLnKSMdWM29OGpM1VF6PDpi8gebh7QZy
 
 ---
 
@@ -16,41 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. 모빌은 아기의 발달 단계에 맞춰 선택하는 것이 중요해요. | 0-12개월 |
-| 모빌의 소재는 어떤 것을 선호하시나요? 아기가 직접적으로 접촉할 수 있어 소재 선택이 중요해요. | 친환경/무독성 소재 |
-| 어떤 디자인의 모빌을 선호하시나요? 아기의 시각 발달을 자극하는 디자인이 인기가 많아요. | 흑백/컬러 디자인 |
-| 모빌에 어떤 기능이 있으면 좋을까요? 소리나 움직임 기능이 아기의 흥미를 끌 수 있어요. | 조명/별빛/그림자 투사, 자동 회전/다양한 음악 |
-| 혹시 선호하시는 모빌 브랜드가 있으신가요? 검증된 브랜드는 신뢰도가 높아요. | 디즈니, 라켓, 타이니러브 |
-| 예산은 어느 정도로 생각하세요? (평균 약 6만 8천원, 3만 7천원 이하~8만 8천원대가 가장 많아요) | 3만 7천원 ~ 8만 8천원, 3만 7천원 이하 |
-| __avoid_negatives__ | 모빌의 움직임이나 디자인이 아기의 눈 건강에 좋지 않은 영향을 미치거나 사시를 유발할까 봐 염려돼요.,너무 많은 색상이나 복잡한 디자인이 아기의 시각 발달에 오히려 혼란을 줄까 봐 걱정돼요. |
+| 아기의 개월 수를 알려주세요. 개월 수에 따라 적합한 모빌이 달라질 수 있어요. | 4-6개월 |
+| 어떤 종류의 모빌을 선호하시나요? | 컬러 모빌, 회전 모빌, 오르골/음악 모빌 |
+| 모빌의 소재나 디자인은 어떤 것을 선호하시나요? | 상관없어요 |
+| 모빌의 안전과 관련하여 중요하게 생각하는 부분이 있으신가요? | 부품 분리 위험 없음, 무독성 소재 |
+| 예산은 어느 정도로 생각하세요? (평균 9만 5천원, 5만 ~ 12만원대가 가장 많아요) | 5만원 이하, 5만원 ~ 12만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 56개 (전체 56개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 타이니러브 수드 앤 그루브 모빌 - 113,950원 - ⭐4.6
-2. 타이니러브 타이니러브 한글판 테일즈 모빌 - 129,000원 - ⭐4.6
-3. 타이니러브 타이니러브 모빌 홀더 모빌거치대 - 18,900원 - ⭐4.9
-4. 타이니러브 타이니러브 타이니러브 테일즈 모빌+홀더_ - 129,000원 - ⭐4.8
-5. 타이니러브 타이니러브 수더앤그루브 모빌 프린세스 - 129,000원 - ⭐4.8
-6. 타이니러브 클래식모빌 세트 - 119,040원 - ⭐5
-7. 디즈니 디즈니 베이비 캐릭터 멜로디 모빌 - 120,498원 - ⭐4.8
-8. 타이니러브 타이니러브 모빌 전용 아답터 - 18,990원 - ⭐4.7
-9. 쁘띠엘린 세이지폴 원목 멀티 모빌-디자인선택 - 47,940원 - ⭐4.8
-10. 엠베이비 타이니러브 모빌거치대 - 27,680원 - ⭐4.8
-11. 비더프리 모빌거치대/모빌대 - 42,210원 - ⭐4
-12. 아기노리 아기노리 스탠드모빌대 모빌거치대 물티슈함포함 선물 - 25,760원 - ⭐5
-13. 타이니러브 (한글판) 뉴 수더 테일즈 플러스 모빌 + 홀더 세트 - 168,500원 - ⭐4.9
-14. 타이니러브 (한글판) 뉴 수더 테일즈 모빌 - 123,850원 - ⭐4.8
-15. 타이니러브 모빌+거치대 - 107,690원 - ⭐4.6
-16. 회전형 뉴턴의요람 진자운동 밸런스볼 진자모빌 FW0604 - 4,180원 - ⭐3
-17. 타이니러브 프린세스 모빌 - 58,800원 - ⭐4.5
-18. 스마트베어 베이비 모빌 초점책 세트 흑백 초점책 + 동물 초점책 전2권 - 12,620원 - ⭐4.8
-19. 컬러모빌 6종 아기모빌 신생아모빌 평생AS 고퀄리티 - 21,870원 - ⭐4.7
-20. 타이니러브 (한글판) 플러스 메도우데이즈 모빌 - 178,500원 - ⭐5
+1. 타이니러브 타이니러브 타이니러브 테일즈 모빌+홀더_ - 299,600원 - ⭐4.8
+2. 타이니러브 타이니러브 한글판 테일즈 모빌 - 149,000원 - ⭐4.6
+3. 타이니러브 수드 앤 그루브 모빌 - 116,400원 - ⭐4.6
+4. 타이니러브 클래식모빌 세트 - 124,450원 - ⭐5
+5. 타이니러브 모빌+거치대 - 110,010원 - ⭐4.6
+6. 타이니러브 타이니러브 모빌 전용 아답터 - 18,990원 - ⭐4.7
+7. 타이니러브 (한글판) 프린세스 테일즈모빌 + 거치대 세트 - 168,500원 - ⭐5
+8. 쁘띠엘린 세이지폴 원목 멀티 모빌-디자인선택 - 47,940원 - ⭐4.8
+9. 타이니러브 타이니러브 수더앤그루브 모빌 프린세스 - 129,000원 - ⭐4.8
+10. 타이니러브 모빌 크리스토퍼 윈드 차임 - 20,480원 - ⭐5
+11. 타이니러브 (한글판) 뉴 수더 테일즈 플러스 모빌 + 홀더 세트 - 168,500원 - ⭐4.9
+12. 타이니러브 타이니러브 모빌 홀더 모빌거치대 - 18,900원 - ⭐4.9
+13. 해피랜드 압소바 위디모찌인형 AWC36503 핑크* - 27,400원 - ⭐4
+14. 타이니러브 타이니러브 전용 흑백인형모빌 칼라인형모빌 교체형 - 18,900원 - ⭐4.7
+15. 플렌스테드 모빌 인기7종 모음 닐스보어 futura - 34,490원 - ⭐4.7
+16. 타이니러브 (한글판) 뉴 수더 테일즈 모빌 - 123,850원 - ⭐4.8
+17. 타이니러브 (한글판) 플러스 메도우데이즈 모빌 - 169,900원 - ⭐5
+18. 회전형 뉴턴의요람 진자운동 밸런스볼 진자모빌 FW0604 - 4,180원 - ⭐3
+19. 타이니러브 타이니러브 컬러모빌 바다친구들 수더앤그루브 교체형 - 22,900원 - ⭐4.8
+20. 볼타모빌 HYMALAYA 히말라야 모빌 - 134,590원 - ⭐5
 
 ---
 
@@ -62,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 모빌의 움직임이나 디자인이 아기의 눈 건강에 좋지 않은 영향을 미치거나 사시를 유발할까 봐 염려돼요.
-- 너무 많은 색상이나 복잡한 디자인이 아기의 시각 발달에 오히려 혼란을 줄까 봐 걱정돼요.
+(아직 선택 없음)
 
 ---
 

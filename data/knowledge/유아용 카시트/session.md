@@ -1,5 +1,5 @@
-# 세션: 20260127_054516_gnlm
-> 시작: 2026-01-27T05:45:16.355Z
+# 세션: 20260127_080908_lgiz
+> 시작: 2026-01-27T08:09:08.936Z
 > 카테고리키: 유아용
 > 카테고리: 유아용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아용 카시트 시장 현황
-- 인사이트: 유아용 카시트 시장은 안전 규정 강화와 함께 지속적으로 성장하고 있습니다. 특히 신생아부터 12세까지 사용 가능한 컨버터블 카시트와 회전형 카시트가 인기를 얻고 있으며, 스마트 센서 통합 등 기술 발전이 시장 성장을 견인하고 있습니다. 다만, 높은 가격대는 일부 소비층에게 부담이 될 수 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQU5fFKYUrvv5MrwbIhUWCSJyVAWEi6DlLPwHvoLKhYk6Tt0vs8-6RhXIWlG6r8zQ3jyE9JkN0lwO-vWi3LE_xMYn3y5p48h3NnMLSyy-b5d7FIncjQ7nftSuKI8Vavt9uluoxOf8IQavOd4tuTuXNwWN3L0Oz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbbj2rTNrVt169hx58bu2XMKj7yq6a_ItGIreZ68bsaA7N4a0yvqCaLkPMdL5-KLSw83k_BQauHwD0i7I1GEs6Qey1pjS1f8it1B_0FLur3sval7y3DGqyvZVsVs_7Iv76Y3Wi6NzOeta8PP2rgZDwgqJdx5lk0jvauBbYRHU7HCeKXg6i5B62IIUY6390gWxw4wP6XeDoDH6KZfl_TOfeNFduahJyfshJPgY7CZL9alxS_YlCGo9NpPz0S5HikIK93sLV6B0KfWz5wRLLhKBb51CujTQbzQZ4Sw38ooMmMc6eRHs1hq3EU36m5zIWQwMVaiHJ7LKeZSqDtxK26iWIyRCU4YaD_yO0ksi5b44Qi8hGwtJyimuD0p-qPQ_pNbDtpYQymJJO0SaU7tz9yK0Uwumh2TTUdytaNMCk54ShSG8wWsxQ_P0G9RaP3tzpyHiEg6-Hx4SSyACls6E2YQd5fNOu5SLXjGp7zjfkRZ6Ji27u2zd22sA_PPjfxFjQTM71DiA0R_kLb94sy5kMGN0tX_b-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEunH9vavfUY_oMUtcPl2osEQNe0KqbGXOy9aAf7zMsDXB_0kwHbw31xQ60aYUupm0FRGCasaU7qY7qqUP2Jh9XW_evf18NYcfNJnIus6rsRn5BMaAO-cd8egW-wo1YrsjVJ9x3IkWzm3XbXVHQSn1-ATKIGs3nwLZ7ds7RUcZ6h0nOknWw8Rpcn0NDast_bQE=
+- 인사이트: 유아용 카시트 시장은 안전 규제 강화와 함께 지속적으로 성장하고 있습니다. 특히 프리미엄화, 키즈테크 접목, 캐릭터 IP 활용 등의 트렌드가 두드러지며, 온라인 판매 채널의 성장이 시장 확대에 기여하고 있습니다. 하지만 높은 가격대는 일부 소비자에게 부담이 될 수 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvEIanXDaaSYBtZq8aF_68cU-_BvZnxCSImg3KE5kK2q6Ob3LTwkYma4y3tTLbg5H61jPGx7IEs4zV3W58meAVZczbq6f2cQEtMd2UAPbx9mhLjLwNmXeQdWn04L_IKNw5jtruzlIsPwMMq9my0Ng-I4exbNT8WQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdQkOAVNOpzZfold23tGHJKUif44vTC-MgtoFfLdi9p5KaM-maQ6cCPe0Tn3XFetOek13XIvCV2UYSbGScFJBvZzY7_eEJxgdMfbXIZzTncRfIgRT9GCVUzmoCLYCTjA3pV53prnzJ2aLIyTf_8Igz7gBI6v68hynEOKebqfjarTBnrnsqonZEZOiiYt-Ikm0OEDs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhCfmdzxLotJ8RZjQ4DvPuL_HWxk8OoBRPtRVU9iNtUioSfED8Zlzpqfkk1I-IT-CvS8_arIRwEwNdGSy3Adixj_loG9w-QMTYk3tMQ1GdQ2Oec0R3IInzEameiEiG3BeBUDB4svTC2tRapfkn4dnBeIwx11oQ4BVZTZn_ZyDMJIxcgWCCAGcSVI-ddUeFPEktgmzh8jM0s6ynuFGsCCjcW68mmmWN4XcU-kv8-b1doN_FFDRKGGEQ2OZjECthPCUdVZBIlly2Jh-Jo8cfAVSwAjJfiLxbAWHs5E3gYHXwQ02dbZLxROvbRFYN1jWZmZQLqke9EW-O6j8OvwINy5WPLo7gAxsfvqeJ2nwsZLAcMGiwhMxhwu4cvu_r45vzcLm_vscdZzc_XjhNklorZbGL1Z6FA527HdzAznqnvl0ISCxvnC7dITcqhsLrRvT6nBk54cq-jmVpV7dvf5LADUetIKBLvh06SnbxGg6esE9b9Mfs2d8tAY7p2M_GpIhZvIDG8DVYqkcNT_CzqbWLgaBpZ3Hpyw==
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수 또는 몸무지를 알려주세요. | 신생아 (~10kg) |
-| 어떤 형태의 카시트를 선호하시나요? | 회전형 카시트, 트래블 시스템 호환 카시트 |
-| 카시트 고정 방식은 어떤 것을 선호하시나요? | ISOFIX |
-| 믿고 구매할 만한 선호하는 브랜드가 있으신가요? | 상관없어요 |
+| 아기의 개월 수 또는 몸무지를 알려주시겠어요? (카시트 선택에 가장 중요해요!) | 영유아 (10kg ~ 18kg) |
+| 카시트를 차량에 어떻게 설치하시겠어요? | 안전벨트, ISOFIX |
+| 카시트에서 가장 중요하게 생각하는 기능은 무엇인가요? | 안전 강화 기술, 회전 기능 |
+| 혹시 선호하시는 카시트 브랜드가 있으신가요? | 베이비뵨, 폴레드 |
 | 예산은 어느 정도로 생각하세요? (평균 6만 5천원, 3만 3천원~8만 4천원대가 가장 많아요) | 3만 3천원 ~ 8만 4천원대 |
 
 ---

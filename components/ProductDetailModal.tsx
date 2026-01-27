@@ -91,6 +91,7 @@ interface ProductDetailModalProps {
     explanation: string;      // "밤수유가 잦다고 하셨는데, 이 제품은 저소음 35dB로 아기를 깨우지 않아요"
     matchedPoints: string[];  // ["저소음", "급속 가열", "야간 조명"]
   };
+  oneLiner?: string;  // 🆕 product-analysis에서 생성된 제품 한줄 평 (PDP 탭 위에 표시)
   scrollToSellers?: boolean;
   initialTab?: 'price' | 'danawa_reviews';
   // 미리 크롤링된 리뷰 (knowledge-agent 플로우에서 사용)
@@ -213,7 +214,7 @@ function parseMarkdownBold(text: string) {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductDetailModal({ productData, category, categoryName, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, category, categoryName, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, oneLiner, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
   const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>(initialTab);
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
@@ -885,6 +886,45 @@ export default function ProductDetailModal({ productData, category, categoryName
             </>
           )}
 
+          {/* 리뷰 한줄 평 (product-analysis에서 생성) - 기존 디자인 */}
+          {oneLiner && (
+            <div className="mx-4 mb-4 mt-3 bg-gray-50 rounded-2xl p-3">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-1.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/icons/ic-star.png" alt="" width={16} height={16} />
+                  <span className="text-[16px] font-semibold text-gray-800">
+                    한줄 요약
+                  </span>
+                </div>
+                {/* 전체보기 버튼 - 리뷰 탭으로 이동 */}
+                <button
+                  onClick={() => {
+                    setPriceTab('danawa_reviews');
+                    setTimeout(() => {
+                      reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 150);
+                  }}
+                  className="text-[13px] font-medium text-gray-500 hover:text-gray-700 underline decoration-gray-400 hover:decoration-gray-600 underline-offset-2 transition-colors"
+                >
+                  리뷰 전체보기
+                </button>
+              </div>
+              <p className="text-[15px] text-gray-800 leading-[1.6] font-medium">
+                {(() => {
+                  // 마크다운 볼드 파싱 (**text**)
+                  const parts = oneLiner.split(/(\*\*.*?\*\*)/g);
+                  return parts.map((part: string, index: number) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={index} className="font-bold text-gray-800">{part.slice(2, -2)}</strong>;
+                    }
+                    return <span key={index}>{part}</span>;
+                  });
+                })()}
+              </p>
+            </div>
+          )}
+
         {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
         <div className="h-[10px] bg-gray-50 border-y border-gray-100" />
         <div ref={reviewTabRef}>
@@ -1338,15 +1378,28 @@ export default function ProductDetailModal({ productData, category, categoryName
                     recommendationSentences.push(contextMatchData.explanation);
                   }
 
-                  // 2. 충족된 하드 필터들 (shortReason 사용)
+                  // 2. 충족된 조건들 (shortReason 사용)
                   hardFilterConditions.forEach(cond => {
                     if (cond.status === '충족') {
-                      // shortReason이 있으면 사용, 없으면 evidence에서 첫 문장 추출 (fallback)
+                      // shortReason만 사용 (두 문장 evidence는 사용하지 않음)
                       if (cond.shortReason) {
                         recommendationSentences.push(cond.shortReason);
-                      } else {
-                        const evidence = cond.evidence || cond.condition;
-                        recommendationSentences.push(evidence);
+                      }
+                    }
+                  });
+
+                  balanceConditions.forEach(cond => {
+                    if (cond.status === '충족' || cond.status === '부분충족') {
+                      if (cond.shortReason) {
+                        recommendationSentences.push(cond.shortReason);
+                      }
+                    }
+                  });
+
+                  negativeConditions.forEach(cond => {
+                    if (cond.status === '회피됨' || cond.status === '부분회피') {
+                      if (cond.shortReason) {
+                        recommendationSentences.push(cond.shortReason);
                       }
                     }
                   });

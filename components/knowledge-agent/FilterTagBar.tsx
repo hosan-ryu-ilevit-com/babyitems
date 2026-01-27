@@ -40,6 +40,9 @@ export function FilterTagBar({
       <div className="flex gap-[6px] px-4 py-2 overflow-x-auto scrollbar-hide">
         {/* "모두" 태그 - 선택 해제용 */}
         <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => onTagToggle('__all__')}
           className={`shrink-0 h-[32px] px-[14px] py-[6px] text-[14px] font-medium rounded-full transition-all flex items-center justify-center ${
@@ -51,12 +54,15 @@ export function FilterTagBar({
           전체
         </motion.button>
 
-        {/* 사용자 조건 태그들 */}
-        {tags.map((tag) => {
+        {/* 사용자 조건 태그들 - stagger 애니메이션 */}
+        {tags.map((tag, index) => {
           const isSelected = selectedTagIds.has(tag.id);
           return (
             <motion.button
               key={tag.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 + index * 0.04 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onTagToggle(tag.id)}
               className={`shrink-0 h-[32px] px-[14px] py-[6px] text-[14px] font-medium rounded-full transition-all whitespace-nowrap flex items-center justify-center ${

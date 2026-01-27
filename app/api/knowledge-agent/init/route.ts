@@ -68,7 +68,6 @@ interface TrendAnalysis {
 
 interface QuestionTodo {
   id: string;
-  contextIntro?: string;  // 앞선 선택 기반 연결 문장
   question: string;
   options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
   type: 'single' | 'multi';

@@ -1,5 +1,5 @@
-# 세션: 20260127_015726_4ach
-> 시작: 2026-01-27T01:57:26.616Z
+# 세션: 20260127_084415_0ypr
+> 시작: 2026-01-27T08:44:15.149Z
 > 카테고리키: 유아칫솔
 > 카테고리: 유아칫솔
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아칫솔 시장 현황
-- 인사이트: 유아 칫솔 시장은 구강 위생에 대한 인식 증가와 함께 꾸준히 성장하고 있습니다. 특히 캐릭터 디자인이나 게임화된 기능을 통합한 어린이용 칫솔은 아이들의 칫솔질 습관 형성에 긍정적인 영향을 미치며 수요를 견인하고 있습니다. 또한, 연령별 구강 상태에 맞는 다양한 디자인과 부드러운 칫솔모를 갖춘 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAW0nYy5hcJcquwxYTQ80iJLiFlTC2sfZeS-90GbUnHV78xH13HlUJFVPUtPGajE-FdoSc8ErrVjFljxHrfASTCUNbFo5ZNrHLwFtJWT2E13EB5sRhGb8Kx2v7htq1UTeJ3Fv18KXAKT-2kyY6eQteI4NUnRp7cnfjSMWjYRAWejedRhUSG0I8i_9MtGo6NgO7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSCiafbPZ_5pHrjYvTY4xdhtMj817iwE3aaorJlFnqRD3qD2a3QUpZ9KEfW9VFqqEAtBCx-xHYd1PKhylBVDJjjH6AkqZoKKy3AeiBYWJMYagHA7Flr98idL4rRtyOkRvhtP47pWJRM9dZqgoB6EgD8YoRhOnBGWulkST6WHzOioCIU8Ew83VlWPFa_g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJzRabfDg4MhpbkEu3FxH8hS2egwoeUIhtdKoGd9L_lEfV5hrbVPB2uzP1b6ZJS6Nk2sYtfatFqTwM514Wc7aEQASilOJ7mZcWv4QoKgLKAKe-X6CKMJz18Mt_cmXtbjLfvWVosNkvOIGUsGtJ9E4KtXcUidHkxfJt29kwsX2JFSfwAQ==
+- 인사이트: 유아 칫솔 시장은 소아 구강 위생에 대한 인식 증가와 기술 발전에 힘입어 꾸준히 성장하고 있습니다. 다양한 연령대의 어린이를 위한 맞춤형 제품이 출시되며 시장 경쟁이 치열해지고 있습니다. 특히 친환경 소재와 스마트 기술을 접목한 제품들이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF2jzKZCiYzPAPeD2_97d1327a7NdtDaFyQUjZp0AUftKuE16T96i1chgl1zPETrv7D6i-bLlkfO8yUdPX15pPQitu3BbUsK2iGFc5G-LSDSqmNBEQs48EQJOzp7apG9wvoqKWSnTLsEbfrqIk6LguzUsdMU_9pRAR0IdLc2W0EKocp48AIG-xX3WlN, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0Vc1RMPFEZ43Lw8_gQ4kigH8Oy-Ti1UdMJgF4PBSdKzYDjg2TFb4oQ4XOdOR3qLFsdRcL0Zuf_sNaaWzSzWYwB8GMe7OLSY2HFZVJHnJ4lxc4Y5ODHsPmsWlAfAhqnt4aWtoZDrzQiko0_6NPd9pwNOJjjv_u4UuH5RKKV4OsRKAFaUcQFeMoQt_9mw==
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이의 개월 수를 알려주세요. 개월 수에 따라 적합한 칫솔이 달라질 수 있어요. | 12~24개월 |
-| 어떤 종류의 칫솔을 선호하시나요? | 일반 칫솔 |
-| 칫솔모의 부드러움은 어느 정도를 선호하시나요? | 부드러움 |
-| 혹시 선호하시는 유아칫솔 브랜드가 있으신가요? | 상관없어요 |
-| 유아 칫솔 예산은 어느 정도로 생각하세요? (평균 약 2만 5천원, 1만 5천원 이하~3만 3천원대가 가장 많아요) | 1만 5천원 이하, 1만 5천원 ~ 3만 3천원 |
+| 아이의 개월 수를 알려주세요. 연령에 맞는 칫솔을 추천해 드릴게요. | 12~24개월 |
+| 칫솔 머리 크기는 어느 정도가 좋을까요? 작을수록 아이 입안 구석구석 닦기 좋아요. | 일반적인 유아용 크기 |
+| 칫솔 손잡이는 어떤 형태를 선호하시나요? 아이가 스스로 잡고 닦기 편한 디자인이 중요해요. | 캐릭터 디자인 |
+| 혹시 선호하시는 유아칫솔 브랜드가 있으신가요? 믿을 수 있는 브랜드 제품을 찾으시는 경우가 많아요. | 상관없어요 |
+| 유아 칫솔 예산은 어느 정도로 생각하세요? (평균 1만 5천원, 1만원 이하~2만원대가 가장 많아요) | 1만 5천원 내외 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 62개 (전체 62개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 에너지옵티머스 베이비펭수 3D 키즈 전동 칫솔 - 17,520원 - ⭐4.6

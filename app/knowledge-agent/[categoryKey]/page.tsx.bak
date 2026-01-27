@@ -1055,8 +1055,8 @@ export default function KnowledgeAgentPage() {
       return baseMs + (Math.random() * variation * 2 - variation);
     };
 
-    // 🆕 20초 기준 부드러운 프로그레스 애니메이션 시작
-    animateProgressSmoothly(20000);
+    // 🆕 22초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(22000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
@@ -1109,8 +1109,8 @@ export default function KnowledgeAgentPage() {
     // 2단계 완료 처리
     const step2Completed = { ...step2, status: 'completed' as const, endTime: Date.now() };
 
-    // 3단계: 리뷰 데이터 종합 평가 (5초 ±10%)
-    const step3Duration = getRandomDuration(5000);
+    // 3단계: 리뷰 데이터 종합 평가 (6초 ±10%)
+    const step3Duration = getRandomDuration(6000);
     const step3: TimelineStep = {
       id: 'step-3',
       title: '[3/4] 실제 사용자 리뷰 데이터 분석 중',
@@ -2891,45 +2891,9 @@ export default function KnowledgeAgentPage() {
                     oneLiner: a.oneLiner,
                     additionalPros: a.additionalPros || [],
                     cons: a.cons || [],
-                    prosFromReviews: a.prosFromReviews || [],
-                    consFromReviews: a.consFromReviews || [],
-                    normalizedSpecs: a.normalizedSpecs || {},
                   };
                 });
                 setProductAnalyses(prev => ({ ...prev, ...newAnalyses }));
-
-                // ✅ PLP 리스트에도 분석 결과 반영 (oneLiner/장단점)
-                setResultProducts((prev: any[]) => prev.map((p: any) => {
-                  const analysis = newAnalyses[String(p.pcode || p.id)];
-                  if (!analysis) return p;
-                  return {
-                    ...p,
-                    oneLiner: analysis.oneLiner || p.oneLiner,
-                    prosFromReviews: (analysis.prosFromReviews?.length > 0) ? analysis.prosFromReviews : p.prosFromReviews,
-                    consFromReviews: (analysis.consFromReviews?.length > 0) ? analysis.consFromReviews : p.consFromReviews,
-                    specs: (analysis.normalizedSpecs && Object.keys(analysis.normalizedSpecs).length > 0) ? analysis.normalizedSpecs : p.specs,
-                  };
-                }));
-
-                // ✅ 채팅 메시지의 resultProducts도 동기화 (비교표/리뷰 한줄 평 일관성)
-                setMessages((prev: ChatMessage[]) => prev.map((msg: ChatMessage) => {
-                  if (!msg.resultProducts) return msg;
-                  return {
-                    ...msg,
-                    resultProducts: msg.resultProducts.map((p: any) => {
-                      const analysis = newAnalyses[String(p.pcode || p.id)];
-                      if (!analysis) return p;
-                      return {
-                        ...p,
-                        oneLiner: analysis.oneLiner || p.oneLiner,
-                        prosFromReviews: (analysis.prosFromReviews?.length > 0) ? analysis.prosFromReviews : p.prosFromReviews,
-                        consFromReviews: (analysis.consFromReviews?.length > 0) ? analysis.consFromReviews : p.consFromReviews,
-                        specs: (analysis.normalizedSpecs && Object.keys(analysis.normalizedSpecs).length > 0) ? analysis.normalizedSpecs : p.specs,
-                      };
-                    }),
-                  };
-                }));
-
                 console.log('[V2 Flow - FinalInput] Product analysis complete:', Object.keys(newAnalyses));
               }
             }
@@ -2996,7 +2960,9 @@ export default function KnowledgeAgentPage() {
                           // 즉시 reviewsData 업데이트
                           setReviewsData(prev => ({ ...prev, ...top3Reviews }));
 
-                          // 리뷰 크롤링 완료 후 재호출은 비활성화 (DB 리뷰만 사용)
+                          // 🔧 리뷰 크롤링 완료 후 product-analysis 호출 (top3Reviews 직접 전달)
+                          console.log('[V2 Flow - FinalInput] 🚀 Triggering product-analysis after reviews loaded');
+                          fetchProductAnalysisForFinal(top3Reviews);
                         }
                       } catch (e) {
                         console.error('[V2 Flow - FinalInput] SSE parsing error:', e);
@@ -3512,52 +3478,10 @@ export default function KnowledgeAgentPage() {
                         oneLiner: a.oneLiner,
                         additionalPros: a.additionalPros || [],
                         cons: a.cons || [],
-                        prosFromReviews: a.prosFromReviews || [],
-                        consFromReviews: a.consFromReviews || [],
-                        normalizedSpecs: a.normalizedSpecs || {},
                       };
                     });
                     setProductAnalyses(prev => ({ ...prev, ...newAnalyses }));
-
-                    // 🆕 resultProducts에도 prosFromReviews/consFromReviews 반영 (비교표용)
-                    setResultProducts((prev: any[]) => prev.map((p: any) => {
-                      const analysis = newAnalyses[String(p.pcode)];
-                      if (analysis) {
-                        return {
-                          ...p,
-                          prosFromReviews: analysis.prosFromReviews?.length > 0 ? analysis.prosFromReviews : p.prosFromReviews,
-                          consFromReviews: analysis.consFromReviews?.length > 0 ? analysis.consFromReviews : p.consFromReviews,
-                          oneLiner: analysis.oneLiner || p.oneLiner,
-                          specs: (analysis.normalizedSpecs && Object.keys(analysis.normalizedSpecs).length > 0) ? analysis.normalizedSpecs : p.specs,
-                        };
-                      }
-                      return p;
-                    }));
-
-                    // 🆕 messages의 resultProducts도 업데이트 (비교표 일관성)
-                    setMessages((prev: ChatMessage[]) => prev.map((msg: ChatMessage) => {
-                      if (msg.resultProducts) {
-                        return {
-                          ...msg,
-                          resultProducts: msg.resultProducts.map((p: any) => {
-                            const analysis = newAnalyses[String(p.pcode)];
-                            if (analysis) {
-                              return {
-                                ...p,
-                                prosFromReviews: analysis.prosFromReviews?.length > 0 ? analysis.prosFromReviews : p.prosFromReviews,
-                                consFromReviews: analysis.consFromReviews?.length > 0 ? analysis.consFromReviews : p.consFromReviews,
-                                oneLiner: analysis.oneLiner || p.oneLiner,
-                              specs: (analysis.normalizedSpecs && Object.keys(analysis.normalizedSpecs).length > 0) ? analysis.normalizedSpecs : p.specs,
-                              };
-                            }
-                            return p;
-                          }),
-                        };
-                      }
-                      return msg;
-                    }));
-
-                    console.log('[V2 Flow] ✅ Background product analysis completed (prosFromReviews updated)');
+                    console.log('[V2 Flow] ✅ Background product analysis completed');
                   }
                 }
               } catch (e) {
@@ -4705,6 +4629,19 @@ export default function KnowledgeAgentPage() {
   );
 }
 
+// 마크다운 볼드 처리 (**텍스트** → <strong>)
+function parseMarkdownBold(text: string) {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return <strong key={index} className="font-bold">{boldText}</strong>;
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 function MessageBubble({
   message,
   onOptionToggle,
@@ -5290,7 +5227,6 @@ function MessageBubble({
               {filterTags.length > 0 && !showComparisonOnly && (
                 <div className="mb-0">
                   <FilterTagBar
-                    key={`filter-tags-${filterTags.length}`}
                     tags={filterTags}
                     selectedTagIds={selectedFilterTagIds}
                     onTagToggle={onFilterTagToggle}
@@ -5320,7 +5256,7 @@ function MessageBubble({
                    const price = cachedPrice?.lowestPrice || (danawaPrice?.lowest_price && danawaPrice.lowest_price > 0 ? danawaPrice.lowest_price : product.price);
                    const rating = product.rating || product.averageRating || 0;
                    const reviewCount = product.reviewCount || 0;
-                   
+                   const reviewOneLiner = product.oneLiner || '';
                    
                    // ✅ danawaRank: API 응답에서 직접 가져옴 (Supabase DB rank 컬럼)
                    const rawDanawaRank = product.danawaRank;
@@ -5397,7 +5333,7 @@ function MessageBubble({
                             {/* 가격 */}
                             {price && (
                               <div className="mt-2">
-                                <span className="text-[14px] font-bold text-gray-600">최저</span> <span className="text-[16px] font-bold text-gray-900">{price.toLocaleString()}원</span>
+                                최저 <span className="text-[16px] font-bold text-gray-900">{price.toLocaleString()}원</span>
                               </div>
                             )}
                           </div>
@@ -5423,6 +5359,27 @@ function MessageBubble({
 
                         {/* 요약 섹션 */}
                         <div className="space-y-4 mt-2">
+                          {/* 리뷰 한줄 평 */}
+                          {reviewOneLiner && (
+                            <div className="bg-gray-50 rounded-xl p-3 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-1.5">
+                                  <Image src="/icons/ic-star.png" width={16} height={16} alt="" />
+                                  <span className="text-[16px] font-semibold text-gray-700">리뷰 한줄 평</span>
+                                </div>
+                                <button
+                                  onClick={() => onProductClick(product, 'danawa_reviews')}
+                                  className="text-[13px] text-gray-400 font-medium underline"
+                                >
+                                  전체보기
+                                </button>
+                              </div>
+                              <p className="text-[15px] text-gray-700 leading-[1.55]">
+                                {parseMarkdownBold(reviewOneLiner)}
+                              </p>
+                            </div>
+                          )}
+
                           {/* 🆕 조건 충족 태그 뱃지 */}
                           {(() => {
                             const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;

@@ -70,8 +70,14 @@ interface ProductAnalysis {
   pcode: string;
   selectedConditionsEvaluation: ConditionEvaluation[];
   contextMatch?: ContextMatch;
+  oneLiner?: string;  // 🆕 PDP 탭 위에 표시되는 제품 한줄 평 (50-80자)
   additionalPros: Array<{ text: string; citations: number[] }>;
   cons: Array<{ text: string; citations: number[] }>;
+  // 🆕 비교표용 장단점
+  prosFromReviews?: string[];
+  consFromReviews?: string[];
+  // 🆕 비교표용 스펙 (정규화)
+  normalizedSpecs?: Record<string, string | null>;
 }
 
 // 🆕 FilterTag 타입 (final-recommend에서 전달)
@@ -109,6 +115,286 @@ interface ProductAnalysisResponse {
     generated_by: 'llm' | 'fallback';
   };
   error?: string;
+}
+
+const normalizeShortReasons = (conditions: ConditionEvaluation[]): ConditionEvaluation[] => {
+  return conditions.map((condition) => {
+    if (condition.shortReason) return condition;
+    const evidence = condition.evidence || '';
+    const firstSentenceMatch = evidence.match(/^[^.!?]+[.!?]/);
+    const shortReason = (firstSentenceMatch ? firstSentenceMatch[0] : evidence).trim();
+    return {
+      ...condition,
+      shortReason: shortReason || condition.condition,
+    };
+  });
+};
+
+/**
+ * 🆕 LLM 기반 Pros/Cons 생성 (비교표용)
+ */
+interface ProsConsResult {
+  pcode: string;
+  pros: string[];
+  cons: string[];
+}
+
+// 🆕 스펙 정규화 (비교표용)
+interface NormalizedSpec {
+  key: string;
+  values: Record<string, string | null>;
+}
+
+async function normalizeSpecsForComparison(
+  products: ProductInfo[],
+  categoryName: string
+): Promise<NormalizedSpec[]> {
+  if (!ai || products.length === 0) return [];
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: { temperature: 0.2, maxOutputTokens: 2000 },
+  });
+
+  const productsSpecText = products.map((p) => {
+    return `### 제품 ${p.pcode} (${p.brand || ''} ${p.name})
+스펙 요약: ${p.specSummary || '(정보 없음)'}`;
+  }).join('\n\n');
+
+  const pcodes = products.map(p => p.pcode);
+
+  const prompt = `당신은 ${categoryName} 스펙 비교 전문가입니다.
+아래 ${products.length}개 제품의 스펙 요약 정보를 **비교표 형식**으로 정규화해주세요.
+
+## 제품별 스펙 정보
+${productsSpecText}
+
+## 정규화 규칙
+
+### 1. 의미 중심의 스펙 추출
+스펙 요약 텍스트에서 제품 간 비교에 유용한 핵심 스펙들을 추출하세요.
+예: "용량", "재질", "무게", "크기", "소비전력", "주요 기능", "연결방식", "센서", "배터리" 등
+
+### 2. 동일 의미 스펙 키 통일 (가장 중요!)
+같은 의미의 스펙은 하나의 표준 키로 통일하세요:
+- "용량", "물통 용량", "물통용량" → **"용량"**
+- "재질", "내부 재질", "소재", "바디 소재" → **"재질"**
+- "무게", "중량", "제품 무게" → **"무게"**
+- "크기", "사이즈", "본체 크기" → **"크기"**
+- "연결", "연결방식", "인터페이스" → **"연결방식"**
+- "DPI", "해상도", "감도" → **"DPI"**
+
+### 3. 값 정규화
+- 한쪽에만 있는 스펙도 포함 (없는 쪽은 null)
+- 값은 원본의 수치와 단위를 최대한 유지
+- 최소 5개, 최대 10개의 핵심 스펙을 추출
+
+## 응답 JSON 형식
+\`\`\`json
+{
+  "normalizedSpecs": [
+    {
+      "key": "용량",
+      "values": {
+        "${pcodes[0]}": "500ml",
+        "${pcodes[1]}": "600ml"${pcodes[2] ? `,
+        "${pcodes[2]}": "450ml"` : ''}
+      }
+    }
+  ]
+}
+\`\`\`
+
+JSON만 응답하세요.`;
+
+  try {
+    console.log('[Spec Normalize] Normalizing specs for comparison...');
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (parsed.normalizedSpecs && Array.isArray(parsed.normalizedSpecs)) {
+        console.log(`[Spec Normalize] Extracted ${parsed.normalizedSpecs.length} spec keys`);
+        return parsed.normalizedSpecs;
+      }
+    }
+  } catch (error) {
+    console.error('[Spec Normalize] Error:', error);
+  }
+
+  return [];
+}
+
+// 리뷰 정성 분석 (간소화 버전)
+function analyzeReviewsForProsCons(reviews: Array<{ rating: number; content: string }>): {
+  avgRating: number;
+  topMentions: string[];
+  keyInsights: string[];
+} {
+  if (reviews.length === 0) {
+    return { avgRating: 0, topMentions: [], keyInsights: [] };
+  }
+
+  const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+  const mentionCounter: Record<string, number> = {};
+  const keyInsights: string[] = [];
+
+  const featurePatterns = [
+    /(세척|청소|분해|조립|설치|배송|소음|무게|크기|용량|디자인|품질|가성비)/gi,
+  ];
+
+  reviews.forEach(r => {
+    featurePatterns.forEach(pattern => {
+      const matches = r.content.match(pattern);
+      if (matches) {
+        matches.forEach(m => {
+          const key = m.toLowerCase();
+          mentionCounter[key] = (mentionCounter[key] || 0) + 1;
+        });
+      }
+    });
+
+    // 핵심 인사이트 추출
+    if (r.content.length > 50) {
+      if (r.rating >= 4.5 && keyInsights.length < 3) {
+        keyInsights.push(`[👍${r.rating}점] ${r.content.slice(0, 50)}...`);
+      } else if (r.rating <= 2.5 && keyInsights.length < 5) {
+        keyInsights.push(`[⚠️${r.rating}점] ${r.content.slice(0, 50)}...`);
+      }
+    }
+  });
+
+  const topMentions = Object.entries(mentionCounter)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+    .map(([k]) => k);
+
+  return { avgRating, topMentions, keyInsights };
+}
+
+async function generateProsConsWithLLM(
+  products: ProductInfo[],
+  categoryName: string
+): Promise<ProsConsResult[]> {
+  if (!ai || products.length === 0) {
+    return generateProsConsFallback(products);
+  }
+
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: { temperature: 0.3, maxOutputTokens: 4000 },
+  });
+
+  // 각 제품별 정보 구성
+  const productInfos = products.map(p => {
+    const reviews = p.reviews || [];
+    const analysis = analyzeReviewsForProsCons(reviews);
+    const reviewTexts = reviews.slice(0, 7).map((r, i) =>
+      `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 100)}${r.content.length > 100 ? '...' : ''}"`
+    ).join('\n');
+
+    return `### ${p.brand} ${p.name} (pcode: ${p.pcode})
+- 가격: ${p.price?.toLocaleString()}원
+- 스펙: ${p.specSummary || '정보 없음'}
+- 리뷰 분석: 평균 ${analysis.avgRating.toFixed(1)}점
+- 자주 언급: ${analysis.topMentions.join(', ') || '없음'}
+- 리뷰 원문:
+${reviewTexts || '(리뷰 없음)'}`;
+  }).join('\n\n');
+
+  const prompt = `## 역할
+${categoryName} 전문가로서 **실제 리뷰 내용을 기반**으로 각 상품의 장단점을 정리합니다.
+
+## 상품 + 리뷰 정보
+${productInfos}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## ✍️ 작성 규칙
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+### 장점 (pros) - 3가지
+- **사용자가 얻게 되는 구체적 이익(Benefit)**을 작성
+- **형식:** "**키워드**: 구체적 설명" (예: "**압도적 분사력**: 거실 전체가 금방 촉촉해져요")
+
+### 단점 (cons) - 2가지
+- **"구매 전 고려해야 할 현실적 특징(Trade-off)"**으로 작성
+- **형식:** "**키워드**: 구체적 설명" (예: "**소음**: 터보 모드에서는 팬 소리가 들릴 수 있어요")
+
+## 📤 응답 JSON
+{
+  "results": [
+    {
+      "pcode": "상품코드",
+      "pros": ["**키워드**: 장점1", "**키워드**: 장점2", "**키워드**: 장점3"],
+      "cons": ["**키워드**: 고려사항1", "**키워드**: 고려사항2"]
+    }
+  ]
+}
+
+⚠️ JSON만 출력
+⚠️ 반드시 모든 제품(${products.length}개)에 대해 생성
+⚠️ 리뷰에 언급 없는 내용은 작성 금지`;
+
+  try {
+    console.log('[ProsCons] Generating with LLM for', products.length, 'products...');
+    const result = await model.generateContent(prompt);
+    let responseText = result.response.text().trim();
+    responseText = responseText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+
+    if (jsonMatch) {
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (parsed.results && Array.isArray(parsed.results)) {
+        console.log('[ProsCons] LLM generated for', parsed.results.length, 'products');
+        // 누락된 제품 fallback 처리
+        const resultMap = new Map(parsed.results.map((r: ProsConsResult) => [String(r.pcode), r]));
+        return products.map(p => {
+          const match = resultMap.get(String(p.pcode)) as ProsConsResult | undefined;
+          if (match && match.pros?.length > 0) {
+            return match;
+          }
+          return generateSingleFallback(p);
+        });
+      }
+    }
+  } catch (error) {
+    console.error('[ProsCons] LLM error:', error);
+  }
+
+  return generateProsConsFallback(products);
+}
+
+// Fallback 생성
+function generateSingleFallback(product: ProductInfo): ProsConsResult {
+  const reviews = product.reviews || [];
+  const highRated = reviews.filter(r => r.rating >= 4);
+  const lowRated = reviews.filter(r => r.rating <= 2);
+
+  const pros: string[] = [];
+  const cons: string[] = [];
+
+  if (highRated.length > 0) {
+    pros.push('**품질**: 실사용자 만족도가 높아요');
+    if (highRated.some(r => r.content.includes('가성비'))) pros.push('**가성비**: 가격 대비 만족도가 좋아요');
+    if (highRated.some(r => r.content.includes('디자인'))) pros.push('**디자인**: 예쁜 디자인이라는 평가가 많아요');
+  }
+
+  if (lowRated.length > 0) {
+    if (lowRated.some(r => r.content.includes('배송'))) cons.push('**배송**: 배송 관련 불만이 일부 있어요');
+    else cons.push('**고려사항**: 일부 사용자 불만이 있어요');
+  }
+
+  return {
+    pcode: product.pcode,
+    pros: pros.length > 0 ? pros : ['**선택**: 인기 제품이에요'],
+    cons: cons.length > 0 ? cons : ['**가격**: 예산을 고려해주세요'],
+  };
+}
+
+function generateProsConsFallback(products: ProductInfo[]): ProsConsResult[] {
+  return products.map(generateSingleFallback);
 }
 
 /**
@@ -267,8 +553,30 @@ ${userContext.conversationSummary ? `### 대화 요약\n"${userContext.conversat
     "matchedPoints": ["매칭 포인트1", "매칭 포인트2"]
   },` : '';
 
+  // oneLiner 섹션
+  const oneLinerSection = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## oneLiner (한줄 평) 작성 규칙
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**용도**: PDP 탭 위에 표시되는 제품의 핵심 강점
+**길이**: 50-80자
+**형식**: 이모지 + 핵심 강점 + 리뷰 인용
+
+### ✅ Good Examples
+- 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** 수면풍 모드가 있어 조용히 사용 가능해요
+- ⚡ **빠른 가열로 바쁜 아침도 여유롭게!** 리뷰에서 '20분이면 완성'이라는 평가가 많아요
+- 💪 **스테인리스 내솥으로 오래 사용해도 안심!** 코팅 벗겨짐 걱정 없다는 리뷰 다수
+
+### 작성 규칙
+1. 제품 중심 - 제품 자체의 강점 표현 (사용자 조건 무관)
+2. 구체적 근거 - 스펙이나 리뷰에서 확인 가능한 내용만
+3. 자연스러운 톤 - 친근하면서도 신뢰감 있게
+4. 금지 패턴 - "실제 사용자들이...", "리뷰에 따르면..." 사용 금지
+`;
+
   const prompt = `당신은 ${categoryName} 전문 큐레이터입니다.
-사용자가 선택한 조건을 이 제품이 얼마나 충족하는지 분석해주세요.
+사용자가 선택한 조건을 이 제품이 얼마나 충족하는지 분석하고, 제품의 핵심 강점을 한줄로 요약해주세요.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 제품 정보
@@ -281,7 +589,7 @@ ${userContext.conversationSummary ? `### 대화 요약\n"${userContext.conversat
 
 ## 리뷰
 ${reviewStr}
-${conditionSection}${contextSection}${preEvalHints.length > 0 ? `
+${conditionSection}${contextSection}${oneLinerSection}${preEvalHints.length > 0 ? `
 ## 참고: 사전 분석 결과 (이 정보를 우선 활용하세요)
 ${preEvalHints.join('\n')}
 ` : ''}
@@ -367,6 +675,7 @@ ${preEvalHints.join('\n')}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 {${conditionFormat}${contextFormat}
+  "oneLiner": "제품의 핵심 강점을 담은 한줄 평 (50-80자, 이모지 포함)",
   "additionalPros": [
     { "text": "추가 장점 1", "citations": [] },
     { "text": "추가 장점 2", "citations": [] }
@@ -410,8 +719,9 @@ ${preEvalHints.join('\n')}
 
     return {
       pcode: product.pcode,
-      selectedConditionsEvaluation: parsed.selectedConditionsEvaluation || [],
+      selectedConditionsEvaluation: normalizeShortReasons(parsed.selectedConditionsEvaluation || []),
       contextMatch: parsed.contextMatch,
+      oneLiner: parsed.oneLiner || `✨ ${product.brand || ''} ${product.name?.slice(0, 20) || ''}`,
       additionalPros,
       cons,
     };
@@ -496,6 +806,7 @@ function generateFallbackAnalysis(
           explanation: contextExplanation,
           matchedPoints: [],
         } : undefined,
+        oneLiner: `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`,
         additionalPros,
         cons,
       };
@@ -591,6 +902,7 @@ function generateFallbackAnalysis(
       explanation: contextExplanation,
       matchedPoints: [],
     } : undefined,
+    oneLiner: `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`,
     additionalPros,
     cons,
   };
@@ -618,15 +930,48 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
       return analyzeProduct(product, categoryName || categoryKey, userContext, productPreEval, filterTags);
     });
 
-    const analyses = await Promise.all(analysisPromises);
+    // 🚀 최적화: Pros/Cons는 Flash Lite 사용 (백그라운드 prefetch 가속)
+    const prosConsPromise = generateProsConsWithLLM(products.slice(0, ANALYSIS_LIMIT), categoryName || categoryKey);
+
+    const [analyses, prosConsResults, normalizedSpecsArray] = await Promise.all([
+      Promise.all(analysisPromises),
+      prosConsPromise,
+      normalizeSpecsForComparison(products.slice(0, ANALYSIS_LIMIT), categoryName || categoryKey),
+    ]);
+
+    // 🆕 Pros/Cons 병합
+    const normalizedSpecsMap: Record<string, Record<string, string | null>> = {};
+    if (normalizedSpecsArray && normalizedSpecsArray.length > 0) {
+      products.slice(0, ANALYSIS_LIMIT).forEach(product => {
+        const productSpecs: Record<string, string | null> = {};
+        normalizedSpecsArray.forEach((spec: NormalizedSpec) => {
+          productSpecs[spec.key] = spec.values[product.pcode] || null;
+        });
+        normalizedSpecsMap[product.pcode] = productSpecs;
+      });
+      console.log(`[Spec Normalize] ✅ Normalized specs generated for ${Object.keys(normalizedSpecsMap).length} products`);
+    } else {
+      console.log('[Spec Normalize] ⚠️ No normalized specs generated (fallback or empty)');
+    }
+
+    const enrichedAnalyses = analyses.map((analysis: ProductAnalysis) => {
+      const prosConsMatch = prosConsResults.find((pc: ProsConsResult) => pc.pcode === analysis.pcode);
+      return {
+        ...analysis,
+        prosFromReviews: prosConsMatch?.pros || [],
+        consFromReviews: prosConsMatch?.cons || [],
+        normalizedSpecs: normalizedSpecsMap[analysis.pcode] || {},
+      };
+    });
+
     const generated_by = ai ? 'llm' : 'fallback';
 
-    console.log(`[knowledge-agent/product-analysis] Complete: ${analyses.length} analyses (${generated_by})`);
+    console.log(`[knowledge-agent/product-analysis] Complete: ${enrichedAnalyses.length} analyses (${generated_by})`);
 
     return NextResponse.json({
       success: true,
       data: {
-        analyses,
+        analyses: enrichedAnalyses,
         generated_by,
       },
     });

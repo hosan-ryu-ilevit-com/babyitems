@@ -15,8 +15,6 @@ interface Product {
   rating?: number | null;
   averageRating?: number | null;
   reviewCount?: number | null;
-  oneLiner?: string;
-  personalReason?: string;
   recommendReason?: string;
   recommendationReason?: string;
   id?: string;
@@ -68,8 +66,6 @@ function ResultCard({
   const hasLowestPrice = danawaPrice && danawaPrice.lowest_price && danawaPrice.lowest_price > 0;
   const price = hasLowestPrice ? danawaPrice!.lowest_price! : product.price;
   const rating = product.rating || product.averageRating || 0;
-  const oneLiner = product.oneLiner || '';
-  const personalReason = product.personalReason || '';
 
   return (
     <motion.div
@@ -148,45 +144,6 @@ function ResultCard({
           )}
         </div>
       </div>
-
-      {/* 한줄 평 & 추천 이유 */}
-      {(oneLiner || personalReason) && (
-        <div className="mt-4 space-y-3">
-          {/* 한줄 평 */}
-          {oneLiner && (
-            <div>
-              <div className="flex items-center gap-1.5 mb-2.5 px-1">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/icons/ic-ai.svg" alt="" width={14} height={14} style={{ filter: 'sepia(1) saturate(3) hue-rotate(-10deg) brightness(1.1)' }} />
-                <span className="text-[16px] font-medium bg-linear-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">한줄 평</span>
-              </div>
-              <div className="relative pl-3 mb-2 ml-2 mr-1">
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full bg-linear-to-b from-amber-400 to-orange-400 opacity-60" />
-                <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
-                  {parseMarkdownBold(oneLiner)}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* 추천 이유 */}
-          {personalReason && (
-            <div>
-              <div className="flex items-center gap-1.5 mb-2.5 px-1">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/icons/ic-ai.svg" alt="" width={14} height={14} />
-                <span className="text-[16px] font-medium ai-gradient-text">추천 이유</span>
-              </div>
-              <div className="relative pl-3 mb-2 ml-2 mr-1">
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded-full ai-gradient-bg opacity-50" />
-                <p className="text-[14px] text-gray-600 leading-[1.4] font-medium">
-                  {parseMarkdownBold(personalReason)}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
 
       {/* 버튼 - 항상 하단 고정 */}
       <div className="mt-auto pt-4 space-y-2">

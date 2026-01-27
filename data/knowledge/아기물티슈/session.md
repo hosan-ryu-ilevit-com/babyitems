@@ -1,5 +1,5 @@
-# 세션: 20260127_043311_44cs
-> 시작: 2026-01-27T04:33:11.290Z
+# 세션: 20260127_080117_ad3l
+> 시작: 2026-01-27T08:01:17.739Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 지속적인 성장세를 보이며, 2023년 약 124억 달러 규모로 평가되었습니다. 향후 5.6%의 연평균 성장률이 예상되며, 특히 안전성과 성분을 중요시하는 소비 트렌드가 강하게 나타나고 있습니다. 베베숲은 9년 연속 국내 판매 1위를 기록하며 시장을 선도하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0qhswRZBkan03zwF7HN1eLHtM0XJvYX3i3pypJ6_cIRvbGEVcQTs0uD7cld5WqexoE-IDqWwIaFqdL_WHRhMQMrnBjVM1svfxCcpemAH2hH0qpipLeRTTzXNv2tHl0iwQBZcMsUzkEQ50tJZWWrxgzxbzzCemax9Yz_M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFkK7h2B7zkgbhbWJzC0ROY68OOHpvQgICs8Xkp4XWKYJ3Z0LIKtbZApKoL4ngReaV_rIfQETnLuON67aBK2YXQijPciIjPNCebF74u5giJZqkzp-7Up5yeUKb4hNClYcJGBNgxahENqkfTtLifMtPk64VVRksahf0I7JpaBp6o82QDSO4M0fszOM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHs9yxeK4NQaef_urX-fC_-KKSnU1a4iGQYASeOo9Sfz55ikcWfNVL80M4sSimd-hAFRPQCy29Qb-3UAiXKQsWjAA4635O9QvW37fMtqGaA1Pucia0lZcZaEiIfY-FFisjOcWebhy8yah8bQdz9gH0ZeYpIohlGUKE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFM7gr0zCV8VRn3V2n7QGWBKv5MvatFP2l3t2yOO99AIupbIR-YSWxUuRILpj0fTiCCfx4XT_LpO0OPq1m6N2Z-Isr4lEFWnRMjzGxRiqdkR4AJoqtVehuIck7TRJBMQubneR6ys-vzDMG1Iig_RmBi7vg6luBr_yLHbrAamVFYdv090laQqDIJYqeGIcCWvgyWCwU7Yw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgxoHVsmWgUSDSAurR0ajXtPdN5s0kipoltas7D54D1oVBRSB5zi09TSce-Gddf_Vsh3WTZCSy7LTUwwt2CQB3voTi5pAz8JFvhS5SItAOSL4-aUaIcdvtojaChHCyFPiy_eg4dmfLIGloCPdKFJzXVkMPFinXeMKpbyKw3ifv, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4cxjAHyLV7BmCNR8469P52z9-bJaIl43BExCmzC6_VH-mrTDyKvFtTq7r1Dq0p-ymh1l3V0NKwU9nXHunqwn52YN3LDUTAHz06SOrRlDROr8ORVxP_7TBdzeop7QxjQrvR12nxLBb3OaTBqezmPnHDiReeGm3KlSw
+- 인사이트: 2023년 기준 약 124억 달러 규모로 평가된 아기 물티슈 시장은 가처분 소득 및 구매력 증가에 힘입어 2024년부터 2032년까지 연평균 5.6%의 성장률을 기록할 것으로 예상됩니다. 또한, 아기 물티슈는 2025년까지 전체 물티슈 시장 매출의 39.86%를 차지할 것으로 전망되며, 이는 위생에 대한 필수성, 잦은 일상 사용, 지속적인 제품 혁신에 기인합니다. 베베숲은 2024년 국내 물티슈 시장 점유율 26.4%로 1위를 차지하며 시장을 선도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJB0x3tA1cKY_0sQh3QpjQg0TRHZ9CyQSx2OYby4XnVVaKNvYEjBTjU98eoEksGBbVOG9FcO65qTRE15ZJABJOTSaQ1ar8eSGnarGKvMd7gR3EdKegSCXW_Q3CdilIjIbXF6UFR7e_TuS0EOBcdg0U_T_3V4kDizqG2Hry, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGowcmsKNqjCZNp-567DCTW1qfmCsbWhcEfv7tIb219MOCZ6JNhpyt47fG-lp476SD5-VKjWNtFhmlfERE_oc-AjfEITRSRkehu-2nWRzM0BFlNwqDqj2RnqVMlMJbWegvlo8lslJU0-Ggtsxnzg4ZzHkJp7NlFNQ9C0g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcpCeRt2Gnatc9d5U9ioBTsBYaBfOq53yRo6-RCo8zb3ySun14UVJu6f4nnpEVTWo2vI3GhrmYPzSa76OtyLknc8i4BHvMAQUpwRJThohNZfB384U1yWse3MybJnSEbq67l1F6b1Cw8QX-4ffJy6cTfAEMQKvO-6pp, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHk0vnlicmfMbNP1mR9-GdZJ3epCAyihtOkQPDVoObrrK7223Q0TGqIsdgAJRTq-1d9LmkN174_Ls_wNdy29ViHSOklmIsqOku6HG-gUOz2_P6zxgVYMATJU5CduIZ_xXauOE9O9y4WaNEMWK4-mtHldbr5AnWCHeFgCg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEu2wMGcu5SvRjbCPn7X1qQ4u7fNUnsQlqrDyNMnLCpCGmSBHdoxjzXZAk751PH1zWZ9wal5FDYH9yvHsND_orHnv0VXjkPkBbOd0qWZb5OGQ51pc8dAfjbsMpy9ixVmWLWmeuda-CepNY1XchF7l92ncbnOY8QDEHmtksToCCeEdZamQqyPRvMD6jze7CkMJV93ko4qrg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpIewujONzrzu2zccjj9yuvgb3U4p3tiNV_6XeW6vft3GglGTxTVGjcC2k6wlsJYFM3i0WPsHxbJGO56Oc7FySeSqp8BKMNzJ71LYWDuX1CzTtPNnB_oThgHGJqcjXjLxjAnv-wM1aeTOBpLb4DeEhrta6QUv4Yy4otzk=
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 피부에 직접 닿는 만큼, 성분에 대해 가장 중요하게 생각하시는 부분이 있으신가요? | 무향/저자극 |
-| 물티슈의 두께는 어느 정도를 선호하시나요? 두꺼울수록 여러 번 닦아도 잘 찢어지지 않아요. | 도톰한 두께 |
-| 물티슈 표면의 엠보싱 유무는 어떤 것을 선호하시나요? | 엠보싱 원단 |
-| 아기물티슈는 아기 피부에 직접 닿는 만큼, 특별히 선호하시거나 믿음이 가는 브랜드가 있으신가요? | 아이러브베베, 그린핑거 |
-| 예산은 어느 정도로 생각하세요? (평균 1만 2천원, 6천원~1만 5천원대가 가장 많아요) | 6천원 ~ 1만 5천원대, 1만 7천원 이상 |
+| 아기 물티슈, 혹시 선호하시는 브랜드가 있으신가요? | 아이러브베베, 순둥이 |
+| 물티슈를 고를 때 가장 중요하게 생각하는 점은 무엇인가요? (두께감) | 적당히 도톰한 두께 (60~70gsm), 도톰하고 튼튼한 두께 (70gsm 이상) |
+| 아기 피부에 직접 닿는 만큼, 성분은 얼마나 중요하게 생각하시나요? | 저자극, 무향 제품 선호, EWG 그린 등급 성분 위주 |
+| 물티슈의 원단은 어떤 느낌을 선호하시나요? | 엠보싱 원단 |
+| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 약 1만 2천원, 6천원~1만 6천원대가 가장 많아요) | 6천원 ~ 1만 6천원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 106개 (전체 106개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 아이러브베베 시그니앙 블랙라벨 물티슈 캡형 70매 - 13,950원 - ⭐4.7

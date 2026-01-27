@@ -1,5 +1,5 @@
-# 세션: 20260127_041307_wni2
-> 시작: 2026-01-27T04:13:07.578Z
+# 세션: 20260127_072830_geie
+> 시작: 2026-01-27T07:28:30.543Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 시장 현황
-- 인사이트: 유아 간식 시장은 '골드 키즈' 및 '에잇 포켓' 소비 트렌드에 힘입어 지속적으로 성장하고 있으며, 2017년 기준 940억 원 규모에서 2022년 2534억 원으로 크게 증가했습니다. 특히 간편 영유아식 시장은 2020년 1671억 원을 기록하며 2015년 대비 2배 이상 성장했습니다. 이는 맞벌이 가정 증가로 인한 소득 향상과 더 좋은 원재료를 사용한 프리미엄 제품에 대한 수요 증가가 주요 원인으로 분석됩니다. 또한, 까다로운 인증 기준을 통과한 제품이라는 점에서 소비자 신뢰도가 높은 것도 시장 성장에 기여하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEf2ah44GE3bbkVDFqdGpAGdaRJP_kV40P50juiF12snrj9mQ0xfMtkbh6BMc8DVqOcofXq-ebu5IDaTtAfxuYF1tjOUTls5gY1IpE24FRRZWJgBr4-v7WugcaiEjvz5p5c3CsPotGw97lSfUGMWrsEYV0UVhvmWw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGIEMl_t-3ix2sPjtnaczw-IM2Kz9cYAINY2QDBwLdogH6eIPhsvh2tGHFN51lpg-K037eWMYs7BL5nLvPI6GzQ60gDzxJuB4c6GtEGNbT43bqf3WRo29bqSTjZ_6WlFOOQ-f0sayTsg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoJ87Ejo01_6al17hg3Yu-0cZITseT6wy0_xuNuXPehV0kesklZzSFjI7aGWDE_R5YQ76OzHvqmBceT9Xo1TyYn5RrQEv4ZPjwqqdjAn3WI-9t4JuE7FbCpyTutBlu7lAlO1oWB4L6bTkdSkGvE6POK2AwhoJY-vF4GZ8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyOHq_O9qis8uElI3xuibVvsSKIkJ-TRwCVhSmzjyf_Yc-NYvCvp5Jc_pzCcCNhj2nBfPDCgYYAI7wFefOR5LgNO0MgGgSR90enYdGLnNfQpszVShfmpvyxMujFCPNq_3NEGi93KJBjGlnEHF4WykdPMiUNoIYqYgRkMlHjnA8PtkhLZCnCTWeF7CqBKV3Y5JUbQHXGIBB, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGp3tG4dXRQFOkPUkpcavTCxWVbql170A2gCSO8HoAepDthyNxFAVbsaKzvG8ZKYwup8GwGkP5qcUylvdyCiPXEi1UA_lZEURuhapZCi7Y1V1Qh6gfJodNtPg4Ov5lUMzS1PA-MXQPsFQ78gkahM2HCoI9vF80=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE083eXUS-IRIUxL_Kv2VJovDQpjaXUGpbj3cAlFJRJaUR_u4N5BHO3tZnAY2BDkAXEDJMK7DJej6zfildS1a_KoieR2sdfllY8oJVvgCixkhjJyqcLQu4GPi_ovby4XsYiDma48NmR
+- 인사이트: 저출산 기조에도 불구하고 프리미엄 유아 간식 시장은 꾸준히 성장하고 있습니다. 부모들은 아이의 건강과 면역력을 고려하여 차별화된 먹거리 제품에 아낌없이 투자하는 경향을 보입니다. 특히 간편 영유아식 시장은 2020년 1671억 원에서 2025년 3330억 원 규모로 성장할 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE35q5ZTwKyT16iFO_wvLcMDtY1hHIYE6E-N4xCFVxeW3aPAyT4EiDKOevJNPy_tC0yXHjr_TiC2IFgIAozEA9KQRorm4Bf57cmu2gwK3-Q3JW-6k1dmtU0oeU9iLU2PENCQpKNEH5z6JZT6otvm45M1f60PPqYeXE-OxuZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUJSWPWu96k7dThEAcJYbr2rLhnb4gbqJE6l8PmSs7XdG9B-ALTuTY7gs56yxIDvqEfr6erPDdX8xf5QX9uTyz0n4do8afWuoloQ7l67Zt_C_lGAOn83NY29X3OyE1uR-kx0nu_yqsXss=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl2c1mqZ0Hh3J3SWHX7OzUqeFc_ss-i47xfem4qVY5reQ7a0AzuZMB4bQIpH_Q3MUHj5-lf9qZXi1t0tJW7XQ9IyWnfhG6cHz05oGIUMN26-Tfw585C140dJccU6RoqgfC_YZ1kjN1Sw2NDAvWQW1JxNDt4ey8vvNxu_Idl8FVc8bRR2oX5SbO4rYTtIoAVg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEt0ufDnoOHHvcoNe7G5tNI7_G4FYD9LtA1M00xRHXkKhNvpN2zZCMc6bF8C9kspAEd0PlLs-1yx4YJoPyML5-rFG_QPBM80urOIHz7-zu1YEAkGKtuv0swCVfpHSBCINN8E9qeFso7q_U8gO-t28LiHh8fYrReptg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEl_o_sevqTL3hCSCRX4fx_vGZGAS3Dpfno73LsbgPcPMNT8xswW31QUTY3E21xXVNs0INgaK6nlwgb4vBqEyewFdeRNOruweS_v8no4Jt_exPl6QNwrsDf_-rBvL8dhMthKDVQvZnMktf6Gnr4w8mdKOXaNg=
 
 ---
 
@@ -16,17 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 먹을 간식인가요? 아이의 연령을 알려주세요. | 12-24개월 |
-| 간식 선택 시 가장 중요하게 생각하는 성분은 무엇인가요? | 유기농/무첨가, 저자극/알레르기 프리 |
-| 어떤 형태의 간식을 선호하시나요? | 과자/떡뻥 |
-| 믿고 구매하는 유아간식 브랜드가 있으신가요? | 매일유업, 앙팡 |
-| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 8천원, 1만원 내외가 가장 많아요) | 1만 5천원 ~ 3만원대 |
+| 아이가 간식을 먹기 시작한 지 얼마나 되었나요? (월령별 권장) | 12~24개월 |
+| 간식 선택 시 가장 중요하게 생각하는 성분은 무엇인가요? | 유기농/천연 재료 |
+| 어떤 형태의 간식을 선호하시나요? | 젤리/말랑한 간식, 과자/스낵 |
+| 혹시 선호하시는 유아간식 브랜드가 있으신가요? | 핑크퐁, 앙팡, 매일유업 |
+| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 4천원대가 가장 많아요) | 6천원 ~ 1만 4천원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 24개 (전체 24개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 핑크퐁 아기상어 아이비타CD+아연 30정 - 1,010원 - ⭐5
