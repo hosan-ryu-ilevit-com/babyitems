@@ -1346,8 +1346,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                         recommendationSentences.push(cond.shortReason);
                       } else {
                         const evidence = cond.evidence || cond.condition;
-                        const firstSentence = evidence.match(/^[^.!?]+[.!?]/) ? evidence.match(/^[^.!?]+[.!?]/)![0] : evidence;
-                        recommendationSentences.push(firstSentence);
+                        recommendationSentences.push(evidence);
                       }
                     }
                   });
