@@ -1183,12 +1183,14 @@ export default function KnowledgeAgentPage() {
     msgs: ChatMessage[],
     _reviews?: Record<string, any>,  // 더 이상 저장 안 함 (Supabase에서 가져옴)
     prices?: Record<string, any>,
-    tags?: FilterTag[]
+    tags?: FilterTag[],
+    analyses?: Record<string, any>  // 🆕 PDP 분석 데이터 (왜 추천했나요?, 주요 포인트)
   ) => {
     console.log('[KA Storage] saveResultToStorage called:', {
       productsLength: products?.length,
       msgsLength: msgs?.length,
       tagsLength: tags?.length,
+      analysesCount: analyses ? Object.keys(analyses).length : 0,
       STORAGE_KEY
     });
 
@@ -1218,6 +1220,8 @@ export default function KnowledgeAgentPage() {
         // reviewsData 제외! (Supabase에서 가져옴)
         pricesData: prices || {},
         filterTags: tags || [],
+        // 🆕 PDP 분석 데이터 캐싱 (왜 추천했나요?, 주요 포인트)
+        productAnalyses: analyses || {},
         savedAt: Date.now(),
       };
 
@@ -1281,9 +1285,13 @@ export default function KnowledgeAgentPage() {
         // filterTags 복원
         if (data.filterTags && Array.isArray(data.filterTags)) {
           setFilterTags(data.filterTags);
-          console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags.length, 'tags, re-sorted by tagScores)');
+        }
+        // 🆕 PDP 분석 데이터 복원 (왜 추천했나요?, 주요 포인트)
+        if (data.productAnalyses && Object.keys(data.productAnalyses).length > 0) {
+          setProductAnalyses(data.productAnalyses);
+          console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags?.length || 0, 'tags,', Object.keys(data.productAnalyses).length, 'analyses, re-sorted by tagScores)');
         } else {
-          console.log('[KA] ✅ Result restored from localStorage (no tags, re-sorted by tagScores)');
+          console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags?.length || 0, 'tags, no analyses, re-sorted by tagScores)');
         }
         return true;
       }
@@ -1456,11 +1464,12 @@ export default function KnowledgeAgentPage() {
         resultProductsLength: resultProducts.length,
         hasResultMessage,
         messagesCount: messages.length,
-        filterTagsCount: filterTags.length  // 🆕 태그 수도 로깅
+        filterTagsCount: filterTags.length,
+        analysesCount: Object.keys(productAnalyses).length  // 🆕 PDP 분석 데이터 수도 로깅
       });
 
       if (hasResultMessage) {
-        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags);
+        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses);
       } else {
         // ⚠️ messages에 resultProducts가 아직 없으면 다음 렌더에서 다시 시도
         // 하지만 이미 resultProducts가 있으므로 직접 저장 시도
@@ -1475,10 +1484,10 @@ export default function KnowledgeAgentPage() {
           resultProducts: resultProducts,
           timestamp: Date.now()
         };
-        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags);
+        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags, productAnalyses);
       }
     }
-  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, saveResultToStorage]);
+  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, saveResultToStorage]);
 
   const initializeAgent = async () => {
     const initialQueries = [
