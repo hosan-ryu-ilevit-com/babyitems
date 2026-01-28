@@ -1,5 +1,5 @@
-# 세션: 20260123_083858_6fgd
-> 시작: 2026-01-23T08:38:58.519Z
+# 세션: 20260128_051907_bsda
+> 시작: 2026-01-28T05:19:07.380Z
 > 카테고리키: 선풍기
 > 카테고리: 선풍기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 선풍기 시장 현황
-- 인사이트: 선풍기 시장은 에어컨 보급 확대에도 불구하고 견조한 판매량을 유지하고 있으며, 특히 1인 가구 증가와 에어컨 보조 냉방 수요로 인해 꾸준한 성장을 보이고 있습니다. BLDC 모터를 탑재한 프리미엄 제품이 시장을 주도하고 있으며, 저소음, 저전력, 고효율을 강점으로 내세우고 있습니다. 중국산 저가 제품의 공세 속에서도 브랜드 충성도와 기술 신뢰도를 바탕으로 국내 시장 점유율을 유지하려는 노력이 이어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRzaMb7pbN0oBVV54UasBSSmdRqlkHI_1LtBj34eBOeVKI3C-KtvLMH6Fo2AbnRQ5JoapjH3adgbQX9EY6LSZaLE97csArqNWSv2gKyYiPYfLG4HZ4VRrfOSrOedrg_GApnBireA9N6aErFR8_VbO0zTK6CZnBOw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEx0KAu7-OguM3OUk5ZusQgL7Bw6GKxk65rFvIZnl5onOf8hgWnrLxNvFxvayKfQyy-XHO9GUmh6F3_RjjNZXs88dTPjAnlI0YvvTE3V5DUkTuBf0uQ34aL1ps21yyBVVyvP7J2INwdW-zJk8f9ZVOPn-BO6b3zA7DhC4yz5sGOAQXxMNcMeCTP2g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEYZxZ1aRWvlS_Kjdg43jR7ye2fjBi7BcuuqiBjCfuTunDff4X0MKocY7HgIH9TzrmRjz4-BbskVulqCLkGh-rOoVylPn1anVdMNORrYLR-Q_5HVN5YIF7IL10qp60C3_s95qUu_X84QB-dL-xMLc1Uf5baBA89DdEK44bwO9PGgLChq3lf1wfk5U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOIQkuYczwJ31GXLKdjUV1v_lkYcRth4Y7s2k19jL_2LA4vto5QjVm0TOECSiAW3Tqjx77utq1rS-u6pJv9fMVc_c9zaFY5NtP1vzSEsOLu3n5kiAIXko48wpp2nxK3TB7Y7Q2db0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHS0A8H9Wm20LgoVLkehHYhtxJqQwwTH8Vy6A-cxNw9jIV98UqwApsTsGbf5D4VzF1R8XotyDkpHF4pBZUL7TvYC99i2TyqlsFKIvqQS5k3-6bZQbaiWd6tQzT9X-uUyLeczZTtV7Y=
+- 인사이트: 2024년 기준 전 세계 선풍기 시장 규모는 약 137억 5천만 달러로 추정되며, 2032년까지 연평균 8.2%의 성장률을 기록하며 265억 달러에 이를 것으로 예상됩니다. 특히 BLDC 모터를 탑재한 프리미엄 선풍기 제품이 시장을 주도하고 있으며, 이는 저소음, 고효율, 절전 기능에 대한 소비자 선호도가 높아졌기 때문입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzqB10XFnR3SgJa4Tva6DoDd5841Nnme2cTLHl0-hHnmtgeLPiczUi1icfGiBxrfCmxmrkc_8uzGzIUJtqbRr9nvC_OzFVC6Qvx4rFyRTudpgJzpdWCcnuivQHyKgmPz2xQM1XZJIzqRikdJJiilw-hy6782mp83Am0G5WBKpyyHWO0w0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-y8meg7l9oIYxN_u9saT2jHTVigGDE_ZopxbqWcQ7iUHm_KizDoN3fshtbo04aFiaHe10yTKvpNv5Q01R6e1Mfnma4S2wQJBbdLFRzl7Qmr8EahksCPPgFXltcWPHP8Hc5J4wbz7y36-AmWumWiGneOpWUY2UjuzmQMqCyUAktlrItOxPQTiIpgU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoQlKlOK8Z1zhbzDaNgiymO6mtBZqDyKfV4p4amJBIq5S4ZtqBLKI1IsK2WH-7DaA-eLDAnreJg-aod9Q0q4e2TLut0zKYoaeMe-x03XkrAEYPCcRpgPhTK614bCtRbWnLX_sennfG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGE7OElBSMGKtQdVcp_njcs1haAZeqikqzUpj9b3cV6s26VXbDDtahdH3E4AYo9nxGbOYVtby_lcyEIhc6YSm6YnEL38awyqFQagZtk6Dkl5tiRbza5FKIn0h16J_HUcubgWbXNwj9FomkLuUhQujyyQyZ64h7K08McUwdwJFFTLBFmlU9LC4ctzLs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETk8VLaqsYyedGCqgz6IbAHhnTnC3Nr0FLW4dxrt77EJwU2ZmgCzC9RmtaLGPStWeWWSLyGGUAHSGv5Ty_5xiYmiI8-ydn1N1bwYsXggD3ZbXZuZlRpQfq4hVICR7l8ROkSrCukIw=
 
 ---
 
@@ -16,18 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 선풍기를 주로 어디에서 사용하실 예정인가요? | 거실, 사무실 |
-| 선풍기 모터는 어떤 방식을 선호하시나요? | BLDC 모터 |
-| 선풍기를 이동하며 사용하실 계획이 있으신가요? | 무선 |
-| 선호하시는 선풍기 브랜드가 있으신가요? | 루메나 |
-| 예산은 어느 정도로 생각하세요? (평균 약 9만 8천원, 5만 9천원~12만 8천원대가 가장 많아요) | 5만 9천원 ~ 12만 8천원 |
-| __avoid_negatives__ | 날개나 커버 부분을 분리해서 청소하는 과정이 번거로울 것 같아요,무선으로 사용하려면 배터리 충전이 자주 필요해서 이동 중에 불편할까 봐 걱정돼요 |
+| 선풍기를 주로 어떤 공간에서 사용하실 예정인가요? | 거실/안방 (넓은 공간) |
+| 선풍기 모터 방식 중 선호하는 것이 있으신가요? | BLDC 모터, DC 모터 |
+| 선풍기에 스마트 기능이나 편의 기능이 얼마나 중요하신가요? | 기본 기능만으로 충분해요 |
+| 선호하는 선풍기 브랜드가 있으신가요? | 샤오미, 루메나 |
+| 선풍기 예산은 어느 정도로 생각하세요? (평균 약 14만원, 8만원~18만원대가 가장 많아요) | 8만원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 94개 (전체 94개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 신일전자 SIF-DC614WH - 79,880원 - ⭐4.6
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 날개나 커버 부분을 분리해서 청소하는 과정이 번거로울 것 같아요
-- 무선으로 사용하려면 배터리 충전이 자주 필요해서 이동 중에 불편할까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

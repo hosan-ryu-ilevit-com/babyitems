@@ -123,7 +123,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
   const [showPhotoOnly, setShowPhotoOnly] = useState(false); // 포토리뷰만 보기
   const [displayedReviewsCount, setDisplayedReviewsCount] = useState(30); // 리뷰 lazy loading
   const [showBlogReview, setShowBlogReview] = useState(false); // 블로그 후기 바텀시트
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [priceData, setPriceData] = useState<PriceData>({
     loading: false,
     lowestPrice: null,
@@ -168,23 +168,26 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
   // 포토리뷰 개수 계산
   const photoReviewCount = (product.reviews || []).filter(r => r.imageUrls && r.imageUrls.length > 0).length;
 
-  // Intersection Observer로 무한 스크롤
+  // 스크롤 이벤트로 무한 스크롤 (IntersectionObserver보다 모달에서 안정적)
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && displayedReviewsCount < filteredAndSortedReviews.length) {
-          setDisplayedReviewsCount(prev => Math.min(prev + 20, filteredAndSortedReviews.length));
-        }
-      },
-      { threshold: 0.1 }
-    );
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      // 하단에서 300px 이내로 스크롤하면 더 로딩
+      if (scrollHeight - scrollTop - clientHeight < 300) {
+        setDisplayedReviewsCount(prev => {
+          const total = filteredAndSortedReviews.length;
+          if (prev >= total) return prev;
+          return Math.min(prev + 30, total);
+        });
+      }
+    };
 
-    return () => observer.disconnect();
-  }, [displayedReviewsCount, filteredAndSortedReviews.length]);
+    scrollContainer.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scrollContainer.removeEventListener('scroll', handleScroll);
+  }, [filteredAndSortedReviews.length]);
 
   // Fetch prices from Danawa
   const fetchPrices = useCallback(async (pcode: string) => {
@@ -276,7 +279,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
         </header>
 
         {/* Scrollable Content Area */}
-        <div className="flex-1 overflow-y-auto bg-[#FBFBFD]">
+        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto bg-[#FBFBFD]">
           {/* Thumbnail */}
           <div className="px-5 pt-6">
             <motion.div 
@@ -834,9 +837,9 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                 ))}
               </div>
 
-              {/* 무한 스크롤 트리거 */}
+              {/* 무한 스크롤 표시 */}
               {filteredAndSortedReviews.length > displayedReviewsCount && (
-                <div ref={loadMoreRef} className="py-4 text-center">
+                <div className="py-4 text-center">
                   <span className="text-[12px] text-gray-400">
                     스크롤하여 더 보기 ({displayedReviewsCount}/{filteredAndSortedReviews.length})
                   </span>

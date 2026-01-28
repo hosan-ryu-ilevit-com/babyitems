@@ -954,6 +954,8 @@ export default function KnowledgeAgentPage() {
   // V2 Flow: 확장 크롤링 + 하드컷팅 + 리뷰 크롤링
   const [expandedProducts, setExpandedProducts] = useState<any[]>([]);
   const [hardCutProducts, setHardCutProducts] = useState<any[]>([]);
+  // 🆕 DB의 product_count (knowledge_categories 테이블에서 가져온 값)
+  const [dbProductCount, setDbProductCount] = useState<number | null>(null);
   const [reviewsData, setReviewsData] = useState<Record<string, any[]>>({});
   const [pricesData, setPricesData] = useState<Record<string, {
     lowestPrice: number | null;
@@ -1831,6 +1833,10 @@ export default function KnowledgeAgentPage() {
                 case 'first_batch_complete':
                   // 10개 상품 도착 시 '실시간 인기상품 분석' 토글 완료
                   console.log(`[SSE] First batch complete: ${data.count} products`);
+                  // 🆕 DB의 product_count 저장 (하드컷 시각화, 최종 추천 타임라인에서 사용)
+                  if (data.count) {
+                    setDbProductCount(data.count);
+                  }
                   stepDataResolvers['product_analysis']?.(data);
                   break;
                 case 'reviews_start':
@@ -2186,6 +2192,9 @@ export default function KnowledgeAgentPage() {
         matchedCount: Object.keys(reviewsData).length,
       });
 
+      // 🆕 DB의 product_count 사용 (없으면 실제 상품 수 fallback)
+      const displayCount = dbProductCount || allProducts.length;
+
       // ✅ 기존 state 대신 메시지로 추가하여 순서 및 스타일 제어
       setMessages(prev => [
         ...prev,
@@ -2195,8 +2204,8 @@ export default function KnowledgeAgentPage() {
           content: '',
           timestamp: Date.now(),
           hardcutData: {
-            totalBefore: allProducts.length,
-            totalAfter: allProducts.length,
+            totalBefore: displayCount,
+            totalAfter: displayCount,
             appliedRules,
             filteredProducts: allProducts.slice(0, 20).map(p => ({
               pcode: p.pcode,
@@ -2210,10 +2219,9 @@ export default function KnowledgeAgentPage() {
           }
         }
       ]);
-
       setHardcutResult({
-        totalBefore: allProducts.length,
-        totalAfter: allProducts.length,
+        totalBefore: displayCount,
+        totalAfter: displayCount,
         appliedRules,
       });
       setIsHardcutVisualDone(false);
@@ -2698,7 +2706,8 @@ export default function KnowledgeAgentPage() {
     setIsTyping(true);
 
     try {
-      const candidateCount = crawledProducts.length || hardCutProducts.length;
+      // 🆕 DB의 product_count 우선 사용
+      const candidateCount = dbProductCount || crawledProducts.length || hardCutProducts.length;
 
       // 타임라인 UX와 실제 추천 생성을 병렬로 실행
       const uxPromise = runFinalTimelineUX(candidateCount, userSelectionCount, 0);
@@ -3098,7 +3107,8 @@ export default function KnowledgeAgentPage() {
 
       try {
         // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-        const candidateCount = crawledProducts.length || hardCutProducts.length;
+        // 🆕 DB의 product_count 우선 사용
+        const candidateCount = dbProductCount || crawledProducts.length || hardCutProducts.length;
         const uxPromise = runFinalTimelineUX(candidateCount, balanceSelectionsForV2.length, 0);
         const apiPromise = handleV2FinalRecommend(balanceSelectionsForV2);
 
@@ -3197,7 +3207,8 @@ export default function KnowledgeAgentPage() {
 
       try {
         // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-        const candidateCount = crawledProducts.length || hardCutProducts.length;
+        // 🆕 DB의 product_count 우선 사용
+        const candidateCount = dbProductCount || crawledProducts.length || hardCutProducts.length;
         const uxPromise = runFinalTimelineUX(candidateCount, savedBalanceSelections.length, 0);
 
         // ⚠️ 새 플로우: Top 3 먼저 선정 (리뷰 없이) → 그 후 리뷰 크롤링

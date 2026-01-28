@@ -1,5 +1,5 @@
-# 세션: 20260126_110950_qvz1
-> 시작: 2026-01-26T11:09:50.425Z
+# 세션: 20260127_123409_zxs1
+> 시작: 2026-01-27T12:34:09.888Z
 > 카테고리키: 하이체어
 > 카테고리: 하이체어
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 하이체어 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrNmy2Nfx9O03HZSE4nrng7oHZuHJGmLOfS-txCNKsw6Yau7C4IRMAlw8bBfzEaGFm1eJVxXsACEwquXBS4bUGIGoj6jDZKqKe8It1ZQaIodyU3U3UyGDJOKD5wA6yf2ug8cudP0-hGy8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIZM2rRhgmDnP4JF0cAv3dlBBhi_eMmo_9WUygf8d7MwqT28AqSXpkVSZexA0K4je-OoYAxG8AmJ2Wh_FDO6nt-ZK-T-0HWs3s21Z5hFbR7w1sHXWS399tjA0GDO0TrEPPxsuc3HJv3LQdvL9lzuwDKNOVUu3MXIfP5cxnXU6urgjkd3UUpcI2PKFsMAPrzfhfBayO-lUM_QkVzlOJx2UVA1ee, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEikbugtnuutFqtzYv34jHKVxpXa9YXmBU2z6fO2u3DT8aCeo9D3khiFLUw4s2aYWczIv9UIOiE2Px4lftZK7U-aSf6uB11-20j6-3UKp-1ytq_zK_ehtT7iVZPUZadYu1CpxePowgQVC9Q_NeUJGCIKJOq9ti28m4PvWWtW_CcZ-jNNFP9dLzi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH5j-dnweo_xhHrZnu4xlrrW4aPPAdBdfXLl_Pn5xCzr2bfP5vVaNXWW1bGw8ydyLaK8IIV0mtP59DLPzhX2qyErf0DCr61fLieaCbYAJqSU72Zwh7Y178ul9yP9FFZUm0UARnDzG0mK7xsT7W3d0rPVemO1c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHc9D0RhimfsvdJr4tfyLFfsyehBChM0CC5ZVISrgaFLanVnhd1aWg2A--lxfEtEt3dpR57V8ZmhvCHovz3xw83W_M9LhUOhaDyyUGc0tPONBqbvOZAZPpstMTKXhmNWIZVBwgq0HUgkzK170uQ2WTT57dJ0G41aRL4s2tqs3t08FQ4yQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqd7YLvddKPQTATtw_iOwgCDjDAVE7y7edKzShvHq7cMEujK9aUfWhYcM02amTdtscrtMmqgMsBIy6vVCiJ9BqbbL-INzLx_I5O6tSRR4J1hv58fe6aEm_ZkrhIDai-6kv1RYKHX0tzEvMCdcgrdp5eCRddOhAW0TqWVevW_aVL_FGCZgoUwXybd3vsNDTs0D226C-Lw80DAj95wn5erYH-cBW8d_ghGOD20TctilmzW4eeo5B1nbV2H7EnhAU4pf5xIXm1dHZ06crkx5zyQv9sUaAXRGyxMKr17n2qrJaDG_g6OttQqNDr_y1q-cF_Ij9jjlZRrJZ8037SUBJqMFVfBGtoYm_O4ndYmKQfkONhcncQ8W_q4BmmkR_c5l7Jl33djxbGZy6lMQitjAAgLSfBM8An7yPzdCnvY2hx96Ob-yiFOBDBWez9Qz9rF7wXZSzjlYrZsmTxTKLm_oVqJeH7g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCRfDDPpkaG7qJRyNPPrrRDmsm4EtVyrsuEO7MYK_0qyh1mpNwYXOhdS1vaCD9yGwk5fUhvj_URKSwyKrAQK5jrZnetwkAVDmZ9OGomZnP5rkZhgYlScL3jQHB9I6r2MhZisqY3dlsU4E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtARI4rNktbkuWl9v38iXv0s8bFEYlKy9XC-EOmY7ZNtHFBrl4mhOgrccSuFdOqgxS-tf80175XdZlPpo8w51dJ2YWJRe5UDALsuhTaLMbjsKRsN4owk9LWm11PTXdCZRue8ops_wN3U2PbgIjR6ti5wg8
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrNmy2Nfx9O03HZSE4nrng7oHZuHJGmLOfS-txCNKsw6Yau7C4IRMAlw8bBfzEaGFm1eJVxXsACEwquXBS4bUGIGoj6jDZKqKe8It1ZQaIodyU3U3UyGDJOKD5wA6yf2ug8cudP0-hGy8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIZM2rRhgmDnP4JF0cAv3dlBBhi_eMmo_9WUygf8d7MwqT28AqSXpkVSZexA0K4je-OoYAxG8AmJ2Wh_FDO6nt-ZK-T-0HWs3s21Z5hFbR7w1sHXWS399tjA0GDO0TrEPPxsuc3HJv3LQdvL9lzuwDKNOVUu3MXIfP5cxnXU6urgjkd3UUpcI2PKFsMAPrzfhfBayO-lUM_QkVzlOJx2UVA1ee, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEikbugtnuutFqtzYv34jHKVxpXa9YXmBU2z6fO2u3DT8aCeo9D3khiFLUw4s2aYWczIv9UIOiE2Px4lftZK7U-aSf6uB11-20j6-3UKp-1ytq_zK_ehtT7iVZPUZadYu1CpxePowgQVC9Q_NeUJGCIKJOq9ti28m4PvWWtW_CcZ-jNNFP9dLzi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGH5j-dnweo_xhHrZnu4xlrrW4aPPAdBdfXLl_Pn5xCzr2bfP5vVaNXWW1bGw8ydyLaK8IIV0mtP59DLPzhX2qyErf0DCr61fLieaCbYAJqSU72Zwh7Y178ul9yP9FFZUm0UARnDzG0mK7xsT7W3d0rPVemO1c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHc9D0RhimfsvdJr4tfyLFfsyehBChM0CC5ZVISrgaFLanVnhd1aWg2A--lxfEtEt3dpR57V8ZmhvCHovz3xw83W_M9LhUOhaDyyUGc0tPONBqbvOZAZPpstMTKXhmNWIZVBwgq0HUgkzK170uQ2WTT57dJ0G41aRL4s2tqs3t08FQ4yQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqd7YLvddKPQTATtw_iOwgCDjDAVE7y7edKzShvHq7cMEujK9aUfWhYcM02amTdtscrtMmqgMsBIy6vVCiJ9BqbbL-INzLx_I5O6tSRR4J1hv58fe6aEm_ZkrhIDai-6kv1RYKHX0tzEvMCdcgrdp5eCRddOhAW0TqWVevW_aVL_FGCZgoUwXybd3vsNDTs0D226C-Lw80DAj95wn5erYH-cBW8d_ghGOD20TctilmzW4eeo5B1nbV2H7EnhAU4pf5xIXm1dHZ06crkx5zyQv9sUaAXRGyxMKr17n2qrJaDG_g6OttQqNDr_y1q-cF_Ij9jjlZRrJZ8037SUBJqMFVfBGtoYm_O4ndYmKQfkONhcncQ8W_q4BmmkR_c5l7Jl33djxbGZy6lMQitjAAgLSfBM8An7yPzdCnvY2hx96Ob-yiFOBDBWez9Qz9rF7wXZSzjlYrZsmTxTKLm_oVqJeH7g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCRfDDPpkaG7qJRyNPPrrRDmsm4EtVyrsuEO7MYK_0qyh1mpNwYXOhdS1vaCD9yGwk5fUhvj_URKSwyKrAQK5jrZnetwkAVDmZ9OGomZnP5rkZhgYlScL3jQHB9I6r2MhZisqY3dlsU4E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtARI4rNktbkuWl9v38iXv0s8bFEYlKy9XC-EOmY7ZNtHFBrl4mhOgrccSuFdOqgxS-tf80175XdZlPpo8w51dJ2YWJRe5UDALsuhTaLMbjsKRsN4owk9LWm11PTXdCZRue8ops_wN3U2PbgIjR6ti5wg8
+- 인사이트: 하이체어는 아기가 목을 가누고 스스로 앉을 수 있게 되는 생후 6개월부터 사용하기 시작하며, 안전하고 편리한 식사 시간을 돕는 육아 필수템으로 자리 잡고 있습니다. 최근에는 디자인과 기능성을 겸비한 다양한 제품들이 출시되며 시장 경쟁이 치열해지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESc7R6i1xYBp0IAX24eBNz_H8p8CzaODfCiuJao9bS8U7a8XJAtMaiByFlCsooyw963QEKCawZxujEUvP1EwW6iLoXxVTJNIN_m2_Bm27kxouZUnWVBQhBJAojWZSIvogs6dXDyTgvAJHpv1ELf9lVo7wmuDDq5Y9sWwOYkMW7t7vyUlg_nb1RoJOcpvy3-zIEtVvBmLuEgm6HM2Nmpyd7tMb3ubP-Fq6uHqFOmjl3qevcH95NfUTdFSdv4UvipwXSKwtWHpA9Ml5PBfkFi-LYt1XylOCxa5GAqxtzdzAqaczJhxrPw5jbjCvOgYFxBX6d, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGsShHLXpo_EkH8fJkkPRLFlZgc-wcZ4CjTRYTBc5Qcw_NlQ0IKR6mvgow1eSFpfRPBEnvVRM2PhxZli7Ydf1f1z3sYTGHlOEDeIK2HDJv5_hgH2pq0b_XyvlmwizHyN1zmUow9osA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE5CZ63thw_i9QOf2dpdhh5x5U5jKdxRkWdY8EN_wWRXGGp4tRRGOY78c2-Wvm4kYYRD0auh7pAt3cay9z1NSu_mO-qly9ixaWV5eFxjWAmbZM4Yp1IrXElhZJ_q7YFsUOJdLaV9fdBT6Sa7M-vIOUnqJKFRDT6GEIWuChW0SAEoP81qNAPw5jwoEUrpvAxDcmpc4=
 
 ---
 
@@ -16,22 +16,22 @@
 
 | 항목 | 답변 |
 |------|------|
-| 믿고 쓰는 브랜드가 있으신가요? | 스토케, 도노도노 |
-| 하이체어의 주 소재는 어떤 것을 선호하시나요? | 플라스틱, 철제/알루미늄 |
-| 하이체어에 꼭 있었으면 하는 기능이 있나요? | 발걸이 조절, 식판 탈부착 |
-| 어떤 형태의 하이체어를 찾으시나요? | 바형, 벤치형 |
-| 예산은 어느 정도로 생각하세요? (평균 약 29만원, 17만원~38만원대가 가장 많아요) | 50만원대 |
+| 믿고 쓰는 브랜드가 있으신가요? | 도노도노, 싸이벡스 |
+| 신생아부터 사용할 수 있는 뉴본 세트 기능이 필요한가요? | 아니요, 필요 없어요 |
+| 하이체어 사용 시 가장 중요하게 생각하는 청소 편의성은 무엇인가요? | 식판 분리 및 물티슈로 간편하게 닦이는 소재 |
+| 아이의 성장과 편안함을 위해 어떤 조절 기능이 필요한가요? | 등받이 각도 조절 |
+| 예산은 어느 정도로 생각하세요? (평균 28만원, 16만원~36만원대가 가장 많아요) | 16만원 ~ 36만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 55개 (전체 55개 중)
+현재 후보: 84개 (전체 84개 중)
 
 ### 후보 상품
 1. 스토케 트립트랩 하이체어 - 372,000원 - ⭐4.9
 2. 싸이벡스 레모 4-in-1 하이체어 - 779,000원 - ⭐4.9
-3. 베이비캠프 유아용 내츄럴 식탁의자 - 68,260원 - ⭐4.7
+3. 베이비캠프 유아용 내츄럴 식탁의자 - 65,880원 - ⭐4.7
 4. 도노도노 맘마존 아기 이유식의자 하이체어 - 170,100원 - ⭐4.8
 5. 싸이벡스 레모 3-in-1 하이체어 - 591,950원 - ⭐4.9
 6. 본베베 멀티레벨 하이체어 Z 식탁의자 - 129,000원 - ⭐5
@@ -41,14 +41,14 @@
 10. 부가부 지라프 하이체어 식탁의자+베이비 세트+트레이 - 578,000원 - ⭐4.8
 11. 이케아 AGAM 하이체어 - 84,540원 - ⭐3.9
 12. 시디즈 몰티 헬로베이비 세트 - 389,000원 - ⭐4.9
-13. 베이비캠프 PU시트 유아 식탁의자 - 55,300원 - ⭐4.3
+13. 베이비캠프 PU시트 유아 식탁의자 - 47,740원 - ⭐4.3
 14. 부가부 지라프 하이체어 식탁의자+베이비 세트 - 502,000원 - ⭐5
 15. 꿈비 고이터 syt 원목 하이체어 유아식탁의자+트레이+쿠션 - 278,970원 - ⭐4.8
 16. 부가부 지라프 하이체어 식탁의자 - 374,500원 - ⭐4.9
 17. 디어아이 미코 스탠다드 하이체어 식탁의자 - 119,000원 - ⭐4.4
 18. 아가드 포르텐 하이체어 유아 식탁의자 - 179,000원 - ⭐4.6
 19. 시디즈 몰티 하이체어 식탁의자 - 273,420원 - ⭐5
-20. 아가드 토스비 버튼형 하이체어 식탁의자 2.0 - 149,290원 - ⭐4.4
+20. 아가드 토스비 버튼형 하이체어 식탁의자 2.0 - 141,170원 - ⭐4.4
 
 ---
 

@@ -1,5 +1,5 @@
-# 세션: 20260123_082229_kq9b
-> 시작: 2026-01-23T08:22:29.299Z
+# 세션: 20260128_045223_2apf
+> 시작: 2026-01-28T04:52:23.525Z
 > 카테고리키: 전동칫솔
 > 카테고리: 전동칫솔
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전동칫솔 시장 현황
-- 인사이트: 전동칫솔 시장은 구강 위생에 대한 인식 증가와 기술 발전으로 꾸준히 성장하고 있습니다. 북미 지역이 시장을 주도하고 있으며, 아시아 태평양 지역의 성장세도 주목받고 있습니다. 전자상거래의 발달로 전동칫솔 접근성이 높아지면서 시장 확대에 기여하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQ8TtFXIKj-VoDavG7VSqM4hrw0vLHT1qi2aC3jQmrc5jLGeLwj3IJad69rZmUWcjOx3Jo6BPgmRmN8HQGA43_8TI1dyfHEgatUu-puphR0pP6Nj885FQEYCKNL3gQ945uet9UatC3r6jWWPqdG9BwDMhtZzTqoF9aumanbaXTCtU7YuX3tls=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHY12-9iZt02PO7DGPOxsLVg1G1ITPoKuHMY4gknjNP7NTFqY_jv19z1PmH8P4QFl6jucodXqmyGiVmZkKbm1fha4qYOR6YK6WBXWnfu62nKmxN0rUJmqZAzmsk7hKvo_YvdWJPMJAK3aiLUnFucDLebKyKGvhcXiv1wgPda5K95RgModnB-N9raSpgkF3cp2Rq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnr3yTWHTcB2zgnoPP-UcpZV7ZDgqGXaxBQ4lLz31J76AC_qB4ETbQpMTnBkLrT3UY_Q5KmgiLa9HT5t8Q5YY-gllBNJzcGCqjD5n0bOyfqAnQu6MPdv5U7NCxijAJqsbrtaPfAjkKIuEya_Gyv7lgeNSJDj_B4CQyOHlNU9E7O-OE, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGX2Dbx6FSuudpjXdFmq3y6IfuS_h9jTeuTvQeVC6QFzfC-qa5RGo84S4fgSWy8ohKQ4pgetYdOeUgx5spWKVZg-XtJF7AE55Mh3LrHLHtcuM3eCCRwCzTQXkQwgVhQ1OqGJFtOenZN_y8k4KNFRDedO_hORm7rwTC4Q2Jv2l4S6cuNisDRw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxy9hB0X0j03Y4VzlXBDjyJqQaaVJLyu6u1s6M3zzsbuTvAmyZFWZJAFDp5egV1M1mu6v804mnV5l1AvH4kCqvhzZt9qyHdEqUq5FmHQwwBjt97PEAs2DY06qbjlTx7QE8TxPJ8N5ehMzdqTJklWJSDCVxow3aD-CrfHbXcg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiFjOBLJ-YHMyV7JjTbr6Dm0ljST1NUqFRLyawUk5VT-MVdVaCsSTQU1LrBwjjLA3DOQSi54fa0ZEgfCKcffNrUNS9uGrdFGuD2c7G_aOMZyYmlkAIi9ZbJZXszbDj1wUbcd_--w==
+- 인사이트: 전동칫솔 시장은 구강 위생에 대한 인식 증가와 기술 발전에 힘입어 꾸준히 성장하고 있습니다. 특히 스마트 전동칫솔의 인기가 높아지고 있으며, 북미 시장이 가장 큰 비중을 차지하고 있습니다. 전자상거래의 발달로 접근성이 향상되면서 시장 성장에 긍정적인 영향을 미치고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwwuSFE8_bGf9HUy8KrMWshUubyg4jhd8oDDmr6R3w2CXA1fhcwLdxR64rrnx9JAF8uQjxET0yvk1EYv_ybHRmCx6RzZ_-h-JB9Pk2KRo-PLqP8At6ashbkZdIF2hVr_2NDKokNNzko9Aa6A4S4eGDDL-UAy3iFP3BBDBav5v9Q56UqafAvV8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPOfDU4YZgEJP90B_C0Qi-C50ZLbZJR5tUfzyqUMUGV2OTxhPk9P_wiPhIBpc19Q9CVk8UR6oPYw8PjkPGjk6BkWTbDdNmtRPFoI05SmnSrwdYrnu31toEZIwu6wBd_Tr-V8BwwHgFfc9x1YBJbUuBRxRFOOU02oEobWbJQbs78qoMSrbY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjr_u3H4tgMvBmU85mGfw4OZNg70Toj2zHSptkWMtZ0kg2TLD96yrC-hGGvRdrCXFwaT6az-y5rfxLGEC4mn4mhWERuEbM8T-pg7M1EJk-RNK3kLsVwDc6N8uICAQne43_HVPoPWEIW6h0ov8d_MDCSYdeSeH_OGkp7lj7tIQ=
 
 ---
 
@@ -16,18 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 방식의 칫솔질을 선호하시나요? | 음파식 |
-| 양치 습관 개선을 위한 스마트 기능이 필요하신가요? | 앱 연동 및 코칭 기능, 압력 센서 |
-| 전동칫솔의 배터리 및 충전 방식에 대한 선호도가 있으신가요? | 긴 배터리 수명 (2주 이상), 빠른/간편한 충전 |
-| 칫솔모의 종류나 교체 알림 기능에 대한 선호도가 있으신가요? | 칫솔모 교체 알림 |
-| 예산은 어느 정도로 생각하세요? (평균 13만원, 7만원~17만원대가 가장 많아요) | 7만원 이하, 7만원 ~ 17만원대 |
-| __avoid_negatives__ | 충전식이라 배터리가 빨리 닳거나 관리하기 번거로울까 봐 염려돼요,충전 방식이 복잡하거나 전용 충전기가 필요해서 번거로울 것 같아요 |
+| 칫솔질 느낌을 결정하는 칫솔의 움직임 방식은 어떤 것을 선호하시나요? | 음파식 |
+| 스마트폰 앱 연동 등, 스마트한 구강 관리 기능이 필요하신가요? | 앱 연동 및 코칭 기능 |
+| 한 번 충전으로 얼마나 오래 사용할 수 있으면 좋을까요? | 1주 ~ 2주, 2주 이상 |
+| 칫솔모 교체 시 어떤 점을 중요하게 생각하시나요? | 간편한 교체, 교체 시기 알림 |
+| 예산은 어느 정도로 생각하세요? (평균 13만 9천원, 7만 4천원~18만원대가 가장 많아요) | 7만 4천원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 97개 (전체 97개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 필립스 소닉케어 1100 시리즈 HX3641/41 - 32,310원 - ⭐4.6
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 충전식이라 배터리가 빨리 닳거나 관리하기 번거로울까 봐 염려돼요
-- 충전 방식이 복잡하거나 전용 충전기가 필요해서 번거로울 것 같아요
+(아직 선택 없음)
 
 ---
 

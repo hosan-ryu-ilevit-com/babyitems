@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, type RefObject } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { CaretDown } from '@phosphor-icons/react/dist/ssr';
@@ -30,85 +30,96 @@ interface DanawaReviewTabProps {
   productTitle?: string; // 블로그 검색용 상품명
   categoryKey?: string; // KA 로깅용 카테고리 키
   categoryName?: string; // KA 로깅용 카테고리명
+  scrollContainerRef?: RefObject<HTMLDivElement | null>;
 }
 
-export default function DanawaReviewTab({ pcode, fullHeight = false, productTitle, categoryKey, categoryName }: DanawaReviewTabProps) {
+export default function DanawaReviewTab({ pcode, fullHeight = false, productTitle, categoryKey, categoryName, scrollContainerRef }: DanawaReviewTabProps) {
   const [reviews, setReviews] = useState<DanawaReview[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewCount, setReviewCount] = useState(0);
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const [expandedReviews, setExpandedReviews] = useState<Set<number>>(new Set());
   const [expandedImages, setExpandedImages] = useState<{reviewId: number; images: DanawaReviewImage[]; currentIndex: number} | null>(null);
-  const [visibleCount, setVisibleCount] = useState(5);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(fullHeight ? 30 : 5);
   const [sortOrder, setSortOrder] = useState<'newest' | 'high' | 'low'>('newest');
   const [isSortBottomSheetOpen, setIsSortBottomSheetOpen] = useState(false);
   const [showPhotoOnly, setShowPhotoOnly] = useState(false);
   const [showBlogReview, setShowBlogReview] = useState(false);
+  const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const sortLabels = {
     newest: '최신순',
     high: '별점 높은순',
     low: '별점 낮은순'
   };
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollParentRef = useRef<HTMLElement | null>(null);
+  const isFetchingRef = useRef(false);
 
-  // 무한 스크롤 로직
-  const loadMore = useCallback(() => {
-    if (loadingMore || visibleCount >= reviews.length) return;
-    setLoadingMore(true);
-    setTimeout(() => {
-      setVisibleCount(prev => Math.min(prev + 5, reviews.length));
-      setLoadingMore(false);
-    }, 300);
-  }, [loadingMore, visibleCount, reviews.length]);
+  const pageSize = 50;
+  const initialVisibleCount = fullHeight ? 30 : 5;
+  const displayBatchSize = fullHeight ? 30 : 10;
+  const scrollThreshold = 300;
 
-  // Intersection Observer 설정
-  useEffect(() => {
-    if (!fullHeight) return;
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (loadMoreRef.current) {
-      observerRef.current.observe(loadMoreRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+  // 스크롤 가능한 부모 요소 찾기
+  const getScrollParent = (element: HTMLElement | null): HTMLElement | null => {
+    if (!element) return null;
+    let parent = element.parentElement;
+    while (parent) {
+      const { overflow, overflowY } = getComputedStyle(parent);
+      if (overflow === 'auto' || overflow === 'scroll' || overflowY === 'auto' || overflowY === 'scroll') {
+        return parent;
       }
-    };
-  }, [fullHeight, loadMore]);
+      parent = parent.parentElement;
+    }
+    return null;
+  };
 
-  useEffect(() => {
-    fetchReviews();
-  }, [pcode]);
-
-  const fetchReviews = async () => {
-    setLoading(true);
+  const fetchReviewsPage = useCallback(async (nextOffset: number, append: boolean) => {
+    if (isFetchingRef.current) return;
+    isFetchingRef.current = true;
+    if (!append) {
+      setLoading(true);
+    }
     try {
-      const response = await fetch(`/api/danawa-reviews?pcode=${pcode}&limit=50`);
+      const response = await fetch(`/api/danawa-reviews?pcode=${pcode}&limit=${pageSize}&offset=${nextOffset}`);
       const data = await response.json();
 
       if (data.success) {
-        setReviews(data.reviews);
-        setReviewCount(data.reviewCount);
-        setAverageRating(data.averageRating);
+        const loadedCount = nextOffset + data.reviews.length;
+        const totalCount = typeof data.reviewCount === 'number' ? data.reviewCount : 0;
+        const nextHasMore = data.reviews.length > 0 && (totalCount > 0 ? loadedCount < totalCount : data.reviews.length === pageSize);
+
+        setReviews(prev => append ? [...prev, ...data.reviews] : data.reviews);
+        setReviewCount(totalCount);
+        setAverageRating(data.averageRating ?? null);
+        setOffset(loadedCount);
+        setHasMore(nextHasMore);
+        if (append) {
+          setVisibleCount(prev => Math.min(prev + displayBatchSize, loadedCount));
+        }
       }
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
     } finally {
-      setLoading(false);
+      if (!append) {
+        setLoading(false);
+      }
+      isFetchingRef.current = false;
     }
-  };
+  }, [displayBatchSize, pageSize, pcode]);
+
+  useEffect(() => {
+    setVisibleCount(initialVisibleCount);
+    setOffset(0);
+    setHasMore(true);
+    fetchReviewsPage(0, false);
+  }, [pcode, initialVisibleCount, fetchReviewsPage]);
+
+  useEffect(() => {
+    setVisibleCount(initialVisibleCount);
+  }, [showPhotoOnly, sortOrder, initialVisibleCount]);
 
   const toggleExpand = (reviewId: number) => {
     const newExpanded = new Set(expandedReviews);
@@ -218,8 +229,54 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
       return a.rating - b.rating;
     });
 
+  const loadMoreIfNeeded = useCallback(() => {
+    if (loading) return;
+    if (visibleCount < sortedReviews.length) {
+      setVisibleCount(prev => Math.min(prev + displayBatchSize, sortedReviews.length));
+      return;
+    }
+    if (hasMore) {
+      fetchReviewsPage(offset, true);
+    }
+  }, [displayBatchSize, fetchReviewsPage, hasMore, loading, offset, sortedReviews.length, visibleCount]);
+
+  // 스크롤 이벤트로 무한 스크롤 (모달에서 안정적)
+  useEffect(() => {
+    if (!fullHeight) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const scrollParent = scrollContainerRef?.current || getScrollParent(container);
+    if (!scrollParent) return;
+
+    scrollParentRef.current = scrollParent;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollParent;
+      if (scrollHeight - scrollTop - clientHeight < scrollThreshold) {
+        loadMoreIfNeeded();
+      }
+    };
+
+    scrollParent.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scrollParent.removeEventListener('scroll', handleScroll);
+  }, [fullHeight, loadMoreIfNeeded, scrollContainerRef, scrollThreshold]);
+
+  useEffect(() => {
+    if (!fullHeight || !hasMore) return;
+    const scrollParent = scrollParentRef.current;
+    if (!scrollParent) return;
+    if (sortedReviews.length === 0) return;
+
+    const { scrollHeight, clientHeight } = scrollParent;
+    if (scrollHeight <= clientHeight + scrollThreshold) {
+      loadMoreIfNeeded();
+    }
+  }, [fullHeight, hasMore, sortedReviews.length, loadMoreIfNeeded, scrollThreshold]);
+
   return (
-    <div className="pb-4 relative">
+    <div ref={containerRef} className="pb-4 relative">
       {/* 리뷰 요약 - 새 디자인 */}
       <div className="px-4 pt-5 pb-0 flex items-center justify-between">
         <h3 className="text-[18px] font-semibold text-gray-900">상품 리뷰</h3>
@@ -443,25 +500,22 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
       </AnimatePresence>
 
       {/* 더보기 / 무한 스크롤 */}
-      {visibleCount < reviews.length && (
-        fullHeight ? (
-          <div ref={loadMoreRef} className="flex items-center justify-center py-4">
-            {loadingMore ? (
-              <div className="flex items-center gap-2 text-gray-500">
-                <div className="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                <span className="text-sm">로딩 중...</span>
-              </div>
-            ) : (
-              <div className="text-sm text-gray-400">스크롤하여 더보기</div>
-            )}
+      {fullHeight ? (
+        visibleCount < sortedReviews.length && (
+          <div className="flex items-center justify-center py-4">
+            <div className="text-sm text-gray-400">
+              스크롤하여 더보기 ({visibleCount}/{sortedReviews.length})
+            </div>
           </div>
-        ) : (
+        )
+      ) : (
+        visibleCount < sortedReviews.length && (
           <div className="px-4 pt-2">
             <button
-              onClick={() => setVisibleCount(prev => prev + 10)}
+              onClick={loadMoreIfNeeded}
               className="w-full py-3 text-sm font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              더보기 ({visibleCount}/{reviews.length})
+              더보기 ({visibleCount}/{sortedReviews.length})
             </button>
           </div>
         )

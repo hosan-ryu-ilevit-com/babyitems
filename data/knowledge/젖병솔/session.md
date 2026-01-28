@@ -1,5 +1,5 @@
-# 세션: 20260126_075018_ljkb
-> 시작: 2026-01-26T07:50:18.671Z
+# 세션: 20260127_123134_d1bd
+> 시작: 2026-01-27T12:31:34.773Z
 > 카테고리키: 젖병솔
 > 카테고리: 젖병솔
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 젖병솔 시장 현황
-- 인사이트: 젖병솔 시장은 다양한 소재와 디자인의 제품들이 경쟁하며, 특히 위생과 세척력을 중요하게 고려하는 소비자들이 많습니다. 최근에는 실리콘 소재의 반영구적 사용 가능성과 열탕 소독의 편리성이 주목받고 있으며, 스펀지 소재는 풍성한 거품과 부드러운 세척력을 장점으로 내세우고 있습니다. 온라인 판매 채널의 성장과 함께 가성비 좋은 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi2B9FBVcG4XjWZXyxgfQmwAR_8qd4fsLjjKKmjKBPa83b0I4lRna4u_NB_XeChFUcLQR0YAwNxKeSaX84GD8fRik_4nnY1BHfDs79b2sH_3NLoVLrCMDQrArf2HxCX0mnauPcpawX1ait0yi6VMdPMWGksXJ2MlYKamN5RXFLEeXv0A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHqfva9f5S20eLHlJA7OMnWAUIXlRbFpTlRZ-IsX1Hd-v3BIxkSBSCbRnPxMSDvHMkMTj7gNW6RHNpcmkoKgGX2pcbUZLih8fFuN_7tdia2wgdqt8dFCO_4uypptD07SU6S_ix33AnwimFTn-lCouSQIqh4_WNITOJrbJn1y5A6r3QPXL5yGy7apdoS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDNWADbNiM3RQ9N42K_nNKIrXnFOYLoUmBfoIeOjiL5OIWSNrakw_hOYDYrzD99nuYjS9_87oQL1nQkBR0eJT3HzAjV6JnINcRXDjElevsHl-d_RE02gwE36N4yGExp9hKl83K4r_Qpd-MGE3Vpy3jjNc1owbwew==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHx40_xXUwNGVhgcfb8WJ3wgGhVy5xjXhZDbLAJMzuHbjJP0odLrR9qKxPHo0Vz6GUVeTzjaR_GVd7IAvFWxXDbll0HSsmdbZmVWk-JrVNNJHcMPYyZb2NrGlCk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFz4m4de2P4DeBrMwWcDYw34FetYrk7SHdJaFhD-5m9uSB-IWSqLCuV_9u3niGWSTa7cfLG8lb9F0ccOOet1snc4MOqPf99sqmnhPT1wOCq6at6yiVW0_PMZeZuTty35zSk_e-5L-8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH93TKAoRzsj9y8i1Sd6vKgmQzm9hzu-nAqP1wU3AHiI2cN6uVQUPLqSIkrq4JzrhCPMDRXnAALC24GWxmsU4ZwEun4l-dMjWuEI1Nqj2qxtzWoLCrOXvFfgr9a2BhNLg==
+- 인사이트: 젖병솔 시장은 베이비테크 성장과 함께 진화하며, 안전성과 품질을 중시하는 소비자 트렌드에 따라 프리미엄 제품 수요가 증가하고 있습니다. 특히 실리콘 소재와 전동식 젖병솔의 인기가 상승하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcgPuTXLIOYjeqPiSDhHdppllnOmIViR301UvB-byV4n_13qmMUFPx2x5O9zVa3UDjbwUUOz1RwSgGB3TYCedG0vpUiym95SR5aZy9iEkPske4apKsxABBeuJsjwqW48pGKC3vKKdoPBZGfksvIrt8_EuHeG_3BdPmHOpTUMrLKZSzumFVmKUgcwqN8zcedPKRzWgzg5F6yn5HJAcftjEjmJefU-Y23y2plI_XOtPOMl0YTylzMJ7V, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGx20bpwsIm1kd5ELktQeYX--p7vyORs8nIpE9UoKBgj3DUG5_DmwIwsljZrVnAHpUm_WWv0JiRqSrdNTRvX-39Hthqfq10BhmYNHxe0LI0RJmCgzZsHmTeZBzeIjeL8qppNdGDL1isIGtfqQnVpdhk18nVLfdFnlrolr_ae6r6n2FS7taLY0DAUaPe6CS_wPVYldHf--Vqf5UCV9q_LqOcR18IhPLu9QLxOcCWr7jG0W7ZMokqmzCT0_8wLQuJPJUtZ_xktyGfduv_V7d9OPoSKgoDCciHiR_WlTsw, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxKqCP5G6a87WIbvEhxxucYgW8JwNGBSIYGrGyrX9uf673B3OrgiH7nNpSUjokHRQFtZ9hX8LxtAdGYOL6vu7y32ICxFgyG-lmS25hhb2EjuhRbPG-DDTtMx7EoMkb5LsSOiH_UPbevUGYyPmBvWJKd-ximdgvRCT3X9gDsVE9mfTD4A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyV6mGM0Fei0DSIyQWHmwwtLKg1cxCJYi8yuCyL_MCj0qRsgrxGY1HKB9ANNER5pRuXJ_M5mywrcR_5XXvHzvIMhNGYwpyRpSokmuTdYq5ySTwcfTer-VPQOEMvux9-i1f2g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF1gzPmZFozAdSwViwuwbmjc1u-ViPDDnOl63EPvU3WqzU9tpo2fvf9MmLtgxhIHsOULEsWPa0_OZOZZM7kQ_m2jIwcD1arVU5p16rOLqV9M0UfvJ__gMjomoS4w4gC9zcaf8B8Gw==
 
 ---
 
@@ -16,18 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 재질의 젖병솔을 선호하시나요? | 스펀지, 기타 (나일론, 고무 등) |
-| 젖병 내부 구석까지 깨끗하게 세척하기 위해 중요하게 생각하는 점이 있나요? | 긴 손잡이, 유연한 헤드 |
-| 젖병솔 세척 및 소독은 어떻게 하고 싶으신가요? | 상관없어요 |
-| 혹시 선호하시는 젖병솔 브랜드가 있으신가요? | 더블하트, 베이비부스트 |
-| 예산은 어느 정도로 생각하세요? (평균 2만 3천원, 1만 2천원~3만원대가 가장 많아요) | 1만 2천원 ~ 3만원대, 1만 2천원 이하 |
-| __avoid_negatives__ | 스펀지 젖병솔은 금방 닳아서 자주 교체해야 하는 점이 번거롭게 느껴져요,실리콘 젖병솔은 거품이 잘 나지 않아 세척력이 떨어질까 봐 걱정돼요 |
+| 젖병솔, 어떤 소재를 선호하시나요? | 실리콘, 스펀지 |
+| 젖병 세척 시, 어떤 세척력을 중요하게 생각하시나요? | 강력한 세척력 |
+| 젖병솔 외에 추가적으로 필요한 기능이 있으신가요? | 전동 기능 |
+| 믿고 쓰는 브랜드가 있으신가요? | 더블하트, 닥터브라운 |
+| 젖병솔 예산은 어느 정도로 생각하세요? (평균 9천원대, 5천원~1만 2천원대가 가장 많아요) | 5천원 ~ 1만 2천원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 54개 (전체 54개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 베이비부스트 스마트 전동 젖병세척솔(BBA2001) - 41,570원 - ⭐4.5
@@ -45,10 +44,10 @@
 13. 베스트데코 스테인레스 빨대 세척솔 3P 세트 스텐 휴대용 - 1,480원 - ⭐4.7
 14. 마더케이 마더케이 젖병솔 세트 젖꼭지솔 - 9,940원 - ⭐4.8
 15. 닥터브라운 통기시스템 세척솔 - 2,870원 - ⭐5
-16. 하이비 몽글이 롱 젖병 젖꼭지솔 5p + 먼지캡3p - 13,500원 - ⭐4.7
-17. 피셔프라이스 무민 길이조절 젖병솔 - 3,760원 - ⭐5
+16. 피셔프라이스 무민 길이조절 젖병솔 - 3,760원 - ⭐5
+17. 하이비 몽글이 롱 젖병 젖꼭지솔 5p + 먼지캡3p - 13,500원 - ⭐4.7
 18. 앙뽀 앙뽀 회오리 실리콘 젖병솔세트 - 14,240원 - ⭐5
-19. 닥터브라운 실리콘 젖병솔 - 7,140원 - ⭐4.4
+19. 닥터브라운 실리콘 젖병솔 - 6,990원 - ⭐4.4
 20. Nopackage Project 특허 개방형 실리콘빨대 세척솔이필요없는 재사용가능 - 1,890원 - ⭐4.4
 
 ---
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 스펀지 젖병솔은 금방 닳아서 자주 교체해야 하는 점이 번거롭게 느껴져요
-- 실리콘 젖병솔은 거품이 잘 나지 않아 세척력이 떨어질까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

@@ -336,6 +336,7 @@ export default function ProductDetailModal({ productData, category, categoryName
   const blogIframeRef = useRef<HTMLIFrameElement>(null);
   const blogInitialLoadRef = useRef(true);
   const loadMoreReviewsRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   // PDP 상단 이미지 캐러셀 상태
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -638,7 +639,7 @@ export default function ProductDetailModal({ productData, category, categoryName
         </header>
 
         {/* Scrollable Content Area */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto overflow-x-hidden">
           {/* Thumbnail - knowledge-agent(preloadedReviews)일 때는 PDP 스타일 */}
           {preloadedReviews && preloadedReviews.length > 0 ? (
             <div className="px-4 pt-4 pb-5 border-b border-gray-100">
@@ -1913,7 +1914,14 @@ export default function ProductDetailModal({ productData, category, categoryName
                   );
                 })()
               ) : (
-                <DanawaReviewTab pcode={productData.product.id} fullHeight={true} productTitle={productData.product.title} categoryKey={category} categoryName={categoryName} />
+                <DanawaReviewTab
+                  pcode={productData.product.id}
+                  fullHeight={true}
+                  productTitle={productData.product.title}
+                  categoryKey={category}
+                  categoryName={categoryName}
+                  scrollContainerRef={scrollContainerRef}
+                />
               )}
             </motion.div>
           )}

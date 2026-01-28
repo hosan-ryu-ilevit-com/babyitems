@@ -1,5 +1,5 @@
-# 세션: 20260123_082037_3sph
-> 시작: 2026-01-23T08:20:37.077Z
+# 세션: 20260128_050917_ou0d
+> 시작: 2026-01-28T05:09:17.389Z
 > 카테고리키: 믹서기
 > 카테고리: 믹서기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 믹서기 시장 현황
-- 인사이트: 믹서기 시장은 2022년 약 84억 7천만 달러 규모였으며, 2032년까지 155억 6천만 달러에 이를 것으로 예상됩니다. 이는 소비자의 편의성을 높이고 준비 시간을 단축하려는 수요 증가에 힘입은 결과입니다. 또한, 2024년 글로벌 믹서 시장 규모는 26억 달러에 달했으며, 2034년까지 38억 달러에 이를 것으로 전망됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXdZeyO_zHBymci8h64XIuRkdbj6IRhmkk-XPF5krvqayGgNLkPYpALgFxZuiU4_XTeL_Fz_hBgjIjae5NJxI1ABHwKuiPH1uttuATBZgpnOtB0y30nTp75n-yPfw_SrZCOZBEKgYb_dcohwmyUwa8fApLRn-tAliWG_ytDxkuvcZTAuu8jLNVfQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDFEzqUZUPWkQbleGtGQOuMsBQC8O1pvuCBBZ2KNyoVtyYgQnQDne6NMooI18rrgCSE3zrjWyZVkWlR0ARzQ5NpmG1Mak0L_WWlC-1aTSh8lIOnYC4FVZHQmLl-mhMIyamv9vhIsvtt6TAFwEwnTIaqc4h6j4O, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLBlT63bEbvLveDQAmeqIY1vzThpVm3mT_E2p-6-0onSOMpjEElgyY-92JMNisk9eMLbh2psYQEeV4LRcpmJxGgZHH1YfUEacwMB_YqdaGOkKPZeGP_Vs7wg-cZHI3lMq3C6tM84TAWAXTCzDeIQ8V074f0-8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMGRl--Do8ISeFbDauLIhv34FABoqI3jU_Xf9TiegOa_d_apJVF1gmE6sAfidHQsfFb5qCF-MrvCSTNFMWBpIgE2x_vRlMuHyALJP-BUNy2c4wc0p_5LJrx63dZl9QWVZIn9sF8leO_i0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMw4CaeKJ7Y8SSWpZaMupoX9to3Y-29EzNBGlMoiwUGtx9qVsG0SY06nWht5it20pHfOOGgtarAiuLT9Mvq7CJQ-syfHFkX5xpW6KWLxsWP4tHBfnJviHiGo3W7_3Hx-HL9sZnNg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDGQRJoBd3KojOerVjarOyP9vjtA68QV5sBi-komI919XAfnP-7wy3YFFZj1wDo2NzQ_rAK3mpa1wsleR8XEMva4fKsAG7FcoFs43uf5xF5d0-vhxk03DLtcxcpk0C4X2LRB9QazHKLhAMBtflPJbdlah1TKgEOcETBcu3pWCzhYQSIe8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHYmdNlnDLXXuh0v2HesMWiJ0Jil1gO2HSmUoWrpgl_NgLMhUlHape4u2gaVOkOvuCrY3Jix78va-GAz3TiJeBvgAfu2L07-clcSh2802ZpgABBbaVs8BemBqDC4W1y1XjuWvDv5h-kgNcuAwY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0MGjXzvQ-kZR2UpSAksUz88vTG0B5axJ5O5rf7-x2puYDiikQLPOcMBAfd477-1_s49TTMgBz5jKflTmfDV5G58yhtLMOOzuu-hQbOOcZdKs3dbBbjtQ0WzbwFxw-q0u35Nc5GQ==
+- 인사이트: 믹서기(블렌더) 시장은 지속적으로 성장하고 있으며, 특히 초고속 블렌더의 점유율이 꾸준히 증가하는 추세입니다. 2022년 약 8.47억 달러 규모였던 식품 블렌더 및 믹서 시장은 2032년까지 15.56억 달러에 이를 것으로 예상됩니다. 또한, 2024년 글로벌 믹서 시장 규모는 2.6억 달러로, 2034년까지 3.8억 달러에 달할 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGvqHT_COBRnIR3xrtVI5bpB5cpIWV4K9kCFmLjPF4ihNbQHbE-iHvX2MIC8epSPy7sgQBArlOss3TWVo_plmnOYMD1A9RAnDBoOvZysCfbnm_y-gB_pwWx6u-0-lKOU0DUkUzzdrx-uCY2WIrXI-NPa1tk5RkIOewwYrGwn7yLZcZL9Gz7HsyXkro=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1v0JuU95WaQWmfcSLvdw7uuOjvLmtA2GrjP4AQdSDSqSfRPaKwETQuGHTMcfhmuP1Fy5aNiDPIDGSHqG_LiH5J0qG4RQVk3GZgsYpqrhSLejw1jk-5rxF0WqpkqyoT7lwLjD5Tpf8UX95BBqTjfQbywAWHtuomg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMsrtb7nRIsDAlpOGgdHU4cByj5ZD2H1Xob4dMpiSWjBqSxDZWjUWC2z4GSJvjjotUT_qRV45yScyRA0SRVYo4pj5yFwNrNJ027-OcFxf8KjxSqS6Bh4ZhHBZF65S2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGI4VCvuTdBFFckzRFK6GZzKpVWfLhqM-MmAczYjJeFxrRPK7Mp3o9wo49JVR4wqr5o_UaI1L3sIigqs6jEMppS4V4OQu499RVLxXW4QtdRpIYUkz4IkhUE-GvpFXZPvhXP0K1H2BCIBgOvNO2Bfw_YvGa2HCtHneSI9V3iep6RL7t8_GX7vlcyQc8Hg5-Qmusb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEu5cxG3tTVr_wabHDU-YmfwbNZB7-dPDQpVF_GL8LH4cY-x782njZUc1awJSrufjfM9P39V36ZGamBe1telqYOsaXInkrKKbUVF7pc24PS8Yj6jVf00w9rLUy9qKpBp847ByF00pE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHxSRarWuH8e1z5DdMtLFoeDdsSDPHDDXVoWxJRgDw70mP4ATEjDvcHTobQyfc_kdiv6eIc_9Zhzro8CfnQ07DC1Xb_jOoD0XcRle1iRHUxHORTM2RDuU16zEcN_fuSA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHch7rca_pL5QEGqVkP1RDzenrEaylg460s0CIKZGHRi69VKkc5ftGFtme6I_F6zHhVHXbEmy2sjPUcBeMjgydyaSm-bf4MtMObXWdUG1eA4fi6PXfdBlE09vSIj2UTJCRG0Uhcs1-18Zo530Rt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGuAgdNkITT6l3kNN2B4X4zq7AQTDi1hrRdl8lKgOvAFEqClz6OR6ZztwUGIpSyM1LF5irPEN72A7EodfwYdxdCxOHO8YXa97jxSHUi-w-Lcnxzik6BrKJA6Upn7qGrsXXmxqZSWe009ro8TChYXLjxykv0-Lto1dlZPuOdTlMn0rmyPJA=
 
 ---
 
@@ -16,18 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 믹서기를 주로 어떤 용도로 사용하실 예정인가요? | 스무디, 주스, 과일/채소 갈기 |
-| 얼음이나 단단한 재료를 얼마나 자주, 곱게 갈아야 하나요? | 자주, 아주 곱게 (얼음, 냉동과일, 견과류 등) |
-| 선호하는 믹서기 브랜드가 있으신가요? | 샤크닌자, 테팔 |
-| 믹서기 용기는 어떤 재질을 선호하시나요? | 트라이탄 (BPA-free), 유리, 스테인리스 |
-| 예산은 어느 정도로 생각하세요? (평균 약 21만원, 12만원~27만원대가 가장 많아요) | 12만원 이하 |
-| __avoid_negatives__ | 트라이탄이나 유리 용기가 단단한 재료를 갈다가 흠집이 나거나 파손될까 봐 걱정돼요 |
+| 믹서기를 주로 어떤 용도로 사용하시나요? | 스무디, 주스, 쉐이크, 얼음 분쇄, 다지기 |
+| 한 번에 어느 정도 양을 만드시나요? | 1인분 (0.5L 이하), 2~3인분 (0.5L ~ 1.5L) |
+| 얼마나 강력한 분쇄력을 원하시나요? | 초고속 블렌더 (15,000 RPM 이상), 일반적인 믹서기 (최대 15,000 RPM 이하) |
+| 믹서기 용기는 어떤 재질을 선호하시나요? | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 17만원, 10만원~22만원대가 가장 많아요) | 10만원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 101개 (전체 101개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 필립스 7000시리즈 HR3757/00 - 97,910원 - ⭐4.7
@@ -61,7 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 트라이탄이나 유리 용기가 단단한 재료를 갈다가 흠집이 나거나 파손될까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

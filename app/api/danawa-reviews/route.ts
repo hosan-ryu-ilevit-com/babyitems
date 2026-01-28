@@ -56,9 +56,9 @@ export async function GET(request: NextRequest) {
 
   try {
     // 0. 먼저 knowledge_reviews_cache에서 리뷰 조회 (Knowledge Agent 캐시)
-    const { data: knowledgeReviews, error: knowledgeError } = await supabase
+    const { data: knowledgeReviews, error: knowledgeError, count: knowledgeCount } = await supabase
       .from('knowledge_reviews_cache')
-      .select('*')
+      .select('*', { count: 'exact' })
       .eq('pcode', pcode)
       .order('review_date', { ascending: false, nullsFirst: false })
       .range(offset, offset + limit - 1);
@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
       const response: DanawaReviewsResponse = {
         success: true,
         pcode,
-        reviewCount: convertedReviews.length,
+        reviewCount: knowledgeCount ?? convertedReviews.length,
         averageRating: Math.round(avgRating * 10) / 10,
         reviews: convertedReviews,
         dataSource: 'danawa', // knowledge cache지만 다나와 형식으로 반환
@@ -99,7 +99,7 @@ export async function GET(request: NextRequest) {
       .eq('pcode', pcode)
       .maybeSingle();
 
-    const { data: danawaReviews, error: danawaError } = await supabase
+    const { data: danawaReviews, error: danawaError, count: danawaCount } = await supabase
       .from('danawa_reviews')
       .select('*', { count: 'exact' })
       .eq('pcode', pcode)
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
       const response: DanawaReviewsResponse = {
         success: true,
         pcode,
-        reviewCount: danawaProduct?.review_count || danawaReviews.length,
+        reviewCount: danawaProduct?.review_count || danawaCount || danawaReviews.length,
         averageRating: danawaProduct?.average_rating || null,
         reviews: danawaReviews,
         dataSource: 'danawa',
@@ -126,9 +126,9 @@ export async function GET(request: NextRequest) {
       .eq('model_no', pcode)
       .maybeSingle();
 
-    const { data: enuriReviews, error: enuriError } = await supabase
+    const { data: enuriReviews, error: enuriError, count: enuriCount } = await supabase
       .from('enuri_reviews')
-      .select('*')
+      .select('*', { count: 'exact' })
       .eq('model_no', pcode)
       .order('review_date', { ascending: false, nullsFirst: false })
       .range(offset, offset + limit - 1);
@@ -154,7 +154,7 @@ export async function GET(request: NextRequest) {
     const response: DanawaReviewsResponse = {
       success: true,
       pcode,
-      reviewCount: enuriProduct?.review_count || convertedReviews.length,
+      reviewCount: enuriProduct?.review_count || enuriCount || convertedReviews.length,
       averageRating: enuriProduct?.average_rating || null,
       reviews: convertedReviews,
       dataSource: 'enuri',
