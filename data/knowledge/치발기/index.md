@@ -1,6 +1,6 @@
 # 치발기 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T08:34:42.166Z
+> 마지막 업데이트: 2026-01-29T04:42:09.557Z
 > 분석 상품: 20개 | 분석 리뷰: 4,141개
 
 ## 📈 2026년 시장 트렌드
@@ -13,13 +13,12 @@
 ### 구매자 만족 포인트
 - ✓ 구강기 발달 도움
 - ✓ 잇몸 간지러움 해소
-- ✓ 턱관절 및 구강 근육 발달
-- ✓ 손목 근육 발달
+- ✓ 턱관절 및 근육 발달
+- ✓ 이유식 연습
+- ✓ 안전한 소재
 
 ### 주의해야 할 단점
-- ⚠ 개인차에 따른 사용 시기
-- ⚠ 소재 및 소독 방법 확인 필요
-- ⚠ 휴대 및 보관 용이성 고려
+- ⚠ 휴대 및 보관 용이성 고려 필요
 
 ### 가격대 인사이트
 
@@ -241,6 +240,6 @@
 ---
 
 ## 📊 데이터 출처
-- [cpsc.gov](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFniwcfFSd1uH4K4H6twL4n7e_PfA_a1GRTeauiRRgRmIiEC8ymKyNNGSRkNopawSWDXLzxWTSX5ozfDD_3EFQHA_WUtDi4Kvc2X5ogW5mJGQAQlAqSE479uO6JrerFm1A_e-HMhdmpwhcI7pTG0-gjqHuKfHRjztEQsNXxn4UIzLzB9NZM5wQFdS5HtPMLvjQ2xZThPtuuBmoBoJ4_ZrQh7B6B5aV1Q8Wahzmo3MHCafOOV7C2T_zryFMBHEieZsuzLzOsE5z_GoRWO-ODOR8djnZz-WkG5gRgeRzsTDkNglxD3GQKnw5NVOcHFkQs4mvK1JGD0r-xNvU5t8mOJ-4mVQk=)
-- [parents.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8x72mAFihe884ABAZ7eV2IQvRM6sGzFRZVkA9IosjXuyg9CXxsroENG0xI5FErHOJrqcShuoeRmWV8AeJcYjKO8BJpLbCNVx8ROtU6PGoShS9UOAZpLueIBwMw8GrfgcH4W4ItPwohe6s4SgohjKff6ezWoX2TNbpXcRiD-jjqwsSzurY6A==)
-- [babycenter.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL0QnzP_ShDqEytfeR0hszSwf7ispBEZbOtlaKCTp4ydgdS8PEo2iDMn7y6IDGOy4eAEeymQt8AfSqPFNfZATgUPrFG9RsDib9imBuoGyeiNHsBu3IhNs-lUCneoQ00rfWEjp1VqVRAcKj6bLR66Mr0VmpXyxRXzfJtSWbWsg=)
+- [archivemarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmA_sG-ClEo9caV9AHUbe7-q8-_t-Mc11tPkdjPBI-S4u8wmAGUGut7HfFrb_UaMgfMQeyrGJGV_0wHOROXMJL4GGnPcm4e0jnTNAhfcRS1nfTXEbdF307kAirknE6HapJYGAUavZ0ETaOGXc-hEoSy-rI4lakYOsLMw7Z5NKXQsl-)
+- [mommyhood101.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVtY3_luPm9Q8HnEk-OsgntcsNaRHJ0pxiDXdG_f3-6F5oIldgekktn2dFGXw8hi7WbX9RKktqcdKWmhFqwrj3ulFFcsQpTAvIymQJbiaG8MFfFlvSIFS0MoN9Zy68pHhvfbZGaVk=)
+- [forthebaby.co.uk](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhdWNjpxJ2QNcms-Qjc6B4Vr7G2_OVAP8gKgdQzbr7ViMQ1YfTlf_hMMn9Nm-A4RKM6Dy1y5m4Uvq72G7h-iG4XKOIgjB0FWZtOSxLEXIT8QjNMA8FphoXJR1zxwG8dMukcduj_dRUj6WdCSLJhiS-CzIbFvedHOvTeA==)

@@ -1271,7 +1271,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                       <div className="bg-gray-50 rounded-xl p-4">
                         <div className="flex items-center gap-3">
                           <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-                          <span className="text-sm text-gray-600 font-medium">조건 충족도 분석 중...</span>
+                          <span className="text-sm text-gray-600 font-medium">분석 리포트 생성 중...잠시만 기다려주세요</span>
                         </div>
                       </div>
                     );
@@ -1343,30 +1343,46 @@ export default function ProductDetailModal({ productData, category, categoryName
                   // 2. 충족된 조건들 (shortReason 사용)
                   hardFilterConditions.forEach(cond => {
                     if (cond.status === '충족') {
-                      if (cond.shortReason) {
+                      if (cond.shortReason && cond.shortReason.trim()) {
                         recommendationSentencesSet.add(cond.shortReason);
+                      } else {
+                        console.warn('[PDP] shortReason missing for hardFilter:', cond.condition);
                       }
                     }
                   });
 
                   balanceConditions.forEach(cond => {
                     if (cond.status === '충족' || cond.status === '부분충족') {
-                      if (cond.shortReason) {
+                      if (cond.shortReason && cond.shortReason.trim()) {
                         recommendationSentencesSet.add(cond.shortReason);
+                      } else {
+                        console.warn('[PDP] shortReason missing for balance:', cond.condition);
                       }
                     }
                   });
 
                   negativeConditions.forEach(cond => {
                     if (cond.status === '회피됨' || cond.status === '부분회피') {
-                      if (cond.shortReason) {
+                      if (cond.shortReason && cond.shortReason.trim()) {
                         recommendationSentencesSet.add(cond.shortReason);
+                      } else {
+                        console.warn('[PDP] shortReason missing for negative:', cond.condition);
                       }
                     }
                   });
 
                   // Set을 배열로 변환 (최대 6개)
                   const recommendationSentences = Array.from(recommendationSentencesSet).slice(0, 6);
+
+                  // 🔍 디버깅: 추천 이유 생성 결과 확인
+                  if (recommendationSentences.length === 0) {
+                    console.warn('[PDP] No recommendation sentences generated!', {
+                      hardFilterCount: hardFilterConditions.length,
+                      balanceCount: balanceConditions.length,
+                      negativeCount: negativeConditions.length,
+                      hasContextMatch: !!(initialContext && contextMatchData)
+                    });
+                  }
 
                   return (
                     <div className="space-y-4">

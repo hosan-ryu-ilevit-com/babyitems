@@ -108,13 +108,55 @@ interface ConditionEvalResponse {
 
 const normalizeShortReasons = (conditions: ConditionEvaluation[]): ConditionEvaluation[] => {
   return conditions.map((condition) => {
-    if (condition.shortReason) return condition;
+    // 이미 shortReason이 있고 충분히 길면 그대로 사용
+    if (condition.shortReason && condition.shortReason.trim().length > 10) {
+      return condition;
+    }
+
+    // evidence에서 첫 문장 추출
     const evidence = condition.evidence || '';
     const firstSentenceMatch = evidence.match(/^[^.!?]+[.!?]/);
-    const shortReason = (firstSentenceMatch ? firstSentenceMatch[0] : evidence).trim();
+    let shortReason = (firstSentenceMatch ? firstSentenceMatch[0] : evidence).trim();
+
+    // shortReason이 여전히 비어있거나 너무 짧으면 condition을 기반으로 생성
+    if (!shortReason || shortReason.length < 10) {
+      const conditionText = condition.condition;
+      const conditionType = condition.conditionType;
+      const status = condition.status;
+
+      // "질문: 답변" 형식이면 답변 부분만 사용
+      if (conditionText.includes(':')) {
+        const parts = conditionText.split(':', 2);
+        const answer = parts[1].trim();
+
+        if (conditionType === 'negative') {
+          // 부정 조건
+          if (status === '회피됨' || status === '부분회피') {
+            shortReason = `${answer} 문제를 최소화했어요.`;
+          } else {
+            shortReason = `${answer} 관련 정보를 확인해보세요.`;
+          }
+        } else {
+          // 긍정 조건
+          if (status === '충족' || status === '부분충족') {
+            shortReason = `${answer} 조건을 고려해 선정했어요.`;
+          } else {
+            shortReason = `${answer} 관련 상세 스펙을 확인해보세요.`;
+          }
+        }
+      } else {
+        // 질문 형식이 아닌 경우
+        if (conditionType === 'negative') {
+          shortReason = `${conditionText} 문제를 고려했어요.`;
+        } else {
+          shortReason = `${conditionText} 특성을 반영했어요.`;
+        }
+      }
+    }
+
     return {
       ...condition,
-      shortReason: shortReason || condition.condition,
+      shortReason,
     };
   });
 };
@@ -210,8 +252,8 @@ function generateFallbackAnalysis(
           conditionType: 'hardFilter',
           questionId: questionId,
           status: '부분충족',
-          shortReason: '상세 스펙에서 확인이 어려워요.',
-          evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
+          shortReason: `${answer} 조건을 고려해 선정했어요.`,
+          evidence: '말씀하신 조건을 종합적으로 고려해 선정한 제품이에요. 상세 스펙과 리뷰를 확인해보시면 더 많은 정보를 얻으실 수 있어요.',
         });
       }
     });
@@ -225,8 +267,8 @@ function generateFallbackAnalysis(
       conditionType: 'balance',
       questionId: b.questionId,
       status: '부분충족',
-      shortReason: '상세 스펙에서 확인이 어려워요.',
-      evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
+      shortReason: `${b.selectedLabel} 특성을 고려해 선정했어요.`,
+      evidence: '선호하신 속성을 반영해 선정한 제품이에요. 실제 사용 리뷰를 확인하시면 더 자세한 정보를 얻으실 수 있어요.',
     });
   });
 
@@ -236,8 +278,8 @@ function generateFallbackAnalysis(
       condition: neg,
       conditionType: 'negative',
       status: '부분회피',
-      shortReason: '상세 스펙에서 확인이 어려워요.',
-      evidence: '상세 스펙에서 해당 정보를 확인하기 어려워요. 판매처에서 직접 확인해보세요.',
+      shortReason: `${neg} 문제를 최소화한 제품이에요.`,
+      evidence: '피하고 싶어하신 단점을 고려해 선정한 제품이에요. 리뷰를 확인하시면 실제 사용자 경험을 알 수 있어요.',
     });
   });
 
@@ -357,7 +399,7 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
       "conditionType": "hardFilter",
       "questionId": "${c.questionId}",
       "status": "충족 또는 불충족",
-      "shortReason": "심플한 1문장 (왜 추천했나요?용)",
+      "shortReason": "심플한 1문장 (필수! 빈 문자열 금지)",
       "evidence": "자세한 2문장 (주요 포인트용)"
     }`).join(',\n    ')}${hardFilterConditions.length > 0 && balanceConditions.length > 0 ? ',' : ''}
     ${balanceConditions.map(c => `{
@@ -365,14 +407,14 @@ ${negativeConditions.map((c, i) => `${i + 1}. ${c}`).join('\n')}` : ''}
       "conditionType": "balance",
       "questionId": "${c.questionId}",
       "status": "충족/부분충족/불충족 중 하나",
-      "shortReason": "심플한 1문장 (왜 추천했나요?용)",
+      "shortReason": "심플한 1문장 (필수! 빈 문자열 금지)",
       "evidence": "자세한 2문장 (주요 포인트용)"
     }`).join(',\n    ')}${(hardFilterConditions.length > 0 || balanceConditions.length > 0) && negativeConditions.length > 0 ? ',' : ''}
     ${negativeConditions.map(c => `{
       "condition": "${c}",
       "conditionType": "negative",
       "status": "회피됨/부분회피/회피안됨 중 하나",
-      "shortReason": "심플한 1문장 (왜 추천했나요?용)",
+      "shortReason": "심플한 1문장 (필수! 빈 문자열 금지)",
       "evidence": "자세한 2문장 (주요 포인트용)"
     }`).join(',\n    ')}
   ],` : '';
@@ -424,22 +466,27 @@ ${preEvalHints.join('\n')}
 ## 응답 필드 작성 규칙 (매우 중요!)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+### 🚨 필수 규칙: shortReason은 절대 비워두지 마세요!
+모든 조건에 대해 **반드시 shortReason을 생성**해야 합니다. 스펙 데이터가 부족하더라도 사용자가 선택한 조건을 언급하는 문장을 만드세요.
+
 ### 1️⃣ shortReason - "왜 추천했나요?" 섹션용
 **용도**: PDP 상단의 "왜 추천했나요?" 리스트 항목으로 표시
-**형식**: 구체적인 1문장 (20-40자, 제품의 실제 스펙/수치 포함)
+**형식**: 구체적인 1문장 (20-40자, 가능하면 제품의 실제 스펙/수치 포함)
 
 #### ✅ Good Examples (구체적 수치/스펙 포함)
 - "IH 압력 방식으로 1,050W 고출력 가열이 가능해요."
 - "에코 스테인리스 내솥으로 코팅 벗겨짐 걱정이 없어요."
 - "10인용(1.8L) 대용량으로 4인 가족도 넉넉하게 사용해요."
-- "35dB 저소음 설계로 밤에도 조용하게 사용할 수 있어요."
-- "접이식 프레임으로 차 트렁크에 쉽게 수납돼요."
-- "5.8kg 경량 설계로 한 손으로도 들어올릴 수 있어요."
 
-#### ❌ Bad Examples (너무 추상적)
-- "최상급 핸들링과 안정적인 주행을 제공합니다." ← 구체적 수치 없음
-- "아기의 편안함을 위한 기능을 제공합니다." ← 어떤 기능인지 불명확
-- "선호하는 브랜드를 충족합니다." ← 당연한 말, 가치 없음
+#### 🆗 Acceptable (스펙 데이터 부족 시)
+스펙 데이터가 부족하면 사용자 조건을 언급하는 문장으로 대체 가능:
+- "말씀하신 브랜드 선호도를 반영한 제품이에요."
+- "요청하신 용량 조건을 고려해 선정했어요."
+
+#### ❌ Bad Examples (절대 사용 금지)
+- "" (빈 문자열) ← 절대 금지!
+- "상세 스펙에서 확인이 어려워요." ← 무의미한 메시지
+- "최상급 핸들링과 안정적인 주행을 제공합니다." ← 너무 추상적
 
 ### 2️⃣ evidence - "주요 포인트" 섹션용
 **용도**: PDP의 "주요 포인트" Q/A 섹션에서 상세 설명으로 표시
@@ -451,10 +498,10 @@ ${preEvalHints.join('\n')}
 
 ### 공통 규칙
 1. **제품 관점**으로 작성 - "이 제품은 ~해요" 형식
-2. **구체적 수치/스펙 필수** - 추상적 표현 금지, 실제 수치(용량, 무게, 전력, 소음 dB 등) 포함
-3. **사용자 조건 반복 금지** - "~하시는군요", "선호하는 ~를 충족합니다" 금지
-4. **당연한 말 금지** - "브랜드를 충족", "기능을 제공" 같은 무의미한 표현 금지
-5. 근거가 없으면 "상세 스펙 확인 필요" 사용
+2. **구체적 수치/스펙 우선** - 가능하면 실제 수치(용량, 무게, 전력, 소음 dB 등) 포함
+3. **shortReason은 절대 비우지 않기** - 스펙 데이터 부족 시 사용자 조건을 언급하는 문장으로 대체
+4. **사용자 조건 직접 반복 금지** - "~하시는군요", "충족합니다" 같은 당연한 표현 금지
+5. **당연한 말 금지** - 구체적 정보가 없는 무의미한 표현 사용 금지
 6. **최대 6개까지만 생성** - 조건이 많아도 가장 중요한 6개만 선택 (우선순위: 충족 > 부분충족 > 회피됨)
 7. **각 문장은 서로 다른 정보** 포함 - 중복 금지
 
@@ -479,9 +526,24 @@ JSON만 응답하세요.`;
 
     const parsed = JSON.parse(jsonMatch[0]);
 
+    // 🔍 디버깅: LLM이 생성한 원본 데이터 로깅
+    console.log(`[condition-eval] LLM response for ${product.pcode}:`, JSON.stringify({
+      conditionCount: parsed.selectedConditionsEvaluation?.length || 0,
+      hasContextMatch: !!parsed.contextMatch,
+      shortReasonCount: parsed.selectedConditionsEvaluation?.filter((c: ConditionEvaluation) => c.shortReason).length || 0
+    }));
+
+    const normalized = normalizeShortReasons(parsed.selectedConditionsEvaluation || []);
+
+    // 🔍 디버깅: normalize 후 shortReason 상태 확인
+    const emptyShortReasons = normalized.filter(c => !c.shortReason || c.shortReason.trim() === '');
+    if (emptyShortReasons.length > 0) {
+      console.warn(`[condition-eval] ⚠️ ${product.pcode}: ${emptyShortReasons.length}개 조건의 shortReason이 비어있음`);
+    }
+
     return {
       pcode: product.pcode,
-      selectedConditionsEvaluation: normalizeShortReasons(parsed.selectedConditionsEvaluation || []),
+      selectedConditionsEvaluation: normalized,
       contextMatch: parsed.contextMatch,
     };
   } catch (error) {

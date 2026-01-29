@@ -121,6 +121,56 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
     setVisibleCount(initialVisibleCount);
   }, [showPhotoOnly, sortOrder, initialVisibleCount]);
 
+  // Move hooks before early returns to maintain consistent hook order
+  const loadMoreIfNeeded = useCallback(() => {
+    if (loading) return;
+    const sortedLength = reviews.filter(r => !showPhotoOnly || (r.images && r.images.length > 0)).length;
+    if (visibleCount < sortedLength) {
+      setVisibleCount(prev => Math.min(prev + displayBatchSize, sortedLength));
+      return;
+    }
+    if (hasMore) {
+      fetchReviewsPage(offset, true);
+    }
+  }, [displayBatchSize, fetchReviewsPage, hasMore, loading, offset, reviews, showPhotoOnly, visibleCount]);
+
+  // Scroll event for infinite scroll (modal mode)
+  useEffect(() => {
+    if (!fullHeight) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const scrollParent = scrollContainerRef?.current || getScrollParent(container);
+    if (!scrollParent) return;
+
+    scrollParentRef.current = scrollParent;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollParent;
+      if (scrollHeight - scrollTop - clientHeight < scrollThreshold) {
+        loadMoreIfNeeded();
+      }
+    };
+
+    scrollParent.addEventListener('scroll', handleScroll, { passive: true });
+    return () => scrollParent.removeEventListener('scroll', handleScroll);
+  }, [fullHeight, loadMoreIfNeeded, scrollContainerRef, scrollThreshold]);
+
+  // Check if we need to load more when content is shorter than viewport
+  useEffect(() => {
+    if (!fullHeight || !hasMore) return;
+    const scrollParent = scrollParentRef.current;
+    if (!scrollParent) return;
+    const sortedLength = reviews.filter(r => !showPhotoOnly || (r.images && r.images.length > 0)).length;
+    if (sortedLength === 0) return;
+
+    const { scrollHeight, clientHeight } = scrollParent;
+    if (scrollHeight <= clientHeight + scrollThreshold) {
+      loadMoreIfNeeded();
+    }
+  }, [fullHeight, hasMore, reviews, showPhotoOnly, loadMoreIfNeeded, scrollThreshold]);
+
   const toggleExpand = (reviewId: number) => {
     const newExpanded = new Set(expandedReviews);
     if (newExpanded.has(reviewId)) {
@@ -228,52 +278,6 @@ export default function DanawaReviewTab({ pcode, fullHeight = false, productTitl
       }
       return a.rating - b.rating;
     });
-
-  const loadMoreIfNeeded = useCallback(() => {
-    if (loading) return;
-    if (visibleCount < sortedReviews.length) {
-      setVisibleCount(prev => Math.min(prev + displayBatchSize, sortedReviews.length));
-      return;
-    }
-    if (hasMore) {
-      fetchReviewsPage(offset, true);
-    }
-  }, [displayBatchSize, fetchReviewsPage, hasMore, loading, offset, sortedReviews.length, visibleCount]);
-
-  // 스크롤 이벤트로 무한 스크롤 (모달에서 안정적)
-  useEffect(() => {
-    if (!fullHeight) return;
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const scrollParent = scrollContainerRef?.current || getScrollParent(container);
-    if (!scrollParent) return;
-
-    scrollParentRef.current = scrollParent;
-
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = scrollParent;
-      if (scrollHeight - scrollTop - clientHeight < scrollThreshold) {
-        loadMoreIfNeeded();
-      }
-    };
-
-    scrollParent.addEventListener('scroll', handleScroll, { passive: true });
-    return () => scrollParent.removeEventListener('scroll', handleScroll);
-  }, [fullHeight, loadMoreIfNeeded, scrollContainerRef, scrollThreshold]);
-
-  useEffect(() => {
-    if (!fullHeight || !hasMore) return;
-    const scrollParent = scrollParentRef.current;
-    if (!scrollParent) return;
-    if (sortedReviews.length === 0) return;
-
-    const { scrollHeight, clientHeight } = scrollParent;
-    if (scrollHeight <= clientHeight + scrollThreshold) {
-      loadMoreIfNeeded();
-    }
-  }, [fullHeight, hasMore, sortedReviews.length, loadMoreIfNeeded, scrollThreshold]);
 
   return (
     <div ref={containerRef} className="pb-4 relative">

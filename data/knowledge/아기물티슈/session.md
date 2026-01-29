@@ -1,5 +1,5 @@
-# 세션: 20260127_115401_m2k4
-> 시작: 2026-01-27T11:54:01.417Z
+# 세션: 20260129_043622_sqsn
+> 시작: 2026-01-29T04:36:22.027Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 2024년 국내 아기 물티슈 시장에서 베베숲이 26.4%의 점유율로 1위를 차지했으며, 이는 9년 연속 판매 1위 기록입니다. 전 세계 아기 물티슈 시장은 2024년 약 385억 5천만 달러 규모로 평가되었으며, 2035년까지 연평균 2.8% 성장할 것으로 예상됩니다. 소비자들은 안전성과 성분을 중요하게 여기는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYaFEWqO-_yzvlKxIwCDUN8xJyRtBAIJ10DBjqoIwR0vShvbs_-stLwjkXG0MRqi93bmFHzcFIPihsO68puIy6EpNmR2P-hQBvEuWkqOG_22HuXaSLihqgxz-oPt9auAS4KE_zTZaW5QuKPWV9p5teOGbK05_d-Q8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtdUP5HhCJE2IV7akrieLMRQm_szPsiNGXUij_-76xqHYq7QjtEr1zxCryZe_eV0alNMFfCpKlVrjSs9xZkq8iI62sqq3ACZl2bnDOKhl_05O4nuusmh1xHncGBmT75oAo7uXZxg4zy3PNvaWn-kO2mzGG71x7Y1vHhyg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-JPAmtX93xYFdF0N9TBNJaH175UfC87ACHzsF9_yXJ1IfjejKSRoL8BuwV9__MVlYeVIAuQgC2Vkx86OS0vTCrjLAlWd4NnuqftE4MTHAX7Pc9-j4lX4434a0mRkxwZj8KcVtE1XVc7kW6npFXcsYL2ZM6ndzVB60wUGR-2MDVfWVNj7VPJK065o=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrRngk7C-MdRWNwoc0J9pwJLZsmRoNoyZ2U4FElZzxeRCmpK4j9NZOlCGLIRtHaYDxmucj-vPoezkF6nog-Ntb1T1AeuxyjYH-QvqIlGyNGQHoS05mMAhhBnbiTg37G4HagsI1fooabbpFZgrOfZU4eoqt_B7wSyy6YivCAT6Mchc32UYTMyWIexa_9_HgwT4Y0D_7Bik=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHARV5FZfM5J8tgG1XSe0oE6zotuLKLrNg0U-0u0bYW3Z-83D51AwCX3TcAEX5vjiUXTTehgeVKbjnQIy0KvfafFvl62GLIb_Wpj0rg9Qh5cmFY6xTB3Xi4r9gV06WxkpWoyw4ydbDhlVD8xVa0LHjmbSYQUcr1yS1A7A0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeTD1PTudogcXuC8yvxzzW5kOFmIufPZ4YVnULejg0P3uqLzc5DHoqHssnvjHLm46M4VwtJdHLEJ7HLcFIcu8CabZZmbqq6xoRwR2DUYp0CSXR_c5t94TEVrOMosHI7n8P2Q8G4laC
+- 인사이트: 2024년 기준 아기 물티슈 시장은 약 124억 달러 규모로 평가되었으며, 2032년까지 연평균 4.0%~5.6%의 성장률을 보일 것으로 예상됩니다. 북미 시장이 가장 큰 비중을 차지하고 있으며, 위생에 대한 중요성 증가와 지속적인 제품 혁신이 시장 성장을 견인하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEF8bv1nUC09bSH4dM3au2BngM8WX-n8SzZQZ1PQpSAFDPa0KLop4VKdeVoB1n_SmBH-HKfyNPajr1be5_r2SW24HtmvcCs9N7Wi10uWEY_6ra_fXcug9BXvwZIm39-2NO74QFHik-wjwYcZLEsVMf-xc-dNWCUFd6cx5INCf0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWkDRuWULX7eEoZng6efFN9oOZvDfcgiZQwE5SD1Be1KMpLylTOE-CU95ce778BZtjRA69m_JIcAlGaDdIBQXZoFZRbO2g5iHoIYKGqHHs4EQb5CQl8nRmT4RibbmsO21i8BATpJSoBRHAh74vH4AK2x2KOnfd6_3iSZ73, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMGmlE32YR6_MqzAzG3Uts6BnQndCKcC7QOVS2gRtSEu77fDNVpHSXIEtGTuP6-_lUUUAEGHJjzwf6GvzlTmSoMWYabZhvsPKN7P9eZQsHHvULJCHZ4bwyyfXK57YY3xVf9itujPpCUYTRoPvyhobuZhbVQUu2yuc4iA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDCM-nr8Y3pJPNlCExZHCmWBnLWdVwc93LRuCEAUo8YMQzCp62A6O9eThSsqLfk6uG05XfCgbNYWcGOx1GtgX6o0uBoWztfXjQ3HfKuEvAuYnmwpxprhouqUwKNhbqSeZkwzLSFvtWLz-2LO4AxnjAwksBZLgK1lC8wUsoFdk-vbbkRWM0A-xKS4ig1h6pnIsrnYTOSks=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLBkEmEJgJno1W9dqJrOTHvoHThzzoGusIvnLyHqlaj_mGD_44ek4YsGZjdklCmw4CH1G3-IVbTClJg59ebwSVGBP5XTQNmRhijVhUQJfuh5F3Wgk4PoFT7sSMeLTZLPYa60ckih103Ksb5TALEE7bjZWi4yBNE-wcGq0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEq0m3Zqwh34MCVayiI9u14OqX4G7jtFBOIupF5-9wuQhw89iULu6ybJXRa_E58NVCHMAt2vo8kN3wQSIp6T3OqquYoh2pmFa-W4532EZKPRLwx7dVis_gcWgPlYWxtlmQNN3jzjA0ojGgvuFlCukpxxqszIRHfvB1OUzc=
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 믿고 사용하는 아기물티슈 브랜드가 있으신가요? | 순둥이, 코멧 |
-| 물티슈의 두께는 어느 정도를 선호하시나요? (평량 기준) | 적당한 두께 |
-| 물티슈 표면의 엠보싱 처리에 대한 선호도가 있으신가요? | 엠보싱 없음 |
-| 물티슈를 주로 어떤 상황에서 사용하시나요? | 손, 입 주변 닦기, 아기 피부 전체 케어 |
+| 아기 물티슈, 혹시 선호하는 브랜드가 있으신가요? | 아이러브베베, 미엘 |
+| 아기 피부에 직접 닿는 만큼, 성분은 얼마나 꼼꼼하게 보시나요? | 순한 성분 (저자극, 약산성) |
+| 물티슈를 사용할 때, 어떤 두께와 촉감을 선호하시나요? | 일반적인 두께의 엠보싱 원단 |
+| 주로 어떤 상황에서 물티슈를 사용하실 예정인가요? | 아기 용품 및 생활 전반 청소 |
 | 예산은 어느 정도로 생각하세요? (평균 약 1만 2천원, 7천원~1만 6천원대가 가장 많아요) | 7천원 ~ 1만 6천원대 |
 
 ---

@@ -1,5 +1,5 @@
-# 세션: 20260128_075915_9qb6
-> 시작: 2026-01-28T07:59:15.719Z
+# 세션: 20260129_032936_0tl1
+> 시작: 2026-01-29T03:29:36.901Z
 > 카테고리키: 분유포트
 > 카테고리: 분유포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유포트 시장 현황
-- 인사이트: 분유포트는 아기 분유 수유 시 물의 온도를 일정하게 유지하고 빠르게 준비할 수 있도록 돕는 육아 필수템입니다. 최근에는 휴대용 분유포트, 자동 출수형 분유포트 등 다양한 기능과 디자인의 제품들이 출시되어 소비자의 선택 폭을 넓히고 있습니다. 특히 벤브와, 릴리브, 보르르 등의 브랜드가 인기 있으며, 각 제품마다 장단점을 가지고 있어 사용 목적과 환경에 맞는 제품 선택이 중요합니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbGtvlD8TakfIAOlnSM8ySSIVMYmCMpwhL-Depu-UMoB39hPf0uoBqjXUqQdWnKDvBJfZGep1_2xjUSglJZkclX4qRoOkmDzVDiC7nq9cXQhwhMWvKnKsjNRHi9zIgeEjkfJmpXbpFPREjtJlRAQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGscqdM6XzKAiFVxxSpIt8xLadTauSMZL9IRUmONLxBtmw7wyolVA5pOdqPBvXH-cH-sDuPQKxZSro-G7l95-EGpJhhnGoytoipLoqDBrBNf92y4hu6zwRqlF_OkaGYQJG8YnO-qAg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzdSc2Ui4l7-xUegApgg4Dn7CCcRZO4YuEmk6IPc4ck9TjKkdtM4LyebQCa2SosZA9v0zj9ifNhoQnk1B99OgToG-zq4_wFnuPVLVyIO6-h2AUyC2CdRXJDPC5GvrY1-DDL5SaCgk=
+- 인사이트: 분유포트는 아기 분유를 탈 때 필요한 물을 적정 온도로 유지해주는 육아 필수템으로 자리 잡았습니다. 다양한 기능과 디자인의 제품들이 출시되고 있으며, 특히 자동 출수 기능, 정밀한 온도 조절, 중탕 기능 등이 소비자들에게 인기를 얻고 있습니다. 벤브와, 보르르, 릴리브 등의 브랜드가 시장에서 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHitvCg-iE6VK2i_Z_LZtSxno873DKHVvkJlRmL3TtBs_lhsboJSxHAGgeA0j26rs2dz-Mrre6C_Un0DFHpVarLWoe6Qi9hUHbu430Iu-B_Y1zt25glamC780Ydbhbd_f8n92aydNod5_do5mEjR6dKP2JBD6TsiJQv3EPviCRi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTxt5xEetqu17mxhEAZWCnKX6TfFfE7VMZThxjfzjfd2ugtLlkqS9oEPbALY1Npdcv_QBiIP2I7bERSamodbPZ_b9yyP6lM8916E-TLu6LHnzA7Hc1tU-gJXF2Bkb05yfms5w4d-IPKi1tJAi6OyEfuz0za410_dNOlnH-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL6CnQceo0Z1chHqxySQRm6v5cKtLlGC8OyFjufSF_1gFJ0AYx9_pw0Te0d7aSEsT3Lti_jHmy5cVooIfdAr_2CIQwdDqYRxNtwWpYPXpmCwvMXm_UIYVzm_Zb-iqa5ovKnQNro88=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzgcUe7gHJmOvYNpOyiNxdrSPWnrJHhTWr1-OIszLB66lEEHz2AXB4Dbp9DgP2BOQB42e9tUIZIzRwqPHmY7yEkCxcFBO0FPISl1vRPi3I9yJhSDDlArUm3q5YkGi06Jl31BNNZtXQLODYC2tqPbxaUeWwmiAOmcbvybcDpAuUjsmH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECe288GLfaf5IsUtp9Z65MzaOAzoA9IFBiZdc_PBe00BA7O-JkLCnqsbrMsnV-jeWcvdlgPSv4oxyCkxUtAFaTtJjFCqn-8sqZgiKOYIOPWY36yAGiemsWdFrpp3u4Lprx-30Y6A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPtI6BpheFESwTR6p1tW3y4L63l4K7PTEs_Kwe09VjCWHqjVfgZ5xd4wpipXD3SwQEJOpu1gs6dpDIVTRk68eBCLn6R3txV1WMqjVokWLlMFblwnd2Yn1kVjCNXVsCSfwlf3vu4Kd-
 
 ---
 
@@ -16,8 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기가 하루에 몇 번 정도 수유하나요? 또는 한 번에 먹는 양이 어느 정도인가요? | 하루 3~4회 수유 |
-| 분유 온도를 얼마나 정확하게 조절하고 싶으신가요? | 1℃ 단위의 정밀한 온도 조절 |
+| 아기 분유를 탈 때 가장 중요하게 생각하는 온도는 몇 도인가요? (정확한 온도 조절 및 유지가 중요해요) | 70℃, 50℃ |
+| 하루에 수유하는 횟수나 한 번에 타는 분유량이 어느 정도 되나요? (포트 용량 선택에 참고하세요) | 1.5L |
+| 포트의 재질은 어떤 것을 선호하시나요? (안전하고 위생적인 소재를 선택하세요) | 스테인리스, 유리 |
+| 혹시 선호하시는 분유포트 브랜드가 있으신가요? | 키친아트 |
+| 분유포트 예산은 어느 정도로 생각하세요? (평균 5만 8천원대, 4만원대~7만원대가 가장 많아요) | 4만원대 ~ 7만원대 |
 
 ---
 

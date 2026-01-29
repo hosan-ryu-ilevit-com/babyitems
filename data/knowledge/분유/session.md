@@ -1,5 +1,5 @@
-# 세션: 20260127_055227_am9a
-> 시작: 2026-01-27T05:52:27.602Z
+# 세션: 20260129_054114_gwcq
+> 시작: 2026-01-29T05:41:14.773Z
 > 카테고리키: 분유
 > 카테고리: 분유
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3A-fc-ZAG58IWfEQB2BVQjo-yLUlubbys-YUlgV4Q2LEbelgJur0ceXyiUE8adTToEDgZ5kCkKNRxfU0NxxJjWKyBUiZiB2yqVKvAwF2nB46oYbtKkW0jZoT2QdzzeAgF9XwrB2gVCosGAGwXDPICeCDRbEg_aIUKFrF8-QQ6E5XV844xTl-ZIvM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4XFDefNOzQGFAKozYIco6EaBXqhf-R0hweGhaHwFNafYNN94eVro-zSyr8-K2WvHYKagC2yg4pezCVmVJFAQX18CTGYeGl6yWmxqUwEVYfY23OUJyp58e5k8T2_rCf9jRibgnlotw-HFWWrLZYVQROgcz3rYDtTaFSVnRUA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHplBeDPBZZy4QqE8C4rmg6CUJ4cs61rezchi4Wcz4O5uKXyUTlv69rl50lZmhwYnqcWB-dB8V2eQZrcSinFW51LH0H1YsbAoCLFrIiFO64NFNYF6y7K_4v5wgjqqnM13rpSRE5E7iO0oEE9HclQmmi7O8g2qIWRJq7vgGEoAWyrmV3xLelKv1JH4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC7q-K-My2LagFFUKt9ZDd6dFAwqWtSsH7OAOZRTz0W7gGviblT4Ny4fIHG0MAzh5UjnFx2laP58fCsABXxB0TVWGnFgizOHDDVLfoQgPJFUlecYbVQN2T0SNd1tG0W3bRyOuqQSLomxeHOnfNAXGr46ARdewo_wTSMligy05-rqvA3_u9rqHaT0Ie, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSvOjqqzL-AW5sl5pV8MjwaJGZ3xRW1_AO0Fjm9vFLMtqQzL-VjXfr-wcU894BZx3b87CvfgNTWwjoc8Q-Wpln4XQkObXvVQZBKMpvlGqWHttBJCv_MYrqnN5Ypnjdicxi4Nd_aVtNB7AwE5eLXT13OJPWoPpkyGULbfR3z2ZpZw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1O51BSy7zd3ttn2aViXYtGII3TT_2VqHuriLTB0t4jCu3g95KHsYFPWTd0cprulnnTqzKwA5z8-cSqHFiPSyyH0eZms3BuU7zyUTvzE1a83cBqfpUlgXA9um5bQxtw_v8HX8Ljg5TY5mPJBjaDNPBNnXxc9iYpuHf6RxPVJ3l5xy9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9UsGSfP9WPciJvi2EJiYGFviAA-NbrAHaVN25XH4QNhzI6_HvPW7hj554BkoAec4rpg6AJiREsF9j2AQDsB3L_2UoAszDjVTOCnPazvn-hWcXHuTXfaW9VFoXejrOi2YMt6A9LivqwzKDcA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqS_KFZQdg6qy8Mp8IOud2C-XDIdGsYYWMKjqRE9nfcMknSXSYECpAd0JWfDEgIYXpwUbZ2bKdvQmW1j2LjKoT95I1C52DfH_3lQaz0QpraUPBn9t_DiwwkjPBMdxWIqOFQdGBm7Pt1j1MAMFhxsU0ki-WnBc=
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3A-fc-ZAG58IWfEQB2BVQjo-yLUlubbys-YUlgV4Q2LEbelgJur0ceXyiUE8adTToEDgZ5kCkKNRxfU0NxxJjWKyBUiZiB2yqVKvAwF2nB46oYbtKkW0jZoT2QdzzeAgF9XwrB2gVCosGAGwXDPICeCDRbEg_aIUKFrF8-QQ6E5XV844xTl-ZIvM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4XFDefNOzQGFAKozYIco6EaBXqhf-R0hweGhaHwFNafYNN94eVro-zSyr8-K2WvHYKagC2yg4pezCVmVJFAQX18CTGYeGl6yWmxqUwEVYfY23OUJyp58e5k8T2_rCf9jRibgnlotw-HFWWrLZYVQROgcz3rYDtTaFSVnRUA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHplBeDPBZZy4QqE8C4rmg6CUJ4cs61rezchi4Wcz4O5uKXyUTlv69rl50lZmhwYnqcWB-dB8V2eQZrcSinFW51LH0H1YsbAoCLFrIiFO64NFNYF6y7K_4v5wgjqqnM13rpSRE5E7iO0oEE9HclQmmi7O8g2qIWRJq7vgGEoAWyrmV3xLelKv1JH4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC7q-K-My2LagFFUKt9ZDd6dFAwqWtSsH7OAOZRTz0W7gGviblT4Ny4fIHG0MAzh5UjnFx2laP58fCsABXxB0TVWGnFgizOHDDVLfoQgPJFUlecYbVQN2T0SNd1tG0W3bRyOuqQSLomxeHOnfNAXGr46ARdewo_wTSMligy05-rqvA3_u9rqHaT0Ie, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSvOjqqzL-AW5sl5pV8MjwaJGZ3xRW1_AO0Fjm9vFLMtqQzL-VjXfr-wcU894BZx3b87CvfgNTWwjoc8Q-Wpln4XQkObXvVQZBKMpvlGqWHttBJCv_MYrqnN5Ypnjdicxi4Nd_aVtNB7AwE5eLXT13OJPWoPpkyGULbfR3z2ZpZw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1O51BSy7zd3ttn2aViXYtGII3TT_2VqHuriLTB0t4jCu3g95KHsYFPWTd0cprulnnTqzKwA5z8-cSqHFiPSyyH0eZms3BuU7zyUTvzE1a83cBqfpUlgXA9um5bQxtw_v8HX8Ljg5TY5mPJBjaDNPBNnXxc9iYpuHf6RxPVJ3l5xy9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9UsGSfP9WPciJvi2EJiYGFviAA-NbrAHaVN25XH4QNhzI6_HvPW7hj554BkoAec4rpg6AJiREsF9j2AQDsB3L_2UoAszDjVTOCnPazvn-hWcXHuTXfaW9VFoXejrOi2YMt6A9LivqwzKDcA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqS_KFZQdg6qy8Mp8IOud2C-XDIdGsYYWMKjqRE9nfcMknSXSYECpAd0JWfDEgIYXpwUbZ2bKdvQmW1j2LjKoT95I1C52DfH_3lQaz0QpraUPBn9t_DiwwkjPBMdxWIqOFQdGBm7Pt1j1MAMFhxsU0ki-WnBc=
+- 인사이트: 국내 분유 시장은 수입 분유의 강세 속에서 국내 브랜드들이 어려움을 겪고 있습니다. 특히 '압타밀'과 같은 수입 분유는 높은 가격에도 불구하고 안전성과 성분에 대한 신뢰를 바탕으로 인기를 얻고 있으며, 국내 시장 점유율에서도 높은 순위를 차지하고 있습니다. 반면, 매일유업의 앱솔루트, 일동후디스의 산양분유 등 국내 브랜드들은 매출 감소세를 보이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHn-qyKfXeU2wi9irhFTbLVA5NjOm42495h6HGBRgl-lVHxMIX9TX8ILXUDlLFNlSLRHsuBHVsqILhUbfF89HQ14bJxw-iMN0CpKlt8gu2LIzavg5ugEues5oYhrVmlqdEfs2fFaugn6dRIvBrN3oUuL1FgHxKrFCFeST0L_L44AWH4xKHarx96a0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMk0L07XOgRuvGwWNJdn0DiDIzbfWu_uyOXIAz1EOxYVAEqK0MVmsOmjqaU7gky0Q18JXiINbUIU899xvDX1oMHwIAJHWUEjdGAIO1OykB0njhc2E3lowQ_mXwmTI-vPQm0lNNXxk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNcAZz2DDoenwXhi-NyDd_upS2-afvA-A-M0zo3rapM-0R-y4JlgXmbIhQuvZ7p9Cc06_pQF5CPaYScIOuJ0hWVH0VNv5P2MzTHcFufEy5WBEDhhzjwvXJao0ccTP6MppAqMIqTK_KpblkLF9R2k_vMEGMzK9y5GcbOVIlfbtGESFDEVIy-C7Hiq4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtNBOg5NwbkjXcJXwp32SVL0BnRBA9HCi_mFoFuoJtMNlDImJoR4dcDw9sQ1JWmaCmXv7SPDGHrkFRlObt-bmgvVHaGwd8vBPD81rNYc7zgoH-F-O9cZbOudQSJIbeOnz0HWLmGaoh-BJ249AoPSbzqL_Mk6hgKw==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 월령은 어떻게 되나요? | 6~11개월 |
-| 어떤 종류의 분유를 찾으시나요? | 일반 분유 |
-| 믿고 쓰는 브랜드가 있으신가요? | 압타밀, 매일유업 앱솔루트 |
-| 분유 선택 시 특별히 고려하는 성분이 있으신가요? | 팜유 무첨가, A2 단백질 |
-| 예산은 어느 정도로 생각하세요? (평균 6만 7천원, 4만원대~8만원대가 가장 많아요) | 4만원 ~ 8만원대 |
+| 아기의 개월 수를 알려주세요. | 6~12개월 |
+| 선호하는 분유 브랜드가 있으신가요? | 매일유업 |
+| 아기의 특별한 영양 요구사항이나 소화 관련 고민이 있으신가요? | 소화불량/배앓이 |
+| 분유의 원산지에 대한 선호도가 있으신가요? | 국내 생산 |
+| 예산은 어느 정도로 생각하세요? (평균 6만 7천원, 4만원대~8만원대가 가장 많아요) | 8만 7천원대 |
 
 ---
 

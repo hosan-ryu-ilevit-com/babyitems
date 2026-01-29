@@ -3,12 +3,12 @@
  * Knowledge Agent - Product Analysis API (DEPRECATED)
  *
  * ⚠️ 이 API는 deprecated 되었습니다.
- * 대신 아래 4개의 분리된 API를 병렬로 호출하세요:
+ * 대신 아래 3개의 분리된 API를 병렬로 호출하세요:
  * - /api/knowledge-agent/product-analysis/pros-cons
  * - /api/knowledge-agent/product-analysis/condition-eval
- * - /api/knowledge-agent/product-analysis/one-liner
  * - /api/knowledge-agent/product-analysis/normalize-specs
  *
+ * 참고: oneLiner는 final-recommend API에서 생성됩니다.
  * 이 API는 하위 호환성을 위해 유지되며, 내부적으로 분리된 API들을 호출합니다.
  */
 
@@ -50,8 +50,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
 
     const baseUrl = request.nextUrl.origin;
 
-    // 4개 API 병렬 호출
-    const [prosConsRes, conditionEvalRes, oneLinerRes, normalizeSpecsRes] = await Promise.all([
+    // 3개 API 병렬 호출 (oneLiner는 final-recommend에서 생성)
+    const [prosConsRes, conditionEvalRes, normalizeSpecsRes] = await Promise.all([
       fetch(`${baseUrl}/api/knowledge-agent/product-analysis/pros-cons`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -68,11 +68,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
           filterTags,
         }),
       }),
-      fetch(`${baseUrl}/api/knowledge-agent/product-analysis/one-liner`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categoryName, products }),
-      }),
       fetch(`${baseUrl}/api/knowledge-agent/product-analysis/normalize-specs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -80,10 +75,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
       }),
     ]);
 
-    const [prosConsData, conditionEvalData, oneLinerData, normalizeSpecsData] = await Promise.all([
+    const [prosConsData, conditionEvalData, normalizeSpecsData] = await Promise.all([
       prosConsRes.ok ? prosConsRes.json() : { success: false },
       conditionEvalRes.ok ? conditionEvalRes.json() : { success: false },
-      oneLinerRes.ok ? oneLinerRes.json() : { success: false },
       normalizeSpecsRes.ok ? normalizeSpecsRes.json() : { success: false },
     ]);
 
@@ -93,14 +87,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<ProductAn
 
       const prosConsResult = prosConsData.data?.results?.find((r: any) => String(r.pcode) === pcode);
       const conditionEvalResult = conditionEvalData.data?.results?.find((r: any) => String(r.pcode) === pcode);
-      const oneLinerResult = oneLinerData.data?.results?.find((r: any) => String(r.pcode) === pcode);
       const normalizedSpecs = normalizeSpecsData.data?.result?.specsByProduct?.[pcode] || {};
 
       return {
         pcode,
         selectedConditionsEvaluation: conditionEvalResult?.selectedConditionsEvaluation || [],
         contextMatch: conditionEvalResult?.contextMatch,
-        oneLiner: oneLinerResult?.oneLiner || `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`,
+        oneLiner: product.oneLiner || '',  // oneLiner는 final-recommend에서 이미 생성됨
         additionalPros: (product.highlights || []).map((text: string) => ({ text, citations: [] })),
         cons: (product.concerns || []).map((text: string) => ({ text, citations: [] })),
         prosFromReviews: prosConsResult?.pros || [],

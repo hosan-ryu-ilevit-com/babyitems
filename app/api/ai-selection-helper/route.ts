@@ -170,8 +170,8 @@ ${tipText ? `**팁:** ${tipText}` : ''}
 **중요 규칙:**
 1. 반드시 제공된 카테고리명(한글)을 그대로 selectedOptions에 넣으세요
    - 예: ["기저귀"], ["유모차"], ["에어프라이어"], ["로봇청소기"]
-2. 사용자 상황에 가장 적합한 카테고리를 **딱 1개만** 추천하세요
-3. 여러 개가 필요해 보여도 가장 우선순위가 높은 1개만 선택하는 것이 필수입니다
+2. 사용자 상황에 가장 적합한 카테고리를 **최대 3~4개까지** 추천하세요
+3. 가장 우선순위가 높은 순서대로 배열하세요
 4. 추천 이유는 반드시 사용자의 구체적인 상황과 연결해서 설명하세요
 5. **reasoning과 alternatives 응답은 반드시 한글로 작성하세요**
 6. **alternatives(TIP)는 반드시 한 문장으로만 작성하세요. 불필요하면 null로 두세요**`;
@@ -188,7 +188,7 @@ ${optionsList}
 **응답 형식 (JSON):**
 {
   "recommendation": {
-    "selectedOptions": ["카테고리명"] (목록에서 정확히 1개만 선택),
+    "selectedOptions": ["카테고리명1", "카테고리명2", "카테고리명3"] (목록에서 최대 3~4개, 우선순위 순서대로),
     "confidence": "high" | "medium" | "low"
   },
   "reasoning": "추천 이유 (2-3문장, 사용자 상황과 연결)",
@@ -354,9 +354,9 @@ ${previousSelectionsContext}
         opt => validValues.includes(opt)
       );
 
-      // category_selection은 무조건 1개만
-      if (questionType === 'category_selection' && parsed.recommendation.selectedOptions.length > 1) {
-        parsed.recommendation.selectedOptions = [parsed.recommendation.selectedOptions[0]];
+      // category_selection은 최대 4개까지만
+      if (questionType === 'category_selection' && parsed.recommendation.selectedOptions.length > 4) {
+        parsed.recommendation.selectedOptions = parsed.recommendation.selectedOptions.slice(0, 4);
       }
     } else if (questionType === 'negative_filter') {
       // negative_filter는 target_rule_key 값들만 허용

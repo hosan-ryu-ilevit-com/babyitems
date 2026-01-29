@@ -1,5 +1,5 @@
-# 세션: 20260127_083451_iukd
-> 시작: 2026-01-27T08:34:51.210Z
+# 세션: 20260129_044216_quaj
+> 시작: 2026-01-29T04:42:16.419Z
 > 카테고리키: 치발기
 > 카테고리: 치발기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 치발기 시장 현황
-- 인사이트: 2026년 1월 기준으로 메디토이, 모윰, 앙쥬 바나나 치발기가 인기 있는 상위 제품입니다. 치발기는 아기의 구강기 발달에 도움을 주며, 잇몸 간지러움 해소, 턱관절 및 구강 근육 발달, 손목 근육 발달에도 긍정적인 영향을 미칩니다. 아기의 발달 단계에 맞춰 소재와 모양을 선택하는 것이 중요합니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFniwcfFSd1uH4K4H6twL4n7e_PfA_a1GRTeauiRRgRmIiEC8ymKyNNGSRkNopawSWDXLzxWTSX5ozfDD_3EFQHA_WUtDi4Kvc2X5ogW5mJGQAQlAqSE479uO6JrerFm1A_e-HMhdmpwhcI7pTG0-gjqHuKfHRjztEQsNXxn4UIzLzB9NZM5wQFdS5HtPMLvjQ2xZThPtuuBmoBoJ4_ZrQh7B6B5aV1Q8Wahzmo3MHCafOOV7C2T_zryFMBHEieZsuzLzOsE5z_GoRWO-ODOR8djnZz-WkG5gRgeRzsTDkNglxD3GQKnw5NVOcHFkQs4mvK1JGD0r-xNvU5t8mOJ-4mVQk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8x72mAFihe884ABAZ7eV2IQvRM6sGzFRZVkA9IosjXuyg9CXxsroENG0xI5FErHOJrqcShuoeRmWV8AeJcYjKO8BJpLbCNVx8ROtU6PGoShS9UOAZpLueIBwMw8GrfgcH4W4ItPwohe6s4SgohjKff6ezWoX2TNbpXcRiD-jjqwsSzurY6A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL0QnzP_ShDqEytfeR0hszSwf7ispBEZbOtlaKCTp4ydgdS8PEo2iDMn7y6IDGOy4eAEeymQt8AfSqPFNfZATgUPrFG9RsDib9imBuoGyeiNHsBu3IhNs-lUCneoQ00rfWEjp1VqVRAcKj6bLR66Mr0VmpXyxRXzfJtSWbWsg=
+- 인사이트: 2026년 1월 기준으로 메디토이, 모윰, 앙쥬 바나나 치발기가 인기 있는 상위 3개 제품입니다. 치발기는 아기의 구강기 발달에 도움을 주며, 잇몸 간지러움 해소, 턱관절 및 근육 발달, 이유식 연습 등 다양한 기능을 합니다. 안전한 소재와 아기가 잡고 빨기 쉬운 디자인이 좋은 치발기의 조건입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmA_sG-ClEo9caV9AHUbe7-q8-_t-Mc11tPkdjPBI-S4u8wmAGUGut7HfFrb_UaMgfMQeyrGJGV_0wHOROXMJL4GGnPcm4e0jnTNAhfcRS1nfTXEbdF307kAirknE6HapJYGAUavZ0ETaOGXc-hEoSy-rI4lakYOsLMw7Z5NKXQsl-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVtY3_luPm9Q8HnEk-OsgntcsNaRHJ0pxiDXdG_f3-6F5oIldgekktn2dFGXw8hi7WbX9RKktqcdKWmhFqwrj3ulFFcsQpTAvIymQJbiaG8MFfFlvSIFS0MoN9Zy68pHhvfbZGaVk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhdWNjpxJ2QNcms-Qjc6B4Vr7G2_OVAP8gKgdQzbr7ViMQ1YfTlf_hMMn9Nm-A4RKM6Dy1y5m4Uvq72G7h-iG4XKOIgjB0FWZtOSxLEXIT8QjNMA8FphoXJR1zxwG8dMukcduj_dRUj6WdCSLJhiS-CzIbFvedHOvTeA==
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 안전을 위해 가장 중요하게 생각하는 치발기 소재는 무엇인가요? | 식품 등급 실리콘, 천연 고무 |
-| 아기가 치발기를 잘 잡고 사용할 수 있도록 어떤 디자인을 선호하시나요? | 손잡이가 있어 잡기 쉬운 디자인 |
-| 치발기에 특별히 더해졌으면 하는 기능이 있나요? | 소리 유발 기능 (딸랑이) |
-| 아기 치발기 구매 시 특별히 선호하는 브랜드가 있으신가요? | 모윰, 앙쥬 |
+| 아기의 개월 수를 알려주세요. | 4-6개월 |
+| 아기가 사용할 치발기, 어떤 소재를 선호하시나요? | 천연 고무/라텍스, BPA-Free 플라스틱 |
+| 아기가 잡고 씹기 편한 디자인은 어떤 형태가 좋을까요? | 독특하고 흥미로운 모양, 손목 착용형 |
+| 믿고 쓰는 브랜드가 있으신가요? 선호하는 브랜드가 있다면 알려주세요. | 모윰 |
 | 예산은 어느 정도로 생각하세요? (평균 1만 2천원, 6천원~1만 5천원대가 가장 많아요) | 1만 5천원대 |
 
 ---

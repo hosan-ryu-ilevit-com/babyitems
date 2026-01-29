@@ -1,5 +1,5 @@
-# 세션: 20260127_052854_odvi
-> 시작: 2026-01-27T05:28:54.637Z
+# 세션: 20260129_044727_te0q
+> 시작: 2026-01-29T04:47:27.464Z
 > 카테고리키: 휴대용
 > 카테고리: 휴대용 유모차
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 휴대용 유모차 시장 현황
-- 인사이트: 휴대용 유모차 시장은 경량화와 편리성을 중심으로 성장하고 있으며, 특히 기내 반입 가능 여부가 중요한 선택 기준으로 떠오르고 있습니다. 초경량, 원터치 폴딩, 완벽한 리클라이닝 기능과 세련된 디자인을 갖춘 제품들이 인기를 얻고 있습니다. 2023년 기준 유모차 시장 규모는 11억 5천만 달러로 평가되었으며, 향후 5.3%의 연평균 성장률을 보일 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJQOj8MsCdCbtSoMH3oJix1yIi520ykZ12PIYiDc75h0o_TNAe1YsOOPFyDpn46yybdyHsNtSW1esQSHBMn5QF2z0IZXEi6-fVX9H6toYKUjPZVo8LHs3NfIZkIrwr, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5XryWWRegqbX5uxPo3KuWiUWVmiAnAcvZfpE_LZLlMO7FkIyH07GIeuRdR6pgdm6txrGpQb5jSJiLeSW9OSuOCbre9HzOia22oJHGAt2e36eg2cqI7zsDTkQIRHe4TFX4HKXbDTDKoUv5o-4wsvE1aWqcIbFM_L-BjFNl48WnYFznpLp60yZr, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0-biqTcFuWLwBMijuDQxUT3ZSqZ7oJtir9KZzHYpy_IaqsLhf8yGnbvvo2IIkF__6LaBqy7JmnvfCUZUJpFHElFWGZRdIsU1n2qAI9fj4FFSCdNs2roLGSk3Qb1MF7NIDVxJ4Oew27RcQ0JrTvbr-ce1UVzNbolbA0658qc0NsA4dVg0WiqNNTJB3_aGFaFD0YtYnpVZF1U4sdImtT6Ir4rZgGx8zWL14xSQGrOeuUv6VqW-TQLwJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGzj0ZO0vn92fD_bP-yzNGWgGCoD2e1S-qJpcfdCaAl6J7yaqY652OQ_HfU5zXuoo_Y5Rqw8kWPQaVBChcpLdvO_AmX02LykEaM5E6c1OScPwRQ6MbnyD3OBOotTA1k4L9iwH3xfn1z9C8B3CUgWgp4oAJywOWRKURPwY0MoMOFHNFvKbPrPCuFeXrmBiQ3F4LIUi5eTcssOJ-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECt0a1tKkeJ5oRf8HFGAvHaa_7xjrLmgQ7mYBBccKk3bpbXoRrbijtzQB5QoNSprEKKWsVWiTrHgjGQuZJdgaqZAtYVG8u6EOaDOQsUvKPPsnt8u3cs2BFm9lUM6D0zs-98JqqG_-zoB_eRv0NsJRhgVSgxrJzrcNHpoLGWvjLTScTReZkg-CmTro8SK1s5mbi-Iy3XuYqzOeFKatl-XqyHc5XvUkERWenDA==
+- 인사이트: 휴대용 유모차 시장은 경량화와 편리성을 핵심 키워드로, 특히 해외여행 및 국내여행의 증가로 기내 반입 가능한 휴대용 유모차의 인기가 높아지고 있습니다. 2025년에는 초경량, 원터치 폴딩, 완벽한 리클라이닝 기능과 더불어 세련된 디자인을 갖춘 제품들이 소비자들의 선택을 받을 것으로 예상됩니다. 또한, 가격대에 대한 소비자들의 경제적 고려가 강화되면서 중저가 제품의 검색량이 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFamBvCMSIIIxieMQmuZMa7guZJO_phqO6zq95n7pf6avL-TiZ9FuiSFWVzb6336M2N2GABnFGEP3RrD-BFjEgGff9Nmk5P2E8M0KIAAg0FNKk1Ds5udttyQLDyXbEA, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu6F36WqadkZ4MZ6wLpoMbGx92Up9TbiaIr_riMYV5NDdQpjxSlTKnpqkHOJ_-mOiw0R96g1-QQLRfoz1srGepCObrJlSXA0_e8qsMH4fY_yEZ9OLMENMm_CX47a3es5aUmsBMc2znlIjlZzPsfi_b_pfHr1eBB5jibscn90zSEg_-ZvVx1tSzKYaDEUoBhwm8c7W6QClpYnVR6h2UPdA1wPbtAwZR0Wmb79PWn-6P8HOobw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJV3sAtR-H0sBwb0Nho-ZSwDMGOSMT9VD_FXEL9LzooJbFNAz4PR_MogMgAL0pKgIw90mezKEeIbulcFbexSlrom9lGX832w2orEb0cXsgpoh5u4WfE4H-oIkPGdKLZAiVeX8XJlrIRWnGDg8NrBuvkZYcjOBLxqOr5j1tI3q6cjGqY5OGMauboD960tKDjD5vNdAJ5BjA1JB5pa60o8AqegiogkWkemrHodpe8Yk0xL4fZrljaYV1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEg9CSCGSnwYWawSMJOEuCWeozuB61ZqQcy_f7duYAzhheXAPXT9qSMR6lNqI3LhIA3dlZFLJuAMzAa1mdddrvIpWjZp34f_1vCDpF68UVT-W4ibw2bTkJx-Hd2-smRcTpff0WIeuBwsAKSIRwgLPag0BZEWewujdijjcs687xOsHNKu9aDQPY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFat_UQ6CIywXpkyWM852qg0iBOn-E-JoF_UyOySX9usU3_Y3i1r4IP7zC8HJg7AOBL5i22mqdgG3s8rdxxewamTByfwhv9IAIRJFb5__6RKkZJ7husZnD_VWNTh_YnwiGyeiOhFd_gEvPk9bTJHvdvHbz369H05ZwkKXvwzyrrRspVUO9AXKrTqAid1YJRhbY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTqhSrDGAPFJf6lN7qKsw3gYlATQst2lBWhVVdIwUW8MhJpQ6yj8Eprxv-togtfwijIwnTmjx2MQ6GPjBPXvLCjShQpEQp8tEprxbSg3JW6V7AKXB3BC68aEgZ6YBCAA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz4s44AKMPEtsmgHhX95hFAdpjj1vhnA8gl6CaE7UbCKi9ufCx6_Oq4xi-gij3oL-lOnxSl4YVsefcfwlYvPHT91rkd3JPpXCAdjCQRI6xjsem4lTOMNzIDCJVagu_JlSpuYMWi-wxQAR4LiSJOw2mBmpIM93DUbf6pqnwUZR8V3hFFAEAB1trxfpH7Uh-uoWSe3RTYMCXBoueQP9oNI9LwyZDaks9QP2sVOfzxVNEMXWsEV-PtUPUrq3SN8pHCe591DIrzqkDtk8WV_cRGIGJ0lzcH6NK250dIVFVJbOha8p5T_OB-9-hSPTAcfVcmR_F_k0S1mgRsBmrEZ6hAZ4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcYhfd3lany152aHnArZuM0j0-C658Eih_RjFVfnkvrXYO2h0szsf12IvBvoFuSF1g0OxIkCq1AmhUH5BYWMiNjTZDjrC01LnJiB8F9f9xCpowRd-Pmz_9xBYEom-fedgitB9YRi3wsq_hm6O8-2DNvM8db0nxAbmlVWgT6uQ_qjpNsDqHJi-oW-Hq4wLNNVu_5mH6RpJ5UxAh2Gt2WFY_KFKjCh4zEMoJVQVRO4rHuAcWGndU49FyWwRt68A2Ojs2r3PDBfX3i1yKH3XbqLCRGSF9Vbxb-urhAwrEud0eDODzI2ZRRSCYlJWh3bNrgM_PT6YQJTM7qbTnSaRpPnmCy1UwFNHVAcCG2QP55OPMDCvG4VT2DB5oQUTZ781OyS1rA7gfhYFo_8UquS_3mDmi7DGVcVLdCxInxHyy5IvMoQ_2RRdQ9bsDVhhljLFe3D0n4D5oZ4qp7lyAuWR6QOjvObo1veveAbmCzsK6mFpLIDmnpAydbGwZprE0As8Hdu587QuZP_2oAUhCowOR3Y5qyYGcno6Ge_pr55adHXAzzG4=
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기는 현재 몇 개월인가요? | 신생아 (0~6개월) |
-| 유모차를 가장 중요하게 생각하는 휴대성은 무엇인가요? | 컴팩트한 폴딩 (기내 반입) |
-| 선호하는 유모차 브랜드가 있으신가요? | 다이치, 리안 |
-| 유모차의 안정성과 승차감을 위해 중요하게 생각하는 기능이 있나요? | 서스펜션 |
+| 아기의 개월 수를 알려주세요. 개월 수에 따라 적합한 유모차가 달라질 수 있어요. | 신생아 ~ 12개월 |
+| 주로 어떤 상황에서 유모차를 사용하실 예정인가요? | 일상생활 (외출, 장보기 등), 잦은 여행 및 이동 |
+| 유모차를 접고 펴는 방식에 대한 선호도가 있으신가요? | 최대한 작게 접히는 방식 |
+| 선호하시는 유모차 브랜드가 있으신가요? | 리안, 다이치, 에그 |
 | 예산은 어느 정도로 생각하세요? (평균 39만원, 22만원~51만원대가 가장 많아요) | 22만원 ~ 51만원대 |
 
 ---

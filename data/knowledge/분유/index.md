@@ -1,15 +1,24 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T05:52:23.096Z
+> 마지막 업데이트: 2026-01-29T05:41:09.521Z
 > 분석 상품: 20개 | 분석 리뷰: 32,887개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 수입 분유의 인기 상승 및 국내 시장 점유율 확대
+- 프리미엄 분유에 대한 선호도 증가
+- 건강 및 안전성 중시 트렌드
 
 ### 구매자 만족 포인트
+- ✓ 성분 및 안전성 신뢰도
+- ✓ 다양한 제품 라인업
+- ✓ 프리미엄 이미지
 
 ### 주의해야 할 단점
+- ⚠ 높은 가격
+- ⚠ 국내 브랜드의 경쟁력 약화
+- ⚠ 수입 절차 및 통관 이슈
 
 ### 가격대 인사이트
 
@@ -231,11 +240,7 @@
 ---
 
 ## 📊 데이터 출처
-- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3A-fc-ZAG58IWfEQB2BVQjo-yLUlubbys-YUlgV4Q2LEbelgJur0ceXyiUE8adTToEDgZ5kCkKNRxfU0NxxJjWKyBUiZiB2yqVKvAwF2nB46oYbtKkW0jZoT2QdzzeAgF9XwrB2gVCosGAGwXDPICeCDRbEg_aIUKFrF8-QQ6E5XV844xTl-ZIvM=)
-- [namu.wiki](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4XFDefNOzQGFAKozYIco6EaBXqhf-R0hweGhaHwFNafYNN94eVro-zSyr8-K2WvHYKagC2yg4pezCVmVJFAQX18CTGYeGl6yWmxqUwEVYfY23OUJyp58e5k8T2_rCf9jRibgnlotw-HFWWrLZYVQROgcz3rYDtTaFSVnRUA==)
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHplBeDPBZZy4QqE8C4rmg6CUJ4cs61rezchi4Wcz4O5uKXyUTlv69rl50lZmhwYnqcWB-dB8V2eQZrcSinFW51LH0H1YsbAoCLFrIiFO64NFNYF6y7K_4v5wgjqqnM13rpSRE5E7iO0oEE9HclQmmi7O8g2qIWRJq7vgGEoAWyrmV3xLelKv1JH4=)
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC7q-K-My2LagFFUKt9ZDd6dFAwqWtSsH7OAOZRTz0W7gGviblT4Ny4fIHG0MAzh5UjnFx2laP58fCsABXxB0TVWGnFgizOHDDVLfoQgPJFUlecYbVQN2T0SNd1tG0W3bRyOuqQSLomxeHOnfNAXGr46ARdewo_wTSMligy05-rqvA3_u9rqHaT0Ie)
-- [verifiedmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSvOjqqzL-AW5sl5pV8MjwaJGZ3xRW1_AO0Fjm9vFLMtqQzL-VjXfr-wcU894BZx3b87CvfgNTWwjoc8Q-Wpln4XQkObXvVQZBKMpvlGqWHttBJCv_MYrqnN5Ypnjdicxi4Nd_aVtNB7AwE5eLXT13OJPWoPpkyGULbfR3z2ZpZw==)
-- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1O51BSy7zd3ttn2aViXYtGII3TT_2VqHuriLTB0t4jCu3g95KHsYFPWTd0cprulnnTqzKwA5z8-cSqHFiPSyyH0eZms3BuU7zyUTvzE1a83cBqfpUlgXA9um5bQxtw_v8HX8Ljg5TY5mPJBjaDNPBNnXxc9iYpuHf6RxPVJ3l5xy9)
-- [yugacrew.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9UsGSfP9WPciJvi2EJiYGFviAA-NbrAHaVN25XH4QNhzI6_HvPW7hj554BkoAec4rpg6AJiREsF9j2AQDsB3L_2UoAszDjVTOCnPazvn-hWcXHuTXfaW9VFoXejrOi2YMt6A9LivqwzKDcA==)
-- [ibabynews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqS_KFZQdg6qy8Mp8IOud2C-XDIdGsYYWMKjqRE9nfcMknSXSYECpAd0JWfDEgIYXpwUbZ2bKdvQmW1j2LjKoT95I1C52DfH_3lQaz0QpraUPBn9t_DiwwkjPBMdxWIqOFQdGBm7Pt1j1MAMFhxsU0ki-WnBc=)
+- [chosun.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHn-qyKfXeU2wi9irhFTbLVA5NjOm42495h6HGBRgl-lVHxMIX9TX8ILXUDlLFNlSLRHsuBHVsqILhUbfF89HQ14bJxw-iMN0CpKlt8gu2LIzavg5ugEues5oYhrVmlqdEfs2fFaugn6dRIvBrN3oUuL1FgHxKrFCFeST0L_L44AWH4xKHarx96a0=)
+- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMk0L07XOgRuvGwWNJdn0DiDIzbfWu_uyOXIAz1EOxYVAEqK0MVmsOmjqaU7gky0Q18JXiINbUIU899xvDX1oMHwIAJHWUEjdGAIO1OykB0njhc2E3lowQ_mXwmTI-vPQm0lNNXxk=)
+- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNcAZz2DDoenwXhi-NyDd_upS2-afvA-A-M0zo3rapM-0R-y4JlgXmbIhQuvZ7p9Cc06_pQF5CPaYScIOuJ0hWVH0VNv5P2MzTHcFufEy5WBEDhhzjwvXJao0ccTP6MppAqMIqTK_KpblkLF9R2k_vMEGMzK9y5GcbOVIlfbtGESFDEVIy-C7Hiq4=)
+- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtNBOg5NwbkjXcJXwp32SVL0BnRBA9HCi_mFoFuoJtMNlDImJoR4dcDw9sQ1JWmaCmXv7SPDGHrkFRlObt-bmgvVHaGwd8vBPD81rNYc7zgoH-F-O9cZbOudQSJIbeOnz0HWLmGaoh-BJ249AoPSbzqL_Mk6hgKw==)

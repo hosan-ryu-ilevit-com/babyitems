@@ -1,5 +1,5 @@
-# 세션: 20260127_080457_fvaq
-> 시작: 2026-01-27T08:04:57.430Z
+# 세션: 20260129_054742_c1v3
+> 시작: 2026-01-29T05:47:42.918Z
 > 카테고리키: 이유식기
 > 카테고리: 이유식기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 이유식기 시장 현황
-- 인사이트: 저출산 기조에도 불구하고 이유식 시장은 지속적으로 성장하고 있으며, 2025년에는 3330억원 규모에 이를 것으로 전망됩니다. 맞벌이 부부 증가와 함께 편리성을 추구하는 소비자들이 늘면서 시판 이유식 시장이 확대되고 있으며, 특히 프리미엄 이유식에 대한 수요가 높습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHD0DpSwmW1JfXIMKx8B_4BleTLKrO_-UKcpbW3XcsQI7PthFUDyDPhDLDlj4NaYP-vwZvPklMEekUOsFNcMWQapD81w8N2qdLBMZmN0SBUT5pvBShKx5CcraiRrCeIOOutzjoQjs4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEnm22krwICftBYTa-wB_nqb9njRhxyDb7I286Csi2beRDUbaBXwTITiXs6jOJsqGAfCCONc8jTmBAlMoK3-Z2FI00XitM5ahyLKLIuU1Rur9oSElarq79ylnfBQjGrL97Xh4PkdLZle9SVE3djoFbSjnZshlu12_ELspgyPNmrxRqdr0CQwlaFR0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFstJhkv7vDQYpjc9hGe6m8s-dJFdSfIElc6EcUd9n3N8G3neYE7nm_gWQ7ruAioFl7AAi6aaKoHUlg-o9HIlSzeYTXO3oOAQW_fO4R4UAVKmOki6ZzxNxrBILPh3t_lJO8-_7GhqJskFNWatmaKejF, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2awjg1o5ILZppLmRag-GPoi6vusbwkRtMP7urYU6Ch4M9TvY0sEarGR9TlMlIUhc57_X0Yk2fnFpjCL4a6v8H8I0-HCKFyaOTH_GKsqIBM9GYA0IZAeWtys9W9kNY_9_x8QYX0H03, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQq1Fp5LHm4LX8bg5IHxGwePWZVW12nrKSlhovPskLPLPHATzPjXEKMsaU5hF9IrzhLXlXM9QzgL78R82SARFjkqaCM-BgCPQL4QoOCch1VJ5x8dl7TWIZWf_nSD9MnF8xUoGZ3xNTdQyRCune4DcbBQY1OJoGpufP7lacqCAVBee8sEE1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAQJ2ewW_IlXe12jH070s4TlNO_6I1AWUy_yH39tYVaZMzmme29aWFrr9NbP7bM6OTLybiWBUsH7am6WOyiDUOWuaz1NACKsq3BRjFkqbFGoJbjoIgSPZSLDhZ9dOMdcldW-erLkpkSTQ3DgRzBEc17LyCtIMKJ1sPbR3ps-P5R24c0_XdkBmK
+- 인사이트: 이유식기 시장은 맞벌이 부부 증가와 함께 성장하여 2025년에는 3,300억 원 규모에 이를 것으로 전망됩니다. 영유아 부문이 시장을 주도하고 있으며, 특히 유아 부문에서의 이유식 소비 증가가 두드러집니다. 안전한 소재와 아기 친화적인 디자인이 중요하게 고려되며, 실리콘과 BPA 없는 플라스틱 소재가 선호됩니다. 온라인 플랫폼과 자체 몰을 통한 판매도 활발하며, 다양한 브랜드들이 경쟁하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXykuHTSTA8Kfa5V7AbgwGKbeadEGp2CYax6eKyrCSsQ6eeGN2SlNmvIN0komiEZrs3rAjTXlNQnjPEOcD7vcj3To44sTkY44-9oLxTiDru9pzKdpHWOFW4LBIr20Ol3FViOvh8lw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnd-duqk9Dl45Gi7tl3PMP2SclWMYepu7aP_C6fGsL0T3Q73Ux3SkdwUJ9vdTIxivtm0InpeiP3nFTpzcAiKR_I8_A8fOluf6KfXC_DeU6AVXmKiGBoCDkA3WOrpTRwP73n7hAWjO9zopMiDEugpa9TQZSBBs-SU7JfeOYuoMfODhfHCMpbMfNa84=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAgsK17KygIex3lN5Ez1JcHEzQtQAKU3f1fSGX_JnOy8dzGJkAMzW7YAglS21Ah5KUlgo0a3fhkmLCK08Bz4Q5lIhK3Eo53EV0Ea-w2t87xj30F4XTxahYiY8u_uJypKx_l3GlvblcCehXnocCF_3MrmX_UEwV3Ss0PpjJBw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJmmVBMK5M0ODXBVxx4TyHPlQ4RqDULz8RlKHX__gdBZ6Q8XrsDsX4Ow8kgVZVylbOjSZAkZwEUx6W6fYizFWaT4-DdwE3vd8MfGQXH9Drb4HBQHf-OSVAhDL7S3Gwu7v6cpBUwITY0A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHx0Fp4fE1syIDowTfV_NKAhHqQ5E3jWNACg5v_AgPQK_RjsoZPWVhkD_PtfvcLH11F2Wdg350Rx7gt7ABSrcrsGjdmHVkMj_SZA90NXDQ2n4v7qNto8g5ThNWKKwX4H9vXJelleLdMlVKItWgn26N2m-UCZiktgBFiTm0I5WFhRyhZAAU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0bnqaBjZVaTSvzRXogV8Cp24C9sVs2_YEbKcYDktkvmjl9UQxzVmvwJfXopGe0tvllGlhEtdH4IuPyTUCEQfFjpCp0Qd3MAvpR6EPbJUESzRPcEQR0ylEpxkCP70l39iG7mBttcNFUQ-8mwRLyLMASkrrq7EyZmM=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 사용할 이유식기, 어떤 소재를 가장 선호하시나요? | 안전한 실리콘, 위생적인 스테인리스 |
-| 이유식기 세척, 얼마나 간편하길 원하시나요? | 틈새 없이 세척 용이 |
-| 이유식기 사용 시 어떤 기능이 가장 중요하신가요? | 칸 분리형 구조 |
-| 아이가 사용할 이유식기, 특별히 선호하는 브랜드가 있으신가요? | 글라스락 |
-| 이유식기 예산은 어느 정도로 생각하세요? (평균 약 1만 6천원, 1만원 내외가 가장 많아요) | 1만 5천원 ~ 2만원대 |
+| 아기에게 가장 안심하고 사용할 수 있는 소재는 무엇인가요? | BPA-free 플라스틱, 스테인리스 스틸 |
+| 이유식기 사용 시 어떤 편의 기능이 중요하신가요? | 전자레인지/식기세척기 사용 가능 |
+| 믿고 구매할 만한 선호하는 이유식기 브랜드가 있으신가요? | 모윰, 글라스락 |
+| 아기의 성장 단계에 맞춰 어떤 용량/크기의 이유식기를 찾으시나요? | 소량 (신생아~초기) |
+| 이유식기 예산은 어느 정도로 생각하세요? (평균 약 1만 6천원, 1만원 내외가 가장 많아요) | 1만 5천원 내외 |
 
 ---
 

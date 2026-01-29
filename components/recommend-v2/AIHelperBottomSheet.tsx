@@ -88,8 +88,8 @@ export function AIHelperBottomSheet({
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const FIXED_FIRST_EXAMPLE = '가장 많은 사람들이 구매하는게 뭔가요?';
-  const CONTEXT_SUMMARY_EXAMPLE = '🔮_CONTEXT_SUMMARY'; // 특별한 식별자
+  const CONTEXT_RECOMMEND_EXAMPLE = '🔮_CONTEXT_RECOMMEND'; // 지금까지 입력한 정보로 추천받기
+  const POPULAR_RECOMMEND_EXAMPLE = '⭐_POPULAR_RECOMMEND'; // 가장 인기 있는 선택지 추천받기
 
   const generateExamples = async () => {
     setIsLoadingExamples(true);
@@ -124,17 +124,17 @@ export function AIHelperBottomSheet({
         ageContext: !!userSelections?.ageContext,
       });
 
-      // 카테고리 선택: 고정 1개 + API 2개 = 총 3개
-      if (questionType === 'category_selection') {
-        const apiExamples = (data.examples || []).slice(0, 2);
-        const baseExamples = [FIXED_FIRST_EXAMPLE, ...apiExamples];
-        // 컨텍스트가 있으면 맨 앞에 특별 예시 추가
-        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
-      } else {
-        // 다른 타입: API에서 3개 가져오기 (고정 예시 제거)
-        const apiExamples = (data.examples || []).slice(0, 3);
-        setExamples(apiExamples);
+      // API에서 3개 가져오기
+      const apiExamples = (data.examples || []).slice(0, 3);
+
+      // 보라색 버튼을 맨 앞에 배치
+      const specialExamples = [];
+      if (hasContext) {
+        specialExamples.push(CONTEXT_RECOMMEND_EXAMPLE);
       }
+      specialExamples.push(POPULAR_RECOMMEND_EXAMPLE);
+
+      setExamples([...specialExamples, ...apiExamples]);
     } catch {
       // 어떤 선택이나 입력이라도 있는지 확인 (연령대 컨텍스트 포함)
       const hasContext =
@@ -143,27 +143,21 @@ export function AIHelperBottomSheet({
         (userSelections?.balanceGames && userSelections.balanceGames.length > 0) ||
         !!userSelections?.ageContext;
 
-      if (questionType === 'category_selection') {
-        const baseExamples = category === 'baby'
-          ? [
-              FIXED_FIRST_EXAMPLE,
-              '첫째 출산 준비 중이에요',
-              '맞벌이라 시간이 부족해요',
-            ]
-          : [
-              FIXED_FIRST_EXAMPLE,
-              '자취 시작해서 필요해요',
-              '기존 제품이 너무 오래됐어요',
-            ];
-        setExamples(hasContext ? [CONTEXT_SUMMARY_EXAMPLE, ...baseExamples] : baseExamples);
-      } else {
-        const fallbackExamples = [
-          '자주 사용할 것 같아요',
-          '맞벌이라 시간이 부족해요',
-          '공간이 좁은 편이에요',
-        ];
-        setExamples(fallbackExamples);
+      // 폴백 예시 3개
+      const fallbackExamples = [
+        '자주 사용할 것 같아요',
+        '맞벌이라 시간이 부족해요',
+        '공간이 좁은 편이에요',
+      ];
+
+      // 보라색 버튼을 맨 앞에 배치
+      const specialExamples = [];
+      if (hasContext) {
+        specialExamples.push(CONTEXT_RECOMMEND_EXAMPLE);
       }
+      specialExamples.push(POPULAR_RECOMMEND_EXAMPLE);
+
+      setExamples([...specialExamples, ...fallbackExamples]);
     } finally {
       setIsLoadingExamples(false);
     }
@@ -324,16 +318,18 @@ export function AIHelperBottomSheet({
   };
 
   const handleExampleClick = async (example: string, index: number) => {
-    // 특별 예시인 경우 바로 추천받기 실행
-    if (example === CONTEXT_SUMMARY_EXAMPLE) {
-      console.log('🔍 [AIHelperBottomSheet] Context summary clicked, triggering auto-submit:', {
-        userSelections: userSelections,
-      });
+    // 특별 예시 1: 지금까지 입력한 정보로 추천받기
+    if (example === CONTEXT_RECOMMEND_EXAMPLE) {
+      console.log('🔍 [AIHelperBottomSheet] Context recommend clicked, triggering auto-submit');
+      setUserInput("지금까지 입력한 정보로 추천해줘");
+      setShouldAutoSubmit(true);
+      return;
+    }
 
-      // "지금까지 입력한 상황에 맞춰 추천해주세요" 텍스트 설정
-      setUserInput("지금까지 입력한 상황에 맞춰 추천해주세요");
-
-      // 자동 제출 트리거 설정 (useEffect가 감지하여 실행)
+    // 특별 예시 2: 가장 인기 있는 선택지 추천받기
+    if (example === POPULAR_RECOMMEND_EXAMPLE) {
+      console.log('🔍 [AIHelperBottomSheet] Popular recommend clicked, triggering auto-submit');
+      setUserInput("가장 많은 사람들이 구매하는게 뭔가요?");
       setShouldAutoSubmit(true);
       return;
     }
@@ -504,19 +500,26 @@ export function AIHelperBottomSheet({
                             className="flex flex-wrap gap-2"
                           >
                             {examples.map((example, idx) => {
-                              const isContextSummary = example === CONTEXT_SUMMARY_EXAMPLE || example === "지금까지 입력한 상황에 맞춰 추천해주세요";
+                              const isContextRecommend = example === CONTEXT_RECOMMEND_EXAMPLE;
+                              const isPopularRecommend = example === POPULAR_RECOMMEND_EXAMPLE;
+                              const isSpecial = isContextRecommend || isPopularRecommend;
+
                               return (
                                 <button
                                   key={idx}
                                   onClick={() => handleExampleClick(example, idx)}
                                   disabled={isLoading || !!aiResponse}
                                   className={`px-4 py-2 text-[16px] rounded-full transition-all disabled:cursor-not-allowed ${
-                                    isContextSummary
-                                      ? 'ai-gradient-border text-[#6366F1] font-medium'
+                                    isSpecial
+                                      ? 'bg-purple-50 text-purple-600 border border-purple-200 font-medium'
                                       : 'bg-white text-gray-500 border border-gray-100'
                                   }`}
                                 >
-                                  {isContextSummary ? '지금까지 입력한 내 상황에 맞춰 추천해주세요' : example}
+                                  {isContextRecommend
+                                    ? '지금까지 입력한 정보로 추천받기'
+                                    : isPopularRecommend
+                                      ? '가장 인기 있는 선택지 추천받기'
+                                      : example}
                                 </button>
                               );
                             })}
@@ -558,33 +561,43 @@ export function AIHelperBottomSheet({
                     {/* 추천 결과 아이템 */}
                     <div className="space-y-2">
                       {questionType === 'category_selection' && categoryIcons ? (
-                        // 카테고리 선택: 썸네일 카드
+                        // 카테고리 선택: 썸네일 카드 (클릭 가능)
                         getRecommendationLabels().map((label, idx) => {
                           const iconUrl = categoryIcons[label];
                           return (
-                            <motion.div
+                            <motion.button
                               key={idx}
                               initial={{ opacity: 0, y: 10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: idx * 0.1 }}
-                              className="flex items-center gap-4 p-4 rounded-2xl bg-blue-50 border-2 border-blue-200"
+                              onClick={() => {
+                                // 해당 카테고리만 선택
+                                const selectedValue = aiResponse?.recommendation.selectedOptions[idx];
+                                if (selectedValue) {
+                                  onSelectOptions([selectedValue]);
+                                  onClose();
+                                }
+                              }}
+                              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-50 hover:border-gray-300 hover:bg-gray-50 transition-colors active:scale-[0.98]"
                             >
-                              <div className="w-16 h-16 rounded-xl bg-white border border-blue-100 flex items-center justify-center overflow-hidden shrink-0">
+                              <div className="w-12 h-12 rounded-lg bg-white border border-gray-100 flex items-center justify-center overflow-hidden shrink-0">
                                 {iconUrl ? (
-                                  <img 
-                                    src={encodeURI(iconUrl)} 
-                                    alt={label} 
-                                    className="w-12 h-12 object-contain"
+                                  <img
+                                    src={encodeURI(iconUrl)}
+                                    alt={label}
+                                    className="w-9 h-9 object-contain"
                                   />
                                 ) : (
-                                  <span className="text-2xl">📦</span>
+                                  <span className="text-xl">📦</span>
                                 )}
                               </div>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-[18px] font-bold text-blue-700">{label}</p>
-                                <p className="text-[13px] text-blue-500 font-medium mt-0.5">AI 추천 카테고리</p>
+                              <div className="flex-1 min-w-0 text-left">
+                                <p className="text-[16px] font-semibold text-gray-800">{label}</p>
                               </div>
-                            </motion.div>
+                              <svg className="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </motion.button>
                           );
                         })
                       ) : (
@@ -664,7 +677,8 @@ export function AIHelperBottomSheet({
             {/* Fixed Bottom Footer */}
             <div className="px-5 py-4 border-t border-gray-100 bg-white shrink-0">
               {aiResponse ? (
-                <div className="flex gap-3">
+                questionType === 'category_selection' ? (
+                  // 카테고리 선택일 때: 다시 질문하기만 표시
                   <button
                     onClick={() => {
                       setAiResponse(null);
@@ -674,17 +688,34 @@ export function AIHelperBottomSheet({
                       scrollRef.current?.scrollTo({ top: 0 });
                       setTimeout(() => inputRef.current?.focus(), 100);
                     }}
-                    className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors"
+                    className="w-full py-4 rounded-2xl font-bold text-[16px] text-white bg-black transition-colors"
                   >
                     다시 질문하기
                   </button>
-                  <button
-                    onClick={handleSelectRecommendation}
-                    className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-white bg-[#111827] hover:bg-gray-800 transition-all active:scale-[0.98]"
-                  >
-                    이대로 선택하기
-                  </button>
-                </div>
+                ) : (
+                  // 다른 질문 타입: 기존 동작 유지
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        setAiResponse(null);
+                        setUserInput('');
+                        setIsQuickMode(false);
+                        generateExamples();
+                        scrollRef.current?.scrollTo({ top: 0 });
+                        setTimeout(() => inputRef.current?.focus(), 100);
+                      }}
+                      className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-gray-600 bg-gray-50 hover:bg-gray-100 transition-colors"
+                    >
+                      다시 질문하기
+                    </button>
+                    <button
+                      onClick={handleSelectRecommendation}
+                      className="flex-1 py-4 rounded-2xl font-bold text-[16px] text-white bg-[#111827] hover:bg-gray-800 transition-all active:scale-[0.98]"
+                    >
+                      이대로 선택하기
+                    </button>
+                  </div>
+                )
               ) : (
                 <button
                   onClick={handleSubmit}

@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
   CaretLeft, CaretDown, CaretUp, Lightning,
-  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight, ChatCircleDots, TrendUp
+  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight
 } from '@phosphor-icons/react/dist/ssr';
 import {
   FcSearch,
@@ -884,7 +884,6 @@ export default function KnowledgeAgentPage() {
   const [isNegativeAIHelperOpen, setIsNegativeAIHelperOpen] = useState(false);
   const [aiHelperAutoSubmitText, setAiHelperAutoSubmitText] = useState<string | undefined>(undefined);
   const [isAIHelperAutoSubmit, setIsAIHelperAutoSubmit] = useState(false);
-  const [isFloatingAIExpanded, setIsFloatingAIExpanded] = useState(false); // 플로팅 AI 버튼 확장 상태
   const [aiHelperData, setAiHelperData] = useState<{
     questionId: string;
     questionText: string;
@@ -2249,6 +2248,10 @@ export default function KnowledgeAgentPage() {
     setIsGeneratingFollowUp(true);
     setFollowUpQuestions([]); // 초기화
 
+    // ⏱️ 최소 로딩 시간 보장 (2초 ±10% 랜덤)
+    const startTime = Date.now();
+    const minLoadingTime = 2000 + (Math.random() * 400 - 200); // 1800ms ~ 2200ms
+
     // 🆕 핵심 구매 고려사항만 전달 (가장 효과적)
     const buyingFactors = webSearchProgress.results?.buyingFactors || [];
     console.log('[V2 Flow] Follow-up buyingFactors:', buyingFactors.join(', ') || '(없음)');
@@ -2284,6 +2287,15 @@ export default function KnowledgeAgentPage() {
     } catch (error) {
       console.error('[V2 Flow] Follow-up questions error:', error);
     } finally {
+      // ⏱️ 최소 로딩 시간 보장
+      const elapsed = Date.now() - startTime;
+      const remainingTime = Math.max(0, minLoadingTime - elapsed);
+
+      if (remainingTime > 0) {
+        console.log(`[V2 Flow] Waiting ${Math.round(remainingTime)}ms to ensure minimum loading time`);
+        await new Promise(resolve => setTimeout(resolve, remainingTime));
+      }
+
       setIsGeneratingFollowUp(false);
 
       // 🔧 임시: 로딩 메시지 제거 비활성화 (계속 표시)
@@ -2875,6 +2887,7 @@ export default function KnowledgeAgentPage() {
                   recommendReason: rec.reason,
                   highlights: rec.highlights,
                   concerns: rec.concerns,
+                  oneLiner: rec.oneLiner || '',  // 🆕 final-recommend에서 생성된 oneLiner 전달
                   reviews: (reviewsToUse[rec.pcode] || []).slice(0, 30), // 🔧 최신 리뷰 데이터 사용
                 })),
                 userContext: {
@@ -3494,6 +3507,7 @@ export default function KnowledgeAgentPage() {
                       recommendReason: rec.reason,
                       highlights: rec.highlights,
                       concerns: rec.concerns,
+                      oneLiner: rec.oneLiner || '',  // 🆕 final-recommend에서 생성된 oneLiner 전달
                       reviews: (reviewsData[rec.pcode] || []).slice(0, 15), // 🆕 final-recommend에서 받은 15개 리뷰 사용
                     })),
                     userContext: {
@@ -4047,180 +4061,59 @@ export default function KnowledgeAgentPage() {
 
               if (hasSelection) return null;
 
-              const hasContext = !!getUserSelections()?.initialContext;
-
               return (
-                <>
-                  {/* 배경 딤 처리 */}
-                  <AnimatePresence>
-                    {isFloatingAIExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setIsFloatingAIExpanded(false)}
-                        className="fixed inset-0 bg-black/60 z-[111]"
-                      />
-                    )}
-                  </AnimatePresence>
-
-                  <div className="fixed inset-x-0 bottom-0 pointer-events-none z-[112]">
-                    <div className="max-w-[480px] mx-auto w-full relative">
-                      {/* 확장된 옵션들 */}
-                      <AnimatePresence>
-                        {isFloatingAIExpanded && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 20 }}
-                            transition={{ duration: 0.2, ease: 'easeOut' }}
-                            className="absolute bottom-[calc(160px+env(safe-area-inset-bottom))] left-0 right-0 pointer-events-auto"
-                          >
-                            <div className="flex flex-col gap-2 px-4">
-                              {/* 1. 지금까지 입력한 정보로 추천받기 (hasContext일 때만) */}
-                              {hasContext && (
-                                <motion.button
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ delay: 0.05 }}
-                                  onClick={() => {
-                                    if (isNegativeQuestion) {
-                                      setAiHelperAutoSubmitText("지금까지 입력한 정보로 추천해줘");
-                                      setIsNegativeAIHelperOpen(true);
-                                    } else {
-                                      setAiHelperData({
-                                        questionId: latestQuestionMessage.id,
-                                        questionText: latestQuestionMessage.content,
-                                        options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
-                                        type: 'hard_filter'
-                                      });
-                                      setAiHelperAutoSubmitText("지금까지 입력한 정보로 추천해줘");
-                                      setIsAIHelperOpen(true);
-                                    }
-                                    setIsFloatingAIExpanded(false);
-                                  }}
-                                  whileTap={{ scale: 0.98 }}
-                                  className="flex items-center justify-center gap-2 h-[56px] rounded-[12px] text-white"
-                                  style={{ background: 'linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%)' }}
-                                >
-                                  <motion.svg
-                                    className="w-5 h-5 text-white"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    animate={{
-                                      rotate: [0, -15, 15, -15, 0],
-                                      y: [0, -2.5, 0]
-                                    }}
-                                    transition={{
-                                      duration: 0.8,
-                                      repeat: Infinity,
-                                      repeatDelay: 2,
-                                      ease: "easeInOut"
-                                    }}
-                                  >
-                                    <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
-                                  </motion.svg>
-                                  <span className="text-[16px] font-medium">지금까지 입력한 정보로 추천받기</span>
-                                </motion.button>
-                              )}
-
-                              {/* 2. 내 상황 입력하고 추천받기 */}
-                              <motion.button
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: hasContext ? 0.1 : 0.05 }}
-                                onClick={() => {
-                                  if (isNegativeQuestion) {
-                                    setIsNegativeAIHelperOpen(true);
-                                  } else {
-                                    setAiHelperData({
-                                      questionId: latestQuestionMessage.id,
-                                      questionText: latestQuestionMessage.content,
-                                      options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
-                                      type: 'hard_filter'
-                                    });
-                                    setIsAIHelperOpen(true);
-                                  }
-                                  setIsFloatingAIExpanded(false);
-                                }}
-                                whileTap={{ scale: 0.98 }}
-                                className="flex items-center justify-center gap-2 h-[56px] rounded-[12px] text-white"
-                                style={{ background: 'linear-gradient(270deg, #77A0FF 0%, #907FFF 70%, #6947FF 100%)' }}
-                              >
-                                <ChatCircleDots size={20} weight="fill" className="text-white" />
-                                <span className="text-[16px] font-medium">내 상황 입력하고 추천받기</span>
-                              </motion.button>
-
-                              {/* 3. 가장 인기 있는 선택지 추천받기 */}
-                              <motion.button
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: hasContext ? 0.15 : 0.1 }}
-                                onClick={() => {
-                                  if (isNegativeQuestion) {
-                                    setAiHelperAutoSubmitText("가장 많은 사람들이 피하는 옵션이 뭔가요?");
-                                    setIsNegativeAIHelperOpen(true);
-                                  } else {
-                                    setAiHelperData({
-                                      questionId: latestQuestionMessage.id,
-                                      questionText: latestQuestionMessage.content,
-                                      options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
-                                      type: 'hard_filter'
-                                    });
-                                    setAiHelperAutoSubmitText("가장 많은 사람들이 구매하는게 뭔가요?");
-                                    setIsAIHelperOpen(true);
-                                  }
-                                  setIsFloatingAIExpanded(false);
-                                }}
-                                whileTap={{ scale: 0.98 }}
-                                className="flex items-center justify-center gap-2 h-[56px] rounded-[12px] bg-purple-50 border border-purple-100"
-                              >
-                                <TrendUp size={20} weight="bold" className="text-purple-500" />
-                                <span className="text-[16px] font-medium text-purple-500">가장 인기 있는 선택지 추천받기</span>
-                              </motion.button>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      {/* 플로팅 AI 버튼 */}
-                      <motion.button
-                        key="floating-ai-helper"
-                        initial={{ opacity: 0, scale: 0.9, y: 0 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 0 }}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setIsFloatingAIExpanded(!isFloatingAIExpanded)}
-                        className="absolute px-5 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg pointer-events-auto"
-                        style={{
-                          right: '16px',
-                          bottom: 'calc(100px + env(safe-area-inset-bottom))',
-                          background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
+                <div className="fixed inset-x-0 bottom-0 pointer-events-none z-[112]">
+                  <div className="max-w-[480px] mx-auto w-full relative">
+                    {/* 플로팅 AI 버튼 */}
+                    <motion.button
+                      key="floating-ai-helper"
+                      initial={{ opacity: 0, scale: 0.9, y: 0 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.9, y: 0 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => {
+                        // 바로 바텀시트 열기
+                        if (isNegativeQuestion) {
+                          setIsNegativeAIHelperOpen(true);
+                        } else {
+                          setAiHelperData({
+                            questionId: latestQuestionMessage.id,
+                            questionText: latestQuestionMessage.content,
+                            options: latestQuestionMessage.options!.map(o => ({ value: o, label: o })),
+                            type: 'hard_filter'
+                          });
+                          setIsAIHelperOpen(true);
+                        }
+                      }}
+                      className="absolute px-6 py-3 rounded-2xl text-s font-semibold text-white flex items-center gap-2 shadow-lg pointer-events-auto"
+                      style={{
+                        right: '16px',
+                        bottom: 'calc(100px + env(safe-area-inset-bottom))',
+                        background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
+                      }}
+                    >
+                      <motion.svg
+                        className="w-4 h-4 text-white"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        animate={{
+                          rotate: [0, -15, 15, -15, 0],
+                          y: [0, -2.5, 0]
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          repeat: Infinity,
+                          repeatDelay: 2,
+                          ease: "easeInOut"
                         }}
                       >
-                        <motion.svg
-                          className="w-4 h-4 text-white"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          animate={{
-                            rotate: [0, -15, 15, -15, 0],
-                            y: [0, -2.5, 0]
-                          }}
-                          transition={{
-                            duration: 0.8,
-                            repeat: Infinity,
-                            repeatDelay: 2,
-                            ease: "easeInOut"
-                          }}
-                        >
-                          <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
-                        </motion.svg>
-                        {isFloatingAIExpanded ? '닫기' : '잘 모르겠어요'}
-                      </motion.button>
-                    </div>
+                        <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                      </motion.svg>
+                      잘 모르겠어요
+                    </motion.button>
                   </div>
-                </>
+                </div>
               );
             })()}
           </AnimatePresence>
@@ -4692,7 +4585,7 @@ export default function KnowledgeAgentPage() {
                     logKnowledgeAgentReRecommendModalOpened(categoryKey || '', categoryName || '');
                     setShowReRecommendModal(true);
                   }}
-                  className="px-4 py-3 rounded-2xl text-sm font-semibold text-white flex items-center gap-2 shadow-lg"
+                  className="px-6 py-3 rounded-2xl text-s font-semibold text-white flex items-center gap-2 shadow-lg"
                   style={{ background: 'linear-gradient(90deg, #6947FF 0%, #907FFF 50%, #77A0FF 100%)' }}
                 >
                   <motion.svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" animate={{ rotate: [0, -15, 15, -15, 0], y: [0, -2.5, 0] }} transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}>
@@ -5430,16 +5323,16 @@ function MessageBubble({
                             onClick={() => onProductClick(product, 'price')}
                             className="flex-1 h-[40px] rounded-[12px] border border-gray-200 bg-white text-[14px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                           >
-                            상품 상세 보기
+                            자세히 보기
                           </button>
-                          <a
+                          {/* <a
                             href={(pricesData && pricesData[product.pcode]?.lowestLink) || `https://prod.danawa.com/info/?pcode=${product.pcode || product.id}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex-1 h-[40px] rounded-[12px] bg-[#1e2329] text-[14px] font-semibold text-white flex items-center justify-center hover:bg-black transition-colors"
                           >
                             최저가 구매하기
-                          </a>
+                          </a> */}
                         </div>
 
                         {/* 한줄 평 */}

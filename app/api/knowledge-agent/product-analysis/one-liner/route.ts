@@ -49,6 +49,40 @@ interface OneLinerResponse {
   error?: string;
 }
 
+interface OneLinerGeneration {
+  results: OneLinerResult[];
+  generatedBy: 'llm' | 'fallback';
+}
+
+function tryParseJsonObject(text: string): { parsed: any | null; error?: string } {
+  try {
+    return { parsed: JSON.parse(text) };
+  } catch (error) {
+    return { parsed: null, error: String(error) };
+  }
+}
+
+function normalizeJsonText(text: string): string {
+  return text
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/,\s*([}\]])/g, '$1');
+}
+
+function extractOneLinersFromText(text: string): OneLinerResult[] {
+  const results: OneLinerResult[] = [];
+  const regex = /"pcode"\s*:\s*"([^"]+)"[\s\S]*?"oneLiner"\s*:\s*"((?:\\.|[^"\\])*)"/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(text)) !== null) {
+    const pcode = match[1]?.trim();
+    const oneLiner = match[2]?.replace(/\\n/g, ' ').trim();
+    if (pcode && oneLiner) {
+      results.push({ pcode, oneLiner });
+    }
+  }
+  return results;
+}
+
 function generateFallbackOneLiner(product: ProductInfo): OneLinerResult {
   return {
     pcode: product.pcode,
@@ -59,16 +93,18 @@ function generateFallbackOneLiner(product: ProductInfo): OneLinerResult {
 async function generateOneLinersWithLLM(
   products: ProductInfo[],
   categoryName: string
-): Promise<OneLinerResult[]> {
+): Promise<OneLinerGeneration> {
   if (!ai || products.length === 0) {
-    return products.map(generateFallbackOneLiner);
+    return { results: products.map(generateFallbackOneLiner), generatedBy: 'fallback' };
   }
 
+  const modelName = process.env.GEMINI_ONE_LINER_MODEL || 'gemini-3-flash-preview';
   const model = ai.getGenerativeModel({
-    model: 'gemini-3-flash-preview',
+    model: modelName,
     generationConfig: {
       temperature: 0.7,
       maxOutputTokens: 2000,
+      responseMimeType: 'application/json',
     },
   });
 
@@ -116,6 +152,8 @@ ${productInfos}
 3. **자연스러운 톤** - 친근하면서도 신뢰감 있게
 4. **금지 패턴** - "실제 사용자들이...", "리뷰에 따르면..." 사용 금지
 5. **이모지 필수** - 앞에 적절한 이모지 1개 포함
+6. **한 줄 유지** - 줄바꿈 없이 한 문장으로 작성
+7. **따옴표 금지** - 한줄평 내부에 큰따옴표(") 사용 금지
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 응답 JSON 형식
@@ -134,32 +172,77 @@ ${productInfos}
 ⚠️ 반드시 모든 제품(${products.length}개)에 대해 생성`;
 
   try {
-    console.log('[one-liner] Generating with LLM for', products.length, 'products...');
+    console.log('[one-liner] Generating with LLM for', products.length, 'products...', `model=${modelName}`);
     const result = await model.generateContent(prompt);
     let responseText = result.response.text().trim();
     responseText = responseText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
 
     if (jsonMatch) {
-      const parsed = JSON.parse(jsonMatch[0]);
-      if (parsed.results && Array.isArray(parsed.results)) {
+      const rawJson = jsonMatch[0];
+      let parsedResult = tryParseJsonObject(rawJson);
+      if (!parsedResult.parsed) {
+        const normalized = normalizeJsonText(rawJson);
+        parsedResult = tryParseJsonObject(normalized);
+        if (!parsedResult.parsed) {
+          console.warn(
+            '[one-liner] JSON parse failed:',
+            parsedResult.error,
+            'raw snippet:',
+            rawJson.slice(0, 300)
+          );
+        }
+      }
+      const parsed = parsedResult.parsed;
+      if (parsed && parsed.results && Array.isArray(parsed.results)) {
         console.log('[one-liner] LLM generated for', parsed.results.length, 'products');
         // 누락된 제품 fallback 처리
-        const resultMap = new Map(parsed.results.map((r: OneLinerResult) => [String(r.pcode), r]));
-        return products.map(p => {
-          const match = resultMap.get(String(p.pcode)) as OneLinerResult | undefined;
+        const resultMap = new Map(
+          parsed.results.map((r: OneLinerResult) => [String(r.pcode).trim(), r])
+        );
+        let fallbackCount = 0;
+        const results = products.map(p => {
+          const match = resultMap.get(String(p.pcode).trim()) as OneLinerResult | undefined;
           if (match && match.oneLiner) {
             return match;
           }
+          fallbackCount += 1;
           return generateFallbackOneLiner(p);
         });
+        return {
+          results,
+          generatedBy: fallbackCount === results.length ? 'fallback' : 'llm',
+        };
       }
+      const regexResults = extractOneLinersFromText(responseText);
+      if (regexResults.length > 0) {
+        console.warn('[one-liner] JSON parse failed; recovered via regex:', regexResults.length);
+        const resultMap = new Map(regexResults.map(r => [String(r.pcode).trim(), r]));
+        let fallbackCount = 0;
+        const results = products.map(p => {
+          const match = resultMap.get(String(p.pcode).trim());
+          if (match && match.oneLiner) {
+            return match;
+          }
+          fallbackCount += 1;
+          return generateFallbackOneLiner(p);
+        });
+        return {
+          results,
+          generatedBy: fallbackCount === results.length ? 'fallback' : 'llm',
+        };
+      }
+      if (parsed) {
+        console.warn('[one-liner] LLM response missing results array');
+      }
+    } else {
+      console.warn('[one-liner] LLM response missing JSON block', responseText.slice(0, 300));
     }
   } catch (error) {
     console.error('[one-liner] LLM error:', error);
   }
 
-  return products.map(generateFallbackOneLiner);
+  return { results: products.map(generateFallbackOneLiner), generatedBy: 'fallback' };
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse<OneLinerResponse>> {
@@ -176,16 +259,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<OneLinerR
 
     console.log(`[one-liner] Processing ${products.length} products for ${categoryName}`);
 
-    const results = await generateOneLinersWithLLM(products, categoryName);
-    const generated_by = ai ? 'llm' : 'fallback';
+    const { results, generatedBy } = await generateOneLinersWithLLM(products, categoryName);
 
-    console.log(`[one-liner] Complete: ${results.length} results (${generated_by})`);
+    console.log(`[one-liner] Complete: ${results.length} results (${generatedBy})`);
 
     return NextResponse.json({
       success: true,
       data: {
         results,
-        generated_by,
+        generated_by: generatedBy,
       },
     });
   } catch (error) {
