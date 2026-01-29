@@ -379,7 +379,7 @@ export function AIHelperBottomSheet({
   const getConfidenceColor = (confidence: string) => {
     switch (confidence) {
       case 'high':
-        return 'bg-green-100 text-green-700';
+        return 'bg-blue-50 text-blue-600';
       case 'medium':
         return 'bg-yellow-100 text-yellow-700';
       default:

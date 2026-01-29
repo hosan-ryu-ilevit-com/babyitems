@@ -1,27 +1,31 @@
 # 유아간식 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T07:28:20.850Z
+> 마지막 업데이트: 2026-01-29T12:13:30.901Z
 > 분석 상품: 20개 | 분석 리뷰: 960개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 및 고급화 전략
-- 건강 및 안전 중시 (유기농, 무첨가)
-- 간편식 및 맞춤형 영양 간식
+- 편리미엄 (편리함과 프리미엄을 결합한 소비 트렌드)
+- 주문 배달 영유아식
+- 코로나19 이후 직접 조리 관심 증가
+- 어린이 간식 시장 확대
+- 유산균 함유 제품 인기 (장 건강)
 
 ### 구매자 만족 포인트
-- ✓ 우수한 원재료
-- ✓ 건강 지향적 성분
-- ✓ 다양한 맛과 형태
-- ✓ 편리한 휴대성 및 섭취 용이성
-- ✓ 영양 밸런스 고려
+- ✓ 간편성 (파우치형, 주문 배달)
+- ✓ 다양한 식단 구성
+- ✓ 건강한 원재료 (유기농, 화학물질/살충제/GMO 미포함)
+- ✓ 성장 단계별 맞춤 제품
+- ✓ 소비자 신뢰도 (까다로운 인증 기준 통과)
+- ✓ 프리미엄 제품 수요 증가
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대
-- ⚠ 과도한 당류 및 나트륨 함량 우려
-- ⚠ 아이의 밥 거부 유발 가능성
-- ⚠ 소아비만 위험 증가
+- ⚠ 높은 가격대 (프리미엄 제품)
+- ⚠ 짧은 유통기한 (신선 제품)
+- ⚠ 알레르기 유발 가능성
+- ⚠ 과도한 당분 또는 나트륨 함유 우려 (일부 제품)
+- ⚠ 온라인 구매 시 신선도 확인 어려움
 
 ### 가격대 인사이트
 
@@ -243,8 +247,6 @@
 ---
 
 ## 📊 데이터 출처
-- [womaneconomy.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE35q5ZTwKyT16iFO_wvLcMDtY1hHIYE6E-N4xCFVxeW3aPAyT4EiDKOevJNPy_tC0yXHjr_TiC2IFgIAozEA9KQRorm4Bf57cmu2gwK3-Q3JW-6k1dmtU0oeU9iLU2PENCQpKNEH5z6JZT6otvm45M1f60PPqYeXE-OxuZ)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUJSWPWu96k7dThEAcJYbr2rLhnb4gbqJE6l8PmSs7XdG9B-ALTuTY7gs56yxIDvqEfr6erPDdX8xf5QX9uTyz0n4do8afWuoloQ7l67Zt_C_lGAOn83NY29X3OyE1uR-kx0nu_yqsXss=)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl2c1mqZ0Hh3J3SWHX7OzUqeFc_ss-i47xfem4qVY5reQ7a0AzuZMB4bQIpH_Q3MUHj5-lf9qZXi1t0tJW7XQ9IyWnfhG6cHz05oGIUMN26-Tfw585C140dJccU6RoqgfC_YZ1kjN1Sw2NDAvWQW1JxNDt4ey8vvNxu_Idl8FVc8bRR2oX5SbO4rYTtIoAVg==)
-- [thinkfood.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEt0ufDnoOHHvcoNe7G5tNI7_G4FYD9LtA1M00xRHXkKhNvpN2zZCMc6bF8C9kspAEd0PlLs-1yx4YJoPyML5-rFG_QPBM80urOIHz7-zu1YEAkGKtuv0swCVfpHSBCINN8E9qeFso7q_U8gO-t28LiHh8fYrReptg=)
-- [idalhealth.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEl_o_sevqTL3hCSCRX4fx_vGZGAS3Dpfno73LsbgPcPMNT8xswW31QUTY3E21xXVNs0INgaK6nlwgb4vBqEyewFdeRNOruweS_v8no4Jt_exPl6QNwrsDf_-rBvL8dhMthKDVQvZnMktf6Gnr4w8mdKOXaNg=)
+- [thinkfood.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4E1bRxi3TBI9UIqQmU4qm5lTPuBH5UUGHqhqH74GxMlCoJ1PVFlelS6pBBgYZYvlLr24KcQhxxTuNJV4LLz-9tjplRzGetcPlxlQaWrvLav2Rxocra8LeqMYxWTy_mKxei9Y7gkQtTXCx9CDZW0rsgPx-Y_MZiw==)
+- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7EJKRLh6Ead60ovEcb6pcoy_bxXqq_-ftvwPMTl38F5UA9Bi3-lahEr3AEKh5YuNRSFtgVLwkBof-VdnCPckC6WPvrw_3UgBDS0aXaONQ7ub6v66VHAW9C6BHl2r7LdwX-Lsg-AVwlVCqPVsBXz-KYVzwMZ5P)
+- [samsunghospital.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiVPKSgWwjZbxepX9hY9uN-XeN-vKUnewQwnmpIYV8jlOcArgybHGSgQzkJC8cCIjqkQ81T5b45v9a0fSS4GsQUnsHqQsBEg-D2w7Lm1euhWZKTynnSiigqCLBHWjEIYl3HM2QsKHE7vqjhP0nstpZwXxX92SFFAzucQQaOWqYXb9RkCDgJL1iFUQvVPWankw1evhTceKw3QyKjaPbLDh-d2cescTHYq78WX5A6AJuvl-8KO_y3sLvM8l0aFosRHfs5C1hP3KWECo=)

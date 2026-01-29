@@ -639,7 +639,7 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
                   'pdp_modal'
                 );
               }}
-              className="w-full py-3 text-[13px] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
+              className="w-full py-3 text-[13px] font-bold rounded-xl transition-colors flex items-center justify-center gap-2 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-100"
             >
               📝 네이버 블로그 후기 보기
             </button>

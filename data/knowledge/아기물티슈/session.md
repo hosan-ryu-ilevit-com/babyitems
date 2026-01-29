@@ -1,5 +1,5 @@
-# 세션: 20260129_065427_g4tq
-> 시작: 2026-01-29T06:54:27.174Z
+# 세션: 20260129_115833_9t1b
+> 시작: 2026-01-29T11:58:33.054Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 지속적인 성장세를 보이며, 2032년까지 약 203억 달러 규모로 성장할 것으로 예상됩니다. 특히 한국에서는 베베숲이 9년 연속 판매 1위를 기록하며 시장을 선도하고 있습니다. 안전성과 성분을 중요하게 생각하는 소비 트렌드에 따라 저자극, 무첨가, 친환경 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG4jYqZvIah3Y5AmgRPIfIHf3GKjllr3ZscL2nd84yage9ztacwDCKzmfIZq0-U049_1VDHHIl-uHbe2qpIoEegQb6qNwgHr8OXBulctnZwiqIz_yVHcjxG7QxbRDO-Nt0XFQ53Fc16cmJVLl6Nezgbt5qHrLBAHitklrSS94i6pkzJ0-yBhWYW7uKMuzo_b0kkWH6JT0g=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrbsNmlWibAO1KUel3Y63Esl7Ak6SCldIQfHisA_D4-NxAQYvqm4x3XUYzR9le8NHJzys_fb6ROuG5CrlIYPcRvUuUh7_2SoxAx1odRvxC6AAK_j3Qp81_n0YCVJMIdh5z86VDLzEFt9PHNXaCYAbux-_ILldyXiPAlTVgJ4Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeX4ioMVxyE96J6YeKCdyOJaZyuaXVOd4EKJ_rV6ubTtDXn6WsPJXHibY6hJfigSgDPf0UiyjjzuZ97GbO0E-ZNmmclVVPDiVw-82P42S2H3IYSHpNGod6uk9i5d815Mz6yXvTYyPfhRuCh0nZ5O4yP4DpZzjptNIisek=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQb3VeH82DPSzeOslXFy8yFayo-Yo73bYel-_oqeLjpRJF7e0rm5gCNuT2d-7RsKdKnArmRR3iHfL5lKm23d_PoPKjLsf-twIH7Z8SroqWN6dTLFVNrnXMUjnvOjczgYHo9AHFgTC60GsGi409WG74vWTqGSMj7SL7pKI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZDepN-8uSBkA_MZXcMLO6ec4wvv0cjEuzq-T8s8ojRB_FqSdebG7kRmnoOzvNdEYJskocZ6ixMak034K-F8ZQyA06IinOQvN35TYGsjgnHcCvE8T6NZoRnzGxE5aOX3koIaUVq_I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0dpClfxdwvkoDGddj-IVUu7bozUUQCvgHJCIkQZJVkCQpd-ao_aUqT9R5cknG1FEXiuGqaTeAI5pYEMHo54VpoakrBamvNVCYTFYKqmZiZR7IuS6hgDw3Sqt2Td9MUGrq6v0eeiTR26YwbJX0h-YlFeYkCg==
+- 인사이트: 아기 물티슈 시장은 지속적인 성장세를 보이며, 2024년 기준 약 124억 달러 규모로 평가되었습니다. 출산율 감소에도 불구하고 '골드키즈' 트렌드로 인해 영유아 한 명에게 더 많은 투자하는 경향이 강해지면서, 안전성과 성분을 중요시하는 소비 패턴이 이어지고 있습니다. 베베숲은 9년 연속 국내 판매 1위를 기록하며 시장을 선도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXr7q99XwkeyWr3KeEcQ-96lSb75IMWa8VpYHh_QR5GRjoOqX9OKWnM1IEu4UFZ8y0xs6CRvsTfrqMNY4SXTBtjQm5K8TxDeB2iITLrX4CaF9rFMLWAWAk06RV4HQRKApaipcjCsof19BRxWoavDq94IfxHss_qaJIsuE3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeprb6R2kHxPVZp2whN0UIenAvba1hlil1VINznXTX83LwRF5ML2xKf5g5eZCkUz0GcFYjLxn4NyKNTHjVCk-W5IBoZ9mguBpm67P2PgrYpxxcgKLHFtH2-3TKptOXAfAFtvFnGq-jTyeF8kpyuVtH8-jVofgzdrHL10KBPePoyi2Kbn2eDhWFibT9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEKPgpTXMIaQ9IpssD_jfSfj9Kz-6az7PUFbJXRdvqZZ_3BXbdfFekCElPPxduQRfARLmNgHWhq9Dfg-aRZurqXR6ZhixKEdrLtwCX5ohbNdAObXit0YbqTl5hIBYDz3bMLaDBLFtiNNEU93A_dn0e3yepDMYAhFa6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUF-HgfMyGovKrShPTrGTiRymA7Aau5DXaioWrVAtviA5qBlHlplFyqbUgmIfJNGciF_SwLfQazf1KS_sisUQ7Bkirjil0r6fuec0EnVV_kIO8FSutCMeJBUslI9jx-m0ewJaVutlVdNe1Ay4d2p7Auzv6HZcO0H80QJpqnuMU4_x370vFBQArlR0aDuuBzuupoiJqcbY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELyhYXbzZ-WeX3wHxcwNM6gE2SjMoCpYB5_OEnxdcZj_NMyoEEnKvEU8OR1v9PZVVOZ5xLBEKi7U38S7Ehdt2BeE9fzMlbu29lAG2lWk3I1KEOyF4ggilNUBkjdkMvP-F03GkTtiZ6D2PQDPi0V0Sc5V5toxJaVSKGj7k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXsmWQu3fAQLvtSZid5Rm-MpmXjN9UrTY7o0cZ1hsWiIKg1alvh-CWkhnuTRKbqOtfxyET5m_I1-p0YKWhFrDFc5S2HPMHzdZM2jGrs4TwPU0quMW4EOUuKSBxMptgHhyq2fGCnVvw0rGdATotgvMh0-RYCim59Ff-dJPI2PY=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 물티슈 선택 시 가장 중요하게 생각하는 성분 관련 기준은 무엇인가요? | 저자극 & 무향, 천연/유기농 성분 |
+| 믿고 쓰는 아기물티슈 브랜드가 있으신가요? | 베베숲 (검증된 브랜드) |
 | 물티슈의 두께는 어느 정도를 선호하시나요? | 도톰한 두께 |
-| 아기 물티슈는 어떤 브랜드를 선호하시나요? | 아이러브베베, 베베앙 |
-| 물티슈 원단의 엠보싱 유무나 기능은 어떤 것을 선호하시나요? | 프리미엄 엠보싱 |
-| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 약 1만 2천원, 6천원~1만 6천원대가 가장 많아요) | 6천원 ~ 1만 6천원대 |
+| 물티슈 성분 중 가장 중요하게 생각하는 것은 무엇인가요? | 천연 방부제/보존제 |
+| 물티슈 원단은 어떤 타입을 선호하시나요? | 엠보싱 원단 |
+| 예산은 어느 정도로 생각하세요? (평균 약 1만 2천원, 7천원~1만 6천원대가 가장 많아요) | 7천원 ~ 1만 6천원대 |
 
 ---
 

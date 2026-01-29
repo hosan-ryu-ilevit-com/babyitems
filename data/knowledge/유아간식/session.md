@@ -1,5 +1,5 @@
-# 세션: 20260127_072830_geie
-> 시작: 2026-01-27T07:28:30.543Z
+# 세션: 20260129_121339_2wt9
+> 시작: 2026-01-29T12:13:39.727Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 시장 현황
-- 인사이트: 저출산 기조에도 불구하고 프리미엄 유아 간식 시장은 꾸준히 성장하고 있습니다. 부모들은 아이의 건강과 면역력을 고려하여 차별화된 먹거리 제품에 아낌없이 투자하는 경향을 보입니다. 특히 간편 영유아식 시장은 2020년 1671억 원에서 2025년 3330억 원 규모로 성장할 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE35q5ZTwKyT16iFO_wvLcMDtY1hHIYE6E-N4xCFVxeW3aPAyT4EiDKOevJNPy_tC0yXHjr_TiC2IFgIAozEA9KQRorm4Bf57cmu2gwK3-Q3JW-6k1dmtU0oeU9iLU2PENCQpKNEH5z6JZT6otvm45M1f60PPqYeXE-OxuZ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUJSWPWu96k7dThEAcJYbr2rLhnb4gbqJE6l8PmSs7XdG9B-ALTuTY7gs56yxIDvqEfr6erPDdX8xf5QX9uTyz0n4do8afWuoloQ7l67Zt_C_lGAOn83NY29X3OyE1uR-kx0nu_yqsXss=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl2c1mqZ0Hh3J3SWHX7OzUqeFc_ss-i47xfem4qVY5reQ7a0AzuZMB4bQIpH_Q3MUHj5-lf9qZXi1t0tJW7XQ9IyWnfhG6cHz05oGIUMN26-Tfw585C140dJccU6RoqgfC_YZ1kjN1Sw2NDAvWQW1JxNDt4ey8vvNxu_Idl8FVc8bRR2oX5SbO4rYTtIoAVg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEt0ufDnoOHHvcoNe7G5tNI7_G4FYD9LtA1M00xRHXkKhNvpN2zZCMc6bF8C9kspAEd0PlLs-1yx4YJoPyML5-rFG_QPBM80urOIHz7-zu1YEAkGKtuv0swCVfpHSBCINN8E9qeFso7q_U8gO-t28LiHh8fYrReptg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEl_o_sevqTL3hCSCRX4fx_vGZGAS3Dpfno73LsbgPcPMNT8xswW31QUTY3E21xXVNs0INgaK6nlwgb4vBqEyewFdeRNOruweS_v8no4Jt_exPl6QNwrsDf_-rBvL8dhMthKDVQvZnMktf6Gnr4w8mdKOXaNg=
+- 인사이트: 국내 영유아식 시장은 저출산 영향으로 성장이 정체되었으나, 간편 영유아식 시장은 연평균 20%의 성장세를 보이며 전체 시장을 견인하고 있습니다. 맞벌이 부부 증가로 편리한 주문 배달 영유아식 수요가 늘고 있으며, 코로나19 이후 직접 조리에 대한 관심도 다시 확산되고 있습니다. [1, 7, 9] 어린이 간식 시장 또한 성장세를 보이며, 일반 과자보다 영유아식에서 확대된 어린이 간식류로 소비가 전환되는 추세입니다. [1]
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4E1bRxi3TBI9UIqQmU4qm5lTPuBH5UUGHqhqH74GxMlCoJ1PVFlelS6pBBgYZYvlLr24KcQhxxTuNJV4LLz-9tjplRzGetcPlxlQaWrvLav2Rxocra8LeqMYxWTy_mKxei9Y7gkQtTXCx9CDZW0rsgPx-Y_MZiw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7EJKRLh6Ead60ovEcb6pcoy_bxXqq_-ftvwPMTl38F5UA9Bi3-lahEr3AEKh5YuNRSFtgVLwkBof-VdnCPckC6WPvrw_3UgBDS0aXaONQ7ub6v66VHAW9C6BHl2r7LdwX-Lsg-AVwlVCqPVsBXz-KYVzwMZ5P, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiVPKSgWwjZbxepX9hY9uN-XeN-vKUnewQwnmpIYV8jlOcArgybHGSgQzkJC8cCIjqkQ81T5b45v9a0fSS4GsQUnsHqQsBEg-D2w7Lm1euhWZKTynnSiigqCLBHWjEIYl3HM2QsKHE7vqjhP0nstpZwXxX92SFFAzucQQaOWqYXb9RkCDgJL1iFUQvVPWankw1evhTceKw3QyKjaPbLDh-d2cescTHYq78WX5A6AJuvl-8KO_y3sLvM8l0aFosRHfs5C1hP3KWECo=
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 간식을 먹기 시작한 지 얼마나 되었나요? (월령별 권장) | 12~24개월 |
-| 간식 선택 시 가장 중요하게 생각하는 성분은 무엇인가요? | 유기농/천연 재료 |
-| 어떤 형태의 간식을 선호하시나요? | 젤리/말랑한 간식, 과자/스낵 |
-| 혹시 선호하시는 유아간식 브랜드가 있으신가요? | 핑크퐁, 앙팡, 매일유업 |
+| 아기 간식 선택 시 가장 중요하게 생각하는 성분은 무엇인가요? | 유기농 또는 무첨가 원료, 특정 영양 성분 강화 |
+| 믿고 구매하는 유아 간식 브랜드가 있으신가요? | 매일유업, 앙팡, 메이지 |
+| 간식 준비 시 편리함은 어느 정도가 중요하신가요? | 소포장 개별 간식, 간단한 준비가 필요한 간식 |
+| 아이가 좋아하는 간식의 식감은 어떤 종류인가요? | 말랑한 젤리/말랑이 |
 | 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 4천원대가 가장 많아요) | 6천원 ~ 1만 4천원대 |
 
 ---

@@ -433,7 +433,11 @@ function OptionButton({
         )}
       </div>
       {isPopular && !disabled && (
-        <span className="shrink-0 ml-2 px-1.5 py-0.5 bg-green-100 text-green-700 text-[11px] font-semibold rounded-md">
+        <span className={`shrink-0 ml-2 px-1.5 py-0.5 text-[11px] font-semibold rounded-md transition-colors ${
+          isSelected 
+            ? 'bg-white text-blue-500' 
+            : 'bg-blue-50 text-blue-600'
+        }`}>
           인기
         </span>
       )}
@@ -5321,6 +5325,28 @@ function MessageBubble({
                       if (reviewImagesForCarousel.length >= 4) break;
                     }
 
+                    // 🆕 조건 일치도 계산 (tagScores 기반)
+                    const matchRate = (() => {
+                      const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
+                      if (!tagScores || filterTags.length === 0) return undefined;
+                      
+                      // 분모: 사용자가 선택한 전체 필터 태그 개수 (또는 전체 태그 개수)
+                      // 여기서는 전체 filterTags 개수를 기준으로 합니다.
+                      const totalPoints = filterTags.length * 2;
+                      
+                      const earnedPoints = Object.values(tagScores).reduce((acc, curr) => {
+                        if (curr.score === 'full') return acc + 2;
+                        if (curr.score === 'partial') return acc + 1;
+                        return acc;
+                      }, 0);
+                      
+                      const rawRate = Math.round((earnedPoints / totalPoints) * 100);
+                      
+                      // 🆕 보정 로직: *1.2 (단, 100 미만인 경우 99를 넘지 않도록)
+                      if (rawRate >= 100) return 100;
+                      return Math.min(99, Math.round(rawRate * 1.2));
+                    })();
+
                     return (
                       <div 
                         key={product.pcode || product.id || index} 
@@ -5338,6 +5364,7 @@ function MessageBubble({
                             reviewImages={reviewImagesForCarousel}
                             productTitle={title}
                             rank={originalRank}
+                            matchRate={matchRate}
                             maxImages={5}
                             autoScrollInterval={2000}
                             pauseAfterSwipe={3000}
@@ -5468,7 +5495,7 @@ function MessageBubble({
                                         isSelected
                                           ? 'ai-gradient-border text-[#6366F1]'
                                           : isFull
-                                            ? 'bg-green-50 text-green-700'
+                                            ? 'bg-blue-50 text-blue-400'
                                             : 'bg-yellow-50 text-yellow-700'
                                       }`}
                                     >

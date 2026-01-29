@@ -8,6 +8,7 @@ interface PLPImageCarouselProps {
   reviewImages: string[];
   productTitle: string;
   rank: number;
+  matchRate?: number; // 🆕 조건 일치도 (0~100)
   maxImages?: number;
   autoScrollInterval?: number; // ms
   pauseAfterSwipe?: number; // ms
@@ -26,6 +27,7 @@ export function PLPImageCarousel({
   reviewImages,
   productTitle,
   rank,
+  matchRate,
   maxImages = 5,
   autoScrollInterval = 1300,
   pauseAfterSwipe = 2000,
@@ -232,8 +234,10 @@ export function PLPImageCarousel({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </div>
-        <div className="absolute top-0 left-0 w-[32px] h-[26px] bg-gray-900 rounded-br-[12px] flex items-center justify-center">
-          <span className="text-white font-bold text-[12px] leading-none">{rank}위</span>
+        <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center">
+          <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
+            {matchRate !== undefined ? `매칭 ${matchRate}%` : `${rank}위`}
+          </span>
         </div>
       </div>
     );
@@ -261,8 +265,10 @@ export function PLPImageCarousel({
             </svg>
           </div>
         )}
-        <div className="absolute top-0 left-0 w-[32px] h-[26px] bg-gray-900 rounded-br-[12px] flex items-center justify-center">
-          <span className="text-white font-bold text-[12px] leading-none">{rank}위</span>
+        <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center">
+          <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
+            {matchRate !== undefined ? `매칭 ${matchRate}%` : `${rank}위`}
+          </span>
         </div>
       </div>
     );
@@ -314,8 +320,10 @@ export function PLPImageCarousel({
       </div>
 
       {/* 랭킹 배지 */}
-      <div className="absolute top-0 left-0 w-[32px] h-[26px] bg-gray-900 rounded-br-[12px] flex items-center justify-center z-10">
-        <span className="text-white font-bold text-[12px] leading-none">{rank}위</span>
+      <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center z-10">
+        <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
+          {matchRate !== undefined ? `${matchRate}% 매칭` : `${rank}위`}
+        </span>
       </div>
     </div>
   );

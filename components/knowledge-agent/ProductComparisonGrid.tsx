@@ -347,7 +347,7 @@ export function ProductComparisonGrid({
                         {/* 충족도 아이콘 */}
                         <div className="flex items-center gap-1 mb-1">
                           {score === 'full' && (
-                            <span className="text-green-500 font-bold text-[15px]" title="충족">✓</span>
+                            <span className="text-blue-500 font-bold text-[15px]" title="충족">✓</span>
                           )}
                           {score === 'partial' && (
                             <span className="text-yellow-500 font-bold text-[15px]" title="부분 충족">△</span>
