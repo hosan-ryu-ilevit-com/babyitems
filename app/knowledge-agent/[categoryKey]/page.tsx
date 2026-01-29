@@ -875,6 +875,7 @@ export default function KnowledgeAgentPage() {
   const [followUpQuestions, setFollowUpQuestions] = useState<QuestionTodo[]>([]);
   const [currentFollowUpIndex, setCurrentFollowUpIndex] = useState(0);
   const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
+  const [showFollowUpLoading, setShowFollowUpLoading] = useState(false); // UI에 로딩 표시 여부 (딜레이 적용)
   const [followUpCustomInputActive, setFollowUpCustomInputActive] = useState(false);
   const [followUpCustomInputValue, setFollowUpCustomInputValue] = useState('');
   const followUpCustomInputRef = useRef<HTMLInputElement>(null);
@@ -1056,8 +1057,8 @@ export default function KnowledgeAgentPage() {
       return baseMs + (Math.random() * variation * 2 - variation);
     };
 
-    // 🆕 22초 기준 부드러운 프로그레스 애니메이션 시작
-    animateProgressSmoothly(22000);
+    // 🆕 25초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(25000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
@@ -2297,9 +2298,7 @@ export default function KnowledgeAgentPage() {
       }
 
       setIsGeneratingFollowUp(false);
-
-      // 🔧 임시: 로딩 메시지 제거 비활성화 (계속 표시)
-      // setMessages(prev => prev.filter(m => m.questionId !== 'followup_loading'));
+      setShowFollowUpLoading(false);
     }
   };
 
@@ -2325,7 +2324,7 @@ export default function KnowledgeAgentPage() {
           if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
 
           return [
-            ...prev.filter(m => m.questionId !== 'followup_loading'),
+            ...prev,
             {
               id: guideMsgId,
               role: 'assistant',
@@ -2351,7 +2350,7 @@ export default function KnowledgeAgentPage() {
           if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
 
           return [
-            ...prev.filter(m => m.questionId !== 'followup_loading'),
+            ...prev,
             {
               id: guideMsgId,
               role: 'assistant',
@@ -3950,7 +3949,6 @@ export default function KnowledgeAgentPage() {
                   setIsHardcutVisualDone(true);
                   // ✅ 로딩 완료 후 가이드 메시지 추가 (hardcutData 바로 다음에 추가됨)
                   const finalInputMsgId = `a_final_input_${Date.now()}`;
-                  const loadingMsgId = `a_followup_loading_${Date.now()}`;
                   setMessages(prev => {
                     if (prev.some(m => m.id.startsWith('a_final_input_'))) return prev;
                     return [...prev,
@@ -3961,18 +3959,14 @@ export default function KnowledgeAgentPage() {
                         content: `추천 후보 상품들을 잘 추렸어요! 🎯`,
                         typing: true,
                         timestamp: Date.now()
-                      },
-                      {
-                        id: loadingMsgId,
-                        role: 'assistant',
-                        questionId: 'followup_loading',
-                        content: '추가 질문 필요 판단하는 중...',
-                        isLoading: true,
-                        typing: true,
-                        timestamp: Date.now()
                       }
                     ];
                   });
+
+                  // 🎯 가이드 메시지 표시 후 500ms 후에 로딩 인디케이터 표시
+                  setTimeout(() => {
+                    setShowFollowUpLoading(true);
+                  }, 500);
                 }}
                 showComparisonOnly={showComparisonOnly}
                 setShowComparisonOnly={setShowComparisonOnly}
@@ -4015,6 +4009,36 @@ export default function KnowledgeAgentPage() {
                     className="text-[14px] bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600 bg-[length:200%_auto] bg-clip-text text-transparent font-medium"
                   >
                     답변 생성 중...
+                  </motion.span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* 추가질문 생성 중 로딩 인디케이터 */}
+            <AnimatePresence>
+              {showFollowUpLoading && isGeneratingFollowUp && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex items-center gap-3 py-3 px-1"
+                >
+                  <div className="flex gap-1">
+                    {[0, 1, 2].map(i => (
+                      <motion.div
+                        key={i}
+                        animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
+                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
+                        className="w-1.5 h-1.5 rounded-full bg-blue-500"
+                      />
+                    ))}
+                  </div>
+                  <motion.span
+                    animate={{ backgroundPosition: ["-100% 0", "100% 0"] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="text-[14px] bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600 bg-[length:200%_auto] bg-clip-text text-transparent font-medium"
+                  >
+                    추가 질문 필요 판단하는 중...
                   </motion.span>
                 </motion.div>
               )}
@@ -5111,9 +5135,12 @@ function MessageBubble({
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible">
-              <h3 className="text-[18px] font-bold text-gray-900 mb-3">
+              <h3 className="text-[18px] font-bold text-gray-900 mb-1">
                 조건에 맞는 {categoryName} 추천
               </h3>
+               <h4 className="text-[14px] font-medium text-gray-600 leading-[1.4] line-clamp-2 mb-4">
+                              선택하신 조건을 최대한 반영해 골랐어요
+                            </h4>
               
               {/* 비교표 토글 */}
               <div className="relative flex items-center w-fit">

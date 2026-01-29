@@ -264,7 +264,7 @@ export function ProductComparisonGrid({
                 )}
 
                 {(!product.prosFromReviews?.length && !product.consFromReviews?.length) && (
-                  <p className="text-[12px] text-gray-400">리뷰 분석 중</p>
+                  <p className="text-[12px] text-gray-400">리뷰 분석 중...잠시만 기다려주세요</p>
                 )}
               </div>
             ))}

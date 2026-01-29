@@ -1,5 +1,5 @@
-# 세션: 20260127_070314_9vyj
-> 시작: 2026-01-27T07:03:14.286Z
+# 세션: 20260129_081615_pax8
+> 시작: 2026-01-29T08:16:15.855Z
 > 카테고리키: 아기띠
 > 카테고리: 아기띠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기띠 시장 현황
-- 인사이트: 아기띠 시장은 2026년 약 6억 9,812만 달러에서 2031년 9억 7,549만 달러로 연평균 6.92% 성장할 것으로 예상됩니다. 이는 변화하는 라이프스타일과 함께 슬링형 아기띠의 성장이 두드러질 것으로 보입니다. 또한, 기술 도입과 지속가능성 인증에 대한 투자가 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRhJ7xRxHltTXdson5DkkIg9knkvNDkWNd_j7H66tvlrNsJAdkzF6I235D25sziBGoclG8wGBcuLbeT4y2iUyLi2utAC8SA72cqda0kTDEKIBSQU_byeJU2kDPP8iQkotE9LbBgEc5XtZBCRApVh1jtYKUwblpYWeeLwU-bRFHkMo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAgKjYHQugzw1gd-eH8RKlamVC52-QhhqdIqKgP-lrY8bABe5LZYwqScuOSm7NjU-9ApfhAoX1BUM6rEjcnpxUCyyEURApXxmL03P1qQ5tBRIdus_E-W4L3-P3Dr_0hJT2WoVxUD_sCWFnbOI58B5i-0fB75-f0pjhgJjfQqPa7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmZsuaq4rGP0EitqgfumXbGGB4lmzpkyeaCp4jP9I9Tb1VsFlSVmaCqqbiJRJ4btIQ4BxmOfh0xPe4OGuLwY5N_AWDmur5aAa_k7RCMnGxcdg297P6UVHC01PUlJTQNUEl_6wMHrZy7f1Ry0rQEIIT8-J3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZoVVJa219YSVSsabtmszXX7-sAbuj0OwYbaD51WrUN-U4mUp9uA3BdJUcj4XoWEXwqA37e1GqqyHpZXYCotXVM4l1E4meLnShJdhUfT2XgAi6J-xnq6FNyzrd1X6zS6sZu0H5mnA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWu7Hlp-osNUmvbio7I4xlB2umbZDfR0toFC8PdFPSf2Cs2_RfnSF9xpS4rTbTY2LkdLHDBHzOIPr5uox7D5-AH4gK4h7P9reTm6VdsHBomXuHZRkcPOe-z6r8McHc1yc3cATlm6lV_l1dxA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG96od2cGA1KezDdWNbkT1WLj1Th3Q4Olg6fmyu_BVa9dOi2Q-pVgnQtROhHH3tw6x-sCuXsppQ82JAv9fwmgKRSbC23nmXRCmQ3GyeWWo06c-AsIUgmhpe785KUtrRg3BYqTFGVyY5sFEEOVmwm0N9uno5h8DccE1wojLYxSpg2nnv6RrHDqfow80NiXbWnYp4iAS0F_ZFZzqQvGh0le6yCF6YJuG4OzXuzoCS752oXVRTReD7xgbjFOBZSxf1dmJBQ0BOsl02PW2TIEZSddQN2m-lwbZWq9oaezNX9M02s2tmLx3MONruP_Kpzy1wKYCvK47fPZL_AG6lhq5rsaGkmO80FGgiUsimXFIdkxV2x7h72E-3
+- 인사이트: 아기띠 시장은 다양한 제품군이 혼재되어 있으며, 힙시트 기능이 포함된 올인원 제품이 인기를 얻고 있습니다. 특히 코니아기띠와 같은 브랜드는 자체 개발 원단과 인체공학적 디자인을 바탕으로 국내외 시장에서 높은 판매량을 기록하며 성장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1fDFALnR_sbRCOV_WRjLbDrvsih6xq96troGoG_TZetkqAcV2UGhkfkoBLaJIKSHUDokzkgUe9tpynAXknmOp_-iTIDGXeCIXSFJp2zjVKRXtG6QYZlVmZUc6eBUEZYkY5bjHZxReJ-A8hlohmRmNlLkY7Z7Gzh4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlEysnhtuUBw69VbdqdMWDdcEQh_mzkW6dubNWYXlCp_KmqdlntONZmNU6Hi6W4C47Qs8TN_EtfASqH0VlZ73HKu2dxQzCz_Wyl5xorA5bLLa8-qOykLgj1PTZIKNMmFJ-0_D_LUM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKYVQ7a6X_00jKwjqAE8QfCMI6hYjglfM1Wg5KiMHUHv-ETVGuMXPteK6nHvU_0Uik003CcJJY5yxlpYjd_J7jh7v56-M_7oULGQRKDbvDOZwU_jEE4T_UhPKslgoDNGVb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGcv9OJ4i6zYPKxofqYTR03VNtviqhWCKPsAYRQWSlDLZyM9hOaHrNImJhaYwN8UVnnpH77rhpSpXpS9AQ4rfq-P6yTkT8TZKjhVDgD-pt4antaclk6cxdYBi-nCiPgLpT6ArBs55gaVrWh_NgFfD9vfk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGG-t44XHdgRmSezUPnDufbduIPeN-S10zhE5nYduVXeOYnXpP5WxLbBQIFgLQa-sRpdK4pRF4JEzGPZX3SiuRYUgd2onvrzLy3IylAkfC6VTeLtrUYup9CGOM6xklt6lJkkbd6A6fkIkWo4EM8b80jyrAjU2JpfxCQPhqGlw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpwA_PMTG_PH5GFSX_KkDWq6joE_LhZU3Pl-aYyVyPB5u-h3JNsz06sDQlIAUS_FjtGnZd2-zbsCAiOIRH2QGiGBc3xYWBlU2zsZdbW7e_ByadYpomKB6VnkMayQLtkyITqJFxy2t5LJrq3lXu41iVpJNC3ZqvfI3AFR2Il2dxXSKX
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수 또는 몸무게를 알려주세요. | 신생아 (0-1개월, 3.2kg 이하) |
-| 아기를 주로 어떤 자세로 안고 싶으신가요? | 마주보기 (신생아부터) |
-| 어떤 소재와 계절에 주로 사용하실 예정인가요? | 통기성 좋은 메쉬 소재 (사계절) |
-| 믿고 구매하고 싶은 브랜드가 있으신가요? | 베이비뵨, 아이엔젤, 포그내 |
-| 예산은 어느 정도로 생각하세요? (평균 14만 7천원, 7만 6천원 ~ 19만 1천원대가 가장 많아요) | 7만 6천원 이하 |
+| 아기의 개월 수는 어떻게 되나요? (개월 수별 사용 가능한 아기띠가 다릅니다.) | 1~6개월 |
+| 어떤 형태의 아기띠를 선호하시나요? | 힙시트 올인원, 일반 아기띠 |
+| 아기띠 소재는 어떤 것을 선호하시나요? | 메쉬 소재 |
+| 선호하시는 아기띠 브랜드가 있으신가요? | 에르고베이비 |
+| 예산은 어느 정도로 생각하세요? (평균 14만 7천원, 7만 6천원~19만 1천원대가 가장 많아요) | 7만 6천원 이하 |
 
 ---
 

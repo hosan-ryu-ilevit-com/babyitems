@@ -1,5 +1,5 @@
-# 세션: 20260127_054132_s7ez
-> 시작: 2026-01-27T05:41:32.949Z
+# 세션: 20260129_083719_6fiw
+> 시작: 2026-01-29T08:37:19.617Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFChU6Wk3TslzU2dxP24E7ZJ74aw1wvlxFU343Z7YHw0PpKoMr8Z3RGDPpgPf8VeTIpoxr5prwHYceeUi3QtJaZUEuZlnHrDfbwAcls3Z4RVROOGxwdEtCBy-vd-B1gRHQ_RdSNevb-7-GHitHCLBhE_gr9oL2jZ39bk6fzVBj3PU3psg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZLF2Nw5HzIaaryzI-4tDQ9VURK-Pi73scFmiAFG_fbWnpiNtbchfUb8p8Gsd6XYPHHIrKSCf6BkC8a9AiHkZUZ3IAUkxzyqoR990fAJDqHY_4qtBtI0KjZ1EHanVdkobNAnkw8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKT-vGPq4JwPhWL7s03SqdrnSHzwSet7HXHUfVGHKUfFVgrRt1f5ER-r8xR-wIgDdipyjYtSIsnhAVHVgGQbAgR9aH0WRa2R4uvLGtkB_ldhHYEvm-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ-MsjBgK1XjEjYf_a3CFInbDhXUeRXX0uXfoGV5WN9YjlqD_F7y7aHxu6_C710Ok0SHS3D-YKzZYXUTlkKJoVyvtFBxUNhRFhnlRVLUz-hcSkAeJxI89oIbqr4ceUg0KZ03P92w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYog2qjtMCEQE731jyZGCxt5f2lrQV4OAkmlip-k-KHUjW6aC-q2qMKQRV2CDbrPV5RWHecu94bhiG5BcdMoCGpFY3SM3eSvw458fq8kIdlFnaM4Z85pZ-KgNXzy9xkdwLZSU9L8WtzMNwLOSSDPMeTNHWZMk9TjPPaPDVEqWDutJ0Do0ifZcT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpviVHPjTpK15XE2mnaFtuHBtAaaDkwESSnGEnpmAp7vcDvSPftTtPqJLFJ31L8dyZcIVq0uBkSD18OP0CkgPfFr4ZD8-ad-htnESI_1gUCTuN70Bbyo5mSyo5cBysRsKPm4ck6FgT7kc0EI-Aq3j7XqahGd0BxpI08KWSknSt2JyGXHCmkS8TVVd7ksPOF2Mc5CrpzgeebQFkM6aCEGJG6A4t-qPdjUFaXQicH8xIEFUXSA0jdf7uMIsR_GuekwN4C6IsR3Sh95Y2aCh06xw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJWcEpoVAQQEhG0EinGT8qzIFqKuAsSQJewJXTINpw1GNFX9cJanyQVveWDexesUdssFyuNedueSUGd3i0oeroz5kelEIBZQ6TY5AeaBOHNUxkPwdQW6PWa5dbdtQJPZdtRDcVMu2T2K2SWYL0Nck7zcMZqucsEG2w9ixOUpuz6Scv44vDWBBYAIlwoFNan6hYcvF7VGFfkdiiqMPnLudEPUghsSCH6OcnEpSrFICzKHn6vN_1OI1xG-zzo0jsRgcl5Ew9GBo3FRr61ck0mZaRR-tjH8c1FlIjDLcwcID0, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdT9sXny0rBPIAUFbFOoCTd1vyyG4nz7UKCgPVhE0132x-AIXlF55d2nC1fiXIHZauqeNeigLpHU-FxhNU_NFYG4Y8j2Zey0mPYS9Dau_fgG18KxHCr-AIIL_IMTJgiInOQyCRBeArUJ1KM8SSBBb1BeR-IeSq6Ald2w==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFChU6Wk3TslzU2dxP24E7ZJ74aw1wvlxFU343Z7YHw0PpKoMr8Z3RGDPpgPf8VeTIpoxr5prwHYceeUi3QtJaZUEuZlnHrDfbwAcls3Z4RVROOGxwdEtCBy-vd-B1gRHQ_RdSNevb-7-GHitHCLBhE_gr9oL2jZ39bk6fzVBj3PU3psg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZLF2Nw5HzIaaryzI-4tDQ9VURK-Pi73scFmiAFG_fbWnpiNtbchfUb8p8Gsd6XYPHHIrKSCf6BkC8a9AiHkZUZ3IAUkxzyqoR990fAJDqHY_4qtBtI0KjZ1EHanVdkobNAnkw8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKT-vGPq4JwPhWL7s03SqdrnSHzwSet7HXHUfVGHKUfFVgrRt1f5ER-r8xR-wIgDdipyjYtSIsnhAVHVgGQbAgR9aH0WRa2R4uvLGtkB_ldhHYEvm-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ-MsjBgK1XjEjYf_a3CFInbDhXUeRXX0uXfoGV5WN9YjlqD_F7y7aHxu6_C710Ok0SHS3D-YKzZYXUTlkKJoVyvtFBxUNhRFhnlRVLUz-hcSkAeJxI89oIbqr4ceUg0KZ03P92w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYog2qjtMCEQE731jyZGCxt5f2lrQV4OAkmlip-k-KHUjW6aC-q2qMKQRV2CDbrPV5RWHecu94bhiG5BcdMoCGpFY3SM3eSvw458fq8kIdlFnaM4Z85pZ-KgNXzy9xkdwLZSU9L8WtzMNwLOSSDPMeTNHWZMk9TjPPaPDVEqWDutJ0Do0ifZcT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpviVHPjTpK15XE2mnaFtuHBtAaaDkwESSnGEnpmAp7vcDvSPftTtPqJLFJ31L8dyZcIVq0uBkSD18OP0CkgPfFr4ZD8-ad-htnESI_1gUCTuN70Bbyo5mSyo5cBysRsKPm4ck6FgT7kc0EI-Aq3j7XqahGd0BxpI08KWSknSt2JyGXHCmkS8TVVd7ksPOF2Mc5CrpzgeebQFkM6aCEGJG6A4t-qPdjUFaXQicH8xIEFUXSA0jdf7uMIsR_GuekwN4C6IsR3Sh95Y2aCh06xw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJWcEpoVAQQEhG0EinGT8qzIFqKuAsSQJewJXTINpw1GNFX9cJanyQVveWDexesUdssFyuNedueSUGd3i0oeroz5kelEIBZQ6TY5AeaBOHNUxkPwdQW6PWa5dbdtQJPZdtRDcVMu2T2K2SWYL0Nck7zcMZqucsEG2w9ixOUpuz6Scv44vDWBBYAIlwoFNan6hYcvF7VGFfkdiiqMPnLudEPUghsSCH6OcnEpSrFICzKHn6vN_1OI1xG-zzo0jsRgcl5Ew9GBo3FRr61ck0mZaRR-tjH8c1FlIjDLcwcID0, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdT9sXny0rBPIAUFbFOoCTd1vyyG4nz7UKCgPVhE0132x-AIXlF55d2nC1fiXIHZauqeNeigLpHU-FxhNU_NFYG4Y8j2Zey0mPYS9Dau_fgG18KxHCr-AIIL_IMTJgiInOQyCRBeArUJ1KM8SSBBb1BeR-IeSq6Ald2w==
+- 인사이트: 소꿉놀이는 아이들의 상징 조작 능력과 역할 놀이를 통해 사회성을 발달시키는 데 중요한 역할을 하는 놀이입니다. 주로 엄마, 아빠 등의 역할을 나누어 놀이를 진행하며, 이는 아이의 인지 발달에 긍정적인 영향을 미칩니다. 최근에는 교육 장난감 시장의 성장과 함께 다양한 형태의 소꿉놀이 제품들이 출시되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKYzy67lw5IF_aU9-V438gs_UCauiZlo8Doh0jH26ZTpz8WSOUyOAd0_GYLu0Z5Y7tGhE292wkmTsKExpi1Z5-mFlmTmPlt3TWghjAb3inV5Nz_U0Q4o7nIlCdzgleA2cs2p5NPqOfU91Zz-u9s7h_hK4-XelqCt0XEcbhHnl87LZfmYxVfI5JL8PJ0YiCEVkRocHXkxIpzhJKLASK8wAhb-Nc2o9ZVO_M82Vl4BmrQuJ8PSvpLhkAv_2rS_ONCX_EBTOw-gR-Cs3A_LFYxw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZ6gJ_PuSEGteYDfju3JXIDDtB35KGwDbFhDMaJpre12rN4gj2Wl_CTRYtGIWl8AW6Xii1H-bDSCera5NF7sCZYmdb_Plf55peUk7z-701jieGWR-8bTnRv1o5vJnaH2Z0iX3z, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjGaNY-UMkftQXZMEic00NhGitRUGYq7yp6MH6p8mQ_yxBoXTbKTNSDCpIn1A8sTppn2v7STbPMIjXhangtLfOIaghSmzfdur80fu2s-04bGp1aXF5V41Rij3LPR4NjGR7i9CWGZeeKvWdyiVUonzeql-ZcFEgHh4px2-IXe_O2YIGkmZqdgQ=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이의 연령에 맞는 소꿉놀이를 선택하는 것이 중요해요. 아이는 몇 세인가요? | 3~6세 (유아/유치원) |
-| 소꿉놀이의 소재는 아이의 안전과 직결될 수 있어요. 어떤 소재를 선호하시나요? | 원목 |
-| 어떤 종류의 역할 놀이를 가장 즐겁게 할 수 있을까요? | 주방/음식 놀이 |
-| 소꿉놀이 제품은 아이가 직접 만지고 사용하는 만큼, 선호하는 브랜드가 있으신가요? | 상관없어요 |
-| 소꿉놀이 제품 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대 |
+| 어떤 테마의 소꿉놀이를 가장 좋아하나요? | 펫 케어, 카페놀이 |
+| 소꿉놀이 장난감의 소재는 어떤 것을 선호하시나요? | 원목 |
+| 선호하는 소꿉놀이 브랜드가 있으신가요? | 상관없어요 |
+| 어떤 교육적 효과를 가장 기대하시나요? | 창의력 및 상상력 향상, 사회성 및 정서 발달 |
+| 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대 |
 
 ---
 

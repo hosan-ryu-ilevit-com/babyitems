@@ -1,15 +1,25 @@
 # 소꿉놀이 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T05:41:25.375Z
+> 마지막 업데이트: 2026-01-29T08:37:12.227Z
 > 분석 상품: 20개 | 분석 리뷰: 2,791개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 역할 놀이의 중요성 증대
+- 교육 및 발달 중심의 장난감 선호
+- 다양한 테마와 스토리를 가진 소꿉놀이 세트
 
 ### 구매자 만족 포인트
+- ✓ 인지 발달 촉진
+- ✓ 사회성 및 정서 발달
+- ✓ 창의력 및 상상력 향상
+- ✓ 뛰어난 가성비
 
 ### 주의해야 할 단점
+- ⚠ 일부 제품의 낮은 내구성
+- ⚠ 단순 반복 놀이 가능성
+- ⚠ 과도한 역할 몰입 시 현실 혼동 우려
 
 ### 가격대 인사이트
 
@@ -231,11 +241,6 @@
 ---
 
 ## 📊 데이터 출처
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFChU6Wk3TslzU2dxP24E7ZJ74aw1wvlxFU343Z7YHw0PpKoMr8Z3RGDPpgPf8VeTIpoxr5prwHYceeUi3QtJaZUEuZlnHrDfbwAcls3Z4RVROOGxwdEtCBy-vd-B1gRHQ_RdSNevb-7-GHitHCLBhE_gr9oL2jZ39bk6fzVBj3PU3psg==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZLF2Nw5HzIaaryzI-4tDQ9VURK-Pi73scFmiAFG_fbWnpiNtbchfUb8p8Gsd6XYPHHIrKSCf6BkC8a9AiHkZUZ3IAUkxzyqoR990fAJDqHY_4qtBtI0KjZ1EHanVdkobNAnkw8Q==)
-- [careet.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKT-vGPq4JwPhWL7s03SqdrnSHzwSet7HXHUfVGHKUfFVgrRt1f5ER-r8xR-wIgDdipyjYtSIsnhAVHVgGQbAgR9aH0WRa2R4uvLGtkB_ldhHYEvm-)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZ-MsjBgK1XjEjYf_a3CFInbDhXUeRXX0uXfoGV5WN9YjlqD_F7y7aHxu6_C710Ok0SHS3D-YKzZYXUTlkKJoVyvtFBxUNhRFhnlRVLUz-hcSkAeJxI89oIbqr4ceUg0KZ03P92w==)
-- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYog2qjtMCEQE731jyZGCxt5f2lrQV4OAkmlip-k-KHUjW6aC-q2qMKQRV2CDbrPV5RWHecu94bhiG5BcdMoCGpFY3SM3eSvw458fq8kIdlFnaM4Z85pZ-KgNXzy9xkdwLZSU9L8WtzMNwLOSSDPMeTNHWZMk9TjPPaPDVEqWDutJ0Do0ifZcT)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHpviVHPjTpK15XE2mnaFtuHBtAaaDkwESSnGEnpmAp7vcDvSPftTtPqJLFJ31L8dyZcIVq0uBkSD18OP0CkgPfFr4ZD8-ad-htnESI_1gUCTuN70Bbyo5mSyo5cBysRsKPm4ck6FgT7kc0EI-Aq3j7XqahGd0BxpI08KWSknSt2JyGXHCmkS8TVVd7ksPOF2Mc5CrpzgeebQFkM6aCEGJG6A4t-qPdjUFaXQicH8xIEFUXSA0jdf7uMIsR_GuekwN4C6IsR3Sh95Y2aCh06xw=)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJWcEpoVAQQEhG0EinGT8qzIFqKuAsSQJewJXTINpw1GNFX9cJanyQVveWDexesUdssFyuNedueSUGd3i0oeroz5kelEIBZQ6TY5AeaBOHNUxkPwdQW6PWa5dbdtQJPZdtRDcVMu2T2K2SWYL0Nck7zcMZqucsEG2w9ixOUpuz6Scv44vDWBBYAIlwoFNan6hYcvF7VGFfkdiiqMPnLudEPUghsSCH6OcnEpSrFICzKHn6vN_1OI1xG-zzo0jsRgcl5Ew9GBo3FRr61ck0mZaRR-tjH8c1FlIjDLcwcID0)
-- [prow.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdT9sXny0rBPIAUFbFOoCTd1vyyG4nz7UKCgPVhE0132x-AIXlF55d2nC1fiXIHZauqeNeigLpHU-FxhNU_NFYG4Y8j2Zey0mPYS9Dau_fgG18KxHCr-AIIL_IMTJgiInOQyCRBeArUJ1KM8SSBBb1BeR-IeSq6Ald2w==)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKYzy67lw5IF_aU9-V438gs_UCauiZlo8Doh0jH26ZTpz8WSOUyOAd0_GYLu0Z5Y7tGhE292wkmTsKExpi1Z5-mFlmTmPlt3TWghjAb3inV5Nz_U0Q4o7nIlCdzgleA2cs2p5NPqOfU91Zz-u9s7h_hK4-XelqCt0XEcbhHnl87LZfmYxVfI5JL8PJ0YiCEVkRocHXkxIpzhJKLASK8wAhb-Nc2o9ZVO_M82Vl4BmrQuJ8PSvpLhkAv_2rS_ONCX_EBTOw-gR-Cs3A_LFYxw==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZ6gJ_PuSEGteYDfju3JXIDDtB35KGwDbFhDMaJpre12rN4gj2Wl_CTRYtGIWl8AW6Xii1H-bDSCera5NF7sCZYmdb_Plf55peUk7z-701jieGWR-8bTnRv1o5vJnaH2Z0iX3z)
+- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjGaNY-UMkftQXZMEic00NhGitRUGYq7yp6MH6p8mQ_yxBoXTbKTNSDCpIn1A8sTppn2v7STbPMIjXhangtLfOIaghSmzfdur80fu2s-04bGp1aXF5V41Rij3LPR4NjGR7i9CWGZeeKvWdyiVUonzeql-ZcFEgHh4px2-IXe_O2YIGkmZqdgQ=)
