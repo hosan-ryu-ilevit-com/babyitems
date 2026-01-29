@@ -51,7 +51,7 @@ export function FilterTagBar({
               : 'bg-white text-gray-500 border border-gray-200'
           }`}
         >
-          전체
+          모두 보기
         </motion.button>
 
         {/* 사용자 조건 태그들 - stagger 애니메이션 */}

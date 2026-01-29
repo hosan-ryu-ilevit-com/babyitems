@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Star } from '@phosphor-icons/react/dist/ssr';
 import { logKnowledgeAgentComparisonView, logKAComparisonPurchaseClick } from '@/lib/logging/clientLogger';
+import type { FilterTag, ProductTagScores } from '@/lib/knowledge-agent/types';
 
 interface KnowledgeProduct {
   pcode: string;
@@ -27,12 +28,14 @@ interface KnowledgeProduct {
   consFromReviews?: string[];
   oneLiner?: string;
   productUrl?: string;
+  tagScores?: ProductTagScores;
 }
 
 interface ProductComparisonGridProps {
   products: KnowledgeProduct[];
   categoryKey: string;
   categoryName?: string;
+  filterTags?: FilterTag[];
   onProductClick?: (product: any) => void;
 }
 
@@ -43,10 +46,12 @@ export function ProductComparisonGrid({
   products,
   categoryKey,
   categoryName,
+  filterTags = [],
   onProductClick,
 }: ProductComparisonGridProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [expandedEvidences, setExpandedEvidences] = useState<Set<string>>(new Set());
 
   // 최대 5개 제품까지 표시
   const displayProducts = useMemo(() => products.slice(0, 5), [products]);
@@ -295,6 +300,90 @@ export function ProductComparisonGrid({
                         <p className={`text-[14px] font-medium leading-snug ${isEmpty(value) ? 'text-gray-400' : 'text-gray-800'}`}>
                           {isEmpty(value) ? '-' : value}
                         </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 사용자 조건 충족도 섹션 */}
+        {filterTags.length > 0 && (
+          <div className="mt-5">
+           
+           
+            {filterTags.map((tag) => (
+              <div key={tag.id}>
+                {/* 태그 라벨 (키) */}
+                <div className="px-4 pt-5 pb-1">
+                  <h4 className="text-[14px] font-bold text-gray-900">{tag.label}</h4>
+                </div>
+
+                {/* 디바이더 */}
+                <div style={{ width: totalWidth }}>
+                  <div className="border-t border-gray-200 mx-4" />
+                </div>
+
+                {/* 각 제품별 충족도 */}
+                <div className="flex items-start py-2.5 px-2" style={{ width: totalWidth }}>
+                  {displayProducts.map((product) => {
+                    const tagScore = product.tagScores?.[tag.id];
+                    const score = tagScore?.score;
+                    const evidence = tagScore?.evidence;
+                    const evidenceKey = `${tag.id}-${product.pcode}`;
+                    const isExpanded = expandedEvidences.has(evidenceKey);
+
+                    // evidence가 3줄(약 50-60자)을 넘는지 확인
+                    const needsExpand = evidence && evidence.length > 50;
+
+                    return (
+                      <div
+                        key={evidenceKey}
+                        className="shrink-0 px-2"
+                        style={{ width: columnWidth }}
+                      >
+                        {/* 충족도 아이콘 */}
+                        <div className="flex items-center gap-1 mb-1">
+                          {score === 'full' && (
+                            <span className="text-green-500 font-bold text-[15px]" title="충족">✓</span>
+                          )}
+                          {score === 'partial' && (
+                            <span className="text-yellow-500 font-bold text-[15px]" title="부분 충족">△</span>
+                          )}
+                          {(score === null || !score) && (
+                            <span className="text-red-400 font-bold text-[15px]" title="미충족">✗</span>
+                          )}
+                        </div>
+
+                        {/* Evidence (상세 설명) - 있는 경우에만 */}
+                        {evidence && score !== null && (
+                          <div>
+                            <p className={`text-[11px] text-gray-600 leading-tight ${!isExpanded && 'line-clamp-3'}`}>
+                              {evidence}
+                            </p>
+                            {needsExpand && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setExpandedEvidences(prev => {
+                                    const next = new Set(prev);
+                                    if (isExpanded) {
+                                      next.delete(evidenceKey);
+                                    } else {
+                                      next.add(evidenceKey);
+                                    }
+                                    return next;
+                                  });
+                                }}
+                                className="text-[11px] text-blue-500 hover:text-blue-600 mt-0.5 underline"
+                              >
+                                {isExpanded ? '접기' : '펼치기'}
+                              </button>
+                            )}
+                          </div>
+                        )}
                       </div>
                     );
                   })}

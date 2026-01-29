@@ -1544,7 +1544,7 @@ async function evaluateAllCandidatesWithLLM(
 
       return `[${idx + 1}] ${p.pcode}
 브랜드: ${p.brand}${isBrandMatch ? '⭐선호브랜드' : ''} | 제품명: ${p.name}
-가격: ${p.price?.toLocaleString()}원 | 리뷰: ${productReviews.length}개(${avgRating}점) | 스펙: ${p.specSummary?.slice(0, 100) || ''}
+가격: ${p.price?.toLocaleString()}원 | 리뷰: ${productReviews.length}개(${avgRating}점) | 스펙: ${p.specSummary || ''}
 리뷰요약: ${reviewSummary}`;
     }).join('\n\n');
 
@@ -1805,7 +1805,7 @@ async function selectTopNPcodes(
 
     return `${i + 1}. ${p.brand} ${p.name} (pcode:${p.pcode})
    가격:${p.price?.toLocaleString()}원 | 매칭:${p.matchScore}점 | 리뷰:${productReviews.length}개,${qualitative.avgRating}점
-   스펙:${(p.specSummary || '').slice(0, 100)}
+   스펙:${p.specSummary || ''}
    장점:${pros.slice(0, 4).join(',')} | 단점:${cons.slice(0, 3).join(',')}`;
   }).join('\n');
 
@@ -1862,7 +1862,8 @@ ${candidateInfo}
 async function generateDetailedReasons(
   selectedProducts: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
-  categoryName: string
+  categoryName: string,
+  collectedInfo?: Record<string, string>
 ): Promise<FinalRecommendation[]> {
   console.log(`[Step2] Generating oneLiners with LLM for ${selectedProducts.length} products`);
 
@@ -1892,7 +1893,7 @@ async function generateDetailedReasons(
   // 각 제품별 정보 구성
   const productInfos = selectedProducts.map(p => {
     const productReviews = reviews[p.pcode] || [];
-    const reviewTexts = productReviews.slice(0, 5).map((r, i) =>
+    const reviewTexts = productReviews.slice(0, 20).map((r, i) =>
       `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 80)}${r.content.length > 80 ? '...' : ''}"`
     ).join('\n');
 
@@ -1904,10 +1905,23 @@ async function generateDetailedReasons(
 ${reviewTexts || '(리뷰 없음)'}`;
   }).join('\n\n');
 
+  // 사용자 답변 정보 포맷팅
+  const userContext = collectedInfo && Object.keys(collectedInfo).length > 0
+    ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 사용자가 답변한 맞춤 질문
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${Object.entries(collectedInfo)
+  .filter(([key]) => !key.startsWith('__'))  // 내부 키 제외
+  .map(([question, answer]) => `Q: ${question}\nA: ${answer}`)
+  .join('\n\n')}
+
+`
+    : '';
+
   const prompt = `당신은 ${categoryName} 전문 큐레이터입니다.
 각 제품의 핵심 강점을 담은 한줄 평(oneLiner)을 작성해주세요.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${userContext}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 제품 정보
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${productInfos}
@@ -1918,10 +1932,11 @@ ${productInfos}
 
 ### oneLiner (한줄 평) - 최대 60자 (엄수)
 - 이모지 + **핵심 강점!** + 부가 설명
-- 사용자 조건에 맞는 이유도 자연스럽게 포함
+- 위 '사용자가 답변한 맞춤 질문' 내용을 적극 반영하여 개인화된 문구 작성
+- 사용자의 상황/필요(예: 신생아, 좁은 공간 등)를 한줄평에 자연스럽게 녹여내기
 - 리뷰 내용 인용 시 '작은따옴표' 사용
 - 간결하고 명확하게 작성
-- 예: 🤫 **밤잠 예민한 분들도 걱정 없는 정숙함!** 수면풍 모드가 있어 조용히 사용 가능해요
+- 예: 🤫 **신생아 재우기 딱 좋은 정숙함!** 수면풍 모드로 밤잠 방해 없어요
 
 ### 🚫 금지 패턴
 - "실제 사용자들이...라고 평가한 제품입니다"
@@ -2297,7 +2312,7 @@ export async function POST(request: NextRequest) {
 
     const parallelResults = await Promise.allSettled([
       // 🆕 한줄평 생성 (PLP 표시용)
-      generateDetailedReasons(selectedProducts, enrichedReviews, catName),
+      generateDetailedReasons(selectedProducts, enrichedReviews, catName, collectedInfo),
       // 태그 충족도 평가 (PLP 필터 필수)
       evaluateTagScoresForProducts(
         selectedProducts.map((p: HardCutProduct) => ({ pcode: p.pcode, product: p })),

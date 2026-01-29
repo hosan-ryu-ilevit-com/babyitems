@@ -1406,19 +1406,19 @@ export default function KnowledgeAgentPage() {
       return resultProducts;
     }
 
-    // 1. 필터링: 선택된 태그 중 하나라도 full/partial이면 표시 (OR 조건)
+    // 1. 필터링: 선택된 태그를 모두 충족해야 표시 (AND 조건)
     const filteredProducts = resultProducts.filter(product => {
       const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
       if (!tagScores) return false;
 
-      // OR 조건: 선택된 태그 중 하나라도 충족하면 표시
+      // AND 조건: 선택된 태그가 모두 full 또는 partial이어야 표시
       for (const tagId of selectedFilterTagIds) {
         const scoreData = tagScores[tagId];
-        if (scoreData?.score === 'full' || scoreData?.score === 'partial') {
-          return true;
+        if (scoreData?.score !== 'full' && scoreData?.score !== 'partial') {
+          return false;  // 하나라도 충족하지 못하면 제외
         }
       }
-      return false;
+      return true;  // 모든 태그를 충족하면 표시
     });
 
     // 2. 각 제품의 충족도 점수 계산 (full=2, partial=1, null=0)
@@ -5224,7 +5224,15 @@ function MessageBubble({
                   className="space-y-0"
                 >
                   {/* 🆕 필터 태그 선택에 따라 정렬된 제품 목록 사용 */}
-                  {(selectedFilterTagIds.size > 0 ? sortedResultProducts : message.resultProducts).map((product, index) => {
+                  {selectedFilterTagIds.size > 0 && sortedResultProducts.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-16 px-4">
+                      <p className="text-[14px] text-gray-400 text-center leading-relaxed">
+                        위 모든 조건을 만족하는 상품이 없어요.<br />
+                        태그 조건을 조금만 바꿔보세요!
+                      </p>
+                    </div>
+                  ) : (
+                    (selectedFilterTagIds.size > 0 ? sortedResultProducts : message.resultProducts).map((product, index) => {
                     const title = product.name || product.title || '';
                     // 원래 추천 순위 유지 (재정렬되어도 변하지 않음)
                     const originalRank = (message.resultProducts || []).findIndex((p: any) => (p.pcode || p.id) === (product.pcode || product.id)) + 1;
@@ -5338,12 +5346,22 @@ function MessageBubble({
                         {/* 한줄 평 */}
                         {product.oneLiner && (
                           <div className="bg-gray-50 rounded-2xl p-3">
-                            <div className="flex items-center gap-1.5 mb-2">
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src="/icons/ic-star.png" alt="" width={16} height={16} />
-                              <span className="text-[15px] font-semibold text-gray-800">
-                                리뷰 한줄 요약
-                              </span>
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-1.5">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src="/icons/ic-star.png" alt="" width={16} height={16} />
+                                <span className="text-[15px] font-semibold text-gray-800">
+                                  한줄 평
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => {
+                                  onProductClick(product, 'danawa_reviews');
+                                }}
+                                className="text-[13px] text-gray-400 hover:text-gray-300 font-medium underline transition-colors"
+                              >
+                                리뷰 모두보기
+                              </button>
                             </div>
                             <p className="text-[14px] text-gray-800 leading-[1.6] font-medium">
                               {(() => {
@@ -5361,7 +5379,7 @@ function MessageBubble({
                         )}
 
                         {/* 요약 섹션 */}
-                        <div className="space-y-4 mt-2">
+                        <div className="space-y-4">
                           {/* 🆕 조건 충족 태그 뱃지 */}
                           {(() => {
                             const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
@@ -5413,7 +5431,7 @@ function MessageBubble({
                         </div>
                       </div>
                     );
-                  })}
+                  }))}
                 </motion.div>
               ) : (
                 <motion.div
@@ -5491,10 +5509,12 @@ function MessageBubble({
                         prosFromReviews: p.prosFromReviews || [],
                         consFromReviews: p.consFromReviews || [],
                         oneLiner: p.oneLiner || '',
-                        productUrl: p.productUrl || ''
+                        productUrl: p.productUrl || '',
+                        tagScores: p.tagScores || {}
                       }))}
                     categoryKey={categoryKey || ''}
                     categoryName={categoryName}
+                    filterTags={filterTags}
                     onProductClick={onProductClick}
                   />
                 </motion.div>

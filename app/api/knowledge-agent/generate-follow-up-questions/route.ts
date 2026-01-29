@@ -52,7 +52,6 @@ interface AnalysisResult {
   specVariances: string[];       // 스펙 분산 분석 결과
   priceRanges: string[];         // 가격대 분석
   tradeoffs: string[];           // 트레이드오프 포인트
-  answeredKeywords: string[];    // 이미 답변한 키워드 (중복 방지용)
   buyingFactors: string[];       // 🆕 핵심 구매 고려사항 (가장 중요!)
 }
 
@@ -147,49 +146,7 @@ function sampleReviews(
   return sampledReviews;
 }
 
-/**
- * 이미 답변한 질문에서 키워드 추출 (중복 방지용)
- * - 질문 텍스트를 토큰화하여 의미있는 단어 추출
- */
-function extractAnsweredKeywords(collectedInfo: Record<string, string>): string[] {
-  const keywords: Set<string> = new Set();
-
-  // 제거할 조사/어미 패턴
-  const particlesToRemove = [
-    '은', '는', '이', '가', '을', '를', '에', '의', '와', '과', '로', '으로',
-    '에서', '부터', '까지', '만', '도', '요', '어요', '아요', '해요', '습니까',
-    '인가요', '나요', '세요', '시나요', '하나요', '니까', '습니다'
-  ];
-
-  Object.keys(collectedInfo)
-    .filter(k => !k.startsWith('__'))
-    .forEach(question => {
-      // 물음표, 쉼표, 마침표 제거
-      const cleaned = question.replace(/[?!.,]/g, ' ').trim();
-
-      // 공백으로 토큰화
-      const tokens = cleaned.split(/\s+/);
-
-      tokens.forEach(token => {
-        if (token.length < 2) return; // 1글자 제외
-
-        // 조사 제거
-        let keyword = token;
-        particlesToRemove.forEach(particle => {
-          if (keyword.endsWith(particle)) {
-            keyword = keyword.slice(0, -particle.length);
-          }
-        });
-
-        // 2글자 이상만 추가
-        if (keyword.length >= 2) {
-          keywords.add(keyword);
-        }
-      });
-    });
-
-  return Array.from(keywords);
-}
+// extractAnsweredKeywords 함수 제거 - LLM이 직접 중복 판단하도록 변경
 
 /**
  * 스펙 분산 분석 (통계 기반 + LLM 해석)
@@ -341,13 +298,13 @@ async function generateQuestions(
 ## 사용자가 이미 답변한 내용
 ${answeredText}
 
-## 🚫 중복 금지 키워드 (이미 답변한 질문에서 추출됨)
-${analysis.answeredKeywords.length > 0 ? analysis.answeredKeywords.join(', ') : '(없음)'}
-**중요:** 위 키워드들과 의미적으로 중복되는 질문은 절대 생성하지 마세요.
+**🚫 중복 금지:** 위 내용과 의미적으로 중복되거나 이미 답변한 내용을 다시 묻는 질문은 절대 생성하지 마세요. 질문-답변 쌍을 꼼꼼히 검토하고, 이미 명확히 결정된 사항은 다시 묻지 않습니다.
 
 ---
 
 ## 📊 분석 결과
+
+**🎯 질문 생성 원칙:** 아래 분석 결과(스펙 차이점, 리뷰, 트레이드오프)에서 **실제로 확인 가능한 정보만** 기반으로 질문을 생성하세요. 데이터에 없는 내용은 절대 질문하지 마세요!
 
 ### ⭐ 핵심 구매 고려사항 (가장 중요!)
 ${analysis.buyingFactors.length > 0 ? analysis.buyingFactors.map(f => `- ${f}`).join('\n') : '(정보 없음)'}
@@ -379,9 +336,17 @@ ${productsText}
 - 후보 5-9개 → 2-3개 질문 (최소한의 정보만)
 
 ### 질문 생성 시 주의사항
-- **중복 금지:** 위 "중복 금지 키워드"와 겹치는 질문 절대 금지
+- **중복 금지:** 위에 나열된 "사용자가 이미 답변한 내용"과 의미적으로 중복되는 질문 절대 금지
 - **생성 금지 옵션:** "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "별로 안 중요해요" 등 회피성 옵션 절대 생성 금지 (시스템에서 "상관없어요" 버튼을 별도 제공함)
 - **효과성:** 후보군을 실제로 나눌 수 있는 질문만 생성
+- **🔍 데이터 기반 질문 (매우 중요!):**
+  * **필수:** 위에 제공된 "스펙 차이점", "실제 구매자 리뷰", "트레이드오프 관계"에서 **실제로 확인 가능한 특징만** 질문하세요
+  * **금지:** 제품 스펙이나 리뷰에 언급되지 않은 추상적이거나 확인 불가능한 내용은 절대 질문하지 마세요
+  * **예시:**
+    - ✅ 좋은 질문: 스펙에 "IH 방식", "압력 방식" 구분이 있음 → "가열 방식은 어떤 게 좋으세요?"
+    - ✅ 좋은 질문: 리뷰에 "소음" 언급 다수 → "소음 수준은 어느 정도까지 괜찮으세요?"
+    - ❌ 나쁜 질문: 데이터에 없는 "디자인 색상" 질문 → 나중에 태그 평가 시 증거 없음
+    - ❌ 나쁜 질문: 확인 불가능한 "브랜드 신뢰도" → 주관적이고 증거 찾기 어려움
 - **⭐ 구체적 수치/스펙 필수:** 옵션 라벨에 반드시 소괄호 안에 구체적인 수치, 스펙, 또는 효익을 명시하세요.
   * 수치: "대용량 (5L 이상)", "저소음 (40dB 이하)"
   * 전문 용어: "HEPA 필터 (미세먼지 99.9% 제거)", "무선 충전 (케이블 필요없음)"
@@ -533,11 +498,10 @@ export async function POST(request: NextRequest) {
     console.log(`[Follow-up] ⚡ Starting parallel analysis...`);
     const analysisStart = Date.now();
 
-    const [sampledReviews, specAnalysis, priceRanges, answeredKeywords] = await Promise.all([
+    const [sampledReviews, specAnalysis, priceRanges] = await Promise.all([
       Promise.resolve(sampleReviews(reviews)),
       analyzeSpecs(enrichedProducts, categoryName),
       Promise.resolve(analyzePriceRanges(enrichedProducts)),
-      Promise.resolve(extractAnsweredKeywords(collectedInfo)),
     ]);
 
     const analysisResult: AnalysisResult = {
@@ -548,7 +512,6 @@ export async function POST(request: NextRequest) {
         ...specAnalysis.tradeoffs,
         ...(trendData?.cons || []).slice(0, 3),
       ],
-      answeredKeywords,
       buyingFactors,  // 🆕 핵심 구매 고려사항만 전달
     };
 
@@ -556,7 +519,6 @@ export async function POST(request: NextRequest) {
     console.log(`  - Sampled reviews: ${sampledReviews.length}`);
     console.log(`  - Spec variances: ${specAnalysis.variances.length}`);
     console.log(`  - Tradeoffs: ${analysisResult.tradeoffs.length}`);
-    console.log(`  - Answered keywords: ${answeredKeywords.join(', ')}`);
     console.log(`  - BuyingFactors: ${buyingFactors.join(', ') || '(없음)'}`);
 
     // 질문 생성
