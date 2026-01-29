@@ -1,5 +1,5 @@
-# 세션: 20260129_043622_sqsn
-> 시작: 2026-01-29T04:36:22.027Z
+# 세션: 20260129_065427_g4tq
+> 시작: 2026-01-29T06:54:27.174Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 2024년 기준 아기 물티슈 시장은 약 124억 달러 규모로 평가되었으며, 2032년까지 연평균 4.0%~5.6%의 성장률을 보일 것으로 예상됩니다. 북미 시장이 가장 큰 비중을 차지하고 있으며, 위생에 대한 중요성 증가와 지속적인 제품 혁신이 시장 성장을 견인하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEF8bv1nUC09bSH4dM3au2BngM8WX-n8SzZQZ1PQpSAFDPa0KLop4VKdeVoB1n_SmBH-HKfyNPajr1be5_r2SW24HtmvcCs9N7Wi10uWEY_6ra_fXcug9BXvwZIm39-2NO74QFHik-wjwYcZLEsVMf-xc-dNWCUFd6cx5INCf0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWkDRuWULX7eEoZng6efFN9oOZvDfcgiZQwE5SD1Be1KMpLylTOE-CU95ce778BZtjRA69m_JIcAlGaDdIBQXZoFZRbO2g5iHoIYKGqHHs4EQb5CQl8nRmT4RibbmsO21i8BATpJSoBRHAh74vH4AK2x2KOnfd6_3iSZ73, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMGmlE32YR6_MqzAzG3Uts6BnQndCKcC7QOVS2gRtSEu77fDNVpHSXIEtGTuP6-_lUUUAEGHJjzwf6GvzlTmSoMWYabZhvsPKN7P9eZQsHHvULJCHZ4bwyyfXK57YY3xVf9itujPpCUYTRoPvyhobuZhbVQUu2yuc4iA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDCM-nr8Y3pJPNlCExZHCmWBnLWdVwc93LRuCEAUo8YMQzCp62A6O9eThSsqLfk6uG05XfCgbNYWcGOx1GtgX6o0uBoWztfXjQ3HfKuEvAuYnmwpxprhouqUwKNhbqSeZkwzLSFvtWLz-2LO4AxnjAwksBZLgK1lC8wUsoFdk-vbbkRWM0A-xKS4ig1h6pnIsrnYTOSks=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLBkEmEJgJno1W9dqJrOTHvoHThzzoGusIvnLyHqlaj_mGD_44ek4YsGZjdklCmw4CH1G3-IVbTClJg59ebwSVGBP5XTQNmRhijVhUQJfuh5F3Wgk4PoFT7sSMeLTZLPYa60ckih103Ksb5TALEE7bjZWi4yBNE-wcGq0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEq0m3Zqwh34MCVayiI9u14OqX4G7jtFBOIupF5-9wuQhw89iULu6ybJXRa_E58NVCHMAt2vo8kN3wQSIp6T3OqquYoh2pmFa-W4532EZKPRLwx7dVis_gcWgPlYWxtlmQNN3jzjA0ojGgvuFlCukpxxqszIRHfvB1OUzc=
+- 인사이트: 아기 물티슈 시장은 지속적인 성장세를 보이며, 2032년까지 약 203억 달러 규모로 성장할 것으로 예상됩니다. 특히 한국에서는 베베숲이 9년 연속 판매 1위를 기록하며 시장을 선도하고 있습니다. 안전성과 성분을 중요하게 생각하는 소비 트렌드에 따라 저자극, 무첨가, 친환경 제품들이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG4jYqZvIah3Y5AmgRPIfIHf3GKjllr3ZscL2nd84yage9ztacwDCKzmfIZq0-U049_1VDHHIl-uHbe2qpIoEegQb6qNwgHr8OXBulctnZwiqIz_yVHcjxG7QxbRDO-Nt0XFQ53Fc16cmJVLl6Nezgbt5qHrLBAHitklrSS94i6pkzJ0-yBhWYW7uKMuzo_b0kkWH6JT0g=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrbsNmlWibAO1KUel3Y63Esl7Ak6SCldIQfHisA_D4-NxAQYvqm4x3XUYzR9le8NHJzys_fb6ROuG5CrlIYPcRvUuUh7_2SoxAx1odRvxC6AAK_j3Qp81_n0YCVJMIdh5z86VDLzEFt9PHNXaCYAbux-_ILldyXiPAlTVgJ4Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeX4ioMVxyE96J6YeKCdyOJaZyuaXVOd4EKJ_rV6ubTtDXn6WsPJXHibY6hJfigSgDPf0UiyjjzuZ97GbO0E-ZNmmclVVPDiVw-82P42S2H3IYSHpNGod6uk9i5d815Mz6yXvTYyPfhRuCh0nZ5O4yP4DpZzjptNIisek=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQb3VeH82DPSzeOslXFy8yFayo-Yo73bYel-_oqeLjpRJF7e0rm5gCNuT2d-7RsKdKnArmRR3iHfL5lKm23d_PoPKjLsf-twIH7Z8SroqWN6dTLFVNrnXMUjnvOjczgYHo9AHFgTC60GsGi409WG74vWTqGSMj7SL7pKI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZDepN-8uSBkA_MZXcMLO6ec4wvv0cjEuzq-T8s8ojRB_FqSdebG7kRmnoOzvNdEYJskocZ6ixMak034K-F8ZQyA06IinOQvN35TYGsjgnHcCvE8T6NZoRnzGxE5aOX3koIaUVq_I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0dpClfxdwvkoDGddj-IVUu7bozUUQCvgHJCIkQZJVkCQpd-ao_aUqT9R5cknG1FEXiuGqaTeAI5pYEMHo54VpoakrBamvNVCYTFYKqmZiZR7IuS6hgDw3Sqt2Td9MUGrq6v0eeiTR26YwbJX0h-YlFeYkCg==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기 물티슈, 혹시 선호하는 브랜드가 있으신가요? | 아이러브베베, 미엘 |
-| 아기 피부에 직접 닿는 만큼, 성분은 얼마나 꼼꼼하게 보시나요? | 순한 성분 (저자극, 약산성) |
-| 물티슈를 사용할 때, 어떤 두께와 촉감을 선호하시나요? | 일반적인 두께의 엠보싱 원단 |
-| 주로 어떤 상황에서 물티슈를 사용하실 예정인가요? | 아기 용품 및 생활 전반 청소 |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 2천원, 7천원~1만 6천원대가 가장 많아요) | 7천원 ~ 1만 6천원대 |
+| 아기 물티슈 선택 시 가장 중요하게 생각하는 성분 관련 기준은 무엇인가요? | 저자극 & 무향, 천연/유기농 성분 |
+| 물티슈의 두께는 어느 정도를 선호하시나요? | 도톰한 두께 |
+| 아기 물티슈는 어떤 브랜드를 선호하시나요? | 아이러브베베, 베베앙 |
+| 물티슈 원단의 엠보싱 유무나 기능은 어떤 것을 선호하시나요? | 프리미엄 엠보싱 |
+| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 약 1만 2천원, 6천원~1만 6천원대가 가장 많아요) | 6천원 ~ 1만 6천원대 |
 
 ---
 

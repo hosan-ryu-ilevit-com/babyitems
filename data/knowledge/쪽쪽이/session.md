@@ -1,5 +1,5 @@
-# 세션: 20260127_114844_uame
-> 시작: 2026-01-27T11:48:44.394Z
+# 세션: 20260129_075933_jakp
+> 시작: 2026-01-29T07:59:33.359Z
 > 카테고리키: 쪽쪽이
 > 카테고리: 쪽쪽이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 쪽쪽이 시장 현황
-- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기에게 안정감을 주고 빨기 욕구를 충족시켜주어 육아에 도움을 주는 아이템입니다. 하지만 사용 시기와 방법에 따라 유두 혼동, 치아 및 구강 발달 문제, 언어 발달 지연 등의 단점이 발생할 수 있어 주의가 필요합니다. 일반적으로 생후 4주 이후부터 사용하며, 돌 전후로 떼는 것이 권장됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQiIJff1CNq04lgK6-gdPoGoTEMuIp0GZmtLU3IaJZAZG6zymJQXZZ5i6T8GKWEgF76-EC9zMtcS3pmuScbjA1Sq2Ks71Do71xIl6hzwUaqLtqDFciclhF3wRkgw3UHezblDbrvZzmEQDFrkFGKYKNuYxR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEa4ktY4oiA70lbAHzl10jNWhVJAENkdT2LOeFoEm5UDQ4Mcknka4hgu56P7hyuV9ZiOwghZwyn9EiREdWpr2fMKKkATBUyp_BqivOkFkQnYtVICndlIjGBUzDkRg3K20J69xRE0G6qrHKjlVSDE_gauovfnh2F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-FgXW5drvRV-qmNKTu1SqemQNo6buXbl_2UC8lnGCvLz_v8_sgcl2WXcMouaLQJb_5ug4NOpFU07Zm51-FhqJCzMbW9wQSR9q2EPpCj-GhJKDCKtIC5w45EJxbkkZDP48Qt6ZEDY6EJ3UM9t4_1lNvmmAxR-wFhOGba5PrBpkBmGbwVkcpsmGkFEPWpeDhcmtgDf2eTD2zGFER0VXtHaFKy_97BcDGS9o__omWL0mTpKPBwwN6ukACsd692tTocFDh2X0zuHshwO9uzIBhmSKwSWlnlO9G72D-Yq2VWiGooWvOR5NrNpiItpbSdiJ5TSVP5sJLfuw01sb1K0Y2iAv_JQKQayjWvmzCTqH1BpmOd8SqQ2WGmrJa0La1LjEeISAluzZO4lQM7UcpDaMF5PK
+- 인사이트: 쪽쪽이(공갈 젖꼭지)는 아기에게 안정감을 주고 빨기 욕구를 충족시켜주는 육아용품입니다. 신생아 시기인 생후 4주 이후부터 사용하며, 특히 잠들기 어려워하거나 과도한 빨기 욕구를 보일 때 도움이 될 수 있습니다. 다만, 유두 혼동이나 치아 발달에 영향을 줄 수 있어 적절한 시기에 떼어주는 것이 중요합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFipUxoN8F5ATfZN3TgelDobCVL7-1SsXUKAeZlvAr9hxi7gvh80shC5VydTpdzImK6g0t6AMCUA3tIeKDyfmbCNIteKP7IHJKL-9NbxuYCYIOoXstPLlpHsa6y5k8EuMZZlBKhwSdRlOIsNypveRSHm7DuYwY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJIq__FJ-HMVpL3tWpgeEY06L3H6jnS7KR1VICeExjJ6QEIL00qcBbegNrV3ov3rF7Bch6VS3FqxNZF8xQRuJMIDQ6JV_jjxzCmkMZokkxlhmHo8kchHsqVZxg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9d5CnmGsNR0G-swkpkCpAysYSq_8Mgg_SFIsx_sATISjTgWacwsCGn68KGHnx2R0kw5pfCEAWpIsJ3YMi3xRkNlXYUQKzaigCtwMs6Qx7IWR7zF_J2v_13V7brkJ1kodZbEVKCvbxR5Xp7yhlL_0oKc-UuajUyIqzNdDetggyAOXBFJgE9LSBIanvNg==
 
 ---
 
@@ -16,11 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 쪽쪽이 젖꼭지 재질은 어떤 것을 선호하시나요? | 실리콘, 천연고무 |
-| 아기에게 맞는 쪽쪽이 사이즈를 선택하는 것이 중요해요. 현재 아기 개월 수를 알려주시겠어요? | 0-3개월 |
-| 쪽쪽이 젖꼭지 모양은 어떤 것을 선호하시나요? | 치아 교정형 |
-| 쪽쪽이, 믿고 쓰는 브랜드가 있으신가요? | 더블하트, 모윰 |
-| 예산은 어느 정도로 생각하세요? (평균 약 2만원, 1만 2천원 이하~2만 5천원대가 가장 많아요) | 1만 2천원 ~ 2만 5천원 |
+| 쪽쪽이 소재는 어떤 것을 선호하시나요? | 올실리콘, 천연고무 |
+| 아기에게 맞는 쪽쪽이 모양을 선택해주세요. | 일자형, 아나토미컬형 |
+| 아기의 개월 수에 맞는 쪽쪽이 단계를 선택해주세요. | 3-6개월 |
+| 쪽쪽이 브랜드는 어떤 것을 선호하시나요? | 상관없어요 |
 
 ---
 

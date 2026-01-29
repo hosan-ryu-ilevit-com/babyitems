@@ -1,5 +1,5 @@
-# 세션: 20260126_125149_b8g8
-> 시작: 2026-01-26T12:51:49.592Z
+# 세션: 20260129_074450_741w
+> 시작: 2026-01-29T07:44:50.606Z
 > 카테고리키: 수유패드
 > 카테고리: 수유패드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 수유패드 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFY-bnlWNeYCx5lBLpqTvfCGVYyFr2C0KyaePVhYSe7wgfpyupLzIc0HaP3icmEkulJVNC05EchcFlPnXgRCe2Tkr0Mjoptg6m6wdDZjMPrgt1P4UUCkLwyIKMRGg4bUDDKfkU4wzouiGNnixows8A12dzjuRx-xNEYpFVg3g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQUKJqPSrYhvbHbjdAe3XqhamF0tTDnwPdRXvBlV91dCPkwi-OgxWOkBQU7NA22uoMU9LWUQpqessRs2foKzoXejUdPnMg3QQbLiwBdEDotKv8fwbEB2_jZKnZJdNWcRADTg9hBJBj6r8XY3igPqVKnYyxQzXaDHTzrVbFJm1W0BczO2rhs-gRHrrrTrbH81DczN0E9A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSZRCopGMYaYXbuXngrO2AhG3In8woaVp1-05NWLNdy131VUemcxIazA2hCMqh5yneLPoAYdVjVLPPiraHorHF20VfdCVt1vJ5MdZO2eMsnuPQ6DgXGG-7JML0DZJH7iAa-hA4rULWbFyJMcaKye4Wp19tCW8OXTHyt_Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR-Y-x_tl-Cbac-u0qXenZJhHIQuQHq3CuyEHPm59KdMS9ioQGI18_Sx5qGQwryYKkYnKJkMlq7mQ3ypNtK52Buwohmj2bnYX68KYJJjM8qPc5WupvkX7dOJ6TpGp4mY-qvqIP4K_kho0EiBYxwS_bDuIaZnLpaOyWHSY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIykHD0r_S8r7aDmP4s0RefvyV2YcBMDwhSbQuRgrwFTk6GN6jTypMcXcpnY4uI-o7RLF58wJw8n_tR7JuQmcgOPxgJo3Uq7L9QZIla0EJ4LJ1X7a1N3h43GjVguNnXCT-v9zj2kkb5J7in7ephyBqSZpdMjtN_mefQGmzFftDao_tBsBvTe0_Hiva, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu0mhBl3Mx11l-Q99DBxYpmHgM2OycqSxGhpsXHVWP9LczNNfcac3CSc357boT63GBgKSEZXqVXNkDZlqY5LIWVLM9RZpWca4U0j5bSiwNFgwBRIJwX4lK4nmeqVhlJpS9zVd_ktDRcV2Cx7B462iZ35uMm5HRDckgn1AE4Lcg7rM4akim4BdSLLUkM61FNB9JIO4_WmHffQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIHHUnlTVOTRZwVhzeReXfGtnqVJIUhjk7Dsjsbk4Y5iyOwKGyY1bReL-h-NlMdMvEjkqOeXarEBXiF62vJMICuNpq2e8FV47iicR79VzLgsXlC3PKJsTv4irlp-E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT5J6bu1UaZQeCD0ml-UpTaopBpV3zL6g4LnbkoTlj1e2Elwufto1g0trbzzH91ELFYBOJkGnX_Ntkx9tSLIp8elBhQtV2V8PuW-QNU1MRsAVB1_PdmUM7ps6Ul8EABXHVrUk3Jg==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFY-bnlWNeYCx5lBLpqTvfCGVYyFr2C0KyaePVhYSe7wgfpyupLzIc0HaP3icmEkulJVNC05EchcFlPnXgRCe2Tkr0Mjoptg6m6wdDZjMPrgt1P4UUCkLwyIKMRGg4bUDDKfkU4wzouiGNnixows8A12dzjuRx-xNEYpFVg3g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQUKJqPSrYhvbHbjdAe3XqhamF0tTDnwPdRXvBlV91dCPkwi-OgxWOkBQU7NA22uoMU9LWUQpqessRs2foKzoXejUdPnMg3QQbLiwBdEDotKv8fwbEB2_jZKnZJdNWcRADTg9hBJBj6r8XY3igPqVKnYyxQzXaDHTzrVbFJm1W0BczO2rhs-gRHrrrTrbH81DczN0E9A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSZRCopGMYaYXbuXngrO2AhG3In8woaVp1-05NWLNdy131VUemcxIazA2hCMqh5yneLPoAYdVjVLPPiraHorHF20VfdCVt1vJ5MdZO2eMsnuPQ6DgXGG-7JML0DZJH7iAa-hA4rULWbFyJMcaKye4Wp19tCW8OXTHyt_Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR-Y-x_tl-Cbac-u0qXenZJhHIQuQHq3CuyEHPm59KdMS9ioQGI18_Sx5qGQwryYKkYnKJkMlq7mQ3ypNtK52Buwohmj2bnYX68KYJJjM8qPc5WupvkX7dOJ6TpGp4mY-qvqIP4K_kho0EiBYxwS_bDuIaZnLpaOyWHSY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGIykHD0r_S8r7aDmP4s0RefvyV2YcBMDwhSbQuRgrwFTk6GN6jTypMcXcpnY4uI-o7RLF58wJw8n_tR7JuQmcgOPxgJo3Uq7L9QZIla0EJ4LJ1X7a1N3h43GjVguNnXCT-v9zj2kkb5J7in7ephyBqSZpdMjtN_mefQGmzFftDao_tBsBvTe0_Hiva, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGu0mhBl3Mx11l-Q99DBxYpmHgM2OycqSxGhpsXHVWP9LczNNfcac3CSc357boT63GBgKSEZXqVXNkDZlqY5LIWVLM9RZpWca4U0j5bSiwNFgwBRIJwX4lK4nmeqVhlJpS9zVd_ktDRcV2Cx7B462iZ35uMm5HRDckgn1AE4Lcg7rM4akim4BdSLLUkM61FNB9JIO4_WmHffQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIHHUnlTVOTRZwVhzeReXfGtnqVJIUhjk7Dsjsbk4Y5iyOwKGyY1bReL-h-NlMdMvEjkqOeXarEBXiF62vJMICuNpq2e8FV47iicR79VzLgsXlC3PKJsTv4irlp-E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHT5J6bu1UaZQeCD0ml-UpTaopBpV3zL6g4LnbkoTlj1e2Elwufto1g0trbzzH91ELFYBOJkGnX_Ntkx9tSLIp8elBhQtV2V8PuW-QNU1MRsAVB1_PdmUM7ps6Ul8EABXHVrUk3Jg==
+- 인사이트: 수유패드는 모유 수유 시 가슴에서 새는 모유를 흡수하여 속옷이 젖는 것을 방지하고 가슴을 청결하게 유지하는 데 도움을 주는 육아 필수품입니다. 최근에는 환경을 생각하는 소비자들이 늘면서 재사용 가능한 천 타입 수유패드도 인기를 얻고 있습니다. 수유패드는 보통 수유기에 많이 사용되지만, 임신 중 유즙 분비 시에도 활용될 수 있습니다. 개인의 모유 분비량에 따라 필요성이 달라질 수 있으므로 처음부터 대량 구매하기보다는 필요에 따라 구매하는 것이 좋습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGq9yRVcMgrY3mfws9XrseBt5bZnCGf0GWfvrWKUh3lqStLCTVFmCMPjluwkQsgiRbJW7lBOXcVMJBmY1xGC43SjHKGbbjY26Us594sPcLJ2e3C4AgnNWeVRi6hXM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHS-OSgpOf2Z3MYtNUbnAl-nq_d-ZcYbBDpZQInao6438F4iqgAdYwRq_uhKOcL9hOHAfvhkr6-ABJ-o-HwDE5pBJKQV_fTyL9WPkUi1xzgLWgWShZ9vnehqTVxQa148JiJ9QFATw5xYSTCJ_hFZXW2yTXjmwftBuhGAqnDkVZKWvtcTsisH7EWAIYgYExIAkc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7rkD4UB_G-pEXM_i2KN0vtaAnMl3EMmIoiBOlR6CTbAcrTjqzrs5yquYfUczE8PpjdNOGtztMmaCxkggSXYsEv6Gng4sICgx6WjEHsR4O9Yx-AJdkpNqmGVt1sNWyV12grPZQ9QScZz6uTZ6UDqSSHovq6QROCi7A5n3U8LQVLFTO05MrtcFZsoY=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 브랜드를 선호하시나요? 브랜드별로 특징이 다르니 참고해주세요. | 더블하트, 마더케이 |
-| 수유패드의 흡수력은 어느 정도가 필요하신가요? | 일상적인 흡수력 |
-| 어떤 재질의 수유패드를 선호하시나요? | 면 소재 |
-| 수유패드의 두께는 어느 정도가 좋으신가요? | 매우 얇은 두께 |
-| 수유패드 예산은 어느 정도로 생각하세요? (평균 2만 7천원, 1만 7천원~3만 5천원대가 가장 많아요) | 1만 7천원 ~ 3만 5천원대 |
+| 어느 정도의 흡수력을 원하시나요? (모유 누수 방지) | 일상적인 흡수력, 매우 뛰어난 흡수력 |
+| 어떤 소재의 수유패드를 선호하시나요? (피부 자극 최소화) | 통기성 좋은 천 |
+| 휴대성과 위생을 위해 어떤 점이 중요하신가요? | 개별 포장 |
+| 선호하시는 수유패드 브랜드가 있으신가요? | 더블하트, 마더케이, 바디듀 |
+| 예산은 어느 정도로 생각하세요? (평균 약 2만 4천원, 1만 5천원~3만 1천원대가 가장 많아요) | 1만 5천원 ~ 3만 1천원대 |
 
 ---
 
