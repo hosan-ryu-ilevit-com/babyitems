@@ -19,6 +19,7 @@ import type {
   ReviewLite,
   FilterTag,
 } from '@/lib/knowledge-agent/types';
+import type { ProductInfo } from '@/lib/indexing/types';
 
 export const maxDuration = 90; // 🆕 60 → 90초 (여유 있게)
 
@@ -775,6 +776,31 @@ evidence는 PDP의 "주요 포인트" (선호속성/피할단점) 섹션에 표�
 - **"partial"**: 부분적으로 해당되거나 조건부
 - **null**: 관련 없거나 충족 못함/회피 안됨
 
+### 💰 예산/가격 조건 평가 (매우 중요!)
+예산 관련 조건은 **단순 숫자 비교**입니다. 반드시 정확하게 비교하세요:
+
+**핵심 규칙:**
+- "N만원 이하" 조건: 제품 가격 ≤ N만원 → "full" ✅ | 제품 가격 > N만원 → null ❌
+- "N만원 이상" 조건: 제품 가격 ≥ N만원 → "full" ✅ | 제품 가격 < N만원 → null ❌
+- "N~M만원" 범위 조건: N ≤ 제품 가격 ≤ M → "full" ✅ | 범위 밖 → null ❌
+
+**예시 1: 예산 이하 조건**
+- 조건: "예산: 77만원 이하"
+- 제품 가격: 613,480원 (약 61만원)
+- 판단: 61만원 < 77만원 → "full" ✅
+- evidence: "제품 가격 613,480원으로 희망 예산 77만원 이하에 충분히 여유 있게 들어와요."
+
+**예시 2: 예산 초과**
+- 조건: "예산: 50만원 이하"
+- 제품 가격: 720,000원 (72만원)
+- 판단: 72만원 > 50만원 → null ❌
+- evidence: "제품 가격 720,000원으로 희망 예산 50만원을 약 22만원 초과해요."
+
+**⚠️ 흔한 실수 (절대 금지!):**
+- 더 저렴한 제품을 "예산 초과"라고 판단 ← 숫자 비교 오류!
+- "이하"와 "이상"을 혼동
+- 원/만원 단위 혼동 (100만원 = 1,000,000원)
+
 ### ⚠️ 상호 배타적 조건 처리 (중요!)
 같은 질문의 서로 다른 답변 값들은 **물리적으로 동시에 만족 불가능**합니다.
 
@@ -921,41 +947,64 @@ evidence는 PDP의 "주요 포인트" (선호속성/피할단점) 섹션에 표�
 // 🆕 상호 배타적 태그 후처리 (같은 질문에서 나온 태그 중 full은 1개만 허용)
 // ============================================================================
 
-/**
- * 상호 배타적 조건인지 판단하는 키워드
- * - 이 키워드가 질문에 포함되면 상호 배타적 그룹으로 처리
- * - 용도/장소 관련 질문은 제외 (복수 선택 가능)
- */
-const EXCLUSIVE_QUESTION_KEYWORDS = [
-  '재질', '소재', '재료', '원단',  // 재질 관련
-  '브랜드', '제조사', '메이커',    // 브랜드 관련
-  '크기', '사이즈', '용량', '인치', // 크기/용량 관련
-  '색상', '색깔', '컬러',          // 색상 관련
-  '타입', '종류', '방식',          // 타입 관련
-];
+// 🆕 LLM 판단 결과 캐시 (세션 내 중복 호출 방지)
+const exclusivityCache = new Map<string, boolean>();
 
 /**
- * 복수 선택 가능한 질문 키워드 (상호 배타성 제외)
+ * 🆕 LLM에게 상호 배타성 판단 요청 (Flash 2.5 Lite - 빠르고 저렴)
+ * - 질문과 답변들을 보고 "하나의 제품이 여러 값을 동시에 가질 수 있는가?" 판단
  */
-const NON_EXCLUSIVE_KEYWORDS = [
-  '용도', '목적', '사용처',
-  '장소', '공간', '어디',
-  '기능', '특징',
-];
-
-/**
- * 질문이 상호 배타적 조건인지 판단
- */
-function isExclusiveQuestion(question: string): boolean {
-  const q = question.toLowerCase();
-
-  // 복수 선택 가능 키워드가 있으면 제외
-  if (NON_EXCLUSIVE_KEYWORDS.some(kw => q.includes(kw))) {
-    return false;
+async function checkExclusivityWithLLM(question: string, answers: string[]): Promise<boolean> {
+  const cacheKey = `${question}:${answers.sort().join(',')}`;
+  
+  // 캐시 확인
+  if (exclusivityCache.has(cacheKey)) {
+    return exclusivityCache.get(cacheKey)!;
   }
 
-  // 상호 배타적 키워드가 있으면 true
-  return EXCLUSIVE_QUESTION_KEYWORDS.some(kw => q.includes(kw));
+  // LLM 없으면 기본값 (상호 배타적으로 가정)
+  if (!ai) {
+    return true;
+  }
+
+  try {
+    const model = ai.getGenerativeModel({
+      model: 'gemini-2.5-flash-lite',
+      generationConfig: {
+        temperature: 0,
+        maxOutputTokens: 50,
+      },
+    });
+
+    const prompt = `질문: "${question}"
+답변 옵션들: ${answers.map(a => `"${a}"`).join(', ')}
+
+위 질문의 답변들이 **상호 배타적**인가요? 
+(= 하나의 제품이 여러 값을 동시에 가질 수 없는가?)
+
+예시:
+- "팬티형, 밴드형" → YES (기저귀는 둘 중 하나만 가능)
+- "블루투스, 동글" → NO (키보드가 둘 다 지원 가능)
+- "실리콘, 스테인리스" → YES (재질은 하나만 가능)
+- "거실용, 안방용" → NO (같은 제품을 여러 장소에서 사용 가능)
+
+한 단어로만 답변: YES 또는 NO`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim().toUpperCase();
+    const isExclusive = text.includes('YES');
+
+    console.log(`[Exclusivity LLM] "${question}" [${answers.join(', ')}] → ${isExclusive ? '상호배타적' : '복수가능'}`);
+
+    // 캐시 저장
+    exclusivityCache.set(cacheKey, isExclusive);
+    return isExclusive;
+
+  } catch (error) {
+    console.error('[Exclusivity LLM] Error:', error);
+    // 에러 시 보수적으로 상호 배타적으로 처리
+    return true;
+  }
 }
 
 /**
@@ -999,42 +1048,56 @@ function calculateKeywordMatchScore(
 }
 
 /**
- * 상호 배타적 태그 충족도 후처리
- * - 같은 sourceQuestion을 가진 태그들 중 full이 여러 개면 1개만 남김
- * - 제품 스펙/이름에서 키워드 매칭으로 가장 적합한 태그 선택
+ * 🆕 상호 배타적 태그 충족도 후처리 (LLM 기반 판단)
+ * - 같은 sourceQuestion을 가진 태그들 중 LLM이 상호 배타적이라고 판단하면 full 1개만 유지
+ * - 복수 선택 가능한 경우 (블루투스+동글 등) 여러 개 허용
  */
-function enforceTagExclusivity(
+async function enforceTagExclusivity(
   tagScoresMap: Record<string, ProductTagScores>,
   tags: FilterTag[],
   products: HardCutProduct[]
-): Record<string, ProductTagScores> {
+): Promise<Record<string, ProductTagScores>> {
   // 제품 pcode → HardCutProduct 매핑
   const productMap = new Map(products.map(p => [p.pcode, p]));
 
-  // 상호 배타적 그룹별 태그 분류 (sourceQuestion 기준)
-  const exclusiveGroups = new Map<string, FilterTag[]>();
-
+  // sourceQuestion 기준으로 그룹화 (2개 이상 태그가 있는 그룹만)
+  const questionGroups = new Map<string, FilterTag[]>();
   for (const tag of tags) {
     const question = tag.sourceQuestion || '';
-    if (!question || !isExclusiveQuestion(question)) {
-      continue;  // 상호 배타적이지 않은 질문은 스킵
-    }
+    if (!question) continue;
 
-    if (!exclusiveGroups.has(question)) {
-      exclusiveGroups.set(question, []);
+    if (!questionGroups.has(question)) {
+      questionGroups.set(question, []);
     }
-    exclusiveGroups.get(question)!.push(tag);
+    questionGroups.get(question)!.push(tag);
   }
 
-  // 그룹이 1개 이하인 경우 (중복 가능성 없음) 스킵
-  const relevantGroups = Array.from(exclusiveGroups.entries())
+  // 2개 이상 태그가 있는 그룹만 필터
+  const candidateGroups = Array.from(questionGroups.entries())
     .filter(([, groupTags]) => groupTags.length > 1);
 
-  if (relevantGroups.length === 0) {
-    return tagScoresMap;  // 후처리 불필요
+  if (candidateGroups.length === 0) {
+    return tagScoresMap;
   }
 
-  console.log(`[TagExclusivity] 🔍 ${relevantGroups.length}개 상호 배타적 그룹 발견`);
+  // 🆕 각 그룹에 대해 LLM으로 상호 배타성 판단 (병렬 처리)
+  const exclusivityResults = await Promise.all(
+    candidateGroups.map(async ([question, groupTags]) => {
+      const answers = groupTags.map(t => t.sourceAnswer || t.label);
+      const isExclusive = await checkExclusivityWithLLM(question, answers);
+      return { question, groupTags, isExclusive };
+    })
+  );
+
+  // 상호 배타적 그룹만 필터
+  const exclusiveGroups = exclusivityResults.filter(r => r.isExclusive);
+
+  if (exclusiveGroups.length === 0) {
+    console.log(`[TagExclusivity] ✅ 상호 배타적 그룹 없음 (${candidateGroups.length}개 그룹 모두 복수 선택 가능)`);
+    return tagScoresMap;
+  }
+
+  console.log(`[TagExclusivity] 🔍 ${exclusiveGroups.length}개 상호 배타적 그룹 발견 (총 ${candidateGroups.length}개 중)`);
 
   // 각 제품에 대해 후처리
   const result: Record<string, ProductTagScores> = JSON.parse(JSON.stringify(tagScoresMap));
@@ -1043,14 +1106,29 @@ function enforceTagExclusivity(
     const product = productMap.get(pcode);
     if (!product) continue;
 
-    for (const [question, groupTags] of relevantGroups) {
+    for (const { question, groupTags } of exclusiveGroups) {
       // 이 그룹에서 full인 태그들 찾기
       const fullTags = groupTags.filter(tag =>
         scores[tag.id]?.score === 'full'
       );
 
+      // full이 1개 이상 있으면, 같은 그룹의 partial 태그도 제거 (상호 배타적이므로)
+      if (fullTags.length >= 1) {
+        const partialTags = groupTags.filter(tag =>
+          scores[tag.id]?.score === 'partial'
+        );
+        
+        if (partialTags.length > 0) {
+          console.log(`[TagExclusivity] 🧹 ${pcode}: "${question}" 그룹에서 full 존재 → partial ${partialTags.length}개 제거`);
+          for (const tag of partialTags) {
+            console.log(`[TagExclusivity] ❌ partial 제거: "${tag.label}"`);
+            delete result[pcode][tag.id];
+          }
+        }
+      }
+
       if (fullTags.length <= 1) {
-        continue;  // full이 0~1개면 문제 없음
+        continue;  // full이 0~1개면 더 이상 처리 불필요
       }
 
       // full이 2개 이상 → 가장 적합한 1개만 남기기
@@ -1493,6 +1571,88 @@ ${missingInfos}
 }
 
 // ============================================================================
+// 🆕 Product Info 조회 및 필터링
+// ============================================================================
+
+/**
+ * Supabase에서 product_info 조회
+ */
+async function getProductInfoMap(pcodes: string[]): Promise<Record<string, ProductInfo>> {
+  if (pcodes.length === 0) return {};
+
+  try {
+    const { data, error } = await supabase
+      .from('knowledge_products_cache')
+      .select('pcode, product_info')
+      .in('pcode', pcodes)
+      .not('product_info', 'is', null);
+
+    if (error) {
+      console.error('[ProductInfo] Query error:', error);
+      return {};
+    }
+
+    const result = Object.fromEntries(
+      data?.filter(r => r.product_info).map(r => [r.pcode, r.product_info as ProductInfo]) || []
+    );
+    console.log(`[ProductInfo] ✅ Loaded ${Object.keys(result).length}/${pcodes.length} product infos`);
+    return result;
+  } catch (e) {
+    console.error('[ProductInfo] Failed:', e);
+    return {};
+  }
+}
+
+/**
+ * product_info를 프롬프트용으로 정제
+ * - specs/highlights 제외 (specSummary로 충분)
+ * - questionMapping에서 confidence: 'low' 제외
+ */
+function formatProductInfoForPrompt(info: ProductInfo | undefined): string {
+  if (!info) return '';
+
+  const lines: string[] = [];
+
+  // analysis
+  if (info.analysis) {
+    const { oneLiner, buyingPoint, cautions } = info.analysis;
+    if (oneLiner) lines.push(`📊 "${oneLiner}"`);
+    if (buyingPoint) lines.push(`💡 ${buyingPoint}`);
+    if (cautions?.length) lines.push(`⚠️ 주의: ${cautions.slice(0, 2).join(', ')}`);
+  }
+
+  // webEnriched
+  const web = info.webEnriched;
+  if (web) {
+    if (web.pros?.length) lines.push(`✅ 장점: ${web.pros.slice(0, 3).join(' / ')}`);
+    if (web.cons?.length) lines.push(`❌ 단점: ${web.cons.slice(0, 2).join(' / ')}`);
+    if (web.targetUsers?.length) lines.push(`🎯 추천: ${web.targetUsers.slice(0, 2).join(', ')}`);
+    if (web.keyFeatures?.length) lines.push(`🔑 특징: ${web.keyFeatures.slice(0, 3).join(', ')}`);
+  }
+
+  // questionMapping (high/medium만, null 값 안전하게 처리)
+  const mapping = info.questionMapping || info.webEnriched?.questionMapping;
+  if (mapping) {
+    const validMappings = Object.entries(mapping)
+      .filter(([, m]) => {
+        if (!m || typeof m !== 'object') return false;
+        const conf = (m as { confidence?: string }).confidence;
+        return conf && conf !== 'low';
+      })
+      .map(([qId, m]) => {
+        const mp = m as { matchedOption?: string; confidence?: string };
+        return `${qId}=${mp.matchedOption || '?'}(${mp.confidence || '?'})`;
+      })
+      .slice(0, 4);
+    if (validMappings.length > 0) {
+      lines.push(`🏷️ 매핑: ${validMappings.join(', ')}`);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+// ============================================================================
 // 🆕 배치 통합 LLM 평가 (10개씩 묶어서 평가 → API 호출 90% 감소)
 // ============================================================================
 
@@ -1518,6 +1678,7 @@ async function evaluateAllCandidatesWithLLM(
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
   expandedKeywords?: ExpandedKeywords,
+  productInfoMap?: Record<string, ProductInfo>,  // 🆕 인덱싱된 제품 정보
 ): Promise<ProductEvaluation[]> {
   if (!ai) {
     console.log('[BatchEval] No AI, fallback to score-based');
@@ -1595,10 +1756,17 @@ async function evaluateAllCandidatesWithLLM(
           selectedBrand.toLowerCase().includes(p.brand.toLowerCase())
         : false;
 
+      // 🆕 인덱싱된 제품 정보
+      const productInfoStr = formatProductInfoForPrompt(productInfoMap?.[p.pcode]);
+      // 첫 배치 첫 제품만 로그 (디버그용)
+      if (batchIndex === 0 && idx === 0) {
+        console.log(`[BatchEval] 🆕 ProductInfo 샘플 (${p.pcode}):`, productInfoStr ? `${productInfoStr.slice(0, 100)}...` : '(없음)');
+      }
+
       return `[${idx + 1}] ${p.pcode}
 브랜드: ${p.brand}${isBrandMatch ? '⭐선호브랜드' : ''} | 제품명: ${p.name}
 가격: ${p.price?.toLocaleString()}원 | 리뷰: ${productReviews.length}개(${avgRating}점) | 스펙: ${p.specSummary || ''}
-리뷰요약: ${reviewSummary}`;
+리뷰요약: ${reviewSummary}${productInfoStr ? `\n${productInfoStr}` : ''}`;
     }).join('\n\n');
 
     const prompt = `## ${categoryName} 제품 ${batchProducts.length}개 평가
@@ -1916,7 +2084,8 @@ async function generateDetailedReasons(
   selectedProducts: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
   categoryName: string,
-  collectedInfo?: Record<string, string>
+  collectedInfo?: Record<string, string>,
+  productInfoMap?: Record<string, ProductInfo>  // 🆕 인덱싱된 제품 정보
 ): Promise<FinalRecommendation[]> {
   console.log(`[Step2] Generating oneLiners with LLM for ${selectedProducts.length} products`);
 
@@ -1950,10 +2119,21 @@ async function generateDetailedReasons(
       `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 80)}${r.content.length > 80 ? '...' : ''}"`
     ).join('\n');
 
+    // 🆕 인덱싱된 제품 정보 포함
+    const indexedInfo = productInfoMap?.[p.pcode];
+    const analysisStr = indexedInfo?.analysis
+      ? `- 분석: "${indexedInfo.analysis.oneLiner}" | ${indexedInfo.analysis.buyingPoint}`
+      : '';
+    const webStr = indexedInfo?.webEnriched
+      ? `- 웹정보: 장점[${indexedInfo.webEnriched.pros?.slice(0, 3).join(', ')}] 추천대상[${indexedInfo.webEnriched.targetUsers?.slice(0, 2).join(', ')}]`
+      : '';
+
     return `### ${p.brand} ${p.name} (pcode: ${p.pcode})
 - 가격: ${p.price?.toLocaleString()}원
 - 스펙: ${p.specSummary || '정보 없음'}
 - 추천 이유: ${p.matchedConditions?.join(', ') || '정보 없음'}
+${analysisStr}
+${webStr}
 - 리뷰:
 ${reviewTexts || '(리뷰 없음)'}`;
   }).join('\n\n');
@@ -2118,24 +2298,32 @@ async function selectTopProducts(
   balanceSelections: BalanceSelection[],
   expandedKeywords?: ExpandedKeywords,
   freeInputAnalysis?: FreeInputAnalysis | null
-): Promise<{ selectedProducts: HardCutProduct[] }> {
-  // 🆕 다나와 랭크 조회 (사전 스크리닝용)
-  let rankMap: Record<string, number> = {};
-  if (candidates.length > PRESCREEN_LIMIT) {
-    try {
-      const pcodes = candidates.map(c => c.pcode);
-      const { data: rankData } = await supabase
-        .from('knowledge_products_cache')
-        .select('pcode, rank')
-        .in('pcode', pcodes);
-      if (rankData) {
-        rankMap = Object.fromEntries(rankData.filter(r => r.rank).map(r => [r.pcode, r.rank]));
-        console.log(`[FinalRecommend] ✅ 사전스크리닝용 rank 조회: ${Object.keys(rankMap).length}개`);
+): Promise<{ selectedProducts: HardCutProduct[]; productInfoMap: Record<string, ProductInfo> }> {
+  const pcodes = candidates.map(c => c.pcode);
+
+  // 🆕 다나와 랭크 + product_info 병렬 조회
+  const [rankMap, productInfoMap] = await Promise.all([
+    // 랭크 조회
+    (async () => {
+      if (candidates.length <= PRESCREEN_LIMIT) return {};
+      try {
+        const { data: rankData } = await supabase
+          .from('knowledge_products_cache')
+          .select('pcode, rank')
+          .in('pcode', pcodes);
+        if (rankData) {
+          const result = Object.fromEntries(rankData.filter(r => r.rank).map(r => [r.pcode, r.rank]));
+          console.log(`[FinalRecommend] ✅ rank 조회: ${Object.keys(result).length}개`);
+          return result;
+        }
+      } catch (e) {
+        console.error('[FinalRecommend] rank 조회 실패:', e);
       }
-    } catch (e) {
-      console.error('[FinalRecommend] rank 조회 실패:', e);
-    }
-  }
+      return {};
+    })(),
+    // 🆕 product_info 조회
+    getProductInfoMap(pcodes),
+  ]);
 
   // ============================================================================
   // 🆕 120개 병렬 LLM 평가 vs 기존 규칙 기반 (플래그로 전환)
@@ -2154,7 +2342,8 @@ async function selectTopProducts(
       reviews,
       collectedInfo,
       balanceSelections,
-      expandedKeywords,  // 🆕 키워드 전달 (프롬프트에 활용)
+      expandedKeywords,
+      productInfoMap,  // 🆕 인덱싱된 제품 정보 전달
     );
 
     // 상위 N개 선택 (카테고리 불일치 제외, 리뷰 0개는 이미 사전 필터링됨)
@@ -2244,7 +2433,7 @@ async function selectTopProducts(
 
   console.log(`[FinalRecommend] Step1 완료: ${selectedProducts.map((p: HardCutProduct) => p.pcode).join(', ')}`);
 
-  return { selectedProducts };
+  return { selectedProducts, productInfoMap };
 }
 
 export async function POST(request: NextRequest) {
@@ -2330,8 +2519,8 @@ export async function POST(request: NextRequest) {
       )
     ]);
 
-    const { selectedProducts } = topProductsResult;
-    console.log(`[FinalRecommend] ⚡ Step 1 완료 (${Date.now() - step1StartTime}ms): Top ${selectedProducts.length}, FilterTags ${filterTagsResult.length}개`);
+    const { selectedProducts, productInfoMap } = topProductsResult;
+    console.log(`[FinalRecommend] ⚡ Step 1 완료 (${Date.now() - step1StartTime}ms): Top ${selectedProducts.length}, FilterTags ${filterTagsResult.length}개, ProductInfo ${Object.keys(productInfoMap).length}개`);
 
     // 추천된 상품들의 pcode 추출
     const recommendedPcodes = selectedProducts.map((p: HardCutProduct) => p.pcode);
@@ -2364,8 +2553,8 @@ export async function POST(request: NextRequest) {
     const step2StartTime = Date.now();
 
     const parallelResults = await Promise.allSettled([
-      // 🆕 한줄평 생성 (PLP 표시용)
-      generateDetailedReasons(selectedProducts, enrichedReviews, catName, collectedInfo),
+      // 🆕 한줄평 생성 (PLP 표시용) - productInfoMap 활용
+      generateDetailedReasons(selectedProducts, enrichedReviews, catName, collectedInfo, productInfoMap),
       // 태그 충족도 평가 (PLP 필터 필수)
       evaluateTagScoresForProducts(
         selectedProducts.map((p: HardCutProduct) => ({ pcode: p.pcode, product: p })),
@@ -2396,8 +2585,8 @@ export async function POST(request: NextRequest) {
     // 🚀 최적화: 장단점은 비교표 열 때 on-demand 생성
     const prosConsResults = [] as ProductProsConsResult[];
 
-    // 🆕 상호 배타적 태그 후처리 (같은 질문에서 full 중복 제거)
-    const tagScoresMap = enforceTagExclusivity(
+    // 🆕 상호 배타적 태그 후처리 (LLM 기반 판단, 같은 질문에서 full 중복 제거)
+    const tagScoresMap = await enforceTagExclusivity(
       rawTagScoresMap,
       filterTagsResult,
       selectedProducts

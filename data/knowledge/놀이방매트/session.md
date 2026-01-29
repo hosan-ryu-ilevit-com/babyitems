@@ -1,5 +1,5 @@
-# 세션: 20260127_053718_nfh9
-> 시작: 2026-01-27T05:37:18.156Z
+# 세션: 20260129_135818_9c4p
+> 시작: 2026-01-29T13:58:18.125Z
 > 카테고리키: 놀이방매트
 > 카테고리: 놀이방매트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 놀이방매트 시장 현황
-- 인사이트: 놀이방매트는 아이의 안전과 층간소음 완화를 위해 필수적인 육아용품으로 자리 잡았습니다. 코로나19로 실내 활동이 증가하면서 수요가 꾸준히 늘고 있으며, 시장 규모도 2000억 원을 넘어섰습니다. 최근에는 단순 유아용품을 넘어 인테리어 상품으로서의 가치를 인정받으며 디자인과 친환경성을 강화한 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGjFi9Jfd1aZlzggepysCzL25UmmgA9JOXh6h1GZ6_NWs-1VXMzDm5RQLIINXo4LOVR49wrZpW1tjChQVepDiYA7l3dBg5WqegReyl6u-sQCeBePiWt9ViUrCoWLuDmXc60893, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZE0VTP4fp_96ULX86Ams3bMBl9uh47aJ6MgPOnXQzVcWFYS7uWH0vUBhMjzrROyG-r2p7PZTrWtC96eXggOwHthqxNMTVY-QbGiSc2eT4wNZ9e7j6VxZN2elmZ5V4rIMCHbIeByW-9BvAr7lFnbgCJkabXn5cnVuDC-d9M5BG0w6CHyKVS6smce0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi8GnYTPCLOzuCNGhQsMDNhebU-VvlzRNTdZVG90ZY0PAu44BRENHwkpMvkN4Tz62Kre1Gz-x5y9f-a5D3Ahrz0M1BvEdm4fkyAKUzrO57Fix676F7_mPwooOgJ8jeKtE8AAwaw8RlONDDRIOqyahPUS8nIXyG70MDhQ==
+- 인사이트: 놀이방매트는 아이의 안전과 층간소음 완화를 위해 필수적인 육아용품으로 자리 잡았습니다. 코로나19로 실내 활동이 증가하면서 수요가 꾸준히 늘고 있으며, 시장 규모도 2000억 원을 넘어섰습니다. 최근에는 단순한 유아용품을 넘어 인테리어 상품으로서의 가치를 인정받으며 디자인과 친환경성을 강화한 제품들이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHvsejnlnvewtAfQd5DDWYV0QiSWmmujMVwZylWjBKzFnfogebrkIKgtPPLkDZ2QL9Y62dIPK6ob09gmvPX-IX4fCi0L7J3KhUuU-VC-0fBOl4V8lU6cGWHg-jKVAXHmJomtCtigtusZeYrKL-viJPzUBCxdL0OA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8ka7mc8F1eJbv_cBPFS9ZtKaWfbJY3TDP9x9ZESXbb5X7Zq5z6MDTMvQG38KkYuqAKzzKpmnjDt4DHYrZqz6dLicXEHg1RGEFgPLBOTyQ-kuy6d4uLthQ8yVcUAYxWIUmIosxXmoMxXkFUzfGVnkNh30JNDmctO10zM-DqsJ1DLjLu0u7-jg2E0yRp8-YIqFEE2f00HqMFnvA1j2rkZ2_XUJ1R2vw, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfDsA1HdA7M3Iazmm8W1SpSZ71N9nS8wxhNv7Y8G7vp3F_-h6pTOSC1d5NZ999Lk-JFQhxjMxDxOGW6EO3f4_JSGjuuiblmO8nTa_OV-fqU2xct5r_fYBAgTv8FWcH77ZeswPigjPXJzUp55YN68M6f1SL-hWlqbPMB_iVp1DTRMx6gq2jeJPhmkS3, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc_KYe9oaym6UyzZRGl-4O0aNyeg3B-CEKGV2wZLBj0xFNq6DWFSl5Mk5b7q8pKHSc6m1ZaP9o_1gzwzV8apJjON47giA16P1I37NNdvKrjKxHFucmcTnsbvbBr4oXrZUdVCYBs_zBbpdKM1ZhyRtkA8lzTWmY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFa5uMWGOiCzKFsHR44CZpyUNjWcpQbz28XGeEm4P2UkB4SmeqA9a4pz84_Umez0GsIRPVr75eOgr-lyOIm448y-nobbr5wN3wHDHfvQt0TDj7B6wCOlbLYrnHUzszYRz2rO9U6am0=
 
 ---
 
@@ -17,9 +17,9 @@
 | 항목 | 답변 |
 |------|------|
 | 어떤 형태의 놀이방매트를 찾으시나요? | 롤매트 |
-| 매트의 두께는 어느 정도를 선호하시나요? | 4cm 이상 |
-| 아이의 안전을 위해 중요하게 생각하는 기능이 있나요? | 충격 흡수, 미끄럼 방지 |
-| 선호하는 브랜드가 있으신가요? | 상관없어요 |
+| 매트의 두께는 어느 정도를 선호하시나요? | 2.5cm 이상 |
+| 매트 소재는 어떤 것을 선호하시나요? | PU/PE 소재, PVC 소재 |
+| 선호하는 놀이방매트 브랜드가 있으신가요? | 상관없어요 |
 | 예산은 어느 정도로 생각하세요? (평균 약 14만 6천원, 8만원대~19만원대가 가장 많아요) | 8만원 ~ 19만원대 |
 
 ---

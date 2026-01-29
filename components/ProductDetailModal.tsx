@@ -1177,7 +1177,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                                   badgeColor = 'bg-blue-50 text-blue-600';
                                   badgeText = '충족';
                                 } else if (tagEval.status === '부분충족') {
-                                  badgeColor = 'bg-yellow-100 text-yellow-700';
+                                  badgeColor = 'bg-blue-50 text-blue-300';
                                   badgeText = '부분충족';
                                 } else if (tagEval.status === '불충족') {
                                   badgeColor = 'bg-red-100 text-red-700';
@@ -1441,7 +1441,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                                     badgeColor = 'bg-blue-50 text-blue-600';
                                     badgeText = '충족';
                                   } else if (cond.status === '부분충족') {
-                                    badgeColor = 'bg-yellow-100 text-yellow-700';
+                                    badgeColor = 'bg-blue-50 text-blue-300';
                                     badgeText = '부분충족';
                                   } else {
                                     badgeColor = 'bg-red-100 text-red-700';

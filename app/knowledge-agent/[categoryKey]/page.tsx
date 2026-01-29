@@ -1138,10 +1138,10 @@ export default function KnowledgeAgentPage() {
     // 4단계: 최종 TOP 5 추천 생성 (API 완료될 때까지 계속 in_progress 유지)
     const step4: TimelineStep = {
       id: 'step-4',
-      title: '[4/4] Top 5 맞춤 추천 생성 중',
+      title: '[4/4] Top 맞춤 추천 생성 중',
       icon: '',
       details: [
-        '분석 결과를 종합하여 가장 적합한 Top 5 제품을 선정하고 추천 이유를 작성합니다.'
+        '분석 결과를 종합하여 가장 적합한 Top 제품을 선정하고 추천 이유를 작성합니다.'
       ],
       timestamp: Date.now(),
       startTime: Date.now(),
@@ -1192,7 +1192,8 @@ export default function KnowledgeAgentPage() {
     prices?: Record<string, any>,
     tags?: FilterTag[],
     analyses?: Record<string, any>,  // 🆕 PDP 분석 데이터 (왜 추천했나요?, 주요 포인트)
-    allTags?: FilterTag[]  // 🆕 전체 필터 태그 (PDP 조건 매핑용)
+    allTags?: FilterTag[],  // 🆕 전체 필터 태그 (PDP 조건 매핑용)
+    userAnswers?: Record<string, string>  // 🆕 매칭도 계산용 (맞춤질문+꼬리질문)
   ) => {
     console.log('[KA Storage] saveResultToStorage called:', {
       productsLength: products?.length,
@@ -1231,6 +1232,8 @@ export default function KnowledgeAgentPage() {
         allFilterTags: allTags || [],  // 🆕 전체 필터 태그 (PDP 조건 매핑용)
         // 🆕 PDP 분석 데이터 캐싱 (왜 추천했나요?, 주요 포인트)
         productAnalyses: analyses || {},
+        // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 개수)
+        collectedInfoForMatchRate: userAnswers || {},
         savedAt: Date.now(),
       };
 
@@ -1298,6 +1301,10 @@ export default function KnowledgeAgentPage() {
         // 🆕 allFilterTags 복원 (PDP 조건 매핑용)
         if (data.allFilterTags && Array.isArray(data.allFilterTags)) {
           setAllFilterTags(data.allFilterTags);
+        }
+        // 🆕 collectedInfo 복원 (매칭도 계산용)
+        if (data.collectedInfoForMatchRate && Object.keys(data.collectedInfoForMatchRate).length > 0) {
+          setCollectedInfo(data.collectedInfoForMatchRate);
         }
         // 🆕 PDP 분석 데이터 복원 (왜 추천했나요?, 주요 포인트)
         if (data.productAnalyses && Object.keys(data.productAnalyses).length > 0) {
@@ -1508,7 +1515,7 @@ export default function KnowledgeAgentPage() {
       });
 
       if (hasResultMessage) {
-        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags);
+        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, collectedInfo);
       } else {
         // ⚠️ messages에 resultProducts가 아직 없으면 다음 렌더에서 다시 시도
         // 하지만 이미 resultProducts가 있으므로 직접 저장 시도
@@ -1523,10 +1530,10 @@ export default function KnowledgeAgentPage() {
           resultProducts: resultProducts,
           timestamp: Date.now()
         };
-        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags, productAnalyses, allFilterTags);
+        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, collectedInfo);
       }
     }
-  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, saveResultToStorage]);
+  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, collectedInfo, saveResultToStorage]);
 
   const initializeAgent = async () => {
     const initialQueries = [
@@ -2469,7 +2476,7 @@ export default function KnowledgeAgentPage() {
         {
           id: finalInputMsgId,
           role: 'assistant',
-          content: `추천을 위한 모든 준비가 끝났어요! 🎯\마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+          content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
           typing: true,
           timestamp: Date.now()
         }
@@ -4030,6 +4037,8 @@ export default function KnowledgeAgentPage() {
                 sortedResultProducts={sortedResultProducts}
                 filterTags={filterTags}
                 onFilterTagToggle={handleFilterTagToggle}
+                // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 전체 개수)
+                totalQuestionsCount={Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length}
               />
             );
           });
@@ -4233,7 +4242,7 @@ export default function KnowledgeAgentPage() {
                       {
                         id: finalInputMsgId,
                         role: 'assistant',
-                        content: `추천을 위한 모든 준비가 끝났어요! 🎯\n마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+                        content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
                         typing: true,
                         timestamp: Date.now()
                       }
@@ -4829,6 +4838,8 @@ function MessageBubble({
   sortedResultProducts,
   filterTags,
   onFilterTagToggle,
+  // 🆕 매칭도 계산용
+  totalQuestionsCount,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -4865,6 +4876,8 @@ function MessageBubble({
   sortedResultProducts: any[];
   filterTags: FilterTag[];
   onFilterTagToggle: (tagId: string) => void;
+  // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 전체 개수)
+  totalQuestionsCount: number;
 }) {
   const isUser = message.role === 'user';
 
@@ -5452,19 +5465,19 @@ function MessageBubble({
                     // 🆕 조건 일치도 계산 (tagScores 기반)
                     const matchRate = (() => {
                       const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
-                      if (!tagScores || filterTags.length === 0) return undefined;
                       
-                      // 분모: 사용자가 선택한 전체 필터 태그 개수 (또는 전체 태그 개수)
-                      // 여기서는 전체 filterTags 개수를 기준으로 합니다.
-                      const totalPoints = filterTags.length * 2;
+                      // 분모: 맞춤질문+꼬리질문 전체 개수 (최소 1, fallback 7)
+                      const denominator = totalQuestionsCount > 0 ? totalQuestionsCount : 7;
+                      if (!tagScores) return undefined;
                       
-                      const earnedPoints = Object.values(tagScores).reduce((acc, curr) => {
-                        if (curr.score === 'full') return acc + 2;
-                        if (curr.score === 'partial') return acc + 1;
+                      // 분자: 충족(full)된 태그 수 + 부분충족(partial)은 0.5로 계산
+                      const fulfilledCount = Object.values(tagScores).reduce((acc, curr) => {
+                        if (curr.score === 'full') return acc + 1;
+                        if (curr.score === 'partial') return acc + 0.5;
                         return acc;
                       }, 0);
                       
-                      const rawRate = Math.round((earnedPoints / totalPoints) * 100);
+                      const rawRate = Math.round((fulfilledCount / denominator) * 100);
                       
                       // 🆕 보정 로직: *1.2 (단, 100 미만인 경우 99를 넘지 않도록)
                       if (rawRate >= 100) return 100;
@@ -5615,12 +5628,12 @@ function MessageBubble({
                                   return (
                                     <span
                                       key={tag.id}
-                                      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[12px] font-medium transition-all ${
+                                      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[12px] font-semibold transition-all ${
                                         isSelected
                                           ? 'ai-gradient-border text-[#6366F1]'
                                           : isFull
-                                            ? 'bg-blue-50 text-blue-400'
-                                            : 'bg-yellow-50 text-yellow-700'
+                                            ? 'bg-blue-50 text-blue-500'
+                                            : 'bg-blue-50 text-blue-300'
                                       }`}
                                     >
                                       {tag.label}

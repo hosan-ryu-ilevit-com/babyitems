@@ -1,5 +1,5 @@
-# 세션: 20260129_122313_jbnj
-> 시작: 2026-01-29T12:23:13.874Z
+# 세션: 20260129_133405_da7e
+> 시작: 2026-01-29T13:34:05.763Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 한국 기저귀 시장은 2024년 약 17억 달러 규모로 추산되며, 2033년까지 꾸준히 성장할 것으로 예상됩니다. 저출산으로 인한 영유아 인구 감소와 고령화 사회 진입으로 인해 성인용 기저귀 시장이 어린이용 기저귀 시장을 추월하는 등 시장 판도에 변화가 나타나고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmo_p4-dgIgBWxDSFEJZBLcBzEJuolgafhIFtPpaZhKuq2kWjgfJP435g3RvLDWNjUth6V-BSFAkTrKt2hNVM-T7esMt8pCQxdwfXJimBeHX-zMx6ruwn4WL8MYAiMniIOQELNqEfsPQ8yrSJlg79CB0L3kbuaCaKq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXaLrEbnRf5ln0GyP4QZsDvsaXgRA-7ipJ5Yr-mO1rTSXrpB23zKvEspkoBvVES_sTloQO8gyytYBVYeE2px-hO9ksRaZbBKsyjP7zenZU4lGUP8bQxWBzppMVEa7vNinPXixBBnPFYqniVijl2WS39qlc86E4_lTyqtnXOoU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQwImNW3QYF9yxTV4gy_KaahmzRq5uZlYUTQIn4VGfJP_iysO1tEfMycyZz9_--PeXCarWToAOyIN4eC4KreuTTs4nsXGm2mEfXr2ckXlAnym8cYf0agdk70M-iA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbaokejXsqML7Uo2lpX_8HG5elTVM_8vmny5HiBXZTSRWgO6D8gEfNlMOm8rABnXKad5a3nu68PYUpHOCcg43p-5WdgDVCqrarenDK5trhOQG9-dtdloJRJvJejfh_CWcaGi8Urxbg_cdAj8u4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGk8k63DjwnmcqZkGynvFMQCmMcZr7shNrDfCkuRuHFi7dteOsG-N8oNKzc_Iry-YLIg7rSALN537Gb3SFTK5Hi4Bp3YoYWO_iPaSovih64cdXbr0VCivm_bjLczB6jW8DwATRVzK3AK8xWNb1WsH_FofGGNoFhTcL6Zj2F-g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfDk8Ktx04x-uzgGtgIN4QsXk0rGBj2pOpwGYQgtzdPD9RzbPWlUYBinrtXL2Z3tBv57B3dxhn58KtCj-qvnd9jni6P6ZDtknbBnfR0gfWP34ZmLHOPCGFD4CnTCPu1VY1_NOKGkUUEIVDC-lwioDEYFmG
+- 인사이트: 한국 기저귀 시장은 2024년 기준 약 17억 달러 규모로 추정되며, 저출산으로 인한 영유아 인구 감소와 고령화 사회 진입으로 성인용 기저귀 시장이 어린이용 기저귀 시장을 추월하는 등 판도 변화를 겪고 있습니다. 이러한 시장 변화 속에서 소비자들은 가성비와 기능성을 동시에 갖춘 제품을 선호하는 경향을 보입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGS5MbvDLk6Un1358n_-3EWKtdU0pvJSfZIrjsYHG4oik2dNeYG-q7P9JGulree2mSn79QS_SzpJZvDL0mmAEuvPmeSHs5PAh35LOKywL1oMwlzotPjIxkHqLWwMAgU-4_RjYpITtDUD8Xas4Sx6vhGEcWpb5rG6sba, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkN_u767scrqPJZpE91jiuhbDAOYxx5Fxz5AraImCPBXwEvTZQYl4k2gH4zY69xgaHdXqt1vYbIhoCS1LvEEX88Uezbs81emxJQkVx2qthK8Kmb0_yMoYkt-wcQ4vT8Xccrf7G32VKFTEHI-D7bG1hGbWy2WUH8eKUe5187cY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2M4aQUFOIh54tEGBsdLKIocQ0Rf5gQVWy2rzOpXGv7gx5cwBGgxudY3QIOhIwwSJLU1Hj6Cf53Y5GbG_1X8Lvms9L1yYk__hv-Tf2Ypp01jlLoEWGWtkjs_gV3msKjR0ZZDwa-CKoc7SpSwsoh3QKxNkC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyy3-5VouQGjOjCrmJatgJkzgzn3Tlcr3cD7d9bGnnary5jnd_I4_scOzI5PNOB0KFQP9NY9qY4obDoessTTFZy9PnzkztCdieThT5R3nwxZEdRQqb-Jxb_0Sf7ZFkT78u28XbVjsCEW2OmuDc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmHxbWPOrOUpNOdoDG4Pez1HP2LWVnr9KiawP3xbHD0mECoM2SFkhSvmiZCh44DmbZZHeStedjQzEGTDCNurcOhtTuR8kxUuz-j_7pwMbscvgb8-vNETG28vWDsZJ29Sc8lBNFBEnUCufWq6Hpd0G9kqbmBtg3m6sxhD7vtw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGC-c8juCIxNcst3piByECVx1T8AK_EuhUZnHc3Y2nYs5NrtfKlAe4mTmZ1A54KJ2jdv1-gb6tQeQ9B5pnCC4ZTHGJhqfBVyBvVHJy00vQBJUDyN8pkYpjjYUfLqipWHAwkPMwTkNyL9iOH5pKqdZUZ4wpQ
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수 또는 몸무지를 알려주세요. | 신생아용 (3.5kg 이하) |
-| 기저귀의 흡수력은 어느 정도가 중요하신가요? | 최상급 흡수력 |
-| 기저귀 소재와 착용감에서 가장 중요하게 생각하는 부분은 무엇인가요? | 부드러움과 통기성 |
-| 선호하는 기저귀 브랜드가 있으신가요? | 팸퍼스, 킨도 |
+| 아기의 현재 몸무게는 어떻게 되나요? | 3kg ~ 15kg |
+| 기저귀 소재는 어떤 점을 중요하게 생각하시나요? | 부드러운 소재 |
+| 기저귀의 흡수력은 어떤 점이 가장 중요하신가요? | 빠른 흡수, 오래가는 흡수력 |
+| 혹시 선호하시는 기저귀 브랜드가 있으신가요? | 킨도, 팸퍼스 |
 | 예산은 어느 정도로 생각하세요? (평균 3만 7천원, 2만 1천원 ~ 4만 8천원대가 가장 많아요) | 2만 1천원 ~ 4만 8천원대 |
 
 ---

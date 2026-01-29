@@ -236,7 +236,7 @@ export function PLPImageCarousel({
         </div>
         <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center">
           <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
-            {matchRate !== undefined ? `매칭 ${matchRate}%` : `${rank}위`}
+            {matchRate !== undefined ? `${matchRate}% 매칭` : `${rank}위`}
           </span>
         </div>
       </div>
@@ -267,7 +267,7 @@ export function PLPImageCarousel({
         )}
         <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center">
           <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
-            {matchRate !== undefined ? `매칭 ${matchRate}%` : `${rank}위`}
+            {matchRate !== undefined ? `${matchRate}% 매칭` : `${rank}위`}
           </span>
         </div>
       </div>

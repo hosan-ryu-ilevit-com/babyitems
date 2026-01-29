@@ -1,28 +1,25 @@
 # 놀이방매트 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T05:37:10.680Z
+> 마지막 업데이트: 2026-01-29T13:58:10.449Z
 > 분석 상품: 20개 | 분석 리뷰: 8,918개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - 시공매트, 롤매트, 퍼즐매트 등 다양한 형태의 매트 등장
-- 디자인 및 친환경성 강화 트렌드
-- 대기업의 시장 참여 확대
+- 디자인 및 친환경성 강화
+- 층간소음 완화 기능 강조
 
 ### 구매자 만족 포인트
 - ✓ 층간소음 완화
 - ✓ 아이 안전 확보 (넘어짐 방지)
 - ✓ 바닥 오염 및 손상 방지
 - ✓ 인테리어 효과
-- ✓ 넓은 범위 커버 (롤매트)
-- ✓ 가성비 (롤매트)
 
 ### 주의해야 할 단점
 - ⚠ 매트 사이 이물질 청소 어려움
-- ⚠ 중량 충격음 완화 효과 적음
-- ⚠ PVC 소재 환경호르몬 우려
-- ⚠ 고가 제품 존재
+- ⚠ PVC 소재 유해성 논란 (프탈레이트계 가소제)
+- ⚠ 상대적으로 높은 가격대
 
 ### 가격대 인사이트
 
@@ -244,6 +241,8 @@
 ---
 
 ## 📊 데이터 출처
-- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGjFi9Jfd1aZlzggepysCzL25UmmgA9JOXh6h1GZ6_NWs-1VXMzDm5RQLIINXo4LOVR49wrZpW1tjChQVepDiYA7l3dBg5WqegReyl6u-sQCeBePiWt9ViUrCoWLuDmXc60893)
-- [expertmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZE0VTP4fp_96ULX86Ams3bMBl9uh47aJ6MgPOnXQzVcWFYS7uWH0vUBhMjzrROyG-r2p7PZTrWtC96eXggOwHthqxNMTVY-QbGiSc2eT4wNZ9e7j6VxZN2elmZ5V4rIMCHbIeByW-9BvAr7lFnbgCJkabXn5cnVuDC-d9M5BG0w6CHyKVS6smce0=)
-- [newsprime.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi8GnYTPCLOzuCNGhQsMDNhebU-VvlzRNTdZVG90ZY0PAu44BRENHwkpMvkN4Tz62Kre1Gz-x5y9f-a5D3Ahrz0M1BvEdm4fkyAKUzrO57Fix676F7_mPwooOgJ8jeKtE8AAwaw8RlONDDRIOqyahPUS8nIXyG70MDhQ==)
+- [theliving.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHvsejnlnvewtAfQd5DDWYV0QiSWmmujMVwZylWjBKzFnfogebrkIKgtPPLkDZ2QL9Y62dIPK6ob09gmvPX-IX4fCi0L7J3KhUuU-VC-0fBOl4V8lU6cGWHg-jKVAXHmJomtCtigtusZeYrKL-viJPzUBCxdL0OA==)
+- [kca.go.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8ka7mc8F1eJbv_cBPFS9ZtKaWfbJY3TDP9x9ZESXbb5X7Zq5z6MDTMvQG38KkYuqAKzzKpmnjDt4DHYrZqz6dLicXEHg1RGEFgPLBOTyQ-kuy6d4uLthQ8yVcUAYxWIUmIosxXmoMxXkFUzfGVnkNh30JNDmctO10zM-DqsJ1DLjLu0u7-jg2E0yRp8-YIqFEE2f00HqMFnvA1j2rkZ2_XUJ1R2vw)
+- [expertmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfDsA1HdA7M3Iazmm8W1SpSZ71N9nS8wxhNv7Y8G7vp3F_-h6pTOSC1d5NZ999Lk-JFQhxjMxDxOGW6EO3f4_JSGjuuiblmO8nTa_OV-fqU2xct5r_fYBAgTv8FWcH77ZeswPigjPXJzUp55YN68M6f1SL-hWlqbPMB_iVp1DTRMx6gq2jeJPhmkS3)
+- [sisaon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFc_KYe9oaym6UyzZRGl-4O0aNyeg3B-CEKGV2wZLBj0xFNq6DWFSl5Mk5b7q8pKHSc6m1ZaP9o_1gzwzV8apJjON47giA16P1I37NNdvKrjKxHFucmcTnsbvbBr4oXrZUdVCYBs_zBbpdKM1ZhyRtkA8lzTWmY)
+- [heraldcorp.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFa5uMWGOiCzKFsHR44CZpyUNjWcpQbz28XGeEm4P2UkB4SmeqA9a4pz84_Umez0GsIRPVr75eOgr-lyOIm448y-nobbr5wN3wHDHfvQt0TDj7B6wCOlbLYrnHUzszYRz2rO9U6am0=)

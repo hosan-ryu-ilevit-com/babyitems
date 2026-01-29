@@ -1,30 +1,28 @@
 # 식기세척기 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T03:31:13.340Z
-> 분석 상품: 20개 | 분석 리뷰: 7,919개
+> 마지막 업데이트: 2026-01-29T13:47:55.107Z
+> 분석 상품: 20개 | 분석 리뷰: 8,154개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 스마트 기능 탑재 및 AI 기술 접목 (IoT, 음성 인식 제어, 오염도 감지 자동 세척)
-- 친환경 및 지속 가능한 제품 (천연 성분 세제, 플라스틱 프리 포장)
-- 디자인 혁신 (가구 일체형 디자인, 빌트인 강화)
+- AI 기반 맞춤 세척 기능 강화
+- 가구장에 녹아드는 빌트인 디자인
+- 고온 살균 및 위생 기능 강조
 
 ### 구매자 만족 포인트
 - ✓ 시간 절약
-- ✓ 위생적인 세척 (고온 세척, 살균 기능)
+- ✓ 위생적인 세척
 - ✓ 물 절약 효과
-- ✓ 편리한 사용
-- ✓ 다양한 용량 선택 가능
-- ✓ 주방 인테리어 효과
+- ✓ 가사 노동 부담 감소
+- ✓ 높은 만족도
 
 ### 주의해야 할 단점
-- ⚠ 식기 테트리스의 번거로움
-- ⚠ 모든 식기 세척 불가 (특수 재질, 조리 도구 등)
+- ⚠ 식기 테트리스 번거로움
+- ⚠ 일부 식기 사용 불가
+- ⚠ 기름 제거 보조 역할
+- ⚠ 자동 문 열림 불편
 - ⚠ 설치 공간 제약
-- ⚠ 전기세 및 세제 비용 발생
-- ⚠ 작은 이물질 잔여 가능성
-- ⚠ 자동 문 열림 기능의 불편함 (일부 모델)
 
 ### 가격대 인사이트
 
@@ -33,17 +31,7 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 하이얼 HDW06MFW
-- **브랜드**: 하이얼
-- **가격**: 383,940원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 식기세척기 / 6인용 / 카운터탑 / 1등급 / UV / 자동문열림 / 빠른세척 / 헹굼추가 / 잔여시간표시 / 전면터치
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=98919797)
-
-### 2. LG전자 오브제컬렉션 DEE6BGE 14인용 빌트인
+### 1. LG전자 오브제컬렉션 DEE6BGE 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 1,199,470원
 - **평점**: ⭐4.9 (843개 리뷰)
@@ -53,7 +41,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74417396)
 
-### 3. LG전자 오브제컬렉션 DUE1BGLE 12인용 빌트인
+### 2. LG전자 오브제컬렉션 DUE1BGLE 12인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 630,088원
 - **평점**: ⭐4.9 (505개 리뷰)
@@ -63,7 +51,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74481458)
 
-### 4. LG전자 오브제컬렉션 DUE6BGE 14인용 빌트인
+### 3. LG전자 오브제컬렉션 DUE6BGE 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 1,372,600원
 - **평점**: ⭐4.9 (1,909개 리뷰)
@@ -73,7 +61,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74006600)
 
-### 5. 삼성전자 비스포크 DW30FB305CW0 6인용 카운터탑
+### 4. 삼성전자 비스포크 DW30FB305CW0 6인용 카운터탑
 - **브랜드**: 삼성전자
 - **가격**: 558,102원
 - **평점**: ⭐5 (12개 리뷰)
@@ -83,7 +71,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=95849189)
 
-### 6. LG전자 오브제컬렉션 DFE5BGE 14인용 프리스탠딩
+### 5. LG전자 오브제컬렉션 DFE5BGE 14인용 프리스탠딩
 - **브랜드**: LG전자
 - **가격**: 973,650원
 - **평점**: ⭐4.9 (216개 리뷰)
@@ -93,7 +81,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74481350)
 
-### 7. LG전자 오브제컬렉션 DUE5BGL2E 14인용 빌트인
+### 6. LG전자 오브제컬렉션 DUE5BGL2E 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 927,490원
 - **평점**: ⭐4.9 (282개 리뷰)
@@ -103,7 +91,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74482274)
 
-### 8. 삼성전자 비스포크 DW80F75L1U01S 14인용 빌트인
+### 7. 삼성전자 비스포크 DW80F75L1U01S 14인용 빌트인
 - **브랜드**: 삼성전자
 - **가격**: 1,189,790원
 - **평점**: ⭐4.9 (485개 리뷰)
@@ -113,7 +101,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=77314172)
 
-### 9. LG전자 오브제컬렉션 DUE6BGL3E 14인용 빌트인
+### 8. LG전자 오브제컬렉션 DUE6BGL3E 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 1,098,410원
 - **평점**: ⭐4.9 (352개 리뷰)
@@ -123,7 +111,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=75538508)
 
-### 10. 삼성전자 비스포크 DW80F73Y1UEW 14인용 빌트인
+### 9. 삼성전자 비스포크 DW80F73Y1UEW 14인용 빌트인
 - **브랜드**: 삼성전자
 - **가격**: 808,170원
 - **평점**: ⭐4.9 (687개 리뷰)
@@ -133,7 +121,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=77856809)
 
-### 11. 삼성전자 비스포크 DW30FB300CW0 6인용 카운터탑
+### 10. 삼성전자 비스포크 DW30FB300CW0 6인용 카운터탑
 - **브랜드**: 삼성전자
 - **가격**: 507,564원
 - **평점**: ⭐4.8 (7개 리뷰)
@@ -143,7 +131,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=96775205)
 
-### 12. LG전자 디오스 DUE5STE 14인용 빌트인
+### 11. LG전자 디오스 DUE5STE 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 804,310원
 - **평점**: ⭐4.9 (99개 리뷰)
@@ -153,7 +141,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74808587)
 
-### 13. LG전자 오브제컬렉션 DUE6BGL1E 14인용 빌트인
+### 12. LG전자 오브제컬렉션 DUE6BGL1E 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 1,213,891원
 - **평점**: ⭐4.9 (1,198개 리뷰)
@@ -163,7 +151,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74051495)
 
-### 14. LG전자 오브제컬렉션 DEE6EWE 14인용 빌트인
+### 13. LG전자 오브제컬렉션 DEE6EWE 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 1,358,690원
 - **평점**: ⭐4.9 (118개 리뷰)
@@ -173,7 +161,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74481482)
 
-### 15. LG전자 오브제컬렉션 DUE2BGE 12인용 빌트인
+### 14. LG전자 오브제컬렉션 DUE2BGE 12인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 628,639원
 - **평점**: ⭐4.9 (139개 리뷰)
@@ -183,7 +171,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74808707)
 
-### 16. LG전자 오브제컬렉션 DUE6BGL1E + BEI3QKHLOE
+### 15. LG전자 오브제컬렉션 DUE6BGL1E + BEI3QKHLOE
 - **브랜드**: LG전자
 - **가격**: 1,773,990원
 - **평점**: ⭐4.9 (21개 리뷰)
@@ -193,7 +181,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=99049598)
 
-### 17. 삼성전자 비스포크 DW90F79P1U01S 14인용 빌트인
+### 16. 삼성전자 비스포크 DW90F79P1U01S 14인용 빌트인
 - **브랜드**: 삼성전자
 - **가격**: 1,359,170원
 - **평점**: ⭐5 (1개 리뷰)
@@ -203,7 +191,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=77787065)
 
-### 18. 밀레 G 7314 C SC
+### 17. 밀레 G 7314 C SC
 - **브랜드**: 밀레
 - **가격**: 2,199,920원
 - **평점**: ⭐4.9 (20개 리뷰)
@@ -213,7 +201,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=12379421)
 
-### 19. LG전자 오브제컬렉션 DUE5BGL1E 14인용 빌트인
+### 18. LG전자 오브제컬렉션 DUE5BGL1E 14인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 922,783원
 - **평점**: ⭐4.9 (811개 리뷰)
@@ -223,7 +211,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74051552)
 
-### 20. LG전자 오브제컬렉션 DUE4BGE 12인용 빌트인
+### 19. LG전자 오브제컬렉션 DUE4BGE 12인용 빌트인
 - **브랜드**: LG전자
 - **가격**: 812,735원
 - **평점**: ⭐4.9 (214개 리뷰)
@@ -232,6 +220,16 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=96257660)
+
+### 20. 삼성전자 비스포크 DW30CB300CW0 6인용 카운터탑
+- **브랜드**: 삼성전자
+- **가격**: 504,023원
+- **평점**: ⭐4.8 (235개 리뷰)
+- **핵심 스펙**: 식기세척기 / 6인용 / 카운터탑 / 3등급 / 고온 / 자동문열림 / 잔여시간표시 / 전면터치 / 식기중간투입 / 내부세척 / 빠른세척 / 헹굼추가 / 물소비량 / 10.9L / 글라스
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=28541957)
 
 ---
 
@@ -246,8 +244,9 @@
 ---
 
 ## 📊 데이터 출처
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-k0OXB1gM9t3gusaQXk296igBC1DmwDBkvTy2Z971o6uZxccyZpwH-TnkaDr8AucZiZXcG0yyE3V-JXOVcmsOpC1sLAay5nhtfruW_hTmq3ZrQUlFKipOxrRLMGe-_DpNZ8yPLoT0mtpHbxGcz_HrBHJfqadXxgAkLjdaQx_f2BzpL2yGtLof)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqju_u_y73gpUa1TzzwBNhvsvLIhMhMEyeuvce4xpv1fw0YNich8Sk4saHr-4fA_hMR_RpLJz8z1i6QVcH4i5HKsI5Pm4Qu_mspr2qZk-tATvBT3xWDZ1fFJWc4uSSMgQZce9rvxWg0NzeV5VlrakOO87qA1QbPp-DIhkHDsGn)
-- [marketnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDvjIKiUHUuNs9Leu1Mt4qOQevp3xzByUyc-N3tgGJgTZpTB5LREOr_DUHvVyf1JCRqIN5cyCuTHgItI1_iiCTsdYAvXc4nJB913yW_Q6RPa5zI5mgiZ-6hAROS3uLWmF6hNkzFD0ur5z1flXvWSzAy84Qyiv7oY8=)
-- [bizwatch.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcODS3_4fsYAdsTqzFIwtWVfXVMQ10KUxURmJWeePfu-ErKUUCJQEDrPv7jaAC2HOAXaqH-Vxy8vcgwtooplY_lxjlArTEUhtt4IyMzd2YPTx_DWL_cA4XRvVNuwp_aSYgs5gH5X0VWRBQDnEuhlpz9rNORFNV)
-- [lge.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEq6aajHxBvmPRJO8etwQ5UpKxnjEHCpiq3rllz32EtanWZnK0MC0GaqKEQlpz7lVjKMkKCyX4XiRnzpxlskCEhRab_R-t_U8_aG4ZyCRCzBUHN89KZrIt7DRugNLvvmp8enRVVx9nJZoS2)
+- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3mrUDJHSbOj6tbTxtdInkdqhmoTGxsBL3dO4k7CGKHTm0mSn-pYy6ahTlLBPvqrGEfoCP6Hqb-U3MXPrur-kGT2xXizWJI9AApAndzWEi26ekkmBm-b5aemZYESsXyLk=)
+- [ncsi.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7rN8Lyz_219UEb5rcEqSKsDW0HBnPtE8L92ZSadedeJIpmDB1X--zjacl8rWwJauepqVIhS4igy0-JNhM0eKI17D2FdVpdnxYxG2Ukwv4pWW6dUyboZjuj1urVqYJOsu3H4wXrFVvRGQ0YuD6PdDTPJrpEyo=)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFU5ahXAQSmdRZeQj2qfKbMEwsUNIE3FuAmaqzcrIT6peKafOUJ8R3PsEDAWQ_IFz9HYOXLFK5SaaNNIix5Vxw4pr_TY1FLibrVrX7ko3Rz6mL_vSCC27VNDm4TQORItZnsD0QNZblbs2R5cH59E6Tia_0j_gyfukLjTvIuw==)
+- [homewiseappliance.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCCpEgxW3-K355vuxbyljle9lOKtdwOH5cCTWdJzUCmT9b5Xx7Jrg4pRuGqRO-3QEN2_Pkhc0BWaJbk9KztgV_BRw6vq7KxEBOkk1ffLpS-HE2R8TBJhKVfIEbVhuWeTAlRUoE0JSjcAilN7UMErbZcr-H7YRVWTUoCQTEn_k=)
+- [cnet.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHg9eAtp1CEUNBWYipa4N0WZ3wiV5c5n-qWUWSTzUy_RFhb0Hy5-s8ZRSLcp9zEfP7X4Fe9bCA2tEYC6g_BcSwaWzkgWao5RWdCNJ2_U6H9DA9-ZzKVi5LDVAujB20NPF-CgpR1VtqY)
+- [arnoldsappliance.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDFBqxeIbLk3utGSm0sK0wGEx8AsYLtc_6IYGilgj9SvHzbT1R3jhZox8xJILqP-6rDhiDkOgCmF2GjCBc-dy4QyvQdVhGpbtEJyqJ1H4feTnej2lATg4IIrfNoVQG0EE4odkDwiaLkdfvlaUnE0Vq2PPaNVQ0bDR2S-7vOPl8Zv3t8Xo74Q==)

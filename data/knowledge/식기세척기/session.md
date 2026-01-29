@@ -1,5 +1,5 @@
-# 세션: 20260123_033120_rpym
-> 시작: 2026-01-23T03:31:20.154Z
+# 세션: 20260129_134801_4iwj
+> 시작: 2026-01-29T13:48:01.560Z
 > 카테고리키: 식기세척기
 > 카테고리: 식기세척기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 식기세척기 시장 현황
-- 인사이트: 식기세척기 시장은 위생 가전에 대한 관심 증가와 함께 지속적으로 성장하고 있으며, 특히 스마트 기능이 탑재된 제품의 수요가 늘고 있습니다. 2024년 글로벌 시장 규모는 약 417억 달러로 추정되며, 2032년까지 연평간 복합 성장률(CAGR) 4.7%로 성장하여 660억 달러에 이를 것으로 전망됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-k0OXB1gM9t3gusaQXk296igBC1DmwDBkvTy2Z971o6uZxccyZpwH-TnkaDr8AucZiZXcG0yyE3V-JXOVcmsOpC1sLAay5nhtfruW_hTmq3ZrQUlFKipOxrRLMGe-_DpNZ8yPLoT0mtpHbxGcz_HrBHJfqadXxgAkLjdaQx_f2BzpL2yGtLof, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqju_u_y73gpUa1TzzwBNhvsvLIhMhMEyeuvce4xpv1fw0YNich8Sk4saHr-4fA_hMR_RpLJz8z1i6QVcH4i5HKsI5Pm4Qu_mspr2qZk-tATvBT3xWDZ1fFJWc4uSSMgQZce9rvxWg0NzeV5VlrakOO87qA1QbPp-DIhkHDsGn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDvjIKiUHUuNs9Leu1Mt4qOQevp3xzByUyc-N3tgGJgTZpTB5LREOr_DUHvVyf1JCRqIN5cyCuTHgItI1_iiCTsdYAvXc4nJB913yW_Q6RPa5zI5mgiZ-6hAROS3uLWmF6hNkzFD0ur5z1flXvWSzAy84Qyiv7oY8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcODS3_4fsYAdsTqzFIwtWVfXVMQ10KUxURmJWeePfu-ErKUUCJQEDrPv7jaAC2HOAXaqH-Vxy8vcgwtooplY_lxjlArTEUhtt4IyMzd2YPTx_DWL_cA4XRvVNuwp_aSYgs5gH5X0VWRBQDnEuhlpz9rNORFNV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEq6aajHxBvmPRJO8etwQ5UpKxnjEHCpiq3rllz32EtanWZnK0MC0GaqKEQlpz7lVjKMkKCyX4XiRnzpxlskCEhRab_R-t_U8_aG4ZyCRCzBUHN89KZrIt7DRugNLvvmp8enRVVx9nJZoS2
+- 인사이트: 식기세척기 시장은 맞벌이 가구 증가와 위생 관념 강화로 인해 '가사 해방 가전'의 대표 주자로 자리매김하며 지속적으로 성장하고 있습니다. 2024년 기준 국내 식기세척기 보급률은 20% 미만으로, 향후 성장 가능성이 높은 시장으로 평가됩니다. LG전자와 삼성전자가 시장을 주도하고 있으며, AI 기술과 디자인 혁신을 통해 경쟁이 심화되고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3mrUDJHSbOj6tbTxtdInkdqhmoTGxsBL3dO4k7CGKHTm0mSn-pYy6ahTlLBPvqrGEfoCP6Hqb-U3MXPrur-kGT2xXizWJI9AApAndzWEi26ekkmBm-b5aemZYESsXyLk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF7rN8Lyz_219UEb5rcEqSKsDW0HBnPtE8L92ZSadedeJIpmDB1X--zjacl8rWwJauepqVIhS4igy0-JNhM0eKI17D2FdVpdnxYxG2Ukwv4pWW6dUyboZjuj1urVqYJOsu3H4wXrFVvRGQ0YuD6PdDTPJrpEyo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFU5ahXAQSmdRZeQj2qfKbMEwsUNIE3FuAmaqzcrIT6peKafOUJ8R3PsEDAWQ_IFz9HYOXLFK5SaaNNIix5Vxw4pr_TY1FLibrVrX7ko3Rz6mL_vSCC27VNDm4TQORItZnsD0QNZblbs2R5cH59E6Tia_0j_gyfukLjTvIuw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCCpEgxW3-K355vuxbyljle9lOKtdwOH5cCTWdJzUCmT9b5Xx7Jrg4pRuGqRO-3QEN2_Pkhc0BWaJbk9KztgV_BRw6vq7KxEBOkk1ffLpS-HE2R8TBJhKVfIEbVhuWeTAlRUoE0JSjcAilN7UMErbZcr-H7YRVWTUoCQTEn_k=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHg9eAtp1CEUNBWYipa4N0WZ3wiV5c5n-qWUWSTzUy_RFhb0Hy5-s8ZRSLcp9zEfP7X4Fe9bCA2tEYC6g_BcSwaWzkgWao5RWdCNJ2_U6H9DA9-ZzKVi5LDVAujB20NPF-CgpR1VtqY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDFBqxeIbLk3utGSm0sK0wGEx8AsYLtc_6IYGilgj9SvHzbT1R3jhZox8xJILqP-6rDhiDkOgCmF2GjCBc-dy4QyvQdVhGpbtEJyqJ1H4feTnej2lATg4IIrfNoVQG0EE4odkDwiaLkdfvlaUnE0Vq2PPaNVQ0bDR2S-7vOPl8Zv3t8Xo74Q==
 
 ---
 
@@ -16,19 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 가구 인원 및 평소 식사량에 맞춰 적절한 용량을 선택해 보세요. | 1~3인 가구 |
-| 주방 환경에 맞는 설치 형태를 선택해 주세요. | 프리스탠딩, 빌트인 |
-| 식기 세척 및 살균을 위한 주요 기능을 선택해 주세요. | 스팀 살균, UV 살균, 고온수 세척 |
-| 식기 건조를 위한 선호하는 방식을 선택해 주세요. | 열풍 건조 |
-| 스마트 기능 활용에 대한 선호도를 알려주세요. | 자동 세척 코스 (오염도 감지) |
-| 예산은 어느 정도로 생각하세요? (평균 104만원, 71만원~135만원대가 가장 많아요) | 71만원 이하, 71만원 ~ 135만원 |
-| __avoid_negatives__ | 특수 재질 식기나 조리 도구는 따로 손 설거지해야 해서 불편할 것 같아요,주방에 설치할 공간이 부족하거나 빌트인 설치가 어려울까 봐 걱정돼요 |
+| 식기세척기 용량은 어느 정도가 적당할까요? | 1~2인용? 많아야 2명 |
+| 주방 환경에 맞는 설치 형태는 무엇인가요? | 상관없어요 |
+| 식기 건조는 어떤 방식을 선호하시나요? | 응축 건조, 열풍 건조 |
+| AI 맞춤 세척 등 스마트 기능이 중요하신가요? | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 104만원, 77만원~135만원대가 가장 많아요) | 77만원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 96개 (전체 96개 중)
+현재 후보: 110개 (전체 110개 중)
 
 ### 후보 상품
 1. LG전자 오브제컬렉션 DEE6BGE 14인용 빌트인 - 1,199,470원 - ⭐4.9
@@ -62,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 특수 재질 식기나 조리 도구는 따로 손 설거지해야 해서 불편할 것 같아요
-- 주방에 설치할 공간이 부족하거나 빌트인 설치가 어려울까 봐 걱정돼요
+(아직 선택 없음)
 
 ---
 

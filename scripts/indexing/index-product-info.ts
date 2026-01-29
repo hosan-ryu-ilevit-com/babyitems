@@ -44,9 +44,10 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const DEFAULT_CONCURRENCY = 7;  // 5 → 7 (Gemini rate limit 테스트)
-const BATCH_DELAY_MS = 800;     // 1200 → 800ms
+const DEFAULT_CONCURRENCY = 3;  // Rate limit 방지를 위해 3으로 감소
+const BATCH_DELAY_MS = 2000;    // Rate limit 방지를 위해 2초로 증가
 const MAX_RETRIES = 3;
+const REQUEST_DELAY_MS = 500;   // 개별 요청 간 딜레이
 
 // ============================================================================
 // 타입 정의
@@ -62,6 +63,7 @@ interface CachedProduct {
   rating: number | null;
   product_url: string;
   thumbnail: string | null;
+  product_info: ProductInfo | null;
 }
 
 // ============================================================================
@@ -72,15 +74,17 @@ async function main() {
   const args = parseArgs();
   const categoryName = args.category;
   const concurrency = args.concurrency || DEFAULT_CONCURRENCY;
+  const skipIndexed = args.skipIndexed;
 
   if (!categoryName) {
-    console.error('Usage: npx tsx scripts/indexing/index-product-info.ts --category="카테고리명" [--concurrency=3]');
+    console.error('Usage: npx tsx scripts/indexing/index-product-info.ts --category="카테고리명" [--concurrency=3] [--no-skip]');
     process.exit(1);
   }
 
   console.log(`\n${'='.repeat(60)}`);
   console.log(`🚀 Product Info 인덱싱 시작: ${categoryName}`);
   console.log(`   동시 처리: ${concurrency}개 | 배치 딜레이: ${BATCH_DELAY_MS}ms`);
+  console.log(`   이미 인덱싱된 상품: ${skipIndexed ? '스킵' : '재처리'}`);
   console.log(`${'='.repeat(60)}\n`);
 
   const startTime = Date.now();
@@ -96,8 +100,8 @@ async function main() {
 
     // 2. 상품 목록 조회
     console.log('\n[Step 2] 상품 목록 조회 중...');
-    const products = await getProductsFromCache(categoryName);
-    console.log(`  ✅ ${products.length}개 상품 로드 완료`);
+    const products = await getProductsFromCache(categoryName, skipIndexed);
+    console.log(`  ✅ ${products.length}개 상품 처리 예정`);
 
     if (products.length === 0) {
       throw new Error(`"${categoryName}" 카테고리에 상품이 없습니다.`);
@@ -151,15 +155,24 @@ async function loadCustomQuestions(categoryName: string): Promise<QuestionTodo[]
 // 상품 조회
 // ============================================================================
 
-async function getProductsFromCache(categoryName: string): Promise<CachedProduct[]> {
+async function getProductsFromCache(categoryName: string, skipIndexed: boolean): Promise<CachedProduct[]> {
   const { data, error } = await supabase
     .from('knowledge_products_cache')
-    .select('pcode, name, brand, price, spec_summary, review_count, rating, product_url, thumbnail')
+    .select('pcode, name, brand, price, spec_summary, review_count, rating, product_url, thumbnail, product_info')
     .eq('query', categoryName)
     .order('rank', { ascending: true });
 
   if (error) throw new Error(`상품 조회 실패: ${error.message}`);
-  return data || [];
+
+  const allProducts = data || [];
+
+  if (skipIndexed) {
+    const notIndexed = allProducts.filter(p => !p.product_info);
+    console.log(`  📊 전체 ${allProducts.length}개 중 ${allProducts.length - notIndexed.length}개 이미 인덱싱됨 → ${notIndexed.length}개 처리 예정`);
+    return notIndexed;
+  }
+
+  return allProducts;
 }
 
 // ============================================================================
@@ -182,8 +195,13 @@ async function indexProductsBatch(
 
     console.log(`\n📦 배치 ${batchNum}/${totalBatches} 처리 중...`);
 
+    // 개별 요청 간 딜레이를 주면서 순차 처리 (rate limit 방지)
     const batchResults = await Promise.allSettled(
-      batch.map(product => indexSingleProduct(product, questions, categoryName))
+      batch.map((product, idx) =>
+        sleep(idx * REQUEST_DELAY_MS).then(() =>
+          indexSingleProduct(product, questions, categoryName)
+        )
+      )
     );
 
     batch.forEach((product, idx) => {
@@ -379,20 +397,23 @@ async function indexSingleProduct(
 // 유틸리티
 // ============================================================================
 
-function parseArgs(): { category: string; concurrency: number } {
+function parseArgs(): { category: string; concurrency: number; skipIndexed: boolean } {
   const args = process.argv.slice(2);
   let category = '';
   let concurrency = DEFAULT_CONCURRENCY;
+  let skipIndexed = true; // 기본값: 이미 인덱싱된 상품 스킵
 
   for (const arg of args) {
     if (arg.startsWith('--category=')) {
       category = arg.split('=')[1].replace(/['"]/g, '');
     } else if (arg.startsWith('--concurrency=')) {
       concurrency = parseInt(arg.split('=')[1]) || DEFAULT_CONCURRENCY;
+    } else if (arg === '--no-skip' || arg === '--force') {
+      skipIndexed = false; // 모든 상품 재인덱싱
     }
   }
 
-  return { category, concurrency };
+  return { category, concurrency, skipIndexed };
 }
 
 function sleep(ms: number): Promise<void> {

@@ -23,8 +23,13 @@ import type {
 type CheerioElement = any;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+// 확장된 검색 옵션 (페이지네이션 포함)
+interface ExtendedSearchOptions extends DanawaSearchOptions {
+  page?: number; // 페이지 번호 (1부터 시작)
+}
+
 // 검색 URL 생성 (search-crawler.ts와 동일)
-function buildSearchUrl(options: DanawaSearchOptions): string {
+function buildSearchUrl(options: ExtendedSearchOptions): string {
   let query = options.query;
 
   try {
@@ -51,6 +56,10 @@ function buildSearchUrl(options: DanawaSearchOptions): string {
   }
   if (options.maxPrice !== undefined) {
     url += `&maxPrice=${options.maxPrice}`;
+  }
+  // 페이지 파라미터 (2페이지부터)
+  if (options.page && options.page > 1) {
+    url += `&page=${options.page}`;
   }
 
   return url;
@@ -376,7 +385,7 @@ function parseFilters($: ReturnType<typeof load>): DanawaFilterSection[] {
  * - 서버리스 환경 친화적
  */
 export async function crawlDanawaSearchListLite(
-  options: DanawaSearchOptions,
+  options: ExtendedSearchOptions,
   onProductFound?: (product: DanawaSearchListItem, index: number) => void,
   onHeaderParsed?: (header: { query: string; totalCount: number; searchUrl: string; filters?: DanawaFilterSection[] }) => void
 ): Promise<DanawaSearchListResponse> {
