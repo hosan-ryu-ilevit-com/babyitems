@@ -1,29 +1,28 @@
 # 전기포트 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T10:25:28.838Z
+> 마지막 업데이트: 2026-01-28T07:25:21.885Z
 > 분석 상품: 20개 | 분석 리뷰: 17,391개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 휴대성과 스마트 기능 강화 (2025년 기준 포터블 제품 수요 급증)
+- 소형화, 다기능성, 휴대성 강조 (포터블 제품 수요 증가)
+- 스마트 기능 (자동 보온/가열, 블루투스 통신 등)
 - 친환경 소재 사용 및 개인화된 경험 중시
-- 다기능성 (커피, 분유, 라면 등 다양한 용도 활용) 및 온도 조절 기능 강화
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 가성비
 - ✓ 빠른 가열 속도
-- ✓ 간편한 사용 편의성
+- ✓ 간편한 사용성
 - ✓ 다양한 온도 조절 기능
-- ✓ 긴 보온 시간
-- ✓ 세척 용이성
-- ✓ 세련된 디자인
+- ✓ 세척 편의성
+- ✓ 위생적인 소재 (스테인리스, 유리)
 
 ### 주의해야 할 단점
-- ⚠ 낮은 내구성 (플라스틱 소재)
-- ⚠ 화상 위험 (스테인리스, 유리 소재)
-- ⚠ 환경호르몬 우려 (일부 플라스틱 소재)
-- ⚠ 휴대 시 무게감 (대용량 제품)
+- ⚠ 플라스틱 소재의 내구성 및 환경 호르몬 우려
+- ⚠ 유리 소재의 낮은 내구성 및 화상 위험
+- ⚠ 스테인리스 소재의 높은 표면 온도
+- ⚠ 일부 저가 제품의 낮은 품질
 
 ### 가격대 인사이트
 
@@ -245,7 +244,8 @@
 ---
 
 ## 📊 데이터 출처
-- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEiKAaXbcIPvJPgIJXzMcoZvOFqc8KdgP_qvQFgCyBQviyvOIvTu3wijsHYrvQ2v6Etd51pt7l1_mtS7-iEWYwIGXWOrJ94G1joFwpbUuHneEEcMAH_QAVYMNir9fgrBCR4dq96RvhycpmSV3M2y6SYhDYzxtn934=)
-- [volvocars.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBno0a3mkdt-fDNLFTzT8m4tkt0B17TezdEpc2eO7Ks2ZryWZabS6fp7RAXO6TGJtY2lyZNWKCaurURa8OHt0kpJuH9qcKR7S5kGlNrNH2aMyEdYCUoOUrLAIXQvlMNyKK_IbtJ6SdQ14z4wY_1B5UCWiZAw==)
-- [newstap.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKyoAF0SJst971Vb2DmxcojOEOVSDk3TFWkDaayx4y5HsJjjpj1MAkE76XigutHn66KcKF80YCx-eHs4z4wRCyAem3P6mMXHsXm7SwAXaOJ2BmZJ4liU602sOMxEwA2UZs1d6BhPmO_AifBmkqujhTEAWJdU3hug==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtS1bxl7tYEUsKP9LSwUryh4LgSmxEA0S_2tuklQjm9xlP5Dv1TKhQeKbJc0-ipZx8nTO_qlJRndOkLMpgu0TrU6x03C__mt8p3Uu81ovFjLfMQqhxrSRHb5cEZhLjBHCsuNAGDIk=)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF76lRY-BPstkD9k6TkxUsm9WMYi0nwn4gqgZ-ORYw5UV8k1a8NaXdvm7LpbUHbz3H772PAQF7Wa_66IF5_io8Vwhxa_Cx05x95n0-wV6F8VJONVFwPZ_l6wvlOwk9Giwhn7lHHX3Q3LBSV2YIZRVLhgYc7jksDOQ==)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBNx8a2VNy05PYIdY0bLB3E20IEb8F6HNcafbKHSvibsARdu4WdS_mz6MW0znIX4moBn3bkIGIfeVJ3_rb4N6C6ZPEmFqtUA4E2Y9SjhvajSnf67-TlLhEEelfp5vZ9k02-r3fVqZeTBsRkfkKVsqQqnTXT4ILIs70Y_eHSez8wNIBokmIq2oE4aXtQeEN25pFeks0oqABiwxj6y1t_Zv_7mpCIhyQ_3TH)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTCs3zOi1aIFRBWkrFcw8qc0hlM5Po9s1P_3DnAyk1pscCZ8jX2Vi3161LX0K9vxvTQXQr-Rq3XhrCT6oxmnYhy_CBa52kb32N31bNPySH7zDV4pvksk65v6jui7Mez6jYXLyH_wjdtBelAL7SbLVd8GQFX1Z_NsMScneZ-CQ4oRBC_HLNG2Xkpfx5vkyL7pkgR4oBnn7OgTOUXdpmzw1z-ZPOxb0TAdjmUQ==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-GGRM4rQ9BJXBE4IXKFYChq7l95JxOgPKLF2YyVyfWTZyrtUao_GEBwJGkQT2oFw0cHPkjTo5GzwCb-XcFSAKPGJb-0CAbWgsRggOVmxmI4DTpnuNICmVLVCETWNCM55uN6QqYT0=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpfy1FLYRwBR5V9H8vKK-X8hIaV6DBzi1PIsQ557xMX0QhExCO0My3m7iMPLVgy_U1FPcJS3peWOrLFvJspLmvG6EoWUK96ViszogAsdaMmCY5_7hCECeld6KCq1IywpNx5VvWwgs=)

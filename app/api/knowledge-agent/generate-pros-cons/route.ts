@@ -12,7 +12,7 @@ export const maxDuration = 30;
 const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
 const ai = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
 
-const PROS_CONS_MODEL = 'gemini-2.5-flash-lite';
+const PROS_CONS_MODEL = 'gemini-3-flash-preview';
 
 interface ReviewLite {
   content: string;

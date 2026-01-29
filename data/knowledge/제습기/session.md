@@ -1,5 +1,5 @@
-# 세션: 20260123_084524_buy5
-> 시작: 2026-01-23T08:45:24.386Z
+# 세션: 20260128_075122_s889
+> 시작: 2026-01-28T07:51:22.225Z
 > 카테고리키: 제습기
 > 카테고리: 제습기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 제습기 시장 현황
-- 인사이트: 제습기 시장은 기후 변화와 길어지는 장마철로 인해 수요가 꾸준히 증가하고 있으며, 특히 25평형 모델이 가장 인기가 많습니다. 최근에는 30평형 이상의 대형 모델 판매량도 급증하는 추세입니다. 제습기는 에어컨에 비해 전기 요금 부담이 적고, 습도를 낮춰 쾌적함을 높여주며, 빨래 건조 등 다용도로 활용될 수 있다는 장점이 있습니다. 하지만 일부 제품은 광고된 제습량과 실제 성능이 차이가 나거나, 소음이 발생할 수 있다는 단점도 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCyKhqk2SBkrn05X4b2agNBhfom6KgDWD158zHUusFF3Y9HeEV1gT2LMJ3cgIJ2vYU6xrXO1ngsZxYc-poOAJOmWZeBKGpv3RdFf9cMsWZuDhP4UlfHN2RtsbX4wxWMgTxqhlLr4w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5yrO8uusXH_jhdc4AhmMxeIIV7TA1rFY7RYL4aPyprCm-F7G0vtGttvrW-GDBW80lhWUMimMWlQcDI4rYWk2xSsMlSTzFtGOMp1CsU17BkV526GhQ4iJC3uXzK0IcsLAVo0E5h0IDxdTCASbPmLYGgYBUjnQGO9Tn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqiTXFWIncNqj5-PgCuH2vxclnhDc8fOxNww9GWDbfBSddMxaWd5ccbZEnGJCEflqtlCY9HGEyBFBOic4QaMSvvTjblridTHgE-8SSOJJBs_KcEnayCj_B1-psihP77w-zu9iRc7v1vgRVe1yxV8eA4JUiLwfuDPze8nqgEB7TFImatCCNcS0sBX3Pw7mF_DNDVKmDhFfBOwaXdkj4910tnV1jP0NIDBqUCXh7ibKbJA7n01HULqo9CmaY-sOPCVcwmx4iX0eVALPv9IrlXD5WVfz4pZlkd3s0ijkiHaA9GOB4MHGPP0edZZ5eXKsHdWQydBqjVZLHBRoZ_wvY9Jsx0pojPxmCMrn4-E0Si9REObgUKoW4kiokb-VUaohsclwTozMLte-Hnduojv35e48OYsm4QHxz-lU2aZoiYvRdE1IXLhpp8DVGN4ewj7mbxg-_Cw==
+- 인사이트: 제습기 시장은 여름철 장마와 습한 기후로 인해 수요가 꾸준히 증가하고 있으며, 특히 25평형 모델이 시장 점유율 1위를 차지하고 있습니다. 최근에는 중대형 주거 공간을 겨냥한 30평형 모델의 약진이 두드러지고 있습니다. 제습기 시장 규모는 2026년 3.9억 달러에서 2031년 55.3억 달러까지 성장할 것으로 전망되며, 연평균 성장률은 7.21%에 달할 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCr9IhJYCB-Ejv2Q2enLIgSLiXgP3vzNNmXcdAbUd_lJzcDcCcCoLl2aUuBwM8ZMih_A8ITZwJNHXEJiL-PTEoORUrPG8dFNRXgkO9iX7g0C3A9FlpbTibEkQdrKmlYA49kEA1NLGk-ebCtRrmiF2ybmAXRlwk3jhWuxe4jENd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUc5bK-PeHfycFdzCJJUXeoNyO6M81d0vipRbCzDJ6p29KoUmV2SlhN6PmeQR4Yz3EMevkhoDCC92CdOKw4b0h42oBmrKviOnxdroFxcFE9oC6iBV9QLKIFSJRaV0i1S5Tm4NqkUhSSUaXl4Wexapuwa92Pu9Ka3hGXri2AMYoCcQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFk6zquwn13-oQIXO_KE8uLgE9jdA7TVN1hmoxXEXXAofTZxAlL4LsMyMnaEUVopmpQceRMzA5eu5h9yMr2gX4KH-sxDJHW12hA3KE2zXLMi1sVMfjmnZdN2IKpCPTnCVax6FRzm1TcXF9DZsV35DbOZ4gz6ayRSg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2kaWIMK6b1jLUw6s8IJY70bpIazlU_K4aPJA6NhEdDjmyOrx3qT253RvTn9kdqsOweV_9m-Bpjq66ojgjKK_h-c0N6ua4VoXgJwD-A3DIWxEXJKqgN83FYsps7IE53srkFrJmE6J-95ECLPqHrXP9bupMHtcsc6p6, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5vqwbSK_TT_vprVMuk73AKFytKVEAonGYKRqQHl6_2llrlKoTP02kVqwbFG63NPSHEMqlUWwAbdThU2mAyOiI_OKNXt-ysTVJM4WCk13ZYCNux2LDHsqObASwp3gjC-JWnRtDdfM=
 
 ---
 
@@ -16,18 +16,17 @@
 
 | 항목 | 답변 |
 |------|------|
-| 제습기를 주로 사용하실 공간의 크기는 어느 정도인가요? | 10평 미만 (방 1~2개) |
-| 제습기를 사용하시려는 주된 목적은 무엇인가요? | 빨래 건조 보조, 일상적인 습도 관리 |
-| 제습기를 주로 어느 공간에서, 언제 사용하실 예정인가요? | 침실 등 조용한 곳에서 주로 사용 |
-| 선호하시는 제조사가 있으신가요? | 샤오미, 삼성전자, LG전자 |
-| 예산은 어느 정도로 생각하세요? (평균 약 45만원, 24만원~58만원대가 가장 많아요) | 24만원 이하 |
-| __avoid_negatives__ | 광고에서 본 것만큼 제습 성능이 좋지 않으면 빨래 건조 보조나 습도 관리에 효과가 없을까 봐 염려돼요.,물통을 너무 자주 비워야 하면 일상적인 습도 관리 중에 번거로움을 느낄 것 같아요. |
+| 사용하시려는 공간의 크기는 어느 정도인가요? | 10평 미만 |
+| 하루에 어느 정도의 제습량을 원하시나요? | 10L 이하, 10L ~ 15L |
+| 물통 용량이나 물 비움 방식에 대한 선호도가 있으신가요? | 4~7L, 상관없어요 |
+| 선호하시는 제습기 제조사가 있으신가요? | 삼성전자, 위닉스 |
+| 예산은 어느 정도로 생각하세요? (평균 약 29만원, 17만원~38만원대가 가장 많아요) | 17만원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 101개 (전체 101개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. LG전자 휘센 DQ205PSVA - 370,440원 - ⭐4.8
@@ -61,8 +60,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 광고에서 본 것만큼 제습 성능이 좋지 않으면 빨래 건조 보조나 습도 관리에 효과가 없을까 봐 염려돼요.
-- 물통을 너무 자주 비워야 하면 일상적인 습도 관리 중에 번거로움을 느낄 것 같아요.
+(아직 선택 없음)
 
 ---
 

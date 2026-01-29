@@ -2239,6 +2239,8 @@ export async function POST(request: NextRequest) {
         // 🔧 product-analysis API 호환성 (highlights, concerns도 같이 전달)
         highlights: prosCons?.pros || [],
         concerns: prosCons?.cons || [],
+        // 🔧 oneLiner: product-analysis API에서 생성 (fallback은 브랜드+제품명)
+        oneLiner: rec.oneLiner || (rec.product ? `✨ ${rec.product.brand} ${rec.product.name?.slice(0, 30)}` : ''),
       };
     });
 

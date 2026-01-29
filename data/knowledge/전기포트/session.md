@@ -1,5 +1,5 @@
-# 세션: 20260123_102533_3w3d
-> 시작: 2026-01-23T10:25:33.126Z
+# 세션: 20260128_072528_rsr8
+> 시작: 2026-01-28T07:25:28.010Z
 > 카테고리키: 전기포트
 > 카테고리: 전기포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전기포트 시장 현황
-- 인사이트: 전기포트는 1~2L 용량 제품이 시장의 97%를 차지하며 가장 높은 점유율을 보입니다. 소비전력은 1000W~2500W 사이의 제품들이 고르게 분포되어 있으며, 스테인리스 소재가 가장 선호되는 재질입니다. 무선 전기포트가 98% 이상을 차지하며 압도적인 인기를 누리고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEiKAaXbcIPvJPgIJXzMcoZvOFqc8KdgP_qvQFgCyBQviyvOIvTu3wijsHYrvQ2v6Etd51pt7l1_mtS7-iEWYwIGXWOrJ94G1joFwpbUuHneEEcMAH_QAVYMNir9fgrBCR4dq96RvhycpmSV3M2y6SYhDYzxtn934=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBno0a3mkdt-fDNLFTzT8m4tkt0B17TezdEpc2eO7Ks2ZryWZabS6fp7RAXO6TGJtY2lyZNWKCaurURa8OHt0kpJuH9qcKR7S5kGlNrNH2aMyEdYCUoOUrLAIXQvlMNyKK_IbtJ6SdQ14z4wY_1B5UCWiZAw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKyoAF0SJst971Vb2DmxcojOEOVSDk3TFWkDaayx4y5HsJjjpj1MAkE76XigutHn66KcKF80YCx-eHs4z4wRCyAem3P6mMXHsXm7SwAXaOJ2BmZJ4liU602sOMxEwA2UZs1d6BhPmO_AifBmkqujhTEAWJdU3hug==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtS1bxl7tYEUsKP9LSwUryh4LgSmxEA0S_2tuklQjm9xlP5Dv1TKhQeKbJc0-ipZx8nTO_qlJRndOkLMpgu0TrU6x03C__mt8p3Uu81ovFjLfMQqhxrSRHb5cEZhLjBHCsuNAGDIk=
+- 인사이트: 전기포트 시장은 1~2L 용량 제품이 97%를 차지하며 대중적으로 사용되고 있습니다. 키친아트, 테팔, 필립스 등의 제조사가 시장 점유율을 높이고 있으며, 특히 1인 가구 증가와 캠핑 등 야외 활동 증가로 인해 간편하게 조리할 수 있는 멀티포트와 휴대용 포터블 제품의 수요가 늘고 있습니다. 또한, 스마트 기능(자동 보온/가열)과 친환경 소재 사용이 트렌드로 부상하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF76lRY-BPstkD9k6TkxUsm9WMYi0nwn4gqgZ-ORYw5UV8k1a8NaXdvm7LpbUHbz3H772PAQF7Wa_66IF5_io8Vwhxa_Cx05x95n0-wV6F8VJONVFwPZ_l6wvlOwk9Giwhn7lHHX3Q3LBSV2YIZRVLhgYc7jksDOQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBNx8a2VNy05PYIdY0bLB3E20IEb8F6HNcafbKHSvibsARdu4WdS_mz6MW0znIX4moBn3bkIGIfeVJ3_rb4N6C6ZPEmFqtUA4E2Y9SjhvajSnf67-TlLhEEelfp5vZ9k02-r3fVqZeTBsRkfkKVsqQqnTXT4ILIs70Y_eHSez8wNIBokmIq2oE4aXtQeEN25pFeks0oqABiwxj6y1t_Zv_7mpCIhyQ_3TH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTCs3zOi1aIFRBWkrFcw8qc0hlM5Po9s1P_3DnAyk1pscCZ8jX2Vi3161LX0K9vxvTQXQr-Rq3XhrCT6oxmnYhy_CBa52kb32N31bNPySH7zDV4pvksk65v6jui7Mez6jYXLyH_wjdtBelAL7SbLVd8GQFX1Z_NsMScneZ-CQ4oRBC_HLNG2Xkpfx5vkyL7pkgR4oBnn7OgTOUXdpmzw1z-ZPOxb0TAdjmUQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-GGRM4rQ9BJXBE4IXKFYChq7l95JxOgPKLF2YyVyfWTZyrtUao_GEBwJGkQT2oFw0cHPkjTo5GzwCb-XcFSAKPGJb-0CAbWgsRggOVmxmI4DTpnuNICmVLVCETWNCM55uN6QqYT0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpfy1FLYRwBR5V9H8vKK-X8hIaV6DBzi1PIsQ557xMX0QhExCO0My3m7iMPLVgy_U1FPcJS3peWOrLFvJspLmvG6EoWUK96ViszogAsdaMmCY5_7hCECeld6KCq1IywpNx5VvWwgs=
 
 ---
 
@@ -16,18 +16,16 @@
 
 | 항목 | 답변 |
 |------|------|
-| 전기포트, 어느 정도 용량이 필요하신가요? | 1L ~ 2L |
-| 어떤 재질의 전기포트를 선호하시나요? | 스테인리스 |
-| 특별히 선호하시는 전기포트 브랜드가 있으신가요? | 필립스, 신일전자 |
-| 온도 조절이나 보온 기능 등 특별히 원하는 부가 기능이 있으신가요? | 보온 기능, 다기능 |
+| 몇 분이서 주로 사용하시나요? 사용 인원에 따라 적절한 용량이 달라져요. | 1인 가구 |
+| 물 온도 조절 기능이 필요하신가요? 특정 온도로 물을 유지해야 할 때 유용해요. | 필요해요 |
+| 선호하는 전기포트 브랜드가 있으신가요? | 상관없어요 |
 | 예산은 어느 정도로 생각하세요? (평균 5만 4천원, 3만원~7만원대가 가장 많아요) | 3만원 ~ 7만원대 |
-| __avoid_negatives__ | 스테인리스 소재라 뜨거운 물을 따를 때 손이 데일까 봐 조심스러워요.,1L~2L 용량이라 물을 가득 채우면 들고 옮기기 무거울 것 같아요. |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 108개 (전체 108개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
 1. 신일전자 SEP-WH17KP - 28,900원 - ⭐5
@@ -61,8 +59,7 @@
 
 ## 🚫 피하고 싶은 단점
 
-- 스테인리스 소재라 뜨거운 물을 따를 때 손이 데일까 봐 조심스러워요.
-- 1L~2L 용량이라 물을 가득 채우면 들고 옮기기 무거울 것 같아요.
+(아직 선택 없음)
 
 ---
 

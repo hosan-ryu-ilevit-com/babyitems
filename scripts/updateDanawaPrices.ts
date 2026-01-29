@@ -1,12 +1,14 @@
 /**
  * 다나와 가격 배치 업데이트 스크립트
- * 
+ *
  * 용도: 주 1회 실행하여 모든 상품 가격 정보 업데이트
- * 
+ *
+ * 데이터 소스: knowledge_products_cache 테이블 → danawa_prices 테이블
+ *
  * 실행 방법:
  *   npx tsx scripts/updateDanawaPrices.ts
  *   npx tsx scripts/updateDanawaPrices.ts --limit 100    # 100개만 테스트
- *   npx tsx scripts/updateDanawaPrices.ts --category 16349219  # 특정 카테고리만
+ *   npx tsx scripts/updateDanawaPrices.ts --category 유모차  # 특정 카테고리만 (query 값)
  *   npx tsx scripts/updateDanawaPrices.ts --dry-run      # DB 저장 없이 테스트
  *   npx tsx scripts/updateDanawaPrices.ts --resume       # 미완료 상품만 처리 (이어하기)
  */
@@ -85,8 +87,8 @@ function parseArgs(): Options {
 
 interface ProductRow {
   pcode: string;
-  title: string;
-  category_code: string | null;
+  name: string;
+  query: string | null;
 }
 
 async function fetchProducts(options: Options): Promise<ProductRow[]> {
@@ -97,13 +99,13 @@ async function fetchProducts(options: Options): Promise<ProductRow[]> {
 
   while (hasMore) {
     let query = supabase
-      .from('danawa_products')
-      .select('pcode, title, category_code')
-      .order('rank', { ascending: true })
+      .from('knowledge_products_cache')
+      .select('pcode, name, query')
+      .order('pcode', { ascending: true })
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
     if (options.category) {
-      query = query.eq('category_code', options.category);
+      query = query.eq('query', options.category);
     }
 
     const { data, error } = await query;
@@ -234,7 +236,7 @@ async function updateDanawaPrices(options: Options): Promise<void> {
     const product = products[i];
     const progress = `[${i + 1}/${stats.total}]`;
 
-    console.log(`\n${progress} 📦 ${product.title}`);
+    console.log(`\n${progress} 📦 ${product.name}`);
     console.log(`   pcode: ${product.pcode}`);
 
     try {

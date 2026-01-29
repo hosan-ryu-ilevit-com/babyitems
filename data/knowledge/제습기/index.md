@@ -1,27 +1,27 @@
 # 제습기 전문가 지식
 
-> 마지막 업데이트: 2026-01-23T08:45:16.399Z
-> 분석 상품: 20개 | 분석 리뷰: 11,603개
+> 마지막 업데이트: 2026-01-28T07:51:15.241Z
+> 분석 상품: 20개 | 분석 리뷰: 17,710개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 대형 평형 모델 수요 증가
-- 다기능 결합 제품 등장
-- 에너지 효율 및 제습 효율 중요성 증대
+- 중대형 평형(30평형 이상) 모델 수요 증가
+- 기후 변화로 인한 여름철 제습기 필수 가전화
+- 공기청정기, 에어컨 등 복합 기능 가전의 등장으로 인한 경쟁 심화
 
 ### 구매자 만족 포인트
-- ✓ 높은 제습 성능
-- ✓ 에너지 효율
-- ✓ 빨래 건조 활용
-- ✓ 이동성
-- ✓ 가성비
+- ✓ 합리적인 가격
+- ✓ 적은 전기 요금 부담
+- ✓ 뛰어난 제습 성능
+- ✓ 쾌적한 실내 환경 조성
+- ✓ 가성비 우수
 
 ### 주의해야 할 단점
-- ⚠ 소음 발생
-- ⚠ 광고 대비 낮은 제습량
-- ⚠ 물통 자주 비워야 함
-- ⚠ 열 발생
+- ⚠ 미니 제습기의 낮은 제습 성능
+- ⚠ 작은 물통 용량으로 인한 잦은 물 비움
+- ⚠ 소음 발생 가능성
+- ⚠ 제습 기능이 포함된 타 가전과의 경쟁
 
 ### 가격대 인사이트
 
@@ -90,27 +90,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20294234)
 
-### 7. 나우이엘 NED-040P 전용 습도센서 NED-5002
-- **브랜드**: 나우이엘
-- **가격**: 34,100원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 제습기액세서리 / 습도센서 / 적용모델: NED-040P 제습기액세서리 / 적용모델: NED-040P
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=92624174)
-
-### 8. 신일전자 SDH-BPM1900
-- **브랜드**: 신일전자
-- **가격**: 1,970,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 제습기 / 일일제습량 / 190L / 자동배수(펌프형) / 연속배수 / 만수알림 / 성에제거 / 습도표시 / 습도자동조절 / 소비전력 / 2350W / 타이머
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=81751184)
-
-### 9. 신일전자 SDH-S530IF
+### 7. 신일전자 SDH-S530IF
 - **브랜드**: 신일전자
 - **가격**: 242,000원
 - **평점**: ⭐5 (4개 리뷰)
@@ -120,7 +100,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=91635197)
 
-### 10. LG전자 오브제컬렉션 DQ185MWGA
+### 8. LG전자 오브제컬렉션 DQ185MWGA
 - **브랜드**: LG전자
 - **가격**: 420,632원
 - **평점**: ⭐4.9 (362개 리뷰)
@@ -130,17 +110,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=88233119)
 
-### 11. 롯데알미늄 LDH-7000N
-- **브랜드**: 롯데알미늄
-- **가격**: 189,000원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 제습기 / 일일제습량 / 8L / 에너지등급 / 3등급 / 연속배수 / 만수알림 / 성에제거 / 습도표시 / 습도자동조절 / 34㎡(10평) / 제습효율 / 2.04 / 소비전력 / 178W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=92687315)
-
-### 12. FROKOM JDH-1300
+### 9. FROKOM JDH-1300
 - **브랜드**: FROKOM
 - **가격**: 143,340원
 - **평점**: ⭐5 (10개 리뷰)
@@ -150,7 +120,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93700421)
 
-### 13. 신일전자 SDH-S167IM
+### 10. 신일전자 SDH-S167IM
 - **브랜드**: 신일전자
 - **가격**: 177,300원
 - **평점**: ⭐4.6 (140개 리뷰)
@@ -160,7 +130,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=54327542)
 
-### 14. LG전자 오브제컬렉션 DQ214MEGA
+### 11. LG전자 오브제컬렉션 DQ214MEGA
 - **브랜드**: LG전자
 - **가격**: 513,779원
 - **평점**: ⭐4.9 (1,303개 리뷰)
@@ -170,7 +140,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=60009944)
 
-### 15. LG전자 휘센 DQ205PBBC
+### 12. LG전자 휘센 DQ205PBBC
 - **브랜드**: LG전자
 - **가격**: 376,800원
 - **평점**: ⭐4.8 (905개 리뷰)
@@ -180,17 +150,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=77015969)
 
-### 16. 한일전기 울트라 HDI-25000SW
-- **브랜드**: 한일전기
-- **가격**: 2,185,500원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 제습기 / 일일제습량 / 250L / 풍량조절 / 성에제거 / 습도표시 / 소비전력 / 2350W / 타이머
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=27674531)
-
-### 17. 신일전자 SDH-M06KP
+### 13. 신일전자 SDH-M06KP
 - **브랜드**: 신일전자
 - **가격**: 166,500원
 - **평점**: ⭐4.6 (30개 리뷰)
@@ -200,17 +160,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=14419739)
 
-### 18. RichMagic QM-CS10E
-- **브랜드**: RichMagic
-- **가격**: 59,850원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 제습기 / 연속배수 / 만수알림 / 성에제거 / 습도표시 / 30㎡(9평) / 소비전력 / 90W / 수위표시 / 타이머
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=91909202)
-
-### 19. 오아 보아르 모아 M1000 VO-DH002
+### 14. 오아 보아르 모아 M1000 VO-DH002
 - **브랜드**: 오아
 - **가격**: 89,100원
 - **평점**: ⭐4.4 (1,024개 리뷰)
@@ -220,7 +170,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=7566328)
 
-### 20. 보본 VB-DH3000W
+### 15. 보본 VB-DH3000W
 - **브랜드**: 보본
 - **가격**: 82,720원
 - **평점**: ⭐4.7 (362개 리뷰)
@@ -229,6 +179,56 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=47839814)
+
+### 16. 삼성전자 AY18CG7500GND
+- **브랜드**: 삼성전자
+- **가격**: 399,760원
+- **평점**: ⭐4.9 (740개 리뷰)
+- **핵심 스펙**: 제습기 / 일일제습량 / 18L / 에너지등급 / 1등급 / 인버터 / 만수알림 / 성에제거 / 습도표시 / 습도자동조절 / 제습효율 / 2.81 / 소비전력 / 280W / 수위표시
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=19970894)
+
+### 17. 캐리어 CDHC-080AONWOYH
+- **브랜드**: 캐리어
+- **가격**: 136,721원
+- **평점**: ⭐4.6 (128개 리뷰)
+- **핵심 스펙**: 제습기 / 일일제습량 / 8L / 에너지등급 / 3등급 / 연속배수 / 풍량조절 / 만수알림 / 습도표시 / 습도자동조절 / 33㎡(10평) / 제습효율 / 1.77 / 소비전력 / 190W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=55800935)
+
+### 18. 위닉스 뽀송 DXWE210-NGK
+- **브랜드**: 위닉스
+- **가격**: 409,170원
+- **평점**: ⭐4.8 (1,141개 리뷰)
+- **핵심 스펙**: 제습기 / 일일제습량 / 21L / 에너지등급 / 1등급 / 인버터 / 연속배수 / 풍량조절 / 만수알림 / 성에제거 / 습도표시 / 습도자동조절 / 내부건조 / 91㎡(27평) / 제습효율
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=43491230)
+
+### 19. 위닉스 뽀송 DO2E160-JWK
+- **브랜드**: 위닉스
+- **가격**: 317,410원
+- **평점**: ⭐4.7 (4,079개 리뷰)
+- **핵심 스펙**: 제습기 / 일일제습량 / 16L / 에너지등급 / 1등급 / 연속배수 / 풍량조절 / 만수알림 / 성에제거 / 습도표시 / 습도자동조절 / 공기청정 / 70.7㎡(21평) / 제습효율 / 2.62
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12016142)
+
+### 20. 도어스코리아 홈리아 에어라이트 HA-02DH
+- **브랜드**: 도어스코리아
+- **가격**: 53,820원
+- **평점**: ⭐4.3 (19개 리뷰)
+- **핵심 스펙**: 제습기 / 일일제습량 / 0.5L / 만수알림 / 20㎡(6평) / 소비전력 / 50W / 수위표시
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=57294872)
 
 ---
 
@@ -243,6 +243,8 @@
 ---
 
 ## 📊 데이터 출처
-- [zdnet.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCyKhqk2SBkrn05X4b2agNBhfom6KgDWD158zHUusFF3Y9HeEV1gT2LMJ3cgIJ2vYU6xrXO1ngsZxYc-poOAJOmWZeBKGpv3RdFf9cMsWZuDhP4UlfHN2RtsbX4wxWMgTxqhlLr4w=)
-- [newsworks.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5yrO8uusXH_jhdc4AhmMxeIIV7TA1rFY7RYL4aPyprCm-F7G0vtGttvrW-GDBW80lhWUMimMWlQcDI4rYWk2xSsMlSTzFtGOMp1CsU17BkV526GhQ4iJC3uXzK0IcsLAVo0E5h0IDxdTCASbPmLYGgYBUjnQGO9Tn)
-- [zum.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqiTXFWIncNqj5-PgCuH2vxclnhDc8fOxNww9GWDbfBSddMxaWd5ccbZEnGJCEflqtlCY9HGEyBFBOic4QaMSvvTjblridTHgE-8SSOJJBs_KcEnayCj_B1-psihP77w-zu9iRc7v1vgRVe1yxV8eA4JUiLwfuDPze8nqgEB7TFImatCCNcS0sBX3Pw7mF_DNDVKmDhFfBOwaXdkj4910tnV1jP0NIDBqUCXh7ibKbJA7n01HULqo9CmaY-sOPCVcwmx4iX0eVALPv9IrlXD5WVfz4pZlkd3s0ijkiHaA9GOB4MHGPP0edZZ5eXKsHdWQydBqjVZLHBRoZ_wvY9Jsx0pojPxmCMrn4-E0Si9REObgUKoW4kiokb-VUaohsclwTozMLte-Hnduojv35e48OYsm4QHxz-lU2aZoiYvRdE1IXLhpp8DVGN4ewj7mbxg-_Cw==)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCr9IhJYCB-Ejv2Q2enLIgSLiXgP3vzNNmXcdAbUd_lJzcDcCcCoLl2aUuBwM8ZMih_A8ITZwJNHXEJiL-PTEoORUrPG8dFNRXgkO9iX7g0C3A9FlpbTibEkQdrKmlYA49kEA1NLGk-ebCtRrmiF2ybmAXRlwk3jhWuxe4jENd)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUc5bK-PeHfycFdzCJJUXeoNyO6M81d0vipRbCzDJ6p29KoUmV2SlhN6PmeQR4Yz3EMevkhoDCC92CdOKw4b0h42oBmrKviOnxdroFxcFE9oC6iBV9QLKIFSJRaV0i1S5Tm4NqkUhSSUaXl4Wexapuwa92Pu9Ka3hGXri2AMYoCcQ=)
+- [lge.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFk6zquwn13-oQIXO_KE8uLgE9jdA7TVN1hmoxXEXXAofTZxAlL4LsMyMnaEUVopmpQceRMzA5eu5h9yMr2gX4KH-sxDJHW12hA3KE2zXLMi1sVMfjmnZdN2IKpCPTnCVax6FRzm1TcXF9DZsV35DbOZ4gz6ayRSg==)
+- [newsworks.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2kaWIMK6b1jLUw6s8IJY70bpIazlU_K4aPJA6NhEdDjmyOrx3qT253RvTn9kdqsOweV_9m-Bpjq66ojgjKK_h-c0N6ua4VoXgJwD-A3DIWxEXJKqgN83FYsps7IE53srkFrJmE6J-95ECLPqHrXP9bupMHtcsc6p6)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5vqwbSK_TT_vprVMuk73AKFytKVEAonGYKRqQHl6_2llrlKoTP02kVqwbFG63NPSHEMqlUWwAbdThU2mAyOiI_OKNXt-ysTVJM4WCk13ZYCNux2LDHsqObASwp3gjC-JWnRtDdfM=)

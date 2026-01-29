@@ -93,7 +93,7 @@ export default function Home() {
               className="text-gray-600"
               style={{ fontSize: '16px', lineHeight: '1.4', marginTop: '16px', fontFamily: 'Abel', fontWeight: 400 }}
             >
-              광고 없이 리뷰와 판매량만 분석해서<br />내게 딱 맞는 상품을 추천해요
+              광고 없이 리뷰와 판매량만 분석해서<br />딱 맞는 상품을 추천해드릴게요
             </p>
           </motion.div>
 
@@ -115,6 +115,21 @@ export default function Home() {
               />
               {/* 하단 그라데이션 오버레이 */}
               <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+            </div>
+          </motion.div>
+
+          {/* 안내 문구 배너 */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="w-full max-w-[380px] -mt-14 z-10"
+          >
+            <div className="flex items-center justify-center gap-2 px-1 py-2 bg-black/50 rounded-full">
+              <span className="text-white">ⓘ</span>
+              <span className="text-white text-sm font-medium">
+                올웨이즈 외 다양한 판매처의 아기용품을 추천해드려요
+              </span>
             </div>
           </motion.div>
         </main>

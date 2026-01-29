@@ -132,10 +132,9 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
     mallPrices: [],
     mallCount: 0,
   });
-  
+
   // reasoning을 두 부분으로 분리
-  const { oneLiner: splitOneLiner, personalReason: splitPersonalReason } = splitReasoning(product.reasoning);
-  const oneLiner = product.oneLiner || splitOneLiner;
+  const { personalReason: splitPersonalReason } = splitReasoning(product.reasoning);
   const personalReason = product.personalReason || splitPersonalReason;
 
   // 날짜 파싱 함수 (최신순 정렬용)
@@ -526,30 +525,6 @@ export function KnowledgePDPModal({ product, categoryKey, categoryName, onClose 
               )}
             </div>
           </div>
-
-          {/* 한줄 평 (One-liner) */}
-          {oneLiner && (
-            <div className="px-6 pb-4">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="p-6 rounded-[32px] bg-white border border-gray-100 shadow-sm relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] rounded-full" />
-                <div className="flex items-center gap-2.5 mb-4 relative z-10">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/ic-ai.svg" alt="" width={20} height={20} style={{ filter: 'sepia(1) saturate(3) hue-rotate(-10deg) brightness(1.1)' }} />
-                  <h4 className="text-[15px] font-black tracking-tight uppercase bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-                    한줄 평
-                  </h4>
-                </div>
-                <p className="text-[15px] text-gray-700 font-medium leading-[1.6] relative z-10">
-                  {oneLiner}
-                </p>
-              </motion.div>
-            </div>
-          )}
 
           {/* 추천 이유 (Personalized Reason) */}
           {personalReason && (

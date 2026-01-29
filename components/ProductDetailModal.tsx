@@ -887,45 +887,6 @@ export default function ProductDetailModal({ productData, category, categoryName
             </>
           )}
 
-          {/* 리뷰 한줄 평 (product-analysis에서 생성) - 기존 디자인 */}
-          {oneLiner && (
-            <div className="mx-4 mb-4 mt-3 bg-gray-50 rounded-2xl p-3">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-1.5">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/icons/ic-star.png" alt="" width={16} height={16} />
-                  <span className="text-[16px] font-semibold text-gray-800">
-                    한줄 요약
-                  </span>
-                </div>
-                {/* 전체보기 버튼 - 리뷰 탭으로 이동 */}
-                <button
-                  onClick={() => {
-                    setPriceTab('danawa_reviews');
-                    setTimeout(() => {
-                      reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 150);
-                  }}
-                  className="text-[13px] font-medium text-gray-500 hover:text-gray-700 underline decoration-gray-400 hover:decoration-gray-600 underline-offset-2 transition-colors"
-                >
-                  리뷰 전체보기
-                </button>
-              </div>
-              <p className="text-[15px] text-gray-800 leading-[1.6] font-medium">
-                {(() => {
-                  // 마크다운 볼드 파싱 (**text**)
-                  const parts = oneLiner.split(/(\*\*.*?\*\*)/g);
-                  return parts.map((part: string, index: number) => {
-                    if (part.startsWith('**') && part.endsWith('**')) {
-                      return <strong key={index} className="font-bold text-gray-800">{part.slice(2, -2)}</strong>;
-                    }
-                    return <span key={index}>{part}</span>;
-                  });
-                })()}
-              </p>
-            </div>
-          )}
-
         {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
         <div className="h-[10px] bg-gray-50 border-y border-gray-100" />
         <div ref={reviewTabRef}>

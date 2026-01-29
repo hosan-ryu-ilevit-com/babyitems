@@ -65,7 +65,7 @@ async function generateOneLinersWithLLM(
   }
 
   const model = ai.getGenerativeModel({
-    model: 'gemini-2.5-flash-lite',
+    model: 'gemini-3-flash-preview',
     generationConfig: {
       temperature: 0.7,
       maxOutputTokens: 2000,

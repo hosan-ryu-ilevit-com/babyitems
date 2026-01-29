@@ -5442,6 +5442,31 @@ function MessageBubble({
                           </a>
                         </div>
 
+                        {/* 한줄 평 */}
+                        {product.oneLiner && (
+                          <div className="bg-gray-50 rounded-2xl p-3">
+                            <div className="flex items-center gap-1.5 mb-2">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src="/icons/ic-star.png" alt="" width={16} height={16} />
+                              <span className="text-[15px] font-semibold text-gray-800">
+                                리뷰 한줄 요약
+                              </span>
+                            </div>
+                            <p className="text-[14px] text-gray-800 leading-[1.6] font-medium">
+                              {(() => {
+                                // 마크다운 볼드 파싱 (**text**)
+                                const parts = product.oneLiner.split(/(\*\*.*?\*\*)/g);
+                                return parts.map((part: string, index: number) => {
+                                  if (part.startsWith('**') && part.endsWith('**')) {
+                                    return <strong key={index} className="font-bold text-gray-800">{part.slice(2, -2)}</strong>;
+                                  }
+                                  return <span key={index}>{part}</span>;
+                                });
+                              })()}
+                            </p>
+                          </div>
+                        )}
+
                         {/* 요약 섹션 */}
                         <div className="space-y-4 mt-2">
                           {/* 🆕 조건 충족 태그 뱃지 */}

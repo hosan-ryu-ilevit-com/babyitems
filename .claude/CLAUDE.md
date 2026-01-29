@@ -100,7 +100,6 @@ babyitem_MVP/
     └── knowledge-agent/                            # Knowledge Agent 컴포넌트
         ├── AgenticLoadingPhase.tsx                 # 로딩 단계 UI
         ├── HardcutVisualization.tsx                # 후보 시각화
-        ├── KnowledgeAgentResultCarousel.tsx        # 결과 캐러셀
         └── ChatUIComponents.tsx                    # 채팅 UI
 ```
 
