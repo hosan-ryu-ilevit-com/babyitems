@@ -1,5 +1,5 @@
-# 세션: 20260127_110535_r4tm
-> 시작: 2026-01-27T11:05:35.783Z
+# 세션: 20260129_084554_bege
+> 시작: 2026-01-29T08:45:54.741Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 글로벌 기저귀 시장은 2025년 693억 3천만 달러에서 2030년 924억 7천만 달러로 연평균 5.93% 성장할 것으로 예상됩니다. 한국 기저귀 시장 역시 2024년 17억 달러에서 2033년 31억 달러로 연평균 6.1% 성장할 전망입니다. 저출생과 고령화로 인해 성인용 기저귀 시장이 유아용 기저귀 시장을 추월하는 등 시장 구조에 변화가 나타나고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-VE5E0ionhM2KBx_GqEEZA0GMajjzawLsb20WWR0bCygiaOu6biLEYPx1IqCVVOBzEPwdPHqkSbOy3hcRC0uxnH2kobohuEJnVoHTvcb19iFxX7YImMlma-exH6M4eNwgi861YcMpm_nFcldAAhX977fcsoGpG9DC7Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH1q0MOksF1ha6qg2iFyB0FoMdTDpFdIiCiSC11Rgp612jY_GZTQhnuVcqXIja4HlvyKtVwTycVlZaOY4Y9jkWfiZSS2igMsK7XyBoC-2Xjp8-ScgwDouhFV3kvhMsQvtBuPNZLga5_w33A-zzEJRk1EW9rIU3gJ9E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpnbEA8Mj6nJME2x0v0oNJ0S_sGkpE8XKZM4vihiAI-W0utLuRopr43OuR1qth_XURLcTO_BLOvgrnyKDM_H95L9ziDXQbxtJTw0tJ0So37AKTsV-6-TxWcxZa3hPizZ7ZKdASKthpj7g0Ek8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-SKFr993HBMc57SN0KYoAIsd0Ect7Ocq7pWz5rVR_UtBJ1OAaKxOagVyrHhJRuYrIbsP6Vr4USBohS3e65g5zSLijOAx5e_PFjn0_knuQ1HBLgtP5ETEw8lO0py1Y_F66HjYc1UPCGVk50U7co14HYL27HEKGmg0EFtusgSBmE2k1srmUk-fBnPZJDGRXWveUUI8y09dAGV0K_BSQfdZg8kFNgygMzq3bE5WYozqSA-xSJaaHxqZk1A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGa3FLk8x21wv71DEXhR2i6vwytXlwDyHhI7OmJhdP94EK6K_bcdeGFNglToJDfKnpT1O8es8QU9UqF26WjBRt0wZoX1RW1NE75W0f1SQgPVAuT5Q6M1r6gyKwwEJG3T-B3OhpfavoUF4bPqqhIgBLH6f0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeFLy7WVW4XC-9i52l1WZnRx60MlEAz_LfiBuoMKkKBObe-kI7Hj8iF3ZcRb199GIcQhAgg22FPQbwkZMBJuWireUzi20RhRKH0Edw5B8vtkV7ZpqbEiogsfQ4_10uf5qc3XhPBvfhuui2EJJaHzNHPpMKRcYwvGEY_6dR8yHO4y5YVO6nnAxxxZrPC-Gr7CwF8LAcZqNdpN-B6uq9_Sg_HpdKxW-eBYufjCCm6eJNVTetwmAI2HHZtzD29hufCYpery1NARpFKIcUb7yw1CDMWuTJtLINPg5BZE8vKhlj3IgUnMnx98pWyKzKAl8_nGmcft8ApysD1WgekzP3XxLubHcMNQOB58Egc97Pi8Y=
+- 인사이트: 한국 기저귀 시장은 2024년 약 17억 달러 규모로 추산되며, 저출산으로 인한 영유아 인구 감소와 고령화 사회 진입으로 성인용 기저귀 시장이 어린이용 시장을 추월하는 추세입니다. 하기스, 팸퍼스, 페넬로페 등이 인기 브랜드로 꼽히며, 소비자들은 가격 대비 성능, 흡수력, 피부 자극 등을 고려하여 제품을 선택합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGw_gKMwbOP5lfH4njzvt0SRv7uHWzrEjT3feH0l-LkCO_TEUEApW9jHRp1Zq_hKR77hz7mLsKKJzI_TpkCUUZkQDzTLUwnsEtDExgo0aVB0YxWCSJr_owW-ojbNjlWXxeLPE077BYrk5XfSRsNLZut9Mya_xzcRA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPFbFaw97yZUqAgCgAQOwzaMN_i0Utk3aLsd0BJf1m38FbwDFh-jLPv4Gpg-L8nTUbtMKyK0HTUiQxUWHz5vFEo3w9Dqmwb8Wja9sDoIrTrG9I0OjkNLE9X6W6wAJU96_Ll8Q0FvsfECRXZaG2WmsrANbunCXqTz-f858c, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHW8AP_5Gms1535vSvfH20he7Fhalp-zchn7IccGQRtsYe5tut4WfTdXlZ2Q3p9QCmfCUpKHLw6ZMn3sTanTiogsqEiRBpI72-6sRh5gIpZeNI0b0iJ20grkwSq6l4EtqlcvsPxgyJe_IC__uM4xHP9CQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5WE85L4oNSPa_f6afWaTZNjJeV69ZQcmtdwyLC52U7FRTbpb-YvelIUqjwemVmCw2kl0uVEY-u_4EhqD6uETHqAdd_n9I8t52D0-0IQNMHXOsIpP3KL0MG402-VJGlTB1Q0PmsKd1AXAfc7YW, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEt7HWlVZ0YGF1SsYP7cKXybZK-AG_oLHOWwNPrFDFPVT6B0Xb2S5xNvxt15lmNiwF66C5sPVHPXDI0VCCfV9fOnZtFfKkQK81MZEPzFQJM8cZsKdAPPIcHpoT-CqonBTSrITD9Q65_3Xpc4OUuuxqlbbARh3UuCNDsF2IOqkbBTa03IysAop2Wow==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEliH9dS77cwOHzB8_6-CG7zFvDGyoHdSg69iw6KZM1FoejpCSJxKJ4YD_9fwLn6yGDJTS9FHPVxC23fFrpLiHuaDCjIQCyQ-QRVxGmo6E20zfny9XDz1lyoV1-Da28_xBocyR33gfbHmAjAyK8wzWVyMX-
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 현재 몸무게는 어떻게 되나요? | 소형 (4~8kg), 중형 (6~11kg) |
-| 어떤 형태의 기저귀를 선호하시나요? | 팬티형 |
-| 기저귀 소재에 특별히 고려하는 점이 있으신가요? | 친환경/생분해성 소재 |
-| 혹시 선호하시는 기저귀 브랜드가 있으신가요? | 팸퍼스, 나비잠, 모모래빗 |
-| 예산은 어느 정도로 생각하세요? (평균 3만 7천원, 2만 1천원~4만 8천원대가 가장 많아요) | 4만 8천원 이상, 2만 1천원 ~ 4만 8천원대 |
+| 아기의 현재 몸무게는 어떻게 되나요? | 3kg 미만 (신생아) |
+| 흡수력은 어느 정도 수준을 중요하게 생각하시나요? | 강력 흡수력 |
+| 기저귀 소재는 어떤 점을 중요하게 생각하시나요? | 높은 통기성 |
+| 선호하는 기저귀 브랜드가 있으신가요? | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 3만 7천원, 2만 1천원 ~ 4만 8천원대가 가장 많아요) | 2만 1천원 ~ 4만 8천원대, 2만 1천원 이하 |
 
 ---
 

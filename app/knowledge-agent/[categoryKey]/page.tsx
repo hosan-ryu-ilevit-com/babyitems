@@ -1386,19 +1386,45 @@ export default function KnowledgeAgentPage() {
     if (tagId === '__all__') {
       // "모두" 선택 시 전체 해제
       setSelectedFilterTagIds(new Set());
+      // 로깅
+      import('@/lib/logging/clientLogger').then(({ logKAFilterTagToggle }) => {
+        logKAFilterTagToggle(
+          categoryKey || '',
+          categoryName || '',
+          '__all__',
+          '모두',
+          false
+        );
+      });
       return;
     }
 
     setSelectedFilterTagIds(prev => {
       const next = new Set(prev);
-      if (next.has(tagId)) {
-        next.delete(tagId);
-      } else {
+      const isEnabled = !next.has(tagId);
+      if (isEnabled) {
         next.add(tagId);
+      } else {
+        next.delete(tagId);
       }
+
+      // 로깅 추가
+      const tag = filterTags.find(t => t.id === tagId);
+      if (tag) {
+        import('@/lib/logging/clientLogger').then(({ logKAFilterTagToggle }) => {
+          logKAFilterTagToggle(
+            categoryKey || '',
+            categoryName || '',
+            tagId,
+            tag.label,
+            isEnabled
+          );
+        });
+      }
+
       return next;
     });
-  }, []);
+  }, [categoryKey, categoryName, filterTags]);
 
   // 🆕 태그 선택에 따른 필터링 + 정렬된 결과 제품 (tagScores 기반)
   const sortedResultProducts = useMemo(() => {
@@ -5298,12 +5324,12 @@ function MessageBubble({
                     return (
                       <div 
                         key={product.pcode || product.id || index} 
-                        className={`relative bg-white border-b border-gray-100 last:border-0 space-y-5 ${
-                          index === 0 ? 'pt-2 pb-6' : 'py-6'
-                        }`}
+                        className={`relative bg-white border-b border-gray-100 last:border-0 ${
+                          index === 0 ? 'pt-2 pb-[30px]' : 'py-[30px]'
+                        } space-y-2.5`}
                       >
                         <div
-                          className="flex gap-4 cursor-pointer"
+                          className="flex gap-4 cursor-pointer mb-3.5"
                           onClick={() => onProductClick(product, 'price')}
                         >
                           {/* 제품 썸네일 캐러셀 */}
@@ -5353,7 +5379,7 @@ function MessageBubble({
                         </div>
 
                         {/* 버튼 */}
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 mb-3.5">
                           <button
                             onClick={() => onProductClick(product, 'price')}
                             className="flex-1 h-[40px] rounded-[12px] border border-gray-200 bg-white text-[14px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
@@ -5406,7 +5432,7 @@ function MessageBubble({
                         )}
 
                         {/* 요약 섹션 */}
-                        <div className="space-y-4">
+                        <div className="space-y-2.5">
                           {/* 🆕 조건 충족 태그 뱃지 */}
                           {(() => {
                             const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
@@ -5428,7 +5454,7 @@ function MessageBubble({
                             });
 
                             return (
-                              <div className="flex flex-wrap gap-1.5 mt-1">
+                              <div className="flex flex-wrap gap-1.5">
                                 {sortedMatchedTags.map(tag => {
                                   const scoreData = tagScores[tag.id];
                                   const isFull = scoreData?.score === 'full';
@@ -5438,7 +5464,7 @@ function MessageBubble({
                                   return (
                                     <span
                                       key={tag.id}
-                                      className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[12px] font-medium transition-all ${
+                                      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[12px] font-medium transition-all ${
                                         isSelected
                                           ? 'ai-gradient-border text-[#6366F1]'
                                           : isFull
@@ -5446,8 +5472,6 @@ function MessageBubble({
                                             : 'bg-yellow-50 text-yellow-700'
                                       }`}
                                     >
-                                      {isFull && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : 'text-green-700'}`}>●</span>}
-                                      {isPartial && <span className={`text-[10px] ${isSelected ? 'text-[#6366F1]' : 'text-yellow-700'}`}>▲</span>}
                                       {tag.label}
                                     </span>
                                   );

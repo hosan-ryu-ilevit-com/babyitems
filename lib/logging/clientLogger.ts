@@ -2494,3 +2494,30 @@ export function logKAReviewSortChange(
     },
   });
 }
+
+/**
+ * KA 결과 페이지 상단 필터 태그 클릭 로깅
+ */
+export function logKAFilterTagToggle(
+  categoryKey: string,
+  categoryName: string,
+  tagId: string,
+  tagLabel: string,
+  isEnabled: boolean
+): void {
+  sendLogEvent('ka_filter_tag_toggle', {
+    page: 'ka-result',
+    buttonLabel: `필터 태그: ${tagLabel} (${isEnabled ? 'ON' : 'OFF'})`,
+    knowledgeAgentData: {
+      category: categoryKey,
+    },
+    metadata: {
+      categoryKey,
+      categoryName,
+      tagId,
+      tagLabel,
+      isEnabled,
+    },
+  });
+}
+
