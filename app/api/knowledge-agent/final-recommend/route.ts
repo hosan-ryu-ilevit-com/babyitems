@@ -373,7 +373,7 @@ async function generateFilterTags(
   collectedInfo: Record<string, string>,
   _balanceSelections: BalanceSelection[],  // 현재 미사용 (밸런스 게임 제거됨)
   _negativeSelections: string[],           // PLP 필터 태그에서 제외
-  _freeInputAnalysis?: FreeInputAnalysis | null  // TODO: 자유 입력도 태그화 필요시 활용
+  freeInputAnalysis?: FreeInputAnalysis | null  // 🆕 자유 입력 분석 결과도 태그로 변환
 ): Promise<FilterTag[]> {
   // 무의미한 답변 필터링 (입력 단계 - 완전히 의미 없는 응답만)
   const skipAnswers = ['상관없어요', 'skip', 'any', '', '기타', '없음', '모름', '잘 모르겠어요'];
@@ -540,6 +540,31 @@ ${conditionList}
           return true;
         });
 
+        // 🆕 자유 입력 분석 결과도 태그로 추가
+        if (freeInputAnalysis) {
+          const freeInputTags: FilterTag[] = [];
+          
+          // preferredAttributes를 태그로 변환
+          freeInputAnalysis.preferredAttributes.forEach((attr, i) => {
+            freeInputTags.push({
+              id: `tag_free_pref_${i + 1}`,
+              label: attr,
+              category: 'feature' as const,
+              keywords: [attr],
+              priority: tags.length + i + 1,
+              sourceType: 'collected' as const,
+              sourceQuestion: '마지막 자유 입력',
+              sourceAnswer: attr,
+              originalCondition: `자유 입력: ${attr}`,
+            });
+          });
+
+          if (freeInputTags.length > 0) {
+            console.log(`[FilterTags] 🆕 자유 입력에서 ${freeInputTags.length}개 태그 추가: ${freeInputTags.map(t => t.label).join(', ')}`);
+            tags.push(...freeInputTags);
+          }
+        }
+
         // ID 재부여 (필터링 후)
         tags.forEach((tag, i) => {
           tag.id = `tag_${i + 1}`;
@@ -556,7 +581,7 @@ ${conditionList}
   }
 
   // Fallback: 원본 그대로 - 무의미한 응답은 제외
-  const fallbackTags = validEntries
+  const fallbackTags: FilterTag[] = validEntries
     .filter(([, answer]) => !isMeaninglessTag(answer))
     .map(([question, answer], i) => ({
       id: `tag_${i + 1}`,
@@ -569,6 +594,34 @@ ${conditionList}
       sourceAnswer: answer,
       originalCondition: `${question}: ${answer}`,
     }));
+
+  // 🆕 자유 입력 분석 결과도 태그로 추가 (fallback에서도)
+  if (freeInputAnalysis) {
+    freeInputAnalysis.preferredAttributes.forEach((attr, i) => {
+      fallbackTags.push({
+        id: `tag_free_pref_${i + 1}`,
+        label: attr,
+        category: 'feature' as const,
+        keywords: [attr],
+        priority: fallbackTags.length + i + 1,
+        sourceType: 'collected' as const,
+        sourceQuestion: '마지막 자유 입력',
+        sourceAnswer: attr,
+        originalCondition: `자유 입력: ${attr}`,
+      });
+    });
+
+    if (freeInputAnalysis.preferredAttributes.length > 0) {
+      console.log(`[FilterTags] 🆕 자유 입력에서 ${freeInputAnalysis.preferredAttributes.length}개 태그 추가 (fallback)`);
+    }
+  }
+
+  // ID 재부여
+  fallbackTags.forEach((tag, i) => {
+    tag.id = `tag_${i + 1}`;
+    tag.priority = i + 1;
+  });
+
   console.log(`[FilterTags] LLM fallback: ${fallbackTags.length} tags (${validEntries.length - fallbackTags.length} filtered as meaningless)`);
   return fallbackTags;
 }
@@ -2267,13 +2320,13 @@ export async function POST(request: NextRequest) {
         expandedKeywords,
         freeInputAnalysisResult
       ),
-      // 필터 태그 생성 (2단계에서 사용)
+      // 필터 태그 생성 (2단계에서 사용) - 🆕 자유 입력 분석 결과도 전달
       generateFilterTags(
         catName,
         collectedInfo || {},
         balanceSelections || [],
         [], // negativeSelections 제거
-        null
+        freeInputAnalysisResult  // 🆕 자유 입력 분석 결과 전달
       )
     ]);
 

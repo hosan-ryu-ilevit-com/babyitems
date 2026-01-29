@@ -139,7 +139,11 @@ async function main() {
     console.log(`  ✅ 개요 생성 완료`);
 
     // 6. MD 포맷 변환 및 저장
+    // 예산(budget) 질문은 규칙 기반 매핑이므로 저장에서 제외
     console.log('\n[Step 6] 저장 중...');
+    const questionsForStorage = questions.filter(q => q.id !== 'budget');
+    console.log(`  📌 저장용 질문: ${questionsForStorage.length}개 (예산 질문 제외)`);
+
     const metadata: CustomQuestionsMetadata = {
       categoryName,
       generatedAt: new Date().toISOString(),
@@ -148,7 +152,7 @@ async function main() {
       llmModel: 'gemini-2.5-flash-lite',
     };
 
-    const markdown = generateQuestionsMarkdown(questions, metadata, overview);
+    const markdown = generateQuestionsMarkdown(questionsForStorage, metadata, overview);
 
     // Supabase 저장
     const { error } = await supabase

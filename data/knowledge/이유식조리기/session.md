@@ -1,14 +1,14 @@
-# 세션: 20260129_103122_leic
-> 시작: 2026-01-29T10:31:22.585Z
+# 세션: 20260129_130443_bvp4
+> 시작: 2026-01-29T13:04:43.945Z
 > 카테고리키: 이유식조리기
 > 카테고리: 이유식조리기
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 이유식 조리기 시장 현황
-- 인사이트: 이유식 조리기는 맞벌이 부부 증가, 라이프스타일 변화 등으로 인해 편리함을 추구하는 부모들에게 필수 육아템으로 자리 잡고 있습니다. 특히 최근에는 기술 혁신과 함께 다양한 기능이 탑재된 제품들이 출시되면서 시장이 성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHB_1o3w4s3Bv4HjXIk2uDqxTfYfF06ePqF3QCp5tRDALTSSeK1PTKb0BFNVOLdnbJIV2JvGyMmNSaxy6hled_BZfyi-vepMztapfS9C1w9vIMaaXiJTgEAvAUua6pyDoP_UDN0ibc_LjCA7GYFO-UvEeK54n6yjAuXLJjb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFWYhSlt9YTj8WLT-VA6ihqwKjeEdihvG3y0NUCJpyPsy9GN425MCzX8bKWmqBnZKaXb19-xlTy55XMPZaZZ9U9dIozVax_CAnCtUd8GgaJsp64E-oENACVUhLaN2aNFeaJ0Cyu3qH9VuAgLhfd-_HPRDwH43I0gJ6cEs0LQ-irxWztH5rki318baE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGLm0BFiUX9W3-zpcBb72F2SubOQdwLf3MNVH96GMvdDqojwNL8RuxRsa7jUiF1i13V8tDEPLD-WrMiDfklHbRPOtjluz5zN2Cw3TeqWVqcfgMAyB_Ws7IM3jQsZiWaCTnwia2YmG6FD8O9ZGSksvzYF4DBkfnle4GkN8XtFz_0DnvTMnTUqWypw_BdrhfDZgdYiN9Cu0eCp4iNw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAl5KSsu2sLKgYSgh-pZ2zJJaZGyJBqYA8k_DKYJtddCNtd5TQx_AMMkzxJhVa-0D4ISbPajDxcEck11jSo8Sa7rKwx5Wab98Nv3cDaFm0la8WxarfbQwud9ASRKTjFmP-9Ifa_1LQjHrST2Nx0nmSi0w6edQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcahSubTgmrlVyuA8HQUOb0Uhc0xol6nzNmTSZP8oH5kS-QWF9njqH-6-FgXxgYinvhGkJAzGUi_6RoHJ0UE28BWohfSKm0zPN0L2nfydrv0bGBqGmxvIsore-Tk-6VRMquNE=
+- 쿼리: 이유식조리기 시장 현황
+- 인사이트: 이유식 제조기 시장은 맞벌이 부부 증가, 편리미엄 트렌드 확산, 그리고 유아의 건강한 성장에 대한 부모의 높은 관심에 힘입어 꾸준히 성장하고 있습니다. 특히, 시간 절약과 간편한 조리를 돕는 이유식 제조기는 육아 필수템으로 자리 잡고 있으며, 친환경 소재 및 다양한 기능 탑재 제품들이 소비자들의 주목을 받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmyfkr1YqBdc3q_SAr-lqMYPEB1nBh2UGynm0G3LBJ7g_P-qdDCm_oNwE9Jojk9AyZBrMmJDPaboSAOCY5XhVzppSdFEWpK_WS9RGjklZmpQGjrbPUjHtrcPsEiPaBL3v_gV3pvQFcQNIim2DxGf4w5TamFY_ngpDrdK-7c1mNQA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPDha-rtKmJt9-_Xm5W8lfGpUUBkeqq3TNnrHu7qhzbQcTPe79RwL6alYXTLEFc3DoAUFwRhF44k7fZ3lW-y8RjqtmnN5RyW4Lu1k6j93EteI-juv0ETSyzlvlkKtgeIRkmxaNDpDR5cbczbHHz3BvY3tgDwNriMoaXfi9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTWN3uaGYalHM9YXo6BoyiH8I0Maubr90o0ZyChV6NaW06P8VxYHiRHeWHGDKVumdI0f4En0m84DhiSiBUFFZgFwNS2P9zICMclW2-scWzcia-EW0YvN8SZJcWRUwlfNPfsfFndBdKshYsuvXPXqFdhsN6prnF3Y6u3Kp1cRbsDfn4yeH_kZWIjj0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8XuQcnQIN6NO92adUIGU_qRvPfYgHfIxE2jFjMRC4-aIM9W4LJlPuGVbpu_zefge7jgzB3X8CzMa_cNKi9ALN2Q0NzjSqcM8rTK9HYkV7CibKyJWU-BSK8jDbz5gtKhOM8LKaN7oa2mDnhatG9zHPOvQA-2T2_d2Q8xueV4KGGTBsDA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3QgdqIvL8Wm2SYSHMK7yjYg4_K8m9tapnD8vFIreHlqjcDXA0KGYDX07FzZeW6I6jGbcorXmn5G8CbGSX_4EUd7WlHWV9X6F1LZazfvJ2qJKLaR3Ko7HrZHmUz4mZh_R_I3435-U8ueYtCUjA8s_r-z2iLfKCmyE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8Qb001reCciN54PT83J6roP3KA8BbzTbIFpGKwC1eTy0_0b1Q81rW0F2QoH9677Z9X7m_Wj9FdJdNUz6R4oyFk1_USvvpFtyWB8fjoGToAAfLyXCuXvHWdoJ4OgGJ7mIFfe8=
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수는 어떻게 되나요? | 0~5개월 (이유식 준비기) |
-| 이유식 조리기에 어떤 기능이 필요하신가요? | 찜, 믹서, 데우기, 보온 등 복합 기능 |
-| 이유식 조리기 세척은 어떻게 하는 것이 편하신가요? | 식기세척기 사용 가능 |
-| 선호하는 이유식 조리기 브랜드가 있으신가요? | 모윰, 베이비브레짜, 릴리팟 |
-| 이유식 조리기 예산은 어느 정도로 생각하세요? (평균 약 29만원, 15만원~38만원대가 가장 많아요) | 15만원 이하 |
+| 이유식 조리는 어떤 방식으로 하시겠어요? | 찜 + 믹서 (한 번에 완성), 찜 위주 (재료 본연의 맛) |
+| 이유식 조리기의 재질은 어떤 것을 선호하시나요? | 스테인리스 스틸, 유리 |
+| 이유식 조리기 세척은 얼마나 편리했으면 좋겠나요? | 식기세척기 사용 가능 |
+| 이유식 조리기에 특별히 선호하는 브랜드가 있으신가요? | 베이비브레짜, 릴리팟 |
+| 이유식 조리기 예산은 어느 정도로 생각하세요? (평균 약 29만원, 15만원~38만원대가 가장 많아요) | 15만원 ~ 38만원대 |
 
 ---
 

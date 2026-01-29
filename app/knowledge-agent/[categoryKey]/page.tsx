@@ -824,6 +824,7 @@ export default function KnowledgeAgentPage() {
   const [phase, setPhase] = useState<Phase>('loading');
   const [resultProducts, setResultProducts] = useState<any[]>([]);
   const [filterTags, setFilterTags] = useState<FilterTag[]>([]);
+  const [allFilterTags, setAllFilterTags] = useState<FilterTag[]>([]);  // 🆕 필터링 전 전체 태그 (PDP 조건 매핑용)
   const [selectedFilterTagIds, setSelectedFilterTagIds] = useState<Set<string>>(new Set());
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
@@ -1190,7 +1191,8 @@ export default function KnowledgeAgentPage() {
     _reviews?: Record<string, any>,  // 더 이상 저장 안 함 (Supabase에서 가져옴)
     prices?: Record<string, any>,
     tags?: FilterTag[],
-    analyses?: Record<string, any>  // 🆕 PDP 분석 데이터 (왜 추천했나요?, 주요 포인트)
+    analyses?: Record<string, any>,  // 🆕 PDP 분석 데이터 (왜 추천했나요?, 주요 포인트)
+    allTags?: FilterTag[]  // 🆕 전체 필터 태그 (PDP 조건 매핑용)
   ) => {
     console.log('[KA Storage] saveResultToStorage called:', {
       productsLength: products?.length,
@@ -1226,6 +1228,7 @@ export default function KnowledgeAgentPage() {
         // reviewsData 제외! (Supabase에서 가져옴)
         pricesData: prices || {},
         filterTags: tags || [],
+        allFilterTags: allTags || [],  // 🆕 전체 필터 태그 (PDP 조건 매핑용)
         // 🆕 PDP 분석 데이터 캐싱 (왜 추천했나요?, 주요 포인트)
         productAnalyses: analyses || {},
         savedAt: Date.now(),
@@ -1291,6 +1294,10 @@ export default function KnowledgeAgentPage() {
         // filterTags 복원
         if (data.filterTags && Array.isArray(data.filterTags)) {
           setFilterTags(data.filterTags);
+        }
+        // 🆕 allFilterTags 복원 (PDP 조건 매핑용)
+        if (data.allFilterTags && Array.isArray(data.allFilterTags)) {
+          setAllFilterTags(data.allFilterTags);
         }
         // 🆕 PDP 분석 데이터 복원 (왜 추천했나요?, 주요 포인트)
         if (data.productAnalyses && Object.keys(data.productAnalyses).length > 0) {
@@ -1501,7 +1508,7 @@ export default function KnowledgeAgentPage() {
       });
 
       if (hasResultMessage) {
-        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses);
+        saveResultToStorage(resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags);
       } else {
         // ⚠️ messages에 resultProducts가 아직 없으면 다음 렌더에서 다시 시도
         // 하지만 이미 resultProducts가 있으므로 직접 저장 시도
@@ -1516,10 +1523,10 @@ export default function KnowledgeAgentPage() {
           resultProducts: resultProducts,
           timestamp: Date.now()
         };
-        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags, productAnalyses);
+        saveResultToStorage(resultProducts, [fallbackMessage], reviewsData, pricesData, filterTags, productAnalyses, allFilterTags);
       }
     }
-  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, saveResultToStorage]);
+  }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, saveResultToStorage]);
 
   const initializeAgent = async () => {
     const initialQueries = [
@@ -2450,13 +2457,23 @@ export default function KnowledgeAgentPage() {
         }
       ]);
     } else {
-      // 모든 꼬리질문 완료 → 최종 추천으로
-      console.log('[Follow-up] All questions answered, proceeding to final recommend');
-      setPhase('hardcut_visual');
-      // 약간의 딜레이 후 최종 추천 실행 (UI 업데이트 대기)
-      setTimeout(() => {
-        handleFinalInputSubmit();
-      }, 100);
+      // 모든 꼬리질문 완료 → 최종 추가 조건 입력 단계로
+      console.log('[Follow-up] All questions answered, proceeding to final input phase');
+      setInputValue('');  // 🆕 이전 입력 초기화
+      setPhase('final_input');
+      
+      // 가이드 메시지 추가
+      const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
+      setMessages(prev => [
+        ...prev,
+        {
+          id: finalInputMsgId,
+          role: 'assistant',
+          content: `추천을 위한 모든 준비가 끝났어요! 🎯\마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+          typing: true,
+          timestamp: Date.now()
+        }
+      ]);
     }
   };
 
@@ -2631,6 +2648,9 @@ export default function KnowledgeAgentPage() {
 
         // 🆕 필터 태그 저장 (상품에 매칭되는 태그만)
         if (data.filterTags && Array.isArray(data.filterTags)) {
+          // 🆕 전체 태그 저장 (PDP 조건 매핑용)
+          setAllFilterTags(data.filterTags);
+          
           // 5개 상품 중 하나라도 full/partial인 태그만 남김
           const matchedTags = data.filterTags.filter((tag: FilterTag) => {
             return data.recommendations.some((rec: any) => {
@@ -2688,6 +2708,7 @@ export default function KnowledgeAgentPage() {
     }
 
     console.log('[V2 Flow] Moving to final input phase');
+    setInputValue('');  // 🆕 이전 입력 초기화
     setPhase('final_input');
     // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
   };
@@ -4203,8 +4224,20 @@ export default function KnowledgeAgentPage() {
                   whileHover={{ scale: 1.01, translateY: -1 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
-                    handleFinalInputSubmit(inputValue.trim() || undefined);
-                    setInputValue('');
+                    // 바로 추천받기 대신 마지막 조건 입력 단계로 이동
+                    setInputValue('');  // 🆕 이전 입력 초기화
+                    setPhase('final_input');
+                    const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
+                    setMessages(prev => [
+                      ...prev,
+                      {
+                        id: finalInputMsgId,
+                        role: 'assistant',
+                        content: `추천을 위한 모든 준비가 끝났어요! 🎯\n마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+                        typing: true,
+                        timestamp: Date.now()
+                      }
+                    ]);
                   }}
                   className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
                 >
@@ -4217,6 +4250,90 @@ export default function KnowledgeAgentPage() {
             </div>
             );
           })()}
+
+          {/* 마지막 추가 조건 입력 단계 */}
+          {phase === 'final_input' && !isTyping && (
+            <div className="space-y-4">
+              {/* 바로 추천받기 버튼 - 입력 중이면 숨김 (페이드만) */}
+              <AnimatePresence>
+                {!inputValue.trim() && (
+                  <motion.button
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleFinalInputSubmit()}
+                    className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group"
+                  >
+                    <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+                      <Image src="/icons/ic-ai.svg" alt="" width={16} height={16} />
+                    </div>
+                    <span className="text-[16px] font-semibold tracking-tight">바로 추천받기</span>
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              {/* 채팅 바 (ResultChatContainer 스타일) */}
+              <div className="relative flex items-end group">
+                <div
+                  className="relative w-full flex items-end overflow-hidden"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(15px)',
+                    WebkitBackdropFilter: 'blur(15px)',
+                    borderRadius: '20px',
+                    boxShadow: '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
+                    border: '1px solid #e2e2e7',
+                  }}
+                >
+                  {/* 그라데이션 ellipse */}
+                  <div
+                    className="absolute pointer-events-none"
+                    style={{
+                      width: '100%',
+                      height: '176px',
+                      left: 0,
+                      top: '-16px',
+                      transform: 'translateY(-50%)',
+                      background: 'radial-gradient(50% 50% at 50% 50%, rgba(217, 233, 255, 0.40) 0%, rgba(217, 233, 255, 0.00) 100%)',
+                      zIndex: 0,
+                    }}
+                  />
+                  <textarea
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="마지막으로 더 고려할 조건이 있다면?"
+                    className="relative z-10 w-full min-h-[56px] max-h-[160px] py-[15px] pl-5 pr-14 bg-transparent text-[16px] leading-[1.4] tracking-[-0.2px] text-gray-800 placeholder:text-[#71737c] focus:outline-none transition-all resize-none overflow-y-auto whitespace-pre-line selection:bg-[#d1e3ff] selection:text-[#374151] caret-gray-800"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (inputValue.trim()) {
+                          handleFinalInputSubmit(inputValue.trim());
+                          setInputValue('');
+                        }
+                      }
+                    }}
+                    rows={1}
+                  />
+                  <button
+                    onClick={() => {
+                      if (inputValue.trim()) {
+                        handleFinalInputSubmit(inputValue.trim());
+                        setInputValue('');
+                      }
+                    }}
+                    disabled={!inputValue.trim()}
+                    className={`absolute right-3 bottom-3 z-30 flex-shrink-0 transition-all duration-200 ${inputValue.trim() ? '' : 'opacity-50'} disabled:opacity-50 active:scale-95`}
+                  >
+                    <img src="/icons/sendreal.png" alt="send" className="w-8 h-8 object-contain" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* 꼬리질문 Phase UI - 제거됨 (MessageBubble 통합) */}
 
@@ -4347,22 +4464,29 @@ export default function KnowledgeAgentPage() {
                 tradeoff: e.tradeoff,
                 questionId: e.questionId,
               })) || []),
-              // ✅ 추가: 마지막 자유 입력에서 추출한 선호 속성
-              ...(freeInputAnalysis?.preferredAttributes?.map((attr: string) => ({
-                condition: attr,
-                conditionType: 'balance' as const,
-                status: '충족' as const,
-                evidence: `자유 입력에서 요청: "${collectedInfo?.['__additional_condition__'] || ''}"`,
-                questionId: '__free_input_preferred__',
-              })) || []),
-              // ✅ 추가: 마지막 자유 입력에서 추출한 피할 단점
-              ...(freeInputAnalysis?.avoidAttributes?.map((attr: string) => ({
-                condition: attr,
-                conditionType: 'negative' as const,
-                status: '회피됨' as const,
-                evidence: `자유 입력에서 요청: "${collectedInfo?.['__additional_condition__'] || ''}"`,
-                questionId: '__free_input_avoid__',
-              })) || []),
+              // ✅ 추가: 마지막 자유 입력에서 추출한 선호 속성 (tagScores 기반 평가)
+              ...(freeInputAnalysis?.preferredAttributes?.map((attr: string) => {
+                // 🆕 allFilterTags에서 해당 속성의 태그를 찾아 tagScores로 평가 (필터링 전 전체 태그 사용)
+                const matchingTag = allFilterTags.find(t => 
+                  t.sourceQuestion === '마지막 자유 입력' && t.label === attr
+                );
+                const productTagScores = selectedProduct?.tagScores as Record<string, { score: 'full' | 'partial' | null; evidence?: string }> | undefined;
+                const scoreData = matchingTag && productTagScores ? productTagScores[matchingTag.id] : null;
+                
+                // score에 따른 status 결정
+                let status: '충족' | '부분충족' | '불충족' = '불충족';
+                if (scoreData?.score === 'full') status = '충족';
+                else if (scoreData?.score === 'partial') status = '부분충족';
+                
+                return {
+                  condition: attr,
+                  conditionType: 'balance' as const,
+                  status,
+                  evidence: scoreData?.evidence || `해당 조건에 대한 정보를 확인하기 어려워요.`,
+                  questionId: '__free_input_preferred__',
+                };
+              }) || []),
+              // ✅ 추가: 마지막 자유 입력에서 추출한 피할 단점 (avoidAttributes는 negative로 처리하지 않음 - filterTag에 포함 안됨)
             ]}
             // 내 상황과의 적합성 (contextMatch 데이터)
             initialContext={collectedInfo?.initialContext || collectedInfo?.context || ''}

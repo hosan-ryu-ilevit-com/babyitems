@@ -1,5 +1,5 @@
-# 세션: 20260129_074450_741w
-> 시작: 2026-01-29T07:44:50.606Z
+# 세션: 20260129_125933_3rto
+> 시작: 2026-01-29T12:59:33.432Z
 > 카테고리키: 수유패드
 > 카테고리: 수유패드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 수유패드 시장 현황
-- 인사이트: 수유패드는 모유 수유 시 가슴에서 새는 모유를 흡수하여 속옷이 젖는 것을 방지하고 가슴을 청결하게 유지하는 데 도움을 주는 육아 필수품입니다. 최근에는 환경을 생각하는 소비자들이 늘면서 재사용 가능한 천 타입 수유패드도 인기를 얻고 있습니다. 수유패드는 보통 수유기에 많이 사용되지만, 임신 중 유즙 분비 시에도 활용될 수 있습니다. 개인의 모유 분비량에 따라 필요성이 달라질 수 있으므로 처음부터 대량 구매하기보다는 필요에 따라 구매하는 것이 좋습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGq9yRVcMgrY3mfws9XrseBt5bZnCGf0GWfvrWKUh3lqStLCTVFmCMPjluwkQsgiRbJW7lBOXcVMJBmY1xGC43SjHKGbbjY26Us594sPcLJ2e3C4AgnNWeVRi6hXM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHS-OSgpOf2Z3MYtNUbnAl-nq_d-ZcYbBDpZQInao6438F4iqgAdYwRq_uhKOcL9hOHAfvhkr6-ABJ-o-HwDE5pBJKQV_fTyL9WPkUi1xzgLWgWShZ9vnehqTVxQa148JiJ9QFATw5xYSTCJ_hFZXW2yTXjmwftBuhGAqnDkVZKWvtcTsisH7EWAIYgYExIAkc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7rkD4UB_G-pEXM_i2KN0vtaAnMl3EMmIoiBOlR6CTbAcrTjqzrs5yquYfUczE8PpjdNOGtztMmaCxkggSXYsEv6Gng4sICgx6WjEHsR4O9Yx-AJdkpNqmGVt1sNWyV12grPZQ9QScZz6uTZ6UDqSSHovq6QROCi7A5n3U8LQVLFTO05MrtcFZsoY=
+- 인사이트: 수유패드는 브래지어 안쪽에 부착하여 새는 모유를 흡수하고, 민감한 젖꼭지의 통증을 완화하는 데 도움을 주는 제품입니다. 모유 분비량에 따라 필요성이 달라지며, 일회용과 천 타입이 있습니다. 일회용은 위생적이고 외출 시 편리하며, 천 타입은 경제적이고 피부 자극이 적습니다. 임신 중기부터 사용 가능하며, 수유기에는 하루 3-4회 이상 교체하는 것이 권장됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFilclTB7_ZRGz_264nMm6vbAuJx3tKSJ_NfBFkyLR8_VmOvJhrn0pmSOqaFkKWtSB1SEwSzz2KhabByr5O0BYNN08Gc9bAdLaIwNgDMQSNHzk2Ze3iJ5gMXXFFG1TTVaGfGLu_YDP88ubgbnKaExRrOWzqg0ClRfmhRXQGblaAos8hgDvlqX8D9_Yk5fm-o8fi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGczU0Kpp6I1tzU2tGCCHioLD2S941DAhjDL-xZhC2Q0au9Q1XwClR--dKP3DFtM64mO6JZLqPXWLIRWwQQQ_TP0BpkLVZtaci9tjqGkoBsd5GCKF2W3-GJy0R81IOmw3At3KuSDn-OM1fbqtUo8k-TrZTdrfHUCV0JcyoDwzxw9fW32HWSt26IFgmL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3_4HBrA1XO57HAJzX2Fkgpgy8cAfKplOWRxC3_1UqX43bYaipHy4E1osApl2PY4p6EH_RKr-Djco6adf9lJO9tg0lGytdiIzYVucNJwwoyACP3_DCpqDKQVJ4DIQN2GlQbTpSq6-IICUTNT0rQEF8kX0fw_u0vF6BmK3ZKQ==
 
 ---
 
@@ -16,10 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어느 정도의 흡수력을 원하시나요? (모유 누수 방지) | 일상적인 흡수력, 매우 뛰어난 흡수력 |
-| 어떤 소재의 수유패드를 선호하시나요? (피부 자극 최소화) | 통기성 좋은 천 |
-| 휴대성과 위생을 위해 어떤 점이 중요하신가요? | 개별 포장 |
-| 선호하시는 수유패드 브랜드가 있으신가요? | 더블하트, 마더케이, 바디듀 |
+| 수유패드 선택 시 가장 중요하게 생각하는 흡수력과 통기성은 어느 정도가 좋을까요? | 균형 (흡수력/통기성) |
+| 수유패드 소재는 어떤 것을 선호하시나요? (피부 자극 최소화) | 부드러운 부직포, 유기농 순면 |
+| 수유패드의 고정력과 두께는 어느 정도가 좋을까요? | 적절한 고정력 & 일반적인 두께 |
+| 선호하는 수유패드 브랜드가 있으신가요? | 더블하트, 퍼펙션, 마더케이 |
 | 예산은 어느 정도로 생각하세요? (평균 약 2만 4천원, 1만 5천원~3만 1천원대가 가장 많아요) | 1만 5천원 ~ 3만 1천원대 |
 
 ---

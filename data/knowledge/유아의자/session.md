@@ -1,5 +1,5 @@
-# 세션: 20260129_080617_jkf4
-> 시작: 2026-01-29T08:06:17.606Z
+# 세션: 20260129_123454_gq4f
+> 시작: 2026-01-29T12:34:54.929Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아의자 시장 현황
-- 인사이트: 유아의자 시장은 성장하는 어린이의 발달과 복지에 대한 강조 증가로 인해 인체공학적이고 안전한 가구 디자인에 대한 수요가 높아지면서 확대되고 있습니다. 또한, 개발도상국의 경제 성장으로 인한 가처분 소득 증가는 프리미엄 및 맞춤형 유아 가구에 대한 지출 증가를 견인하고 있습니다. 미적으로 만족스러우면서도 기능적인 가구에 대한 소비자 선호도 변화는 시장에서의 혁신과 제품 다양화를 촉진하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4XV1-4UZ8yBDIYEsqzRVi5nV9BepB2CAkOU6NgPFGum_ifMkh1r0LbGvQ_nipY_1OWHNBvlKZlVUcfWS0zQLgUI5FUX_PlP01Gk3Wepy0ffpbTB4nsD7E6yD6QLuoy-vn19WzvIY2xwQte_6Dq9AgUEPDpw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHasJl_Lqm2KeuFKb_zj449cYoNHvnOhgKwbGvN_IwVVyiFlu-lX9f_RX2QDmz7tAT0nOcTLCYtsz1xws4NI7oNXqzX1ffSis-JY977pr7i0zYmHm31jPb__yucJ2tyCikRoN26wzs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFeCsN7hJMkCfYFGZq8bF4l_y0C4uYVk-dlrZZ1IZD6XC7IkG7nvjjqopJQZ06Iczw-Su4ldVMC6r4ntj2rvwGajeQFiTO9UF9B90MIO9bjnAZC0WAkPBkUg977CeNA5GryOUrph5pMxNxDWAakD6YEhIdN6cKSA9KvcBn9BCDaBg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2ARyVEn18hZjSmPZQxWLUepVqg6-_jNahAOshgwjp6vApLIGmHoHyllKukFNhYzGRjBJeGkiOdpKkgzWWzoOSJJda8C0qIv7_4MQuYGxEye2nr2F621tBiHaPvmn-hKwfIi5_-371Std1qh-8_2ppINAWoEUwcxykMynBtnfDY9jmv1QX6mBSbfI7
+- 인사이트: 유아의자 시장은 프리미엄화, 키즈테크, 캐릭터IP, 글로벌 시장 진출 등의 트렌드를 보이며 성장하고 있습니다. 특히 어린이용 의자는 2031년까지 가장 빠른 성장률을 기록할 것으로 전망됩니다. 부모의 경제력 확대와 자녀의 발달 및 복지에 대한 관심 증가는 인체공학적이고 안전한 가구에 대한 수요를 높이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnf5B7cr1yNIoGZz9L0ZlJ-NDLUOotKXASmCUYZGxtO4phjYbxgLu0H74NLjHn5CZrWbv-DKnpLMQPKzMb3GCX-dAo9pp_Ti7Xtk4M529eSNlXhg84-JXkUdygTJnQvIEPGeX-153B5Pn5qhWkkgRso-ujLi0l0ZPu_pLWoKTn71_tEzQKxP6hFA1I3NI5Bml0nTX-l1AZfwmmeWGrrsR_V2HynC4qmH26R-IKNuVnLvUFjmAvVoauYI2GQ0Z-mf24OIrHCqY1fjDwPp27yQFWAuwL5_yOadC9V_q7C-vRzgSFG20r3mTVJS49Z83j_TtysFIowtp1zXPstm_6CVV66bKR6kHEkWVzX7JecrWV-3MU-o2K5pa-ACnvlI24asZrKLSV3esVkLHc4m4RonDZmufGhqwAJtXUiBKRT2stM0Hz15U_Is7IFg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGr12RXYSz-htiTAwQSLwlSREoI1nhJr88gG5k2ZcfeS7d4WiuZM-fgQhcVbJ4jkJDLprmyvXCD8C2q2J0RHcXTazMFCRC1OBWFspwIWUh2LJN2sSBcLKlY2hYt8N7unIQzdDqITPTzzKq9OrKJ8z27FVrw-nbVxZpVWsJ4Czu4m-NfKvXy5axRyy5ZosUL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5T3mjsu17PPfMm_gOqvHDOGA4cYR6dC5SwuSm-azYyXVg0ewemQy4qrZckBf51zqHdvoeuqEYMT5ds66wu7SEAmq2t-yOQ0ECp0kjXeqAbCRHbKOcpPnYPOD1svMEs9EtmMtOxblk763MFCNE7uOylAC-Og==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE61yJZbMIfSu4vPcRbVJRv0BtVagYh6SHUbXshFvMzCBCMl153Ji5FyXQwhFBdK1qxptKrkj7a7eqp1E-PIljY6qjGz-KTxZfgZwcktRlPX0M6z7cF3aKPN81gMPlVJW7YLKKHKPcY9eYX9GT6ovqr9O4Rg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh9Vwp8jkQx30grRhTK8w241PXJciF08FbY9VfAhAFXhGPyyicp70Jv7-r76mm23332fx71fxScGNZT8-1DKD8ouE8-g6Veo9XUWkRf_H4w3YVn_kTW8-et5c9LO61mNdsWiUDfrVclbiySKCFKlF4w3JbhMnkZnL2zBgC9EDPxGxkWyJEYD-pi6u00zTl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfbCkarUqpTkarcp_U8Dt0B1LWMahuWo-W72aPzRLd5yOp37RX_00jFNKex-fvgJf2XiV5kQIqUw_Nid6-dDu2NqYjCvac2p3mPaZ2yVB6mUP0Jl7YkwH2-x16E-5TO_YxQ-8SvQ==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수를 알려주세요. (개월 수에 따라 적합한 의자가 달라질 수 있어요) | 0~24개월 |
-| 의자 소재는 어떤 것을 선호하시나요? | 플라스틱, 원목/목재 |
-| 의자에서 가장 중요하게 생각하는 기능은 무엇인가요? | 높이/각도 조절 |
-| 선호하시는 유아의자 브랜드가 있으신가요? | 도노도노, 싸이벡스 |
-| 예산은 어느 정도로 생각하세요? (평균 26만원, 15만원~33만원대가 가장 많아요) | 15만원 ~ 33만원대 |
+| 아기의 개월 수 또는 몸무게를 알려주세요. | 신생아 ~ 6개월 (6kg 이하) |
+| 유아의자 소재는 어떤 것을 선호하시나요? | 원목 |
+| 아기의 성장과 편의를 위해 어떤 조절 기능이 중요하신가요? | 등받이 각도 조절, 좌판 깊이 및 너비 조절 |
+| 선호하는 유아의자 브랜드가 있으신가요? | 싸이벡스, 야마토야, 스토케 |
+| 예산은 어느 정도로 생각하세요? (평균 26만원, 15만원~34만원대가 가장 많아요) | 15만원 ~ 34만원 |
 
 ---
 
