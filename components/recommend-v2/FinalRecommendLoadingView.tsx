@@ -191,7 +191,7 @@ export function FinalRecommendLoadingView({
           AI가 열심히 분석 중이에요
         </p>
         <p className="text-[14px] text-gray-400 font-medium leading-[140%] mt-2 flex items-center gap-1.5">
-          <span>30초 내로 완료될 예정이니 조금만 기다려주세요.</span>
+          <span>40초 내로 완료될 예정이니 조금만 기다려주세요.</span>
           {globalStartTime && (
             <GlobalTimer startTime={globalStartTime} />
           )}

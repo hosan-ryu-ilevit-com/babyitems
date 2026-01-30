@@ -3,7 +3,9 @@
  * 맞춤질문 생성 스크립트
  *
  * 사용법:
- *   npx tsx scripts/indexing/generate-custom-questions.ts --category="이유식조리기"
+ *   npx tsx scripts/indexing/generate-custom-questions.ts --category="이유식조리기"  # 특정 카테고리
+ *   npx tsx scripts/indexing/generate-custom-questions.ts                            # 전체 카테고리
+ *   npx tsx scripts/indexing/generate-custom-questions.ts --skip-existing            # 이미 생성된 카테고리 스킵
  *
  * 기능:
  * 1. Supabase에서 카테고리 상품 데이터 조회
@@ -70,119 +72,177 @@ interface ReviewAnalysis {
 // 메인 함수
 // ============================================================================
 
+const CATEGORY_DELAY_MS = 3000; // 카테고리 간 딜레이 (rate limit 방지)
+
 async function main() {
   const args = parseArgs();
   const categoryName = args.category;
+  const skipExisting = args.skipExisting;
 
-  if (!categoryName) {
-    console.error('Usage: npx tsx scripts/indexing/generate-custom-questions.ts --category="카테고리명"');
-    process.exit(1);
+  // 특정 카테고리 지정 시 해당 카테고리만 처리
+  if (categoryName) {
+    await processCategory(categoryName);
+    return;
   }
 
+  // 전체 카테고리 처리
+  console.log(`\n${'='.repeat(60)}`);
+  console.log(`🚀 전체 카테고리 맞춤질문 생성 시작`);
+  console.log(`   이미 생성된 카테고리: ${skipExisting ? '스킵' : '재생성'}`);
+  console.log(`${'='.repeat(60)}\n`);
+
+  const categories = await getAllCategories(skipExisting);
+  console.log(`📋 처리할 카테고리: ${categories.length}개`);
+  categories.forEach((c, i) => console.log(`   ${i + 1}. ${c}`));
+
+  const results: { category: string; success: boolean; error?: string }[] = [];
+
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    console.log(`\n${'─'.repeat(60)}`);
+    console.log(`📁 [${i + 1}/${categories.length}] ${category}`);
+    console.log(`${'─'.repeat(60)}`);
+
+    try {
+      await processCategory(category);
+      results.push({ category, success: true });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      console.error(`❌ ${category} 실패: ${errorMsg}`);
+      results.push({ category, success: false, error: errorMsg });
+    }
+
+    // Rate limit 방지 딜레이
+    if (i < categories.length - 1) {
+      console.log(`\n⏳ ${CATEGORY_DELAY_MS / 1000}초 대기 중...`);
+      await sleep(CATEGORY_DELAY_MS);
+    }
+  }
+
+  // 최종 결과
+  console.log(`\n${'='.repeat(60)}`);
+  console.log(`📊 전체 결과`);
+  console.log(`${'='.repeat(60)}`);
+  console.log(`   성공: ${results.filter(r => r.success).length}개`);
+  console.log(`   실패: ${results.filter(r => !r.success).length}개`);
+  if (results.some(r => !r.success)) {
+    console.log(`\n⚠️ 실패한 카테고리:`);
+    results.filter(r => !r.success).forEach(r => {
+      console.log(`   - ${r.category}: ${r.error}`);
+    });
+  }
+}
+
+async function getAllCategories(skipExisting: boolean): Promise<string[]> {
+  const query = supabase
+    .from('knowledge_categories')
+    .select('query, custom_questions')
+    .eq('is_active', true)
+    .order('query');
+
+  const { data, error } = await query;
+  if (error) throw new Error(`카테고리 조회 실패: ${error.message}`);
+
+  let categories = data || [];
+
+  if (skipExisting) {
+    categories = categories.filter(c => !c.custom_questions);
+    console.log(`  📊 이미 생성된 카테고리 스킵 → ${categories.length}개 처리 예정`);
+  }
+
+  return categories.map(c => c.query);
+}
+
+async function processCategory(categoryName: string): Promise<void> {
   console.log(`\n${'='.repeat(60)}`);
   console.log(`🚀 맞춤질문 생성 시작: ${categoryName}`);
   console.log(`${'='.repeat(60)}\n`);
 
   const startTime = Date.now();
 
-  try {
-    // 1. 상품 데이터 조회
-    console.log('[Step 1] 상품 데이터 조회 중...');
-    const products = await getProductsFromCache(categoryName);
-    console.log(`  ✅ ${products.length}개 상품 로드 완료`);
+  // 1. 상품 데이터 조회
+  console.log('[Step 1] 상품 데이터 조회 중...');
+  const products = await getProductsFromCache(categoryName);
+  console.log(`  ✅ ${products.length}개 상품 로드 완료`);
 
-    if (products.length === 0) {
-      throw new Error(`"${categoryName}" 카테고리에 상품이 없습니다.`);
-    }
-
-    // 2. 웹검색 트렌드 분석
-    console.log('\n[Step 2] 웹검색 트렌드 분석 중...');
-    const trendAnalysis = await analyzeCategoryTrends(categoryName);
-    if (trendAnalysis) {
-      console.log(`  ✅ 트렌드: ${trendAnalysis.trends.slice(0, 3).join(', ')}`);
-      console.log(`  ✅ 구매 고려사항: ${trendAnalysis.buyingFactors.slice(0, 3).join(', ')}`);
-    } else {
-      console.log('  ⚠️ 트렌드 분석 실패 (계속 진행)');
-    }
-
-    // 3. 리뷰 분석
-    console.log('\n[Step 3] 리뷰 분석 중...');
-    const pcodes = products.map(p => p.pcode);
-    const reviews = await getReviewsFromCache(pcodes);
-    const reviewAnalysis = await analyzeReviewsWithLLM(categoryName, reviews);
-    if (reviewAnalysis) {
-      console.log(`  ✅ 긍정 키워드: ${reviewAnalysis.positiveKeywords.slice(0, 3).join(', ')}`);
-      console.log(`  ✅ 부정 키워드: ${reviewAnalysis.negativeKeywords.slice(0, 3).join(', ')}`);
-    } else {
-      console.log('  ⚠️ 리뷰 분석 실패 (계속 진행)');
-    }
-
-    // 4. 맞춤질문 생성
-    console.log('\n[Step 4] 맞춤질문 생성 중...');
-    const questions = await generateQuestions(
-      categoryName,
-      products,
-      trendAnalysis,
-      reviewAnalysis
-    );
-    console.log(`  ✅ ${questions.length}개 질문 생성 완료`);
-
-    // 질문 미리보기
-    questions.forEach((q, i) => {
-      console.log(`\n  📝 질문 ${i + 1}: ${q.question}`);
-      console.log(`     옵션: ${q.options.map(o => o.label).join(' / ')}`);
-    });
-
-    // 5. 개요 생성
-    console.log('\n[Step 5] 개요 생성 중...');
-    const overview = await generateOverview(categoryName, products, trendAnalysis, reviewAnalysis, questions);
-    console.log(`  ✅ 개요 생성 완료`);
-
-    // 6. MD 포맷 변환 및 저장
-    // 예산(budget) 질문은 규칙 기반 매핑이므로 저장에서 제외
-    console.log('\n[Step 6] 저장 중...');
-    const questionsForStorage = questions.filter(q => q.id !== 'budget');
-    console.log(`  📌 저장용 질문: ${questionsForStorage.length}개 (예산 질문 제외)`);
-
-    const metadata: CustomQuestionsMetadata = {
-      categoryName,
-      generatedAt: new Date().toISOString(),
-      productCount: products.length,
-      reviewCount: reviews.length,
-      llmModel: 'gemini-2.5-flash-lite',
-    };
-
-    const markdown = generateQuestionsMarkdown(questionsForStorage, metadata, overview);
-
-    // Supabase 저장
-    const { error } = await supabase
-      .from('knowledge_categories')
-      .update({ custom_questions: markdown })
-      .eq('query', categoryName);
-
-    if (error) {
-      throw new Error(`저장 실패: ${error.message}`);
-    }
-
-    console.log(`  ✅ knowledge_categories 테이블에 저장 완료`);
-
-    // 완료
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    console.log(`\n${'='.repeat(60)}`);
-    console.log(`✅ 맞춤질문 생성 완료! (${elapsed}초)`);
-    console.log(`${'='.repeat(60)}\n`);
-
-    // 결과 미리보기
-    console.log('📄 생성된 마크다운 미리보기:\n');
-    console.log(markdown.slice(0, 2000));
-    if (markdown.length > 2000) {
-      console.log('\n... (이하 생략)');
-    }
-
-  } catch (error) {
-    console.error('\n❌ 오류 발생:', error);
-    process.exit(1);
+  if (products.length === 0) {
+    throw new Error(`"${categoryName}" 카테고리에 상품이 없습니다.`);
   }
+
+  // 2. 웹검색 트렌드 분석
+  console.log('\n[Step 2] 웹검색 트렌드 분석 중...');
+  const trendAnalysis = await analyzeCategoryTrends(categoryName);
+  if (trendAnalysis) {
+    console.log(`  ✅ 트렌드: ${trendAnalysis.trends.slice(0, 3).join(', ')}`);
+    console.log(`  ✅ 구매 고려사항: ${trendAnalysis.buyingFactors.slice(0, 3).join(', ')}`);
+  } else {
+    console.log('  ⚠️ 트렌드 분석 실패 (계속 진행)');
+  }
+
+  // 3. 리뷰 분석
+  console.log('\n[Step 3] 리뷰 분석 중...');
+  const pcodes = products.map(p => p.pcode);
+  const reviews = await getReviewsFromCache(pcodes);
+  const reviewAnalysis = await analyzeReviewsWithLLM(categoryName, reviews);
+  if (reviewAnalysis) {
+    console.log(`  ✅ 긍정 키워드: ${reviewAnalysis.positiveKeywords.slice(0, 3).join(', ')}`);
+    console.log(`  ✅ 부정 키워드: ${reviewAnalysis.negativeKeywords.slice(0, 3).join(', ')}`);
+  } else {
+    console.log('  ⚠️ 리뷰 분석 실패 (계속 진행)');
+  }
+
+  // 4. 맞춤질문 생성
+  console.log('\n[Step 4] 맞춤질문 생성 중...');
+  const questions = await generateQuestions(
+    categoryName,
+    products,
+    trendAnalysis,
+    reviewAnalysis
+  );
+  console.log(`  ✅ ${questions.length}개 질문 생성 완료`);
+
+  // 질문 미리보기
+  questions.forEach((q, i) => {
+    console.log(`\n  📝 질문 ${i + 1}: ${q.question}`);
+    console.log(`     옵션: ${q.options.map(o => o.label).join(' / ')}`);
+  });
+
+  // 5. 개요 생성
+  console.log('\n[Step 5] 개요 생성 중...');
+  const overview = await generateOverview(categoryName, products, trendAnalysis, reviewAnalysis, questions);
+  console.log(`  ✅ 개요 생성 완료`);
+
+  // 6. MD 포맷 변환 및 저장
+  // 예산(budget) 질문은 규칙 기반 매핑이므로 저장에서 제외
+  console.log('\n[Step 6] 저장 중...');
+  const questionsForStorage = questions.filter(q => q.id !== 'budget');
+  console.log(`  📌 저장용 질문: ${questionsForStorage.length}개 (예산 질문 제외)`);
+
+  const metadata: CustomQuestionsMetadata = {
+    categoryName,
+    generatedAt: new Date().toISOString(),
+    productCount: products.length,
+    reviewCount: reviews.length,
+    llmModel: 'gemini-2.5-flash-lite',
+  };
+
+  const markdown = generateQuestionsMarkdown(questionsForStorage, metadata, overview);
+
+  // Supabase 저장
+  const { error } = await supabase
+    .from('knowledge_categories')
+    .update({ custom_questions: markdown })
+    .eq('query', categoryName);
+
+  if (error) {
+    throw new Error(`저장 실패: ${error.message}`);
+  }
+
+  console.log(`  ✅ knowledge_categories 테이블에 저장 완료`);
+
+  // 완료
+  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+  console.log(`\n✅ ${categoryName} 맞춤질문 생성 완료! (${elapsed}초)`);
 }
 
 // ============================================================================
@@ -471,17 +531,24 @@ ${reviewAnalysis ? `- 리뷰 인사이트: ${reviewAnalysis.positiveKeywords.sli
 // 유틸리티
 // ============================================================================
 
-function parseArgs(): { category: string } {
+function parseArgs(): { category: string; skipExisting: boolean } {
   const args = process.argv.slice(2);
   let category = '';
+  let skipExisting = false;
 
   for (const arg of args) {
     if (arg.startsWith('--category=')) {
       category = arg.split('=')[1].replace(/['"]/g, '');
+    } else if (arg === '--skip-existing') {
+      skipExisting = true;
     }
   }
 
-  return { category };
+  return { category, skipExisting };
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // 실행

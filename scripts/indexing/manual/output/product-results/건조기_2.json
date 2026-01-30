@@ -1,0 +1,2482 @@
+[
+{
+"pcode": "59082401",
+"name": "로퍼 ROD-840WH",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 보급형 미니/소형 건조기는 대부분 히터 방식임"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "medium",
+"evidence": "가격대 및 스펙 구성상 1인 가구용 소용량 모델로 추정 (보통 8kg 이하)"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "설치 공간 제약이 적은 소형 제품"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "특별한 스마트 기능 언급 없음, 기본 건조 기능 중심"
+}
+},
+"analysis": {
+"strengths": ["저렴한 가격", "직관적인 다이얼 조작"],
+"weaknesses": ["낮은 에너지 효율(5등급)"],
+"bestFor": "가성비를 중시하는 1인 가구"
+}
+},
+{
+"pcode": "13582793",
+"name": "삼성전자 비스포크 그랑데AI DV17A9740CP",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "스펙 명시: '건조시간이 빠른 히트펌프+히터건조'"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "모델명 DV17(17kg), 3인 이상 가구 적합"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "올인원컨트롤, 세탁기 위 직렬 설치 최적화"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 올인원컨트롤, AI 기능 탑재"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조 속도(하이브리드)", "AI 맞춤 건조", "공간 제습 기능"],
+"weaknesses": ["높은 가격대"],
+"bestFor": "빠른 건조와 스마트 기능을 원하는 4인 이상 가구"
+}
+},
+{
+"pcode": "27505550",
+"name": "LG전자 트롬 오브제컬렉션 RG18WNW",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "스펙 명시: '옷감손상이 적은 히트펌프 건조', 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "모델명 RG18(18kg), 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "대용량 드럼 건조기로 직렬 설치 적합"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, AI에너지절약"
+}
+},
+"analysis": {
+"strengths": ["높은 에너지 효율", "AI 에너지 절약 모드", "옷감 손상 최소화"],
+"weaknesses": ["히터 복합식 대비 건조 시간 차이 있을 수 있음"],
+"bestFor": "에너지 절약과 옷감 보호를 중시하는 대가족"
+}
+},
+{
+"pcode": "19719056",
+"name": "위닉스 컴팩트 플러스 2세대 HS2E400-MGK",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기는 주로 히터 방식"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "스펙 명시: '미니건조기', 4kg급 예상"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "컴팩트한 사이즈로 실내 설치 용이"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "기본적인 살균/위생 관리 기능 제공 추정"
+}
+},
+"analysis": {
+"strengths": ["공간 절약", "설치 간편", "2세대 업그레이드"],
+"weaknesses": ["에너지 효율 낮음"],
+"bestFor": "소량 빨래가 잦은 1인 가구"
+}
+},
+{
+"pcode": "7684891",
+"name": "디어마 다용도 신발 건조기 HX20",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기는 열풍 방식 사용"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용 소형 가전"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "현관이나 실내 보관"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "살균 건조 기능 중점"
+}
+},
+"analysis": {
+"strengths": ["저렴한 가격", "신발 집중 관리"],
+"weaknesses": ["의류 건조 불가"],
+"bestFor": "운동화나 구두 관리가 필요한 사용자"
+}
+},
+{
+"pcode": "33384554",
+"name": "LG전자 트롬 오브제컬렉션 RD22KS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "옷감손상이 적은 히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "모델명 RD22(22kg), 초대형 용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "조작부연동, 이지서클컨트롤로 직렬 설치 최적"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀(진드기/세균박멸)"
+}
+},
+"analysis": {
+"strengths": ["초대형 용량", "트루스팀 위생 관리", "세련된 디자인"],
+"weaknesses": ["고가 라인업"],
+"bestFor": "이불 빨래가 많고 위생을 중시하는 대가족"
+}
+},
+{
+"pcode": "18644903",
+"name": "LG전자 트롬 오브제컬렉션 RD21GS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "모델명 RD21(21kg), 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "조작부연동, 이지서클컨트롤"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, AI에너지절약, 트루스팀"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "AI 기능", "대용량"],
+"weaknesses": ["가격"],
+"bestFor": "프리미엄 기능을 원하는 대가족"
+}
+},
+{
+"pcode": "11372766",
+"name": "소싱 제로 신발 건조기 DSHJ-S-1904",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "열풍 건조 방식"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "휴대 가능할 정도로 작음"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "건조 및 살균 목적"
+}
+},
+"analysis": {
+"strengths": ["휴대성", "저렴한 가격"],
+"weaknesses": ["기본 기능만 있음"],
+"bestFor": "장마철 신발 관리가 필요한 1인 가구"
+}
+},
+{
+"pcode": "20537819",
+"name": "한경희생활과학 미니 LSL-GD6-HAAN628HW",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기 특성"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치 용이"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선살균 기능 탑재"
+}
+},
+"analysis": {
+"strengths": ["자외선 살균", "브랜드 신뢰도"],
+"weaknesses": ["에너지 효율 낮음"],
+"bestFor": "속옷/아기옷 전용 건조기가 필요한 가정"
+}
+},
+{
+"pcode": "58114496",
+"name": "본앤메이드 신발살균건조기 P300Pro",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기 열풍 방식"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 사용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "자외선 살균 기능 강조"
+}
+},
+"analysis": {
+"strengths": ["살균 기능 강화"],
+"weaknesses": ["용도 제한"],
+"bestFor": "신발 위생에 민감한 사용자"
+}
+},
+{
+"pcode": "17502512",
+"name": "한일전기 미니건조기 HLD-5100W",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기 (5kg급 추정)"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "소형으로 실내 설치 적합"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균 기능"
+}
+},
+"analysis": {
+"strengths": ["자외선 살균", "컴팩트 디자인"],
+"weaknesses": ["낮은 에너지 효율"],
+"bestFor": "소량 빨래를 자주 하는 1인 가구"
+}
+},
+{
+"pcode": "10448373",
+"name": "삼성전자 그랑데AI DV16T9720SV",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "스펙 명시: '히트펌프+히터건조'"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "중형용량(16kg), 3인 이상 적합"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "올인원컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 스마트코스추천"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조(하이브리드)", "편리한 AI 기능"],
+"weaknesses": ["최신 모델 대비 연식 있음"],
+"bestFor": "검증된 성능의 대용량 건조기를 찾는 가구"
+}
+},
+{
+"pcode": "18685673",
+"name": "LG전자 트롬 오브제컬렉션 RD21WS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "21kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀 살균"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "대용량", "오브제 디자인"],
+"weaknesses": ["고가"],
+"bestFor": "인테리어와 위생을 모두 고려하는 가정"
+}
+},
+{
+"pcode": "94028828",
+"name": "플랜잇 슈즈케어",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 보관"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["살균 기능", "간편한 사용"],
+"weaknesses": ["용도 한정"],
+"bestFor": "매일 신는 신발 관리"
+}
+},
+{
+"pcode": "98762465",
+"name": "LG전자 트롬 AI 오브제컬렉션 RD25TS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "RD25(25kg), 국내 최대급 용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "조작부연동, 직렬 설치 용이"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI 기능, 트루스팀"
+}
+},
+"analysis": {
+"strengths": ["압도적인 용량(25kg)", "최신 AI 기술", "트루스팀"],
+"weaknesses": ["매우 고가"],
+"bestFor": "가장 큰 용량과 최신 기능을 원하는 가정"
+}
+},
+{
+"pcode": "19704656",
+"name": "LG전자 트롬 오브제컬렉션 RG19WN",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "19kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "medium",
+"evidence": "조작부 연동 기능 언급 없어 단독 설치 혹은 일반 직렬 설치(리모컨 등)"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, AI에너지절약"
+}
+},
+"analysis": {
+"strengths": ["실속 있는 대용량", "AI 기능"],
+"weaknesses": ["트루스팀 제외 모델 가능성 있음"],
+"bestFor": "합리적인 가격의 대용량 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "14344700",
+"name": "삼성전자 DV90TA040AE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "스펙 명시: '옷감손상이 적은 히트펌프 건조' (히터 혼합 언급 없음)"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "소형용량(9kg), 1-2인 가구 적합"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "medium",
+"evidence": "9kg급은 직렬 설치 가능하나 대형보다는 제약 있을 수 있음"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 건조 기능 충실, AI 언급 적음"
+}
+},
+"analysis": {
+"strengths": ["저온제습(히트펌프)", "가성비", "양방향 도어"],
+"weaknesses": ["구형 모델, AI 기능 부족"],
+"bestFor": "기본기에 충실한 소형 건조기를 찾는 2인 가구"
+}
+},
+{
+"pcode": "4582884",
+"name": "린나이 휴앤봇 RD-41S LNG",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "가스식 건조기는 고열풍 방식"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "4kg-5kg급 소형"
+},
+"installation_environment": {
+"matchedOption": "outdoor_space",
+"confidence": "high",
+"evidence": "가스 배관 연결 및 배기 연도 필요(주로 베란다 설치)"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "강력한 열풍 살균, 소음/진동은 있을 수 있음"
+}
+},
+"analysis": {
+"strengths": ["매우 빠른 건조", "강력한 살균"],
+"weaknesses": ["설치 까다로움(가스 배관)", "유지비(가스비)"],
+"bestFor": "빠르고 강력한 건조를 원하며 설치 환경이 되는 가정"
+}
+},
+{
+"pcode": "12313634",
+"name": "삼성전자 그랑데AI DV90T5740BW",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "스펙 명시: '히트펌프 건조', 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "소형용량(9kg)"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "심플컨트롤, 세탁기와 연동 가능"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 스마트코스추천"
+}
+},
+"analysis": {
+"strengths": ["AI 기능 탑재 소형 모델", "에너지 효율 1등급"],
+"weaknesses": ["대용량 대비 이불 건조 한계"],
+"bestFor": "스마트 기능을 원하는 1-2인 가구"
+}
+},
+{
+"pcode": "17643932",
+"name": "위닉스 HSTE400-LWK",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기 (4kg)"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "설치가 자유로운 미니 사이즈"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능 위주"
+}
+},
+"analysis": {
+"strengths": ["디자인", "위닉스 브랜드"],
+"weaknesses": ["에너지 효율"],
+"bestFor": "디자인을 중요시하는 1인 가구"
+}
+},
+{
+"pcode": "17485679",
+"name": "씨엔컴퍼니 쿠잉 DM-045WH",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 보급형 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 타이머 기능"
+}
+},
+"analysis": {
+"strengths": ["매우 저렴한 가격"],
+"weaknesses": ["기능 단순", "전기료 부담"],
+"bestFor": "최저가 미니 건조기를 찾는 자취생"
+}
+},
+{
+"pcode": "98762453",
+"name": "LG전자 트롬 AI 오브제컬렉션 RD25GSG",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "25kg 초대형 용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀, AI 기능"
+}
+},
+"analysis": {
+"strengths": ["현존 최대 용량급", "트루스팀", "고급스러운 디자인"],
+"weaknesses": ["매우 고가"],
+"bestFor": "최고 사양을 원하는 대가족"
+}
+},
+{
+"pcode": "9539136",
+"name": "히츠 HD-400GE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 설치 적합"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 건조 기능 중심"
+}
+},
+"analysis": {
+"strengths": ["미니 건조기 스테디셀러", "내구성"],
+"weaknesses": ["소음", "에너지 효율"],
+"bestFor": "실용적인 1인 가구 건조기"
+}
+},
+{
+"pcode": "60321980",
+"name": "이지 신발건조기",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 사용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "타이머 등 기본 기능"
+}
+},
+"analysis": {
+"strengths": ["간편함"],
+"weaknesses": ["단순 기능"],
+"bestFor": "저렴한 신발 건조기"
+}
+},
+{
+"pcode": "11044224",
+"name": "삼성전자 그랑데 DV16T8520BP",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "16kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "코스연동 가능, 직렬설치 지원"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["하이브리드 빠른 건조", "AI 기능"],
+"weaknesses": ["최신 비스포크 디자인 아님"],
+"bestFor": "성능 좋은 중형 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "17614895",
+"name": "샤오미 8H 스마트 신발 건조기 HS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기 열풍"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 사용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["샤오미 생태계", "디자인", "살균"],
+"weaknesses": ["해외 직구 가능성(AS)"],
+"bestFor": "디자인과 가성비를 모두 잡고 싶은 사용자"
+}
+},
+{
+"pcode": "573524",
+"name": "씨원 위즐 퍼펙 신발건조기 SD-2010",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 사용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 건조 기능"
+}
+},
+"analysis": {
+"strengths": ["신발 건조 기본기"],
+"weaknesses": ["구형 모델", "투박한 디자인"],
+"bestFor": "실용성 위주의 신발 건조기"
+}
+},
+{
+"pcode": "13950125",
+"name": "스마트름뱅이 다용도 살균건조기 캡슐에스",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "소형 살균 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발/소품 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "매우 작음"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균, 온도조절"
+}
+},
+"analysis": {
+"strengths": ["다용도 활용(신발, 마스크 등)", "살균"],
+"weaknesses": ["건조 용량 매우 적음"],
+"bestFor": "위생 용품 및 신발 살균"
+}
+},
+{
+"pcode": "9345870",
+"name": "로퍼 RD-618E (GDZ60-618E)",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "medium",
+"evidence": "미니/소형 건조기 (모델명 60은 6kg 추정)"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "소형 제품"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능 위주"
+}
+},
+"analysis": {
+"strengths": ["가성비", "적당한 소형 용량"],
+"weaknesses": ["에너지 효율"],
+"bestFor": "가성비 소형 건조기"
+}
+},
+{
+"pcode": "70533977",
+"name": "대웅 DWCD-E2404SJ",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "medium",
+"evidence": "스펙에 'AI건조' 표기됨 (단, 대형 가전의 고지능 AI와 다를 수 있음)"
+}
+},
+"analysis": {
+"strengths": ["저렴함", "자동 건조 기능(AI)"],
+"weaknesses": ["브랜드 인지도", "효율"],
+"bestFor": "기능성 미니 건조기를 저렴하게 구매하려는 분"
+}
+},
+{
+"pcode": "15482228",
+"name": "마이디어 MD-H3TW",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "3kg급 미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "초소형 사이즈"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능"
+}
+},
+"analysis": {
+"strengths": ["귀여운 디자인", "공간 활용성"],
+"weaknesses": ["용량 작음"],
+"bestFor": "속옷/양말 전용 세컨드 건조기"
+}
+},
+{
+"pcode": "17279030",
+"name": "위니아 미니 EWR03SGW",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "3kg 미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["위니아 브랜드", "살균 기능"],
+"weaknesses": ["용량 작음"],
+"bestFor": "소량 빨래 및 아기옷 살균"
+}
+},
+{
+"pcode": "16773848",
+"name": "LG전자 트롬 오브제컬렉션 RD20ENEF",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 하단 수납함 포함 모델일 수 있으나 직렬설치 호환성 높음(수납함 제외 시)"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 앱연동"
+}
+},
+"analysis": {
+"strengths": ["수납함 포함(옵션 확인 필요)으로 허리 보호", "대용량", "AI 기능"],
+"weaknesses": ["부피가 큼"],
+"bestFor": "편리한 사용성을 중시하는 가정"
+}
+},
+{
+"pcode": "32884604",
+"name": "LG전자 트롬 오브제컬렉션 RD22GSG",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "22kg 초대형"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀, AI건조"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "초대형 용량", "고급 디자인"],
+"weaknesses": ["가격"],
+"bestFor": "프리미엄 대용량 건조기 수요층"
+}
+},
+{
+"pcode": "15028508",
+"name": "오아 스마트 미니 건조기 E0239 OET-001WH",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능, 오아 브랜드 디자인 감성"
+}
+},
+"analysis": {
+"strengths": ["깔끔한 디자인", "터치 조작"],
+"weaknesses": ["효율 낮음"],
+"bestFor": "디자인 소품 같은 가전을 원하는 1인 가구"
+}
+},
+{
+"pcode": "21454706",
+"name": "LG전자 트롬 오브제컬렉션 RG18VNX",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "18kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "건조기+미니세탁기(워시타워 형태 혹은 하단 결합 가능성), 직렬 설치 혹은 독립 설치 모두 유리"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 패딩리프레쉬"
+}
+},
+"analysis": {
+"strengths": ["미니세탁기 결합 모델(트윈워시 형태 추정)", "공간 활용성", "AI 기능"],
+"weaknesses": ["높이로 인한 설치 제약 확인 필요"],
+"bestFor": "소량 세탁과 대용량 건조를 동시에 해결하고픈 가정"
+}
+},
+{
+"pcode": "101014829",
+"name": "인아 에스틸로 MIDI ILD-501UWB",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기 (3-5kg)"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["살균 기능", "적당한 미니 사이즈"],
+"weaknesses": ["전기료"],
+"bestFor": "원룸 거주자"
+}
+},
+{
+"pcode": "5377645",
+"name": "아이프리 아이슈 신발살균건조기 FX-101",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "신발장/실내"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "살균 기능"
+}
+},
+"analysis": {
+"strengths": ["살균", "간편함"],
+"weaknesses": ["단일 기능"],
+"bestFor": "신발 관리 입문용"
+}
+},
+{
+"pcode": "70765001",
+"name": "빅케이스테크놀러지코리아 소싱 제로 프로 신발 건조기 DSHJ-S-2214C",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 열풍 건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "휴대/실내용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능"
+}
+},
+"analysis": {
+"strengths": ["휴대성", "프로 모델로 성능 개선 추정"],
+"weaknesses": ["기능 제한"],
+"bestFor": "여행/출장 시 신발 관리"
+}
+},
+{
+"pcode": "58846862",
+"name": "LG전자 트롬 오브제컬렉션 RG18WNST",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "18kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "일반 대형 건조기, 직렬 설치 가능"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, AI에너지절약"
+}
+},
+"analysis": {
+"strengths": ["가격 경쟁력 있는 대용량 오브제", "AI 기능"],
+"weaknesses": ["트루스팀 없음(추정)"],
+"bestFor": "가성비 좋은 LG 대용량 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "16622117",
+"name": "LG전자 트롬 오브제컬렉션 RD20ENE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, UP가전"
+}
+},
+"analysis": {
+"strengths": ["UP가전(기능 업그레이드)", "대용량", "디자인"],
+"weaknesses": ["트루스팀 제외 모델"],
+"bestFor": "지속적인 기능 업데이트를 원하는 사용자"
+}
+},
+{
+"pcode": "19404626",
+"name": "LG전자 트롬 오브제컬렉션 RD20KNT",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 직렬설치 지원"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 앱연동"
+}
+},
+"analysis": {
+"strengths": ["대용량", "스마트 기능"],
+"weaknesses": ["모델 라인업 중 중간급 옵션"],
+"bestFor": "적절한 가격대의 대용량 LG 건조기 선호층"
+}
+},
+{
+"pcode": "13919885",
+"name": "LG전자 트롬 RH16VTANA",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "16kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬설치 가능, 앱연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동, 스마트코스추천"
+}
+},
+"analysis": {
+"strengths": ["검증된 성능", "1등급 효율"],
+"weaknesses": ["구형 디자인(오브제 아님)"],
+"bestFor": "디자인보다 성능과 실속을 챙기는 가정"
+}
+},
+{
+"pcode": "16833614",
+"name": "마이디어 MCD-H803W",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 2등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "8kg급 (모델명 H803), 1-2인 가구 적합"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "medium",
+"evidence": "저온제습 방식으로 실내 설치 용이"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "인버터모터(소음 감소 기대)"
+}
+},
+"analysis": {
+"strengths": ["가성비 히트펌프 건조기", "옷감 보호"],
+"weaknesses": ["2등급 효율", "브랜드 인지도"],
+"bestFor": "저렴하게 히트펌프 방식을 쓰고 싶은 1인 가구"
+}
+},
+{
+"pcode": "16072115",
+"name": "LG전자 트롬 RD20VS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀 탑재"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "20kg 대용량"],
+"weaknesses": ["오브제 컬렉션 아닐 수 있음(일반 트롬 디자인)"],
+"bestFor": "기능 위주의 실속파 대가족"
+}
+},
+{
+"pcode": "17279063",
+"name": "위니아 NEW 미니 EWR03SGDV(A)",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "3kg 미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["업그레이드 모델", "살균"],
+"weaknesses": ["용량 한계"],
+"bestFor": "소량 살균 건조가 필요한 가정"
+}
+},
+{
+"pcode": "12461348",
+"name": "삼성전자 그랑데 DV17T8520BP",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "17kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬 설치 지원, 코스연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조", "AI 기능"],
+"weaknesses": ["구형 모델"],
+"bestFor": "빠른 대용량 건조를 원하는 가정"
+}
+},
+{
+"pcode": "10009650",
+"name": "샤오미 제로원 DSHJ-S-1904",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "휴대/실내용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능"
+}
+},
+"analysis": {
+"strengths": ["초저가", "휴대성"],
+"weaknesses": ["내구성"],
+"bestFor": "가볍게 쓸 신발 건조기"
+}
+},
+{
+"pcode": "13357328",
+"name": "LG전자 트롬 RH16WTAN",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "16kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬설치, 앱연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동, 다운로드코스"
+}
+},
+"analysis": {
+"strengths": ["1등급 효율", "LG 트롬 신뢰성"],
+"weaknesses": ["기본형 디자인"],
+"bestFor": "실용적인 중형 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "9440565",
+"name": "LG전자 트롬 RH14WN",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 2등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "14kg (중형급)"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬설치 가능"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동, 스마트코스추천"
+}
+},
+"analysis": {
+"strengths": ["적당한 용량", "옷감 보호"],
+"weaknesses": ["2등급 효율"],
+"bestFor": "가격 부담을 낮춘 LG 중형 건조기 선호층"
+}
+},
+{
+"pcode": "12177044",
+"name": "LG전자 트롬 RH9VV",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "9kg 소형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬설치 가능(전용 키트 등 확인 필요), 양방향도어"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동"
+}
+},
+"analysis": {
+"strengths": ["1등급 효율", "소형이지만 고성능(히트펌프)"],
+"weaknesses": ["용량 대비 가격이 높을 수 있음"],
+"bestFor": "성능 좋은 소형 건조기를 찾는 1-2인 가구"
+}
+},
+{
+"pcode": "100327538",
+"name": "보닉 스퀘어",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "low",
+"evidence": "기본 기능"
+}
+},
+"analysis": {
+"strengths": ["디자인", "컴팩트"],
+"weaknesses": ["효율"],
+"bestFor": "인테리어용 미니 건조기"
+}
+},
+{
+"pcode": "14310863",
+"name": "삼성전자 DV14A9100KV",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "medium",
+"evidence": "DV14A 시리즈는 주로 하이브리드이나 스펙 표기에 명확한 히터 언급 부재, 삼성 대형은 주로 하이브리드"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "14kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬 설치 가능"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동"
+}
+},
+"analysis": {
+"strengths": ["적절한 중형 용량", "블랙 케비어 색상(KV)"],
+"weaknesses": ["AI컨트롤 패널 유무 확인 필요(다이얼+LED 표기)"],
+"bestFor": "세련된 색상의 중형 건조기 선호층"
+}
+},
+{
+"pcode": "19587686",
+"name": "LG전자 오브제컬렉션 스타일러 슈케어 SS4RYS60E",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "medium",
+"evidence": "스타일러 기술 기반(히트펌프 혹은 스팀 히터 복합), 상세 스펙상 신발 관리기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "드레스룸 등 실내 설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동, 다운로드코스"
+}
+},
+"analysis": {
+"strengths": ["프리미엄 신발 관리", "오브제 디자인"],
+"weaknesses": ["고가", "신발 전용"],
+"bestFor": "고가의 신발을 수집하거나 관리하는 사용자"
+}
+},
+{
+"pcode": "98762474",
+"name": "LG전자 트롬 AI 오브제컬렉션 RD25AS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "25kg 초대형"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 트루스팀"
+}
+},
+"analysis": {
+"strengths": ["초대형 용량", "최신 기능 집약"],
+"weaknesses": ["가격"],
+"bestFor": "최고급 사양을 원하는 대가족"
+}
+},
+{
+"pcode": "50124074",
+"name": "위닉스 컴팩트 3세대 HS3H400-NGK",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "미니건조기(4kg)"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "인버터모터(소음 개선), 자외선살균"
+}
+},
+"analysis": {
+"strengths": ["인버터 모터로 소음/진동 개선", "3세대 최신형"],
+"weaknesses": ["여전히 5등급 효율"],
+"bestFor": "조용한 미니 건조기를 찾는 분"
+}
+},
+{
+"pcode": "10450125",
+"name": "삼성전자 그랑데AI DV16T8740SE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "16kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "심플컨트롤, 직렬설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 스마트코스추천"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조", "AI 기능"],
+"weaknesses": ["구형 모델"],
+"bestFor": "가성비 좋은 삼성 중형 건조기 선호층"
+}
+},
+{
+"pcode": "16072049",
+"name": "LG전자 트롬 오브제컬렉션 RD20ES",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "베이지 컬러(ES) 디자인"],
+"weaknesses": ["가격"],
+"bestFor": "디자인과 위생을 모두 챙기는 가정"
+}
+},
+{
+"pcode": "21454781",
+"name": "LG전자 트롬 오브제컬렉션 RG19GNX",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "19kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "미니세탁기 결합 가능형, 직렬 설치 유리"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["미니세탁기 확장성", "AI 기능"],
+"weaknesses": ["설치 공간 높이 확인 필요"],
+"bestFor": "세탁과 건조 시스템을 구축하려는 가정"
+}
+},
+{
+"pcode": "17934575",
+"name": "LG전자 트롬 오브제컬렉션 RD20VSQ",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀, 패딩리프레쉬"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "실버/메탈 계열 디자인(VSQ)"],
+"weaknesses": ["가격"],
+"bestFor": "메탈릭 인테리어를 선호하는 대가족"
+}
+},
+{
+"pcode": "58846598",
+"name": "LG전자 트롬 오브제컬렉션 RG18WNT",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "18kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬설치, 코스연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["오브제 디자인", "합리적인 18kg 용량"],
+"weaknesses": ["트루스팀 미탑재"],
+"bestFor": "가성비 좋은 오브제 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "10945050",
+"name": "삼성전자 그랑데 DV16T8520BV",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "16kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "심플컨트롤, 직렬설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["블랙 컬러", "빠른 건조", "AI 기능"],
+"weaknesses": ["구형 모델"],
+"bestFor": "블랙 가전을 선호하는 가정"
+}
+},
+{
+"pcode": "11179581",
+"name": "LG전자 트롬 RH16VSC",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 2등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "16kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "직렬설치, 스마트코스추천"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀 탑재"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "신뢰성 있는 모델"],
+"weaknesses": ["2등급 효율", "구형 디자인"],
+"bestFor": "기능(스팀)을 중시하는 실속파"
+}
+},
+{
+"pcode": "13890677",
+"name": "일코전자 에스틸로 ILD-301UPR",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급, 미니건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "3kg급 미니"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["살균 기능", "미니멀 디자인"],
+"weaknesses": ["용량 작음"],
+"bestFor": "소량 빨래 전용 서브 건조기"
+}
+},
+{
+"pcode": "60323168",
+"name": "2FAC 신발건조기",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "신발 열풍 건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 사용"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["살균", "타이머"],
+"weaknesses": ["브랜드 인지도 낮음"],
+"bestFor": "가성비 신발 관리"
+}
+},
+{
+"pcode": "19170209",
+"name": "삼성전자 비스포크 그랑데AI DV20CB8600BE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조, AI에너지절약"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "심플컨트롤, 직렬설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, AI에너지절약"
+}
+},
+"analysis": {
+"strengths": ["최신 비스포크 디자인", "AI 에너지 절약", "대용량"],
+"weaknesses": ["가격"],
+"bestFor": "에너지 절약과 디자인을 중시하는 대가족"
+}
+},
+{
+"pcode": "14309405",
+"name": "삼성전자 비스포크 슈드레서 DJ30T9500CE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "medium",
+"evidence": "저온 건조 기술(히터 기반 제어 추정), 스펙상 명확한 히트펌프 언급 없음"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "비스포크 디자인, 실내 인테리어 가전"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동, 다운로드코스"
+}
+},
+"analysis": {
+"strengths": ["프리미엄 디자인", "전문적인 신발 관리"],
+"weaknesses": ["고가", "한번에 관리 가능한 수량 제한"],
+"bestFor": "신발 수집가 및 인테리어 중시 사용자"
+}
+},
+{
+"pcode": "16431665",
+"name": "삼성전자 그랑데AI DV90T5740SE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "스펙 명시: '옷감손상이 적은 히트펌프 건조'"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "9kg 소형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "심플컨트롤, 직렬설치 지원"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["소형 AI 건조기", "히트펌프 방식"],
+"weaknesses": ["용량 제한"],
+"bestFor": "스마트 기능을 원하는 1-2인 가구"
+}
+},
+{
+"pcode": "12492653",
+"name": "삼성전자 그랑데AI DV17T8740BV",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "17kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "심플컨트롤, 직렬설치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조", "블랙 컬러", "AI 기능"],
+"weaknesses": ["구형 모델"],
+"bestFor": "성능 좋은 블랙 대용량 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "14309006",
+"name": "삼성전자 비스포크 슈드레서 DJ30T9500WE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "medium",
+"evidence": "저온 섬세 건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 인테리어 가전"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동"
+}
+},
+"analysis": {
+"strengths": ["화이트 깔끔한 디자인", "전문 신발 관리"],
+"weaknesses": ["가격"],
+"bestFor": "신발 관리에 진심인 사용자"
+}
+},
+{
+"pcode": "18685721",
+"name": "LG전자 트롬 오브제컬렉션 RD21VS",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "21kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "트루스팀, AI건조"
+}
+},
+"analysis": {
+"strengths": ["트루스팀", "대용량", "오브제 디자인"],
+"weaknesses": ["가격"],
+"bestFor": "프리미엄 대용량 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "17769413",
+"name": "제이에스코리아 니봇 큐오박스 토탈케어 살균기 JSK-21087",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "소형 살균 건조기"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발/소품 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "high",
+"evidence": "강력한 살균 기능 강조"
+}
+},
+"analysis": {
+"strengths": ["다목적 살균", "박스형 디자인"],
+"weaknesses": ["건조 용량 제한"],
+"bestFor": "소품 및 신발 위생 관리"
+}
+},
+{
+"pcode": "16281278",
+"name": "위닉스 텀블 HGXH190-KSK",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "옷감손상이 적은 히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "19kg (HGXH190 모델명 기반)"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "medium",
+"evidence": "대형 건조기로 직렬 설치 가능 (키트 확인 필요)"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "패딩리프레쉬 등 관리 기능"
+}
+},
+"analysis": {
+"strengths": ["가성비 대용량", "1등급 효율", "위닉스 품질"],
+"weaknesses": ["스마트 기능(AI) 상대적 약함"],
+"bestFor": "브랜드 거품을 뺀 대용량 건조기 선호층"
+}
+},
+{
+"pcode": "14309612",
+"name": "삼성전자 비스포크 슈드레서 DJ30T9500FE",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "medium",
+"evidence": "저온 건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "신발 전용"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 인테리어 가전"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "high",
+"evidence": "앱연동"
+}
+},
+"analysis": {
+"strengths": ["예쁜 색상(코타 펀그린 등)", "신발 관리"],
+"weaknesses": ["가격"],
+"bestFor": "포인트 인테리어와 신발 관리를 원하는 분"
+}
+},
+{
+"pcode": "13583054",
+"name": "삼성전자 비스포크 그랑데AI DV19A9740CP",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "19kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "올인원컨트롤, 직렬설치 최적화"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 공간제습"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조", "공간 제습", "AI 기능"],
+"weaknesses": ["고가"],
+"bestFor": "다기능 고성능 건조기를 찾는 대가족"
+}
+},
+{
+"pcode": "18455330",
+"name": "LG전자 트롬 RH18WTLN",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "18kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "코스연동, 직렬설치 가능"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, 스마트코스추천"
+}
+},
+"analysis": {
+"strengths": ["기본기 탄탄한 대용량", "1등급 효율"],
+"weaknesses": ["트루스팀 없음", "기본 디자인"],
+"bestFor": "가성비 대용량 LG 건조기를 찾는 가정"
+}
+},
+{
+"pcode": "17792309",
+"name": "LG전자 트롬 RD20WN",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 1등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "20kg 대용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "high",
+"evidence": "이지서클컨트롤, 조작부연동"
+},
+"smart_features_and_convenience": {
+"matchedOption": "ai_smart_features",
+"confidence": "high",
+"evidence": "AI건조, AI에너지절약"
+}
+},
+"analysis": {
+"strengths": ["대용량", "AI 기능", "합리적 가격(트루스팀 제외)"],
+"weaknesses": ["트루스팀 없음"],
+"bestFor": "스팀 기능 없이 큰 용량만 필요한 가정"
+}
+},
+{
+"pcode": "17279192",
+"name": "위니아 미니 BWR03SGDV",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "air_heater",
+"confidence": "high",
+"evidence": "건조:5등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "small_capacity",
+"confidence": "high",
+"evidence": "3kg 미니"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "high",
+"evidence": "실내 거치"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "자외선 살균"
+}
+},
+"analysis": {
+"strengths": ["살균 건조", "미니멀 디자인"],
+"weaknesses": ["용량 한계"],
+"bestFor": "1인 가구 또는 아기옷 전용"
+}
+},
+{
+"pcode": "7606669",
+"name": "삼성전자 그랑데 DV14R8520KP",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "hybrid",
+"confidence": "high",
+"evidence": "히트펌프+히터건조, 2등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "14kg 중형용량"
+},
+"installation_environment": {
+"matchedOption": "stacked_installation",
+"confidence": "medium",
+"evidence": "직렬설치 가능하나 구형 모델로 키트 호환 확인 필요"
+},
+"smart_features_and_convenience": {
+"matchedOption": "smart_home_integration",
+"confidence": "medium",
+"evidence": "앱연동(SmartThings)"
+}
+},
+"analysis": {
+"strengths": ["빠른 건조(하이브리드)", "튼튼한 내구성"],
+"weaknesses": ["구형 모델", "2등급"],
+"bestFor": "저렴하게 중형 삼성 건조기를 구하는 분"
+}
+},
+{
+"pcode": "11607644",
+"name": "마이디어 MCD-H103W",
+"questionMapping": {
+"drying_method_and_energy_efficiency": {
+"matchedOption": "heat_pump",
+"confidence": "high",
+"evidence": "히트펌프 건조, 2등급"
+},
+"capacity_and_household_size": {
+"matchedOption": "large_capacity",
+"confidence": "high",
+"evidence": "10kg (모델명 H103), 2-3인 가구 적합"
+},
+"installation_environment": {
+"matchedOption": "indoor_space",
+"confidence": "medium",
+"evidence": "저온제습 방식으로 실내 설치 용이"
+},
+"smart_features_and_convenience": {
+"matchedOption": "hygiene_and_quiet",
+"confidence": "medium",
+"evidence": "에어살균"
+}
+},
+"analysis": {
+"strengths": ["히트펌프 방식의 가성비", "10kg의 넉넉한 소형~중형 용량"],
+"weaknesses": ["2등급", "브랜드 인지도"],
+"bestFor": "10kg급 가성비 건조기를 찾는 가정"
+}
+}
+]

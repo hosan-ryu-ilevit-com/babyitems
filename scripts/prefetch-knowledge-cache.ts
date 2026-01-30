@@ -116,6 +116,7 @@ interface PrefetchOptions {
   skipProducts: boolean;  // DB 캐시에서 제품 로드 (크롤링 스킵)
   skipReviews: boolean;
   skipPrices: boolean;
+  forcePrices: boolean;   // 이미 캐시된 가격도 강제 업데이트
   dryRun: boolean;
 }
 
@@ -133,7 +134,7 @@ interface PrefetchResult {
 // ============================================================================
 
 async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> {
-  const { query, productLimit, reviewsTopN, reviewsPerProduct, skipProducts, skipReviews, skipPrices, dryRun } = options;
+  const { query, productLimit, reviewsTopN, reviewsPerProduct, skipProducts, skipReviews, skipPrices, forcePrices, dryRun } = options;
   const startTime = Date.now();
   const errors: string[] = [];
 
@@ -418,28 +419,34 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
   const skippedNonDanawa = products.length - allPcodes.length;
 
   if (!skipPrices && allPcodes.length > 0) {
-    // 이미 캐시된 pcode 조회 (스킵 처리)
     console.log(`\n💰 [Step 4] 가격 크롤링 준비 중...`);
-    try {
-      const { data: cachedPrices } = await db
-        .from('knowledge_prices_cache')
-        .select('pcode')
-        .in('pcode', allPcodes);
 
-      const cachedPcodeSet = new Set((cachedPrices || []).map((r: { pcode: string }) => r.pcode));
-      const skippedCached = cachedPcodeSet.size;
+    // forcePrices가 아니면 이미 캐시된 pcode 스킵
+    if (!forcePrices) {
+      try {
+        const { data: cachedPrices } = await db!
+          .from('knowledge_prices_cache')
+          .select('pcode')
+          .in('pcode', allPcodes);
 
-      // 이미 캐시된 pcode 제외
-      allPcodes = allPcodes.filter(pcode => !cachedPcodeSet.has(pcode));
+        const cachedPcodeSet = new Set((cachedPrices || []).map((r: { pcode: string }) => r.pcode));
+        const skippedCached = cachedPcodeSet.size;
 
-      console.log(`   📂 이미 캐시됨: ${skippedCached}개 (스킵)`);
-      if (skippedNonDanawa > 0) {
-        console.log(`   ⚠️ 타사 pcode: ${skippedNonDanawa}개 (스킵)`);
+        // 이미 캐시된 pcode 제외
+        allPcodes = allPcodes.filter(pcode => !cachedPcodeSet.has(pcode));
+
+        console.log(`   📂 이미 캐시됨: ${skippedCached}개 (스킵)`);
+      } catch (error) {
+        console.error(`   ⚠️ 캐시 조회 실패, 전체 크롤링 진행:`, error);
       }
-      console.log(`   🎯 크롤링 대상: ${allPcodes.length}개`);
-    } catch (error) {
-      console.error(`   ⚠️ 캐시 조회 실패, 전체 크롤링 진행:`, error);
+    } else {
+      console.log(`   🔄 강제 업데이트 모드: 모든 가격 재크롤링`);
     }
+
+    if (skippedNonDanawa > 0) {
+      console.log(`   ⚠️ 타사 pcode: ${skippedNonDanawa}개 (스킵)`);
+    }
+    console.log(`   🎯 크롤링 대상: ${allPcodes.length}개`);
 
     if (allPcodes.length === 0) {
       console.log(`   ✅ 모든 가격이 이미 캐시되어 있습니다.`);
@@ -549,6 +556,7 @@ async function main() {
   const skipProducts = hasFlag('skip-products');  // DB 캐시에서 제품 로드
   const skipReviews = hasFlag('skip-reviews');
   const skipPrices = hasFlag('skip-prices');
+  const forcePrices = hasFlag('force-prices');    // 캐시된 가격도 강제 업데이트
   const dryRun = hasFlag('dry-run');
 
   // 사용법 출력
@@ -571,6 +579,7 @@ Knowledge Agent 캐시 프리페치 스크립트
   --skip-products      제품 크롤링 스킵 (DB 캐시 사용)
   --skip-reviews       리뷰 크롤링 건너뛰기
   --skip-prices        가격 크롤링 건너뛰기
+  --force-prices       이미 캐시된 가격도 강제 업데이트
   --dry-run            DB 저장 없이 크롤링만 테스트
 
 기본 카테고리 목록:
@@ -618,8 +627,9 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
   console.log(`\n${'#'.repeat(60)}`);
   console.log(`#  Knowledge Cache Prefetch`);
   console.log(`#  쿼리: ${queries.length}개`);
-  console.log(`#  제품: ${productLimit}개, 리뷰 대상: ${reviewsTopN}개 x ${reviewsPerProduct}개`);
-  console.log(`#  옵션: ${resume ? 'resume ' : ''}${skipProducts ? 'skip-products ' : ''}${skipReviews ? 'skip-reviews ' : ''}${skipPrices ? 'skip-prices ' : ''}${dryRun ? 'dry-run' : ''}`);
+  console.log(`#  제품: ${skipProducts ? 'DB 캐시 사용' : `${productLimit}개 크롤링`}`);
+  console.log(`#  리뷰: ${skipReviews ? '스킵' : `상위 ${reviewsTopN}개 x ${reviewsPerProduct}개`}`);
+  console.log(`#  가격: ${skipPrices ? '스킵' : (forcePrices ? '전체 강제 업데이트' : '신규만 크롤링')}`);
   console.log(`${'#'.repeat(60)}`);
 
   const results: PrefetchResult[] = [];
@@ -634,6 +644,7 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
       skipProducts,
       skipReviews,
       skipPrices,
+      forcePrices,
       dryRun,
     });
     results.push(result);

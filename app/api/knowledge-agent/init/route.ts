@@ -17,6 +17,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import * as fs from 'fs';
 import * as path from 'path';
+import { logKAQuestionGenerated } from '@/lib/logging/clientLogger';
 
 // 메모리 시스템
 import {
@@ -2719,6 +2720,17 @@ export async function POST(request: NextRequest) {
           send('questions', {
             questionTodos,
             currentQuestion: questionTodos[0] || null,
+          });
+
+          // ✅ [로깅] AI가 생성한 질문들과 옵션들 로깅
+          questionTodos.forEach((q: any) => {
+            logKAQuestionGenerated(
+              categoryKey,
+              categoryName,
+              q.id,
+              q.question,
+              q.options.map((opt: any) => opt.label)
+            );
           });
 
           // 리뷰 0개인 상품 필터링 (품질 향상) - review_count 우선 사용

@@ -1137,9 +1137,9 @@ export default function ProductDetailModal({ productData, category, categoryName
               <div className="px-4 py-5 space-y-3">
                 {/* 선택하신 기준 충족도 */}
                 {productData.selectedTagsEvaluation && productData.selectedTagsEvaluation.length > 0 && (() => {
-                  // 장점 태그와 단점 태그 분리
-                  const prosTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros');
-                  const consTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons');
+                  // 장점 태그와 단점 태그 분리 (불충족/회피안됨 제외 - 토큰 절약)
+                  const prosTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'pros' && tag.status !== '불충족');
+                  const consTags = productData.selectedTagsEvaluation.filter(tag => tag.tagType === 'cons' && tag.status !== '회피안됨');
 
                   // 점수 계산: 충족=1.0, 부분충족=0.5, 불충족=0.0
                   // const prosScore = prosTags.reduce((sum, tag) => {
@@ -1283,11 +1283,11 @@ export default function ProductDetailModal({ productData, category, categoryName
                   // 조건 타입별 분리
                   const hardFilterConditionsRaw = selectedConditionsEvaluation.filter(c => c.conditionType === 'hardFilter');
 
-                  // 선호속성: 충족 → 부분충족 → 불충족 순서로 정렬
-                  const balanceStatusOrder: Record<string, number> = { '충족': 0, '부분충족': 1, '불충족': 2 };
+                  // 선호속성: 충족 → 부분충족 순서로 정렬 (불충족은 제외 - 토큰 절약)
+                  const balanceStatusOrder: Record<string, number> = { '충족': 0, '부분충족': 1 };
                   const balanceConditions = selectedConditionsEvaluation
-                    .filter(c => c.conditionType === 'balance')
-                    .sort((a, b) => (balanceStatusOrder[a.status] ?? 3) - (balanceStatusOrder[b.status] ?? 3));
+                    .filter(c => c.conditionType === 'balance' && c.status !== '불충족')
+                    .sort((a, b) => (balanceStatusOrder[a.status] ?? 2) - (balanceStatusOrder[b.status] ?? 2));
 
                   // 피할 단점: 회피됨 → 부분회피 → 회피안됨 순서로 정렬
                   const negativeStatusOrder: Record<string, number> = { '회피됨': 0, '부분회피': 1, '회피안됨': 2 };
@@ -1418,8 +1418,8 @@ export default function ProductDetailModal({ productData, category, categoryName
                         </div>
                       )}
 
-                      {/* 주요 포인트 (선호 속성 + 피할 단점) */}
-                      {(balanceConditions.length > 0 || negativeConditions.length > 0) && (
+                      {/* 주요 포인트 (선호 속성 - 불충족 제외) */}
+                      {balanceConditions.filter(c => c.status !== '불충족').length > 0 && (
                         <div className="mt-8 space-y-4">
                           <div className="flex items-center gap-2 mb-2">
                              {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1429,23 +1429,20 @@ export default function ProductDetailModal({ productData, category, categoryName
                              </h4>
                           </div>
 
-                          {/* 선호 속성 */}
-                          {balanceConditions.length > 0 && (
+                          {/* 선호 속성 (불충족 제외) */}
+                          {balanceConditions.filter(c => c.status !== '불충족').length > 0 && (
                             <div className="p-1">
                               <div className="space-y-8">
-                                {balanceConditions.map((cond, i) => {
+                                {balanceConditions.filter(c => c.status !== '불충족').map((cond, i) => {
                                   let badgeColor = '';
                                   let badgeText = '';
 
                                   if (cond.status === '충족') {
                                     badgeColor = 'bg-blue-50 text-blue-600';
                                     badgeText = '충족';
-                                  } else if (cond.status === '부분충족') {
+                                  } else {
                                     badgeColor = 'bg-blue-50 text-blue-300';
                                     badgeText = '부분충족';
-                                  } else {
-                                    badgeColor = 'bg-red-100 text-red-700';
-                                    badgeText = '불충족';
                                   }
 
                                   const colonIdx = cond.condition.indexOf(':');

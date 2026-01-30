@@ -504,6 +504,7 @@ ${preEvalHints.join('\n')}
 5. **당연한 말 금지** - 구체적 정보가 없는 무의미한 표현 사용 금지
 6. **최대 6개까지만 생성** - 조건이 많아도 가장 중요한 6개만 선택 (우선순위: 충족 > 부분충족 > 회피됨)
 7. **각 문장은 서로 다른 정보** 포함 - 중복 금지
+8. **🚨 불충족/회피안됨인 경우 evidence 생략** - status가 "불충족" 또는 "회피안됨"이면 evidence 필드를 빈 문자열("")로 설정 (토큰 절약)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ## 응답 JSON 형식
@@ -541,9 +542,17 @@ JSON만 응답하세요.`;
       console.warn(`[condition-eval] ⚠️ ${product.pcode}: ${emptyShortReasons.length}개 조건의 shortReason이 비어있음`);
     }
 
+    // 🚀 토큰 절약: 불충족/회피안됨인 경우 evidence 제거
+    const optimized = normalized.map(c => {
+      if (c.status === '불충족' || c.status === '회피안됨') {
+        return { ...c, evidence: '' };
+      }
+      return c;
+    });
+
     return {
       pcode: product.pcode,
-      selectedConditionsEvaluation: normalized,
+      selectedConditionsEvaluation: optimized,
       contextMatch: parsed.contextMatch,
     };
   } catch (error) {

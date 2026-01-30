@@ -206,6 +206,8 @@ export default function AdminPage() {
       result_chat_full_history: '📜 채팅 전체 내역',
       // Knowledge Agent 이벤트
       ka_recommendation_received: '🧠 KA 추천 결과',
+      ka_question_generated: '🤖 AI 질문 생성',
+      ka_product_match_rate: '🎯 상품 매칭도',
     };
     return labels[type] || type;
   };
@@ -481,7 +483,19 @@ export default function AdminPage() {
       event => event.eventType === 'ka_recommendation_received' && event.metadata?.recommendations
     );
 
-    let products: Array<{ id: string; title?: string; brand?: string; price?: number; rank?: number; score?: number }> = [];
+    let products: Array<{ 
+      id: string; 
+      title?: string; 
+      brand?: string; 
+      price?: number; 
+      rank?: number; 
+      score?: number;
+      // 🆕 매칭도 정보
+      matchRate?: number;
+      matchedTags?: string[];
+      partialTags?: string[];
+      notMatchedTags?: string[];
+    }> = [];
     let flowType: 'main' | 'v2' | 'ka' | null = null;
 
     if (mainFlowEvent?.recommendations?.fullReport?.recommendations) {
@@ -518,14 +532,38 @@ export default function AdminPage() {
         rank: number;
         score?: number;
       }>;
-      products = recommendations.map((rec) => ({
-        id: rec.pcode,
-        title: rec.name,
-        brand: rec.brand,
-        price: rec.price,
-        rank: rec.rank,
-        score: rec.score,
-      }));
+
+      // 🆕 매칭도 이벤트 찾기
+      const matchRateEvents = session.events.filter(
+        e => e.eventType === 'ka_product_match_rate' && e.metadata
+      );
+
+      products = recommendations.map((rec) => {
+        // 해당 제품의 매칭도 이벤트 찾기
+        const matchRateEvent = matchRateEvents.find(
+          e => (e.metadata as any)?.pcode === rec.pcode
+        );
+        const matchRateData = matchRateEvent?.metadata as {
+          matchRate?: number;
+          matchedTags?: string[];
+          partialTags?: string[];
+          notMatchedTags?: string[];
+        } | undefined;
+
+        return {
+          id: rec.pcode,
+          title: rec.name,
+          brand: rec.brand,
+          price: rec.price,
+          rank: rec.rank,
+          score: rec.score,
+          // 🆕 매칭도 정보 추가
+          matchRate: matchRateData?.matchRate,
+          matchedTags: matchRateData?.matchedTags,
+          partialTags: matchRateData?.partialTags,
+          notMatchedTags: matchRateData?.notMatchedTags,
+        };
+      });
       flowType = 'ka';
     }
 
@@ -691,6 +729,41 @@ export default function AdminPage() {
                         {product.brand && <span>{product.brand}</span>}
                         {product.brand && product.price && <span>·</span>}
                         {product.price && <span className="text-blue-600 font-medium">{product.price.toLocaleString()}원</span>}
+                      </div>
+                    )}
+                    {/* 🆕 KA 플로우: 매칭도 표시 */}
+                    {flowType === 'ka' && product.matchRate !== undefined && (
+                      <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-100">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-semibold text-blue-700">🎯 매칭도: {product.matchRate}%</span>
+                        </div>
+                        {/* 만족 태그 */}
+                        {product.matchedTags && product.matchedTags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            <span className="text-[10px] text-green-600 font-medium">✅</span>
+                            {product.matchedTags.map((tag, i) => (
+                              <span key={i} className="px-1 py-0.5 bg-green-100 text-green-700 rounded text-[10px]">{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                        {/* 부분만족 태그 */}
+                        {product.partialTags && product.partialTags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            <span className="text-[10px] text-amber-600 font-medium">⚠️</span>
+                            {product.partialTags.map((tag, i) => (
+                              <span key={i} className="px-1 py-0.5 bg-amber-100 text-amber-700 rounded text-[10px]">{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                        {/* 불만족 태그 */}
+                        {product.notMatchedTags && product.notMatchedTags.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            <span className="text-[10px] text-red-600 font-medium">❌</span>
+                            {product.notMatchedTags.map((tag, i) => (
+                              <span key={i} className="px-1 py-0.5 bg-red-50 text-red-600 rounded text-[10px]">{tag}</span>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

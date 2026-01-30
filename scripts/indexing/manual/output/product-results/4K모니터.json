@@ -1,0 +1,1242 @@
+[
+{
+"pcode": "97118564",
+"name": "알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "general_use",
+"confidence": "high",
+"evidence": "60Hz refresh rate, VA panel, basic features suitable for general use."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "80cm(32인치) spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "No mention of USB-C/PD in specs."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["높은 명암비(3,500:1)", "가성비", "시력보호 기능"],
+"weaknesses": ["낮은 주사율(60Hz)", "USB-C 미지원"],
+"bestFor": "일반 사무 및 영상 감상용 가성비 모니터를 찾는 사용자"
+}
+},
+{
+"pcode": "73883666",
+"name": "삼성전자 오디세이 G7 S32DG700",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "144Hz, 1ms, G-Sync/FreeSync compatible specs."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Spec mentions standard gaming connectivity; USB-C not highlighted as primary."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Fast IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["고주사율(144Hz)", "스마트 TV 기능(Tizen)", "빠른 응답속도"],
+"weaknesses": ["IPS 특유의 빛샘 가능성", "높은 가격대"],
+"bestFor": "콘솔 및 PC 게이밍과 OTT 시청을 동시에 원하는 사용자"
+}
+},
+{
+"pcode": "78237926",
+"name": "LG전자 울트라HD 27US550",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "general_use",
+"confidence": "high",
+"evidence": "60Hz, Standard IPS, basic ergonomic stand."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "Standard connectivity without USB-C emphasis."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["LG IPS 패널의 신뢰성", "인체공학 스탠드(피벗/높낮이)", "합리적 가격"],
+"weaknesses": ["평범한 주사율(60Hz)", "USB-C 부재"],
+"bestFor": "사무용 및 기본 웹서핑용으로 신뢰할 수 있는 브랜드 제품을 찾는 사용자"
+}
+},
+{
+"pcode": "97118876",
+"name": "알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "160Hz Refresh Rate, 0.3ms MPRT, Gaming branding."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "No USB-C PD mentioned."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Fast IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["고주사율(160Hz)", "빠른 응답속도", "듀얼 모드 지원"],
+"weaknesses": ["USB-C 연결 부재"],
+"bestFor": "4K 고해상도 게임을 즐기는 하이엔드 게이머"
+}
+},
+{
+"pcode": "54698114",
+"name": "크로스오버 27ULD950 UHD4K PD65 프로아트 화이트 멀티스탠드 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "Naming 'ProArt' implies design, USB-C PD65 support."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "PD65 spec indicates USB-C Power Delivery."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["USB-C PD 충전 지원", "화이트 디자인", "저렴한 가격에 전문가급 기능"],
+"weaknesses": ["브랜드 인지도", "마감 품질 편차 가능성"],
+"bestFor": "맥북이나 노트북을 연결해 사용하는 디자이너/재택근무자"
+}
+},
+{
+"pcode": "99287948",
+"name": "알파스캔 AOC U27G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "160Hz, 0.3ms, Gaming features."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "Standard gaming connectivity."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Fast IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["27인치 고밀도 픽셀(PPI)", "160Hz 고주사율", "알파스캔의 AS 품질"],
+"weaknesses": ["텍스트 가독성(OS 설정 필요할 수 있음)", "USB-C 미지원"],
+"bestFor": "FPS 및 고해상도 RPG 게임을 즐기는 27인치 선호 게이머"
+}
+},
+{
+"pcode": "70875281",
+"name": "필립스 에브니아 32M2N8800 UHD OLED 240 프리싱크 HDR 게이밍 화이트 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "240Hz, OLED, 0.03ms response time."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Mainly gaming focused, USB-C features not highlighted in primary spec line."
+},
+"panel_type_preference": {
+"matchedOption": "oled",
+"confidence": "high",
+"evidence": "QD-OLED panel listed."
+}
+},
+"analysis": {
+"strengths": ["압도적인 화질(QD-OLED)", "240Hz 초고주사율", "리얼 블랙 표현"],
+"weaknesses": ["번인 우려", "높은 가격"],
+"bestFor": "최상의 화질로 게임을 즐기려는 하이엔드 유저"
+}
+},
+{
+"pcode": "99889406",
+"name": "크로스오버 32UCA950 UHD4K IPS USB-C PD65 프로아트 멀티스탠드 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "USB-C PD65, IPS, 'ProArt' naming."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB-C PD65 explicitly mentioned."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["32인치 대화면", "USB-C 연결 편의성", "멀티스탠드 포함"],
+"weaknesses": ["밝기 균일도 이슈 가능성", "중소기업 QC"],
+"bestFor": "가성비 좋게 32인치 맥북용 모니터를 구성하려는 사용자"
+}
+},
+{
+"pcode": "73883483",
+"name": "LG전자 울트라HD 32UN650K",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "video_entertainment",
+"confidence": "medium",
+"evidence": "Good all-rounder, often used for console gaming/video due to decent speakers and HDR10, though 60Hz."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "No USB-C support."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["검증된 베스트셀러", "깔끔한 색감", "내장 스피커 품질 준수"],
+"weaknesses": ["USB-C 미지원", "구형 모델"],
+"bestFor": "콘솔 게임(60Hz) 및 영상 감상용 올라운더 모니터"
+}
+},
+{
+"pcode": "86537804",
+"name": "크로스오버 27USW9 UHD4K-iPS USB-C 화이트 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "medium",
+"evidence": "USB PD support, IPS, suitable for office/design work."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB PD supported."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["매우 저렴한 가격", "USB-C 지원", "화이트 감성"],
+"weaknesses": ["스탠드 기능 제한(틸트만 가능)", "밝기 스펙이 평범"],
+"bestFor": "최저가로 USB-C 4K 모니터를 찾는 사용자"
+}
+},
+{
+"pcode": "73883519",
+"name": "LG전자 울트라HD 27UP850K",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "USB PD support, Hardware Calibration, IPS."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB PD support explicitly mentioned."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["하드웨어 캘리브레이션 지원", "USB-C 96W 충전", "색정확도"],
+"weaknesses": ["가격대가 다소 있음", "60Hz"],
+"bestFor": "전문적인 그래픽 작업이나 맥북 연결이 주 용도인 사용자"
+}
+},
+{
+"pcode": "93021269",
+"name": "삼성전자 SMART M7 S32FM701",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "video_entertainment",
+"confidence": "high",
+"evidence": "Smart Monitor functionality, Remote control, VA panel contrast."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "M7 series includes USB-C PD."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["PC 없이 OTT 시청 가능", "IoT 허브 기능", "높은 명암비"],
+"weaknesses": ["반응속도가 느림", "시야각(VA 특성)"],
+"bestFor": "자취생의 TV 겸용 모니터 또는 서브 모니터"
+}
+},
+{
+"pcode": "76870904",
+"name": "LG전자 울트라HD 32UP830K",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "medium",
+"evidence": "USB-C support (typical for UP830 series), IPS panel."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "Known to support USB-C (approx 60W)."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["USB-C 연결 지원", "LG IPS 패널의 선명함", "깔끔한 디자인"],
+"weaknesses": ["스탠드 기능이 32UN880(Ergo) 대비 부족"],
+"bestFor": "32인치 LG 모니터 중 USB-C가 필요한 사무용 사용자"
+}
+},
+{
+"pcode": "91115978",
+"name": "LG전자 울트라기어 32G810SAW",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "UltraGear branding, 144Hz, Fast response."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Gaming focus implies HDMI 2.1/DP."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["LG 울트라기어의 게이밍 성능", "4K 144Hz IPS", "깔끔한 화이트 디자인"],
+"weaknesses": ["높은 가격", "명암비(IPS)"],
+"bestFor": "화이트 셋업을 구성하는 고사양 게이머"
+}
+},
+{
+"pcode": "97308446",
+"name": "LG전자 울트라기어 올레드 32GX870A",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "240Hz, OLED, 0.03ms."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "Standard high-end gaming connectivity."
+},
+"panel_type_preference": {
+"matchedOption": "oled",
+"confidence": "high",
+"evidence": "OLED panel listed."
+}
+},
+"analysis": {
+"strengths": ["WOLED 패널의 화질", "듀얼 모드(FHD 480Hz) 지원 가능성", "빠른 응답속도"],
+"weaknesses": ["높은 가격", "번인 위험"],
+"bestFor": "최고급 게이밍 환경을 원하는 LG 선호 사용자"
+}
+},
+{
+"pcode": "78533879",
+"name": "삼성전자 오디세이 OLED G8 S32FG810",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "240Hz, QD-OLED, 0.03ms."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Mainly HDMI/DP/Mini-DP usage."
+},
+"panel_type_preference": {
+"matchedOption": "oled",
+"confidence": "high",
+"evidence": "QD-OLED panel listed."
+}
+},
+"analysis": {
+"strengths": ["QD-OLED의 생생한 색감", "세련된 메탈 디자인", "스마트 기능 내장"],
+"weaknesses": ["글레어 패널(호불호)", "텍스트 가독성(서브픽셀 구조)"],
+"bestFor": "영상미가 중요한 AAA 게임 및 멀티미디어 사용자"
+}
+},
+{
+"pcode": "96979409",
+"name": "필립스 32E1N1800 4K UHD 보더리스 HDR 시력보호 스피커 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "general_use",
+"confidence": "high",
+"evidence": "60Hz, VA, Basic specs."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "No USB-C mentioned."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["높은 명암비", "시력보호 기능", "내장 스피커"],
+"weaknesses": ["시야각(VA)", "게임용으로는 부족함"],
+"bestFor": "문서 작업 및 유튜브 시청용 가성비 모니터"
+}
+},
+{
+"pcode": "93385682",
+"name": "MSI MAG 322URDF700 E16 듀얼모드 게이밍 4K AI Vision 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "160Hz, Rapid IPS."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Specific USB-C PD not highlighted in snippet."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Rapid IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["래피드 IPS의 빠른 속도", "160Hz 주사율", "AI 비전 기능"],
+"weaknesses": ["MSI AS 평판", "HDR 성능은 기본 수준"],
+"bestFor": "가성비 좋은 32인치 4K 게이밍 모니터를 찾는 사용자"
+}
+},
+{
+"pcode": "78177107",
+"name": "DELL UltraSharp U2725QE",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "UltraSharp branding, IPS Black, 120Hz for UI smoothness."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "UltraSharp series features extensive Thunderbolt/USB-C hub."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS Black panel listed."
+}
+},
+"analysis": {
+"strengths": ["IPS Black의 깊은 명암비(2000:1)", "120Hz 부드러운 스크롤링", "강력한 허브 기능"],
+"weaknesses": ["매우 높은 가격", "게이밍 전용은 아님"],
+"bestFor": "최고급 업무 환경을 구축하려는 전문가"
+}
+},
+{
+"pcode": "91426229",
+"name": "DELL S2725QC",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "medium",
+"evidence": "USB PD support, 120Hz for productivity smoothness."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB PD support listed."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["120Hz 주사율", "USB-C 충전 지원", "델의 신뢰성"],
+"weaknesses": ["U시리즈 대비 부족한 포트 구성"],
+"bestFor": "재택근무 및 일반적인 멀티미디어 활용용"
+}
+},
+{
+"pcode": "78534386",
+"name": "삼성전자 뷰피니티 S7 S32D706",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "general_use",
+"confidence": "high",
+"evidence": "Basic 4K 60Hz specs, ViewFinity entry model."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "Usually S7 series lacks USB-C (S8 has it)."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["대기업 AS", "준수한 색감(sRGB)", "깔끔한 디자인"],
+"weaknesses": ["USB-C 미지원", "높낮이 조절 불가(일부 모델 스탠드 제한)"],
+"bestFor": "삼성 브랜드를 선호하는 일반 사무용 사용자"
+}
+},
+{
+"pcode": "98227580",
+"name": "MSI MPG 322URX QD-OLED 4K UHD 240 DP2.1 PD98",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "240Hz, 0.03ms, QD-OLED."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "PD98 (98W USB-C charging) listed."
+},
+"panel_type_preference": {
+"matchedOption": "oled",
+"confidence": "high",
+"evidence": "QD-OLED panel listed."
+}
+},
+"analysis": {
+"strengths": ["최상급 화질(QD-OLED)", "고출력 USB-C(98W)", "팬리스 디자인"],
+"weaknesses": ["텍스트 가독성", "높은 가격"],
+"bestFor": "노트북 연결과 고사양 게임을 모두 만족하고 싶은 사용자"
+}
+},
+{
+"pcode": "93016238",
+"name": "삼성전자 SMART M7 LS43FM701",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "video_entertainment",
+"confidence": "high",
+"evidence": "43 inch, Smart features, VA panel."
+},
+"screen_size_preference": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "43인치 is larger than standard 27/32 options."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "M7 series supports USB-C."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["43인치 대화면", "스마트 TV 기능", "USB-C 지원"],
+"weaknesses": ["책상 위 사용 시 너무 큼", "반응속도"],
+"bestFor": "거실이나 침실에서 TV 대용으로 사용할 사용자"
+}
+},
+{
+"pcode": "78984812",
+"name": "LG전자 울트라HD 32UR500K",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "video_entertainment",
+"confidence": "medium",
+"evidence": "VA panel (good contrast), 60Hz."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "No USB-C support."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["VA 패널의 진한 블랙 표현", "가성비", "내장 스피커"],
+"weaknesses": ["시야각", "스탠드 조절 기능 제한"],
+"bestFor": "어두운 방에서 영화 감상을 즐기는 사용자"
+}
+},
+{
+"pcode": "102125936",
+"name": "알파스캔 콘퀘스트 27U60G 게이밍 4K UHD 160 FAST IPS USB-C HDR 멀티스탠드 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "160Hz, Fast IPS, Gaming branding."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB-C in title/specs."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Fast IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["160Hz 고주사율", "USB-C 지원(게이밍 중 드뭄)", "멀티스탠드"],
+"weaknesses": ["중소/중견 브랜드 인지도"],
+"bestFor": "노트북 연결도 필요한 게이머"
+}
+},
+{
+"pcode": "95849255",
+"name": "LG전자 울트라HD 40U990AW",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "5K2K resolution, Nano-IPS Black, Thunderbolt."
+},
+"screen_size_preference": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "40인치 UltraWide."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "Thunderbolt/USB-C support."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Nano-IPS Black panel listed."
+}
+},
+"analysis": {
+"strengths": ["광활한 작업 공간(5K2K)", "깊은 블랙(IPS Black)", "썬더볼트4 지원"],
+"weaknesses": ["매우 높은 가격", "책상 공간 많이 차지"],
+"bestFor": "영상 편집자 및 멀티태스킹이 많은 전문가"
+}
+},
+{
+"pcode": "78176633",
+"name": "DELL UltraSharp U3225QE",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "IPS Black, 120Hz, Thunderbolt hub."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "Thunderbolt 4 / USB-C Hub."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS Black panel listed."
+}
+},
+"analysis": {
+"strengths": ["IPS Black의 명암비", "120Hz 부드러움", "최고의 연결성(썬더볼트4)"],
+"weaknesses": ["비싼 가격"],
+"bestFor": "예산 제약이 없는 맥북 프로 사용자 및 디자이너"
+}
+},
+{
+"pcode": "93443681",
+"name": "필립스 에브니아 32M2N8900 UHD OLED 240 게이밍 USB-C 화이트 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "240Hz, OLED, Gaming branding."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB-C listed in title."
+},
+"panel_type_preference": {
+"matchedOption": "oled",
+"confidence": "high",
+"evidence": "QD-OLED panel listed."
+}
+},
+"analysis": {
+"strengths": ["OLED 화질", "USB-C 지원", "화이트 디자인"],
+"weaknesses": ["번인 위험", "가격"],
+"bestFor": "화이트 감성의 고성능 게이밍 셋업"
+}
+},
+{
+"pcode": "101544434",
+"name": "필립스 에브니아 32M2N5800 4K UHD 듀얼 모드 320 HDR 400 게이밍 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "160Hz, Fast IPS, Dual mode."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "No USB-C emphasized."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Fast IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["듀얼모드(FHD 320Hz)", "합리적인 가격", "앰비글로우 조명"],
+"weaknesses": ["경쟁 모델 대비 인지도"],
+"bestFor": "FPS와 RPG를 모두 즐기는 게이머"
+}
+},
+{
+"pcode": "78099260",
+"name": "LG전자 울트라HD 32UN880K",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "Ergo stand, USB-C, IPS panel."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB-C included."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["3세대 모니터암 기본 포함(공간 활용)", "USB-C 연결", "준수한 화질"],
+"weaknesses": ["모서리 음영(일부 이슈)", "60Hz"],
+"bestFor": "데스크테리어와 공간 활용이 중요한 디자이너"
+}
+},
+{
+"pcode": "15405935",
+"name": "대성글로벌코리아 Etroy VSG321UHD HDR 슬림베젤",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "general_use",
+"confidence": "medium",
+"evidence": "Basic 4K 60Hz, Entry level."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "high",
+"evidence": "HDMI mentioned, no USB-C."
+},
+"panel_type_preference": {
+"matchedOption": "unknown",
+"confidence": "low",
+"evidence": "Panel type not explicitly clear in snippet, likely VA or IPS."
+}
+},
+"analysis": {
+"strengths": ["매우 저렴한 가격"],
+"weaknesses": ["브랜드 신뢰도", "낮은 마감 품질 가능성"],
+"bestFor": "예산이 매우 한정적인 사용자"
+}
+},
+{
+"pcode": "32074583",
+"name": "MSI MD271UL 4K IPS 아이에르고 PD65 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "PD65, sRGB 139%, AdobeRGB support."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB PD supported."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["우수한 색재현율", "USB-C PD 지원", "슬림한 디자인"],
+"weaknesses": ["베사홀 미지원(모니터암 불가)", "스탠드 기능 제한"],
+"bestFor": "모니터암 없이 깔끔하게 사용할 맥북 사용자"
+}
+},
+{
+"pcode": "74115461",
+"name": "ASUS ROG STRIX XG27UCG",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "ROG branding, 160Hz, Fast IPS."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Standard gaming connectivity."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "Fast IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["ASUS ROG 감성", "듀얼모드 지원", "컴팩트한 스탠드"],
+"weaknesses": ["가격 대비 스펙 평이함"],
+"bestFor": "ROG 생태계를 선호하는 게이머"
+}
+},
+{
+"pcode": "96311000",
+"name": "알파스캔 3225UC 4K UHD IPS USB-C 도킹 허브 멀티스탠드 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "USB-C Docking Station, IPS, Multi-stand."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "USB-C Docking listed."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["도킹 스테이션급 확장성(LAN 포함)", "USB-C 연결", "준수한 AS"],
+"weaknesses": ["평범한 디자인"],
+"bestFor": "노트북을 데스크탑처럼 확장해서 쓰는 비즈니스 유저"
+}
+},
+{
+"pcode": "14964413",
+"name": "GIGABYTE M32U UHD 4K 게이밍 144 피씨디렉트",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "144Hz, Gaming, KVM feature."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "KVM feature implies USB-C support."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["KVM 스위치 내장(이기종 제어)", "HDMI 2.1 지원", "균형 잡힌 스펙"],
+"weaknesses": ["디자인이 투박함"],
+"bestFor": "PC와 콘솔을 같이 쓰거나 두 대의 PC를 제어하는 게이머"
+}
+},
+{
+"pcode": "71220872",
+"name": "BenQ MA320U 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "Designed for Mac, Color accuracy."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "Mac compatibility implies USB-C/Thunderbolt."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["맥북과의 뛰어난 호환성(색감 동기화)", "깔끔한 디자인", "고품질 빌드"],
+"weaknesses": ["가격", "범용성(윈도우보다는 맥 최적화)"],
+"bestFor": "애플 디스플레이의 저렴한 대안을 찾는 맥북 유저"
+}
+},
+{
+"pcode": "48478376",
+"name": "삼성전자 SMART M7 S43DM700",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "video_entertainment",
+"confidence": "high",
+"evidence": "Smart TV features, 43 inch VA."
+},
+"screen_size_preference": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "43인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "PD support listed."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["대화면 43인치", "스마트 기능", "USB-C 지원"],
+"weaknesses": ["책상 위 부담스러운 크기", "잔상"],
+"bestFor": "방에서 TV와 모니터를 하나로 해결하려는 사용자"
+}
+},
+{
+"pcode": "102007613",
+"name": "한성컴퓨터 TFG32U14VM1152ZMW UHD 4K QD Mini LED 144 게이밍 화이트 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "gaming",
+"confidence": "high",
+"evidence": "144Hz, QD-Mini LED, Fast response."
+},
+"screen_size_preference": {
+"matchedOption": "32_inch",
+"confidence": "high",
+"evidence": "32인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "hdmi_dp",
+"confidence": "medium",
+"evidence": "Standard gaming ports."
+},
+"panel_type_preference": {
+"matchedOption": "va",
+"confidence": "high",
+"evidence": "QD-VA panel listed."
+}
+},
+"analysis": {
+"strengths": ["Mini LED의 로컬 디밍(명암비)", "퀀텀닷 색감", "가성비"],
+"weaknesses": ["블루밍 현상(Mini LED 특성)", "QC 편차"],
+"bestFor": "HDR 게임과 영상을 즐기는 가성비 중시 사용자"
+}
+},
+{
+"pcode": "51816767",
+"name": "크로스오버 듀얼뷰 28UDP4K UHD 75 PD65 무결점",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "3:2 Aspect ratio, 75Hz, Productivity focus."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "medium",
+"evidence": "28인치, maps closer to 27 bucket."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "PD65 listed."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["3:2 화면비(코딩/문서 작업 유리)", "특이한 해상도(세로가 김)"],
+"weaknesses": ["영상 시청 시 레터박스 큼", "호환성(일부 게임)"],
+"bestFor": "코딩 및 문서 작업 위주의 개발자"
+}
+},
+{
+"pcode": "79559018",
+"name": "APPLE Studio Display MYJG3KH/A",
+"questionMapping": {
+"usage_purpose": {
+"matchedOption": "work_design",
+"confidence": "high",
+"evidence": "5K Resolution, Color accuracy, Apple ecosystem."
+},
+"screen_size_preference": {
+"matchedOption": "27_inch",
+"confidence": "high",
+"evidence": "27인치 spec."
+},
+"connectivity_needs": {
+"matchedOption": "usb_c",
+"confidence": "high",
+"evidence": "Thunderbolt 3 support."
+},
+"panel_type_preference": {
+"matchedOption": "ips",
+"confidence": "high",
+"evidence": "IPS panel listed."
+}
+},
+"analysis": {
+"strengths": ["5K 해상도의 선명함(HiDPI)", "애플 기기와의 완벽한 연동", "스피커/마이크 품질"],
+"weaknesses": ["매우 비싼 가격", "윈도우 호환성 부족", "60Hz"],
+"bestFor": "예산이 충분한 맥 사용자"
+}
+}
+]

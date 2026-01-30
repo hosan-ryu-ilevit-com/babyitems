@@ -3,7 +3,10 @@
  * Product Info 인덱싱 스크립트
  *
  * 사용법:
- *   npx tsx scripts/indexing/index-product-info.ts --category="이유식조리기" --concurrency=3
+ *   npx tsx scripts/indexing/index-product-info.ts --category="이유식조리기"  # 특정 카테고리
+ *   npx tsx scripts/indexing/index-product-info.ts                            # 전체 카테고리
+ *   npx tsx scripts/indexing/index-product-info.ts --concurrency=2            # 동시 처리 수 조절
+ *   npx tsx scripts/indexing/index-product-info.ts --no-skip                  # 이미 인덱싱된 상품도 재처리
  *
  * 기능:
  * 1. 맞춤질문 MD 파싱
@@ -70,17 +73,90 @@ interface CachedProduct {
 // 메인 함수
 // ============================================================================
 
+const CATEGORY_DELAY_MS = 5000; // 카테고리 간 딜레이 (rate limit 방지)
+
 async function main() {
   const args = parseArgs();
   const categoryName = args.category;
   const concurrency = args.concurrency || DEFAULT_CONCURRENCY;
   const skipIndexed = args.skipIndexed;
 
-  if (!categoryName) {
-    console.error('Usage: npx tsx scripts/indexing/index-product-info.ts --category="카테고리명" [--concurrency=3] [--no-skip]');
-    process.exit(1);
+  // 특정 카테고리 지정 시 해당 카테고리만 처리
+  if (categoryName) {
+    await processCategory(categoryName, concurrency, skipIndexed);
+    return;
   }
 
+  // 전체 카테고리 처리
+  console.log(`\n${'='.repeat(60)}`);
+  console.log(`🚀 전체 카테고리 Product Info 인덱싱 시작`);
+  console.log(`   동시 처리: ${concurrency}개 | 이미 인덱싱된 상품: ${skipIndexed ? '스킵' : '재처리'}`);
+  console.log(`${'='.repeat(60)}\n`);
+
+  const categories = await getAllCategories();
+  console.log(`📋 처리할 카테고리: ${categories.length}개`);
+  categories.forEach((c, i) => console.log(`   ${i + 1}. ${c}`));
+
+  const results: { category: string; success: number; failed: number; error?: string }[] = [];
+
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    console.log(`\n${'─'.repeat(60)}`);
+    console.log(`📁 [${i + 1}/${categories.length}] ${category}`);
+    console.log(`${'─'.repeat(60)}`);
+
+    try {
+      const result = await processCategory(category, concurrency, skipIndexed);
+      results.push({ category, success: result.successCount, failed: result.failedCount });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      console.error(`❌ ${category} 실패: ${errorMsg}`);
+      results.push({ category, success: 0, failed: 0, error: errorMsg });
+    }
+
+    // Rate limit 방지 딜레이
+    if (i < categories.length - 1) {
+      console.log(`\n⏳ ${CATEGORY_DELAY_MS / 1000}초 대기 중...`);
+      await sleep(CATEGORY_DELAY_MS);
+    }
+  }
+
+  // 최종 결과
+  console.log(`\n${'='.repeat(60)}`);
+  console.log(`📊 전체 결과`);
+  console.log(`${'='.repeat(60)}`);
+  const totalSuccess = results.reduce((sum, r) => sum + r.success, 0);
+  const totalFailed = results.reduce((sum, r) => sum + r.failed, 0);
+  console.log(`   총 성공: ${totalSuccess}개 | 총 실패: ${totalFailed}개`);
+  console.log(`   카테고리별:`);
+  results.forEach(r => {
+    if (r.error) {
+      console.log(`     - ${r.category}: ❌ ${r.error}`);
+    } else {
+      console.log(`     - ${r.category}: ✅ ${r.success}개 성공, ${r.failed}개 실패`);
+    }
+  });
+}
+
+async function getAllCategories(): Promise<string[]> {
+  // custom_questions가 있는 카테고리만 (맞춤질문 생성이 완료된 카테고리)
+  const { data, error } = await supabase
+    .from('knowledge_categories')
+    .select('query, custom_questions')
+    .eq('is_active', true)
+    .not('custom_questions', 'is', null)
+    .order('query');
+
+  if (error) throw new Error(`카테고리 조회 실패: ${error.message}`);
+
+  return (data || []).map(c => c.query);
+}
+
+async function processCategory(
+  categoryName: string,
+  concurrency: number,
+  skipIndexed: boolean
+): Promise<BatchIndexingResult> {
   console.log(`\n${'='.repeat(60)}`);
   console.log(`🚀 Product Info 인덱싱 시작: ${categoryName}`);
   console.log(`   동시 처리: ${concurrency}개 | 배치 딜레이: ${BATCH_DELAY_MS}ms`);
@@ -89,46 +165,48 @@ async function main() {
 
   const startTime = Date.now();
 
-  try {
-    // 1. 맞춤질문 로드
-    console.log('[Step 1] 맞춤질문 로드 중...');
-    const questions = await loadCustomQuestions(categoryName);
-    console.log(`  ✅ ${questions.length}개 질문 로드 완료`);
-    questions.forEach((q, i) => {
-      console.log(`     ${i + 1}. ${q.id}: ${q.question.slice(0, 30)}...`);
-    });
+  // 1. 맞춤질문 로드
+  console.log('[Step 1] 맞춤질문 로드 중...');
+  const questions = await loadCustomQuestions(categoryName);
+  console.log(`  ✅ ${questions.length}개 질문 로드 완료`);
+  questions.forEach((q, i) => {
+    console.log(`     ${i + 1}. ${q.id}: ${q.question.slice(0, 30)}...`);
+  });
 
-    // 2. 상품 목록 조회
-    console.log('\n[Step 2] 상품 목록 조회 중...');
-    const products = await getProductsFromCache(categoryName, skipIndexed);
-    console.log(`  ✅ ${products.length}개 상품 처리 예정`);
+  // 2. 상품 목록 조회
+  console.log('\n[Step 2] 상품 목록 조회 중...');
+  const products = await getProductsFromCache(categoryName, skipIndexed);
+  console.log(`  ✅ ${products.length}개 상품 처리 예정`);
 
-    if (products.length === 0) {
-      throw new Error(`"${categoryName}" 카테고리에 상품이 없습니다.`);
-    }
-
-    // 3. 배치 인덱싱
-    console.log('\n[Step 3] 상품별 인덱싱 시작...');
-    const result = await indexProductsBatch(products, questions, categoryName, concurrency);
-
-    // 완료
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    console.log(`\n${'='.repeat(60)}`);
-    console.log(`✅ Product Info 인덱싱 완료! (${elapsed}초)`);
-    console.log(`   성공: ${result.successCount}개 | 실패: ${result.failedCount}개`);
-    console.log(`${'='.repeat(60)}\n`);
-
-    if (result.failedProducts.length > 0) {
-      console.log('\n⚠️ 실패한 상품:');
-      result.failedProducts.forEach(f => {
-        console.log(`   - ${f.pcode}: ${f.error}`);
-      });
-    }
-
-  } catch (error) {
-    console.error('\n❌ 오류 발생:', error);
-    process.exit(1);
+  if (products.length === 0) {
+    console.log(`  ⚠️ "${categoryName}" 카테고리에 처리할 상품이 없습니다.`);
+    return {
+      categoryName,
+      totalProducts: 0,
+      successCount: 0,
+      failedCount: 0,
+      failedProducts: [],
+      totalTimeMs: Date.now() - startTime,
+    };
   }
+
+  // 3. 배치 인덱싱
+  console.log('\n[Step 3] 상품별 인덱싱 시작...');
+  const result = await indexProductsBatch(products, questions, categoryName, concurrency);
+
+  // 완료
+  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+  console.log(`\n✅ ${categoryName} 인덱싱 완료! (${elapsed}초)`);
+  console.log(`   성공: ${result.successCount}개 | 실패: ${result.failedCount}개`);
+
+  if (result.failedProducts.length > 0) {
+    console.log('\n⚠️ 실패한 상품:');
+    result.failedProducts.forEach(f => {
+      console.log(`   - ${f.pcode}: ${f.error}`);
+    });
+  }
+
+  return result;
 }
 
 // ============================================================================

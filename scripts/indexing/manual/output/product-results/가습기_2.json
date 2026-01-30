@@ -1,0 +1,1203 @@
+
+[
+  {
+    "pcode": "100693352",
+    "name": "드웰러 SHA-32GS",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 자동세척, 구조상 가열식 밥솥형은 세척 용이" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 특성상 물 끓는 소음 발생 가능성 있음" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머, 버튼잠금" }
+    },
+    "analysis": {
+      "strengths": ["확실한 가열 살균", "자동 세척 기능", "안전 장치(버튼잠금)"],
+      "weaknesses": ["높은 소비전력(1000W)"],
+      "bestFor": "따뜻한 가습과 위생을 최우선으로 하는 가정"
+    }
+  },
+  {
+    "pcode": "100382795",
+    "name": "한경희이지라이프 HAAN-HD700HA",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식(초음파 베이스)으로 비교적 조용함 추정" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["습도 자동 조절", "풍부한 가습량", "무드등 기능"],
+      "weaknesses": ["복합식 특유의 잦은 관리 필요"],
+      "bestFor": "적절한 습도 유지가 필요한 거실"
+    }
+  },
+  {
+    "pcode": "5642651",
+    "name": "발뮤다 레인 ERN-1100SD-WK",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "natural_evaporation", "confidence": "high", "evidence": "스펙: 자연기화식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척 (항아리 구조로 세척 용이)" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "기화식 특성 및 브랜드 정숙성 기술" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["자연에 가까운 기화식", "오브제급 디자인", "상부 급수 편리함"],
+      "weaknesses": ["높은 가격대", "필터 교체 비용"],
+      "bestFor": "디자인과 자연스러운 가습을 중시하는 사용자"
+    }
+  },
+  {
+    "pcode": "30082223",
+    "name": "위니아전자 클라쎄 HYA940PP3",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "일반적인 복합식 소음 수준" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["세척이 완벽한 구조", "상부 급수", "적절한 가습량"],
+      "weaknesses": ["기본적인 기능 위주"],
+      "bestFor": "가성비 좋은 복합식 가습기를 찾는 분"
+    }
+  },
+  {
+    "pcode": "101071697",
+    "name": "신일전자 SUH-SS600W",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 자동세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 물 끓는 소리 감안 필요" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절" }
+    },
+    "analysis": {
+      "strengths": ["가열 살균", "자동 세척", "습도 조절 기능"],
+      "weaknesses": ["소비전력 600W"],
+      "bestFor": "위생과 습도 케어가 모두 필요한 아이 방"
+    }
+  },
+  {
+    "pcode": "68791223",
+    "name": "오쿠 OCP-HG900",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 방식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "스펙: 무드등 외 특수 기능 미기재 (기본 기능 충실)" }
+    },
+    "analysis": {
+      "strengths": ["저전력 가열식(260W)", "가성비", "간편 세척"],
+      "weaknesses": ["상대적으로 적은 분무량(가열식 치고는 낮음)"],
+      "bestFor": "전기세 부담을 줄인 가열식을 찾는 분"
+    }
+  },
+  {
+    "pcode": "34371482",
+    "name": "물병 튜브 X7",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "물병 교체형으로 본체 세척 불필요" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "초소형 초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["휴대성 극대화", "초저전력", "세척 스트레스 없음"],
+      "weaknesses": ["매우 적은 가습량", "물병 별도 준비"],
+      "bestFor": "사무실 책상이나 여행용"
+    }
+  },
+  {
+    "pcode": "15388451",
+    "name": "넥소버 RR-H819L",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 상부급수" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식 특성" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능(분무량조절) 위주" }
+    },
+    "analysis": {
+      "strengths": ["대용량 수조(4.5L)", "상부 급수 편리함", "저렴한 가격"],
+      "weaknesses": ["부가 기능 부족"],
+      "bestFor": "기본에 충실한 대용량 가습기를 찾는 분"
+    }
+  },
+  {
+    "pcode": "101630177",
+    "name": "쿠쿠전자 아이편한 CH-HS701FW",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식 및 브랜드 기술력" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절" }
+    },
+    "analysis": {
+      "strengths": ["위생적인 스테인리스 수조", "대용량(7L)", "완벽 세척 구조"],
+      "weaknesses": ["다소 큰 부피"],
+      "bestFor": "위생 관리와 대용량이 모두 필요한 가정"
+    }
+  },
+  {
+    "pcode": "35768582",
+    "name": "에버튼하우스 굴뚝 EHRN-HL761A",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 소음" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["가열+UV 이중 살균", "높은 굴뚝형 분무", "습도 조절"],
+      "weaknesses": ["가열식 치고 낮은 소비전력(성능 확인 필요)"],
+      "bestFor": "이중 살균으로 안심하고 싶은 분"
+    }
+  },
+  {
+    "pcode": "6672538",
+    "name": "유파 AKH-U2030W",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등 외 기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["매우 저렴한 가격", "컴팩트한 사이즈"],
+      "weaknesses": ["작은 용량", "단순 기능"],
+      "bestFor": "원룸이나 침실 협탁용"
+    }
+  },
+  {
+    "pcode": "18224978",
+    "name": "케어메디 아이오랩 아이화이트",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["습도 표시 및 조절", "대용량(4.5L)", "깔끔한 디자인"],
+      "weaknesses": ["차가운 가습(초음파식)"],
+      "bestFor": "가성비 좋은 습도 조절 가습기"
+    }
+  },
+  {
+    "pcode": "15380660",
+    "name": "아이리스 SHM-120R1",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "일반적인 가열식 구조 (세척 용이성 명시 없음)" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 소음" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "자동전원차단 외 부가기능 없음" }
+    },
+    "analysis": {
+      "strengths": ["따뜻한 가습", "작고 귀여운 디자인", "책상 위 사용 적합"],
+      "weaknesses": ["매우 작은 용량(1.3L)", "빈번한 급수 필요"],
+      "bestFor": "개인 책상용 가열식 가습기"
+    }
+  },
+  {
+    "pcode": "98760698",
+    "name": "한일전기 HEH-8000",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "natural_evaporation", "confidence": "high", "evidence": "스펙: 자연기화식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 자동세척, 자동건조" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "medium", "evidence": "한일전기 기화식은 저소음 모드 우수" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: 자동건조, 항균필터" }
+    },
+    "analysis": {
+      "strengths": ["대용량(8L)", "자동 세척/건조로 관리 편의성 극대화", "자연 기화 방식"],
+      "weaknesses": ["높은 가격", "큰 부피"],
+      "bestFor": "거실 전체를 커버하며 관리가 편한 제품을 찾는 분"
+    }
+  },
+  {
+    "pcode": "31073732",
+    "name": "오아 플렌티 플렛 H0222",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 상부급수" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["넓은 평면 수조로 세척 용이", "직관적인 습도 확인", "심플한 디자인"],
+      "weaknesses": ["차가운 가습"],
+      "bestFor": "세척이 가장 쉬운 초음파 가습기를 찾는 분"
+    }
+  },
+  {
+    "pcode": "98183873",
+    "name": "웰포트 티타늄 STi500",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "웰포트는 소음 저감 기술 적용됨" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["티타늄/스테인리스 소재의 내구성", "확실한 가열 살균", "세척 매우 간편"],
+      "weaknesses": ["투박한 디자인", "가격대 높음"],
+      "bestFor": "평생 쓸 수 있는 튼튼하고 위생적인 가습기"
+    }
+  },
+  {
+    "pcode": "10363533",
+    "name": "듀플렉스 스완 DP-5590AH",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등 외 기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["저렴한 가격", "가벼운 무게"],
+      "weaknesses": ["작은 용량", "기초적인 기능"],
+      "bestFor": "부담 없이 쓸 소형 가습기"
+    }
+  },
+  {
+    "pcode": "10215372",
+    "name": "블라우드 워터박스 N350",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "natural_evaporation", "confidence": "high", "evidence": "스펙: 자연기화식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "필터 세척 필요" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "팬 없는 자연기화 방식(추정) 혹은 저소음 팬" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능 위주" }
+    },
+    "analysis": {
+      "strengths": ["초저전력(3.5W)", "자연 증발로 과습 우려 없음"],
+      "weaknesses": ["낮은 가습량(200cc)", "필터 관리 필요"],
+      "bestFor": "침실 머리맡에 둘 조용한 가습기"
+    }
+  },
+  {
+    "pcode": "12539162",
+    "name": "원더스리빙 원더스 미스킹 H7 Plus",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "일반적인 복합식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["가성비 좋은 복합식", "적절한 용량과 가습량"],
+      "weaknesses": ["브랜드 인지도"],
+      "bestFor": "저렴하게 복합식 기능을 누리고 싶은 분"
+    }
+  },
+  {
+    "pcode": "28641803",
+    "name": "루메나 듀얼 MIST STAND",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척 (통 구조)" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "소형 초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등 외 기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["세련된 디자인", "듀얼 분무구", "무선 사용 가능(모델에 따라 상이하나 스탠드형은 보통 유선, 확인 필요)"],
+      "weaknesses": ["작은 용량(1L)"],
+      "bestFor": "데스크테리어에 신경 쓰는 분"
+    }
+  },
+  {
+    "pcode": "70533608",
+    "name": "루메나 MIST TOWER PLUS",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 상부급수" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["타워형 디자인으로 높은 분무 위치", "대용량(5.2L)", "세척 용이"],
+      "weaknesses": ["차가운 가습"],
+      "bestFor": "거실 인테리어를 해치지 않는 가습기"
+    }
+  },
+  {
+    "pcode": "71011592",
+    "name": "쿠오레 CHD-EH10W",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "natural_evaporation", "confidence": "high", "evidence": "스펙: 자연기화식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 자동세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "기화식 특성" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: 자동건조" }
+    },
+    "analysis": {
+      "strengths": ["초대용량 가습(1000cc)", "자동 건조로 냄새 방지", "대용량 수조"],
+      "weaknesses": ["큰 부피"],
+      "bestFor": "넓은 거실이나 사무실용"
+    }
+  },
+  {
+    "pcode": "5909595",
+    "name": "샤오미 스마트미 2세대 CJXJSQ02ZM",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "natural_evaporation", "confidence": "high", "evidence": "스펙: 자연기화식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척 (디스크 분리 세척 가능)" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "저소음 기화식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["IoT 스마트 제어", "저전력", "자연 기화식 가성비 갑"],
+      "weaknesses": ["디스크 세척의 번거로움(식세기 없으면 힘듦)"],
+      "bestFor": "스마트홈 연동을 원하는 가성비 유저"
+    }
+  },
+  {
+    "pcode": "9827571",
+    "name": "에어메이드 THE 투명한 가습기 AMH-4000",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척 (통세척)" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능 위주" }
+    },
+    "analysis": {
+      "strengths": ["속이 보이는 투명 디자인", "통세척 편리함", "가성비"],
+      "weaknesses": ["단순 기능"],
+      "bestFor": "물때 확인이 쉬운 직관적인 제품 선호자"
+    }
+  },
+  {
+    "pcode": "28856834",
+    "name": "블랙앤데커 BXEH1230-A",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "상부급수 가능하나 '완벽세척' 문구 부재" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["습도 조절 기능", "브랜드 신뢰도"],
+      "weaknesses": ["평범한 디자인"],
+      "bestFor": "무난한 가정용 초음파 가습기"
+    }
+  },
+  {
+    "pcode": "4520970",
+    "name": "듀플렉스 DP-9090UH",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 다이얼 방식 추정" }
+    },
+    "analysis": {
+      "strengths": ["대용량(4L)", "간편한 상부급수", "저렴함"],
+      "weaknesses": ["아날로그 방식"],
+      "bestFor": "복잡한 기능 싫어하는 분"
+    }
+  },
+  {
+    "pcode": "102003857",
+    "name": "쿠쿠전자 아이편한 큐브 CH-LS401FW",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["스테인리스 수조 위생", "큐브 디자인", "세척 용이"],
+      "weaknesses": ["용량 대비 분무량이 평이함"],
+      "bestFor": "디자인과 위생(스텐)을 모두 챙기고 싶은 분"
+    }
+  },
+  {
+    "pcode": "30138056",
+    "name": "프롬비 더블미스트 FE243",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "소형 초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["무선 사용(확인필요, 프롬비 특징)", "휴대성", "듀얼 분무"],
+      "weaknesses": ["작은 용량(1L)"],
+      "bestFor": "차량이나 개인 공간 이동하며 쓸 분"
+    }
+  },
+  {
+    "pcode": "70877399",
+    "name": "레이나 RH-4524",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능 위주" }
+    },
+    "analysis": {
+      "strengths": ["저렴한 복합식", "충분한 가습량"],
+      "weaknesses": ["브랜드 인지도"],
+      "bestFor": "가성비 복합식 입문"
+    }
+  },
+  {
+    "pcode": "70335602",
+    "name": "LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY704RSUA",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식 (가열+초음파+청정 기술)" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 자동건조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "고급 가전의 소음 제어 기술" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어(LG ThinQ)" }
+    },
+    "analysis": {
+      "strengths": ["가습+공기청정 결합", "프리미엄 디자인", "완벽한 위생 관리(자동건조, 고온살균)"],
+      "weaknesses": ["매우 비싼 가격"],
+      "bestFor": "예산 상관없이 최고의 성능과 디자인을 원하시는 분"
+    }
+  },
+  {
+    "pcode": "9977157",
+    "name": "위들린 RXXH-HD94431A",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["습도 조절 기능", "무난한 디자인"],
+      "weaknesses": ["특색 부족"],
+      "bestFor": "기본기 갖춘 가정용 초음파 가습기"
+    }
+  },
+  {
+    "pcode": "12378776",
+    "name": "Britz BZ-H7",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "소형이라 관리는 쉽지만 완벽세척 명시 없음" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "저전력 소형" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["음향기기 브랜드의 디자인", "컴팩트함"],
+      "weaknesses": ["매우 작은 용량(1.2L)"],
+      "bestFor": "책상 위 인테리어 소품 겸 가습기"
+    }
+  },
+  {
+    "pcode": "29822627",
+    "name": "대원 유니영 UNH500D",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "초소형" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["극강의 휴대성", "USB 전원"],
+      "weaknesses": ["가습 성능 미미"],
+      "bestFor": "개인 공간 국소 가습"
+    }
+  },
+  {
+    "pcode": "12667133",
+    "name": "신일전자 SUH-M220EB",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["신일 브랜드 신뢰도", "무난한 성능"],
+      "weaknesses": ["특징적인 기능 부재"],
+      "bestFor": "AS 잘 되는 기본 가습기"
+    }
+  },
+  {
+    "pcode": "100003619",
+    "name": "비타그램 VG-HF3510W",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "저가형 구조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["매우 저렴함"],
+      "weaknesses": ["내구성 약함"],
+      "bestFor": "싼 맛에 한 철 쓸 제품"
+    }
+  },
+  {
+    "pcode": "28245323",
+    "name": "오아 플렌티 브릭 H0199",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "오아 플렌티 시리즈는 통세척 강조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 다이얼 방식" }
+    },
+    "analysis": {
+      "strengths": ["벽돌 같은 안정적인 디자인", "통세척 편리", "대용량"],
+      "weaknesses": ["부가 기능 없음"],
+      "bestFor": "심플하고 튼튼한 기본 가습기"
+    }
+  },
+  {
+    "pcode": "12827036",
+    "name": "디어마 DEM-F327",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "완벽세척 문구 없으나 구조 심플" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["가성비 UV 살균", "투명한 디자인"],
+      "weaknesses": ["해외 직구 위주라 AS 불편 가능성"],
+      "bestFor": "저렴한 살균 가습기 찾는 분"
+    }
+  },
+  {
+    "pcode": "99745730",
+    "name": "신일전자 SUH-P400ZC",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 상부급수" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등 외 기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["깔끔한 디자인", "상부 급수 편리"],
+      "weaknesses": ["기본 기능만 있음"],
+      "bestFor": "신일 브랜드의 기본형 가습기"
+    }
+  },
+  {
+    "pcode": "29678390",
+    "name": "한경희생활과학 HMH-B700",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "상부급수 및 구조적 특성" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["대용량(7L)", "UV 살균", "습도 조절"],
+      "weaknesses": ["다소 투박할 수 있음"],
+      "bestFor": "대용량 살균 가습기 필요하신 분"
+    }
+  },
+  {
+    "pcode": "28414934",
+    "name": "로엘 보스 헬스케어 AI 가습기",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 상부급수" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["초대용량(12L)", "AI 스마트 제어", "UV 살균 복합식"],
+      "weaknesses": ["부피가 큼"],
+      "bestFor": "넓은 거실이나 매장에서 사용할 고성능 제품"
+    }
+  },
+  {
+    "pcode": "16151510",
+    "name": "앱코 오엘라 ON-HU06",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["안심스팀(가열)", "UV살균", "IoT 기능"],
+      "weaknesses": ["인지도 대비 가격 경쟁력"],
+      "bestFor": "다양한 기능(살균, 스마트)을 원하는 분"
+    }
+  },
+  {
+    "pcode": "12548291",
+    "name": "샤오미 미지아 스마트 살균 S MJJSQ03DY",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "구조 단순하여 세척 용이, 상부급수" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["미홈 앱 연동", "UV 살균", "가성비 최고"],
+      "weaknesses": ["직구 시 AS/플러그 불편"],
+      "bestFor": "샤오미 생태계 사용자"
+    }
+  },
+  {
+    "pcode": "17878301",
+    "name": "르젠 플러스 IH 가열식 가습기 LPL-IH600S",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식 (IH 방식)" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "IH 방식은 전극봉 방식보다 소음 관리 유리할 수 있으나 확인 필요" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["IH 가열 방식으로 효율적", "스테인리스 수조", "디자인 우수"],
+      "weaknesses": ["가격대 높음"],
+      "bestFor": "고급스러운 가열식 가습기를 찾는 분"
+    }
+  },
+  {
+    "pcode": "1501358",
+    "name": "비엘씨 BH-910S 센스리더",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "구형 가열식 구조로 전극봉 세척 필요" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 소음" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["매우 저렴한 가열식", "오래 검증된 모델"],
+      "weaknesses": ["디자인 투박", "세척 번거로움(전극봉)"],
+      "bestFor": "저렴하게 가열식 효과만 누리고 싶은 분"
+    }
+  },
+  {
+    "pcode": "18726305",
+    "name": "한일전기 물멍 GSAM-300",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "물멍(끓는 소리) 컨셉" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등(물멍) 위주" }
+    },
+    "analysis": {
+      "strengths": ["투명한 가열식(물멍 가능)", "한일전기 내구성"],
+      "weaknesses": ["기능 대비 가격"],
+      "bestFor": "시각적 따뜻함과 가습을 동시에 원하는 분"
+    }
+  },
+  {
+    "pcode": "28112762",
+    "name": "쿠쿠전자 아이편한 타워 CH-E1010FW",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["10L 대용량", "타워형 디자인", "습도 자동 조절"],
+      "weaknesses": ["차가운 가습"],
+      "bestFor": "대용량이면서 예쁜 디자인을 찾는 분"
+    }
+  },
+  {
+    "pcode": "6292398",
+    "name": "MISOU 샤오미 미에어 호환 DIY세트 가습기 헤더 MS5800",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식 (미에어 위에 얹는 형태)" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "구조상 팬 소음 미미" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "공기청정기 연동 외 자체 기능 단순" }
+    },
+    "analysis": {
+      "strengths": ["공기청정기와 결합 사용", "공간 활용도 좋음"],
+      "weaknesses": ["샤오미 공기청정기 필수", "정밀한 제어 어려움"],
+      "bestFor": "이미 샤오미 공기청정기가 있는 분"
+    }
+  },
+  {
+    "pcode": "12336866",
+    "name": "오아 센스 S 미니 가습기 OHM-055WH",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "소형이라 관리는 쉽지만 완벽세척 명시 없음" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "소형 초음파" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["무선 사용 가능", "컴팩트 디자인"],
+      "weaknesses": ["가습량 적음"],
+      "bestFor": "휴대용, 책상용"
+    }
+  },
+  {
+    "pcode": "98410112",
+    "name": "대웅모닝컴 DWHM-R135L",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척 (대용량 통)" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "초음파식이나 대형 팬 소음 가능성" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 아날로그 방식 추정" }
+    },
+    "analysis": {
+      "strengths": ["13.5L 엄청난 용량", "강력한 분무량"],
+      "weaknesses": ["가정용으로는 너무 큼", "디자인 투박"],
+      "bestFor": "식당, 사무실, 넓은 매장"
+    }
+  },
+  {
+    "pcode": "100268525",
+    "name": "대웅모닝컴 VN-CZH7845R",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "대형 초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["16L 초대용량", "UV 살균", "습도 설정"],
+      "weaknesses": ["부피 매우 큼"],
+      "bestFor": "넓은 공간을 살균 가습하고 싶은 사업장"
+    }
+  },
+  {
+    "pcode": "5593958",
+    "name": "하이벨 HU-125H",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "전통적인 물병형 가열식 구조" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["저렴함", "가열식의 장점"],
+      "weaknesses": ["물병 교체형의 번거로움", "오래된 모델"],
+      "bestFor": "가성비 가열식"
+    }
+  },
+  {
+    "pcode": "16162904",
+    "name": "윈이엠텍 비플랫 더제로 BFU-015",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "상부급수 가능" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["UV 살균", "저전력"],
+      "weaknesses": ["작은 용량(1.5L)"],
+      "bestFor": "개인용 살균 가습기"
+    }
+  },
+  {
+    "pcode": "101542373",
+    "name": "루메나 HUMID H7",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 자동건조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "루메나의 소음 설계" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균, 자동건조" }
+    },
+    "analysis": {
+      "strengths": ["디자인 우수", "11L 대용량", "UV+가열+자동건조 풀패키지"],
+      "weaknesses": ["가격대"],
+      "bestFor": "거실용 프리미엄 대용량 가습기"
+    }
+  },
+  {
+    "pcode": "31095605",
+    "name": "르젠 LZHD-930Y",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 자동세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["밥솥형 스테인리스 수조(추정)", "가열 살균", "안전 장치"],
+      "weaknesses": ["높은 소비전력(740W)"],
+      "bestFor": "세척 편한 가열식 선호자"
+    }
+  },
+  {
+    "pcode": "12437066",
+    "name": "이노젠 I-MIST POLY 무선 미니 가습기",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "간편세척 가능하나 매우 작음" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "미니 가습기" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등 외 기본" }
+    },
+    "analysis": {
+      "strengths": ["무선", "저렴함"],
+      "weaknesses": ["매우 작은 용량(0.26L)"],
+      "bestFor": "차량 컵홀더용"
+    }
+  },
+  {
+    "pcode": "33438239",
+    "name": "퓨어숨 스텐 가열식 가습기",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["올 스테인리스 수조", "습도 조절 기능", "확실한 살균"],
+      "weaknesses": ["디자인 호불호"],
+      "bestFor": "위생에 민감한 가정"
+    }
+  },
+  {
+    "pcode": "31073267",
+    "name": "르젠 모래시계 LZHD-1600G",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능 위주" }
+    },
+    "analysis": {
+      "strengths": ["독특한 디자인(모래시계)", "저전력 가열식(180W, PTC방식 추정)"],
+      "weaknesses": ["작은 용량(1.6L)"],
+      "bestFor": "협소한 공간에서 쓸 가열식"
+    }
+  },
+  {
+    "pcode": "68774639",
+    "name": "위닉스 올케어 올바른가습기 WL4E400-NEK",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "위닉스 저소음 설계" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균, 안심스팀" }
+    },
+    "analysis": {
+      "strengths": ["위닉스 브랜드 신뢰도", "UV+가열 복합 살균", "스테인리스 수조"],
+      "weaknesses": ["가격대 조금 있음"],
+      "bestFor": "믿을 수 있는 브랜드의 복합식 제품"
+    }
+  },
+  {
+    "pcode": "6632200",
+    "name": "듀플렉스 DP-8080UH",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["4L 용량", "저렴한 가격", "세척 용이"],
+      "weaknesses": ["아날로그 방식"],
+      "bestFor": "기본형 초음파 가습기"
+    }
+  },
+  {
+    "pcode": "39103649",
+    "name": "하츠 CHF-202FY",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "natural_evaporation", "confidence": "high", "evidence": "스펙: 자연기화식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "자연기화식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절" }
+    },
+    "analysis": {
+      "strengths": ["무선 사용 가능(확인 필요, 보통 이 모델은 무선 강조)", "자연 기화식", "예쁜 디자인"],
+      "weaknesses": ["작은 용량(2L)"],
+      "bestFor": "침실용 감성 가습기"
+    }
+  },
+  {
+    "pcode": "70005422",
+    "name": "케리프 타워제로 KLH-9000UV",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 자동건조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균, 자동건조" }
+    },
+    "analysis": {
+      "strengths": ["10L 대용량", "UV 살균 및 자동 건조", "타워형 디자인"],
+      "weaknesses": ["자리 차지함"],
+      "bestFor": "거실용 올인원 가습기"
+    }
+  },
+  {
+    "pcode": "99746303",
+    "name": "신일전자 SUH-HF270YZ",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "산업용이지만 초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["27L 압도적 용량", "1600cc 강력 분무", "UV 살균"],
+      "weaknesses": ["가정용으로 부적합(너무 큼)"],
+      "bestFor": "넓은 사무실, 카페, 매장"
+    }
+  },
+  {
+    "pcode": "15381095",
+    "name": "명성 쿨린 CL-264",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["가성비", "무선 사용 가능 모델(확인 필요)"],
+      "weaknesses": ["작은 용량"],
+      "bestFor": "개인용"
+    }
+  },
+  {
+    "pcode": "99915023",
+    "name": "오쿠 OCP-HP170",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 자동세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["스테인리스 수조", "가열식 살균", "컴팩트한 사이즈"],
+      "weaknesses": ["용량(1.7L)이 조금 애매함"],
+      "bestFor": "안방용 미니 가열식 가습기"
+    }
+  },
+  {
+    "pcode": "31111964",
+    "name": "에버튼하우스 굴뚝 EHRN-HM521A",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["굴뚝형으로 높은 분무", "6L 대용량", "저렴함"],
+      "weaknesses": ["단순 기능"],
+      "bestFor": "가성비 대용량 제품"
+    }
+  },
+  {
+    "pcode": "30209534",
+    "name": "스테나 아키텍 STN 100",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조, 자동세척" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머, 버튼잠금" }
+    },
+    "analysis": {
+      "strengths": ["올 스테인리스(304/316)", "강력한 가열 성능", "감각적인 디자인"],
+      "weaknesses": ["고가"],
+      "bestFor": "최고급 소재의 가열식 가습기를 찾는 분"
+    }
+  },
+  {
+    "pcode": "28112750",
+    "name": "쿠쿠전자 아이편한 타워 CH-E1010FP",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["10L 대용량", "습도 조절", "타워형 디자인"],
+      "weaknesses": ["차가운 가습"],
+      "bestFor": "대용량 타워형 가습기 (FW모델과 색상/유통경로 차이 추정)"
+    }
+  },
+  {
+    "pcode": "13099748",
+    "name": "쿠팡 홈플래닛 HL1-1001D",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "무드등 외 기본" }
+    },
+    "analysis": {
+      "strengths": ["압도적인 가성비", "무난한 성능"],
+      "weaknesses": ["내구성 복불복"],
+      "bestFor": "가장 저렴한 기본 가습기"
+    }
+  },
+  {
+    "pcode": "70335749",
+    "name": "LG전자 오브제컬렉션 퓨리케어 하이드로타워 HY704RWUA",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 자동건조" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "LG 기술력" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["위생 관리 끝판왕(정수필터+가열+자동건조)", "IoT 연동", "디자인"],
+      "weaknesses": ["매우 비쌈"],
+      "bestFor": "예산 제약 없는 최고급 가습기 선호자"
+    }
+  },
+  {
+    "pcode": "99838913",
+    "name": "웰포트 ST100",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식 (티타늄 모델 대비 소음 차이 있을 수 있음)" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머" }
+    },
+    "analysis": {
+      "strengths": ["스테인리스 수조", "가열식 살균", "세척 매우 편리"],
+      "weaknesses": ["디자인 투박"],
+      "bestFor": "실용성과 위생을 중시하는 분"
+    }
+  },
+  {
+    "pcode": "30311639",
+    "name": "마이프랜드 MF-88",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["스테인리스 가열식 중 가성비", "습도 조절 기능"],
+      "weaknesses": ["브랜드 인지도"],
+      "bestFor": "저렴한 스텐 가열식 찾는 분"
+    }
+  },
+  {
+    "pcode": "30340988",
+    "name": "마모스 MUS-4000V",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "moderately_important", "confidence": "medium", "evidence": "세척 용이성 특별 언급 없음" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["UV 살균", "습도 조절", "저렴함"],
+      "weaknesses": ["평범한 디자인"],
+      "bestFor": "가성비 살균 가습기"
+    }
+  },
+  {
+    "pcode": "30076442",
+    "name": "신일전자 SUH-CH25WH",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "sterilization_drying", "confidence": "high", "evidence": "스펙: UV살균" }
+    },
+    "analysis": {
+      "strengths": ["25L 초대용량", "UV 살균", "습도 조절"],
+      "weaknesses": ["가정용 아님"],
+      "bestFor": "대형 평수 상업 공간"
+    }
+  },
+  {
+    "pcode": "6654925",
+    "name": "퀸센스 QSHD-S310",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["매우 저렴", "간편함"],
+      "weaknesses": ["작은 용량"],
+      "bestFor": "소형 저렴이"
+    }
+  },
+  {
+    "pcode": "98545079",
+    "name": "쿠잉 HDT-S10W",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["10L 대용량", "IoT 스마트 제어", "UV 살균"],
+      "weaknesses": ["가격 대비 마감(확인 필요)"],
+      "bestFor": "스마트 기능이 있는 대용량 제품 선호"
+    }
+  },
+  {
+    "pcode": "16165706",
+    "name": "미로 MH5000",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척 (미로는 완전 분해 세척이 특징)" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "high", "evidence": "초음파식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["모든 부품 세척 가능", "IoT 스마트 제어", "풍부한 가습량"],
+      "weaknesses": ["조립/분해가 다소 번거로울 수 있음"],
+      "bestFor": "세척 결벽증이 있으면서 스마트 기능을 원하는 분"
+    }
+  },
+  {
+    "pcode": "28883675",
+    "name": "오아 플렌티 스팀 OHM-067WH",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "heating", "confidence": "high", "evidence": "스펙: 가열식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 자동세척, 스테인리스 수조" },
+      "noise_level": { "matchedOption": "not_concerned", "confidence": "medium", "evidence": "가열식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 타이머, 버튼잠금" }
+    },
+    "analysis": {
+      "strengths": ["스테인리스 가열식", "안전 장치(버튼잠금)", "깔끔한 디자인"],
+      "weaknesses": ["높은 소비전력"],
+      "bestFor": "오아 디자인을 선호하는 가열식 사용자"
+    }
+  },
+  {
+    "pcode": "12639974",
+    "name": "신일전자 SUH-R90HYB",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 완벽세척" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "humidity_control_smart", "confidence": "high", "evidence": "스펙: 습도조절, 습도표시" }
+    },
+    "analysis": {
+      "strengths": ["신일 브랜드", "습도 조절", "무난한 성능"],
+      "weaknesses": ["특출난 장점 없음"],
+      "bestFor": "실패 없는 무난한 복합식"
+    }
+  },
+  {
+    "pcode": "9797658",
+    "name": "프롬비 워터캡슐2 FA145",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "ultrasonic", "confidence": "high", "evidence": "스펙: 초음파식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "구조상 세척 용이 및 필터교체형" },
+      "noise_level": { "matchedOption": "very_quiet", "confidence": "high", "evidence": "초소형" },
+      "additional_features": { "matchedOption": "none", "confidence": "medium", "evidence": "기본 기능" }
+    },
+    "analysis": {
+      "strengths": ["휴대성", "캡슐형 디자인"],
+      "weaknesses": ["매우 작은 용량"],
+      "bestFor": "가방에 넣고 다니는 가습기"
+    }
+  },
+  {
+    "pcode": "28390049",
+    "name": "미로 MIRO-TOWER",
+    "questionMapping": {
+      "humidifier_type": { "matchedOption": "complex", "confidence": "high", "evidence": "스펙: 복합식" },
+      "cleaning_convenience": { "matchedOption": "very_important", "confidence": "high", "evidence": "스펙: 간편세척 (미로 특징인 완전세척 가능성 높음)" },
+      "noise_level": { "matchedOption": "quiet", "confidence": "medium", "evidence": "복합식" },
+      "additional_features": { "matchedOption": "smart_control_timer", "confidence": "high", "evidence": "스펙: 스마트폰제어" }
+    },
+    "analysis": {
+      "strengths": ["9L 대용량", "IoT 제어", "UV 살균", "높은 타워형"],
+      "weaknesses": ["부피"],
+      "bestFor": "거실 전체 커버 가능한 스마트 가습기"
+    }
+  }
+]

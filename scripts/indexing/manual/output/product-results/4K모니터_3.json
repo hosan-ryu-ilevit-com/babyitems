@@ -1,0 +1,2080 @@
+
+[
+  {
+    "pcode": "31458251",
+    "name": "LG전자 MyView 스마트 32SR83U",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 모니터(MyView), webOS, HDR10"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["스마트 기능(webOS)", "USB-C PD 충전", "IPS 패널의 선명한 화질"],
+      "weaknesses": ["60Hz 주사율로 고사양 게임에는 부적합"],
+      "bestFor": "재택근무 및 OTT 영상 시청을 즐기는 사용자"
+    }
+  },
+  {
+    "pcode": "12058430",
+    "name": "LG전자 360 32UN880",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "360 에르고 스탠드(피벗/틸트/스위블), IPS 패널"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원 (모델 특성)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["자유로운 모니터 암(360 스탠드)", "공간 활용성 우수", "IPS 패널"],
+      "weaknesses": ["상대적으로 높은 가격"],
+      "bestFor": "데스크 공간 활용과 인체공학적 배치가 중요한 디자이너/직장인"
+    }
+  },
+  {
+    "pcode": "19174970",
+    "name": "비트엠 Newsync B274K UHD PLUS",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "기본적인 4K 60Hz 스펙, 가성비 모델"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["매우 저렴한 가격", "IPS 4K 해상도"],
+      "weaknesses": ["낮은 브랜드 인지도", "기본적인 스탠드 기능"],
+      "bestFor": "가성비 좋게 4K 화질을 경험하고 싶은 일반 사용자"
+    }
+  },
+  {
+    "pcode": "90272405",
+    "name": "한성컴퓨터 TFG27U16PM1152Z Fast IPS QD Mini LED 듀얼모드 게이밍 무결점",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "160Hz, 1ms, Mini LED, 게이밍 명시"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원 (상세 스펙 확인)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "QD-Fast IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["Mini LED의 뛰어난 화질", "160Hz 고주사율", "USB PD 지원"],
+      "weaknesses": ["고사양으로 인한 가격대"],
+      "bestFor": "고화질 게임과 작업을 동시에 원하는 하이엔드 게이머"
+    }
+  },
+  {
+    "pcode": "20726021",
+    "name": "LG전자 울트라기어 27GR93U",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "144Hz, 울트라기어 브랜드, 1ms"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["검증된 게이밍 성능", "LG 울트라기어 품질", "빠른 응답속도"],
+      "weaknesses": ["USB-C 단자 부재"],
+      "bestFor": "신뢰할 수 있는 브랜드의 4K 게이밍 모니터를 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "17014874",
+    "name": "삼성전자 SMART M7 M70B S43BM702",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "43인치 대화면, 스마트 기능, 리모컨"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치 (옵션인 27/32에 해당하지 않음)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["TV 대용으로 사용 가능한 43인치 대화면", "OTT 내장", "USB-C 지원"],
+      "weaknesses": ["책상 위에 두기엔 너무 큼", "VA 패널 시야각"],
+      "bestFor": "원룸 등에서 TV 겸용으로 사용할 모니터를 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "71964845",
+    "name": "한성컴퓨터 TFG32U16P UHD Fast IPS QD Mini LED 160 게이밍 무결점",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "160Hz, Mini LED, 게이밍"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "81.3cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "QD-Fast IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["32인치 4K 고주사율", "Mini LED 화질", "다재다능한 스펙"],
+      "weaknesses": ["브랜드 선호도 차이"],
+      "bestFor": "최상의 스펙을 갖춘 게이밍 모니터를 합리적인 가격에 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "16735445",
+    "name": "삼성전자 SMART M7 S32BM700",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 모니터, OTT, VA 명암비"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["PC 없이 즐기는 스마트 기능", "USB-C 연결", "높은 명암비"],
+      "weaknesses": ["60Hz 주사율", "VA 패널 시야각"],
+      "bestFor": "영상 시청 비중이 높고 노트북과 연결해 사용할 사용자"
+    }
+  },
+  {
+    "pcode": "15150125",
+    "name": "LG전자 울트라HD 27UP650",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "medium",
+        "evidence": "IPS 4K, 피벗/엘리베이션 스탠드, 캘리브레이션"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미포함 (상위 모델 UP850과 차이)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["준수한 색감과 화질", "인체공학적 스탠드"],
+      "weaknesses": ["USB-C 단자 부재"],
+      "bestFor": "기본에 충실한 4K 작업용 모니터가 필요한 사용자"
+    }
+  },
+  {
+    "pcode": "28531094",
+    "name": "쓰리윈즈 인터픽셀 IPU3212 UHD IPS 4K 화이트 무결점",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "medium",
+        "evidence": "IPS, sRGB 100%, 화이트 디자인"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80.01cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["화이트 디자인", "가성비 IPS 32인치"],
+      "weaknesses": ["브랜드 인지도", "스탠드 기능 제한"],
+      "bestFor": "화이트 데스크테리어를 선호하는 가성비 추구 사용자"
+    }
+  },
+  {
+    "pcode": "16735490",
+    "name": "삼성전자 SMART M7 S32BM701",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 기능, VA 패널"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["화이트 컬러(보통 701이 화이트)", "스마트 기능", "USB-C"],
+      "weaknesses": ["주사율 60Hz"],
+      "bestFor": "깔끔한 디자인과 멀티미디어 기능을 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "17201696",
+    "name": "삼성전자 뷰피니티 S8 S80PB S27B800",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "뷰피니티(전문가용), IPS, 정확한 색감"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원 (S8 라인업 특성)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["전문가급 색재현율", "매트 디스플레이(빛반사 방지)", "인체공학 스탠드"],
+      "weaknesses": ["게이밍 기능 부족"],
+      "bestFor": "그래픽 디자인 및 사진 편집 전문가"
+    }
+  },
+  {
+    "pcode": "17859902",
+    "name": "DELL P3223QE",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "Dell P시리즈(Professional), USB PD, LAN 포트"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["Dell의 신뢰성 높은 품질", "유선 LAN 포함 도킹 스테이션 기능", "깔끔한 디자인"],
+      "weaknesses": ["주사율 60Hz"],
+      "bestFor": "안정적인 업무 환경을 구축하려는 비즈니스 사용자"
+    }
+  },
+  {
+    "pcode": "17593070",
+    "name": "한성컴퓨터 TFG32U14PQ UHD IPS 리얼 160 게이밍 USB Type-C 600 무결점",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "160Hz, 게이밍, 응답속도 1ms"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "81.2cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원, 모델명에 Type-C 명시"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "QD-Fast IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["고주사율 4K IPS", "USB-C 지원", "높은 가성비"],
+      "weaknesses": ["브랜드 선호도"],
+      "bestFor": "대화면 고화질 게이밍과 노트북 연결을 모두 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "10333962",
+    "name": "DELL UltraSharp U2720Q",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "UltraSharp(전문가용), 뛰어난 색감, 스탠드"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.47cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["최고 수준의 색 정확도", "다양한 포트 구성", "우수한 마감"],
+      "weaknesses": ["출시된 지 다소 지남(후속 모델 존재)", "높은 가격"],
+      "bestFor": "색감 작업이 중요한 디자이너 및 사진가"
+    }
+  },
+  {
+    "pcode": "70255097",
+    "name": "LG전자 MyView 스마트 32SR76U",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "MyView 스마트 기능, DCI-P3 95%"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["파스텔톤 디자인", "스마트 OS 편의성", "IPS 화질"],
+      "weaknesses": ["60Hz 주사율"],
+      "bestFor": "인테리어와 영상 감상을 중시하는 사용자"
+    }
+  },
+  {
+    "pcode": "18938393",
+    "name": "디엑스 DX320UHD",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "기본 4K 60Hz 스펙, 보급형"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["매우 저렴한 가격", "32인치 IPS 4K"],
+      "weaknesses": ["브랜드 인지도 낮음", "마감 품질"],
+      "bestFor": "예산이 제한적이지만 대화면 4K를 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "16588217",
+    "name": "DELL P2723QE",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "Dell P시리즈, USB-C 허브, 피벗"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.47cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["깔끔한 케이블 정리(USB-C)", "유선 LAN 포트", "Dell 보증 서비스"],
+      "weaknesses": ["60Hz"],
+      "bestFor": "노트북을 연결하여 사용하는 사무직 회사원"
+    }
+  },
+  {
+    "pcode": "6766108",
+    "name": "비트엠 Newsync B324K UHD HDR",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "가성비 모델"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "81cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "AHVA 패널 (IPS 계열)"
+      }
+    },
+    "analysis": {
+      "strengths": ["저렴한 가격", "AHVA(IPS급) 패널"],
+      "weaknesses": ["기본적인 스탠드", "낮은 인지도"],
+      "bestFor": "가성비 32인치 4K 모니터를 찾는 일반 사용자"
+    }
+  },
+  {
+    "pcode": "19744796",
+    "name": "삼성전자 SMART M8 M80C S32CM801",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 M8, 슬림 디자인, OTT"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["초슬림 디자인", "스마트 기능", "웹캠 포함"],
+      "weaknesses": ["가격 대비 60Hz 주사율"],
+      "bestFor": "디자인을 중요시하고 홈오피스와 엔터테인먼트를 겸하는 사용자"
+    }
+  },
+  {
+    "pcode": "68438123",
+    "name": "LG전자 MyView 스마트 32SR73U",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "MyView 스마트 기능"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "스펙상 VA 패널 명시"
+      }
+    },
+    "analysis": {
+      "strengths": ["높은 명암비(VA)", "스마트 기능", "가성비"],
+      "weaknesses": ["IPS 대비 시야각"],
+      "bestFor": "영상 시청 위주로 사용하는 가성비 스마트 모니터 구매자"
+    }
+  },
+  {
+    "pcode": "12478604",
+    "name": "DELL S2721QS",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "medium",
+        "evidence": "IPS 4K, 피벗 스탠드, 준수한 색감"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.47cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["깔끔한 디자인", "다용도 활용 가능"],
+      "weaknesses": ["USB-C 없음"],
+      "bestFor": "가정 및 사무용으로 무난한 4K IPS 모니터를 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "12058307",
+    "name": "LG전자 360 27UN880",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "360 에르고 스탠드, IPS"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원 (모델 특성)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["모니터 암 기본 내장(360)", "공간 절약", "USB-C"],
+      "weaknesses": ["일반 스탠드 모델 대비 가격"],
+      "bestFor": "책상 공간을 넓게 쓰고 싶은 27인치 선호 작업자"
+    }
+  },
+  {
+    "pcode": "16137869",
+    "name": "DELL S2722QC",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "USB-C, IPS, 피벗"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.5cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["USB-C 원케이블 솔루션", "세련된 뒷면 디자인", "스피커 내장"],
+      "weaknesses": ["60Hz"],
+      "bestFor": "재택근무용 맥북/노트북 연결 모니터"
+    }
+  },
+  {
+    "pcode": "48478151",
+    "name": "삼성전자 SMART M7 S32DM700",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 M7, VA"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["최신 스마트 기능", "USB-C", "가성비"],
+      "weaknesses": ["VA 패널 시야각"],
+      "bestFor": "스마트 기능을 갖춘 최신 32인치 모니터 입문자"
+    }
+  },
+  {
+    "pcode": "31460888",
+    "name": "LG전자 MyView 스마트 룸앤스타일 32SR70U",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "룸앤스타일 디자인, 스마트 기능, IPS"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["유니크한 디자인", "IPS 패널", "스마트 기능"],
+      "weaknesses": ["디자인 특화로 인한 가격"],
+      "bestFor": "인테리어 오브제 같은 모니터를 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "20777687",
+    "name": "LG전자 울트라HD 32UP550N",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "medium",
+        "evidence": "4K, USB-C, 피벗 스탠드"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "81cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["명암비 좋은 VA 패널", "USB-C 지원", "다기능 스탠드"],
+      "weaknesses": ["IPS 대비 좁은 시야각"],
+      "bestFor": "영상 감상 및 사무 작업을 병행하는 사용자"
+    }
+  },
+  {
+    "pcode": "16735676",
+    "name": "삼성전자 SMART M7 M70B S32BM703",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 M7, VA"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["검증된 스마트 모니터 성능", "USB-C", "리모컨 포함"],
+      "weaknesses": ["60Hz"],
+      "bestFor": "올인원 스마트 모니터의 표준을 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "25772783",
+    "name": "삼성전자 SMART M7 M70B S43BM703",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "43인치, 스마트 기능"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["압도적인 43인치 대화면", "스마트 TV 대체 가능"],
+      "weaknesses": ["책상용으로는 매우 큼", "반응 속도"],
+      "bestFor": "TV 겸용으로 사용할 1인 가구"
+    }
+  },
+  {
+    "pcode": "28926719",
+    "name": "LG전자 MyView 스마트 32SQ750S",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "MyView 스마트, IPS, LAN"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["유선 LAN 지원으로 안정적 네트워크", "IPS 화질", "스마트 기능"],
+      "weaknesses": ["가격"],
+      "bestFor": "네트워크 안정성이 중요한 재택근무 및 스트리밍 사용자"
+    }
+  },
+  {
+    "pcode": "18633248",
+    "name": "삼성전자 오디세이 G7 G70B S28BG700",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "144Hz, 오디세이 게이밍 브랜드"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "70.8cm(28인치) - 27인치급으로 분류"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "medium",
+        "evidence": "USB-C 허브는 있으나 디스플레이 입력 여부 불분명(일반적으로 DP/HDMI 사용)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["게이밍에 최적화된 성능(144Hz, 1ms)", "스마트 허브 내장", "IPS 화질"],
+      "weaknesses": ["28인치 크기의 애매함(호불호)"],
+      "bestFor": "스마트 기능을 갖춘 고성능 게이밍 모니터 사용자"
+    }
+  },
+  {
+    "pcode": "17723879",
+    "name": "LG전자 MyView 스마트 32SQ730SW",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스마트 기능, VA"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["VA 패널의 깊은 명암비", "화이트 디자인", "스마트 기능"],
+      "weaknesses": ["시야각"],
+      "bestFor": "영상 시청을 주로 하며 화이트 인테리어를 선호하는 사용자"
+    }
+  },
+  {
+    "pcode": "14592077",
+    "name": "비트엠 Newsync B2860K IPS UHD ZERO HDR",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "보급형 스펙"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "71cm(28인치) - 27인치급"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["저렴한 가격", "넓은 색영역 표기"],
+      "weaknesses": ["마감 품질", "브랜드 인지도"],
+      "bestFor": "저렴한 가격에 색재현율이 높은 모니터를 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "14338619",
+    "name": "비트엠 Newsync 3260U 플렉스 4K HDR",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "일반적인 4K 60Hz"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "81.28cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["가격 경쟁력", "명암비(VA)"],
+      "weaknesses": ["기본형 스탠드"],
+      "bestFor": "영상 감상용 저렴한 32인치 4K 모니터를 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "10461738",
+    "name": "에이서 프레데터 XB273K GP",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "프레데터(게이밍 브랜드), 144Hz, QD-IPS"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "QD-IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["고성능 게이밍 스펙", "퀀텀닷 IPS 화질", "차광후드 포함(모델별 상이할 수 있음)"],
+      "weaknesses": ["높은 가격", "팬 소음 가능성"],
+      "bestFor": "최고의 화질로 게임을 즐기려는 하드코어 게이머"
+    }
+  },
+  {
+    "pcode": "7927372",
+    "name": "LG전자 27UL500",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "보급형 4K IPS"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["LG IPS 패널의 신뢰성", "합리적인 가격"],
+      "weaknesses": ["구형 모델", "단순한 스탠드(틸트만 가능)"],
+      "bestFor": "기본에 충실한 대기업 4K 모니터를 저렴하게 구매하려는 사용자"
+    }
+  },
+  {
+    "pcode": "6466152",
+    "name": "비트엠 Newsync B274K UHD HDR",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "저가형 모델"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.47cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "AH-IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["매우 낮은 가격"],
+      "weaknesses": ["품질 편차", "사후 지원"],
+      "bestFor": "최저가로 4K 해상도를 경험하고 싶은 사용자"
+    }
+  },
+  {
+    "pcode": "14338664",
+    "name": "비트엠 Newsync 3260U 플렉스 4K HDR 무결점",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "보급형 VA"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "81.28cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["가격", "무결점 정책 적용"],
+      "weaknesses": ["기본 스탠드"],
+      "bestFor": "저렴한 32인치 영상용 모니터"
+    }
+  },
+  {
+    "pcode": "15730886",
+    "name": "삼성전자 SMART M7 S32AM701",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "구형 스마트 M7, VA"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["스마트 기능", "USB-C"],
+      "weaknesses": ["구형 모델(AM시리즈)", "반응 속도"],
+      "bestFor": "구형이라도 저렴하게 스마트 모니터를 구매하려는 사용자"
+    }
+  },
+  {
+    "pcode": "16459763",
+    "name": "한성컴퓨터 TFG27U06P 4K IPS HDR",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "medium",
+        "evidence": "IPS, 피벗/엘리베이션 스탠드, 가성비 작업용"
+      },
+      "screen_size_preference": {
+        "matchedOption": "27_inch",
+        "confidence": "high",
+        "evidence": "68.4cm(27인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["멀티스탠드 포함 가성비", "IPS 4K"],
+      "weaknesses": ["디자인 투박함"],
+      "bestFor": "저렴한 가격에 피벗 기능이 필요한 작업자"
+    }
+  },
+  {
+    "pcode": "11990399",
+    "name": "레노버 ThinkVision T32P-20",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "high",
+        "evidence": "ThinkVision(비즈니스), 인체공학 스탠드"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB PD 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["비즈니스 환경에 최적화", "튼튼한 내구성", "USB-C"],
+      "weaknesses": ["투박한 디자인", "주사율 60Hz"],
+      "bestFor": "사무용으로 신뢰할 수 있는 대화면 모니터가 필요한 사용자"
+    }
+  },
+  {
+    "pcode": "12205892",
+    "name": "엠디스플레이 Flex 32UF10 보더리스 4K HDR 멀티스탠드",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "work_design",
+        "confidence": "medium",
+        "evidence": "멀티스탠드(피벗 등), IPS"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "80cm(32인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "USB-C 미지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["보더리스 디자인", "멀티 스탠드"],
+      "weaknesses": ["브랜드 인지도"],
+      "bestFor": "디자인과 스탠드 기능을 중시하는 가성비 추구 사용자"
+    }
+  },
+  {
+    "pcode": "93631037",
+    "name": "삼성전자 무빙스타일 M7 LS43FM701 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 스탠드 + 스마트 모니터"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "M7 모델 기반 (USB-C 지원)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "M7 43인치는 VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["집안 어디서나 이동 가능", "대화면 스마트 TV 활용"],
+      "weaknesses": ["부피 차지", "43인치의 크기 부담"],
+      "bestFor": "침실, 거실 등 장소를 옮겨가며 영상을 보고 싶은 사용자"
+    }
+  },
+  {
+    "pcode": "86913029",
+    "name": "LG전자 스윙 32U889SAW 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스윙(이동형) 스탠드 + 스마트 모니터"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "32U889 모델 기반 (USB-C 지원)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "32U889 모델은 IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["LG IPS 패널의 화질", "이동 편의성", "스마트 기능"],
+      "weaknesses": ["가격"],
+      "bestFor": "고화질로 이동하며 콘텐츠를 즐기고 싶은 사용자"
+    }
+  },
+  {
+    "pcode": "48645503",
+    "name": "삼성전자 무빙스타일 M7 S32DM703 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 스탠드 + M7"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["이동성", "최신 M7 모델의 기능"],
+      "weaknesses": ["VA 패널 시야각"],
+      "bestFor": "이동 가능한 스마트 스크린을 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "48645551",
+    "name": "삼성전자 무빙스타일 M7 S43DM703 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 + 43인치 스마트"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["43인치 대화면 이동 가능", "스마트 기능"],
+      "weaknesses": ["무게 및 부피"],
+      "bestFor": "큰 화면을 자유롭게 이동시키고 싶은 사용자"
+    }
+  },
+  {
+    "pcode": "48643280",
+    "name": "삼성전자 무빙스타일 M7 S43DM701 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 + 43인치"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["화이트 컬러(701) 깔끔함", "대화면 이동성"],
+      "weaknesses": ["크기"],
+      "bestFor": "인테리어를 해치지 않는 대형 이동식 스크린이 필요한 사용자"
+    }
+  },
+  {
+    "pcode": "89605139",
+    "name": "LG전자 스윙 32U731SAW 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스윙 스탠드 + 스마트 모니터"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "32U731 모델은 IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["IPS 화질", "이동형 스탠드 편의성"],
+      "weaknesses": ["가격"],
+      "bestFor": "LG의 화질과 이동 편의성을 동시에 원하는 사용자"
+    }
+  },
+  {
+    "pcode": "89605010",
+    "name": "LG전자 스윙 32U721SAW 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스윙 스탠드"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원 (스마트 모니터 기반)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "medium",
+        "evidence": "LG 스마트 모니터 주력은 IPS"
+      }
+    },
+    "analysis": {
+      "strengths": ["이동성", "스마트 기능"],
+      "weaknesses": ["모델명에 따른 세부 스펙 확인 필요"],
+      "bestFor": "이동식 스마트 모니터 사용자"
+    }
+  },
+  {
+    "pcode": "67682639",
+    "name": "삼성전자 무빙스타일 M7 S32DM701 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 + M7"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["화이트 디자인", "이동 편의성", "스마트 기능"],
+      "weaknesses": ["VA 패널 시야각"],
+      "bestFor": "화이트 인테리어에 어울리는 이동식 TV 대용 모니터"
+    }
+  },
+  {
+    "pcode": "94450433",
+    "name": "LG전자 스윙 스마트 32U880SAW 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "스윙 스탠드"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "ips",
+        "confidence": "high",
+        "evidence": "IPS 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["LG 상위 라인업의 화질", "이동성"],
+      "weaknesses": ["높은 가격"],
+      "bestFor": "최고급 이동식 스마트 모니터를 찾는 사용자"
+    }
+  },
+  {
+    "pcode": "42946112",
+    "name": "삼성전자 무빙스타일 M7 M70B S32BM703 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 + M7"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["이동성", "가성비 패키지"],
+      "weaknesses": ["구형 모델 재고일 가능성"],
+      "bestFor": "합리적인 가격의 이동식 스마트 모니터 구매자"
+    }
+  },
+  {
+    "pcode": "18020111",
+    "name": "LG전자 올레드 evo FLEX 42LX3QKNA",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "gaming",
+        "confidence": "high",
+        "evidence": "OLED, 120Hz, G-Sync, 게이밍 특화"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "42인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI 2.1 주력 (USB-C 디스플레이 입력 미지원)"
+      },
+      "panel_type_preference": {
+        "matchedOption": "oled",
+        "confidence": "high",
+        "evidence": "OLED 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["곡률 조절 가능(Flex)", "압도적인 OLED 화질", "게이밍 성능"],
+      "weaknesses": ["매우 비싼 가격", "번인 우려"],
+      "bestFor": "최고의 몰입감을 원하는 하이엔드 게이머"
+    }
+  },
+  {
+    "pcode": "11918068",
+    "name": "이지넷유비쿼터스 넥스트 4:2 HDMI 듀얼 모니터 KVM 스위치 (NEXT-7402KVM-DUAL)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기(KVM 스위치)"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI 스위치"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["두 대의 PC를 하나의 모니터/키보드로 제어"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "다중 PC 사용자"
+    }
+  },
+  {
+    "pcode": "19101701",
+    "name": "삼성전자 네오QLED KQ43QNC90AFXKR",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "TV 제품, 120Hz 지원으로 게이밍도 가능"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI 2.1"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "Mini LED(VA 계열)"
+      }
+    },
+    "analysis": {
+      "strengths": ["Mini LED의 뛰어난 화질", "144Hz 게이밍 지원"],
+      "weaknesses": ["모니터 전용 기능 부족"],
+      "bestFor": "고화질 TV를 게이밍 모니터 겸용으로 쓰고 싶은 사용자"
+    }
+  },
+  {
+    "pcode": "4089405",
+    "name": "이지넷유비쿼터스 넥스트 1:2 HDMI 4K 모니터 분배기 (NEXT-4202SPC4K)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기(분배기)"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["화면 복제 가능"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "화면 분배가 필요한 사용자"
+    }
+  },
+  {
+    "pcode": "1953482",
+    "name": "이지넷유비쿼터스 넥스트 HDMI 1:2 모니터 분배기(NEXT-0102SPC4K)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["저렴한 분배기"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "단순 화면 복제용"
+    }
+  },
+  {
+    "pcode": "3082939",
+    "name": "이지넷유비쿼터스 넥스트 HDMI 3:1 모니터 스위치 (NEXT-HD301SWC4K)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["3개 기기 연결 가능"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "포트가 부족한 사용자"
+    }
+  },
+  {
+    "pcode": "1953411",
+    "name": "이지넷유비쿼터스 넥스트 HDMI 1:2 모니터 분배기(NEXT-0102SP4K)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["분배 기능"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "화면 복제"
+    }
+  },
+  {
+    "pcode": "7441789",
+    "name": "퀄리티어슈어런스코리아 1:2 HDMI 2.0 모니터 분배기 (Q4K60HZUHD)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["60Hz 지원 분배기"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "고화질 분배 필요 시"
+    }
+  },
+  {
+    "pcode": "17717501",
+    "name": "티엑스 126cm LED TV UHD",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "TV 제품"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "126cm (약 50인치)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "low",
+        "evidence": "정보 부족"
+      }
+    },
+    "analysis": {
+      "strengths": ["저렴한 대형 TV"],
+      "weaknesses": ["모니터 용도로는 부적합"],
+      "bestFor": "단순 영상 시청용 저가형 TV"
+    }
+  },
+  {
+    "pcode": "42945344",
+    "name": "삼성전자 무빙스타일 M7 M70B S43BM703 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 + 43인치 스마트"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "43인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["대화면 이동성", "스마트 기능"],
+      "weaknesses": ["크기"],
+      "bestFor": "가정용 이동식 멀티미디어 스크린"
+    }
+  },
+  {
+    "pcode": "1953500",
+    "name": "이지넷유비쿼터스 넥스트 HDMI 1:4 모니터 분배기 (NEXT-0104SP)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["4개 화면 동시 출력"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "매장 전시 등 다중 화면 출력"
+    }
+  },
+  {
+    "pcode": "42946196",
+    "name": "삼성전자 무빙스타일 M7 M70B S32BM702 이동형 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "video_entertainment",
+        "confidence": "high",
+        "evidence": "이동형 + M7"
+      },
+      "screen_size_preference": {
+        "matchedOption": "32_inch",
+        "confidence": "high",
+        "evidence": "32인치"
+      },
+      "connectivity_needs": {
+        "matchedOption": "usb_c",
+        "confidence": "high",
+        "evidence": "USB-C 지원"
+      },
+      "panel_type_preference": {
+        "matchedOption": "va",
+        "confidence": "high",
+        "evidence": "VA 패널"
+      }
+    },
+    "analysis": {
+      "strengths": ["이동성", "가성비 스마트 모니터 조합"],
+      "weaknesses": ["구형 모델 재고"],
+      "bestFor": "이동 가능한 스마트 모니터"
+    }
+  },
+  {
+    "pcode": "2877287",
+    "name": "이지넷유비쿼터스 넥스트 3:1 HDMI 모니터 스위치 (NEXT-HD301SW)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["입력 선택"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "HDMI 포트 확장"
+    }
+  },
+  {
+    "pcode": "6436372",
+    "name": "삼성전자 데스크탑5 DM500S8A-A24 모니터 패키지",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "high",
+        "evidence": "사무용 PC 패키지"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "24인치 (옵션 27/32 미해당)"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "medium",
+        "evidence": "PC 패키지로 일반 연결 추정"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "medium",
+        "evidence": "정보 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["PC 본체 포함 패키지"],
+      "weaknesses": ["오래된 사양(커피레이크)", "작은 화면"],
+      "bestFor": "간단한 사무용 PC 세트가 필요한 사용자"
+    }
+  },
+  {
+    "pcode": "1953523",
+    "name": "이지넷유비쿼터스 넥스트 HDMI 5:1 모니터 스위치(NEXT-0501SW)",
+    "questionMapping": {
+      "usage_purpose": {
+        "matchedOption": "general_use",
+        "confidence": "low",
+        "evidence": "주변기기"
+      },
+      "screen_size_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "모니터 아님"
+      },
+      "connectivity_needs": {
+        "matchedOption": "hdmi_dp",
+        "confidence": "high",
+        "evidence": "HDMI"
+      },
+      "panel_type_preference": {
+        "matchedOption": "unknown",
+        "confidence": "high",
+        "evidence": "패널 없음"
+      }
+    },
+    "analysis": {
+      "strengths": ["5개 입력 확장"],
+      "weaknesses": ["모니터 아님"],
+      "bestFor": "다양한 콘솔/PC 연결 사용자"
+    }
+  }
+]

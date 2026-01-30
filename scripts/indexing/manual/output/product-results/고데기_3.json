@@ -1,0 +1,2452 @@
+[
+{
+"pcode": "7555912",
+"name": "필립스 BHS377/09",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "스펙상 세라믹 발열판 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "10단계 온도 조절 지원"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "예열 시간 30초로 빠른 편에 속함"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 제품이며 무게 506g으로 일반적인 수준"
+}
+},
+"analysis": {
+"strengths": ["10단계 정밀 온도 조절", "30초 빠른 예열"],
+"weaknesses": ["다소 무거운 무게(506g)"],
+"bestFor": "세밀한 온도 조절을 원하는 가성비 선호 사용자"
+}
+},
+{
+"pcode": "11727239",
+"name": "보만 HC2620P",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 발열판 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 온도 조절 지원"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "무선 제품 특성상 유선 대비 유지력이 일반적인 수준"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 방식이며 154g의 초경량 무게"
+}
+},
+"analysis": {
+"strengths": ["압도적인 가벼움(154g)", "무선 사용의 편리함"],
+"weaknesses": ["유선 대비 짧은 사용 시간"],
+"bestFor": "여행이나 외출 시 가방에 넣고 다닐 수정 화장용 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "72310424",
+"name": "헤어프로 프로페셔널 아이롱 마스터",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "medium",
+"evidence": "나노피막히터 및 세라믹히터 적용으로 특수 코팅 범주"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계 온도 조절 지원"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "전문가용 세라믹 히터 채택으로 빠른 온도 유지"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "전문가용 유선 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["6mm 초슬림 지름으로 정교한 컬링", "원적외선 발생"],
+"weaknesses": ["매우 얇은 봉으로 일반적인 웨이브에는 부적합"],
+"bestFor": "짧은 머리 뿌리 볼륨이나 아주 세밀한 컬을 원하는 전문가 및 사용자"
+}
+},
+{
+"pcode": "33441770",
+"name": "JMW 매직컬 W2010ME",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 및 히터 적용"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "4단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "JMW 특유의 빠른 예열(30초) 및 온도 유지력"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "210g으로 가볍지만 유선형"
+}
+},
+"analysis": {
+"strengths": ["가벼운 무게(210g)", "우수한 온도 유지력", "원적외선 발생"],
+"weaknesses": ["온도 단계가 4단계로 다소 적음"],
+"bestFor": "가벼우면서도 성능이 확실한 판고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "6273856",
+"name": "예스뷰티 YB-860",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "titanium",
+"confidence": "high",
+"evidence": "티타늄 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "다이얼식 무단계(100200도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "전형적인 전문가용 구조이나 예열 속도 언급 부족"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "약 300g 수준의 표준 유선 고데기"
+}
+},
+"analysis": {
+"strengths": ["내구성이 강한 티타늄 열판", "부드러운 슬라이딩"],
+"weaknesses": ["부가 기능(자동 꺼짐 등) 부족"],
+"bestFor": "내구성이 좋고 머리뜯김이 적은 티타늄 열판을 선호하는 사용자"
+}
+},
+{
+"pcode": "897623",
+"name": "예스뷰티 YB-2300S",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "아노다이징 코팅은 옵션(세라믹/티타늄/특수세라믹)에 해당하지 않음"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "온도 조절 단계 명시되지 않음"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터 채택으로 일반적인 수준"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선형 표준 사이즈"
+}
+},
+"analysis": {
+"strengths": ["검증된 스테디셀러", "저렴한 가격"],
+"weaknesses": ["온도 조절 기능 부재", "구형 방식"],
+"bestFor": "복잡한 기능 없이 기본에 충실한 저가형 제품을 찾는 사용자"
+}
+},
+{
+"pcode": "19278647",
+"name": "언일전자 글램팜 플랫 소 GP101T",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "글램팜 전용 힐링스톤 세라믹 코팅 적용"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "11단계 정밀 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "전문가용 세라믹 히터로 매우 빠른 온도 회복력"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 전문가용 제품"
+}
+},
+"analysis": {
+"strengths": ["모발 손상 최소화", "압도적인 부드러움", "11단계 온도 조절"],
+"weaknesses": ["높은 가격"],
+"bestFor": "모발 손상에 민감하며 최고의 성능을 원하는 남성 및 숏컷 사용자"
+}
+},
+{
+"pcode": "7351423",
+"name": "씨케이아이 CKI-F103W",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "보급형 PTC 히터 기반"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "395g 유선형"
+}
+},
+"analysis": {
+"strengths": ["저렴한 가격", "쿨팁 적용으로 화상 방지"],
+"weaknesses": ["다소 투박한 디자인"],
+"bestFor": "저렴한 가격에 온도 조절 기능이 있는 기본형 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "5633024",
+"name": "콘에어 바비리스 BAB2265K",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "25단계 미세 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "일반적인 유선 봉고데기 수준"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "515g으로 다소 무거운 편"
+}
+},
+"analysis": {
+"strengths": ["25단계 초정밀 온도 조절", "32mm 범용적인 사이즈"],
+"weaknesses": ["무게감이 있음"],
+"bestFor": "자신의 모발 상태에 맞춰 아주 미세하게 온도를 설정하고 싶은 사용자"
+}
+},
+{
+"pcode": "2041216",
+"name": "예스뷰티 YB-3100",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "아노다이징 코팅 (옵션 외)"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "상세 스펙에 단계 명시 없음"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "전형적인 미용실 보급형 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "425g 유선형"
+}
+},
+"analysis": {
+"strengths": ["머리뜯김 방지 설계", "내구성"],
+"weaknesses": ["온도 조절 기능 불분명"],
+"bestFor": "업소용/가성비용으로 튼튼한 제품을 찾는 사용자"
+}
+},
+{
+"pcode": "31979963",
+"name": "유닉스 소프트 매직 UCI-A2505",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "온도 조절 기능 없음(ON/OFF 방식)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "180g 가벼운 보급형 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "medium",
+"evidence": "180g의 가벼운 무게와 열판 잠금 기능으로 휴대 용이"
+}
+},
+"analysis": {
+"strengths": ["매우 가벼운 무게", "잠금 장치로 수납 용이", "프리볼트"],
+"weaknesses": ["온도 조절 불가"],
+"bestFor": "해외여행이나 출장 시 휴대할 가벼운 유선 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "13573760",
+"name": "씨케이아이 CKI-0700W",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "저가형 단일 온도 방식"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "25W 저출력 보급형"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "medium",
+"evidence": "175g의 무게와 컴팩트한 사이즈"
+}
+},
+"analysis": {
+"strengths": ["매우 저렴한 가격", "가벼운 무게"],
+"weaknesses": ["낮은 출력", "기능 부족"],
+"bestFor": "최대한의 비용 절감을 원하는 학생이나 임시 사용용"
+}
+},
+{
+"pcode": "2779177",
+"name": "에이앤지인터내셔널 레삐 브러쉬 아이롱 AG-1102",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "medium",
+"evidence": "세라믹 히터와 함께 전문 브랜드 특유의 코팅 기술 적용"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "4단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "세라믹 히터 채택으로 빠른 복구력"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "전문가용 빗 고데기"
+}
+},
+"analysis": {
+"strengths": ["브러쉬 형태로 자연스러운 볼륨 가능", "열 유지력 우수"],
+"weaknesses": ["가격대가 높음"],
+"bestFor": "뿌리 볼륨과 자연스러운 C컬을 원하는 사용자"
+}
+},
+{
+"pcode": "27780044",
+"name": "오아 더벨벳 OHA-019BK",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(165, 185, 210도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 제품으로 예열 시간 90초 소요"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 방식, 220g, 열판 잠금 기능"
+}
+},
+"analysis": {
+"strengths": ["세련된 디자인", "LCD 표시창", "무선의 자유로움"],
+"weaknesses": ["비교적 긴 예열 시간(90초)"],
+"bestFor": "디자인과 무선 편의성을 중시하는 직장인"
+}
+},
+{
+"pcode": "19072676",
+"name": "보다나 글램웨이브 스트로베리 크림 VC23MSCFV",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "보다나의 신뢰도 높은 발열 속도"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선형 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["감각적인 컬러와 디자인", "36mm의 자연스러운 컬"],
+"weaknesses": ["가격대가 다소 있음"],
+"bestFor": "디자인을 중요시하며 여신 머리 웨이브를 원하는 여성 사용자"
+}
+},
+{
+"pcode": "9315216",
+"name": "테팔 엘리트 HX3222K0",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "단일 온도 방식으로 추정(200도 고정)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "60초 예열 시간"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "38mm 대형 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["38mm 큰 지름으로 굵은 웨이브", "테팔의 안정적인 품질"],
+"weaknesses": ["온도 조절 불가"],
+"bestFor": "긴 머리에 자연스럽고 큰 웨이브를 주고 싶은 사용자"
+}
+},
+{
+"pcode": "892588",
+"name": "그리에이트 CR2005-9QVS",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "7단계(80200도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "전문가용 브랜드로 안정적인 온도 유지"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 전문가용"
+}
+},
+"analysis": {
+"strengths": ["7단계 광범위 온도 조절", "원적외선 발생"],
+"weaknesses": ["투박한 디자인"],
+"bestFor": "미용실에서 사용하는 급의 안정적인 성능을 원하는 사용자"
+}
+},
+{
+"pcode": "19807436",
+"name": "언일전자 글램팜 컴팩트 미니 볼륨형 GP103CV",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "글램팜 특유의 힐링스톤 세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "1단계 단일 온도(150160도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "15초 초고속 예열"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "86g의 초경량, 미니 사이즈"
+}
+},
+"analysis": {
+"strengths": ["현존 최상위급 휴대성(86g)", "엄청나게 빠른 예열", "모발 보호 성능"],
+"weaknesses": ["온도 조절 불가", "작은 열판으로 긴 머리 스타일링은 힘듦"],
+"bestFor": "여행을 자주 다니며 최고의 휴대성과 모발 보호를 동시에 원하는 사용자"
+}
+},
+{
+"pcode": "7040143",
+"name": "씨케이아이 CKI-0701",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "저출력 미니 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "175g 무게 및 여행용 최적화"
+}
+},
+"analysis": {
+"strengths": ["극강의 가성비", "가벼운 무게"],
+"weaknesses": ["기능 부족"],
+"bestFor": "비상용이나 가성비 휴대용을 찾는 사용자"
+}
+},
+{
+"pcode": "6466740",
+"name": "비달사순 VSCD251K",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "titanium",
+"confidence": "high",
+"evidence": "티타늄 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "30단계 정밀 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "30초 빠른 예열"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["30단계의 압도적인 온도 세분화", "티타늄 코팅의 내구성"],
+"weaknesses": ["디자인이 호불호가 갈릴 수 있음"],
+"bestFor": "모발 상태에 따른 정밀한 온도 조절이 필수적인 사용자"
+}
+},
+{
+"pcode": "14797781",
+"name": "FHI코리아 마르세이유 비비드터치 블랙올스 MW-3B",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 제품의 일반적 수준"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 및 여행용 명시"
+}
+},
+"analysis": {
+"strengths": ["무선 편의성", "잠금장치"],
+"weaknesses": ["유선 대비 파워가 약할 수 있음"],
+"bestFor": "언제 어디서나 무선으로 수정 화장을 원하는 사용자"
+}
+},
+{
+"pcode": "6219251",
+"name": "예스뷰티 YB-853",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "titanium",
+"confidence": "high",
+"evidence": "티타늄 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "스펙상 명시 없음"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "기본형 구조"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "320g 유선형"
+}
+},
+"analysis": {
+"strengths": ["내구성이 좋은 티타늄"],
+"weaknesses": ["상세 정보 부족"],
+"bestFor": "티타늄 열판을 선호하는 베이직 사용자"
+}
+},
+{
+"pcode": "1981134",
+"name": "콘에어 바비리스 C332K",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "10단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "바비리스 표준 봉고데기 성능"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["검증된 브랜드 파워", "적절한 가격대"],
+"weaknesses": ["특출난 장점은 없으나 기본에 충실"],
+"bestFor": "32mm 기본 봉고데기를 찾는 입문자"
+}
+},
+{
+"pcode": "1564505",
+"name": "비달사순 VSCS80DPK",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "60초 예열, 14W 저출력"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "93g의 초경량 미니 사이즈"
+}
+},
+"analysis": {
+"strengths": ["매우 작고 가벼움", "비달사순의 신뢰도"],
+"weaknesses": ["낮은 출력으로 굵은 컬은 힘듦"],
+"bestFor": "가방에 항상 쏙 들어가는 미니 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "10327494",
+"name": "예스뷰티 볼륨팡팡 다이렉트 고데기",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "코팅 소재 미표기"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "단일 온도 추정"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터 채택"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "320g 유선"
+}
+},
+"analysis": {
+"strengths": ["특수한 다이렉트 열판으로 뿌리 볼륨 특화"],
+"weaknesses": ["일반 스트레이트용으로는 부적합"],
+"bestFor": "머리 숱이 적어 뿌리 볼륨을 살리고 싶은 사용자"
+}
+},
+{
+"pcode": "10953699",
+"name": "퀸스컴퍼니 아티스트 태양 시즌2 매직 벨라봉 CG-AV02A",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "14단계 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "높은 단계의 온도 설정 지원"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "자동회전 기능이 있는 유선 제품"
+}
+},
+"analysis": {
+"strengths": ["자동 회전 기능으로 초보자도 쉬움", "14단계 온도 조절", "프리볼트"],
+"weaknesses": ["자동 회전에 적응 필요"],
+"bestFor": "스스로 컬을 넣기 힘들어하는 '똥손' 사용자"
+}
+},
+{
+"pcode": "9833739",
+"name": "비달사순 오토컬 VSA1110K",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "단일 설정 추정"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "25W 저출력 오토컬러"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "400g 유선"
+}
+},
+"analysis": {
+"strengths": ["자동 말림 기능으로 편리함", "저렴한 자동 고데기"],
+"weaknesses": ["낮은 출력"],
+"bestFor": "자동 고데기를 저렴하게 체험해보고 싶은 사용자"
+}
+},
+{
+"pcode": "28899",
+"name": "유미전자 피닉스 머시나 헤어컬 PD-650",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "에어랩/드라이 방식이므로 열판 옵션 해당 없음"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "2단 풍속/온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "650W 드라이기 기반 성능"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 브러쉬형"
+}
+},
+"analysis": {
+"strengths": ["드라이와 스타일링 동시 가능", "풍부한 구성품"],
+"weaknesses": ["소음 발생, 고데기만큼의 강력한 고정력은 부족"],
+"bestFor": "머리를 말리면서 동시에 C컬 볼륨을 넣고 싶은 사용자"
+}
+},
+{
+"pcode": "19815140",
+"name": "보다나 글램컬 에어 힛 브러쉬 VAB23",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "브러쉬 타입으로 직접 코팅 옵션 매칭 어려움"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "온도 조절 기능 명시"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "275g 경량 브러쉬형"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 브러쉬 고데기"
+}
+},
+"analysis": {
+"strengths": ["에어홀로 머릿결 보호", "가벼운 무게"],
+"weaknesses": ["강한 컬 연출은 어려움"],
+"bestFor": "자연스러운 볼륨과 스트레이트를 선호하는 사용자"
+}
+},
+{
+"pcode": "44411885",
+"name": "고센뷰티 오토 컬링 아이언 DB-HCR230",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(170230도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "PTC 히터 및 빠른 회전 스타일링"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "255g 유선형"
+}
+},
+"analysis": {
+"strengths": ["자동 회전", "매우 가벼운 무게(255g)", "최대 230도 고온 지원"],
+"weaknesses": ["고온 사용 시 모발 손상 주의"],
+"bestFor": "가벼운 자동 고데기로 빠른 스타일링을 원하는 사용자"
+}
+},
+{
+"pcode": "5022996",
+"name": "씨케이아이 CKI-1072",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "정보 없음"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "보급형 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "일반 유선 판고데기"
+}
+},
+"analysis": {
+"strengths": ["매우 저렴한 가격"],
+"weaknesses": ["기능의 단순함"],
+"bestFor": "극강의 가성비를 찾는 사용자"
+}
+},
+{
+"pcode": "6573636",
+"name": "시에스테크 더블에스샤이니 오토볼류밍 AVW-001",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "다이아몬드 세라믹 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(160210도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 오토볼류밍"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 기능 적용"
+}
+},
+"analysis": {
+"strengths": ["다이아몬드 코팅으로 광택", "무선 오토 회전"],
+"weaknesses": ["약간 무거운 무게(396g)"],
+"bestFor": "무선이면서 자동 회전 기능을 원하는 고급 사용자"
+}
+},
+{
+"pcode": "30684335",
+"name": "오로라 아이롱 고데기홀더",
+"questionMapping": {
+"plate_material_coating": { "matchedOption": "unknown", "confidence": "high", "evidence": "부속품임" },
+"temperature_control": { "matchedOption": "unknown", "confidence": "high", "evidence": "부속품임" },
+"heating_speed_maintenance": { "matchedOption": "unknown", "confidence": "high", "evidence": "부속품임" },
+"portability_features": { "matchedOption": "unknown", "confidence": "high", "evidence": "부속품임" }
+},
+"analysis": {
+"strengths": ["아이롱 거치 가능"],
+"weaknesses": ["고데기 본체가 아님"],
+"bestFor": "미용실 츄레이 부품이 필요한 분"
+}
+},
+{
+"pcode": "17385605",
+"name": "보다나 포켓 미니 판고데기 민트초코 VS20SMC",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "20초 빠른 예열"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "포켓 사이즈, 잠금 기능, 프리볼트"
+}
+},
+"analysis": {
+"strengths": ["매우 예쁜 디자인", "20초 빠른 예열", "컴팩트함"],
+"weaknesses": ["온도 조절 불가"],
+"bestFor": "국내외 여행용으로 작고 성능 좋은 미니 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "29399663",
+"name": "씨케이아이 CKI-F420",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계(120230도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "45W 유선형"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "363g 유선형"
+}
+},
+"analysis": {
+"strengths": ["최대 230도 설정 가능", "저렴한 가격에 비해 풍부한 기능"],
+"weaknesses": ["마감 퀄리티가 고가형 대비 낮을 수 있음"],
+"bestFor": "고온 스타일링이 필요한 굵은 모발의 가성비 사용자"
+}
+},
+{
+"pcode": "28085567",
+"name": "오아 오토 고데기",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(170210도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "45W 유선 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "440g의 다소 무거운 무게"
+}
+},
+"analysis": {
+"strengths": ["자동 회전", "프리볼트", "깔끔한 오아 특유의 디자인"],
+"weaknesses": ["무거움"],
+"bestFor": "집에서 편하게 자동 웨이브를 연출하고 싶은 사용자"
+}
+},
+{
+"pcode": "20145269",
+"name": "콘에어 바비리스 컬러핏 미니 무선고데기 BCD1030",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "60초 예열, 5W 저출력"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "191g 무선 미니 사이즈"
+}
+},
+"analysis": {
+"strengths": ["컬러풀한 디자인", "무선의 극대화된 휴대성"],
+"weaknesses": ["출력이 낮아 앞머리용으로 한정됨"],
+"bestFor": "앞머리 수정용으로 항상 가방에 휴대할 사용지"
+}
+},
+{
+"pcode": "2491913",
+"name": "제이월드텍 로페 뽕고데기 프리미엄 볼륨매직 LI-0004",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "미세 온도 조절 가능"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "25W 저출력 브러쉬형"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 브러쉬형"
+}
+},
+"analysis": {
+"strengths": ["LCD 온도 표시", "브러쉬형으로 안전함"],
+"weaknesses": ["출력이 낮음"],
+"bestFor": "부모님 선물용 혹은 짧은 머리 볼륨용"
+}
+},
+{
+"pcode": "11853493",
+"name": "보다나 글램웨이브 블랙 프리볼트 VC19BK",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "6단계(100200도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "30초 빠른 예열 및 안정적인 고출력(50W)"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "표준 유선 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["스테디셀러의 안정적인 성능", "프리볼트로 해외 사용 가능", "우수한 집게 고정력"],
+"weaknesses": ["미니 대비 큰 부피"],
+"bestFor": "제대로 된 성능의 32mm 봉고데기를 찾는 정석 사용자"
+}
+},
+{
+"pcode": "14000186",
+"name": "오아 뷰티 빗 고데기 OHA-008BK",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "titanium",
+"confidence": "high",
+"evidence": "티타늄 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계(140200도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "40초 빠른 예열"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "414g 유선 빗형"
+}
+},
+"analysis": {
+"strengths": ["티타늄 코팅 브러쉬", "남성 다운펌 및 볼륨에 최적화"],
+"weaknesses": ["긴 머리용으로는 부적합"],
+"bestFor": "아침마다 옆머리를 누르고 볼륨을 살려야 하는 남성 사용자"
+}
+},
+{
+"pcode": "15841421",
+"name": "명성 쿨린 비블리 CL-601",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(160200도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "60초 예열 무선 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "159g 초경량 무선"
+}
+},
+"analysis": {
+"strengths": ["매우 가벼운 무선 고데기", "귀여운 디자인"],
+"weaknesses": ["배터리 용량의 한계"],
+"bestFor": "외출 시 앞머리가 잘 풀리는 사용자"
+}
+},
+{
+"pcode": "6517431",
+"name": "다이슨 에어랩 스타일러 스무드 앤 컨트롤",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "공기 흐름 제어 방식으로 고체 열판 코팅 분류 불필요"
+},
+"temperature_control": {
+"matchedOption": "smart_sensing",
+"confidence": "high",
+"evidence": "초당 40회 지능적 열 제어 시스템 적용"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "강력한 V9 모터와 즉각적인 열 제어"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "다양한 툴과 큰 보관 케이스"
+}
+},
+"analysis": {
+"strengths": ["압도적인 모발 보호", "다양한 스타일링 툴", "자동 말림 기능"],
+"weaknesses": ["매우 높은 가격"],
+"bestFor": "예산에 상관없이 최고의 모발 건강과 스타일링 편의성을 원하는 사용자"
+}
+},
+{
+"pcode": "6199336",
+"name": "언일전자 글램팜 샤이니볼륨 GP202",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "글램팜 특유의 세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "11단계 정밀 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "전문가용 세라믹 히터"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 전문가용"
+}
+},
+"analysis": {
+"strengths": ["볼륨 스타일링에 특화된 곡면 열판", "부드러운 슬라이딩", "긴 수명"],
+"weaknesses": ["가격"],
+"bestFor": "뿌리 볼륨과 C컬을 완벽하게 넣고 싶은 숙련된 사용자"
+}
+},
+{
+"pcode": "5109690",
+"name": "콘에어 바비리스 다이아몬드 3D 스트레이트닝 브러쉬 HSB101K",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "다이아몬드 세라믹 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "45W 유선 브러쉬"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "290g 유선 브러쉬"
+}
+},
+"analysis": {
+"strengths": ["빗으면서 펴는 극강의 편리함", "음이온 발생으로 정전기 방지"],
+"weaknesses": ["섬세한 컬링은 어려움"],
+"bestFor": "아침에 곱슬거리는 머리를 빠르게 펴고 싶은 사용자"
+}
+},
+{
+"pcode": "20172101",
+"name": "유닉스 캐주얼 웨이브 UCI-A4136",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(160, 180, 200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "유닉스 표준 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "240g 가벼운 유선"
+}
+},
+"analysis": {
+"strengths": ["매우 가벼운 무게", "36mm 대중적인 지름", "가성비"],
+"weaknesses": ["전문가용 대비 온도 유지력 보통"],
+"bestFor": "가벼운 36mm 봉고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "5820813",
+"name": "제이월드텍 로페 LI-0099",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계(120200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터 채택"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "30mm 유선 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["음이온 발생", "쿨팁 적용"],
+"weaknesses": ["특색이 다소 부족"],
+"bestFor": "음이온 기능이 있는 기본 봉고데기를 선호하는 사용자"
+}
+},
+{
+"pcode": "18867020",
+"name": "보다나 모이스처 스팀 와이드 블루그레이 VS22WSBGFV",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 추정"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계(120200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "와이드형 고출력 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "부피가 큰 와이드 판고데기"
+}
+},
+"analysis": {
+"strengths": ["스팀 기능으로 모발 수분 유지", "와이드 열판으로 빠른 작업"],
+"weaknesses": ["스팀 물 보충의 번거로움", "큰 부피"],
+"bestFor": "숱이 많고 손상도가 높아 수분 공급이 필요한 사용자"
+}
+},
+{
+"pcode": "26767",
+"name": "예스뷰티 YB-2600",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "스펙 미표기"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "다이얼식 조절(160210도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터 채택"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "320g 유선"
+}
+},
+"analysis": {
+"strengths": ["튼튼한 내구성", "고온 지원"],
+"weaknesses": ["디자인이 투박함"],
+"bestFor": "전통적인 방식의 튼튼한 고데기를 선호하는 분"
+}
+},
+{
+"pcode": "19529951",
+"name": "필립스 케라샤인 어드밴스드 BHS378/50",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "케라틴 주입 세라믹 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "6단계(160230도) 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "30초 빠른 예열"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "508g 유선"
+}
+},
+"analysis": {
+"strengths": ["케라틴 코팅으로 머릿결 보호", "최대 230도 고온"],
+"weaknesses": ["무게가 무거움"],
+"bestFor": "필립스 브랜드를 신뢰하며 머릿결 보호 기능을 중시하는 사용자"
+}
+},
+{
+"pcode": "67370684",
+"name": "오아 오토셋 멀티 스타일러 OHA-029BL",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "4단계(140200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "에어홀 적용으로 냉각과 동시 스타일링"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "401g 유선"
+}
+},
+"analysis": {
+"strengths": ["자동 회전", "에어홀로 컬 고정력 강화"],
+"weaknesses": ["비교적 큰 부피"],
+"bestFor": "컬이 잘 풀리는 모발을 가진 사용자"
+}
+},
+{
+"pcode": "10317738",
+"name": "유닉스 플라워 UCI-A2970N",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "온도 조절 단계 미표기"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "표준 유닉스 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "343g 유선"
+}
+},
+"analysis": {
+"strengths": ["LCD 온도 표시창", "가성비가 좋은 35mm"],
+"weaknesses": ["온도 조절 가능 여부 확인 필요"],
+"bestFor": "기본형 35mm 봉고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "13686200",
+"name": "유닉스 테이크아웃4 UCI-A2024",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 미니 고데기 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "228g, USB 충전식 무선"
+}
+},
+"analysis": {
+"strengths": ["USB-C 타입 충전 편리성", "매우 귀여운 디자인"],
+"weaknesses": ["긴 머리 전체 스타일링은 역부족"],
+"bestFor": "대학생, 고등학생 등 외출 시 휴대가 필수인 사용자"
+}
+},
+{
+"pcode": "9891648",
+"name": "FHI코리아 마르세이유 비비드터치 MW-03",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선형"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 미니"
+}
+},
+"analysis": {
+"strengths": ["색감이 예쁨", "가벼운 무선"],
+"weaknesses": ["충전 시간이 다소 김"],
+"bestFor": "패션 소품 같은 디자인의 무선 고데기를 원하는 사용자"
+}
+},
+{
+"pcode": "16868228",
+"name": "디하우트 뿌리볼륨 DHPHS-01",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "145g 초경량 무선"
+}
+},
+"analysis": {
+"strengths": ["뿌리 볼륨에 최적화된 설계", "매우 가벼운 무게"],
+"weaknesses": ["좁은 열판"],
+"bestFor": "언제 어디서나 뿌리 볼륨을 살리고 싶은 사용자"
+}
+},
+{
+"pcode": "3857932",
+"name": "유닉스 UCI-B2522",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "다이얼식 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "예열 시간 90초로 느린 편"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "363g 유선"
+}
+},
+"analysis": {
+"strengths": ["원적외선 발생", "합리적인 가격"],
+"weaknesses": ["매우 느린 예열"],
+"bestFor": "가격이 가장 중요한 베이직 사용자"
+}
+},
+{
+"pcode": "15300293",
+"name": "앨리스 AH-880B",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "아노다이징 코팅 (옵션 외)"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 설정"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "60초 예열, 15W 저출력"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "22mm 미니 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["슬림한 22mm 지름"],
+"weaknesses": ["코팅 및 발열 성능이 구형"],
+"bestFor": "매우 촘촘한 컬을 원하는 가성비 사용자"
+}
+},
+{
+"pcode": "18418487",
+"name": "언일전자 글램팜 클립아이롱 GP618AG",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "글램팜 힐링스톤 세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "전문가용 세라믹 히터 적용"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "40mm 대형 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["40mm 초대형 열판으로 자연스러운 웨이브", "최상의 모발 보호"],
+"weaknesses": ["높은 가격", "숙련도 필요"],
+"bestFor": "긴 머리에 미용실 드라이 받은 듯한 우아한 웨이브를 원하는 사용자"
+}
+},
+{
+"pcode": "19536188",
+"name": "휴브론 무선 뿌리볼륨 고데기 YT-1066",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 미니 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "162g 무선"
+}
+},
+"analysis": {
+"strengths": ["8mm 초슬림 열판으로 뿌리 볼륨 특화", "무선의 편리함"],
+"weaknesses": ["특수 용도(뿌리) 외 스타일링 어려움"],
+"bestFor": "정수리나 옆머리 뿌리 볼륨을 집요하게 살리고 싶은 사용자"
+}
+},
+{
+"pcode": "17461664",
+"name": "테팔 HX3233",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "케라틴 & 샤인 코팅 명시"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "1단계(200도 고정)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "60초 예열"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "38mm 대형 유선"
+}
+},
+"analysis": {
+"strengths": ["38mm 큰 컬", "머릿결 보호 코팅"],
+"weaknesses": ["온도 조절 불가"],
+"bestFor": "굵은 웨이브를 선호하며 테팔 브랜드를 좋아하는 사용자"
+}
+},
+{
+"pcode": "4232883",
+"name": "보다나 원권 아이롱 (5mm20mm)",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "단일 온도 추정"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "medium",
+"evidence": "보다나 아이롱의 표준 성능"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 전문가용"
+}
+},
+"analysis": {
+"strengths": ["다양한 굵기 선택 가능", "모발 보호 성능"],
+"weaknesses": ["집게가 없는 원권 형태라 숙련도 필요"],
+"bestFor": "히피펌 스타일이나 강한 컬을 원하는 숙련된 사용자"
+}
+},
+{
+"pcode": "1495495",
+"name": "유닉스 UCI-A2118R",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "다이얼식 조절(150230도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "20초 빠른 예열"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "medium",
+"evidence": "유선이나 여행용 최적화 기능 포함"
+}
+},
+"analysis": {
+"strengths": ["20초 광속 예열", "최대 230도 고온 지원", "프리볼트"],
+"weaknesses": ["디자인이 다소 예스러움"],
+"bestFor": "해외 여행용으로 강력한 성능의 판고데기가 필요한 사용자"
+}
+},
+{
+"pcode": "7936321",
+"name": "유닉스 UCI-A2920",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "정보 없음"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선형"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "185g 무선 대형 봉고데기(46mm)"
+}
+},
+"analysis": {
+"strengths": ["46mm라는 독보적인 지름", "무선의 편리함"],
+"weaknesses": ["무선 특성상 열 유지가 46mm를 커버하기에 약할 수 있음"],
+"bestFor": "외출해서 아주 굵은 C컬을 유지하고 싶은 사용자"
+}
+},
+{
+"pcode": "26763",
+"name": "예스뷰티 YB-2100",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "아노다이징 코팅 (옵션 외)"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "320g 유선"
+}
+},
+"analysis": {
+"strengths": ["심플함의 끝", "잔고장 없는 내구성"],
+"weaknesses": ["기능 전무"],
+"bestFor": "기능 필요 없이 켜고 끄기만 하면 되는 어르신 또는 기본 사용자"
+}
+},
+{
+"pcode": "13383065",
+"name": "보다나 러블리 웨이브 미니 봉고데기",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "무선 50W 사양"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 미니 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["무선 봉고데기 중 높은 출력(50W)", "보다나 특유의 감성"],
+"weaknesses": ["배터리 무게로 인한 묵직함"],
+"bestFor": "여행지에서 예쁜 컬을 넣고 싶은 사용자"
+}
+},
+{
+"pcode": "11178594",
+"name": "유닉스 UCI-A2960N",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "11단계 정밀 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터 기반 48W"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "390g 유선"
+}
+},
+"analysis": {
+"strengths": ["11단계 정밀 온도 조절", "잠금장치 및 머리뜯김 방지"],
+"weaknesses": ["다소 묵직한 무게"],
+"bestFor": "저렴한 가격에 정밀한 온도 조절을 원하는 사용자"
+}
+},
+{
+"pcode": "25138013",
+"name": "보다나 컴팩트 물결 파우더블루",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "물결 고데기 특유의 면적 기반 발열"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "medium",
+"evidence": "컴팩트 사이즈 및 잠금 장치"
+}
+},
+"analysis": {
+"strengths": ["물결 펌을 가장 쉽게 연출", "컴팩트한 보관"],
+"weaknesses": ["무게가 가볍진 않음(436g)"],
+"bestFor": "물결 웨이브 스타일링이 어려운 입문자"
+}
+},
+{
+"pcode": "10435575",
+"name": "콘에어 바비리스 글램터치 BCD7038K",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "30단계 미세 온도 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "바비리스 표준 성능"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "38mm 대형 유선"
+}
+},
+"analysis": {
+"strengths": ["30단계 온도 조절", "38mm 가성비 모델"],
+"weaknesses": ["디자인이 평범함"],
+"bestFor": "대형 봉고데기 중 정밀 온도 조절이 필요한 사용자"
+}
+},
+{
+"pcode": "5819137",
+"name": "제이월드텍 로페 미니 뽕고데기 LI-0088",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "17W 저출력"
+},
+"portability_features": {
+"highly_portable": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "미니 사이즈 브러쉬"
+}
+}
+},
+"analysis": {
+"strengths": ["브러쉬형 미니 고데기로 휴대와 안전 동시 충족"],
+"weaknesses": ["매우 낮은 파워"],
+"bestFor": "앞머리 볼륨을 위한 안전한 미니 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "28236698",
+"name": "563랩 살롱핏 빗고데기",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "코팅 소재 미표기"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "3단계(160200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "50초 예열"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "290g 유선"
+}
+},
+"analysis": {
+"strengths": ["음이온 발생", "화상 위험이 적은 브러쉬 형태"],
+"weaknesses": ["가격이 다소 높음"],
+"bestFor": "고데기 사용에 서툰 초보자"
+}
+},
+{
+"pcode": "13010441",
+"name": "JMW 오브제 WS5001MA",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 및 히터"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "4단계(130200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "20초 빠른 예열 및 세라믹 히터"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선형, 프리볼트"
+}
+},
+"analysis": {
+"strengths": ["20초 광속 예열", "세련된 디자인", "JMW의 신뢰도"],
+"weaknesses": ["온도 단계가 4단계로 다소 제한적"],
+"bestFor": "빠른 준비 시간을 중시하는 스타일리시한 사용자"
+}
+},
+{
+"pcode": "13010384",
+"name": "JMW 오브제 WS5001RA",
+"questionMapping": {
+"plate_material_coating": { "matchedOption": "ceramic", "confidence": "high", "evidence": "세라믹 코팅" },
+"temperature_control": { "matchedOption": "multi_stage", "confidence": "high", "evidence": "4단계 조절" },
+"heating_speed_maintenance": { "matchedOption": "fast_and_stable", "confidence": "high", "evidence": "20초 예열" },
+"portability_features": { "matchedOption": "standard_portability", "confidence": "high", "evidence": "유선" }
+},
+"analysis": {
+"strengths": ["WS5001MA와 유사하나 컬러/라인업 차이", "우수한 예열 속도"],
+"weaknesses": ["고가"],
+"bestFor": "성능과 디자인을 모두 고려하는 사용자"
+}
+},
+{
+"pcode": "2375240",
+"name": "JMW W6001RA",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅 및 히터"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "6단계(100200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "20초 예열 및 전문가용 무빙 쿠션 열판"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "200g의 매우 가벼운 유선 판고데기"
+}
+},
+"analysis": {
+"strengths": ["200g의 극강의 가벼움", "전문가급 성능(20초 예열)", "쿠션 열판"],
+"weaknesses": ["전문가용 느낌의 투박함"],
+"bestFor": "가벼우면서도 미용실급 성능을 원하는 유선 고데기 사용자"
+}
+},
+{
+"pcode": "8076763",
+"name": "유닉스 퀵 앤 스트롱 UCI-A2941",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "40W 표준 사양"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "381g 유선"
+}
+},
+"analysis": {
+"strengths": ["심플한 사용성", "저렴한 가격"],
+"weaknesses": ["기능 없음"],
+"bestFor": "복잡한 거 싫어하는 가성비 사용자"
+}
+},
+{
+"pcode": "2456532",
+"name": "제이월드텍 로페 오리지널 뽕고데기 LI-0007",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계 조절"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 브러쉬"
+}
+},
+"analysis": {
+"strengths": ["전통적인 뽕고데기 강자", "LED 표시창"],
+"weaknesses": ["올드한 디자인"],
+"bestFor": "뿌리 볼륨 스타일링을 자주 하는 중장년층"
+}
+},
+{
+"pcode": "524881",
+"name": "예스뷰티 YB-377",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "코팅 소재 미표기"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "다이얼식 조절(160200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 봉고데기"
+}
+},
+"analysis": {
+"strengths": ["클래식한 디자인", "튼튼한 내구성"],
+"weaknesses": ["코팅 정보 부재"],
+"bestFor": "옛날 방식의 봉고데기를 선호하는 사용자"
+}
+},
+{
+"pcode": "18807866",
+"name": "아이프리 레가토 물광 JF-HI6042",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "special_ceramic",
+"confidence": "high",
+"evidence": "실크 플레이트 코팅 명시 (특수 코팅)"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "5단계(150230도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "20초 빠른 예열"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "유선 판고데기"
+}
+},
+"analysis": {
+"strengths": ["실크 플레이트로 젖은 머리 사용 시에도 모발 보호(물광 효과)", "빠른 예열"],
+"weaknesses": ["브랜드 인지도 낮음"],
+"bestFor": "모발 건조가 덜 된 상태에서도 사용 가능한 고성능 제품을 찾는 사용자"
+}
+},
+{
+"pcode": "15051350",
+"name": "앱코 오엘라 OB-HI01",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "medium",
+"evidence": "정보 없음"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "medium",
+"evidence": "무선형"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "175g 무선 여행용"
+}
+},
+"analysis": {
+"strengths": ["가벼운 무선 고데기", "앱코의 가성비"],
+"weaknesses": ["온도 조절 정보 부재"],
+"bestFor": "저렴한 무선 휴대용 고데기를 찾는 사용자"
+}
+},
+{
+"pcode": "5199260",
+"name": "유닉스 이지스타일러 UCI-A2711",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "단일 온도"
+},
+"heating_speed_maintenance": {
+"matchedOption": "fast_and_stable",
+"confidence": "high",
+"evidence": "5초 초고속 예열 명시"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "284g 여행용 프리볼트"
+}
+},
+"analysis": {
+"strengths": ["5초라는 놀라운 예열 시간", "가볍고 휴대 편리"],
+"weaknesses": ["온도 조절 불가"],
+"bestFor": "바쁜 아침 1초가 급한 사용자"
+}
+},
+{
+"pcode": "12964508",
+"name": "레츠퀸 S100",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "ceramic",
+"confidence": "high",
+"evidence": "세라믹 코팅"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "6단계(150200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "80초 예열 무선"
+},
+"portability_features": {
+"matchedOption": "highly_portable",
+"confidence": "high",
+"evidence": "무선 오토 컬링"
+}
+},
+"analysis": {
+"strengths": ["무선이면서 자동 회전 가능", "6단계 온도 조절"],
+"weaknesses": ["80초로 다소 느린 예열"],
+"bestFor": "장소 구애 없이 자동 웨이브를 넣고 싶은 사용자"
+}
+},
+{
+"pcode": "794528",
+"name": "예스뷰티 YB-2400 골드",
+"questionMapping": {
+"plate_material_coating": {
+"matchedOption": "unknown",
+"confidence": "high",
+"evidence": "골드 도금/코팅이나 명확한 옵션 매칭 불가"
+},
+"temperature_control": {
+"matchedOption": "multi_stage",
+"confidence": "high",
+"evidence": "6단계(100200도)"
+},
+"heating_speed_maintenance": {
+"matchedOption": "standard",
+"confidence": "high",
+"evidence": "PTC 히터"
+},
+"portability_features": {
+"matchedOption": "standard_portability",
+"confidence": "high",
+"evidence": "표준 유선"
+}
+},
+"analysis": {
+"strengths": ["6단계 조절 가능", "예스뷰티의 고전적인 신뢰도"],
+"weaknesses": ["구형 디자인"],
+"bestFor": "베이직한 기능의 튼튼한 판고데기를 원하는 사용자"
+}
+}
+]

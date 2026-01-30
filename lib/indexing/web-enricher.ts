@@ -8,9 +8,20 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { WebEnrichedData, ProductAnalysis, QuestionMapping } from './types';
 import { callGeminiWithRetry, parseJSONResponse } from '../ai/gemini';
 
-// Gemini API 초기화
-const apiKey = process.env.GEMINI_API_KEY;
-const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+// Lazy initialization - 함수 호출 시점에 환경 변수 확인
+let genAI: GoogleGenerativeAI | null = null;
+let initialized = false;
+
+function getGenAI(): GoogleGenerativeAI | null {
+  if (!initialized) {
+    initialized = true;
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (apiKey) {
+      genAI = new GoogleGenerativeAI(apiKey);
+    }
+  }
+  return genAI;
+}
 
 // ============================================================================
 // 웹검색 보강 함수
@@ -26,7 +37,7 @@ export async function enrichProductWithWebSearch(
   categoryName: string,
   questionOptions?: Array<{ questionId: string; question: string; options: Array<{ value: string; label: string }> }>
 ): Promise<WebEnrichedData | null> {
-  if (!genAI) {
+  if (!getGenAI()) {
     console.warn('Gemini API not available, skipping web enrichment');
     return null;
   }
@@ -181,10 +192,10 @@ async function runSingleSearch(
   questionMapping?: QuestionMapping;
   analysis?: { oneLiner: string; buyingPoint: string; cautions: string[] };
 } | null> {
-  if (!genAI) return null;
+  if (!getGenAI()) return null;
 
   try {
-    const model = genAI.getGenerativeModel({
+    const model = getGenAI()!.getGenerativeModel({
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.3,
@@ -266,13 +277,13 @@ export async function analyzeProduct(
   webEnriched: WebEnrichedData | null,
   categoryName: string
 ): Promise<ProductAnalysis | null> {
-  if (!genAI) {
+  if (!getGenAI()) {
     console.warn('Gemini API not available, skipping product analysis');
     return null;
   }
 
   try {
-    const model = genAI.getGenerativeModel({
+    const model = getGenAI()!.getGenerativeModel({
       model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.5,
@@ -362,13 +373,13 @@ export async function analyzeCategoryTrends(
   buyingFactors: string[];
   commonConcerns: string[];
 } | null> {
-  if (!genAI) {
+  if (!getGenAI()) {
     console.warn('Gemini API not available, skipping category trends');
     return null;
   }
 
   try {
-    const model = genAI.getGenerativeModel({
+    const model = getGenAI()!.getGenerativeModel({
       model: 'gemini-2.5-flash-lite',
       // @ts-expect-error - Google Search Grounding
       tools: [{ google_search: {} }],

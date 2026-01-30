@@ -1907,12 +1907,50 @@ export function logKAComparisonViewed(categoryKey: string, productIds: string[])
   });
 }
 
-export function logKAComparisonChatMessage(categoryKey: string, userMessage: string, aiResponse: string): void {
-  sendLogEvent('ka_comparison_chat_message', {
+export function logKAQuestionGenerated(
+  categoryKey: string,
+  categoryName: string,
+  questionId: string,
+  questionText: string,
+  options: string[]
+): void {
+  sendLogEvent('ka_question_generated', {
+    page: 'ka-flow',
+    metadata: {
+      categoryKey,
+      categoryName,
+      questionId,
+      questionText,
+      options,
+    },
+  });
+}
+
+/**
+ * Knowledge Agent 상품 매칭도 로깅
+ */
+export function logKAProductMatchRate(
+  categoryKey: string,
+  categoryName: string,
+  pcode: string,
+  productName: string,
+  matchRate: number,
+  matchedTags: string[],
+  partialTags: string[],
+  notMatchedTags: string[]
+): void {
+  sendLogEvent('ka_product_match_rate', {
     page: 'ka-result',
-    userInput: userMessage,
-    aiResponse,
-    metadata: { categoryKey }
+    metadata: {
+      categoryKey,
+      categoryName,
+      pcode,
+      productName,
+      matchRate,
+      matchedTags,
+      partialTags,
+      notMatchedTags,
+    },
   });
 }
 
