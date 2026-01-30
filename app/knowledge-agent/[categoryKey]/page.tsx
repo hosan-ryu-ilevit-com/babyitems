@@ -56,7 +56,8 @@ import {
   logKAExternalLinkClicked,
   logKAFavoriteToggled,
   logKAComparisonViewed,
-  logKAComparisonChatMessage
+  logKAQuestionGenerated,
+  logKAProductMatchRate
 } from '@/lib/logging/clientLogger';
 import { CATEGORIES_DATA, CATEGORY_PATH_MAP } from '@/components/knowledge-agent/KnowledgeAgentLanding';
 
@@ -1062,8 +1063,8 @@ export default function KnowledgeAgentPage() {
       return baseMs + (Math.random() * variation * 2 - variation);
     };
 
-    // 🆕 25초 기준 부드러운 프로그레스 애니메이션 시작
-    animateProgressSmoothly(25000);
+    // 🆕 35초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(35000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
@@ -2687,7 +2688,11 @@ export default function KnowledgeAgentPage() {
         // ✅ 리뷰 크롤링은 handleNegativeFilterComplete에서 50개로 통합 처리
         // (중복 크롤링 제거)
 
-        return data.recommendations;
+        // 🆕 recommendations와 filterTags 함께 반환 (로깅용)
+        return { 
+          recommendations: data.recommendations, 
+          filterTags: data.filterTags || [] 
+        };
       }
     } catch (error) {
       console.error('[V2 Flow] Final recommend error:', error);
@@ -2783,7 +2788,7 @@ export default function KnowledgeAgentPage() {
       // ✅ 수정: updatedInfo를 직접 전달하여 비동기 문제 해결
       const apiPromise = handleV2FinalRecommend([], updatedInfo);
 
-      const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
+      const [apiResult] = await Promise.all([apiPromise, uxPromise]);
 
       // 이전 프로그레스 애니메이션 취소
       if (progressAnimationCleanupRef.current) {
@@ -2826,6 +2831,10 @@ export default function KnowledgeAgentPage() {
         };
         requestAnimationFrame(animate);
       });
+
+      // 🆕 새 반환 타입 처리
+      const v2Recommendations = apiResult?.recommendations;
+      const returnedFilterTags = apiResult?.filterTags || [];
 
       if (v2Recommendations && v2Recommendations.length > 0) {
         // ✅ 디버그: API 응답에서 oneLiner 확인
@@ -2871,6 +2880,39 @@ export default function KnowledgeAgentPage() {
         });
         setResultProducts(mappedResultProducts);
         setPhase('result');
+
+        // ✅ [로깅] 상품별 매칭도 로깅 (returnedFilterTags 사용 - 비동기 상태 업데이트 문제 해결)
+        mappedResultProducts.forEach((p: any) => {
+          const tagScores = p.tagScores || {};
+          const matchedTags: string[] = [];
+          const partialTags: string[] = [];
+          const notMatchedTags: string[] = [];
+
+          Object.entries(tagScores).forEach(([tagId, scoreData]: [string, any]) => {
+            const tag = returnedFilterTags.find((t: FilterTag) => t.id === tagId);
+            const label = tag?.label || tagId;
+            if (scoreData?.score === 'full') matchedTags.push(label);
+            else if (scoreData?.score === 'partial') partialTags.push(label);
+            else notMatchedTags.push(label);
+          });
+
+          // 매칭도 계산 (full=100%, partial=50%)
+          const totalTags = Object.keys(tagScores).length;
+          const matchRate = totalTags > 0 
+            ? Math.round(((matchedTags.length * 1 + partialTags.length * 0.5) / totalTags) * 100)
+            : 0;
+
+          logKAProductMatchRate(
+            categoryKey || '',
+            categoryName || '',
+            p.pcode,
+            p.name || p.title,
+            matchRate,
+            matchedTags,
+            partialTags,
+            notMatchedTags
+          );
+        });
 
         // ✅ Top3 추천 결과 로깅
         logKnowledgeAgentRecommendationReceived(
@@ -3182,7 +3224,11 @@ export default function KnowledgeAgentPage() {
         const uxPromise = runFinalTimelineUX(candidateCount, balanceSelectionsForV2.length, 0);
         const apiPromise = handleV2FinalRecommend(balanceSelectionsForV2);
 
-        const [v2Recommendations] = await Promise.all([apiPromise, uxPromise]);
+        const [apiResult] = await Promise.all([apiPromise, uxPromise]);
+
+        // 🆕 새 반환 타입 처리
+        const v2Recommendations = apiResult?.recommendations;
+        const returnedFilterTags = apiResult?.filterTags || [];
 
         if (v2Recommendations && v2Recommendations.length > 0) {
           const mappedResultProducts = v2Recommendations.map((rec: any) => {
@@ -3212,6 +3258,39 @@ export default function KnowledgeAgentPage() {
           });
           setResultProducts(mappedResultProducts);
           setPhase('result');
+
+          // ✅ [로깅] 상품별 매칭도 로깅 (returnedFilterTags 사용 - 비동기 상태 업데이트 문제 해결)
+          mappedResultProducts.forEach((p: any) => {
+            const tagScores = p.tagScores || {};
+            const matchedTags: string[] = [];
+            const partialTags: string[] = [];
+            const notMatchedTags: string[] = [];
+
+            Object.entries(tagScores).forEach(([tagId, scoreData]: [string, any]) => {
+              const tag = returnedFilterTags.find((t: FilterTag) => t.id === tagId);
+              const label = tag?.label || tagId;
+              if (scoreData?.score === 'full') matchedTags.push(label);
+              else if (scoreData?.score === 'partial') partialTags.push(label);
+              else notMatchedTags.push(label);
+            });
+
+            // 매칭도 계산 (full=100%, partial=50%)
+            const totalTags = Object.keys(tagScores).length;
+            const matchRate = totalTags > 0 
+              ? Math.round(((matchedTags.length * 1 + partialTags.length * 0.5) / totalTags) * 100)
+              : 0;
+
+            logKAProductMatchRate(
+              categoryKey || '',
+              categoryName || '',
+              p.pcode,
+              p.name || p.title,
+              matchRate,
+              matchedTags,
+              partialTags,
+              notMatchedTags
+            );
+          });
 
           // ✅ Top3 추천 결과 로깅
           logKnowledgeAgentRecommendationReceived(
@@ -3283,7 +3362,11 @@ export default function KnowledgeAgentPage() {
 
         // ⚠️ 새 플로우: Top 3 먼저 선정 (리뷰 없이) → 그 후 리뷰 크롤링
         console.log('[V2 Flow] Step 1: Selecting Top 3 without reviews...');
-        const v2Recommendations = await handleV2FinalRecommend(savedBalanceSelections);
+        const apiResult = await handleV2FinalRecommend(savedBalanceSelections);
+
+        // 🆕 새 반환 타입 처리
+        const v2Recommendations = apiResult?.recommendations;
+        const returnedFilterTags = apiResult?.filterTags || [];
 
         if (v2Recommendations && v2Recommendations.length > 0) {
           // ✅ 디버그: API 응답에서 oneLiner 확인
@@ -3333,6 +3416,39 @@ export default function KnowledgeAgentPage() {
 
           setResultProducts(mappedResultProducts);
           setPhase('result');
+
+          // ✅ [로깅] 상품별 매칭도 로깅 (returnedFilterTags 사용 - 비동기 상태 업데이트 문제 해결)
+          mappedResultProducts.forEach((p: any) => {
+            const tagScores = p.tagScores || {};
+            const matchedTags: string[] = [];
+            const partialTags: string[] = [];
+            const notMatchedTags: string[] = [];
+
+            Object.entries(tagScores).forEach(([tagId, scoreData]: [string, any]) => {
+              const tag = returnedFilterTags.find((t: FilterTag) => t.id === tagId);
+              const label = tag?.label || tagId;
+              if (scoreData?.score === 'full') matchedTags.push(label);
+              else if (scoreData?.score === 'partial') partialTags.push(label);
+              else notMatchedTags.push(label);
+            });
+
+            // 매칭도 계산 (full=100%, partial=50%)
+            const totalTags = Object.keys(tagScores).length;
+            const matchRate = totalTags > 0 
+              ? Math.round(((matchedTags.length * 1 + partialTags.length * 0.5) / totalTags) * 100)
+              : 0;
+
+            logKAProductMatchRate(
+              categoryKey || '',
+              categoryName || '',
+              p.pcode,
+              p.name || p.title,
+              matchRate,
+              matchedTags,
+              partialTags,
+              notMatchedTags
+            );
+          });
 
           // ✅ Top3 추천 결과 로깅
           logKnowledgeAgentRecommendationReceived(

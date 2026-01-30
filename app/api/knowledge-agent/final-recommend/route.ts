@@ -838,14 +838,16 @@ evidence는 PDP의 "주요 포인트" (선호속성/피할단점) 섹션에 표�
 {
   "evaluations": {
     "제품pcode": {
-      "태그id": { "score": "full" | "partial" | null, "evidence": "근거 문장" },
+      "태그id": { "score": "full" | "partial" | null, "evidence": "근거 문장 (score가 null이면 생략)" },
       ...
     },
     ...
   }
 }
 
-⚠️ 주의: 근거 없이 추측 금지, evidence에 이모티콘/볼드 금지`;
+⚠️ 주의:
+- 근거 없이 추측 금지, evidence에 이모티콘/볼드 금지
+- **score가 null(불충족/회피안됨)인 경우 evidence 필드 생략** (토큰 절약)`;
 
   try {
     const startTime = Date.now();
@@ -1653,13 +1655,53 @@ function formatProductInfoForPrompt(info: ProductInfo | undefined): string {
 }
 
 // ============================================================================
-// 🆕 배치 통합 LLM 평가 (10개씩 묶어서 평가 → API 호출 90% 감소)
+// 🆕 배치 통합 LLM 평가 (5개씩 묶어서 정밀 평가)
 // ============================================================================
 
 const BATCH_EVAL_MODEL = 'gemini-2.5-flash-lite'; // 비용 효율 + 속도
-const REVIEWS_PER_PRODUCT_BATCH = 5; // 배치 평가 시 제품당 리뷰 수 (간결하게)
-const BATCH_SIZE = 10; // 한 번에 평가할 제품 수
-const MAX_CONCURRENT_BATCHES = 5; // 동시 배치 요청 수 (rate limit 방지)
+const REVIEWS_PER_PRODUCT_BATCH = 5; // 배치 평가 시 제품당 리뷰 수 (8→5, 키워드 선별로 품질 유지)
+const REVIEW_CHAR_LIMIT = 100; // 리뷰당 글자 제한 (120→100)
+const BATCH_SIZE = 5; // 한 번에 평가할 제품 수 (10→5, 정밀 평가)
+const MAX_CONCURRENT_BATCHES = 10; // 동시 배치 요청 수 (6→10, 속도 최적화)
+
+/**
+ * 키워드 기반 관련 리뷰 선별
+ * - 사용자 조건 키워드가 포함된 리뷰 우선
+ * - 긍정(4점+) / 부정(3점-) 균형있게 선택
+ */
+function selectRelevantReviews(
+  reviews: ReviewLite[],
+  keywords: string[],
+  maxCount: number = REVIEWS_PER_PRODUCT_BATCH
+): ReviewLite[] {
+  if (reviews.length <= maxCount) return reviews;
+  if (keywords.length === 0) return reviews.slice(0, maxCount);
+
+  // 키워드 매칭 리뷰 찾기
+  const keywordLower = keywords.map(k => k.toLowerCase());
+  const matched = reviews.filter(r =>
+    keywordLower.some(kw => r.content.toLowerCase().includes(kw))
+  );
+  const unmatched = reviews.filter(r => !matched.includes(r));
+
+  // 매칭된 리뷰 중 긍정/부정 균형있게
+  const matchedPositive = matched.filter(r => r.rating >= 4);
+  const matchedNegative = matched.filter(r => r.rating <= 3);
+
+  const result: ReviewLite[] = [];
+
+  // 긍정 리뷰 먼저 (최대 3개)
+  result.push(...matchedPositive.slice(0, 3));
+  // 부정 리뷰 추가 (최대 2개)
+  result.push(...matchedNegative.slice(0, 2));
+  // 부족하면 매칭 안된 리뷰로 채움
+  const remaining = maxCount - result.length;
+  if (remaining > 0) {
+    result.push(...unmatched.slice(0, remaining));
+  }
+
+  return result.slice(0, maxCount);
+}
 
 interface ProductEvaluation {
   pcode: string;
@@ -1668,8 +1710,9 @@ interface ProductEvaluation {
 
 /**
  * 배치 통합 LLM 평가
- * - 10개씩 묶어서 한 번의 LLM 호출로 평가
- * - 500개 → 50회 호출 (기존 500회 대비 90% 감소)
+ * - 5개씩 묶어서 정밀 평가 (정확도 향상)
+ * - 리뷰 8개 × 120자로 충분한 정보 제공
+ * - 120개 → 24회 호출
  */
 async function evaluateAllCandidatesWithLLM(
   categoryName: string,
@@ -1692,7 +1735,7 @@ async function evaluateAllCandidatesWithLLM(
     model: BATCH_EVAL_MODEL,
     generationConfig: {
       temperature: 0.2,
-      maxOutputTokens: 500, // 10개 제품 점수만 (reason 제거로 절반)
+      maxOutputTokens: 350, // 5개 제품 점수 (배치 크기 축소)
       responseMimeType: 'application/json',
     },
   });
@@ -1735,7 +1778,7 @@ async function evaluateAllCandidatesWithLLM(
   console.log(`[BatchEval] Starting: ${candidates.length}개 제품 → ${totalBatches}개 배치 (${BATCH_SIZE}개씩)`);
   const startTime = Date.now();
 
-  // 배치 평가 함수 (10개 제품을 한 번에 평가)
+  // 배치 평가 함수 (5개 제품을 한 번에 정밀 평가)
   const evaluateBatch = async (batchProducts: HardCutProduct[], batchIndex: number): Promise<ProductEvaluation[]> => {
     // 각 제품 정보를 간결하게 정리
     const productList = batchProducts.map((p, idx) => {
@@ -1744,10 +1787,10 @@ async function evaluateAllCandidatesWithLLM(
         ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1)
         : '0';
 
-      // 리뷰 요약 (상위 5개만, 핵심 내용만)
-      const reviewSummary = productReviews
-        .slice(0, REVIEWS_PER_PRODUCT_BATCH)
-        .map(r => `[${r.rating}점]${r.content.slice(0, 80)}`)
+      // 리뷰 요약 (키워드 기반 선별 5개, 100자씩)
+      const relevantReviews = selectRelevantReviews(productReviews, preferKeywords);
+      const reviewSummary = relevantReviews
+        .map(r => `[${r.rating}점]${r.content.slice(0, REVIEW_CHAR_LIMIT)}`)
         .join(' | ') || '리뷰 없음';
 
       // 브랜드 매칭 체크
@@ -1860,6 +1903,112 @@ ${productList}
   results.sort((a, b) => b.score - a.score);
 
   return results;
+}
+
+// ============================================================================
+// 🆕 LLM 기반 카테고리 사전 필터링 (액세서리/소모품 제외)
+// - flash-lite + 대용량 배치(20개) + 고병렬(10) = 빠른 처리
+// - 키워드 매칭보다 정확한 LLM 판단
+// ============================================================================
+const CATEGORY_FILTER_MODEL = 'gemini-2.5-flash-lite';
+const CATEGORY_FILTER_BATCH_SIZE = 20;  // 배치당 20개 제품
+const CATEGORY_FILTER_MAX_CONCURRENT = 10;  // 동시 10개 배치
+
+interface CategoryFilterResult {
+  pcode: string;
+  isMainProduct: boolean;
+}
+
+async function filterByCategoryWithLLM(
+  candidates: HardCutProduct[],
+  categoryName: string
+): Promise<HardCutProduct[]> {
+  if (!ai || candidates.length === 0) {
+    return candidates;
+  }
+
+  const startTime = Date.now();
+  console.log(`[CategoryFilter] 🚀 LLM 카테고리 필터 시작: ${candidates.length}개 제품`);
+
+  const model = ai.getGenerativeModel({
+    model: CATEGORY_FILTER_MODEL,
+    generationConfig: {
+      temperature: 0.1,  // 낮은 온도로 일관된 판단
+      maxOutputTokens: 800,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  // 배치 처리 함수
+  const processBatch = async (batch: HardCutProduct[], batchIndex: number): Promise<CategoryFilterResult[]> => {
+    const productList = batch.map((p, i) =>
+      `${i + 1}. [${p.pcode}] ${p.brand || ''} ${p.name}`
+    ).join('\n');
+
+    const prompt = `## "${categoryName}" 본품 vs 액세서리/소모품 분류
+
+제품 목록:
+${productList}
+
+## 판단 기준
+- **본품 (Y)**: "${categoryName}" 자체 (예: 유모차, 카시트, 젖병 본체)
+- **액세서리/소모품 (N)**: 커버, 시트, 부품, 교체용, 리필, 패드, 매트, 케이스, 장난감, 젖꼭지, 세정제 등
+
+## 응답 (JSON만)
+{"results":[{"pcode":"코드","y":true/false}]}
+
+⚠️ 애매하면 Y (본품)로 판단`;
+
+    try {
+      const result = await model.generateContent(prompt);
+      let text = result.response.text().trim();
+      text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]) as { results: Array<{ pcode: string; y: boolean }> };
+        if (parsed.results && Array.isArray(parsed.results)) {
+          return parsed.results.map(r => ({
+            pcode: String(r.pcode).trim(),
+            isMainProduct: r.y !== false,  // 기본값 true
+          }));
+        }
+      }
+    } catch (error) {
+      console.error(`[CategoryFilter] Batch ${batchIndex + 1} error:`, error);
+    }
+
+    // 실패 시 모두 본품으로 간주 (안전하게)
+    return batch.map(p => ({ pcode: p.pcode, isMainProduct: true }));
+  };
+
+  // 배치 분할
+  const batches: HardCutProduct[][] = [];
+  for (let i = 0; i < candidates.length; i += CATEGORY_FILTER_BATCH_SIZE) {
+    batches.push(candidates.slice(i, i + CATEGORY_FILTER_BATCH_SIZE));
+  }
+
+  // 고병렬 처리
+  const allResults: CategoryFilterResult[] = [];
+  for (let i = 0; i < batches.length; i += CATEGORY_FILTER_MAX_CONCURRENT) {
+    const concurrentBatches = batches.slice(i, i + CATEGORY_FILTER_MAX_CONCURRENT);
+    const batchResults = await Promise.all(
+      concurrentBatches.map((batch, idx) => processBatch(batch, i + idx))
+    );
+    allResults.push(...batchResults.flat());
+  }
+
+  // 본품만 필터링
+  const mainProductPcodes = new Set(
+    allResults.filter(r => r.isMainProduct).map(r => r.pcode)
+  );
+  const filtered = candidates.filter(c => mainProductPcodes.has(c.pcode));
+
+  const elapsed = Date.now() - startTime;
+  const removedCount = candidates.length - filtered.length;
+  console.log(`[CategoryFilter] ✅ 완료 (${elapsed}ms): ${removedCount}개 제외 (${candidates.length} → ${filtered.length}), ${batches.length}배치`);
+
+  return filtered;
 }
 
 /**
@@ -2115,7 +2264,7 @@ async function generateDetailedReasons(
   // 각 제품별 정보 구성
   const productInfos = selectedProducts.map(p => {
     const productReviews = reviews[p.pcode] || [];
-    const reviewTexts = productReviews.slice(0, 20).map((r, i) =>
+    const reviewTexts = productReviews.slice(0, 10).map((r, i) =>
       `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 80)}${r.content.length > 80 ? '...' : ''}"`
     ).join('\n');
 
@@ -2493,16 +2642,23 @@ export async function POST(request: NextRequest) {
     }
 
     // ============================================================================
+    // 🆕 LLM 기반 카테고리 사전 필터링 (액세서리/소모품 제외)
+    // - flash-lite + 대용량 배치(20개) + 고병렬(10) = 빠른 처리
+    // - 키워드 매칭보다 정확한 LLM 판단
+    // ============================================================================
+    const candidatesFiltered = await filterByCategoryWithLLM(candidatesWithReviews, catName);
+
+    // ============================================================================
     // 1단계: Top N 상품 선정 + FilterTags 생성 (병렬 실행) 🚀
     // ============================================================================
     console.log(`[FinalRecommend] ⚡ Step 1: LLM 평가 + FilterTags 병렬 시작`);
     const step1StartTime = Date.now();
 
     const [topProductsResult, filterTagsResult] = await Promise.all([
-      // Top N 선정 (리뷰 있는 제품만 대상)
+      // Top N 선정 (리뷰 있고 + 본품만 대상)
       selectTopProducts(
         catName,
-        candidatesWithReviews,  // 🆕 리뷰 있는 제품만
+        candidatesFiltered,  // 🆕 리뷰 있는 제품 + 액세서리 제외
         reviews || {},
         collectedInfo || {},
         balanceSelections || [],
