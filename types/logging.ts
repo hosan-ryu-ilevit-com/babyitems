@@ -130,7 +130,8 @@ export type LogEventType =
   | 'ka_comparison_purchase_click' // KA 비교표 내 구매하기 버튼 클릭
   | 'ka_photo_review_filter_toggle' // KA 포토리뷰만 보기 필터 토글
   | 'ka_blog_review_click' // KA 블로그 리뷰 보기 클릭
-  | 'ka_review_sort_change'; // KA 리뷰 정렬 변경 (최신순/별점높은순/별점낮은순)
+  | 'ka_review_sort_change' // KA 리뷰 정렬 변경 (최신순/별점높은순/별점낮은순)
+  | 'ka_filter_tag_toggle'; // KA 필터 태그 토글 (결과 페이지)
 
 export interface LogEvent {
   sessionId: string;

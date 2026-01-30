@@ -58,7 +58,7 @@ function parseArgs(): Options {
     limit: parseInt(getArg('limit') || '0', 10),
     skipExisting: hasFlag('skip-existing'),
     dryRun: hasFlag('dry-run'),
-    maxReviews: parseInt(getArg('max-reviews') || '200', 10),
+    maxReviews: parseInt(getArg('max-reviews') || '100', 10),
     concurrency: parseInt(getArg('concurrency') || '4', 10),
   };
 }
