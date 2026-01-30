@@ -1063,8 +1063,8 @@ export default function KnowledgeAgentPage() {
       return baseMs + (Math.random() * variation * 2 - variation);
     };
 
-    // 🆕 35초 기준 부드러운 프로그레스 애니메이션 시작
-    animateProgressSmoothly(35000);
+    // 🆕 32초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(32000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
