@@ -1955,13 +1955,17 @@ export default function KnowledgeAgentPage() {
                   break;
                 case 'complete':
                   // 리뷰 데이터를 reviewsData 상태에 저장 (init API에서 미리 크롤링)
+                  console.log(`[SSE] Complete event - reviews exists: ${!!data.reviews}, reviewStats:`, data.reviewStats);
                   if (data.reviews) {
                     const formattedReviews: Record<string, any[]> = {};
                     Object.entries(data.reviews).forEach(([pcode, reviewData]: [string, any]) => {
                       formattedReviews[pcode] = reviewData.reviews || [];
                     });
                     setReviewsData(formattedReviews);
+                    reviewsDataRef.current = formattedReviews;  // 즉시 ref도 업데이트
                     console.log(`[SSE] Reviews stored: ${Object.keys(formattedReviews).length} products`);
+                  } else {
+                    console.log(`[SSE] Complete event has no reviews data`);
                   }
                   stepDataResolvers['complete']?.(data);
                   break;
@@ -2238,14 +2242,14 @@ export default function KnowledgeAgentPage() {
         });
       }
 
-      // 3. 리뷰 분석 완료 표시
-      appliedRules.push({
-        rule: `📊 ${Object.keys(currentReviewsData).length}개 상품 리뷰 분석 완료`,
-        matchedCount: Object.keys(currentReviewsData).length,
-      });
-
       // 🆕 DB의 product_count 사용 (없으면 실제 상품 수 fallback)
       const displayCount = dbProductCount || allProducts.length;
+
+      // 3. 리뷰 분석 완료 표시 (DB product_count 기준)
+      appliedRules.push({
+        rule: `📊 ${displayCount}개 상품 리뷰 분석 완료`,
+        matchedCount: displayCount,
+      });
 
       // ✅ 기존 state 대신 메시지로 추가하여 순서 및 스타일 제어
       setMessages(prev => [
@@ -2375,15 +2379,29 @@ export default function KnowledgeAgentPage() {
         setMessages(prev => {
           if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
 
-          return [
+          // 🔧 Race condition 방지: final_guide 메시지가 없으면 먼저 추가
+          const hasFinalGuide = prev.some(m => m.id.startsWith('a_final_input_'));
+          const baseMessages = hasFinalGuide ? prev : [
             ...prev,
+            {
+              id: `a_final_input_${Date.now()}`,
+              role: 'assistant' as const,
+              questionId: 'final_guide',
+              content: `추천 후보 상품들을 잘 추렸어요! 🎯`,
+              typing: true,
+              timestamp: Date.now()
+            }
+          ];
+
+          return [
+            ...baseMessages,
             {
               id: guideMsgId,
               role: 'assistant',
               questionId: 'followup_guide',
               content: `더욱 정확한 추천을 위해 추가 질문을 생성했어요.`,
               typing: true,
-              timestamp: Date.now()
+              timestamp: Date.now() + 2
             },
             {
               id: `followup-q-0`,
@@ -2392,7 +2410,7 @@ export default function KnowledgeAgentPage() {
               options: firstQ.options.map(o => o.label),
               questionProgress: { current: 1, total: followUpQuestions.length },
               typing: true,
-              timestamp: Date.now() + 1,
+              timestamp: Date.now() + 3,
             }
           ];
         });
@@ -2401,15 +2419,29 @@ export default function KnowledgeAgentPage() {
         setMessages(prev => {
           if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
 
-          return [
+          // 🔧 Race condition 방지: final_guide 메시지가 없으면 먼저 추가
+          const hasFinalGuide = prev.some(m => m.id.startsWith('a_final_input_'));
+          const baseMessages = hasFinalGuide ? prev : [
             ...prev,
+            {
+              id: `a_final_input_${Date.now()}`,
+              role: 'assistant' as const,
+              questionId: 'final_guide',
+              content: `추천 후보 상품들을 잘 추렸어요! 🎯`,
+              typing: true,
+              timestamp: Date.now()
+            }
+          ];
+
+          return [
+            ...baseMessages,
             {
               id: guideMsgId,
               role: 'assistant',
               questionId: 'followup_guide',
               content: `충분한 정보를 수집해서 추가 질문이 필요 없어요! **최종 추천 결과 보기**를 눌러서 바로 결과를 확인해보세요.`,
               typing: true,
-              timestamp: Date.now()
+              timestamp: Date.now() + 2
             }
           ];
         });
@@ -2534,6 +2566,7 @@ export default function KnowledgeAgentPage() {
                   console.log(`[V2 Flow] Review progress: ${data.completed}/${data.total} - ${data.pcode}`);
                 } else if (currentEvent === 'complete' && data.reviews) {
                   setReviewsData(data.reviews);
+                  reviewsDataRef.current = data.reviews;  // 즉시 ref도 업데이트
                   console.log(`[V2 Flow] Reviews complete: ${Object.keys(data.reviews).length} products, ${data.totalReviews} total reviews`);
                 } else if (currentEvent === 'error') {
                   console.error('[V2 Flow] Review crawl server error:', data.message);
@@ -2651,6 +2684,7 @@ export default function KnowledgeAgentPage() {
         // 🆕 리뷰 데이터 즉시 저장 (crawl-reviews 중복 호출 방지)
         if (data.reviews) {
           setReviewsData(data.reviews);
+          reviewsDataRef.current = data.reviews;  // 즉시 ref도 업데이트
           const totalReviews = Object.values(data.reviews).reduce((sum: number, reviews: any) => sum + (reviews?.length || 0), 0);
           console.log(`[V2 Flow] Reviews saved from final-recommend: ${Object.keys(data.reviews).length}개 제품, ${totalReviews}개 리뷰`);
         }
@@ -3132,6 +3166,7 @@ export default function KnowledgeAgentPage() {
                           console.log('[V2 Flow - FinalInput] ✅ Reviews complete (즉시):', reviewCounts);
                           // 즉시 reviewsData 업데이트
                           setReviewsData(prev => ({ ...prev, ...top3Reviews }));
+                          reviewsDataRef.current = { ...reviewsDataRef.current, ...top3Reviews };  // 즉시 ref도 업데이트
 
                           // 리뷰 크롤링 완료 후 재호출은 비활성화 (DB 리뷰만 사용)
                         }
@@ -3528,6 +3563,7 @@ export default function KnowledgeAgentPage() {
                             console.log('[V2 Flow] ✅ Reviews complete (즉시):', reviewCounts);
                             // 즉시 reviewsData 업데이트
                             setReviewsData(prev => ({ ...prev, ...top3Reviews }));
+                            reviewsDataRef.current = { ...reviewsDataRef.current, ...top3Reviews };  // 즉시 ref도 업데이트
                           }
                         } catch (e) {
                           console.error('[V2 Flow] SSE parsing error:', e);
