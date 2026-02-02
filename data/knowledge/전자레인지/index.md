@@ -1,29 +1,27 @@
 # 전자레인지 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T01:35:47.327Z
-> 분석 상품: 20개 | 분석 리뷰: 36,673개
+> 마지막 업데이트: 2026-02-02T08:39:53.826Z
+> 분석 상품: 20개 | 분석 리뷰: 35,832개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 스마트홈 연동 기능 강화
-- 다양한 부가 기능 탑재 (예: 의류 관리, 혈당 측정)
-- 구독 모델 도입 확대
-- 스마트홈 통합 및 AI 기반 제어: 음성 인식, 앱 연동, 사용자 패턴 학습 등 AI 기술이 전자레인지를 포함한 가전제품에 더욱 통합될 것입니다.
-- 다기능 복합 조리: 에어프라이, 스팀, 그릴, 오븐 기능 등이 결합된 복합 전자레인지가 인기를 얻을 것입니다.
+- 냉동식품 및 가정간편식(HMR)의 고급화 및 다양화
+- 스마트 기능 강화 및 IoT 연동 (예: 스마트싱스 연동)
+- 친환경 소재 및 에너지 효율성 강조
+- 개인 맞춤형 디자인 및 다양한 컬러 옵션 제공
 
 ### 구매자 만족 포인트
-- ✓ 편리한 조리 및 해동
-- ✓ 다양한 요리 활용 가능
-- ✓ 빠른 조리 시간
+- ✓ 빠른 조리 및 데우기 속도
 - ✓ 에너지 효율성
-- ✓ 뛰어난 가성비 (일부 모델)
+- ✓ 다양한 조리 기능 (해동, 베이킹, 그릴 등)
+- ✓ 영양소 보존
+- ✓ 안전성 (화상 위험 적음)
 
 ### 주의해야 할 단점
-- ⚠ 조리실 크기 제약
-- ⚠ 수분 손실 가능성
-- ⚠ 일부 모델의 소음
-- ⚠ 스마트 기능 복잡성
+- ⚠ 조리실 깊이 부족으로 인한 일부 도시락 미수납 문제
+- ⚠ 회전 방식의 경우 조리실 전체 활용 어려움 (플랫 방식 대비)
+- ⚠ 디자인 차이 크지 않음 (일부 모델)
 
 ### 가격대 인사이트
 
@@ -34,8 +32,8 @@
 
 ### 1. LG전자 MW23GD
 - **브랜드**: LG전자
-- **가격**: 144,970원
-- **평점**: ⭐4.7 (7,113개 리뷰)
+- **가격**: 142,670원
+- **평점**: ⭐4.7 (7,129개 리뷰)
 - **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -44,8 +42,8 @@
 
 ### 2. 삼성전자 MS23C3535AK
 - **브랜드**: 삼성전자
-- **가격**: 115,330원
-- **평점**: ⭐4.7 (512개 리뷰)
+- **가격**: 118,900원
+- **평점**: ⭐4.7 (513개 리뷰)
 - **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 700W / 소비전력 / 1100W / 버튼식+다이얼식 / 핸들 / 해동 / 자동메뉴 / 디스플레이 / 잠금 / 항균
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -54,67 +52,97 @@
 
 ### 3. 쿠쿠전자 CMW-A201DW
 - **브랜드**: 쿠쿠전자
-- **가격**: 55,820원
-- **평점**: ⭐4.6 (5,826개 리뷰)
+- **가격**: 59,140원
+- **평점**: ⭐4.6 (5,833개 리뷰)
 - **핵심 스펙**: 전자레인지 / 20L / 고주파출력 / 700W / 소비전력 / 1050W / 다이얼식 / 5단출력 / 버튼 / 해동 / 보온 / 클린
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=9570627)
 
-### 4. LG전자 MW22CA
+### 4. LG전자 디오스 MW23FD
 - **브랜드**: LG전자
-- **가격**: 114,780원
-- **평점**: ⭐4.7 (1,935개 리뷰)
-- **핵심 스펙**: 전자레인지 / 22L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16520258)
-
-### 5. LG전자 디오스 MW23FD
-- **브랜드**: LG전자
-- **가격**: 154,000원
-- **평점**: ⭐4.9 (1,202개 리뷰)
+- **가격**: 149,000원
+- **평점**: ⭐4.9 (1,252개 리뷰)
 - **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 디스플레이 / 육각형받침회전링 / 잠금 / 절전
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93447128)
 
-### 6. 삼성전자 MS23C3535AW
-- **브랜드**: 삼성전자
-- **가격**: 111,760원
-- **평점**: ⭐4.6 (668개 리뷰)
-- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 700W / 소비전력 / 1100W / 버튼식+다이얼식 / 핸들 / 해동 / 자동메뉴 / 디스플레이 / 잠금 / 항균
+### 5. LG전자 MW22CA
+- **브랜드**: LG전자
+- **가격**: 127,630원
+- **평점**: ⭐4.7 (1,944개 리뷰)
+- **핵심 스펙**: 전자레인지 / 22L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=22058849)
+- [상세보기](https://prod.danawa.com/info/?pcode=16520258)
 
-### 7. LG전자 오브제컬렉션 MWJ23E
+### 6. LG전자 MW25S
 - **브랜드**: LG전자
-- **가격**: 159,366원
-- **평점**: ⭐4.8 (1,954개 리뷰)
-- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16893962)
-
-### 8. LG전자 MW25S
-- **브랜드**: LG전자
-- **가격**: 159,331원
-- **평점**: ⭐4.7 (3,744개 리뷰)
+- **가격**: 167,000원
+- **평점**: ⭐4.7 (3,746개 리뷰)
 - **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=4629789)
 
-### 9. 삼성전자 비스포크 MG23A5378CE
+### 7. LG전자 MW23BD
+- **브랜드**: LG전자
+- **가격**: 133,480원
+- **평점**: ⭐4.8 (3,873개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=4627664)
+
+### 8. 삼성전자 MS23C3535AW
 - **브랜드**: 삼성전자
-- **가격**: 168,046원
+- **가격**: 118,900원
+- **평점**: ⭐4.6 (669개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 700W / 소비전력 / 1100W / 버튼식+다이얼식 / 핸들 / 해동 / 자동메뉴 / 디스플레이 / 잠금 / 항균
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=22058849)
+
+### 9. LG전자 오브제컬렉션 MWJ23E
+- **브랜드**: LG전자
+- **가격**: 169,190원
+- **평점**: ⭐4.8 (1,970개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16893962)
+
+### 10. LG전자 오브제컬렉션 MWJ25E
+- **브랜드**: LG전자
+- **가격**: 201,290원
+- **평점**: ⭐4.8 (746개 리뷰)
+- **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식+다이얼식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16623374)
+
+### 11. 쿠쿠전자 CMW-SF2510EW
+- **브랜드**: 쿠쿠전자
+- **가격**: 99,864원
+- **평점**: ⭐4.6 (21개 리뷰)
+- **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 900W / 소비전력 / 1400W / 터치식+다이얼식 / 5단출력 / 핸들 / 해동 / 보온 / 자동메뉴 / 디스플레이 / 무회전 / 스팀청소
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=91036817)
+
+### 12. 삼성전자 비스포크 MG23A5378CE
+- **브랜드**: 삼성전자
+- **가격**: 173,350원
 - **평점**: ⭐4.7 (574개 리뷰)
 - **핵심 스펙**: 전자레인지 / 23L / 소비전력 / 2150W / 터치식 / 핸들 / 직화그릴 / 해동 / 밀키트자동조리 / 자동메뉴 / 디스플레이 / 잠금 / 절전 / 잊음방지 / 항균
 - **장점 요약**: 분석 중
@@ -122,47 +150,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13764665)
 
-### 10. LG전자 MW23WD
-- **브랜드**: LG전자
-- **가격**: 136,740원
-- **평점**: ⭐4.7 (2,880개 리뷰)
-- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=4627582)
-
-### 11. LG전자 오브제컬렉션 MWJ25E
-- **브랜드**: LG전자
-- **가격**: 198,363원
-- **평점**: ⭐4.8 (742개 리뷰)
-- **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식+다이얼식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16623374)
-
-### 12. LG전자 오브제컬렉션 MWJ20EDN
-- **브랜드**: LG전자
-- **가격**: 138,380원
-- **평점**: ⭐4.9 (644개 리뷰)
-- **핵심 스펙**: 전자레인지 / 20L / 고주파출력 / 700W / 소비전력 / 1050W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 디스플레이 / 잠금
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=19006160)
-
-### 13. 쿠쿠전자 CMW-SF2510EW
+### 13. 쿠쿠전자 CMW-DF2010DW
 - **브랜드**: 쿠쿠전자
-- **가격**: 99,864원
-- **평점**: ⭐4.6 (18개 리뷰)
-- **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 900W / 소비전력 / 1400W / 터치식+다이얼식 / 5단출력 / 핸들 / 해동 / 보온 / 자동메뉴 / 디스플레이 / 무회전 / 스팀청소
+- **가격**: 89,050원
+- **평점**: ⭐4.6 (513개 리뷰)
+- **핵심 스펙**: 전자레인지 / 20L / 고주파출력 / 700W / 소비전력 / 1150W / 버튼식+다이얼식 / 5단출력 / 핸들 / 해동 / 보온 / 자동메뉴 / 디스플레이 / 무회전 / 절전
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=91036817)
+- [상세보기](https://prod.danawa.com/info/?pcode=18140342)
 
-### 14. LG전자 MW23BD
+### 14. 쿠쿠전자 CMW-2310DW
+- **브랜드**: 쿠쿠전자
+- **가격**: 75,310원
+- **평점**: ⭐4.6 (2,420개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 720W / 소비전력 / 1250W / 버튼식+다이얼식 / 5단출력 / 핸들 / 해동 / 자동메뉴 / 디스플레이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=13432232)
+
+### 15. LG전자 MW23BD
 - **브랜드**: LG전자
 - **가격**: 129,650원
 - **평점**: ⭐4.9 (440개 리뷰)
@@ -172,65 +180,55 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=91868687)
 
-### 15. 쿠쿠전자 CMW-2310DW
-- **브랜드**: 쿠쿠전자
-- **가격**: 75,670원
-- **평점**: ⭐4.6 (2,418개 리뷰)
-- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 720W / 소비전력 / 1250W / 버튼식+다이얼식 / 5단출력 / 핸들 / 해동 / 자동메뉴 / 디스플레이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13432232)
-
-### 16. 매직쉐프 MMW-WC25TES
-- **브랜드**: 매직쉐프
-- **가격**: 197,990원
-- **평점**: ⭐4.6 (39개 리뷰)
-- **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 950W / 소비전력 / 1280W / 버튼식+다이얼식 / 5단출력 / 핸들 / 해동 / 자동메뉴 / 디스플레이 / 무회전 / 잠금 / 대기전력
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=41072027)
-
-### 17. 삼성전자 MS23C3513AW
-- **브랜드**: 삼성전자
-- **가격**: 133,990원
-- **평점**: ⭐4.7 (634개 리뷰)
-- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 700W / 소비전력 / 1100W / 버튼식 / 핸들 / 해동 / 보온 / 자동메뉴 / 디스플레이 / 잠금 / 항균
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=25643555)
-
-### 18. LG전자 MW25B
+### 16. LG전자 MW23WD
 - **브랜드**: LG전자
-- **가격**: 162,078원
-- **평점**: ⭐4.7 (1,448개 리뷰)
-- **핵심 스펙**: 전자레인지 / 25L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식+다이얼식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
+- **가격**: 146,630원
+- **평점**: ⭐4.7 (2,888개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 1000W / 소비전력 / 1570W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 인버터 / 디스플레이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=4629818)
+- [상세보기](https://prod.danawa.com/info/?pcode=4627582)
 
-### 19. 쿠쿠전자 CMW-A201DB
-- **브랜드**: 쿠쿠전자
-- **가격**: 55,220원
-- **평점**: ⭐4.6 (3,746개 리뷰)
-- **핵심 스펙**: 전자레인지 / 20L / 고주파출력 / 700W / 소비전력 / 1050W / 다이얼식 / 5단출력 / 버튼 / 해동 / 보온 / 클린
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12504221)
-
-### 20. LG전자 MW30BDN
+### 17. LG전자 MW30BDN
 - **브랜드**: LG전자
-- **가격**: 169,000원
-- **평점**: ⭐4.9 (136개 리뷰)
+- **가격**: 155,000원
+- **평점**: ⭐4.9 (138개 리뷰)
 - **핵심 스펙**: 전자레인지 / 30L / 고주파출력 / 900W / 소비전력 / 1350W / 터치식 / 5단출력 / 해동 / 자동메뉴 / 디스플레이 / 잠금 / 항균 / 클린
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93447122)
+
+### 18. LG전자 오브제컬렉션 MWJ20EDN
+- **브랜드**: LG전자
+- **가격**: 144,090원
+- **평점**: ⭐4.9 (657개 리뷰)
+- **핵심 스펙**: 전자레인지 / 20L / 고주파출력 / 700W / 소비전력 / 1050W / 터치식 / 5단출력 / 핸들 / 발효 / 해동 / 보온 / 자동메뉴 / 디스플레이 / 잠금
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=19006160)
+
+### 19. 경동나비엔 나비엔매직 MWR-1502EF
+- **브랜드**: 경동나비엔
+- **가격**: 92,050원
+- **평점**: ⭐4.6 (42개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 800W / 소비전력 / 1250W / 버튼식+다이얼식 / 5단출력 / 버튼 / 해동 / 자동메뉴 / 디스플레이 / 무회전 / 스팀청소 / 탈취
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=101154698)
+
+### 20. 쿠쿠전자 CMW-2310DB
+- **브랜드**: 쿠쿠전자
+- **가격**: 75,990원
+- **평점**: ⭐4.6 (464개 리뷰)
+- **핵심 스펙**: 전자레인지 / 23L / 고주파출력 / 720W / 소비전력 / 1250W / 다이얼식 / 5단출력 / 핸들 / 해동 / 자동메뉴 / 디스플레이 / 클린
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16486541)
 
 ---
 
@@ -245,9 +243,9 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQmh2Qr7VMveopBVkEMP9Pg_eUXPcrmsrvwZodKyZUetkSXWtGv0jFZc049fiumOtNdTh4ENDYlBqfWvI5OVQiHaB9I-LjXBeXbbi7Z-YJ-c_RpPpMD7KIv7kY-c8E_tRf0n28CWarGoAzsnjTB16d0MPpodeHQQrhMQSNpH3P8Q==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEORLC4utNw27Rp2OnHZUvt1p1PcBKequoE02BRpTmquGCKwdNRJMpyrv5hOhq_a9nGM7CL8orfH2R2RfO40un8-GSWY8XctnsTUsLKUACs_k0OGWnLjLnM30GaImQ0AwWG_ih1HpDrjeI3Dbe26V5ZYfU79MwZjsQBbMmsvtKMSuNFw==)
-- [electimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdYCMVKBvCe7U2otx-Vqh4cM1q551BChxC_g-jfrdDwsU4Pf-fImeejTD91VUS_O-ylFfvWvceY7m-a4tQ6tlqs40dk-DRnFKcy9bw6OW47_8h2d2-FuwdmB7zRQRP8T0VYp4uY_O17yno7C825WKljsGCb54v-w==)
-- [juddblack.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfxy4gtxIdL_pudOZQ_BX261USfrHTeMJFPiwLX1wMvlS8HV0i34OAFotHFKUxM_tE0lHzOTa53rsipcCZVH-pqh1trk4H5r6QgDUhpHtbBIj6LMYGSXFdxk773s03Z8aZ1cj1wMZ_xr-Uo-eJobWSvzWKffo8K3UiMg==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpOpiqI5MAQCwmJ_z-4BCYIm20gG4q1F_4P8ar23veAZIrC_LM8PWjUfW68RJOT6q2m28kr95tp14JGrukWdu_7Prl8t4JDTOVcD9idas0jkDV7SAGAN0ZkTTrbV7eSWxhU5L834WFewdoblL9Hr77OwHs24KILlnrwUHVqHWAyFtiK-YuY5WN49wC7TfyJDp6zWJWpeDCctzaVjoC3VU5rTcG5sUuKNcG7Sy8mZCqxJNadTtHeRFJu0vdX1gPPw2it9g1VD3aPHaHhUwQUwmZ_47B3ZlpuXzU0FB2HlzTylIe7XflGd6AK5RBndq_4-ZWz1gUDT1i-qiwMXHqXRCo3-wySeun66DH1Ko6JN3i9ij4MMGsbZib_bdmVMMwzqf8fiVtePVKlvFo-OfRMzr-TT4kZC-ky9FELHrolJVY5TX7I1IFrRtnz-ys5XONziEahGVYh9ormGN1uRUd-_z_8x4RYGDJayaLI8Yu3jOesFviawnqW03VelOla_a4)
-- [bizwatch.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz_xOyfKLFIiponV_CB5NpBQq3CUVz5wjHE6KDE1htesJdRr2CZWDbGMMBDErKN_VkOFj_Sq9D2ooRYstzVNe_k8U12K2dQ7GsLoiMkAvWqDNn4Guq_ylr0rObCUazgH-aAywptncpIzONjPRZ7Lr3HEcfLC8=)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5I268SxDyN1pNxQu1Ob3CkTeVJW-Io4ZzVRH5dtRtajcG1049dnDH0oo6WsNx1b9XhlNCEfPMxNeeEx_CgFoqM7RW_kip0XVjzoXfCr4zJQ1OzQ5XsJtvBV-BLSwyDunyRg0BIztfPHA7u6-g7CycdmRR7lhwTFg1GGz_WPvL03JDlQ==)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQwkPrc1354fPEAmWIm2fdTyU1KCe55ZkIv3X1P1FIwcJCdRUgKUk_UJORiT8wYjnqcK7uWzxRjdJbs7ZOhlWYT18NhrBqXFr5knba2JZ8cHjSqcySXaQ1fdAguSUGWJxj6cvvI_hADysBVJjcrqQA5lNj9zb7iT8=)
+- [electimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECliYlbt2mEi35oefTIybOD_SBHEA96VC1uZShp8U-YfnluO8tbGFsxmTwlS9A-aswDMEs3pLJRqgvfC6oz-J1gIIlwgz8t3fZ1uu6Bs4YpKeXuyuLgNcSWx5LsKipE9EhxJgZD_X9xOYCBxYbiAMbTA5jyapdcw==)
+- [smithamevents.com.au](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9Rn-U5yPI4swhRZOoa7zVwTxMC29br1l3byAfILMrGxiNuDGjrGuOc7VPh_2KYwN0WT5Vf-TR0JpR2T7PmlheEkh5VgSDBcI_IyyaRT28vSx-l0t0qSFh0JJIo2c9zdLcFP6ldB0WskIQ3nFh0PtcPP1jgnmR3TgL8bdp5IVxajF7kCgpxIWlqYL_7soLWBtAo8gp_ywCjrqbbaD_GuVSttCpgAbI_au3mynScYbaiICMG6qHQbjjL18T-ne7)
+- [ajmadison.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMTyC2y35fWno-V3Q3f215Btt7Oyw9fOPZhTblUnZlofJIrgDhlKNih2nXy-IuMdXPOaayUPXUSDe2XXqKMukuVlFCaA2wWyzzYteTB51JPJ8xbF_aWBsgOsj2IslBqG6-wHG-c-9aYDQZ3hEadJKUOW3WZ505ZCDQ2JvSQ-4jzn_cQVQkMpEP)
+- [sarahlowegardendesign.co.uk](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj3dw-PnqZdsqhS5eXlV35lB3cYU06rnHIr_1KUsz-owYGgO0OwF69LOTK6Nlp-NDfSsYpKjUN-Pyk39OMTspHsYxhAhD_Y9-R9KT3ZJAfT87uVAooFEzkwtuPJzJH2c5KTBY3Ay5JYi4wsbYd30NNC6xW9NuM5W-BTnRFzKmRRDxlDiDRsI_q5CH963T-6n9flXH1pH5TvAn1NPgsa4qPJZ9pXyWmnBXBwNlTmC4cQjss98vLy1ntg1zmTOi-Lw0YKxlDRK6Zc9w4_yneyyI=)
