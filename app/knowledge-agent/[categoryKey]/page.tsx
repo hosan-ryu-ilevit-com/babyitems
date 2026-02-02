@@ -963,6 +963,7 @@ export default function KnowledgeAgentPage() {
   // 🆕 DB의 product_count (knowledge_categories 테이블에서 가져온 값)
   const [dbProductCount, setDbProductCount] = useState<number | null>(null);
   const [reviewsData, setReviewsData] = useState<Record<string, any[]>>({});
+  const reviewsDataRef = useRef<Record<string, any[]>>({});  // 클로저 문제 해결용 ref
   const [pricesData, setPricesData] = useState<Record<string, {
     lowestPrice: number | null;
     lowestMall: string | null;
@@ -1063,8 +1064,8 @@ export default function KnowledgeAgentPage() {
       return baseMs + (Math.random() * variation * 2 - variation);
     };
 
-    // 🆕 32초 기준 부드러운 프로그레스 애니메이션 시작
-    animateProgressSmoothly(32000);
+    // 🆕 24초 기준 부드러운 프로그레스 애니메이션 시작
+    animateProgressSmoothly(24000);
 
     // 선택 조건 텍스트 동적 생성
     const conditionParts: string[] = [];
@@ -1393,6 +1394,11 @@ export default function KnowledgeAgentPage() {
       return () => clearTimeout(timer);
     }
   }, [isHighlighting]);
+
+  // reviewsData 변경 시 ref 동기화 (클로저 문제 해결)
+  useEffect(() => {
+    reviewsDataRef.current = reviewsData;
+  }, [reviewsData]);
 
   // 내비게이션 가능 여부 업데이트
   useEffect(() => {
@@ -2149,7 +2155,8 @@ export default function KnowledgeAgentPage() {
 
     try {
       const allProducts = crawledProducts;
-      console.log(`[V2 Flow] Using ${allProducts.length} products with ${Object.keys(reviewsData).length} reviews`);
+      const currentReviewsData = reviewsDataRef.current;  // 최신 리뷰 데이터 사용
+      console.log(`[V2 Flow] Using ${allProducts.length} products with ${Object.keys(currentReviewsData).length} reviews`);
 
       // 사용자가 선택한 조건들을 규칙 형태로 변환
       const appliedRules: Array<{ rule: string; matchedCount: number }> = [];
@@ -2233,8 +2240,8 @@ export default function KnowledgeAgentPage() {
 
       // 3. 리뷰 분석 완료 표시
       appliedRules.push({
-        rule: `📊 ${Object.keys(reviewsData).length}개 상품 리뷰 분석 완료`,
-        matchedCount: Object.keys(reviewsData).length,
+        rule: `📊 ${Object.keys(currentReviewsData).length}개 상품 리뷰 분석 완료`,
+        matchedCount: Object.keys(currentReviewsData).length,
       });
 
       // 🆕 DB의 product_count 사용 (없으면 실제 상품 수 fallback)
@@ -2311,7 +2318,7 @@ export default function KnowledgeAgentPage() {
           categoryName,
           collectedInfo,
           products,
-          reviews: reviewsData,
+          reviews: reviewsDataRef.current,  // 최신 리뷰 데이터 사용
           trendData: {
             items: trendCons,
             pros: [],
@@ -5418,12 +5425,10 @@ function MessageBubble({
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible">
-              <h3 className="text-[18px] font-bold text-gray-900 mb-1">
+              <h3 className="text-[18px] font-bold text-gray-900 mb-2">
                 조건에 맞는 {categoryName} 추천
               </h3>
-               <h4 className="text-[14px] font-medium text-gray-600 leading-[1.4] line-clamp-2 mb-4">
-                              선택하신 조건을 최대한 반영해 골랐어요
-                            </h4>
+             
               
               {/* 비교표 토글 */}
               <div className="relative flex items-center w-fit">
