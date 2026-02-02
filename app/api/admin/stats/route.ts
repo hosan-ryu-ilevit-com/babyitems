@@ -1031,8 +1031,8 @@ function calculateKAFlowFunnel(sessions: SessionSummary[], utmCampaign: string):
       const page = event.page;
       const ts = new Date(event.timestamp).getTime();
 
-      // 1. 홈 페이지 뷰
-      if (page === 'home' || eventType === 'page_view' && page === 'home') {
+      // 1. 홈 페이지 뷰 (메인 + /living)
+      if (page === 'home' || page === 'living_home') {
         homePageViews.add(sid);
         timestamps.home = ts;
       }
