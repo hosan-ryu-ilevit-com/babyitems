@@ -66,9 +66,9 @@ export default function LivingHome() {
         {/* 헤더 */}
         <header className="h-[54px] flex items-center px-5 sticky top-0 z-50 bg-[#FBFBFD]">
           <Image
-            src="/icons/logo.svg"
+            src="/images/img-logo2-ai3.svg"
             alt="가전 AI 로고"
-            width={79}
+            width={47}
             height={25}
             priority
           />
