@@ -70,6 +70,7 @@ interface ProductDetailModalProps {
     prices: Array<{ mall: string; price: number; delivery: string; link?: string; mallLogo?: string }>;
   };
   onClose: () => void;
+  onShowComparison?: () => void;  // 비교표로 보기 버튼 클릭 시 (PDP 닫고 비교표 열기)
   onReRecommend?: (productId: string, userInput: string) => Promise<void>;
   isAnalysisLoading?: boolean;
   // V2 조건 충족도 평가 (recommend-v2 플로우용)
@@ -214,7 +215,7 @@ function parseMarkdownBold(text: string) {
 // }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function ProductDetailModal({ productData, category, categoryName, danawaData, onClose, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, oneLiner, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
+export default function ProductDetailModal({ productData, category, categoryName, danawaData, onClose, onShowComparison, onReRecommend, isAnalysisLoading = false, selectedConditionsEvaluation, initialAverageRating, variants, onVariantSelect, variantDanawaData, onRealReviewsClick: _onRealReviewsClick, isRealReviewsLoading: _isRealReviewsLoading = false, initialContext, contextMatchData, oneLiner, scrollToSellers = false, initialTab = 'price', preloadedReviews }: ProductDetailModalProps) {
   const [priceTab, setPriceTab] = useState<'price' | 'danawa_reviews'>(initialTab);
   const [averageRating] = useState<number>(initialAverageRating || 0);
   const [isExiting, setIsExiting] = useState(false);
@@ -886,6 +887,66 @@ export default function ProductDetailModal({ productData, category, categoryName
               </div>
             </>
           )}
+
+        {/* 비교표로 보기 버튼 (onShowComparison이 있을 때만 표시) */}
+        {onShowComparison && (
+          <div className="relative flex items-center px-4 py-3">
+            <button
+              onClick={() => {
+                onShowComparison();
+                logButtonClick('비교표로 보기 (PDP)', 'product-modal');
+              }}
+              className="flex items-center justify-between gap-2 h-[40px] px-3 rounded-lg transition-all duration-200 bg-gray-50 border border-gray-100"
+            >
+              <div className="flex items-center gap-1.5">
+                <motion.img
+                  src="/icons/ic-ai.svg"
+                  alt=""
+                  className="w-4 h-4"
+                  animate={{
+                    rotate: [0, -15, 15, -15, 0],
+                    y: [0, -2.5, 0],
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    ease: "easeInOut"
+                  }}
+                />
+                <span className="text-[16px] font-semibold text-gray-600 whitespace-nowrap">
+                  비교표로 보기
+                </span>
+              </div>
+            </button>
+            {/* 상세 스펙 비교 말풍선 */}
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{
+                opacity: 1,
+                x: [0, 4, 0]
+              }}
+              transition={{
+                opacity: { duration: 0.2 },
+                x: {
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+              className="ml-2 flex items-center pointer-events-none"
+            >
+              {/* 말풍선 꼬리 */}
+              <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[7px] border-r-blue-500 shrink-0 mr-[-1px]" />
+              {/* 말풍선 본체 */}
+              <div className="bg-blue-500 px-2.5 py-1.5 rounded-md flex items-center justify-center">
+                <span className="text-white text-[12px] font-bold whitespace-nowrap leading-none">
+                  상세 스펙 비교
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        )}
 
         {/* 상품정보 | 상품리뷰 탭 (전체 너비) */}
         <div className="h-[10px] bg-gray-50 border-y border-gray-100" />

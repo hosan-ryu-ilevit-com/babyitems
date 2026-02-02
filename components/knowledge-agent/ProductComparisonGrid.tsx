@@ -51,7 +51,6 @@ export function ProductComparisonGrid({
 }: ProductComparisonGridProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [expandedEvidences, setExpandedEvidences] = useState<Set<string>>(new Set());
 
   // 최대 5개 제품까지 표시
   const displayProducts = useMemo(() => products.slice(0, 5), [products]);
@@ -180,6 +179,15 @@ export function ProductComparisonGrid({
                     : `${product.price!.toLocaleString()}원`
                   }
                 </p>
+
+                {/* 자세히 보기 버튼 */}
+                <button
+                  type="button"
+                  onClick={() => onProductClick?.(product.raw ?? product)}
+                  className="block w-full py-1.5 mb-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
+                >
+                  자세히 보기
+                </button>
 
                 {/* 최저가 구매하기 버튼 */}
                 <a
@@ -333,10 +341,6 @@ export function ProductComparisonGrid({
                     const score = tagScore?.score;
                     const evidence = tagScore?.evidence;
                     const evidenceKey = `${tag.id}-${product.pcode}`;
-                    const isExpanded = expandedEvidences.has(evidenceKey);
-
-                    // evidence가 3줄(약 50-60자)을 넘는지 확인
-                    const needsExpand = evidence && evidence.length > 50;
 
                     return (
                       <div
@@ -357,31 +361,12 @@ export function ProductComparisonGrid({
                           )}
                         </div>
 
-                        {/* Evidence (상세 설명) - 있는 경우에만 */}
+                        {/* Evidence (상세 설명) - 있는 경우에만, 항상 펼쳐진 상태 */}
                         {evidence && score !== null && (
                           <div>
-                            <p className={`text-[11px] text-gray-600 leading-tight ${!isExpanded && 'line-clamp-3'}`}>
+                            <p className="text-[11px] text-gray-600 leading-tight">
                               {evidence}
                             </p>
-                            {needsExpand && (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setExpandedEvidences(prev => {
-                                    const next = new Set(prev);
-                                    if (isExpanded) {
-                                      next.delete(evidenceKey);
-                                    } else {
-                                      next.add(evidenceKey);
-                                    }
-                                    return next;
-                                  });
-                                }}
-                                className="text-[11px] text-blue-500 hover:text-blue-600 mt-0.5 underline"
-                              >
-                                {isExpanded ? '접기' : '펼치기'}
-                              </button>
-                            )}
                           </div>
                         )}
                       </div>
@@ -401,6 +386,15 @@ export function ProductComparisonGrid({
               className="shrink-0 px-2"
               style={{ width: columnWidth }}
             >
+              {/* 자세히 보기 버튼 */}
+              <button
+                type="button"
+                onClick={() => onProductClick?.(product.raw ?? product)}
+                className="block w-full py-1.5 mb-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
+              >
+                자세히 보기
+              </button>
+
               <a
                 href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
                 target="_blank"
@@ -416,7 +410,7 @@ export function ProductComparisonGrid({
                     'footer'
                   );
                 }}
-                className="block w-full py-2 bg-gray-800 hover:bg-gray-900 text-white text-[14px] font-bold rounded-md text-center transition-colors shadow-sm"
+                className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
               >
                 최저가 구매하기
               </a>

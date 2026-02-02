@@ -657,7 +657,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col">
         {/* Header Bar */}
         <header className="sticky top-0 z-50 bg-[#FBFBFD] h-[54px] flex items-center px-5">
-          <button onClick={() => router.push('/')} className="p-2 -ml-2">
+          <button onClick={() => router.push(`/${defaultTab}`)} className="p-2 -ml-2">
             <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
           </button>
         </header>

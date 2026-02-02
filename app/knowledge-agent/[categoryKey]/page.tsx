@@ -4619,6 +4619,19 @@ export default function KnowledgeAgentPage() {
             category={categoryKey}
             categoryName={categoryName}
             onClose={() => setSelectedProduct(null)}
+            onShowComparison={() => {
+              setSelectedProduct(null);  // PDP 닫기
+              setShowComparisonOnly(true);  // 비교표 토글 켜기
+              // 로깅
+              import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
+                logKAComparisonToggle(
+                  categoryKey || '',
+                  categoryName || '',
+                  true,
+                  hardCutProducts?.length || 0
+                );
+              });
+            }}
             isAnalysisLoading={isProductAnalysisLoading}
             // V2 조건 충족도 평가 ("왜 추천했나요?", "선호 속성", "피할 단점" 표시용)
             selectedConditionsEvaluation={[
