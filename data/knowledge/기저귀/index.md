@@ -1,27 +1,25 @@
 # 기저귀 전문가 지식
 
-> 마지막 업데이트: 2026-02-03T03:57:30.887Z
+> 마지막 업데이트: 2026-02-03T08:45:26.811Z
 > 분석 상품: 20개 | 분석 리뷰: 6,843개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 팬티형 기저귀 시장 점유율 확대
-- 성인용 기저귀 시장 성장 가속화
-- 친환경 및 안전성 강조 제품 출시
+- 성인용 기저귀 시장의 급성장
+- 친환경 및 생분해성 기저귀 수요 증가
+- 온라인 채널 판매 비중 확대
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 흡수력
-- ✓ 우수한 통기성
-- ✓ 피부 자극 최소화
-- ✓ 편리한 사용성
-- ✓ 가성비
+- ✓ 뛰어난 가성비
+- ✓ 우수한 흡수력
+- ✓ 부드러운 촉감
+- ✓ 편안한 착용감
 
 ### 주의해야 할 단점
-- ⚠ 기저귀 발진 가능성
-- ⚠ 잦은 교체 필요성 (천 기저귀)
-- ⚠ 세탁 및 관리 번거로움 (천 기저귀)
-- ⚠ 높은 비용 (일회용 기저귀)
+- ⚠ 높은 가격대
+- ⚠ 피부 자극 가능성
+- ⚠ 잦은 교체 필요성
 
 ### 가격대 인사이트
 
@@ -243,6 +241,9 @@
 ---
 
 ## 📊 데이터 출처
-- [korea.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIdZWUTQhpNyLb1iLCfOd4T2TICNEdKvjhEBP6FNXqTAQ2HdwJXpCI1t_rs4PBP_k8QX-JPdez5k3z1ggNVn128FcxcGq2h5qNLi6emui9g99p4bFp1ugFmWz4bi6ReDGpebT23XKw0IYXfOfLE3CWkEa3B94TCw==)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWHJ_pIz57QWkhb0lRcssBvYtqW8LMq23xqGMWyXfoSfzKSpmd4IKYd0O6n45Hok2dLtVFszMEN-1V7iBABPVgUqnnZFWRJVp6K6N7_CwfPXYjvriE1xResFGVik7k_WCSt51iMULyS7F7Jh9IbQgEwNg5OJFXP-8cGXrexHgsml6Wjy-sFjOyTQnAPGWwk5Xob2HIzKyppT5K6KmoL-oE4P9K21JU3jAATrzO7wZGDhoFbZePvIxU15DMhPUpvArX2WVOcsMifyYqmCtVBNXYaLEa_FCpKVdLkrQXF_vWPWEFSRcgB_C0GSd9qQGtrrHCZXuUk2EPmgAHLrgSOTieKbTOLJhnGAnUsO8zWeo2Np1-ADg7LLeDI1pFPMU5TvG65bRzk8sDYQ==)
-- [korea.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCGkOTFUgmzknElhnK_tYewyMhcUQ15fiy098fIRMchIrPGKU1zzrjCxSEhInzHcIN5pw4XSUYAQ3ooxRBnA2NE6UylxqHiUK7PMTrSvXsNYMqNjJT2aW-htDtxSSVPVHOyY-lKUCnKfdO3i2Cd7Gz2726QPQJFCo=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0id278KY_6d_SF2Ne6ZrTx-R2JF_GCloybrU1QGN9oQ3TFsYcsX4rLkGEGPAjpZ5bwTnO7Chg5bPZPS-eE06vyCd3o0PbzwN3V5zNK0fp7lncl3uAukayLAp-cqXro8ChwAqjB01hGrpNh40_OOTfEctPyy40zUfs75XhLL4=)
+- [aitimes.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNFqCj8g1VTwMuvW2coh9oYvenW1nEVMKRBi4mdfJdlIihOhpcbi-VDeltym3ZbbX94R1_hVAhicYeM_dVpb9UmE0LuSsYL9iIRPv9ahwMgNiaqnFI2Wf1KjsP9j92wCy3BInWWMUli10W_XquWQOEBwzU)
+- [newsspace.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFURfCWmWdap52G2qYnie7fpu9Fsc-TNhlaKs5xa9KYcNjLFKBJKux-h1UnQt7c9HKIY80TS9gq5ovUpk3qkZfjSgP_9GfHs6JL8r1Wfw93Sehu0GDP-n4nvB2jXzj30wrFR-BDJnGtpEffX9iZ)
+- [hygieneunion.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdFVfL1VTHYAA3qjivu4cm3vhWj6ryGc577yUa15uPxM_l6sWSUFHRXbVbpx7O22StY1dXQ2ZIWgNCP5_kttbubdjTik_B6kldcSgLTP2tX5KSJKHcAx0yO0h40gF3OhQJuc7P-pM9O6xFmxTM4JcdqVZF7pQ38uybozI-5YYY_Wh57xRrmvU-Ng==)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrEZDSjpkb91NyjlhTZQC1qOkYt9cnGShIGwMN8RJqGDhOyYWJYeDB7QNFOiDZLaV5Qo1_X3LtUTOFA7hlvywFj8sbVMudQwfXwfvKXThVU9w8UXqg_86QpAcf4QmHhwo5H6aiO2IRaMJwGDtCFKV1AxfWhPUYOA==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7c-EBCkHd4pvf0ljiZeReMlUVdmgiGEn76r0Na0SSTAviakyc4W5FIHbc5s_ytWLRaQWnL2BVou9nuq0PURwqh31DC0VEN79jwi3K2TWVG0t7B4N6caOWPKtxZl4po_gYWo9fuA==)
