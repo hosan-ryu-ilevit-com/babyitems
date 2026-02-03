@@ -672,7 +672,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
           <div className="px-4 pt-0 pb-12">
             {/* Title */}
             <motion.div className="mb-[16px]">
-              
+
               <h3 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mt-2">
                 찾으시는 상품을 선택하세요
                 <span className="text-blue-500"> *</span>

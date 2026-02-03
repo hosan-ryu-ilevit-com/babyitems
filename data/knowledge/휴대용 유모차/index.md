@@ -1,24 +1,24 @@
 # 휴대용 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-01-30T09:31:22.355Z
-> 분석 상품: 20개 | 분석 리뷰: 4,116개
+> 마지막 업데이트: 2026-02-03T08:30:18.647Z
+> 분석 상품: 20개 | 분석 리뷰: 4,127개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 초경량 및 컴팩트 디자인
-- 기내 반입 가능 여부
-- 세련된 디자인과 다기능성
+- 기내 반입 가능한 초경량 유모차 인기 증가
+- 원터치 폴딩 및 간편한 휴대성 강화
+- 세련된 디자인과 다양한 색상 옵션
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 휴대성 및 이동 편의성
-- ✓ 한 손 폴딩 및 보관 용이성
-- ✓ 여행 및 대중교통 이용 편리성
+- ✓ 한 손 조작 및 보관 용이
+- ✓ 여행 및 대중교통 이용 시 편리함
 
 ### 주의해야 할 단점
-- ⚠ 상대적으로 짧은 사용 기간 (신생아에게는 부적합할 수 있음)
-- ⚠ 디럭스 유모차 대비 낮은 안정성
-- ⚠ 일부 모델의 짧은 배터리 수명 (전동 기능이 있는 경우)
+- ⚠ 디럭스 대비 낮은 안정감
+- ⚠ 일부 모델의 짧은 사용 기간
+- ⚠ 가격대의 다양성 (20만원 ~ 100만원 이상)
 
 ### 가격대 인사이트
 
@@ -147,17 +147,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=45323387)
 
-### 13. 에그 에그Z 플러스 휴대용 유모차
-- **브랜드**: 에그
-- **가격**: 661,400원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0개월~36개월 / 허용무게: ~22kg / 유모차무게: 8.9kg / 출시년도: 2025년 / 기내반입가능 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=76465769)
-
-### 14. 잉글레시나 잉글레시나 퀴드3 기내반입 휴대용 유모차
+### 13. 잉글레시나 잉글레시나 퀴드3 기내반입 휴대용 유모차
 - **브랜드**: 잉글레시나
 - **가격**: 644,100원
 - **평점**: ⭐5 (19개 리뷰)
@@ -166,6 +156,16 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=76514936)
+
+### 14. 에그 에그Z 플러스 휴대용 유모차
+- **브랜드**: 에그
+- **가격**: 661,400원
+- **평점**: ⭐5 (2개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 0개월~36개월 / 허용무게: ~22kg / 유모차무게: 8.9kg / 출시년도: 2025년 / 기내반입가능 / 오토폴딩 / 5점식벨트 유모차 / 5점식벨트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=76465769)
 
 ### 15. 스토케 요요2 프리미엄 휴대용 유모차
 - **브랜드**: 스토케
@@ -217,15 +217,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20812925)
 
-### 20. 토이파파 비포비 접이식 휴대용 유모차
-- **브랜드**: 토이파파
-- **가격**: 109,640원
-- **평점**: ⭐4.8 (8개 리뷰)
-- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 6~36개월 / 허용무게: 20kg까지 / 유모차무게: 6.9kg / 출시년도: 2019년 이전 / 기내반입가능 / 5점식벨트 유모차 / 5점식벨트
+### 20. 킨즈 올뉴 에어플러스 기내반입 휴대용 접이식 유모차
+- **브랜드**: 킨즈
+- **가격**: 417,730원
+- **평점**: ⭐4.8 (19개 리뷰)
+- **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 3개월부터 / 허용무게: ~2kg / 유모차무게: 8.2kg / 출시년도: 2022년 / 기내반입가능 / 셀프스탠딩 / 원핸드폴딩 유모차 / 원핸드폴딩
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20831582)
+- [상세보기](https://prod.danawa.com/info/?pcode=21696902)
 
 ---
 
@@ -240,9 +240,8 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJ1FWgXF50ySf-hKp4K1lJUBgXQIdoY9pHa89IZ8BEFAO6NzXwHzI-hhH8FfRGlPQ4kyhmisVnOG0fCdgxm-TQDTRv5xt5CmB_Md6nH_dF0KkZ97Foo5PcRBhPxDiG)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPxu9Bp5D7KRnW4Eu4jtFrtm5XFRf4CqORDREBUQkXuxwfyzbk7hI48_zPbEUmkXQyGN3m9f5Z87JwqM_6mNl5D29LTYGCby_Fd12jj5j_0lMs2NuI4xubAwSz6GGOZ72xAOJBXL5Q1YT0OsuKJtN0dpDXhes6fSkk1l5YMIpw0uk78oP2Cuf8)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5YG0bVIO_6qGHed52PII35hN8ZfI1h1-tddtXJpbHtKjMakd4rph0-5wFDmgn4DaIeIEO3zJX0R3Jn_hir1w2HOPiZ6z7ZqLlZH8Kjt1XcQ4oBRm28RZgGj3zid-NiEoGCWQ3QQ_eS3ccjs5KFWHUPDQJVVKOIckjIX0gQYoeeRd_)
-- [niniandloli.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwoqDdpauX04ubF4Bv_wfXLLOQDKGwpc-RixEgilaJ5H1N8B1_u9uA5jDW77UFHrDtGsukvpJlz-UOfO7HdTFnDPVmtVYbwoQAedLZps5O9jux2NXKK1OocsDCzI7TW0lwgnC4SpTzQpRDOy4aNDrxYKKDk1lp73eGmt2uRDzRLy_sS1KUgwFItGPnK8mYPcNGCHSuBNVKB45liKm5uZ3fVt0rp6TRAikS_GB_iJdpgoQ=)
-- [parents.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEh9cgGPVQJn40UXiuWZcng-SwRakWfjRioohohm2UQiKquw_SM9mUfZKm7pZ1F3-PXAO3-UPiqvPH5eiCU1qckYo-GqRcvFeX2nhB4VZEiOBsaZrbgGISt02Eg-LxQ9aoww-PNR0kp6FensF4VmFD)
-- [smythstoys.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG11u65K4K0zglLfbanJv3Icq1YrhzsWy_FgF4rLDVJIlCh_bqeG4WZc3ZfCreSdVsYh6ixC94zyfAAgZSmZG42076D7cvy6Szu4PiWmRZ9wTbBmrPhHgzLTqbVlCktNVrNGGP5gzuTJ_JmS_5c4qJ1CbSyogYt09jzqZwcnEskSFB5m2Qv5HWbhU39WWd76U41dxD6jD9hnEcSQZNhS_l0cQp-ioMFxJsRdJirWQ==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEeuHVNoBPmZCUOC5ZtsDWNeDypeJjSoywdCy5ssHgHoqm6fHB0VDCzVGP29OSYDiGJRCXA8OiWyMuq_mdpszEXHMwDcribJz0Y9daAciOpa-rb2CWXekFCu7xv3t4=)
+- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEX7J6eUOX-hwDb4DcnlNN2e_Xf0lGBNxesgNPSVea-1LxCPtzWMRHEuwQXcJ_3DOTdMs-obyJKz8S6uJlC0g9AOr7eGFrYPvNXrhc3c9VO-Vkpx0u4-jxr9cI0lg5wUyWPy47tyLXKA78Rrc5U8JhNWvLmKvO1-oUROhpmsx-hbgc=)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-kdodwR9WicVZjwfIifzCM3J0uWNR58trYv-3x9jIr76ixyLS1p-Ps7Ft0vWZ0nzPsKN3vxHa_g5evJSZ9KmRhOrO8XgtTSQeTTeyeXw6mKoejvW6DrAPcLorNjyMa5tEVVoDu16tONF6Z9Y_z3a6zovR5WtyHwl3bwqpHHseZ0-gDYsYttwi8ztUIt6LnF_2lNj9DP3D6T6cQWjwQwf93_pJzx4TZPzKzf2kVDYqPvSRSNzzmRVs)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkfNCthufjGk4X_CwfMeSupJ8qYuhzKUMOeYvipxnrC2IUFO2KnrglmlIub4n0RyOGzegjcB54wY4x7RqSZs-fftd9ngYxWp1j-0c1FTYOPmDoaFsQAycOCKuqQt2wK1tZHBz59xQ=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJBoyi1OVmb2x7rrEY-WK3JbjZo607zEOZL-pDS72b-lz6vwBBIrlvSsrkz_pf5M4YejeCOpxzZ_9RRqY7GFjS9_ex5C6do0IMaHf_wLI1rrKgqzv9SPxSO2yzRvLSkjGDzeu4V00=)

@@ -1722,6 +1722,7 @@ async function evaluateAllCandidatesWithLLM(
   balanceSelections: BalanceSelection[],
   expandedKeywords?: ExpandedKeywords,
   productInfoMap?: Record<string, ProductInfo>,  // 🆕 인덱싱된 제품 정보
+  personalizationContext?: string | null,        // 🆕 개인화 메모리 컨텍스트
 ): Promise<ProductEvaluation[]> {
   if (!ai) {
     console.log('[BatchEval] No AI, fallback to score-based');
@@ -1758,6 +1759,11 @@ async function evaluateAllCandidatesWithLLM(
   const BRAND_BONUS = { high: 20, trust: 15, low: 10 };
   const brandBonus = BRAND_BONUS[categoryInvolvement];
   console.log(`[BatchEval] 카테고리 관여도: ${categoryInvolvement}, 브랜드 보너스: +${brandBonus}점`);
+
+  // 🆕 개인화 메모리 컨텍스트 (사용자 기본 정보)
+  const personalizationSection = personalizationContext
+    ? `[사용자 기본 정보]\n${personalizationContext}\n\n`
+    : '';
 
   // 사용자 조건 문자열
   const userConditions = Object.entries(collectedInfo)
@@ -1815,7 +1821,7 @@ async function evaluateAllCandidatesWithLLM(
     const prompt = `## ${categoryName} 제품 ${batchProducts.length}개 평가
 
 ## 사용자 조건
-${selectedBrand ? `⭐ 선호 브랜드: ${selectedBrand}\n` : ''}${userConditions}
+${personalizationSection}${selectedBrand ? `⭐ 선호 브랜드: ${selectedBrand}\n` : ''}${userConditions}
 ${priorities !== '없음' ? `특히 중요: ${priorities}` : ''}${keywordInfo}
 
 ## 제품 목록
@@ -2446,7 +2452,8 @@ async function selectTopProducts(
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
   expandedKeywords?: ExpandedKeywords,
-  freeInputAnalysis?: FreeInputAnalysis | null
+  freeInputAnalysis?: FreeInputAnalysis | null,
+  personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
 ): Promise<{ selectedProducts: HardCutProduct[]; productInfoMap: Record<string, ProductInfo> }> {
   const pcodes = candidates.map(c => c.pcode);
 
@@ -2493,6 +2500,7 @@ async function selectTopProducts(
       balanceSelections,
       expandedKeywords,
       productInfoMap,  // 🆕 인덱싱된 제품 정보 전달
+      personalizationContext,  // 🆕 개인화 메모리 컨텍스트
     );
 
     // 상위 N개 선택 (카테고리 불일치 제외, 리뷰 0개는 이미 사전 필터링됨)
@@ -2596,7 +2604,8 @@ export async function POST(request: NextRequest) {
       collectedInfo,
       balanceSelections,
       negativeSelections,
-    } = body;
+      personalizationContext,  // 🆕 개인화 메모리 컨텍스트
+    } = body as FinalRecommendationRequest & { personalizationContext?: string };
 
     if (!candidates || candidates.length === 0) {
       return NextResponse.json({
@@ -2663,7 +2672,8 @@ export async function POST(request: NextRequest) {
         collectedInfo || {},
         balanceSelections || [],
         expandedKeywords,
-        freeInputAnalysisResult
+        freeInputAnalysisResult,
+        personalizationContext,  // 🆕 개인화 메모리 컨텍스트
       ),
       // 필터 태그 생성 (2단계에서 사용) - 🆕 자유 입력 분석 결과도 전달
       generateFilterTags(

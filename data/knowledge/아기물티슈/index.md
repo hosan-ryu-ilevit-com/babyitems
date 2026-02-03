@@ -1,29 +1,25 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-01-30T09:25:53.032Z
+> 마지막 업데이트: 2026-02-03T08:36:44.778Z
 > 분석 상품: 20개 | 분석 리뷰: 256,721개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전성 및 성분 중시 경향
-- 저자극, 무첨가, 친환경 제품 선호
-- 프리미엄 제품 수요 증가
-- 친환경 및 지속 가능한 소재 사용 (생분해성, 퇴비화 가능, 플라스틱 프리)
-- 성분 투명성 강화 및 미니멀리스트 포뮬러 (천연 및 유기농 성분, 저자극성, 무향)
+- 안전성 및 친환경 성분 강조
+- AI 기술 접목 등 디자인 혁신
+- 사회 공헌 및 ESG 경영 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 성분
-- ✓ 우수한 품질
-- ✓ 합리적인 가격
-- ✓ 넉넉한 크기
-- ✓ 도톰한 두께
-- ✓ 친환경 소재
+- ✓ 뛰어난 가성비
+- ✓ 도톰한 원단
+- ✓ 우수한 닦임력
+- ✓ 안전한 성분
+- ✓ 보습 및 진정 효과
 
 ### 주의해야 할 단점
-- ⚠ 짧은 유통기한
-- ⚠ 건조함
-- ⚠ 부족한 수분감
+- ⚠ 촉촉함 편차
+- ⚠ 다소 높은 가격대
 
 ### 가격대 인사이트
 
@@ -132,17 +128,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=102024341)
 
-### 11. 베베숲 시그니처 위드 레드 물티슈 캡형 70매
-- **브랜드**: 베베숲
-- **가격**: 31,340원
-- **평점**: ⭐4.8 (7,474개 리뷰)
-- **핵심 스펙**: 물티슈 / 캡형 / 평량: 80gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x170mm / 원단: 레이온 / 인증: EWG 그린등급 물티슈 / 인증: EWG 그린등급
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=18717164)
-
-### 12. 리벤스 시그니처 블랙라벨 물티슈 캡형 70매
+### 11. 리벤스 시그니처 블랙라벨 물티슈 캡형 70매
 - **브랜드**: 리벤스
 - **가격**: 9,970원
 - **평점**: ⭐5 (1개 리뷰)
@@ -151,6 +137,16 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=79701491)
+
+### 12. 베베숲 시그니처 위드 레드 물티슈 캡형 70매
+- **브랜드**: 베베숲
+- **가격**: 31,340원
+- **평점**: ⭐4.8 (7,474개 리뷰)
+- **핵심 스펙**: 물티슈 / 캡형 / 평량: 80gsm / 엠보싱 / 용도: 유아용, 피부용 / 보습효과 / 유해성분 무첨가 / 5단계정수 / 크기(1장): 200x170mm / 원단: 레이온 / 인증: EWG 그린등급 물티슈 / 인증: EWG 그린등급
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=18717164)
 
 ### 13. 코멧 오리지널 물티슈 캡형 100매
 - **브랜드**: 코멧
@@ -245,5 +241,6 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgbtzuqFqE7vM5-Au7AHjPyHz7q1X2OIqiGpSIoEFa9mJ1618gjps2VqZ01cN2zG8yS8Hq-Q6JzDOAZqcqsVBAfJY3dIi1bfjNbkj-aFw7oEGLdanrDwfKR1Z25Ch_3Kt2KKxX2i11fr68JXb8cXTCrl7ujsQGNagvAbc=)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6dqMCQLO_Ju6kaZETJNNcuHL5cMgJwqlxf3s3F3xMZolSslq7ni7eukAN5KcutaxHyOp0x6jE1-bm_oVE_uO02vefrFrFwKhidD56-Xyh2owOk-LN8fb2UwHkc0V2eFwPlzl34DEafWGx0eCwbURu5cr0ocXyY2ik)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdeT5OIiDPWX7FQgmiSAANzHZJl3kU3wyzcQLFO8dFuX99s-NDrjyauJMdcuLQEEa4ioU-5ULO4X9ExEdS2HbIe_eDzNDKjLAfc-x9fkgLWtpX95U0WwN0HZL85MmresndeKNAKLLqvb2O5P0_pnMeFf_Ase4bDFbbs-5I7mlVDRY0I0sx2sJOkLpcq11xLgEtttBRlA==)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLIzO2fKxY2ZqpZoxTEM_CraS7nBGTIFws5g59mS2guv0ZrAtxHIy7FC7tJCkJFnqsGOtjGNU_DB3MPTwL_thHPdm-MX_CLIU7NEedcoEc_Q8e2Ow_E8NqpOKtKBS-ZgQaGSqszR3aHO89gTXdYyfLIlERFwbVuDFN6HAJdNxjzzKqP08=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzgWgIIT2uuSlBYAD7Dhmtndv49r9V_lFBtnAudlozssL4Zdysnkv8190QlDAInN2nuEAHnZH1fQpgw0KjzyI9gqPziJpDNEIE3SDtzwXe9ajpluMayUAfL5kE33T33534fgnHplaS2H-6wbg4qNdDq-Kj-kzXGA==)
