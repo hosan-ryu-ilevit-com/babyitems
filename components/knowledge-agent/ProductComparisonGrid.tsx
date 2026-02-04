@@ -278,7 +278,7 @@ export function ProductComparisonGrid({
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-3 pt-2">
           <div className="px-4 mb-2 flex items-center gap-4">
-            <h4 className="text-[14px] font-semibold text-gray-600">장단점 요약</h4>
+            <h4 className="text-[16px] font-bold text-gray-900">장단점 요약</h4>
             {!hasProsConsData && (
               <span className="text-[12px] text-gray-400">
                 상세 정보/리뷰 분석 중 <span className="text-blue-500 font-medium">{prosConsProgress}%</span>
@@ -312,7 +312,7 @@ export function ProductComparisonGrid({
                 {/* 장점 - full 표시 */}
                 {(product.prosFromReviews && product.prosFromReviews.length > 0) && (
                   <div className="mb-2">
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       {product.prosFromReviews.slice(0, 3).map((pro, idx) => (
                         <div key={idx} className="flex items-start gap-1 text-[13px] text-gray-700 leading-snug">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-green-400" />
@@ -326,7 +326,7 @@ export function ProductComparisonGrid({
                 {/* 단점 - full 표시 */}
                 {(product.consFromReviews && product.consFromReviews.length > 0) && (
                   <div>
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       {product.consFromReviews.slice(0, 2).map((con, idx) => (
                         <div key={idx} className="flex items-start gap-1 text-[13px] text-gray-500 leading-snug">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-red-400" />
@@ -366,7 +366,7 @@ export function ProductComparisonGrid({
               <div key={specKey}>
                 {/* 섹션 헤더 */}
                 <div className="px-4 pt-5 pb-1">
-                  <h4 className="text-[14px] font-bold text-gray-900">{specKey}</h4>
+                  <h4 className="text-[16px] font-bold text-gray-900">{specKey}</h4>
                 </div>
 
                 {/* 디바이더 - 스펙 키 아래에 - 전체 너비만큼 */}
@@ -406,7 +406,7 @@ export function ProductComparisonGrid({
               <div key={tag.id}>
                 {/* 태그 라벨 (키) */}
                 <div className="px-4 pt-5 pb-1">
-                  <h4 className="text-[14px] font-bold text-gray-900">{tag.label}</h4>
+                  <h4 className="text-[16px] font-bold text-gray-900">{tag.label}</h4>
                 </div>
 
                 {/* 디바이더 */}
@@ -443,8 +443,8 @@ export function ProductComparisonGrid({
 
                         {/* Evidence (상세 설명) - 있는 경우에만, 항상 펼쳐진 상태 */}
                         {evidence && score !== null && (
-                          <div>
-                            <p className="text-[13px] text-gray-600 leading-tight">
+                          <div className="mt-1">
+                            <p className="text-[13px] text-gray-600 leading-snug">
                               {evidence}
                             </p>
                           </div>

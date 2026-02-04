@@ -5521,7 +5521,7 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`h-[36px] px-4 rounded-lg transition-all duration-200 ${
+                  className={`h-[36px] px-4 rounded-2xl transition-all duration-200 ${
                     !showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
@@ -5530,7 +5530,7 @@ function MessageBubble({
                   <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
                     !showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
-                    📊 비교표로 보기
+                    비교표로 보기
                   </span>
                 </button>
                 <button
@@ -5547,7 +5547,7 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`h-[36px] px-4 rounded-lg transition-all duration-200 ${
+                  className={`h-[36px] px-4 rounded-2xl transition-all duration-200 ${
                     showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
@@ -5556,7 +5556,7 @@ function MessageBubble({
                   <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
                     showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
-                    📝 리스트로 보기
+                    리스트로 보기
                   </span>
                 </button>
               </div>
