@@ -1,30 +1,33 @@
 # 아기띠 전문가 지식
 
-> 마지막 업데이트: 2026-01-29T08:16:10.549Z
-> 분석 상품: 20개 | 분석 리뷰: 2,036개
+> 마지막 업데이트: 2026-02-03T12:56:37.642Z
+> 분석 상품: 20개 | 분석 리뷰: 2,382개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 힙시트 기능 포함 올인원 아기띠 인기
-- 자체 개발 원단 및 인체공학적 디자인 강화
-- 국제 안전 인증 획득 및 해외 시장 공략
+- 힙시트 결합 올인원 아기띠
+- 신생아부터 사용 가능한 제품
+- 자체 개발 원단 및 안전성 강조
+- 해외 시장 공략 (K-아기띠)
 
 ### 구매자 만족 포인트
-- ✓ 핸즈프리 기능
 - ✓ 아기 유대감 증진
-- ✓ 아기 수면 촉진
-- ✓ 휴대 용이성
-- ✓ 뛰어난 가성비 (일부 제품)
-- ✓ 안전성 인증 (IHDI 등)
+- ✓ 부모의 손 자유로움
+- ✓ 차량 배기가스 흡입 방지
+- ✓ 가벼운 무게
+- ✓ 보관 용이성
+- ✓ 아기가 편안함
+- ✓ 착용 및 탈착 용이성
 
 ### 주의해야 할 단점
-- ⚠ 장시간 사용 시 피로감
-- ⚠ 착용 및 해제 불편함 (일부 제품)
-- ⚠ 사용 시기 제한 (신생아/개월 수)
-- ⚠ 가격 부담 (일부 고가 제품)
-- ⚠ 길이 조절의 어려움 (일부 제품)
-- ⚠ 아기에게만 의존하는 습관 형성 우려
+- ⚠ 부모의 어깨 및 허리 부담
+- ⚠ 장시간 착용 시 피로
+- ⚠ 근육 손상 가능성
+- ⚠ 아기 다리 지탱 부족 (앞보기 자세 시)
+- ⚠ 아기 허리 압력 가중 (앞보기 자세 시)
+- ⚠ 아기 체온 관리 어려움
+- ⚠ 원단 늘어남 (일부 제품)
 
 ### 가격대 인사이트
 
@@ -43,15 +46,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20792063)
 
-### 2. 베이비뵨 베이비 캐리어 하모니 3D 메쉬
-- **브랜드**: 베이비뵨
-- **가격**: 306,000원
-- **평점**: ⭐5 (370개 리뷰)
-- **핵심 스펙**: 아기띠 / 대상연령: 신생아~36개월 / 허용무게: 3.5~15kg / 포지션: 마주보기, 앞보기, 뒤로 업기 / 특징: 머리받침, 허리지지 아기띠 / 특징: 머리받침, 허리지지
+### 2. 어린이안전벨트 아동보조벨트 유아보조벨트 카시트
+- **브랜드**: 어린이안전벨트
+- **가격**: 35,500원
+- **평점**: ⭐4.7 (19개 리뷰)
+- **핵심 스펙**: 유모차 / 카시트 / 아기띠 / 기타외출용품 유모차 / 기타외출용품
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20786669)
+- [상세보기](https://prod.danawa.com/info/?pcode=26516120)
 
 ### 3. 베이비뵨 베이비 캐리어 미니 3D 메쉬
 - **브랜드**: 베이비뵨
@@ -63,7 +66,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20842532)
 
-### 4. 아이엔젤 닥터다이얼 플러스 올인원 아기띠 색상 택1
+### 4. 베이비뵨 베이비 캐리어 하모니 3D 메쉬
+- **브랜드**: 베이비뵨
+- **가격**: 305,000원
+- **평점**: ⭐5 (370개 리뷰)
+- **핵심 스펙**: 아기띠 / 대상연령: 신생아~36개월 / 허용무게: 3.5~15kg / 포지션: 마주보기, 앞보기, 뒤로 업기 / 특징: 머리받침, 허리지지 아기띠 / 특징: 머리받침, 허리지지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20786669)
+
+### 5. 아이엔젤 닥터다이얼 플러스 올인원 아기띠 색상 택1
 - **브랜드**: 아이엔젤
 - **가격**: 314,070원
 - **평점**: ⭐5 (8개 리뷰)
@@ -73,107 +86,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=26465696)
 
-### 5. 어린이안전벨트 아동보조벨트 유아보조벨트 카시트
-- **브랜드**: 어린이안전벨트
-- **가격**: 35,500원
-- **평점**: ⭐4.7 (19개 리뷰)
-- **핵심 스펙**: 유모차 / 카시트 / 아기띠 / 기타외출용품 유모차 / 기타외출용품
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26516120)
-
-### 6. 베이비뵨 베이비 캐리어 미니 코튼
+### 6. 베이비뵨 오리지날 아기띠
 - **브랜드**: 베이비뵨
-- **가격**: 118,580원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 아기띠 / 대상연령: 신생아~12개월 / 허용무게: 3.2~11kg / 포지션: 마주보기, 앞보기 / 특징: 머리받침 아기띠 / 특징: 머리받침
+- **가격**: 155,690원
+- **평점**: ⭐4.9 (20개 리뷰)
+- **핵심 스펙**: 아기띠 / 허용무게: 3.5~10kg까지 / 포지션: 마주보기 / 특징: 머리받침 아기띠 / 특징: 머리받침
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=44224994)
+- [상세보기](https://prod.danawa.com/info/?pcode=20787779)
 
-### 7. 포그내 스텝원 UV CUT 에어 아기띠
-- **브랜드**: 포그내
-- **가격**: 99,580원
-- **평점**: ⭐4.7 (15개 리뷰)
-- **핵심 스펙**: 아기띠 / 허용무게: ~20kg까지 아기띠 / 허용무게: ~20kg까지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20838557)
-
-### 8. 에르고베이비 옴니 360 쿨에어 캐리어
-- **브랜드**: 에르고베이비
-- **가격**: 245,300원
-- **평점**: ⭐4.4 (7개 리뷰)
-- **핵심 스펙**: 아기띠 / 대상연령: 신생아~48개월 / 허용무게: 3.2~20kg / 포지션: 마주보기, 앞보기, 뒤로 업기 아기띠 / 포지션: 마주보기, 앞보기, 뒤로 업기
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20845856)
-
-### 9. 무무브 에르고베이비 호환 아기띠 침받이
-- **브랜드**: 무무브
-- **가격**: 11,950원
-- **평점**: ⭐5 (3개 리뷰)
-- **핵심 스펙**: 침받이 침받이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26491961)
-
-### 10. 해피코튼 오가닉 아기띠립 가슴침받이
-- **브랜드**: 해피코튼
-- **가격**: 9,040원
-- **평점**: ⭐4.7 (15개 리뷰)
-- **핵심 스펙**: 침받이 침받이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20805911)
-
-### 11. 허그파파 허그파파 NEW 다이얼핏 올인원 아기띠
-- **브랜드**: 허그파파
-- **가격**: 298,030원
-- **평점**: ⭐4.3 (8개 리뷰)
-- **핵심 스펙**: 아기띠 / 허용무게: 3.4~20kg까지 아기띠 / 허용무게: 3.4~20kg까지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21657446)
-
-### 12. 통가 프랑스 그물형 피트 아기띠 버클형 혼합색
-- **브랜드**: 통가
-- **가격**: 37,000원
-- **평점**: ⭐3.4 (5개 리뷰)
-- **핵심 스펙**: 슬링 / 체중범위:신생아~15kg / [포지션] / 마주보기 / [사양] / 색상:트리컬러,레인보우 슬링 / 색상:트리컬러,레인보우
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20785181)
-
-### 13. 에르고베이비 옴니 360 쿨에어 아기띠
-- **브랜드**: 에르고베이비
-- **가격**: 189,050원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 아기띠 / 대상연령: 신생아~48개월 / 허용무게: 3.2~20kg / 포지션: 마주보기, 앞보기, 뒤로 업기 / 특징: 머리받침, 허리지지 아기띠 / 특징: 머리받침, 허리지지
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=46678793)
-
-### 14. 아이앤나무 미마자리 실리콘바퀴커버
-- **브랜드**: 아이앤나무
-- **가격**: 61,200원
-- **평점**: ⭐4.3 (10개 리뷰)
-- **핵심 스펙**: 유모차 / 카시트 / 아기띠 / 유모차용품 / 기저귀가방 유모차 / 기저귀가방
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26499179)
-
-### 15. 나와니스 나와니스 전통포대기 나와니스/포대기/아기띠/애기띠/포데기
+### 7. 나와니스 나와니스 전통포대기 나와니스/포대기/아기띠/애기띠/포데기
 - **브랜드**: 나와니스
 - **가격**: 33,940원
 - **평점**: ⭐4.3 (19개 리뷰)
@@ -183,47 +106,97 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=26512316)
 
-### 16. 베베핏 시그니처7 올인원 힙시트 아기띠
-- **브랜드**: 베베핏
-- **가격**: 155,770원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 아기띠 / 허용무게: 3.5~20kg 아기띠 / 허용무게: 3.5~20kg
+### 8. 허그파파 다이얼핏 프로 올인원 아기띠
+- **브랜드**: 허그파파
+- **가격**: 267,430원
+- **평점**: ⭐5 (14개 리뷰)
+- **핵심 스펙**: 액세서리 액세서리
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20810051)
+- [상세보기](https://prod.danawa.com/info/?pcode=20792414)
 
-### 17. 주영 주영 슬링벨트 50MM-2M
-- **브랜드**: 주영
-- **가격**: 5,290원
+### 9. 해피코튼 오가닉 아기띠립 가슴침받이
+- **브랜드**: 해피코튼
+- **가격**: 9,040원
+- **평점**: ⭐4.7 (15개 리뷰)
+- **핵심 스펙**: 침받이 침받이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20805911)
+
+### 10. 베이비뵨 베이비 캐리어 미니 코튼
+- **브랜드**: 베이비뵨
+- **가격**: 118,580원
 - **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 출산 / 육아용품 / 카시트용품 / 안전벨트인형 / 커버 출산 / 커버
+- **핵심 스펙**: 아기띠 / 대상연령: 신생아~12개월 / 허용무게: 3.2~11kg / 포지션: 마주보기, 앞보기 / 특징: 머리받침 아기띠 / 특징: 머리받침
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26556626)
+- [상세보기](https://prod.danawa.com/info/?pcode=44224994)
 
-### 18. 에르고베이비 아기띠 방풍 커버
-- **브랜드**: 에르고베이비
-- **가격**: 67,716원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 방풍커버 방풍커버
+### 11. 포그내 스텝원 UV CUT 에어 아기띠
+- **브랜드**: 포그내
+- **가격**: 99,580원
+- **평점**: ⭐4.7 (15개 리뷰)
+- **핵심 스펙**: 아기띠 / 허용무게: ~20kg까지 아기띠 / 허용무게: ~20kg까지
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=46678949)
+- [상세보기](https://prod.danawa.com/info/?pcode=20838557)
 
-### 19. 포브 프리아핏 에어 올인원 아기띠 베이지
-- **브랜드**: 포브
-- **가격**: 306,900원
-- **평점**: ⭐5 (3개 리뷰)
+### 12. 루시로다 사이드힙시트 LUX101 아기띠 힙시트 육아용품 아기용품 출산선물 여름힙시트 럭셔리 육아용품 힙시트
+- **브랜드**: 루시로다
+- **가격**: 49,500원
+- **평점**: ⭐4.9 (22개 리뷰)
 - **핵심 스펙**: 출산 / 육아용품 / 외출용품 / 힙시트 / 포대기 / 가방 출산 / 가방
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26438663)
+- [상세보기](https://prod.danawa.com/info/?pcode=26490557)
 
-### 20. 토드비 에어피셀 힙시트 올인원 아기띠
+### 13. 베이비앙 아기띠 바디 침받이
+- **브랜드**: 베이비앙
+- **가격**: 15,030원
+- **평점**: ⭐4.7 (148개 리뷰)
+- **핵심 스펙**: 침받이 침받이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20805932)
+
+### 14. 에르고베이비 옴니 360 쿨에어 캐리어
+- **브랜드**: 에르고베이비
+- **가격**: 245,300원
+- **평점**: ⭐4.4 (7개 리뷰)
+- **핵심 스펙**: 아기띠 / 대상연령: 신생아~48개월 / 허용무게: 3.2~20kg / 포지션: 마주보기, 앞보기, 뒤로 업기 아기띠 / 포지션: 마주보기, 앞보기, 뒤로 업기
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20845856)
+
+### 15. 에르고베이비 엠브레이스 신생아 아기띠
+- **브랜드**: 에르고베이비
+- **가격**: 82,770원
+- **평점**: ⭐5 (13개 리뷰)
+- **핵심 스펙**: 아기띠 / 대상연령: 신생아~12개월 / 허용무게: ~11.3kg / 포지션: 마주보기, 앞보기 / 특징: 머리받침 아기띠 / 특징: 머리받침
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=26434283)
+
+### 16. 무무브 에르고베이비 호환 아기띠 침받이
+- **브랜드**: 무무브
+- **가격**: 11,950원
+- **평점**: ⭐5 (3개 리뷰)
+- **핵심 스펙**: 침받이 침받이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=26491961)
+
+### 17. 토드비 에어피셀 힙시트 올인원 아기띠
 - **브랜드**: 토드비
 - **가격**: 256,500원
 - **평점**: ⭐4.8 (15개 리뷰)
@@ -232,6 +205,36 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20789738)
+
+### 18. 허그파파 허그파파 NEW 다이얼핏 올인원 아기띠
+- **브랜드**: 허그파파
+- **가격**: 298,030원
+- **평점**: ⭐4.3 (8개 리뷰)
+- **핵심 스펙**: 아기띠 / 허용무게: 3.4~20kg까지 아기띠 / 허용무게: 3.4~20kg까지
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21657446)
+
+### 19. 왈라부 메쉬슬링
+- **브랜드**: 왈라부
+- **가격**: 61,260원
+- **평점**: ⭐4.4 (141개 리뷰)
+- **핵심 스펙**: 슬링 슬링
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20806832)
+
+### 20. 베이비뵨 베이비 캐리어 One+
+- **브랜드**: 베이비뵨
+- **가격**: 235,120원
+- **평점**: ⭐4.9 (12개 리뷰)
+- **핵심 스펙**: 유모차 / 카시트 / 아기띠 / 유모차용품 / 힙시트 유모차 / 힙시트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=26529089)
 
 ---
 
@@ -246,9 +249,9 @@
 ---
 
 ## 📊 데이터 출처
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1fDFALnR_sbRCOV_WRjLbDrvsih6xq96troGoG_TZetkqAcV2UGhkfkoBLaJIKSHUDokzkgUe9tpynAXknmOp_-iTIDGXeCIXSFJp2zjVKRXtG6QYZlVmZUc6eBUEZYkY5bjHZxReJ-A8hlohmRmNlLkY7Z7Gzh4=)
-- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlEysnhtuUBw69VbdqdMWDdcEQh_mzkW6dubNWYXlCp_KmqdlntONZmNU6Hi6W4C47Qs8TN_EtfASqH0VlZ73HKu2dxQzCz_Wyl5xorA5bLLa8-qOykLgj1PTZIKNMmFJ-0_D_LUM=)
-- [sedaily.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKYVQ7a6X_00jKwjqAE8QfCMI6hYjglfM1Wg5KiMHUHv-ETVGuMXPteK6nHvU_0Uik003CcJJY5yxlpYjd_J7jh7v56-M_7oULGQRKDbvDOZwU_jEE4T_UhPKslgoDNGVb)
-- [outsidetheboxmom.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGcv9OJ4i6zYPKxofqYTR03VNtviqhWCKPsAYRQWSlDLZyM9hOaHrNImJhaYwN8UVnnpH77rhpSpXpS9AQ4rfq-P6yTkT8TZKjhVDgD-pt4antaclk6cxdYBi-nCiPgLpT6ArBs55gaVrWh_NgFfD9vfk=)
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGG-t44XHdgRmSezUPnDufbduIPeN-S10zhE5nYduVXeOYnXpP5WxLbBQIFgLQa-sRpdK4pRF4JEzGPZX3SiuRYUgd2onvrzLy3IylAkfC6VTeLtrUYup9CGOM6xklt6lJkkbd6A6fkIkWo4EM8b80jyrAjU2JpfxCQPhqGlw==)
-- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpwA_PMTG_PH5GFSX_KkDWq6joE_LhZU3Pl-aYyVyPB5u-h3JNsz06sDQlIAUS_FjtGnZd2-zbsCAiOIRH2QGiGBc3xYWBlU2zsZdbW7e_ByadYpomKB6VnkMayQLtkyITqJFxy2t5LJrq3lXu41iVpJNC3ZqvfI3AFR2Il2dxXSKX)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtKu2WysaPtFIsIpps7dyHI8yEM4z9Z6u8ZHEwtEkCQJLg6e7nTuqWF4xie4KhtsvtAb7sleYM5Pd94ydxCCKxhGf93rQc_hVQD_NQV-0U4Jvz247Nz6KJeHjjbzqrElVZCxL1UpH-cM_cXS19VE05DoMcyOqdwg==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGysplhi_1P-2-HnfL2y7KlPvaCXqOsS2yJcuDN62IG1zYsjywCa0ZmJ7P4OlJRC2sTuBsYny_UsqM8lgyPjZ4tsM4fyIQ2jrTU9DrvBmWJHBFAwCy8rhbT42vTy9g1FXmS0cx7DQ==)
+- [sedaily.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGFHNIvl1FggA57ncXx1jhFDjOLmsaWdMH7FR5-FsP9EOOuB-1TpvPPYNnmEhM6TxNROs6ZoFYd3wNoTBgQ6fXt9SHJ_NBkUgvwjpYpCKovw6m3z1RZhL_5gS54fpIqJJtGqY=)
+- [jumpbaby.ca](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_BY3fFcegxgPBXm-SZJHsBoAY0OYSK03Shz0cTvk2qWUF5xohV3uGo1X5wc8K96TT7Q4OLKySqK1KL8LN_Ty0zzUEu2PlmE3xURLwriPhIU1ztCNxVym_MQuRhib1EFGbbTGgU0X6fbtHI4zkQ-oJCz6O)
+- [outsidetheboxmom.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8rb8-iWowydwf5qT7sVcmFo6NuCL7wEMEFDX2mrGr9H3K0ft0how8xfskgbapCaPf1JAROSUzoyPBgK5954DAeCo6AMY-sJUr0XkdIqm6mRVist9ICjbVVOZ_s3aTJO7V1j1fZz74W6oF2_HPcByS7w==)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEB4etiX7LKgXUEqNOyr--R24P58BoCypnl_Ne1CPGIJ0Ygc6wtGTFcoqa8U2Dar_ReLutIbpCLgbmSD1DFHBZ3WAPk8xNK7Bz1vbs0GhbTFiNjriYFYzL9APVqUeHwdUZ7Oc2fkNE25T4iwI37eDWq7YCxlQ3vKo7dokTeyX2NukQ=)

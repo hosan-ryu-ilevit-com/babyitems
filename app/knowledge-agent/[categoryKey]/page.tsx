@@ -60,9 +60,6 @@ import {
   logKAProductMatchRate
 } from '@/lib/logging/clientLogger';
 import { CATEGORIES_DATA, CATEGORY_PATH_MAP } from '@/components/knowledge-agent/KnowledgeAgentLanding';
-import PersonalizationPhase from '@/components/knowledge-agent/PersonalizationPhase';
-import { usePersonalizationMemory } from '@/hooks/usePersonalizationMemory';
-import type { PersonalizationMemory } from '@/types/personalization';
 
 // ============================================================================
 // Helper function to determine parent category tab (baby/living)
@@ -88,18 +85,17 @@ function getParentCategoryTab(categoryName: string): 'baby' | 'living' {
 // Types
 // ============================================================================
 
-type Phase = 'personalization' | 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'follow_up_questions' | 'balance' | 'final_input' | 'result' | 'free_chat';
+type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'follow_up_questions' | 'balance' | 'final_input' | 'result' | 'free_chat';
 
 // ============================================================================
 // Step Indicator Component (4단계 진행 표시 - recommend-v2 스타일)
 // ============================================================================
 
 const STEPS_BABY = [
-  { id: 1, label: '개인화 설정', phases: ['personalization'] },
-  { id: 2, label: '카테고리 분석', phases: ['loading'] },
-  { id: 3, label: '맞춤 질문', phases: ['questions', 'report'] },
-  { id: 4, label: '선호도 파악', phases: ['hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
-  { id: 5, label: '추천 완료', phases: ['result', 'free_chat'] },
+  { id: 1, label: '카테고리 분석', phases: ['loading'] },
+  { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
+  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
+  { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
 const STEPS_LIVING = [
@@ -833,25 +829,10 @@ export default function KnowledgeAgentPage() {
   // 자동 스크롤 훅
   const { scrollToMessage, scrollToTop } = useAutoScroll(mainRef);
 
-  // Personalization Memory
-  const { getContextForInit, addCategoryNote } = usePersonalizationMemory();
-  const [personalizationMemory, setPersonalizationMemory] = useState<PersonalizationMemory | null>(null);
   const parentCategory = getParentCategoryTab(categoryName);
-  // personalizationMemory는 handlePersonalizationComplete에서 설정되고 init API에 전달됨
-
-  // 🆕 Q&A를 메모리에 저장하는 헬퍼 함수 (baby 카테고리만)
-  const saveQAToMemory = useCallback((question: string, answer: string) => {
-    // baby 카테고리에서만 메모리 저장
-    if (parentCategory !== 'baby') return;
-
-    // 질문-답변을 하나의 메모리 문장으로 저장
-    const memoryNote = `${question}: ${answer}`;
-    console.log(`[Memory] Saving to ${categoryName}:`, memoryNote);
-    addCategoryNote(categoryName, memoryNote);  // categoryName 사용 (디코딩된 한글)
-  }, [parentCategory, categoryName, addCategoryNote]);
 
   // State
-  const [phase, setPhase] = useState<Phase>('personalization');
+  const [phase, setPhase] = useState<Phase>('loading');
   const [resultProducts, setResultProducts] = useState<any[]>([]);
   const [filterTags, setFilterTags] = useState<FilterTag[]>([]);
   const [allFilterTags, setAllFilterTags] = useState<FilterTag[]>([]);  // 🆕 필터링 전 전체 태그 (PDP 조건 매핑용)
@@ -1369,25 +1350,11 @@ export default function KnowledgeAgentPage() {
       return;
     }
 
-    // ✅ personalization phase에서 시작 (init API는 아직 호출하지 않음)
-    setPhase('personalization');
+    // 바로 loading phase로 시작
+    initializeAgent();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryKey]);
 
-  // ✅ 개인화 완료 핸들러 - personalization phase 완료 후 loading phase로 전환
-  const handlePersonalizationComplete = useCallback((memory: PersonalizationMemory | null) => {
-    setPersonalizationMemory(memory);
-    setPhase('loading');
-    initializeAgent(memory);
-  }, []);
-
-  // 🆕 Living 카테고리는 personalization 스킵 - 바로 loading으로
-  useEffect(() => {
-    if (parentCategory === 'living' && phase === 'personalization') {
-      console.log('[KA Flow] Living category - skipping personalization');
-      handlePersonalizationComplete(null);
-    }
-  }, [parentCategory, phase, handlePersonalizationComplete]);
 
   // [자동 스크롤] 새 메시지가 추가될 때 해당 메시지를 화면 상단에 위치
   const prevMessagesLengthRef = useRef(messages.length);
@@ -1587,7 +1554,7 @@ export default function KnowledgeAgentPage() {
     }
   }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, collectedInfo, saveResultToStorage]);
 
-  const initializeAgent = async (pMemory?: PersonalizationMemory | null) => {
+  const initializeAgent = async () => {
     const initialQueries = [
       `${categoryName} 인기 순위 2026`,
       `${categoryName} 추천 베스트`,
@@ -1836,17 +1803,12 @@ export default function KnowledgeAgentPage() {
     driveUIFlow();
 
     try {
-      // 개인화 메모리 컨텍스트 생성 (전달받은 메모리 직접 사용)
-      const personalContext = pMemory ? getContextForInit(parentCategory, pMemory) : null;
-      console.log('[KA] Personalization context:', personalContext);
-
       const response = await fetch('/api/knowledge-agent/init', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           categoryKey,
-          streaming: true,
-          personalizationContext: personalContext  // 개인화 컨텍스트 전달
+          streaming: true
         })
       });
 
@@ -2518,9 +2480,6 @@ export default function KnowledgeAgentPage() {
       [currentQ.question]: answer,
     }));
 
-    // 🆕 메모리에 Q&A 저장
-    saveQAToMemory(currentQ.question, answer);
-
     // 메시지 상태 업데이트: 현재 질문 메시지를 finalized로 만들고 선택된 옵션 기록
     setMessages(prev => prev.map(m => 
       m.id === `followup-q-${currentFollowUpIndex}` 
@@ -2718,10 +2677,6 @@ export default function KnowledgeAgentPage() {
       console.log(`[V2 Flow] __additional_condition__:`, finalCollectedInfo['__additional_condition__']);
     }
 
-    // 🆕 개인화 메모리 컨텍스트 생성
-    const personalContext = personalizationMemory ? getContextForInit(parentCategory, personalizationMemory) : null;
-    console.log(`[V2 Flow] personalizationContext:`, personalContext);
-
     try {
       const res = await fetch('/api/knowledge-agent/final-recommend', {
         method: 'POST',
@@ -2734,7 +2689,6 @@ export default function KnowledgeAgentPage() {
           collectedInfo: finalCollectedInfo,
           balanceSelections,
           negativeSelections: [], // 회피조건 제거
-          personalizationContext: personalContext,  // 🆕 개인화 메모리 컨텍스트
         }),
       });
 
@@ -2840,8 +2794,6 @@ export default function KnowledgeAgentPage() {
       if (categoryKey) {
         logKAQuestionAnswered(categoryKey, '마지막 자연어 입력', additionalCondition.trim());
       }
-      // 🆕 메모리에 추가 조건 저장
-      saveQAToMemory('추가 조건', additionalCondition.trim());
       logKnowledgeAgentFinalInputSubmit(
         categoryKey,
         categoryName,
@@ -3986,8 +3938,6 @@ export default function KnowledgeAgentPage() {
       if (categoryKey) {
         logKAQuestionAnswered(categoryKey, activeMsg.content, message);
       }
-      // 🆕 메모리에 Q&A 저장
-      saveQAToMemory(activeMsg.content, message);
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
     }
 
@@ -4136,24 +4086,11 @@ export default function KnowledgeAgentPage() {
           </motion.button>
         </header>
 
-        {/* 스텝 인디케이터 (5단계) - 로딩/추천 완료/개인화 단계에서는 숨김 */}
-        {phase !== 'personalization' && phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
+        {/* 스텝 인디케이터 (4단계) - 로딩/추천 완료 단계에서는 숨김 */}
+        {phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
           <StepIndicator currentPhase={phase} parentCategory={parentCategory} />
         )}
 
-        {/* 개인화 단계 - Baby 카테고리에서만 표시 */}
-        {phase === 'personalization' && parentCategory === 'baby' && (
-          <main className="flex-1 min-h-0 overflow-y-auto scrollbar-hide bg-white">
-            <PersonalizationPhase
-              categoryKey={categoryKey}
-              parentCategory={parentCategory}
-              onComplete={handlePersonalizationComplete}
-            />
-          </main>
-        )}
-
-        {/* 기존 플로우 (personalization 이후) */}
-        {phase !== 'personalization' && (
         <main
           ref={phase === 'result' || phase === 'free_chat' ? null : mainRef}
           className={`px-4 pt-0 bg-white relative transition-all duration-300 ${phase === 'result' || phase === 'free_chat' ? '' : 'flex-1 min-h-0 overflow-y-auto scrollbar-hide'}`}
@@ -4439,10 +4376,9 @@ export default function KnowledgeAgentPage() {
             })()}
           </AnimatePresence>
         </main>
-        )}
 
-        {/* 🆕 개인화/로딩 단계에서는 하단 채팅바 숨김 */}
-        {phase !== 'personalization' && phase !== 'loading' && (
+        {/* 로딩 단계에서는 하단 채팅바 숨김 */}
+        {phase !== 'loading' && (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
           {/* Navigation Buttons (Prev Only)
             {activeQuestion && canGoPrev && !isTyping && (
