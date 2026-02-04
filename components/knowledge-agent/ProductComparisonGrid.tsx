@@ -220,13 +220,23 @@ export function ProductComparisonGrid({
                     </svg>
                   </div>
                 )}
-                {/* 순위 + 매칭도 뱃지 */}
-                <div className={`absolute top-0 left-0 px-2 h-[22px] rounded-br-lg flex items-center justify-center ${
-                  isTopPick ? 'bg-red-500' : 'bg-gray-900/85'
-                }`}>
-                  <span className="text-white font-semibold text-[11px] leading-none whitespace-nowrap">
-                    {rank}위{matchRate !== undefined ? `, ${matchRate}% 일치` : ''}
-                  </span>
+
+                {/* 순위 + 매칭도 뱃지 (썸네일 안 왼쪽 위) */}
+                <div className="absolute top-1.5 left-1.5 flex items-center gap-1">
+                  <div className={`px-2.5 py-1.5 rounded-full flex items-center justify-center ${
+                    isTopPick ? 'bg-blue-500/95' : 'bg-gray-900/85'
+                  }`}>
+                    <span className="text-white font-semibold text-[11px] leading-none">
+                      추천 {rank}위
+                    </span>
+                  </div>
+                  {/* {matchRate !== undefined && (
+                    <div className="px-2.5 py-1.5 rounded-full bg-gray-900/75 flex items-center justify-center">
+                      <span className="text-white font-semibold text-[11px] leading-none">
+                        {matchRate}% 매칭
+                      </span>
+                    </div>
+                  )} */}
                 </div>
               </button>
 
@@ -238,7 +248,7 @@ export function ProductComparisonGrid({
               {/* 가격 + 버튼: mt-auto로 하단 고정 */}
               <div className="mt-auto">
                 {/* 가격 */}
-                <p className="text-[15px] font-bold text-gray-900 mb-2">
+                <p className="text-[15px] font-bold text-gray-900 mb-6">
                   {isEmpty(product.price)
                     ? '가격 문의'
                     : `최저 ${product.price!.toLocaleString()}원`
@@ -247,16 +257,7 @@ export function ProductComparisonGrid({
 
                 {/* 버튼 그룹 */}
                 <div className="space-y-1.5">
-                  {/* 자세히 보기 버튼 */}
-                  <button
-                    type="button"
-                    onClick={() => onProductClick?.(product.raw ?? product)}
-                    className="block w-full py-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
-                  >
-                    자세히 보기
-                  </button>
-
-                  {/* 최저가 비교하기 버튼 */}
+                    {/* 최저가 비교하기 버튼 */}
                   <button
                     type="button"
                     onClick={() => onProductClick?.(product.raw ?? product, 'price', true)}
@@ -268,6 +269,16 @@ export function ProductComparisonGrid({
                     </div>
                   </button>
 
+                  {/* 자세히 보기 버튼 */}
+                  <button
+                    type="button"
+                    onClick={() => onProductClick?.(product.raw ?? product)}
+                    className="block w-full py-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
+                  >
+                    자세히 보기
+                  </button>
+
+                
                  
                 </div>
               </div>
@@ -278,8 +289,8 @@ export function ProductComparisonGrid({
 
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-3 pt-2">
-          <div className="px-4 mb-2 flex items-center gap-4">
-            <h4 className="text-[16px] font-bold text-gray-900">장단점 요약</h4>
+          <div className="px-4 mt-4 mb-2 flex items-center gap-4">
+            <h4 className="text-[22px] font-bold text-gray-900">장단점 요약</h4>
             {!hasProsConsData && (
               <span className="text-[12px] text-gray-400">
                 상세 정보/리뷰 분석 중 <span className="text-blue-500 font-medium">{prosConsProgress}%</span>
@@ -300,15 +311,27 @@ export function ProductComparisonGrid({
                 style={{ width: columnWidth }}
               >
                 {/* 별점 + 리뷰 수 - 노란별 1개만 */}
-                <div className="flex items-center gap-1 mb-2">
-                  <Star size={14} weight="fill" className="text-yellow-400" />
-                  <span className="text-[14px] font-bold text-gray-700">
+                <div className="flex items-center gap-1 mb-1">
+                  <Star size={22} weight="fill" className="text-yellow-400" />
+                  <span className="text-[22px] font-bold text-gray-700">
                     {product.rating?.toFixed(1) || '—'}
                   </span>
-                  <span className="text-[13px] text-gray-400">
+                  <span className="text-[16px] text-gray-400">
                     ({product.reviewCount?.toLocaleString() || 0})
                   </span>
                 </div>
+
+                {/* 리뷰 모두보기 버튼 */}
+                <button
+                  type="button"
+                  onClick={() => onProductClick?.(product.raw ?? product, 'danawa_reviews')}
+                  className="text-[14px] text-blue-500 hover:text-blue-600 font-medium mb-3 mt-2 flex items-center gap-0.5 transition-colors"
+                >
+                  리뷰 모두보기
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
 
                 {/* 장점 - full 표시 */}
                 {(product.prosFromReviews && product.prosFromReviews.length > 0) && (
@@ -366,8 +389,8 @@ export function ProductComparisonGrid({
             {allSpecKeys.map((specKey) => (
               <div key={specKey}>
                 {/* 섹션 헤더 */}
-                <div className="px-4 pt-5 pb-1">
-                  <h4 className="text-[16px] font-bold text-gray-900">{specKey}</h4>
+                <div className="px-4 pt-5 pb-1 mt-4">
+                  <h4 className="text-[22px] font-bold text-gray-900">{specKey}</h4>
                 </div>
 
                 {/* 디바이더 - 스펙 키 아래에 - 전체 너비만큼 */}
@@ -406,8 +429,8 @@ export function ProductComparisonGrid({
             {filterTags.map((tag) => (
               <div key={tag.id}>
                 {/* 태그 라벨 (키) */}
-                <div className="px-4 pt-5 pb-1">
-                  <h4 className="text-[16px] font-bold text-gray-900">{tag.label}</h4>
+                <div className="px-4 pt-5 pb-1 mt-4">
+                  <h4 className="text-[22px] font-bold text-gray-900">{tag.label}</h4>
                 </div>
 
                 {/* 디바이더 */}
@@ -432,13 +455,13 @@ export function ProductComparisonGrid({
                         {/* 충족도 아이콘 */}
                         <div className="flex items-center gap-1 mb-1">
                           {score === 'full' && (
-                            <span className="text-blue-500 font-bold text-[15px]" title="충족">✓</span>
+                            <span className="text-blue-500 font-bold text-[24px]" title="충족">✓</span>
                           )}
                           {score === 'partial' && (
-                            <span className="text-yellow-500 font-bold text-[15px]" title="부분 충족">△</span>
+                            <span className="text-yellow-500 font-bold text-[24px]" title="부분 충족">△</span>
                           )}
                           {(score === null || !score) && (
-                            <span className="text-red-400 font-bold text-[15px]" title="미충족">✗</span>
+                            <span className="text-red-400 font-bold text-[26px]" title="미충족">✗</span>
                           )}
                         </div>
 

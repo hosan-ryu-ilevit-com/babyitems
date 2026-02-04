@@ -5147,10 +5147,15 @@ function MessageBubble({
     setSelectedComparisonPcodes(prev => {
       const next = new Set(prev);
       if (next.has(pcode)) {
-        // 0개까지 허용
+        // 이미 선택된 경우: 선택 해제
         next.delete(pcode);
       } else {
-        // 제한 없음
+        // 선택되지 않은 경우
+        if (next.size >= 3) {
+          // 3개 이상이면: 가장 먼저 선택된 것을 제거 (FIFO)
+          const firstItem = next.values().next().value!;
+          next.delete(firstItem);
+        }
         next.add(pcode);
       }
       return next;
@@ -5499,14 +5504,14 @@ function MessageBubble({
         {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
             {/* 타이틀 및 비교표 토글 */}
-            <div className="px-1 overflow-visible">
-              <h3 className="text-[18px] font-bold text-gray-900 mb-2">
-                조건에 맞는 {categoryName} 추천
+            <div className="px-1 overflow-visible text-center">
+              <h3 className="text-[22px] font-bold text-gray-900 mb-5 leading-tight">
+                조건에 맞는<br></br> {categoryName} 추천
               </h3>
              
               
               {/* 탭 UI - 비교표/리스트 전환 */}
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center justify-center gap-2 mb-4">
                 <button
                   onClick={() => {
                     if (showListView) {
@@ -5521,13 +5526,13 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`h-[36px] px-4 rounded-2xl transition-all duration-200 ${
+                  className={`h-[40px] px-4 rounded-2xl transition-all duration-200 ${
                     !showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
                   }`}
                 >
-                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
+                  <span className={`text-[18px] font-semibold transition-colors whitespace-nowrap ${
                     !showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
                     비교표로 보기
@@ -5547,13 +5552,13 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`h-[36px] px-4 rounded-2xl transition-all duration-200 ${
+                  className={`h-[40px] px-4 rounded-2xl transition-all duration-200 ${
                     showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
                   }`}
                 >
-                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
+                  <span className={`text-[18px] font-semibold transition-colors whitespace-nowrap ${
                     showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
                     리스트로 보기
@@ -5825,42 +5830,27 @@ function MessageBubble({
                   className="space-y-4"
                 >
                   {/* 🆕 상품 선택 UI */}
-                  <div className="space-y-2">
-                    <p className="text-[16px] font-medium text-gray-800">
-                      비교하고 싶은 상품 3개를 선택하세요
+                  <div className="space-y-2 ">
+                    <p className="text-[16px] font-medium text-blue-500 text-center mb-6">
+                    상품 3개를 선택하세요
                     </p>
-                    {/* 순위 표시 */}
                     <div className="flex gap-1.5 w-full">
-                      {message.resultProducts.map((_: any, index: number) => (
-                        <div key={index} className="flex-1 flex justify-center">
-                          <div className="w-4 h-4 rounded-full bg-gray-600 flex items-center justify-center">
-                            <span className="text-white text-[9px] font-bold">{index + 1}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex gap-1.5 w-full">
-                      {message.resultProducts.map((p: any) => {
+                      {message.resultProducts.map((p: any, index: number) => {
                         const pcode = p.pcode || p.id;
                         const isSelected = selectedComparisonPcodes.has(pcode);
                         const title = p.name || p.title || '';
-                        const isMaxSelected = selectedComparisonPcodes.size >= 3;
-                        const isDisabled = !isSelected && isMaxSelected;
-                        
+
                         return (
                           <button
                             key={pcode}
-                            onClick={() => !isDisabled && toggleComparisonProduct(pcode)}
-                            disabled={isDisabled}
-                            className={`flex-1 min-w-0 flex flex-col items-center gap-1 p-1.5 rounded-xl transition-all ${
+                            onClick={() => toggleComparisonProduct(pcode)}
+                            className={`flex-1 min-w-0 flex flex-col items-center gap-1 p-1.5 rounded-xl transition-all mb-4 ${
                               isSelected
                                 ? 'bg-blue-50 ring-2 ring-blue-500'
-                                : isDisabled
-                                  ? 'bg-gray-50 opacity-40 cursor-not-allowed'
-                                  : 'bg-gray-50 hover:bg-gray-100'
+                                : 'bg-gray-50 hover:bg-gray-100'
                             }`}
                           >
-                            <div className="w-[52px] h-[52px]">
+                            <div className="relative w-[52px] h-[52px]">
                               {p.thumbnail ? (
                                 <img
                                   src={p.thumbnail}
@@ -5872,12 +5862,16 @@ function MessageBubble({
                                   <span className="text-[10px] text-gray-400">N/A</span>
                                 </div>
                               )}
+                              {/* 순위 뱃지 */}
+                              {/* <div className="absolute top-1 left-1/2 -translate-x-1/2 w-7 h-4 rounded-full bg-black/70 flex items-center justify-center">
+                                <span className="text-white text-[10px] font-semibold">{index + 1}위</span>
+                              </div> */}
                             </div>
-                            <span className={`text-[10px] font-medium leading-tight text-center line-clamp-2 ${
+                            {/* <span className={`text-[10px] font-medium leading-tight text-center line-clamp-1 ${
                               isSelected ? 'text-blue-700' : 'text-gray-600'
                             }`}>
                               {title}
-                            </span>
+                            </span> */}
                           </button>
                         );
                       })}
