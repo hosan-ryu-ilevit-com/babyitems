@@ -829,6 +829,7 @@ export default function KnowledgeAgentPage() {
   // 자동 스크롤 훅
   const { scrollToMessage, scrollToTop } = useAutoScroll(mainRef);
 
+  // Parent category (baby/living)
   const parentCategory = getParentCategoryTab(categoryName);
 
   // State
@@ -1017,7 +1018,7 @@ export default function KnowledgeAgentPage() {
     appliedRules: Array<{ rule: string; matchedCount: number }>;
   } | null>(null);
   const [isHardcutVisualDone, setIsHardcutVisualDone] = useState(false); // 하드컷팅 결과 (시각화용)
-  const [showComparisonOnly, setShowComparisonOnly] = useState(false); // 비교표 토글 상태
+  const [showListView, setShowListView] = useState(false); // 리스트 뷰 토글 상태 (기본: 비교표)
 
   // 프로그레스 애니메이션 cleanup 함수 저장용
   const progressAnimationCleanupRef = useRef<(() => void) | null>(null);
@@ -1351,10 +1352,12 @@ export default function KnowledgeAgentPage() {
     }
 
     // 바로 loading phase로 시작
+    // 바로 loading 시작
+    console.log('[KA Flow] 바로 loading 시작');
+    setPhase('loading');
     initializeAgent();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryKey]);
-
 
   // [자동 스크롤] 새 메시지가 추가될 때 해당 메시지를 화면 상단에 위치
   const prevMessagesLengthRef = useRef(messages.length);
@@ -4086,11 +4089,13 @@ export default function KnowledgeAgentPage() {
           </motion.button>
         </header>
 
-        {/* 스텝 인디케이터 (4단계) - 로딩/추천 완료 단계에서는 숨김 */}
+        {/* 스텝 인디케이터 (5단계) - 로딩/추천 완료/개인화 단계에서는 숨김 */}
         {phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
           <StepIndicator currentPhase={phase} parentCategory={parentCategory} />
         )}
 
+        {/* 개인화 단계 - Baby 카테고리에서만 표시 */}
+        {/* 메인 플로우 */}
         <main
           ref={phase === 'result' || phase === 'free_chat' ? null : mainRef}
           className={`px-4 pt-0 bg-white relative transition-all duration-300 ${phase === 'result' || phase === 'free_chat' ? '' : 'flex-1 min-h-0 overflow-y-auto scrollbar-hide'}`}
@@ -4200,8 +4205,8 @@ export default function KnowledgeAgentPage() {
                     setShowFollowUpLoading(true);
                   }, 500);
                 }}
-                showComparisonOnly={showComparisonOnly}
-                setShowComparisonOnly={setShowComparisonOnly}
+                showListView={showListView}
+                setShowListView={setShowListView}
                 pricesData={pricesData}
                 onAnalysisSummaryShow={handleAnalysisSummaryShow}
                 reviewsData={reviewsData}
@@ -4636,7 +4641,7 @@ export default function KnowledgeAgentPage() {
             onClose={() => setSelectedProduct(null)}
             onShowComparison={() => {
               setSelectedProduct(null);  // PDP 닫기
-              setShowComparisonOnly(true);  // 비교표 토글 켜기
+              setShowListView(false);  // 비교표 보기 (리스트 뷰 끄기)
               // 로깅
               import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
                 logKAComparisonToggle(
@@ -5014,8 +5019,8 @@ function MessageBubble({
   onFreeChat,
   onHardcutContinue,
   onHardcutComplete,
-  showComparisonOnly,
-  setShowComparisonOnly,
+  showListView,
+  setShowListView,
   pricesData,
   onAnalysisSummaryShow,
   reviewsData,
@@ -5048,8 +5053,8 @@ function MessageBubble({
   onFreeChat?: (message: string) => void;
   onHardcutContinue?: () => void;
   onHardcutComplete?: () => void;
-  showComparisonOnly: boolean;
-  setShowComparisonOnly: (show: boolean) => void;
+  showListView: boolean;
+  setShowListView: (show: boolean) => void;
   pricesData?: Record<string, any>;
   onAnalysisSummaryShow?: () => void;
   reviewsData?: Record<string, any[]>;
@@ -5494,93 +5499,64 @@ function MessageBubble({
               </h3>
              
               
-              {/* 비교표 토글 */}
-              <div className="relative flex items-center w-fit">
+              {/* 탭 UI - 비교표/리스트 전환 */}
+              <div className="flex items-center gap-2 mb-2">
                 <button
                   onClick={() => {
-                    const newValue = !showComparisonOnly;
-                    setShowComparisonOnly(newValue);
-                    // 로깅
-                    import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
-                      logKAComparisonToggle(
-                        categoryKey || '',
-                        categoryName || '',
-                        newValue,
-                        message.resultProducts?.length || 0
-                      );
-                    });
+                    if (showListView) {
+                      setShowListView(false);
+                      import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
+                        logKAComparisonToggle(
+                          categoryKey || '',
+                          categoryName || '',
+                          true,  // 비교표 표시
+                          message.resultProducts?.length || 0
+                        );
+                      });
+                    }
                   }}
-                  className={`flex items-center justify-between gap-2 h-[40px] px-3 rounded-lg transition-all duration-200 mb-2 ${
-                    showComparisonOnly
-                      ? 'bg-blue-50 border border-blue-100'
+                  className={`h-[36px] px-4 rounded-lg transition-all duration-200 ${
+                    !showListView
+                      ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
                   }`}
                 >
-                  <div className="flex items-center gap-1.5">
-                    <motion.img 
-                      src="/icons/ic-ai.svg" 
-                      alt="" 
-                      className="w-4 h-4"
-                      animate={{
-                        rotate: [0, -15, 15, -15, 0],
-                        y: [0, -2.5, 0],
-                      }}
-                      transition={{
-                        duration: 0.8,
-                        repeat: Infinity,
-                        repeatDelay: 2,
-                        ease: "easeInOut"
-                      }}
-                    />
-                    <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
-                      showComparisonOnly ? 'text-blue-500' : 'text-gray-600'
-                    }`}>
-                      비교표로 보기
-                    </span>
-                  </div>
-                  <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 shrink-0 ${
-                    showComparisonOnly ? 'bg-blue-500' : 'bg-gray-300'
+                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
+                    !showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
-                    <div
-                      className="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200"
-                      style={{ transform: showComparisonOnly ? 'translateX(16px)' : 'translateX(0)' }}
-                    />
-                  </div>
+                    📊 비교표로 보기
+                  </span>
                 </button>
-
-                {/* 상세 스펙 비교 말풍선 */}
-                {!showComparisonOnly && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ 
-                      opacity: 1, 
-                      x: [0, 4, 0] 
-                    }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{
-                      opacity: { duration: 0.2 },
-                      x: { 
-                        duration: 2, 
-                        repeat: Infinity, 
-                        ease: "easeInOut" 
-                      }
-                    }}
-                    className="absolute left-full ml-2 flex items-center mb-2 pointer-events-none z-[100]"
-                  >
-                    {/* 말풍선 꼬리 */}
-                    <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-r-[7px] border-r-blue-500 shrink-0 mr-[-1px]" />
-                    {/* 말풍선 본체 */}
-                    <div className="bg-blue-500 px-2.5 py-1.5 rounded-md flex items-center justify-center">
-                      <span className="text-white text-[12px] font-bold whitespace-nowrap leading-none">
-                        상세 스펙 비교
-                      </span>
-                    </div>
-                  </motion.div>
-                )}
+                <button
+                  onClick={() => {
+                    if (!showListView) {
+                      setShowListView(true);
+                      import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
+                        logKAComparisonToggle(
+                          categoryKey || '',
+                          categoryName || '',
+                          false,  // 리스트 표시
+                          message.resultProducts?.length || 0
+                        );
+                      });
+                    }
+                  }}
+                  className={`h-[36px] px-4 rounded-lg transition-all duration-200 ${
+                    showListView
+                      ? 'bg-blue-50 border border-blue-200'
+                      : 'bg-gray-50 border border-gray-100'
+                  }`}
+                >
+                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
+                    showListView ? 'text-blue-500' : 'text-gray-400'
+                  }`}>
+                    📝 리스트로 보기
+                  </span>
+                </button>
               </div>
 
-              {/* 🆕 필터 태그 바 - AI 비교표 토글 아래 */}
-              {filterTags.length > 0 && !showComparisonOnly && (
+              {/* 🆕 필터 태그 바 - 리스트 뷰일 때만 표시 */}
+              {filterTags.length > 0 && showListView && (
                 <div className="mb-0">
                   <FilterTagBar
                     key={`filter-tags-${filterTags.length}`}
@@ -5593,7 +5569,7 @@ function MessageBubble({
             </div>
 
             <AnimatePresence mode="wait">
-              {!showComparisonOnly ? (
+              {showListView ? (
                 <motion.div
                   key="list"
                   initial={{ opacity: 0 }}
@@ -5843,10 +5819,20 @@ function MessageBubble({
                   className="space-y-4"
                 >
                   {/* 🆕 상품 선택 UI */}
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <p className="text-[16px] font-medium text-gray-800">
                       비교하고 싶은 상품 3개를 선택하세요
                     </p>
+                    {/* 순위 표시 */}
+                    <div className="flex gap-1.5 w-full">
+                      {message.resultProducts.map((_: any, index: number) => (
+                        <div key={index} className="flex-1 flex justify-center">
+                          <div className="w-4 h-4 rounded-full bg-gray-600 flex items-center justify-center">
+                            <span className="text-white text-[9px] font-bold">{index + 1}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                     <div className="flex gap-1.5 w-full">
                       {message.resultProducts.map((p: any) => {
                         const pcode = p.pcode || p.id;
@@ -5916,6 +5902,7 @@ function MessageBubble({
                     categoryName={categoryName}
                     filterTags={filterTags}
                     onProductClick={onProductClick}
+                    totalQuestionsCount={totalQuestionsCount}
                   />
                 </motion.div>
               )}

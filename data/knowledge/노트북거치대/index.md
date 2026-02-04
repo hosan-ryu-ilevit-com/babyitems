@@ -1,6 +1,6 @@
 # 노트북거치대 전문가 지식
 
-> 마지막 업데이트: 2026-02-02T08:41:37.204Z
+> 마지막 업데이트: 2026-02-03T08:02:55.526Z
 > 분석 상품: 20개 | 분석 리뷰: 3,511개
 
 ## 📈 2026년 시장 트렌드
@@ -231,9 +231,11 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9fbFP7DnpkmKIGfJ7POJ6pRUnLv_YEF1MN3d3bUvXJ6pJkwUjqLtF9AYkToMdNyvaoaGpGHIXKcZ-SWlVWPRlsjoutJI49d61fnq4m6bPfjyrBRGwQt-Bcmccn6esvOvlYzI6R0Jt_8aTgpYPekp9UR0NVF08R0BDFTVa5oeVQRckY5I=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9GaukBl5OyRtWf68JXus4PKP9JoNotbT4LFE_CmmSfxmryKvEiFQScOiJKaPbXMnJ0qdUJcIZCLkObFroQTC8cbV6dqDefY85WROnYTxM4okglqUwv2DW3ciOKsRaSoB_DULtXf4=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwrAdzkgtQhrPNXCdjVvPntfsynWuzR-RPGmdzRulmu6rFljDIog54a7HMObxU6zOZcqcxPBZx5iZLld7S1UzzGlyFkqmDCjmGbTDRfeXqB9jPEWbqxw-B2GvjaMJlEIyEyfttPTA=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAP6WbsgYaVYgQKC3H6FSNd38HqglKxNNmTCOjujlGTR1YyfiFrpZBDBmgeW5yLQDibmK038PPEZKSkx_qzpsf89pxolN8MyZd_MQn7CTYuavc-wjCsoZFc_MSFecemHuMsPdaBdE=)
-- [gola4u.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQJ5nGX_woOj4dZhY2cmKlvCNWCl554Gdm-2LYbg_vaGnPBEnVdvZZWBdHU4xjBjjdvnXZPKHxwZQg9Utb-UKLKvX0b6DUd2m0YmtMaUWmdCYwW5rVglN3KVl1y02B_d3uA3lMsoXwxBgA_INUefc=)
-- [itworld.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnBuH5EEHpAeKMMAJIUehvVVCOowa77Tgy6lRiO-6Q7hABl9WMlk53Qq4AS4vQ-_AB1y2CtCLXN2ycF0rgwu_M9r1fRFLaV-FQPWTQHK7aLvZXcLmMc0MVH8mIRRLJHbUYegOk_lu3HGVIPCNYjbpXTGeeLcCTFkGB_rgb1ph7SXjfqMRHqPcq7ftlS8NA1-pSIeH84tg7_DzcZebFwg33y-qZqHZeLjiR8zhDjxtscBn6sk8HFX8iyQPg37p2nCPuOUBjDg_eRKtdCMRV5XwPkP8iGb_fON4o8OQAuyuXLeLRbHr2HrzJdO8ubtvzRsugW8L28Pgn5agSfp-mSfxigjVX2H3xWbrTuFGFhQaZ8_PetOTHPUe_1N4w)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz6pdFNiJFp-S5gBDoLUDZDCy_wW3qMr6FndwCeacoe2XmLgTIY__Agr4N3BA5jdVrOWEwLIrzJVsMHRnzaxsdwZH6x0NRv09PXoGINpBqYz25Vu2Kkb8gxr2x_rHQBk4-iOKDJBIl1bt9iBY71Otqx_Zb0F3OlL8nAOra3gH35ZO99w==)
+- [databridgemarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyaIXn9Zks6ZlGaCqVKCJT-udG9FaY7xjARSM5bW_m0_Gv2J-D4Bejo7sGyJ57zPxI7Csy9RfuqwPvHdWU0-S61tGvLdFTKYtxqmZe33Sd6FAuXpZvihma2ajQnqpkUSClnAf-Pn3BvWoJ9ajs0ZuHdJd6p37S-WHhp6KMqtbEp8_S1ZHDViBnaM3Z0CAw)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtizFO5jb52SKGYGRwpzv8wI1Y-aoYrM5tYy108wOvsAes7OEkw2mHTVKAReX6I10OYl2ETRuzNwC7SfV_ti7pjF4yFb4ksYuQNbc7b5jgB7XpvRub-Ouu6lr-kA==)
+- [itworld.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkPn4eA03Z5YtkgCYFmV0_hIyCr1ym2de9aV49BxP7PN-gD3AG7JIm2Qseo08_yMwX54_JbziHVP2nYgsP3uEZWFWEtQG0A_2Tg8qQ_RiGHcsJm575nvDEK0IdF4JlHXY-OZffQ4EcXhLdhN1pYEBLd1K8NsZBs2Eduw2k1a39ckzq5dC0zn3DgbDYtqiipx14_B3-x3gb_RKXURRuDn04eFBDwLUwdka5XC2_EuCGZxiZZJEVEoFJcQ2QjwenfHgaRBhe7DCULlho-ebBjxBeWjQVuCDcUVvjrWh0OyoerybUc8ELFNT9f3tbaK3hhAkcGGRI_z54EdVGfk2uh2mw1Ai48wdA1Ch5HF9k5hW5sRymdCdbW7KNSgOl)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVk6857O1lyO6BdvbDLsJceJVma8AnCNq4dFknSNzXzqVBXhE6JV1blIIR__1zB-R4i-uzfhrbWStquCRN9ctfVeC_TDUaLrLEUvyWKT-EcwemZe7TkD9U40MAH9dazlBT0bXOMVU=)
+- [gola4u.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC3dBmlHgAoEQTDwoMrMbAvN6WK6jZtGBj58lHNs4sYi_9YTXMnbCZexL0JypbcWIpTfdI-ZK8hvN96jvzWmOSrIhJ_lrRKTP6hJs0J8COuS5aQGAQXHa_vjPTHDMaAshrbZw-SOZvA-Ci3gWnbLY=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOIMYB2tvXaSXt-7kpX-ARJl5Qh0uyPPDC3VT-KQ4REntaHVuG7CKo0AuPZEpsph06LL9KtUyrLostbPy5gAIsDlJQ_SvCrbAs_Tp_3BePPvowXstGiqIunDxuHB2cwVjZU5Vj-H4=)
+- [brainbox.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkyKjE_jPfF78PSFTwB93OK6h9dzkCjrXGKWkGt_EUgg7NIaDLMIqYMKi_4LWCD3szIQ-wbVy-U1lqJKTomKcvk5lN6i2rzbyUyUwsHK7gge-Hf1VKGkm7ruq4RXhmoD4HcRJsKCtlMCqI2-r4SvtX-fTesx_lA7R0cqkyFk4B2P5_zQq05IfyZJfnGhpnQ-2IhI1m6tbT1AvqlGql5ZI=)

@@ -1844,7 +1844,8 @@ async function generateQuestions(
   trendAnalysis: TrendAnalysis | null,
   _knowledge: string,
   filters?: DanawaFilterSection[],
-  reviewAnalysis?: ReviewAnalysis | null  // 🔥 리뷰 분석 결과 (선택적)
+  reviewAnalysis?: ReviewAnalysis | null,  // 🔥 리뷰 분석 결과 (선택적)
+  personalizationContext?: string | null   // 🆕 개인화 메모리 컨텍스트
 ): Promise<QuestionTodo[]> {
   if (!ai) return getDefaultQuestions(categoryName, products, trendAnalysis);
 
@@ -1906,6 +1907,21 @@ async function generateQuestions(
   - ⭐ 구매 시 고려사항: ${reviewAnalysis.commonConcerns?.join(' / ') || '(분석중)'}`
     : '';
 
+  // 🆕 개인화 정보 컨텍스트
+  const personalizationSection = personalizationContext
+    ? `
+## [사용자 정보 - 개인화 메모리]
+<PersonalizationContext>
+${personalizationContext}
+</PersonalizationContext>
+
+⚠️ **중요: 위 개인화 정보에 이미 포함된 내용은 질문하지 마세요!**
+- 이미 알고 있는 정보를 다시 묻는 것은 사용자 경험을 해칩니다.
+- 개인화 정보를 바탕으로 더 맞춤화된 질문을 생성하세요.
+- 예: 아기 월령을 이미 알고 있다면 "8개월 아기에게 맞는 ○○○"처럼 맥락화하세요.
+`
+    : '';
+
   const prompt = `
 당신은 "${categoryName}" 구매 결정을 돕는 전문 AI 쇼핑 컨시어지입니다.
 당신의 목표는 방대한 정보를 나열하는 것이 아니라, **사용자가 가장 적은 문답으로 최적의 제품군으로 좁혀갈 수 있도록 돕는 것**입니다.
@@ -1914,7 +1930,7 @@ async function generateQuestions(
 제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 3~4개**를 JSON 배열로 생성하세요.
 
 ⚠️ **중요: 예산 질문과 "피하고 싶은 단점" 질문은 별도로 생성되므로, 여기서는 생성하지 마세요!**
-
+${personalizationSection}
 ## [시장 데이터]
 <MarketContext>
 - **카테고리:** ${categoryName}
@@ -2439,7 +2455,7 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now();
 
   try {
-    const { categoryKey: rawCategoryKey, streaming = true } = await request.json();
+    const { categoryKey: rawCategoryKey, streaming = true, personalizationContext } = await request.json();
 
     if (!rawCategoryKey) {
       return NextResponse.json({ error: 'categoryKey required' }, { status: 400 });
@@ -2457,7 +2473,7 @@ export async function POST(request: NextRequest) {
     // 스트리밍 모드가 아니면 기존 방식으로 처리
     if (!streaming) {
       const earlyWebSearchPromise = performWebSearchAnalysis(categoryName);
-      return handleNonStreamingRequest(categoryKey, categoryName, startTime, earlyWebSearchPromise);
+      return handleNonStreamingRequest(categoryKey, categoryName, startTime, earlyWebSearchPromise, personalizationContext);
     }
 
     // SSE 스트리밍 응답
@@ -2704,7 +2720,8 @@ export async function POST(request: NextRequest) {
               trendAnalysis,
               knowledge || generateLongTermMarkdown(longTermData),
               crawledFilters,
-              null  // 리뷰 분석 없이 웹검색 + 상품 데이터만 활용 (속도 최적화)
+              null,  // 리뷰 분석 없이 웹검색 + 상품 데이터만 활용 (속도 최적화)
+              personalizationContext  // 🆕 개인화 메모리 컨텍스트
             ),
             reviewPromise,
           ]);
@@ -2947,7 +2964,8 @@ async function handleNonStreamingRequest(
   categoryKey: string,
   categoryName: string,
   startTime: number,
-  earlyWebSearchPromise?: Promise<TrendAnalysis | null>
+  earlyWebSearchPromise?: Promise<TrendAnalysis | null>,
+  personalizationContext?: string | null  // 🆕 개인화 메모리 컨텍스트
 ): Promise<Response> {
   const timings: StepTiming[] = [];
 
@@ -3004,7 +3022,9 @@ async function handleNonStreamingRequest(
     products,
     trendAnalysis,
     knowledge || generateLongTermMarkdown(longTermData),
-    crawledFilters
+    crawledFilters,
+    null,  // reviewAnalysis
+    personalizationContext  // 🆕 개인화 메모리 컨텍스트
   );
   const phase3Duration = Date.now() - phase3Start;
   timings.push({ step: 'phase3_questions', duration: phase3Duration, details: `${questionTodos.length}개 질문` });

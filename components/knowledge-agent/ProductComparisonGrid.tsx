@@ -37,10 +37,30 @@ interface ProductComparisonGridProps {
   categoryName?: string;
   filterTags?: FilterTag[];
   onProductClick?: (product: any) => void;
+  totalQuestionsCount?: number; // 매칭도 계산용
 }
 
 // 제외할 스펙 키
 const EXCLUDE_SPEC_KEYS = ['브랜드', '모델명', '상품명', '제품명', '제조사', '가격', '썸네일', 'thumbnail'];
+
+// 매칭도 계산 함수
+function calculateMatchRate(
+  tagScores: ProductTagScores | undefined,
+  totalQuestionsCount: number
+): number | undefined {
+  if (!tagScores || Object.keys(tagScores).length === 0) return undefined;
+
+  const denominator = totalQuestionsCount > 0 ? totalQuestionsCount : 7;
+  const fulfilledCount = Object.values(tagScores).reduce((acc, curr) => {
+    if (curr.score === 'full') return acc + 1;
+    if (curr.score === 'partial') return acc + 0.5;
+    return acc;
+  }, 0);
+
+  const rawRate = Math.round((fulfilledCount / denominator) * 100);
+  if (rawRate >= 100) return 100;
+  return Math.min(99, Math.round(rawRate * 1.2));
+}
 
 export function ProductComparisonGrid({
   products,
@@ -48,12 +68,43 @@ export function ProductComparisonGrid({
   categoryName,
   filterTags = [],
   onProductClick,
+  totalQuestionsCount = 7,
 }: ProductComparisonGridProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [prosConsProgress, setProsConsProgress] = useState(0);
+  const prosConsLoadedRef = useRef(false);
 
   // 최대 5개 제품까지 표시
   const displayProducts = useMemo(() => products.slice(0, 5), [products]);
+
+  // 장단점 데이터가 있는지 확인
+  const hasProsConsData = useMemo(() => {
+    return displayProducts.some(p =>
+      (p.prosFromReviews && p.prosFromReviews.length > 0) ||
+      (p.consFromReviews && p.consFromReviews.length > 0)
+    );
+  }, [displayProducts]);
+
+  // 장단점 로딩 프로그레스 (11초에 99%까지, 데이터 로드 시 즉시 100%)
+  useEffect(() => {
+    // 데이터가 로드되면 ref 업데이트
+    if (hasProsConsData) {
+      prosConsLoadedRef.current = true;
+    }
+
+    // 11초에 걸쳐 0 -> 99% 진행 (110ms마다 1% 증가)
+    const interval = setInterval(() => {
+      setProsConsProgress(prev => {
+        // 데이터 로드됨 - 즉시 100%
+        if (prosConsLoadedRef.current) return 100;
+        if (prev >= 99) return 99; // 99%에서 멈춤
+        return prev + 1;
+      });
+    }, 110);
+
+    return () => clearInterval(interval);
+  }, [hasProsConsData]);
 
   // 로깅
   useEffect(() => {
@@ -135,7 +186,12 @@ export function ProductComparisonGrid({
       >
         {/* 상품 헤더 영역 */}
         <div className="flex items-stretch px-2" style={{ width: totalWidth }}>
-          {displayProducts.map((product) => (
+          {displayProducts.map((product, index) => {
+            const rank = index + 1;
+            const matchRate = calculateMatchRate(product.tagScores, totalQuestionsCount);
+            const isTopPick = rank === 1 && matchRate !== undefined && matchRate >= 90;
+
+            return (
             <div
               key={product.pcode}
               className="shrink-0 px-2 flex flex-col"
@@ -163,6 +219,14 @@ export function ProductComparisonGrid({
                     </svg>
                   </div>
                 )}
+                {/* 순위 + 매칭도 뱃지 */}
+                <div className={`absolute top-0 left-0 px-2 h-[22px] rounded-br-lg flex items-center justify-center ${
+                  isTopPick ? 'bg-red-500' : 'bg-gray-900/85'
+                }`}>
+                  <span className="text-white font-semibold text-[11px] leading-none whitespace-nowrap">
+                    {rank}위{matchRate !== undefined ? `, ${matchRate}% 일치` : ''}
+                  </span>
+                </div>
               </button>
 
               {/* 제품명 - flex-grow로 공간 채움 */}
@@ -211,13 +275,19 @@ export function ProductComparisonGrid({
                 </a>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
 
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-3 pt-2">
-          <div className="px-4 mb-2">
+          <div className="px-4 mb-2 flex items-center gap-4">
             <h4 className="text-[14px] font-semibold text-gray-600">장단점 요약</h4>
+            {!hasProsConsData && (
+              <span className="text-[12px] text-gray-400">
+                상세 정보/리뷰 분석 중 <span className="text-blue-500 font-medium">{prosConsProgress}%</span>
+              </span>
+            )}
           </div>
 
           {/* 디바이더 - 장단점 헤더 아래에 */}
@@ -272,7 +342,21 @@ export function ProductComparisonGrid({
                 )}
 
                 {(!product.prosFromReviews?.length && !product.consFromReviews?.length) && (
-                  <p className="text-[12px] text-gray-400">리뷰 분석 중...잠시만 기다려주세요</p>
+                  <div className="space-y-1.5">
+                    {/* 스켈레톤 UI */}
+                    <div className="flex items-center gap-1">
+                      <span className="shrink-0 w-1 h-1 rounded-full bg-green-200" />
+                      <div className="h-3 bg-gray-100 rounded animate-pulse w-full" />
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="shrink-0 w-1 h-1 rounded-full bg-green-200" />
+                      <div className="h-3 bg-gray-100 rounded animate-pulse w-4/5" />
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className="shrink-0 w-1 h-1 rounded-full bg-red-200" />
+                      <div className="h-3 bg-gray-100 rounded animate-pulse w-3/4" />
+                    </div>
+                  </div>
                 )}
               </div>
             ))}
