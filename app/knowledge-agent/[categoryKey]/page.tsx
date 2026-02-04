@@ -5505,7 +5505,7 @@ function MessageBubble({
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible text-center">
-              <h3 className="text-[22px] font-bold text-gray-900 mb-5 leading-tight">
+              <h3 className="text-[24px] font-bold text-gray-900 mb-5 leading-tight">
                 조건에 맞는<br></br> {categoryName} 추천
               </h3>
              
