@@ -5886,11 +5886,11 @@ function MessageBubble({
 
                   {/* 비교표 (선택된 상품만) */}
                   <ProductComparisonGrid
-                    products={message.resultProducts
+                    products={(message.resultProducts || [])
                       .filter((p: any) => selectedComparisonPcodes.has(p.pcode || p.id))
                       .map((p: any) => {
                         // 원본 배열에서의 순위 찾기 (1~5위)
-                        const originalRank = message.resultProducts.findIndex((product: any) =>
+                        const originalRank = (message.resultProducts || []).findIndex((product: any) =>
                           (product.pcode || product.id) === (p.pcode || p.id)
                         ) + 1;
 
