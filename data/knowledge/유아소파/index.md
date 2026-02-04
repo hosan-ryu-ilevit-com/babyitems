@@ -1,25 +1,26 @@
 # 유아소파 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T12:11:27.639Z
-> 분석 상품: 20개 | 분석 리뷰: 4,156개
+> 마지막 업데이트: 2026-02-04T10:33:43.011Z
+> 분석 상품: 20개 | 분석 리뷰: 5,716개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 친환경 소재 및 안전성 강화
-- 다기능성 및 디자인 다양화
-- 온라인 판매 채널 확대
+- 안전성 및 확장성을 갖춘 디자인
+- 변형 가능 및 모듈식 제품
+- 친환경 소재 사용
 
 ### 구매자 만족 포인트
-- ✓ 안전한 소재 사용
-- ✓ 편안한 착석감
-- ✓ 디자인 다양성
-- ✓ 가성비
+- ✓ 안전한 소재
+- ✓ 편안함
+- ✓ 튼튼함
+- ✓ 귀여운 디자인
 
 ### 주의해야 할 단점
-- ⚠ 짧은 내구성
-- ⚠ 청소의 어려움
-- ⚠ 가격 부담
+- ⚠ 내구성 부족
+- ⚠ 작은 사이즈
+- ⚠ 조립 어려움
+- ⚠ 연결부 불안정성
 
 ### 가격대 인사이트
 
@@ -28,27 +29,7 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 뒹굴러 한샘몰 샘키즈 아기 가죽소파 1인용
-- **브랜드**: 뒹굴러
-- **가격**: 82,660원
-- **평점**: ⭐4.7 (856개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 좌방석깊이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12675047)
-
-### 2. 뒹굴러 키즈 가죽소파 1인용
-- **브랜드**: 뒹굴러
-- **가격**: 67,160원
-- **평점**: ⭐4.7 (59개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=10198260)
-
-### 3. 디자인스킨 플레이테이블 가죽 유아소파
+### 1. 디자인스킨 플레이테이블 가죽 유아소파
 - **브랜드**: 디자인스킨
 - **가격**: 188,100원
 - **평점**: ⭐4.9 (100개 리뷰)
@@ -58,7 +39,37 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=10124703)
 
-### 4. 이케아 STRANDMON 비슬레 패브릭 어린이 소파 1인용
+### 2. 알집매트 꾸러기 쇼파
+- **브랜드**: 알집매트
+- **가격**: 84,150원
+- **평점**: ⭐4.6 (555개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=2568056)
+
+### 3. 디자인스킨 패브릭레더 플레이테이블 유아소파
+- **브랜드**: 디자인스킨
+- **가격**: 233,092원
+- **평점**: ⭐4.8 (29개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=17447513)
+
+### 4. 일룸 버니/디노아코 유아동소파
+- **브랜드**: 일룸
+- **가격**: 92,070원
+- **평점**: ⭐4.7 (2,306개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 패브릭
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=3117206)
+
+### 5. 이케아 STRANDMON 비슬레 패브릭 어린이 소파 1인용
 - **브랜드**: 이케아
 - **가격**: 198,500원
 - **평점**: ⭐5 (3개 리뷰)
@@ -68,17 +79,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=7929895)
 
-### 5. 일룸 버니/디노아코 유아동소파
-- **브랜드**: 일룸
-- **가격**: 89,100원
-- **평점**: ⭐4.7 (2,306개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 패브릭
+### 6. 뒹굴러 한샘몰 샘키즈 아기 가죽소파 1인용
+- **브랜드**: 뒹굴러
+- **가격**: 82,020원
+- **평점**: ⭐4.7 (856개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 좌방석깊이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=3117206)
+- [상세보기](https://prod.danawa.com/info/?pcode=12675047)
 
-### 6. 알집매트 에그빈백
+### 7. 뒹굴러 키즈 가죽소파 1인용
+- **브랜드**: 뒹굴러
+- **가격**: 66,000원
+- **평점**: ⭐4.7 (60개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=10198260)
+
+### 8. 알집매트 에그빈백
 - **브랜드**: 알집매트
 - **가격**: 80,180원
 - **평점**: ⭐4.7 (10개 리뷰)
@@ -88,17 +109,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=4222940)
 
-### 7. 디자인스킨 패브릭레더 플레이테이블 유아소파
-- **브랜드**: 디자인스킨
-- **가격**: 240,470원
-- **평점**: ⭐4.8 (29개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
+### 9. 아기자리 New 뽀로로 유아 가죽소파 2인용
+- **브랜드**: 아기자리
+- **가격**: 141,000원
+- **평점**: ⭐4.8 (52개 리뷰)
+- **핵심 스펙**: 유아소파 / 2인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17447513)
+- [상세보기](https://prod.danawa.com/info/?pcode=9858600)
 
-### 8. 리에또 포유 모던 유아 가죽소파 1인용
+### 10. 아기자리 무지 프리미엄 유아 가죽소파 1인용
+- **브랜드**: 아기자리
+- **가격**: 60,710원
+- **평점**: ⭐4.6 (82개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=9871065)
+
+### 11. 리에또 포유 모던 유아 가죽소파 1인용
 - **브랜드**: 리에또
 - **가격**: 79,900원
 - **평점**: ⭐5 (4개 리뷰)
@@ -108,45 +139,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=10346568)
 
-### 9. 알집매트 꾸러기 쇼파
-- **브랜드**: 알집매트
-- **가격**: 87,120원
-- **평점**: ⭐4.6 (555개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=2568056)
-
-### 10. 알집매트 포레스트 가죽 소파 1인용
-- **브랜드**: 알집매트
-- **가격**: 100,730원
-- **평점**: ⭐5 (4개 리뷰)
+### 12. 서흥인터내셔날 코아코아 뒹굴러 가죽 소파 1인용
+- **브랜드**: 서흥인터내셔날
+- **가격**: 79,000원
+- **평점**: ⭐4.9 (516개 리뷰)
 - **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20559701)
-
-### 11. 아기자리 무지 프리미엄 유아 가죽소파 1인용
-- **브랜드**: 아기자리
-- **가격**: 52,100원
-- **평점**: ⭐4.6 (82개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=9871065)
-
-### 12. 아기자리 무지 프리미엄 유아 가죽소파 2인용
-- **브랜드**: 아기자리
-- **가격**: 109,000원
-- **평점**: ⭐4.6 (55개 리뷰)
-- **핵심 스펙**: 유아소파 / 2인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=10199052)
+- [상세보기](https://prod.danawa.com/info/?pcode=14826440)
 
 ### 13. 리에또 베이비 프리미엄 유아 가죽소파 2인용
 - **브랜드**: 리에또
@@ -158,7 +159,67 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=12713171)
 
-### 14. 일룸 도토 키즈 패브릭 소파 1인용
+### 14. 아기자리 무지 프리미엄 유아 가죽소파 2인용
+- **브랜드**: 아기자리
+- **가격**: 107,650원
+- **평점**: ⭐4.6 (55개 리뷰)
+- **핵심 스펙**: 유아소파 / 2인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=10199052)
+
+### 15. 알집매트 네오 가죽소파 1인용
+- **브랜드**: 알집매트
+- **가격**: 89,000원
+- **평점**: ⭐4.8 (30개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=10110675)
+
+### 16. 알집매트 포레스트 가죽 소파 1인용
+- **브랜드**: 알집매트
+- **가격**: 100,730원
+- **평점**: ⭐5 (4개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20559701)
+
+### 17. 디자인스킨 디킨 모던 케이크 유아 가죽소파 1인용
+- **브랜드**: 디자인스킨
+- **가격**: 211,680원
+- **평점**: ⭐4.7 (14개 리뷰)
+- **핵심 스펙**: 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=9876333)
+
+### 18. 아기자리 New 뽀로로 피카부 트리 유아 가죽소파 1인용
+- **브랜드**: 아기자리
+- **가격**: 69,000원
+- **평점**: ⭐4.7 (171개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=9858216)
+
+### 19. 일룸 폴라아코 유아동소파
+- **브랜드**: 일룸
+- **가격**: 94,050원
+- **평점**: ⭐4.8 (846개 리뷰)
+- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) 외 / 내장재 / 스펀지(폼)
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=5097033)
+
+### 20. 일룸 도토 키즈 패브릭 소파 1인용
 - **브랜드**: 일룸
 - **가격**: 269,100원
 - **평점**: ⭐4.5 (2개 리뷰)
@@ -167,66 +228,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=39911786)
-
-### 15. 아기자리 New 뽀로로 유아 가죽소파 2인용
-- **브랜드**: 아기자리
-- **가격**: 141,000원
-- **평점**: ⭐4.8 (52개 리뷰)
-- **핵심 스펙**: 유아소파 / 2인용 / 인조가죽(PU) / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=9858600)
-
-### 16. 홈앤힐 코노 생활방수 이지클린 가죽 소파 1인용
-- **브랜드**: 홈앤힐
-- **가격**: 109,000원
-- **평점**: ⭐5 (3개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / E0등급 / 내장재 / 스펀지(폼) / 등받이높이 / 좌방석깊이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=103066808)
-
-### 17. 뒹굴러 베어프렌즈 키즈 가죽 소파 1인용
-- **브랜드**: 뒹굴러
-- **가격**: 65,550원
-- **평점**: ⭐3 (2개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75933251)
-
-### 18. 디자인스킨 터널플러스 유아 가죽 소파 1인용
-- **브랜드**: 디자인스킨
-- **가격**: 132,050원
-- **평점**: ⭐5 (4개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21546683)
-
-### 19. 디자인스킨 롱케이크 플러스 가죽 유아 소파 1인용
-- **브랜드**: 디자인스킨
-- **가격**: 138,282원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 인조가죽(PU) / 내장재 / 스펀지(폼)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20630807)
-
-### 20. 아이팜 이지두잉 유아 소파 1인용
-- **브랜드**: 아이팜
-- **가격**: 39,000원
-- **평점**: ⭐4.1 (7개 리뷰)
-- **핵심 스펙**: 유아소파 / 1인용 / 플라스틱
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=18772142)
 
 ---
 
@@ -241,11 +242,8 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUvYfs_VfNGdurX6N7IYc_8AvRl38epGTMoODDAGyOJltPgEYaVwmASi0rpgS58o2i2WNlK3aNKk63ZLriWF5Suuk67i8tdkHElNyoGVEcUOV4LoQtKsBA8BhVVVdRSJo5WSGiftZPQ1m_ZMc1ijktu1d-HSnwTN4N1WC635qTrg==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERarBOC-Di_8Lq30t40EEzsJ5P1-tTPwa8daDZopXAYCwTs5RZMlh7UD9F9ffQDXTebIdjoT2YJHbMZmQMIv_hNr0yaImGXNwkDluwlaW6QwgDuLg0AUxyd91Apu8iSrDdSSfPzeTM_OgL3sg0343aaWI-drs2EFwghex3TwAvdWcFc-36MyKEWsxzl9zY-Q==)
-- [kingsresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtBoCzOsj10Dxyrn5tOh_PbvClu_l-h1olO2buDLMbE-bjWpoimKI0N5-4VTLM-9im7gLxJ0zRjDUtRbZ8YmNkXNFZAPJ8h7ilFT2wXecv843hHqMPQFAn6uZRy6Z5d8vbD6tLy71foSMwM9PQ_-vMU0XyAok=)
-- [zum.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUUQpa9px_8eQVIMPFDgdRrku377s5J8rcb4D6L45NArW9IBnjX5N-ut0RTss-r8SacOd3jYdIU-0Qg3rmpdfCRcZKwX3jZbgqZaj7tWoS31GXOtjuz1F6Ic_n-5g0KtY2JFKY56xsM9QKbQxV9Lz8laHrPKN3HaVi8Bitdp_GeAEJ3WLzgRadX_pkA5tHTTAaf5pgTBBv7W2hqyEBdlvEdu_sVX5CXSdGQdQTJiGSIV-MoOPnQ8WXVzvY8xeitV7bK097YdurqrQJYZlfiitErE4BBeeuXH0Okn8Ly5yAaEtwUb935_jyeh_bPH6D-HLkKJBeRGk=)
-- [vogue.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmsOuew50zdw5VP5Vp7eSu7YdgaEOi5B4hFVZjPcv3-zuepmhLIspcxjJXCxDCybhLNlcZObVDV6HaSwnpFl6ndfLEpg7uEnhSHQl9V_W2_spIgXpYiv8pejRPaJrkve-r58ItPuv6tEpGTGNsnms891vC6ArQazmmzsu8bEwDP4gC3K1IpmpEsBXaowVg74Ll8KvvfGIW0BbU997pPI4-4WiDyqaeExNNbP00nMLpUhtHcrgJT0u5lvJ3NUHVwiEun9ChqXGmpv4dnsaCWNySTaP6RayeZRzc1qhEbb2_ZQ==)
-- [designrove.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVwsm0yr3hwXtH7pKTIG73g2rE3gBz6KbjhZfVZXSuGI-KsSdHpQZrq6ehWnEghkZyEhwdXDARojn6XOwPv_WyCmSE9O-13MwITlnKsTxsuEKKJReOkiXdjlZfFw3q7gt_VG-796pmdRLxhRejZ3ay-eoIbVJxXhT7P4OPikkHyDmw3PQUMi301e4tdpzEJKhuQhFVS4PXne49c1VhrrdW49lHnNq53yvPQv2ZAc-uSFJBVBf-bDhOEkavxUJCtLpDxfmQc8PInr7Ib0OgtBkSxxf9vs8b5Moe0TofxluL3YK5aBjJR7nFlYzqpE5cNgrXMBU=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmG1ONNkGADlmegUYfmOI0gPPmMcUn4aveckriIMW2kDY83ZTgsZxBMRzvSwGdanoiabq40-2_Q-hvGpUEnlwrMn3P_ELHMSTDTcR3nlyXpRZUOEZtpBdUGblyxJeqSH2jf9OoeTM=)
-- [ikea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETqB0uhaw8IXdcKqCRoEE3Rb2BrjX4S6Di64dOgt2y0r4-06CHLGXtnjWuUyQQi-YeJCyxQq7oBHhHKYQHxegvmfB7VVZRG4PV1bZCprxRFgZKBIE85429ytmN_ahCLn41xfF_x-ZdQzevV1MWP5a4u6l_rJgyBpCySu13_fshh5lugpEI9UKHH1KujFmGbDDLBc19BkA4ypRMDDwFdA==)
+- [news1.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErC3vW4oF-uK3YHPhnep3LsRu5AZK81P1NYGM1RKG7TucqxhVvuC0I69iY77C1daDtJJUfMW0W2TRRz__U0vc9hdBJGv-yHR7gbNOXVQ3aVJXLjg3jg9O_Keq8FD719xNa1nchlZCU7QNjxw==)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSbR1PpbNZ476QkAanSenE8NgMwRoBfISlx7jblvsbcfPwrz1Xkj-Tbi54baA9scFkCg2Hfqiy01tFYGxejOD_OnuqQWOAVHXxo6_A9chT_2adhMC8ezfNwVE87PZjMU8xfN6PoQHuFF_nBjFKeGPrUv2di182sEV8amcXxS-WNsGAGfPy5oeTnuAXD8a5E-amdsWu1QAGZQ==)
+- [lietokorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXHN_5HW8zFC2WZjSEEd7hqBsT1DSUmMZg6FBJ7jVEY83V0PYBxUKc7y-v-X6g5IXS3ToMm8of6aw8DsPJunpjRUfPDzh8DMsBN1SzQqp14E4b)
+- [apparelnews.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5FcIkhiU4RpoK3JOpHNY7bwWD5YEqgt3-mt58CRVS_utcnennF5lUrzUSPN8377gDxewUImuzHA8XDiCe0PVeu6RQMI2k_DY0KelBTUWoju4APUizVQczGR9CyxLk7f3aJ_8BogVEb3FtmqUXr2zP6W8aJFsIaRRGXTesDpc=)
+- [inghome.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH68BlNNUIpHm7CgK1PI0xa9wmxwrxEQ86ShRybfDsex-peNev2jH0_kdXnjL7O9CZzMWueR95HqyWuyAlc9qnwVKG6NPJW2h-tgwCKhH6XDMqi5zvvB3NT0uFefyNyM28ZyfL0Wb6kUzs-pysOdsld0BliMyAz2Q_t)
