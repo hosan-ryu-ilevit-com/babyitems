@@ -29,6 +29,7 @@ interface KnowledgeProduct {
   oneLiner?: string;
   productUrl?: string;
   tagScores?: ProductTagScores;
+  rank?: number; // 원본 추천 순위 (1~5)
 }
 
 interface ProductComparisonGridProps {
@@ -187,7 +188,7 @@ export function ProductComparisonGrid({
         {/* 상품 헤더 영역 */}
         <div className="flex items-stretch px-2" style={{ width: totalWidth }}>
           {displayProducts.map((product, index) => {
-            const rank = index + 1;
+            const rank = product.rank || (index + 1); // 원본 순위 우선, 없으면 현재 index
             const matchRate = calculateMatchRate(product.tagScores, totalQuestionsCount);
             const isTopPick = rank === 1 && matchRate !== undefined && matchRate >= 90;
 

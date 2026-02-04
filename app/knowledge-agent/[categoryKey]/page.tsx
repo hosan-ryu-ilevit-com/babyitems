@@ -5888,22 +5888,30 @@ function MessageBubble({
                   <ProductComparisonGrid
                     products={message.resultProducts
                       .filter((p: any) => selectedComparisonPcodes.has(p.pcode || p.id))
-                      .map((p: any) => ({
-                        pcode: p.pcode || p.id,
-                        name: p.name || p.title,
-                        brand: p.brand || null,
-                        price: p.price || null,
-                        thumbnail: p.thumbnail || null,
-                        raw: p,
-                        rating: p.rating || p.averageRating || null,
-                        reviewCount: p.reviewCount || null,
-                        specs: p.specs || p.spec || {},
-                        prosFromReviews: p.prosFromReviews || [],
-                        consFromReviews: p.consFromReviews || [],
-                        oneLiner: p.oneLiner || '',
-                        productUrl: p.productUrl || '',
-                        tagScores: p.tagScores || {}
-                      }))}
+                      .map((p: any) => {
+                        // 원본 배열에서의 순위 찾기 (1~5위)
+                        const originalRank = message.resultProducts.findIndex((product: any) =>
+                          (product.pcode || product.id) === (p.pcode || p.id)
+                        ) + 1;
+
+                        return {
+                          pcode: p.pcode || p.id,
+                          name: p.name || p.title,
+                          brand: p.brand || null,
+                          price: p.price || null,
+                          thumbnail: p.thumbnail || null,
+                          raw: p,
+                          rating: p.rating || p.averageRating || null,
+                          reviewCount: p.reviewCount || null,
+                          specs: p.specs || p.spec || {},
+                          prosFromReviews: p.prosFromReviews || [],
+                          consFromReviews: p.consFromReviews || [],
+                          oneLiner: p.oneLiner || '',
+                          productUrl: p.productUrl || '',
+                          tagScores: p.tagScores || {},
+                          rank: p.rank || originalRank
+                        };
+                      })}
                     categoryKey={categoryKey || ''}
                     categoryName={categoryName}
                     filterTags={filterTags}
