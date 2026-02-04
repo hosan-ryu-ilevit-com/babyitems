@@ -1005,15 +1005,15 @@ export default function ProductDetailModal({ productData, category, categoryName
               className="relative"
             >
               {/* 가격 비교 */}
-              <div 
+              <div
                 ref={sellersRef}
                 className={`relative px-4 py-4 transition-all duration-500 ${
-                  showHighlight 
-                    ? 'z-[50] bg-white rounded-2xl mx-2 ring-2 ring-purple-500 ring-inset mt-2 shadow-md' 
+                  showHighlight
+                    ? 'z-[50] bg-white rounded-2xl mx-2 ring-2 ring-blue-500 ring-inset mt-2 shadow-md'
                     : 'z-10'
                 }`}
               >
-                {/* 하이라이트 효과 레이어 (보라색 반짝임) */}
+                {/* 하이라이트 효과 레이어 (파란색 반짝임) */}
                 <AnimatePresence>
                   {showHighlight && (
                     <motion.div
@@ -1021,7 +1021,7 @@ export default function ProductDetailModal({ productData, category, categoryName
                       animate={{ opacity: [0, 0.2, 0, 0.2, 0] }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 1.5, times: [0, 0.2, 0.5, 0.8, 1] }}
-                      className="absolute inset-0 bg-purple-100/30 rounded-2xl z-0 pointer-events-none"
+                      className="absolute inset-0 bg-blue-100/30 rounded-2xl z-0 pointer-events-none"
                     />
                   )}
                 </AnimatePresence>

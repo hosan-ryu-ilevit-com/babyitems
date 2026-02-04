@@ -36,7 +36,7 @@ interface ProductComparisonGridProps {
   categoryKey: string;
   categoryName?: string;
   filterTags?: FilterTag[];
-  onProductClick?: (product: any) => void;
+  onProductClick?: (product: any, tab?: 'price' | 'danawa_reviews', scrollToPrice?: boolean) => void;
   totalQuestionsCount?: number; // 매칭도 계산용
 }
 
@@ -164,8 +164,8 @@ export function ProductComparisonGrid({
 
   if (displayProducts.length < 2) return null;
 
-  // 컬럼 너비: 약 2.8개 보이게 (컨테이너 480px 기준 ~170px)
-  const columnWidth = 'clamp(140px, 36vw, 165px)';
+  // 컬럼 너비: 약 2.3개 보이게 (컨테이너 480px 기준 ~200px)
+  const columnWidth = 'clamp(165px, 43vw, 210px)';
   const totalWidth = `calc(${columnWidth} * ${displayProducts.length} + 24px)`;
 
   return (
@@ -240,39 +240,35 @@ export function ProductComparisonGrid({
                 <p className="text-[15px] font-bold text-gray-900 mb-2">
                   {isEmpty(product.price)
                     ? '가격 문의'
-                    : `${product.price!.toLocaleString()}원`
+                    : `최저 ${product.price!.toLocaleString()}원`
                   }
                 </p>
 
-                {/* 자세히 보기 버튼 */}
-                <button
-                  type="button"
-                  onClick={() => onProductClick?.(product.raw ?? product)}
-                  className="block w-full py-1.5 mb-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
-                >
-                  자세히 보기
-                </button>
+                {/* 버튼 그룹 */}
+                <div className="space-y-1.5">
+                  {/* 자세히 보기 버튼 */}
+                  <button
+                    type="button"
+                    onClick={() => onProductClick?.(product.raw ?? product)}
+                    className="block w-full py-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
+                  >
+                    자세히 보기
+                  </button>
 
-                {/* 최저가 구매하기 버튼 */}
-                <a
-                  href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    logKAComparisonPurchaseClick(
-                      categoryKey,
-                      categoryName || '',
-                      product.pcode,
-                      product.name,
-                      product.price,
-                      product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`,
-                      'header'
-                    );
-                  }}
-                  className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
-                >
-                  최저가 구매하기
-                </a>
+                  {/* 최저가 비교하기 버튼 */}
+                  <button
+                    type="button"
+                    onClick={() => onProductClick?.(product.raw ?? product, 'price', true)}
+                    className="block w-full py-2 bg-blue-500 text-white rounded-md text-center transition-colors"
+                  >
+                    <div className="flex flex-col items-center gap-0.5">
+                      <span className="text-[13px] font-semibold">최저가 비교하기</span>
+                     
+                    </div>
+                  </button>
+
+                 
+                </div>
               </div>
             </div>
           );
@@ -318,7 +314,7 @@ export function ProductComparisonGrid({
                   <div className="mb-2">
                     <div className="space-y-1">
                       {product.prosFromReviews.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="flex items-start gap-1 text-[12px] text-gray-700 leading-snug">
+                        <div key={idx} className="flex items-start gap-1 text-[13px] text-gray-700 leading-snug">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-green-400" />
                           <span>{renderFormattedText(pro)}</span>
                         </div>
@@ -332,7 +328,7 @@ export function ProductComparisonGrid({
                   <div>
                     <div className="space-y-1">
                       {product.consFromReviews.slice(0, 2).map((con, idx) => (
-                        <div key={idx} className="flex items-start gap-1 text-[12px] text-gray-500 leading-snug">
+                        <div key={idx} className="flex items-start gap-1 text-[13px] text-gray-500 leading-snug">
                           <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-red-400" />
                           <span>{renderFormattedText(con)}</span>
                         </div>
@@ -448,7 +444,7 @@ export function ProductComparisonGrid({
                         {/* Evidence (상세 설명) - 있는 경우에만, 항상 펼쳐진 상태 */}
                         {evidence && score !== null && (
                           <div>
-                            <p className="text-[11px] text-gray-600 leading-tight">
+                            <p className="text-[13px] text-gray-600 leading-tight">
                               {evidence}
                             </p>
                           </div>
@@ -470,34 +466,30 @@ export function ProductComparisonGrid({
               className="shrink-0 px-2"
               style={{ width: columnWidth }}
             >
-              {/* 자세히 보기 버튼 */}
-              <button
-                type="button"
-                onClick={() => onProductClick?.(product.raw ?? product)}
-                className="block w-full py-1.5 mb-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
-              >
-                자세히 보기
-              </button>
+              {/* 버튼 그룹 */}
+              <div className="space-y-1.5">
+                {/* 자세히 보기 버튼 */}
+                <button
+                  type="button"
+                  onClick={() => onProductClick?.(product.raw ?? product)}
+                  className="block w-full py-1.5 bg-white hover:bg-gray-50 text-gray-700 text-[13px] font-medium rounded-md text-center transition-colors border border-gray-200"
+                >
+                  자세히 보기
+                </button>
 
-              <a
-                href={product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  logKAComparisonPurchaseClick(
-                    categoryKey,
-                    categoryName || '',
-                    product.pcode,
-                    product.name,
-                    product.price,
-                    product.productUrl || `https://prod.danawa.com/info/?pcode=${product.pcode}`,
-                    'footer'
-                  );
-                }}
-                className="block w-full py-1.5 bg-gray-800 hover:bg-gray-900 text-white text-[13px] font-medium rounded-md text-center transition-colors"
-              >
-                최저가 구매하기
-              </a>
+               
+ {/* 최저가 비교하기 버튼 */}
+                  <button
+                    type="button"
+                    onClick={() => onProductClick?.(product.raw ?? product, 'price', true)}
+                    className="block w-full py-2 bg-blue-500 text-white rounded-md text-center transition-colors"
+                  >
+                    <div className="flex flex-col items-center gap-0.5">
+                      <span className="text-[13px] font-semibold">최저가 비교하기</span>
+                     
+                    </div>
+                  </button>
+              </div>
             </div>
           ))}
         </div>

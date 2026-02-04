@@ -927,14 +927,16 @@ export default function KnowledgeAgentPage() {
   // Results
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [modalInitialTab, setModalInitialTab] = useState<'price' | 'danawa_reviews'>('price');
+  const [scrollToPrice, setScrollToPrice] = useState<boolean>(false);
 
-  const handleProductClick = (product: any, tab: 'price' | 'danawa_reviews' = 'price') => {
+  const handleProductClick = (product: any, tab: 'price' | 'danawa_reviews' = 'price', shouldScrollToPrice: boolean = false) => {
     if (tab === 'danawa_reviews') {
       logKnowledgeAgentProductReviewClick(categoryKey, product.pcode || product.id, product.name || product.title);
     } else {
       logKnowledgeAgentProductModalOpen(categoryKey, categoryName, product.pcode || product.id, product.name || product.title, product.brand, product.rank);
     }
     setModalInitialTab(tab);
+    setScrollToPrice(shouldScrollToPrice);
     setSelectedProduct(product);
   };
 
@@ -4638,7 +4640,10 @@ export default function KnowledgeAgentPage() {
             }}
             category={categoryKey}
             categoryName={categoryName}
-            onClose={() => setSelectedProduct(null)}
+            onClose={() => {
+              setSelectedProduct(null);
+              setScrollToPrice(false);
+            }}
             onShowComparison={() => {
               setSelectedProduct(null);  // PDP 닫기
               setShowListView(false);  // 비교표 보기 (리스트 뷰 끄기)
@@ -4730,6 +4735,7 @@ export default function KnowledgeAgentPage() {
               }
               return undefined;
             })()}
+            scrollToSellers={scrollToPrice}
           />
         );
       })()}
