@@ -1,6 +1,6 @@
 # 디럭스 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-02-04T06:56:48.105Z
+> 마지막 업데이트: 2026-02-04T13:38:57.848Z
 > 분석 상품: 20개 | 분석 리뷰: 337개
 
 ## 📈 2026년 시장 트렌드
@@ -11,16 +11,17 @@
 - 친환경 소재 적용
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 승차감
 - ✓ 안정감
-- ✓ 안정적인 핸들링
+- ✓ 뛰어난 핸들링
+- ✓ 편안한 승차감
 - ✓ 고급 소재
-- ✓ 편안한 시트 디자인
-- ✓ 높은 중고 가치
+- ✓ 넓은 수납공간
 
 ### 주의해야 할 단점
 - ⚠ 무거운 무게
+- ⚠ 높은 가격대
 - ⚠ 짧은 차양막
+- ⚠ 부피가 큰 디자인
 
 ### 가격대 인사이트
 
@@ -242,6 +243,11 @@
 ---
 
 ## 📊 데이터 출처
-- [bambibaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxwyiQ87yYdxdlrXVmsTJIA99lH23qqYAOIoF_GJUfZPZWLy-AOwoULAtlN8JtWc10muHjnL1rsNZNqD25YvKmwuPN6lpRrTwSXf23NDufSZS6b2A_FhDy0qBjreKHNIkM_9mgbshPQEO0hQn_97uqqrwwEQYokUzeHw2pWCS3wlc=)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErYPnI1ZS1C6mRMv_oUdOQz6nItByVP8PkIkF2s1OR_S_fkIjhlg84qVtuqmdgk5LEQFrEmkyw8jJq84llgoXtvvub4iYnvYR3yRBoqO4IBGAMyAdzAtUsEX-x8lDWGJjBBCsvoCdfaVyNe2nAlnEHTNdiy_bEwD9gHMQp8lEtJJ5Hcen0m1RDMDEWua2p6pSHO1Ibd6gsK0cSElTM-LpdaEgC9Xu4XBYz)
-- [orbitbaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsHTUQCavJVt9xt6NBhJUerryEboAH6zbHkiR_eD_R3RwrIUK7mlvCIyi6rpJ55LijgtSezZaXWnFVZ9_fKmB1q796WXaimIYOc86ALdjUFeOWpPKJKlr7x7QRtIAMChkAn8roS3Es2IOG7Yaf9s-b)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvLCIfFQ7LgR29gVXZSiaqY435hoomP3WL9Yu_taZyTSAIoYhFDa9ovtlyrhag0mJeARoHkgEKeKRUbxrsuJLJ_txT4GuOasOCP3lNb4gyCJhJkiaryaK2Xv1CHV7eBjzg7vlbxeMwwLl8JNXJmc5l37VBWKevDhLTn7TlJ9VUjqSTt2U8xxpOhg0IVXIpNvQB55Hwi9PeH4ERKxkYo1PH3AJaWmZc0zOJLQ==)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuMwXL2-lnr3ybNSPDX0_qK4PxMXT6UqB7sTUcYSqlQbS7A2U-cxqXK-CBMDyOe3rkZFOVsJpJREms_UEYwjtL-yIpW3-MP3POWGaIrHPX0rjS2sz8Ew-RRZOlJng0_9LRWIS6XB3KlrjU67hQRIw_6HWCCce887Iv68uf7ieDCEG5ZzylcVGX)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOriL5MMptMvjoJb3-TyeUS6JZU0KvUToRZvtbamhisDXM58ClE_njqvREfcSLGnEKnZt1wyXs6brDb3xnnUquWrwiE4H1JDX8vwchalI_sMpFqLINGtHU5QB_lWS5ZW1qJnXzE886Y9iBiIrqYsmAc4wMHRGpeDeY5ePkgjGCI3e7SSx3CkcOSeHCfD4Eio3E8NWe3JEJr1D9DwLAEeKKHswYOsoNwNbBtA==)
+- [bambibaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5Sq-oW5od7raW298BPa9sf7by4nLvJCwyGcDdfvKG_GoB_0YcMvXdjvSigcRIYeuVzSDtSKj0TVD6OYLSfcKre8skexfkKGFfwm5dZmDGhMCQHrsDOtATIccHekTsGQjdb1rGk6C1b6S2poss1llqDxwS1GVyKedVL5YhrMQqhW6h)
+- [anbbaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyXEHAeypH5uImRDxC2idm9qDc-LWNNVI3-SMaKME1aNGwmUFkx8PXMRnh_bm9_lBuwqkzFxbMO4TcGB9NoLTOUVZmK6IYx714f9Q134I4_8nqMBlMnlRP2vMf03yU8I9BZUxDeOKE8ZypqUnHjNTR3xPTSg0=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbGYzCyH_YHaKzjzW-vvaUQrWqQihaz43rJdMzeCQGLDOYaKCedwYE6Iejho1EZbe6d45cxNWqbBOwUR0iVTilPWV1dih28XMtrCs-i93Nanloc9xdEQhuDMg=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFRUq3cKWHAlRcJhm7vumCt9slZiZRPXP3rkZVI4HNnYkN_s3k0CD-frXir5bTgvCyaG7iw1z2c804fknuQzZTu3ddIM-e3g6RXWgNewMItZmfszvrJmkiGjcVfqBhlQe02MA==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRdfYnMzaSFTvAjLMljdveOrBtQDqAHDrw2mbKWj5-ApAwCfJmi29MnBF_Lq6OotW-VTrn6JUmVk4vj8zzxBk-16URj1QzE09tOFUhGXkfDfsd7oimpu-B2Vr8pDbb0YiD0ggFzyGqhgLdTSdGwT6Z3ILdur7KpObMzhWSGRp3VTbuTCDK9tuVK4W2XnORngSiPbu48QGAKvHCmX29ylpHyinjOcbI12b4sJvctVLpi-2lbGJTC8pOtZRj02UiDf0WzZC3NUNoWYcIteFLc-TAg13-EGZ6mdJNQbBejxYew_xjvj_JMTlzoJPgQSlgp8om4QCJJ-Q0_N7GwmvJvD74Kq5ymlSrJMtgBWF2gNKjMhdvbG_WiYgN9Jr2pCtCJjSwxr6jx_SrNDGHCHJIyMvG)

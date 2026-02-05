@@ -8,6 +8,8 @@ AI 기반 제품 추천 서비스. Supabase에 저장된 다나와/에누리 데
 
 **Tech Stack**: Next.js 16.0.7, React 19.2.1, TypeScript, Tailwind CSS v4, Framer Motion, Gemini API, Supabase
 
+**Important**: This is a TypeScript codebase. Use TypeScript for all new files and ensure proper typing.
+
 **Data Sources**:
 - Supabase (메인 DB - 제품, 리뷰, 스펙 데이터)
 - 다나와 (제품 스펙, 리뷰 - 사전 크롤링 후 Supabase 저장)
@@ -209,3 +211,9 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ## Admin Features
 
 - `/admin` - 통계 대시보드 & 로그 뷰어 (비밀번호: `1545`)
+
+## UI Development
+
+When making UI/styling changes, always verify the correct element is being modified by checking the component hierarchy first. Multiple similar components may exist (e.g., product cards vs comparison tables).
+
+Before removing or modifying CSS classes, check if they affect layout positioning (e.g., 'relative', 'absolute', 'flex'). Removing positioning classes can cause child elements to disappear.
