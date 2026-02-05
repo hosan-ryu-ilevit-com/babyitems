@@ -2439,6 +2439,58 @@ ${productInfos}
   }));
 }
 
+// ============================================================================
+// 🆕 유사 제품 중복 제거를 위한 유틸리티 함수들
+// ============================================================================
+
+/**
+ * Levenshtein 거리 계산 (편집 거리)
+ */
+function levenshteinDistance(str1: string, str2: string): number {
+  const m = str1.length;
+  const n = str2.length;
+  const dp: number[][] = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+
+  for (let i = 0; i <= m; i++) dp[i][0] = i;
+  for (let j = 0; j <= n; j++) dp[0][j] = j;
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1];
+      } else {
+        dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      }
+    }
+  }
+  return dp[m][n];
+}
+
+/**
+ * 문자열 유사도 계산 (0~1, 1이면 완전 동일)
+ */
+function calculateSimilarity(str1: string, str2: string): number {
+  const s1 = str1.toLowerCase().trim();
+  const s2 = str2.toLowerCase().trim();
+  if (s1 === s2) return 1;
+  const maxLen = Math.max(s1.length, s2.length);
+  if (maxLen === 0) return 1;
+  return 1 - levenshteinDistance(s1, s2) / maxLen;
+}
+
+/**
+ * 이미 선택된 제품들과 유사한지 체크 (95% 이상이면 유사)
+ */
+function isSimilarToSelected(
+  product: HardCutProduct,
+  selected: HardCutProduct[],
+  threshold = 0.95
+): boolean {
+  return selected.some(existing =>
+    calculateSimilarity(product.name, existing.name) >= threshold
+  );
+}
+
 /**
  * 🚀 1단계: Top N 상품 선정 (사전 스크리닝 + pcode 선정)
  * - 120개 → 25개 사전 스크리닝
@@ -2560,7 +2612,7 @@ async function selectTopProducts(
     );
   }
 
-  // 선정된 pcode로 제품 찾기 (중복 pcode 제거!)
+  // 선정된 pcode로 제품 찾기 (중복 pcode + 유사 제품 제거!)
   const seenPcodes = new Set<string>();
   const selectedProducts: HardCutProduct[] = [];
 
@@ -2570,21 +2622,31 @@ async function selectTopProducts(
       console.log(`[FinalRecommend] ⚠️ 중복 pcode 제거: ${sel.pcode}`);
       continue;
     }
-    // 🆕 candidates에서 찾기 (병렬 평가에서는 전체 후보에서 선정)
+
     const product = candidates.find(c => c.pcode === sel.pcode);
-    if (product) {
-      selectedProducts.push(product);
-      seenPcodes.add(sel.pcode);
+    if (!product) continue;
+
+    // 🆕 유사 제품 중복 체크 (95% 이상 유사하면 스킵)
+    if (isSimilarToSelected(product, selectedProducts)) {
+      console.log(`[FinalRecommend] ⚠️ 유사 제품 제거: ${product.name}`);
+      continue;
     }
+
+    selectedProducts.push(product);
+    seenPcodes.add(sel.pcode);
   }
 
-  // N개 미만이면 점수순으로 채우기
+  // N개 미만이면 후보에서 채우기 (유사 제품도 제외)
   if (selectedProducts.length < RECOMMENDATION_COUNT) {
     const remaining = candidates.filter(c => !seenPcodes.has(c.pcode));
-    while (selectedProducts.length < RECOMMENDATION_COUNT && remaining.length > 0) {
-      const next = remaining.shift()!;
+
+    for (const next of remaining) {
+      if (selectedProducts.length >= RECOMMENDATION_COUNT) break;
+      if (isSimilarToSelected(next, selectedProducts)) continue;
+
       selectedProducts.push(next);
       seenPcodes.add(next.pcode);
+      console.log(`[FinalRecommend] ➕ 후보에서 추가: ${next.name}`);
     }
   }
 
