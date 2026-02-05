@@ -63,7 +63,7 @@ async function generateConditionReport(
     const situationMap: Record<string, string> = {
       first: '처음 구매',
       replace: '교체/업그레이드',
-      gift: '선물용',
+      gift: '선물용/둘러보기',
     };
     contextInfo += `구매 상황: ${situationMap[onboarding.purchaseSituation] || onboarding.purchaseSituation}\n`;
     if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0) {
@@ -71,6 +71,13 @@ async function generateConditionReport(
     }
     if (onboarding.replaceOther) {
       contextInfo += `기타 불만: ${onboarding.replaceOther}\n`;
+    }
+    // 🆕 첫구매/둘러보기 상황 (복수선택)
+    if (onboarding.firstSituations && onboarding.firstSituations.length > 0) {
+      contextInfo += `구매 니즈/상황: ${onboarding.firstSituations.join(', ')}\n`;
+    }
+    if (onboarding.firstSituationOther) {
+      contextInfo += `기타 니즈: ${onboarding.firstSituationOther}\n`;
     }
   }
 
@@ -120,8 +127,6 @@ ${avoidInfo || '(없음)'}
 2. 핵심 니즈를 3-5개 도출
 3. 추천 스펙을 구체적으로 제시 (해당 카테고리 특성에 맞게)
 4. 중요 고려사항과 주의사항 제시
-5. 3가지 추천 방향성 제시 (프리미엄/가성비/밸런스)
-6. 필수/선호/회피 조건 정리
 
 반드시 아래 JSON 형식으로만 응답하세요:
 {
@@ -135,16 +140,6 @@ ${avoidInfo || '(없음)'}
     ],
     "importantFactors": ["중요 고려사항1", "중요 고려사항2"],
     "cautions": ["주의사항1", "주의사항2"]
-  },
-  "directions": [
-    { "type": "premium", "description": "프리미엄 방향 설명 (1문장)" },
-    { "type": "value", "description": "가성비 방향 설명 (1문장)" },
-    { "type": "balanced", "description": "밸런스 방향 설명 (1문장)" }
-  ],
-  "summary": {
-    "mustHave": ["필수 조건1", "필수 조건2"],
-    "niceToHave": ["선호 조건1", "선호 조건2"],
-    "avoid": ["회피 조건1", "회피 조건2"]
   }
 }`;
 
@@ -165,7 +160,7 @@ ${avoidInfo || '(없음)'}
     const data = JSON.parse(jsonMatch[0]) as ConditionReport;
 
     // 유효성 검사
-    if (!data.userProfile || !data.analysis || !data.summary) {
+    if (!data.userProfile || !data.analysis) {
       return getDefaultReport(categoryName, collectedInfo);
     }
 
@@ -197,16 +192,6 @@ function getDefaultReport(
       ],
       importantFactors: ['사용 목적에 맞는 스펙 선택', '리뷰 평가 확인'],
       cautions: ['과대광고 주의', '실사용 후기 확인 권장'],
-    },
-    directions: [
-      { type: 'premium', description: '최고급 기능과 품질을 원하신다면' },
-      { type: 'value', description: '합리적인 가격에 기본 기능을 원하신다면' },
-      { type: 'balanced', description: '적절한 가격에 좋은 품질을 원하신다면' },
-    ],
-    summary: {
-      mustHave: entries.slice(0, 2).map(([, v]) => v) || ['기본 기능'],
-      niceToHave: ['추가 편의 기능'],
-      avoid: ['저가형 제품의 품질 문제'],
     },
   };
 }

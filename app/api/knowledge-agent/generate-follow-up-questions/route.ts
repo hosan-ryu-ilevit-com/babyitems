@@ -45,6 +45,19 @@ interface GenerateFollowUpQuestionsRequest {
   reviews?: Record<string, ReviewLite[]>;
   trendData?: TrendData;
   buyingFactors?: string[];  // 🆕 핵심 구매 고려사항 (가장 중요!)
+  onboarding?: {  // 🆕 온보딩 데이터
+    purchaseSituation?: string;
+    replaceReasons?: string[];
+    replaceOther?: string;
+    firstSituations?: string[];
+    firstSituationOther?: string;
+  };
+  babyInfo?: {  // 🆕 아기 정보
+    gender?: string;
+    calculatedMonths?: number;
+    expectedDate?: string;
+    isBornYet?: boolean;
+  };
 }
 
 interface AnalysisResult {
@@ -262,7 +275,9 @@ async function generateQuestions(
   categoryName: string,
   collectedInfo: Record<string, string>,
   analysis: AnalysisResult,
-  sampleProducts: any[]
+  sampleProducts: any[],
+  onboarding?: GenerateFollowUpQuestionsRequest['onboarding'],  // 🆕
+  babyInfo?: GenerateFollowUpQuestionsRequest['babyInfo']       // 🆕
 ): Promise<QuestionTodo[]> {
   if (!ai) return [];
 
@@ -275,6 +290,39 @@ async function generateQuestions(
     .filter(([k]) => !k.startsWith('__'))
     .map(([q, a]) => `- ${q}: ${a}`)
     .join('\n') || '(없음)';
+
+  // 🆕 온보딩/아기정보 컨텍스트 구성
+  const userContextParts: string[] = [];
+  if (onboarding) {
+    const situationMap: Record<string, string> = {
+      first: '첫 구매',
+      replace: '교체/업그레이드',
+      gift: '둘러보기/선물',
+    };
+    if (onboarding.purchaseSituation) {
+      userContextParts.push(`구매 상황: ${situationMap[onboarding.purchaseSituation] || onboarding.purchaseSituation}`);
+    }
+    if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0) {
+      userContextParts.push(`기존 제품 불만: ${onboarding.replaceReasons.join(', ')}`);
+    }
+    if (onboarding.firstSituations && onboarding.firstSituations.length > 0) {
+      userContextParts.push(`구매 니즈: ${onboarding.firstSituations.join(', ')}`);
+    }
+  }
+  if (babyInfo) {
+    if (babyInfo.calculatedMonths !== undefined) {
+      userContextParts.push(`아기 월령: ${babyInfo.calculatedMonths}개월`);
+    } else if (babyInfo.expectedDate) {
+      userContextParts.push(`출산예정일: ${babyInfo.expectedDate}`);
+    }
+    if (babyInfo.gender) {
+      const genderMap: Record<string, string> = { male: '남아', female: '여아', unknown: '모름' };
+      userContextParts.push(`성별: ${genderMap[babyInfo.gender] || babyInfo.gender}`);
+    }
+  }
+  const userContextSection = userContextParts.length > 0
+    ? `\n## 🆕 수집된 사용자 정보 (중복 질문 절대 금지!)\n${userContextParts.map(p => `- ${p}`).join('\n')}\n**→ 위 정보는 이미 수집되었으므로, 이와 관련된 질문은 절대 생성하지 마세요!**\n`
+    : '';
 
   const productsText = sampleProducts.slice(0, 8)
     .map(p => `- ${p.brand || ''} ${p.name} (${p.price?.toLocaleString() || '?'}원)`)
@@ -294,7 +342,7 @@ async function generateQuestions(
 3. **예산 질문 금지:** 예산 관련 질문은 이미 이전 단계에서 완료되었으므로, 추가 질문에서는 절대 생성하지 마세요.
 
 ---
-
+${userContextSection}
 ## 사용자가 이미 답변한 내용
 ${answeredText}
 
@@ -456,6 +504,8 @@ export async function POST(request: NextRequest) {
       reviews = {},
       trendData,
       buyingFactors = [],  // 🆕 핵심 구매 고려사항만 사용
+      onboarding,  // 🆕 온보딩 데이터
+      babyInfo,    // 🆕 아기 정보
     } = body;
 
     console.log(`[Follow-up] Starting for ${categoryName}`);
@@ -526,7 +576,9 @@ export async function POST(request: NextRequest) {
       categoryName,
       collectedInfo,
       analysisResult,
-      enrichedProducts.slice(0, 20)
+      enrichedProducts.slice(0, 20),
+      onboarding,  // 🆕 온보딩 데이터
+      babyInfo     // 🆕 아기 정보
     );
 
     const duration = Date.now() - startTime;

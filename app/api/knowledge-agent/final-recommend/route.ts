@@ -2671,7 +2671,7 @@ export async function POST(request: NextRequest) {
       babyInfo,    // 🆕 아기 정보 (개월수, 성별)
     } = body as FinalRecommendationRequest & {
       personalizationContext?: string;
-      onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string };
+      onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string; firstSituations?: string[]; firstSituationOther?: string };
       babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean };
     };
 
@@ -2753,6 +2753,13 @@ export async function POST(request: NextRequest) {
       }
       if (onboarding.replaceOther) {
         extendedContext += `\n⚠️ [추가 불만 → 회피] "${onboarding.replaceOther}" 없어야 함`;
+      }
+      // 🆕 첫구매/둘러보기 상황 (복수선택)
+      if (onboarding.firstSituations && onboarding.firstSituations.length > 0) {
+        extendedContext += `\n[구매 니즈/상황] ${onboarding.firstSituations.join(', ')}`;
+      }
+      if (onboarding.firstSituationOther) {
+        extendedContext += `\n[기타 니즈] ${onboarding.firstSituationOther}`;
       }
     }
 

@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, CaretRight, Plus } from '@phosphor-icons/react/dist/ssr';
-import type { OnboardingData } from '@/lib/knowledge-agent/types';
+import type { OnboardingData, BabyInfo } from '@/lib/knowledge-agent/types';
 
 interface OnboardingPhaseProps {
   categoryName: string;
   parentCategory: 'baby' | 'living';
   onComplete: (data: OnboardingData) => void;
   onBack?: () => void; // 이전 버튼 (baby: 아기 정보로, living: 카테고리 선택으로)
+  babyInfo?: BabyInfo | null; // 아기 정보 (상황 옵션 생성에 사용)
 }
 
 // 카테고리별 기본 불편사항 옵션 (AI 생성 전 fallback)
@@ -23,8 +24,8 @@ const DEFAULT_REPLACE_REASONS: Record<string, string[]> = {
   ],
 };
 
-export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack }: OnboardingPhaseProps) {
-  const [step, setStep] = useState<'situation' | 'replace_reasons'>('situation');
+export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack, babyInfo }: OnboardingPhaseProps) {
+  const [step, setStep] = useState<'situation' | 'replace_reasons' | 'first_situations'>('situation');
   const [purchaseSituation, setPurchaseSituation] = useState<'first' | 'replace' | 'gift' | null>(null);
   const [replaceReasons, setReplaceReasons] = useState<string[]>([]);
   const [replaceOther, setReplaceOther] = useState('');
@@ -32,10 +33,23 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   const [isLoadingOptions, setIsLoadingOptions] = useState(false);
   const [replaceOptions, setReplaceOptions] = useState<string[]>(DEFAULT_REPLACE_REASONS.default);
 
+  // 첫구매/둘러보기 상황 옵션 (복수선택)
+  const [situationOptions, setSituationOptions] = useState<string[]>([]);
+  const [selectedSituations, setSelectedSituations] = useState<string[]>([]);
+  const [situationOther, setSituationOther] = useState('');
+  const [showSituationOtherInput, setShowSituationOtherInput] = useState(false);
+
   // 교체 선택 시 불편사항 옵션 로드
   useEffect(() => {
     if (purchaseSituation === 'replace' && step === 'replace_reasons') {
       loadReplaceOptions();
+    }
+  }, [purchaseSituation, step, categoryName]);
+
+  // 첫구매/둘러보기 선택 시 상황 옵션 로드
+  useEffect(() => {
+    if ((purchaseSituation === 'first' || purchaseSituation === 'gift') && step === 'first_situations') {
+      loadSituationOptions();
     }
   }, [purchaseSituation, step, categoryName]);
 
@@ -60,6 +74,32 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
     }
   };
 
+  const loadSituationOptions = async () => {
+    setIsLoadingOptions(true);
+    try {
+      const res = await fetch('/api/knowledge-agent/generate-onboarding-options', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryName,
+          type: purchaseSituation === 'first' ? 'first_situations' : 'browse_situations',
+          babyInfo,
+          purchaseSituation,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.options && data.options.length > 0) {
+          setSituationOptions(data.options);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load situation options:', error);
+    } finally {
+      setIsLoadingOptions(false);
+    }
+  };
+
   const handleSituationSelect = (situation: 'first' | 'replace' | 'gift') => {
     setPurchaseSituation(situation);
 
@@ -67,9 +107,28 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
       // 교체 선택 시 불편사항 수집 단계로
       setStep('replace_reasons');
     } else {
-      // 처음 구매/선물용은 바로 완료
-      onComplete({ purchaseSituation: situation });
+      // 첫구매/둘러보기는 상황 선택 단계로
+      setStep('first_situations');
     }
+  };
+
+  const handleFirstSituationComplete = () => {
+    const finalSituations = [...selectedSituations];
+    const finalOther = situationOther.trim();
+
+    onComplete({
+      purchaseSituation: purchaseSituation!,
+      firstSituations: finalSituations.length > 0 ? finalSituations : undefined,
+      firstSituationOther: finalOther || undefined,
+    });
+  };
+
+  const toggleSituation = (situation: string) => {
+    setSelectedSituations(prev =>
+      prev.includes(situation)
+        ? prev.filter(s => s !== situation)
+        : [...prev, situation]
+    );
   };
 
   const handleReplaceComplete = () => {
@@ -102,17 +161,11 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
             exit={{ opacity: 0, y: -20 }}
             className="w-full max-w-sm"
           >
-            {/* 인사 메시지 */}
+            {/* 질문 */}
             <div className="text-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                반가워요! 👋
+              <h2 className="text-xl font-bold text-gray-900">
+                {categoryName}을 <br></br>무슨 이유로 추천받으시나요?
               </h2>
-              <p className="text-gray-600">
-                <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
-              </p>
-              <p className="text-gray-500 mt-1 text-sm">
-                현재 어떤 상황이신가요?
-              </p>
             </div>
 
             {/* 선택 옵션 */}
@@ -229,6 +282,100 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
             {/* 스킵 옵션 */}
             <button
               onClick={() => onComplete({ purchaseSituation: 'replace' })}
+              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              건너뛰기
+            </button>
+          </motion.div>
+        )}
+
+        {/* 첫구매/둘러보기 상황 선택 */}
+        {step === 'first_situations' && (
+          <motion.div
+            key="first_situations"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="w-full max-w-sm"
+          >
+            {/* 질문 */}
+            <div className="text-center mb-6">
+              <h2 className="text-lg font-bold text-gray-900 mb-2">
+                {purchaseSituation === 'first'
+                  ? '어떤 상황에서 구매하시나요?'
+                  : '어떤 이유로 둘러보고 계신가요?'}
+              </h2>
+              <p className="text-gray-500 text-sm">
+                상황을 알려주시면 더 구체적인 질문을 드릴 수 있어요.
+              </p>
+            </div>
+
+            {/* 옵션 목록 */}
+            <div className="space-y-2 mb-4">
+              {isLoadingOptions ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                </div>
+              ) : (
+                situationOptions.map((situation) => (
+                  <ReasonCheckbox
+                    key={situation}
+                    label={situation}
+                    checked={selectedSituations.includes(situation)}
+                    onChange={() => toggleSituation(situation)}
+                  />
+                ))
+              )}
+
+              {/* 기타 입력 */}
+              {!showSituationOtherInput ? (
+                <button
+                  onClick={() => setShowSituationOtherInput(true)}
+                  className="w-full flex items-center gap-2 px-4 py-3 rounded-xl border border-dashed border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <Plus size={18} />
+                  <span className="text-sm">기타 (직접 입력)</span>
+                </button>
+              ) : (
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={situationOther}
+                    onChange={(e) => setSituationOther(e.target.value)}
+                    placeholder="상황을 입력해주세요"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gray-400 focus:outline-none text-sm"
+                    autoFocus
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* 버튼 */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setStep('situation');
+                  setPurchaseSituation(null);
+                  setSelectedSituations([]);
+                  setSituationOther('');
+                  setShowSituationOtherInput(false);
+                }}
+                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+              >
+                이전
+              </button>
+              <button
+                onClick={handleFirstSituationComplete}
+                className="flex-1 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+              >
+                다음
+                <CaretRight size={18} weight="bold" />
+              </button>
+            </div>
+
+            {/* 스킵 옵션 */}
+            <button
+              onClick={() => onComplete({ purchaseSituation: purchaseSituation! })}
               className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
             >
               건너뛰기

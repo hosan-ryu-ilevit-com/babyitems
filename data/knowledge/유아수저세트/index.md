@@ -1,24 +1,24 @@
 # 유아수저세트 전문가 지식
 
-> 마지막 업데이트: 2026-02-05T11:43:08.025Z
+> 마지막 업데이트: 2026-02-05T12:42:19.080Z
 > 분석 상품: 20개 | 분석 리뷰: 932개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - 친환경 소재
-- 휴대용 편의성
 - 디자인 다양화
+- 안전성 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 디자인
-- ✓ 높은 활용도
-- ✓ 우수한 품질
+- ✓ 뛰어난 가성비
+- ✓ 다양한 디자인
+- ✓ 안전한 소재
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격
-- ⚠ 소프트웨어 호환성 문제
-- ⚠ 짧은 배터리 수명
+- ⚠ 짧은 사용 기간
+- ⚠ 세척의 어려움
+- ⚠ 높은 가격대
 
 ### 가격대 인사이트
 
@@ -240,7 +240,6 @@
 ---
 
 ## 📊 데이터 출처
-- [m-i.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDv4Cra4OLJNvkfNjEAI_1VEh8PptZRGEPHVJea1O8TaHxtBmnA8f7a5ZB2unCKyMyzqz-OG3g37GjzZluP8o3FglrH6GgLgN6vuJE-DPvBmVAY4TBkpXC0ayC7ghQJm5FQXOJI-F07QVvlOzfj0w=)
-- [babylist.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG4DHFMR4V51oNL63QNUNc7_7n8c-xV80b8tL-NtTxqQ10Exf1Cmewv8-U02QFJHSQpBIqjTT3xVmLQTsWEMFunhZgiD388niDN9NUEHNw6KXvh1dlUoK3d3tw-qrKoFZiRjufdJ66f0UX8ag9Hwbw=)
-- [trendbible.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGVBzUSa7L-MnwUxUb-uRJKe-lX-H4tAouwOGKyL30L6wYa9jzTThO5RjwmrY701woIMzOWJuGu8M3Z1Vd7yO5sMpdPqSCDtZM1PovfWdZmJtWgGAqMvUhDZF-ES-yeT-nwjR8xVXwcKaLJ-2isq-Cfk0jNvN7qSviFMkM745U=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEMDJ6ZMZRZqp3rTfV03EeQk6xNH9zNYDMK1r3cRd56a04Z0J56Qoy-Cu1RyT8ZpwrH6idQ2cEM91OgrSV0CEaNdkAMZu3ClCZDz-ctqGdr8p6Fyj9vjHEqFOXt7yxV8AM6D1tk8w=)
+- [m-i.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3GBR0t5rX3t3EidrPoynA6aefbK5kEdgC5LBHtHJWhhqwiXY82av3Iy6ttItpTd1_WlJL0PskFUD4jxplY3fN70x3QL8F8EmmUgZIEvcRg_ysFvMQTx7uBqsofjnIAGYclgh7MFJvvgpX0Iv49wU=)
+- [11st.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOhGFq_KUcdPfcYIUVxCKNa4u-AGTB9b7XWALx4Vfc4dJCmqL_zIEPFE0iKGBsPNtvHAq1fAm8LU_FrE4IG6HXmYNmCUUMPwmGOgSxZ_6i77LB83P_KjsJInrJXm_VIOkumSJ8NlDQblcd0bruJQOn5uJMr6emfxypQ1xFXbGcrEzgpHEIUXhObgOYdnO1BOhWl6UNqgH5puqLbkyzIZ_Ysox4DVvc-_SZMexbNdDHc0auEF3wLMA607_dC8YdWBErDBDXpGKnIkN0-1xVTH3exHE=)
+- [expertmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPVff1GePpiAT0xjlkOg63q-cgG2YGfvY4Rbjb192N9XE_Wk8jZpvPVUyGOUyD4QeRwuhFsA0NvIm78VB-BbXcQXkfEMfY_SM-CfjK1UhMNNvUBD6nC4-cVZu9VFdsNTGBec9NnvQYRAsInl5uuRomJ90YS73It-iGTVaBAzoNvDQA9jYItZr84ck=)

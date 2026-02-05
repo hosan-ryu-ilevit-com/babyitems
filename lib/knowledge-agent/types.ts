@@ -414,6 +414,8 @@ export interface OnboardingData {
   purchaseSituation: 'first' | 'replace' | 'gift';
   replaceReasons?: string[];      // 교체 시 불편사항 (복수선택)
   replaceOther?: string;          // 기타 자유입력
+  firstSituations?: string[];     // 첫구매/둘러보기 시 선택한 상황 (복수선택)
+  firstSituationOther?: string;   // 기타 자유입력
 }
 
 /**
@@ -448,15 +450,6 @@ export interface ConditionReport {
     }>;
     importantFactors: string[];    // 중요 고려사항
     cautions: string[];            // 주의사항
-  };
-  directions: Array<{
-    type: 'premium' | 'value' | 'balanced';
-    description: string;
-  }>;
-  summary: {
-    mustHave: string[];            // 필수 조건
-    niceToHave: string[];          // 선호 조건
-    avoid: string[];               // 회피 조건
   };
 }
 

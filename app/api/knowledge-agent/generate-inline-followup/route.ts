@@ -18,6 +18,8 @@ export async function POST(request: NextRequest) {
       userAnswer,
       collectedInfo,
       questionId,
+      onboarding,  // 🆕 온보딩 데이터
+      babyInfo,    // 🆕 아기 정보
     } = await request.json();
 
     if (!categoryName || !questionText || !userAnswer) {
@@ -32,7 +34,9 @@ export async function POST(request: NextRequest) {
       questionText,
       userAnswer,
       collectedInfo || {},
-      questionId
+      questionId,
+      onboarding,
+      babyInfo
     );
 
     return NextResponse.json(result);
@@ -45,6 +49,22 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// 온보딩/아기정보 타입 (inline 정의)
+interface OnboardingContext {
+  purchaseSituation?: string;
+  replaceReasons?: string[];
+  replaceOther?: string;
+  firstSituations?: string[];
+  firstSituationOther?: string;
+}
+
+interface BabyInfoContext {
+  gender?: string;
+  calculatedMonths?: number;
+  expectedDate?: string;
+  isBornYet?: boolean;
+}
+
 /**
  * 인라인 꼬리질문 생성
  */
@@ -53,7 +73,9 @@ async function generateInlineFollowUp(
   questionText: string,
   userAnswer: string,
   collectedInfo: Record<string, string>,
-  questionId?: string
+  questionId?: string,
+  onboarding?: OnboardingContext | null,
+  babyInfo?: BabyInfoContext | null
 ): Promise<InlineFollowUpResponse> {
   // 브랜드/예산 질문은 별도 처리 (정해진 꼬리질문 또는 없음)
   if (questionId === 'brand' || questionId === 'preferred_brand' || questionId === 'brand_preference') {
@@ -65,6 +87,48 @@ async function generateInlineFollowUp(
     return { hasFollowUp: false, skipReason: 'Budget question - no follow-up needed' };
   }
 
+  // 🆕 온보딩/아기정보 컨텍스트 구성
+  const userContextParts: string[] = [];
+
+  if (onboarding) {
+    const situationMap: Record<string, string> = {
+      first: '첫 구매',
+      replace: '교체/업그레이드',
+      gift: '둘러보기/선물',
+    };
+    if (onboarding.purchaseSituation) {
+      userContextParts.push(`구매 상황: ${situationMap[onboarding.purchaseSituation] || onboarding.purchaseSituation}`);
+    }
+    if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0) {
+      userContextParts.push(`기존 제품 불만: ${onboarding.replaceReasons.join(', ')}`);
+    }
+    if (onboarding.replaceOther) {
+      userContextParts.push(`기타 불만: ${onboarding.replaceOther}`);
+    }
+    if (onboarding.firstSituations && onboarding.firstSituations.length > 0) {
+      userContextParts.push(`구매 니즈: ${onboarding.firstSituations.join(', ')}`);
+    }
+    if (onboarding.firstSituationOther) {
+      userContextParts.push(`기타 니즈: ${onboarding.firstSituationOther}`);
+    }
+  }
+
+  if (babyInfo) {
+    if (babyInfo.calculatedMonths !== undefined) {
+      userContextParts.push(`아기 월령: ${babyInfo.calculatedMonths}개월`);
+    } else if (babyInfo.expectedDate) {
+      userContextParts.push(`출산예정일: ${babyInfo.expectedDate}`);
+    }
+    if (babyInfo.gender) {
+      const genderMap: Record<string, string> = { male: '남아', female: '여아', unknown: '모름' };
+      userContextParts.push(`성별: ${genderMap[babyInfo.gender] || babyInfo.gender}`);
+    }
+  }
+
+  const userContextSection = userContextParts.length > 0
+    ? `\n## 이미 수집된 사용자 정보 (중복 질문 금지!)\n${userContextParts.map(p => `- ${p}`).join('\n')}\n`
+    : '';
+
   // 일반 질문에 대한 AI 기반 꼬리질문 생성
   const prompt = `당신은 "${categoryName}" 구매 상담 전문가입니다.
 
@@ -74,18 +138,25 @@ async function generateInlineFollowUp(
 
 지금까지 수집된 정보:
 ${Object.entries(collectedInfo).map(([k, v]) => `- ${k}: ${v}`).join('\n') || '(없음)'}
-
+${userContextSection}
 이 답변을 바탕으로 더 나은 추천을 위해 꼬리질문이 필요한지 판단하세요.
 
-꼬리질문이 필요한 경우:
+## 꼬리질문이 필요한 경우
 1. deepdive: 사용자의 답변을 더 구체화해야 할 때 (예: "넓은 공간" → 몇 평인지)
 2. contradiction: 이전 답변과 모순이 있을 때
 3. clarify: 답변이 모호하거나 여러 해석이 가능할 때
 
-꼬리질문이 불필요한 경우:
+## 꼬리질문이 불필요한 경우 (생성하지 마세요!)
 - 답변이 충분히 명확할 때
 - 추가 정보가 추천에 큰 영향을 주지 않을 때
 - "상관없어요" 등 중립적 답변일 때
+- ⛔ **위 "이미 수집된 정보"에 포함된 내용을 다시 묻는 질문** (예: 이미 월령을 알면 월령 묻기 금지)
+- ⛔ **이미 불만사항으로 언급된 내용을 다시 묻는 질문** (예: "소음" 불만 → 소음 관련 추가 질문 불필요)
+
+## 옵션 생성 규칙
+- 옵션은 3~4개 생성
+- ⛔ "상관없어요", "잘 모르겠어요", "둘 다", "기타" 같은 회피성 옵션 금지 (시스템이 자동 추가함)
+- 옵션에는 친절한 소괄호 부가설명 추가 (예: "대용량 (5L 이상)")
 
 반드시 아래 JSON 형식으로만 응답하세요:
 
@@ -96,9 +167,9 @@ ${Object.entries(collectedInfo).map(([k, v]) => `- ${k}: ${v}`).join('\n') || '(
     "question": "꼬리질문 내용 (1문장, 친근한 말투)",
     "type": "deepdive" | "contradiction" | "clarify",
     "options": [
-      { "value": "option1", "label": "옵션1 라벨" },
-      { "value": "option2", "label": "옵션2 라벨" },
-      { "value": "option3", "label": "옵션3 라벨" }
+      { "value": "option1", "label": "옵션1 라벨 (부가설명)" },
+      { "value": "option2", "label": "옵션2 라벨 (부가설명)" },
+      { "value": "option3", "label": "옵션3 라벨 (부가설명)" }
     ]
   }
 }

@@ -8,6 +8,7 @@ import type { BabyInfo } from '@/lib/knowledge-agent/types';
 interface BabyInfoPhaseProps {
   onComplete: (data: BabyInfo | null) => void;
   onBack?: () => void; // 이전 버튼 (카테고리 선택으로 돌아가기)
+  categoryName: string; // 카테고리 이름 (인사 문구에 사용)
 }
 
 const STORAGE_KEY = 'babyitem_baby_info';
@@ -32,6 +33,30 @@ function getAgeDisplayText(months: number): string {
     return `${months}개월`;
   }
   return `${months}개월 (만 ${years}세)`;
+}
+
+// D-day 계산 함수 (출산예정일까지 남은 일수)
+function calculateDDay(expectedDate: string): number {
+  const expected = new Date(expectedDate);
+  const now = new Date();
+  // 시간 제거하고 날짜만 비교
+  expected.setHours(0, 0, 0, 0);
+  now.setHours(0, 0, 0, 0);
+  const diffTime = expected.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+}
+
+// D-day 표시 텍스트
+function getDDayDisplayText(expectedDate: string): string {
+  const dDay = calculateDDay(expectedDate);
+  if (dDay === 0) {
+    return 'D-Day';
+  } else if (dDay > 0) {
+    return `D-${dDay}`;
+  } else {
+    return `D+${Math.abs(dDay)}`;
+  }
 }
 
 // 저장된 정보 불러오기
@@ -63,7 +88,7 @@ function saveBabyInfo(data: BabyInfo) {
   }
 }
 
-export function BabyInfoPhase({ onComplete, onBack }: BabyInfoPhaseProps) {
+export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhaseProps) {
   // 새 플로우: check_saved → born_yet → date (미출산) or date_gender (출산)
   const [step, setStep] = useState<'loading' | 'check_saved' | 'born_yet' | 'date' | 'date_gender'>('loading');
   const [savedInfo, setSavedInfo] = useState<BabyInfo | null>(null);
@@ -150,7 +175,7 @@ export function BabyInfoPhase({ onComplete, onBack }: BabyInfoPhaseProps) {
     if (info.calculatedMonths !== undefined) {
       parts.push(getAgeDisplayText(info.calculatedMonths));
     } else if (info.expectedDate) {
-      parts.push(`출산예정 ${info.expectedDate}`);
+      parts.push(`출산예정 (${getDDayDisplayText(info.expectedDate)})`);
     }
 
     return parts.join(' · ') || '저장된 정보';
@@ -181,14 +206,23 @@ export function BabyInfoPhase({ onComplete, onBack }: BabyInfoPhaseProps) {
             exit={{ opacity: 0, y: -20 }}
             className="w-full max-w-sm"
           >
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Baby size={32} className="text-blue-500" />
-              </div>
+            {/* 인사 메시지 */}
+            <div className="text-center mb-6">
               <h2 className="text-xl font-bold text-gray-900 mb-2">
-                저장된 아기 정보가 있어요
+                반가워요! 👋
               </h2>
-              <p className="text-gray-600 font-medium">
+              <p className="text-gray-600">
+                <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
+              </p>
+            </div>
+
+            {/* 저장된 정보 카드 */}
+            <div className="text-center mb-8 p-4 bg-blue-50 rounded-2xl">
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+                <Baby size={24} className="text-blue-500" />
+              </div>
+              <p className="text-sm text-gray-500 mb-1">저장된 아기 정보가 있어요</p>
+              <p className="text-gray-900 font-medium">
                 {getSavedInfoText(savedInfo)}
               </p>
             </div>
@@ -237,14 +271,14 @@ export function BabyInfoPhase({ onComplete, onBack }: BabyInfoPhaseProps) {
             className="w-full max-w-sm"
           >
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar size={32} className="text-green-500" />
-              </div>
               <h2 className="text-xl font-bold text-gray-900 mb-2">
-                아기가 태어났나요?
+                반가워요! 👋
               </h2>
-              <p className="text-gray-500 text-sm">
-                더 정확한 추천을 위해 알려주세요
+              <p className="text-gray-600">
+                <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
+              </p>
+              <p className="text-gray-500 mt-3 text-sm">
+                아기가 태어났나요?
               </p>
             </div>
 
@@ -349,6 +383,14 @@ export function BabyInfoPhase({ onComplete, onBack }: BabyInfoPhaseProps) {
                 min={new Date().toISOString().split('T')[0]}
                 className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
               />
+              {expectedDate && (
+                <div className="text-center mt-2">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-pink-50 text-pink-600 rounded-full text-sm font-medium">
+                    <Calendar size={16} />
+                    출산까지 {getDDayDisplayText(expectedDate)}
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="flex gap-3 mt-6">

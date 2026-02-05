@@ -1853,7 +1853,7 @@ async function generateQuestions(
   filters?: DanawaFilterSection[],
   reviewAnalysis?: ReviewAnalysis | null,  // 🔥 리뷰 분석 결과 (선택적)
   personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
-  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string } | null,  // 🆕 온보딩 데이터
+  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string; firstSituations?: string[]; firstSituationOther?: string } | null,  // 🆕 온보딩 데이터
   babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean } | null  // 🆕 아기 정보
 ): Promise<QuestionTodo[]> {
   if (!ai) return getDefaultQuestions(categoryName, products, trendAnalysis);
@@ -1949,6 +1949,13 @@ ${personalizationContext}
       }
       if (onboarding.replaceOther) {
         contextParts.push(`- 기타 불만: ${onboarding.replaceOther}`);
+      }
+      // 첫구매/둘러보기 상황 (복수선택)
+      if (onboarding.firstSituations && onboarding.firstSituations.length > 0) {
+        contextParts.push(`- 구매 상황/니즈: ${onboarding.firstSituations.join(', ')}`);
+      }
+      if (onboarding.firstSituationOther) {
+        contextParts.push(`- 기타 상황: ${onboarding.firstSituationOther}`);
       }
     }
 
@@ -3043,7 +3050,7 @@ async function handleNonStreamingRequest(
   startTime: number,
   earlyWebSearchPromise?: Promise<TrendAnalysis | null>,
   personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
-  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string } | null,  // 🆕 온보딩 데이터
+  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string; firstSituations?: string[]; firstSituationOther?: string } | null,  // 🆕 온보딩 데이터
   babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean } | null  // 🆕 아기 정보
 ): Promise<Response> {
   const timings: StepTiming[] = [];

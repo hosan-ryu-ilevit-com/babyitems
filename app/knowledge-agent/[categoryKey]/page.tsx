@@ -1002,6 +1002,8 @@ export default function KnowledgeAgentPage() {
           userAnswer,
           collectedInfo,
           questionId,
+          onboarding: onboardingData,  // 🆕 온보딩 데이터
+          babyInfo,                     // 🆕 아기 정보
         }),
       });
 
@@ -1019,7 +1021,7 @@ export default function KnowledgeAgentPage() {
       setIsLoadingInlineFollowUp(false);
     }
     return false; // 꼬리질문 없음
-  }, [categoryName, collectedInfo]);
+  }, [categoryName, collectedInfo, onboardingData, babyInfo]);
 
   // 인라인 꼬리질문 핸들러는 fetchChatStream 이후에 정의됨 (handleInlineFollowUpAnswer, handleInlineFollowUpSkip)
 
@@ -2539,6 +2541,8 @@ export default function KnowledgeAgentPage() {
             priceInsight: '',
           },
           buyingFactors,  // 🆕 핵심 구매 고려사항
+          onboarding: onboardingData,  // 🆕 온보딩 데이터
+          babyInfo,                     // 🆕 아기 정보
         }),
       });
 
@@ -4378,6 +4382,7 @@ export default function KnowledgeAgentPage() {
                   router.push('/knowledge-agent/living');
                 }
               }}
+              babyInfo={babyInfo}
             />
           )}
 
@@ -4386,6 +4391,7 @@ export default function KnowledgeAgentPage() {
             <BabyInfoPhase
               onComplete={handleBabyInfoComplete}
               onBack={() => router.push('/knowledge-agent/baby')}
+              categoryName={categoryName}
             />
           )}
 
