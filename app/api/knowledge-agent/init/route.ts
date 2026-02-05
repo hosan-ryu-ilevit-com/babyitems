@@ -1458,8 +1458,15 @@ async function refineQuestionOptions(
   }));
 
   const refinePrompt = `선택지 정제: 중복 병합, 일관된 포맷, 3-4개 유지
+
+⚠️ [필수] 소괄호 부가설명 유지/추가:
+- 전문용어나 생소한 단어는 반드시 소괄호 설명 포함
+- 예: "IH 압력 방식" → "IH 압력 방식 (밥맛 좋고 빠름)"
+- 예: "초음파식" → "초음파식 (조용하지만 세균 주의)"
+- 이미 소괄호 설명이 있으면 그대로 유지
+
 입력: ${JSON.stringify(questionsData)}
-출력 JSON만: {"질문id":["정제된 선택지1","정제된 선택지2"]}`;
+출력 JSON만: {"질문id":["정제된 선택지1 (설명)","정제된 선택지2 (설명)"]}`;
 
   try {
     const startTime = Date.now();
