@@ -5965,7 +5965,6 @@ function MessageBubble({
                     filterTags={filterTags}
                     onProductClick={onProductClick}
                     totalQuestionsCount={totalQuestionsCount}
-                    reviewsData={reviewsData}
                   />
                 </motion.div>
               )}
