@@ -1,27 +1,29 @@
 # 선풍기 전문가 지식
 
-> 마지막 업데이트: 2026-01-28T05:19:01.853Z
-> 분석 상품: 20개 | 분석 리뷰: 6,851개
+> 마지막 업데이트: 2026-02-05T07:20:16.411Z
+> 분석 상품: 20개 | 분석 리뷰: 5,611개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - BLDC 모터 탑재 프리미엄 제품
-- 휴대용 및 넥밴드 선풍기
-- 스마트 기능 및 편의 기능 강화 (앱 제어, 음성 인식 등)
+- 무선 및 휴대용 선풍기
+- 스마트 기능 및 편의성 강화 (앱 연동, 음성 인식 등)
+- 친환경 소재 및 저소음 설계
+- 다기능 선풍기 (가습, 아로마 등)
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 가성비
-- ✓ 저소음
-- ✓ 높은 에너지 효율
+- ✓ 저소음 설계
 - ✓ 다양한 편의 기능
-- ✓ 휴대성
+- ✓ BLDC 모터 탑재
+- ✓ 휴대성 및 무선 기능
 
 ### 주의해야 할 단점
-- ⚠ 짧은 배터리 수명 (휴대용)
-- ⚠ 높은 초기 구매 비용 (프리미엄 모델)
-- ⚠ 전자파 우려 (일부 휴대용 모델)
-- ⚠ 날씨 영향 (습도 등)
+- ⚠ 짧은 배터리 수명 (무선 제품)
+- ⚠ 중국산 제품의 높은 점유율
+- ⚠ 일부 제품의 QC 불량 이슈
+- ⚠ 높은 가격대 (프리미엄 모델)
 
 ### 가격대 인사이트
 
@@ -30,19 +32,19 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 신일전자 SIF-DC614WH
-- **브랜드**: 신일전자
-- **가격**: 79,880원
-- **평점**: ⭐4.6 (118개 리뷰)
-- **핵심 스펙**: 스탠드형 / 유선 / BLDC모터 / 수면풍 / 자연풍 / 에코풍(자동풍속조절) / 날개 / 35cm(14인치) / 7엽날개 / 3D입체회전 / 높이조절 / 오토리턴 / 분리형안전망
+### 1. 삼성전자 SFN-X35GSPA
+- **브랜드**: 삼성전자
+- **가격**: 68,000원
+- **평점**: ⭐4.8 (42개 리뷰)
+- **핵심 스펙**: 스탠드형 / 유선 / AC모터 / 초미풍(유아풍) / 날개 / 35cm(14인치) / 5엽날개 / 높이조절
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=81037040)
+- [상세보기](https://prod.danawa.com/info/?pcode=52066184)
 
 ### 2. 루메나 FAN STAND 3Z
 - **브랜드**: 루메나
-- **가격**: 34,110원
+- **가격**: 31,880원
 - **평점**: ⭐4.8 (1,372개 리뷰)
 - **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 날개 / 15cm(6인치) / 5엽날개 / 오토리턴 / 분리형안전망
 - **장점 요약**: 분석 중
@@ -50,39 +52,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=19805573)
 
-### 3. 프리즘 크레모아 CLFN-V1040
-- **브랜드**: 프리즘
-- **가격**: 68,640원
-- **평점**: ⭐4.6 (101개 리뷰)
-- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 초미풍(유아풍) / 날개 / 18.2cm(7.2인치) / 3엽날개 / 삼각대거치대 / 분리형안전망 / 보조배터리겸용
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=16400486)
-
-### 4. 샤오미 미지아 무선 선풍기 서큘레이터 5세대 BPLDS05DM
-- **브랜드**: 샤오미
-- **가격**: 84,700원
-- **평점**: ⭐4.4 (1,576개 리뷰)
-- **핵심 스펙**: 스탠드형 / 무선 / BLDC모터 / 수면풍 / 자연풍 / 에코풍(자동풍속조절) / 날개 / 약 30cm(12인치) / 12엽날개(7+5) / 3D입체회전
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=14893892)
-
-### 5. 르젠 LZEF-DC290
-- **브랜드**: 르젠
-- **가격**: 78,560원
-- **평점**: ⭐4.5 (37개 리뷰)
-- **핵심 스펙**: 스탠드형 / 유선 / BLDC모터 / 초미풍(유아풍) / 수면풍 / 자연풍 / 에코풍(자동풍속조절) / 날개 / 35cm(14인치) / 7엽날개 / 높이조절
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8010340)
-
-### 6. 루씨에어 레이더3
+### 3. 루씨에어 레이더3
 - **브랜드**: 루씨에어
-- **가격**: 495,000원
+- **가격**: 485,925원
 - **평점**: ⭐4.8 (253개 리뷰)
 - **핵심 스펙**: 실링팬 / 천장형 / BLDC모터 / 날개 / 132cm(52인치)
 - **장점 요약**: 분석 중
@@ -90,49 +62,49 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20725241)
 
-### 7. 프리즘 크레모아 팬 V600 플러스 CLFN-V610
-- **브랜드**: 프리즘
-- **가격**: 50,150원
-- **평점**: ⭐4.8 (312개 리뷰)
-- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 초미풍(유아풍) / 자연풍 / 날개 / 16.5cm(6인치) / 3엽날개 / 타프팬겸용 / 삼각대거치대 / 분리형안전망
+### 4. 루씨에어 레이더3 미니
+- **브랜드**: 루씨에어
+- **가격**: 468,255원
+- **평점**: ⭐4.8 (31개 리뷰)
+- **핵심 스펙**: 실링팬 / 천장형 / BLDC모터 / 날개 / 106cm(42인치)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13866977)
+- [상세보기](https://prod.danawa.com/info/?pcode=28263338)
 
-### 8. 루메나 FAN JET ULTRA
-- **브랜드**: 루메나
-- **가격**: 56,910원
-- **평점**: ⭐4.8 (26개 리뷰)
-- **핵심 스펙**: 핸디형 / 무선 / BLDC모터 / 핸드스트랩 / 냉각패드 / 분리형안전망
+### 5. 샤오미 미지아 스마트 스탠드 무선 선풍기 2 프로 BPLDS03DM
+- **브랜드**: 샤오미
+- **가격**: 123,200원
+- **평점**: ⭐4.7 (457개 리뷰)
+- **핵심 스펙**: 스탠드형 / 무선 / BLDC모터 / 자연풍 / 날개 / 약 28.5cm(11.2인치) / 12엽날개(7+5) / 높이조절(분리형) / 분리형안전망
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=82751996)
+- [상세보기](https://prod.danawa.com/info/?pcode=16997057)
 
-### 9. BRAVOTEC EQUALE CF-1691 게이밍 선풍기
-- **브랜드**: BRAVOTEC
-- **가격**: 49,480원
-- **평점**: ⭐4.8 (63개 리뷰)
-- **핵심 스펙**: 블로워팬 / 유선 / 거치대
+### 6. 신일전자 SIF-DC614WH
+- **브랜드**: 신일전자
+- **가격**: 78,200원
+- **평점**: ⭐4.6 (118개 리뷰)
+- **핵심 스펙**: 스탠드형 / 유선 / BLDC모터 / 수면풍 / 자연풍 / 에코풍(자동풍속조절) / 날개 / 35cm(14인치) / 7엽날개 / 3D입체회전 / 높이조절 / 오토리턴 / 분리형안전망
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=9571578)
+- [상세보기](https://prod.danawa.com/info/?pcode=81037040)
 
-### 10. 루메나 FAN PRO 4
-- **브랜드**: 루메나
-- **가격**: 25,110원
-- **평점**: ⭐4.6 (408개 리뷰)
-- **핵심 스펙**: 핸디형 / 무선 / BLDC모터 / 3엽날개 / 핸드스트랩 / 거치대 / 분리형안전망
+### 7. 데이비드테크 엔보우 모노 4세대
+- **브랜드**: 데이비드테크
+- **가격**: 17,890원
+- **평점**: ⭐4.8 (359개 리뷰)
+- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 날개 / 18cm(7인치) / 7엽날개 / 분리형안전망
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=19808417)
+- [상세보기](https://prod.danawa.com/info/?pcode=53417351)
 
-### 11. 다이슨 AM-07 에어멀티플라이어
+### 8. 다이슨 AM-07 에어멀티플라이어
 - **브랜드**: 다이슨
-- **가격**: 386,080원
+- **가격**: 384,580원
 - **평점**: ⭐4.6 (2,292개 리뷰)
 - **핵심 스펙**: 스탠드형 / 유선 / 풍속미세조절
 - **장점 요약**: 분석 중
@@ -140,7 +112,77 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=2552247)
 
-### 12. 한경희이지라이프 HAAN-WF316A
+### 9. 아이닉 iC01
+- **브랜드**: 아이닉
+- **가격**: 53,100원
+- **평점**: ⭐4.6 (89개 리뷰)
+- **핵심 스펙**: 스탠드형 / 유선 / BLDC모터 / 자연풍 / 터보풍 / 날개 / 30cm(12인치) / 7엽날개 / 높이조절 / 오토리턴
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=91191194)
+
+### 10. 신일전자 SIF-FD12
+- **브랜드**: 신일전자
+- **가격**: 116,255원
+- **평점**: ⭐4.3 (89개 리뷰)
+- **핵심 스펙**: 스탠드형 / 무선 / BLDC모터 / 수면풍 / 자연풍 / 에코풍(자동풍속조절) / 날개 / 30cm(12인치) / 7엽날개 / 높이조절 / 접이식
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=91039376)
+
+### 11. 프리즘 크레모아 CLFN-V1040
+- **브랜드**: 프리즘
+- **가격**: 67,290원
+- **평점**: ⭐4.6 (101개 리뷰)
+- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 초미풍(유아풍) / 날개 / 18.2cm(7.2인치) / 3엽날개 / 삼각대거치대 / 분리형안전망 / 보조배터리겸용
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=16400486)
+
+### 12. 한경희생활과학 HAAN-HDC240
+- **브랜드**: 한경희생활과학
+- **가격**: 33,900원
+- **평점**: ⭐4.6 (11개 리뷰)
+- **핵심 스펙**: 스탠드형 / 유선 / 날개 / 35.56cm(14인치) / 5엽날개 / 높이조절
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=57507335)
+
+### 13. 한경희생활과학 HAAN-HDC230
+- **브랜드**: 한경희생활과학
+- **가격**: 39,900원
+- **평점**: ⭐4.1 (42개 리뷰)
+- **핵심 스펙**: 스탠드형 / 유선 / 수면풍 / 자연풍 / 5엽날개 / 높이조절 / 풋버튼
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=58119854)
+
+### 14. 듀플렉스 DP-DF700
+- **브랜드**: 듀플렉스
+- **가격**: 28,400원
+- **평점**: ⭐4.5 (16개 리뷰)
+- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 초미풍(유아풍) / 7엽날개 / 분리형안전망
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=19780571)
+
+### 15. BRAVOTEC EQUALE CF-1691 게이밍 선풍기
+- **브랜드**: BRAVOTEC
+- **가격**: 48,480원
+- **평점**: ⭐4.8 (63개 리뷰)
+- **핵심 스펙**: 블로워팬 / 유선 / 거치대
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=9571578)
+
+### 16. 한경희이지라이프 HAAN-WF316A
 - **브랜드**: 한경희이지라이프
 - **가격**: 38,510원
 - **평점**: ⭐5 (1개 리뷰)
@@ -150,85 +192,45 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=78528272)
 
-### 13. 신일전자 SIF-WH04KP
-- **브랜드**: 신일전자
-- **가격**: 19,460원
+### 17. 윈드피아 하루 타워팬 WINDPIA-1ST
+- **브랜드**: 윈드피아
+- **가격**: 25,900원
+- **평점**: ⭐4.5 (71개 리뷰)
+- **핵심 스펙**: 타워형 / 유선
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=22028843)
+
+### 18. 멜로디 SOOPI SF10-CU
+- **브랜드**: 멜로디
+- **가격**: 7,250원
 - **평점**: ⭐4.3 (23개 리뷰)
-- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 자연풍 / 날개 / 10.5cm(4인치) / 3엽날개 / 분리형안전망
+- **핵심 스펙**: 클립형 / 유선 / 3엽날개
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20724269)
+- [상세보기](https://prod.danawa.com/info/?pcode=8174311)
 
-### 14. 신일전자 SIF-FD12
-- **브랜드**: 신일전자
-- **가격**: 117,272원
-- **평점**: ⭐4.3 (89개 리뷰)
-- **핵심 스펙**: 스탠드형 / 무선 / BLDC모터 / 수면풍 / 자연풍 / 에코풍(자동풍속조절) / 날개 / 30cm(12인치) / 7엽날개 / 높이조절 / 접이식
+### 19. 코멕스종합상사 COMAX CM-3012B
+- **브랜드**: 코멕스종합상사
+- **가격**: 27,230원
+- **평점**: ⭐4.3 (129개 리뷰)
+- **핵심 스펙**: 박스형 / 유선 / 날개 / 30cm(12인치) / 5엽날개
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=91039376)
+- [상세보기](https://prod.danawa.com/info/?pcode=6095627)
 
-### 15. 프리즘 크레모아 클립팬 CLFN-CL01B
-- **브랜드**: 프리즘
-- **가격**: 29,260원
-- **평점**: ⭐4.4 (25개 리뷰)
-- **핵심 스펙**: 클립형 / 무선 / BLDC모터 / 넥스트랩
+### 20. 세븐윙 선풍기
+- **브랜드**: 세븐윙
+- **가격**: 9,120원
+- **평점**: ⭐4.2 (52개 리뷰)
+- **핵심 스펙**: 탁상형 / 유선 / 7엽날개
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=88136570)
-
-### 16. 오아 턴에어
-- **브랜드**: 오아
-- **가격**: 35,160원
-- **평점**: ⭐4.3 (16개 리뷰)
-- **핵심 스펙**: 탁상형 / 무선 / BLDC모터 / 날개 / 14.6cm(5.7인치) / 3엽날개 / 높이조절 / 분리형안전망
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=47841275)
-
-### 17. 에어블로우 실링팬 C-2
-- **브랜드**: 에어블로우
-- **가격**: 299,000원
-- **평점**: ⭐4.8 (33개 리뷰)
-- **핵심 스펙**: 실링팬 / 천장형 / DC모터 / 자연풍 / 날개 / 132cm(52인치) / 3엽날개
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=14447219)
-
-### 18. 신일전자 SIF-BW16EHS
-- **브랜드**: 신일전자
-- **가격**: 199,000원
-- **평점**: ⭐4.5 (10개 리뷰)
-- **핵심 스펙**: 벽걸이형 / 유선 / 수면풍 / 날개 / 40cm(16인치) / 5엽날개
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=57306215)
-
-### 19. 루메나 FAN PRO JET
-- **브랜드**: 루메나
-- **가격**: 35,910원
-- **평점**: ⭐4.4 (92개 리뷰)
-- **핵심 스펙**: 핸디형 / 무선 / BLDC모터 / 6엽날개 / 핸드스트랩 / 분리형안전망
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=57292625)
-
-### 20. 루씨에어 코타라 ROD
-- **브랜드**: 루씨에어
-- **가격**: 589,000원
-- **평점**: ⭐5 (4개 리뷰)
-- **핵심 스펙**: 실링팬 / 천장형 / BLDC모터 / 자연풍 / 날개 / 137cm(53.9인치)
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=92044943)
+- [상세보기](https://prod.danawa.com/info/?pcode=8375541)
 
 ---
 
@@ -243,8 +245,8 @@
 ---
 
 ## 📊 데이터 출처
-- [futuremarketreport.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzqB10XFnR3SgJa4Tva6DoDd5841Nnme2cTLHl0-hHnmtgeLPiczUi1icfGiBxrfCmxmrkc_8uzGzIUJtqbRr9nvC_OzFVC6Qvx4rFyRTudpgJzpdWCcnuivQHyKgmPz2xQM1XZJIzqRikdJJiilw-hy6782mp83Am0G5WBKpyyHWO0w0=)
-- [g-enews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-y8meg7l9oIYxN_u9saT2jHTVigGDE_ZopxbqWcQ7iUHm_KizDoN3fshtbo04aFiaHe10yTKvpNv5Q01R6e1Mfnma4S2wQJBbdLFRzl7Qmr8EahksCPPgFXltcWPHP8Hc5J4wbz7y36-AmWumWiGneOpWUY2UjuzmQMqCyUAktlrItOxPQTiIpgU=)
-- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoQlKlOK8Z1zhbzDaNgiymO6mtBZqDyKfV4p4amJBIq5S4ZtqBLKI1IsK2WH-7DaA-eLDAnreJg-aod9Q0q4e2TLut0zKYoaeMe-x03XkrAEYPCcRpgPhTK614bCtRbWnLX_sennfG)
-- [g-enews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGE7OElBSMGKtQdVcp_njcs1haAZeqikqzUpj9b3cV6s26VXbDDtahdH3E4AYo9nxGbOYVtby_lcyEIhc6YSm6YnEL38awyqFQagZtk6Dkl5tiRbza5FKIn0h16J_HUcubgWbXNwj9FomkLuUhQujyyQyZ64h7K08McUwdwJFFTLBFmlU9LC4ctzLs=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETk8VLaqsYyedGCqgz6IbAHhnTnC3Nr0FLW4dxrt77EJwU2ZmgCzC9RmtaLGPStWeWWSLyGGUAHSGv5Ty_5xiYmiI8-ydn1N1bwYsXggD3ZbXZuZlRpQfq4hVICR7l8ROkSrCukIw=)
+- [asiatoday.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOnSEU_h-R5hf0_ZdIutzgFMzLmI03x4DD0kzY9zGMADwmguj1HLcsp78Pkmsam7Sz1p7RB7EYs1zOEZov-2MaiZVgVHJ9RURTn74E1XnfG2ZwKu2BzSBU3Oq2lZLYGjV09b0s3PWYZsN-7s3EaVEuNmYm32UTZA==)
+- [g-enews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFF3_djvlXdlUhfNgbDzpbAvt0CuCaQ2JrbvyBRllBPQ4yTTreFFgKHJtmeDL3GS3ohPyWmvneQVF5On767j-BKfFvp-bfNOo-j0u_cXwF2VfvPlsEX9_gzhhe_TBY5FUA1JELaLt9pldnFUh4YcqQh8P0MiGYXgcgQlBTvwVlPHdtHu6j1EAoSmA==)
+- [lifebase.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQECo42FlLa2TfS9Cz37AO2Iizwo-NRSBZH66i5d2VHpYVAonkBKu4Qq99RoT9gfelHpVFYTG70U3sKlNC-EI5O-QJekJGzYUdzq70_yaf5JJgs_F_d76Cj6d-Thdf7zekt3UE-y0w-bm-w-kLDFWnGCklPATpay8g==)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHn34kM-GU83OQXwOamDjo6z5qVGgVjuNWxR99kjmPC4bYZRGQCOc1bZU8skTs7sDZKWMVCaoShRE4mj6eVYQc81MpS_CGdKBGyodDSK2JShb2qYmNtboD_M2-c-dV9f1H14jW4YdrM)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvsuZZ00ptifuuC89oF83wY1BE6kPcaJYdn1mqEBbt-E6bqMONMyvkNhenruFMeTNpujo094PJyI9DAgcge34Tzuq3XhdCD6TgDPr-1fsbI0APBtzEuLLpxEACcr91q2V5RIKQ97w=)

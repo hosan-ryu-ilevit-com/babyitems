@@ -45,9 +45,11 @@ npm run lint        # ESLint
 | Phase | 이름 | 설명 |
 |-------|------|------|
 | `loading` | 분석 중 | Supabase에서 제품/리뷰 데이터 로드 + AI 분석 |
-| `questions` → `report` | 맞춤 질문 | Context Engineering으로 동적 생성된 하드필터 질문 |
-| `hardcut_visual` → `balance` → `negative_filter` | 선호도 파악 | 후보 시각화 + 밸런스 게임 (A vs B) + 단점 필터 |
+| `questions` / `report` | 맞춤 질문 | Context Engineering으로 동적 생성된 하드필터 질문 |
+| `hardcut_visual` → `follow_up_questions` → `final_input` | 선호도 파악 | 후보 시각화 + 꼬리질문(밸런스/단점 통합) + 최종 조건 입력 |
 | `result` → `free_chat` | 추천 완료 | Top 3 추천 + 자유 채팅 |
+
+**Note**: `balance`, `negative_filter` phase는 더 이상 별도로 사용되지 않음. 꼬리질문(`follow_up_questions`) 내 메시지 버블로 통합됨.
 
 ### Core Concept: Context Engineering
 
@@ -108,8 +110,9 @@ babyitem_MVP/
 ## Core Types (`lib/knowledge-agent/types.ts`)
 
 ```typescript
-// Phase 타입
-type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'balance' | 'negative_filter' | 'final_input' | 'result' | 'free_chat';
+// Phase 타입 (실제 page.tsx에서 사용)
+type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'follow_up_questions' | 'balance' | 'final_input' | 'result' | 'free_chat';
+// Note: balance는 타입에만 정의, 실제로는 follow_up_questions 내에서 처리됨
 
 // 장기기억 (카테고리별 지식)
 interface LongTermMemoryData {
@@ -197,7 +200,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 3. **메모리 시스템**:
    - 장기기억 (`data/knowledge/[카테고리]/index.md`): 카테고리별 트렌드, 제품 지식
    - 단기기억 (`session.md`): 세션별 사용자 선택, 필터링 결과
-4. **점수 계산**: 하드필터 매칭 + 밸런스 게임 가중치 + 단점 감점 = 최종 점수
+4. **점수 계산**: 하드필터 매칭 + 꼬리질문 응답 가중치 = 최종 점수
 5. **로깅**: 모든 사용자 액션은 Supabase `daily_logs` 테이블에 기록
 
 ## Common Gotchas
@@ -207,6 +210,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 - **대카테고리 구조**: baby(출산/육아) vs living(생활/주방) 구분 필요
 - **동적 질문**: 질문은 사전 정의가 아닌 Context Engineering으로 생성됨
 - **categoryKey vs categoryName**: URL은 한글 카테고리명 사용 (URL 인코딩됨)
+- **balance/negative_filter phase 미사용**: 타입에 정의되어 있으나 실제로는 `follow_up_questions` 내 메시지 버블로 통합됨
 
 ## Admin Features
 
