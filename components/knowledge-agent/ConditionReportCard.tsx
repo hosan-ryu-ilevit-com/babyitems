@@ -49,70 +49,74 @@ export function ConditionReportCard({
           ))}
         </div>
 
-        {/* 펼치기/접기 - 상세 분석 */}
-        <div className="border border-gray-100 rounded-xl overflow-hidden">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🤔</span>
-              <span className="text-sm font-semibold text-gray-800">
-                그렇게 분석한 이유가 궁금해요
+        {/* 추천 스펙 (토글 밖 - 항상 표시) */}
+        <div className="space-y-3">
+          {report.analysis.recommendedSpecs.map((spec, idx) => (
+            <div key={idx} className="space-y-1">
+              <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">
+                {spec.specName}
               </span>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                <span className="font-bold text-gray-900">{spec.value}</span>을 추천드려요. → {spec.reason}
+              </p>
             </div>
-            {isExpanded ? (
-              <CaretUp size={18} weight="bold" className="text-gray-500" />
-            ) : (
-              <CaretDown size={18} weight="bold" className="text-gray-500" />
-            )}
-          </button>
-
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="overflow-hidden"
-              >
-                <div className="p-4 space-y-4 bg-white border-t border-gray-100">
-                  {/* 추천 스펙 */}
-                  {report.analysis.recommendedSpecs.map((spec, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">
-                        {spec.specName}
-                      </span>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        <span className="font-bold text-gray-900">{spec.value}</span>을 추천드려요. {spec.reason}
-                      </p>
-                    </div>
-                  ))}
-
-                  {/* 고려사항 */}
-                  {report.analysis.importantFactors.length > 0 && (
-                    <div className="text-sm text-gray-700 leading-relaxed">
-                      {report.analysis.importantFactors.map((factor, idx) => (
-                        <p key={idx} className="mb-1">• {factor}</p>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* 주의사항 */}
-                  {report.analysis.cautions.length > 0 && (
-                    <div className="text-sm text-gray-600 leading-relaxed bg-amber-50 rounded-lg p-3">
-                      <p className="font-semibold text-amber-700 mb-1">참고하세요</p>
-                      {report.analysis.cautions.map((caution, idx) => (
-                        <p key={idx} className="text-amber-800">• {caution}</p>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          ))}
         </div>
+
+        {/* 펼치기/접기 - 고려사항 & 참고하세요 */}
+        {(report.analysis.importantFactors.length > 0 || report.analysis.cautions.length > 0) && (
+          <div className="border border-gray-100 rounded-xl overflow-hidden">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-semibold text-gray-800">
+                  ⚠️ 고려사항 & 참고하세요
+                </span>
+              </div>
+              {isExpanded ? (
+                <CaretUp size={18} weight="bold" className="text-gray-500" />
+              ) : (
+                <CaretDown size={18} weight="bold" className="text-gray-500" />
+              )}
+            </button>
+
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="p-4 space-y-4 bg-white border-t border-gray-100">
+                    {/* 고려사항 */}
+                    {report.analysis.importantFactors.length > 0 && (
+                      <div className="text-sm leading-relaxed bg-red-50 rounded-lg p-3">
+                        <p className="font-semibold text-red-700 mb-1">고려사항</p>
+                        {report.analysis.importantFactors.map((factor, idx) => (
+                          <p key={idx} className="text-red-800">• {factor}</p>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* 주의사항 */}
+                    {report.analysis.cautions.length > 0 && (
+                      <div className="text-sm text-gray-600 leading-relaxed bg-amber-50 rounded-lg p-3">
+                        <p className="font-semibold text-amber-700 mb-1">참고하세요</p>
+                        {report.analysis.cautions.map((caution, idx) => (
+                          <p key={idx} className="text-amber-800">• {caution}</p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
 
         {/* AI 요약 */}
         <div className="bg-violet-50 rounded-xl p-4">

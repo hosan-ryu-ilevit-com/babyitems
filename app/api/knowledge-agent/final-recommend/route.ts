@@ -435,6 +435,23 @@ async function generateFilterTags(
     );
   };
 
+  // 🆕 label 기준 중복 제거 (첫 번째 것만 유지)
+  const deduplicateByLabel = (tags: FilterTag[]): FilterTag[] => {
+    const seen = new Set<string>();
+    const deduped = tags.filter(tag => {
+      const normalizedLabel = tag.label.trim().toLowerCase();
+      if (seen.has(normalizedLabel)) return false;
+      seen.add(normalizedLabel);
+      return true;
+    });
+    // ID/priority 재부여
+    deduped.forEach((tag, i) => {
+      tag.id = `tag_${i + 1}`;
+      tag.priority = i + 1;
+    });
+    return deduped;
+  };
+
   // 2. LLM 없으면 fallback (쉼표 분리 없이 원본 그대로) - 무의미한 응답은 제외
   if (!ai) {
     console.log('[FilterTags] No AI available, using answer as label');
@@ -566,14 +583,12 @@ ${conditionList}
           }
         }
 
-        // ID 재부여 (필터링 후)
-        tags.forEach((tag, i) => {
-          tag.id = `tag_${i + 1}`;
-          tag.priority = i + 1;
-        });
+        // 🆕 label 기준 중복 제거 + ID 재부여
+        const dedupedTags = deduplicateByLabel(tags);
+        const dupCount = tags.length - dedupedTags.length;
 
-        console.log(`[FilterTags] Generated ${tags.length} tags (${rawTags.length - tags.length} filtered) from ${validEntries.length} conditions in ${Date.now() - startTime}ms`);
-        return tags;
+        console.log(`[FilterTags] Generated ${dedupedTags.length} tags (${rawTags.length - tags.length} meaningless, ${dupCount} duplicates) from ${validEntries.length} conditions in ${Date.now() - startTime}ms`);
+        return dedupedTags;
       }
     }
   } catch (error) {
@@ -617,14 +632,12 @@ ${conditionList}
     }
   }
 
-  // ID 재부여
-  fallbackTags.forEach((tag, i) => {
-    tag.id = `tag_${i + 1}`;
-    tag.priority = i + 1;
-  });
+  // 🆕 label 기준 중복 제거 + ID 재부여
+  const dedupedFallback = deduplicateByLabel(fallbackTags);
+  const dupCount = fallbackTags.length - dedupedFallback.length;
 
-  console.log(`[FilterTags] LLM fallback: ${fallbackTags.length} tags (${validEntries.length - fallbackTags.length} filtered as meaningless)`);
-  return fallbackTags;
+  console.log(`[FilterTags] LLM fallback: ${dedupedFallback.length} tags (${validEntries.length - fallbackTags.length} meaningless, ${dupCount} duplicates)`);
+  return dedupedFallback;
 }
 
 // ============================================================================

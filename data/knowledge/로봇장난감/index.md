@@ -1,28 +1,24 @@
 # 로봇장난감 전문가 지식
 
-> 마지막 업데이트: 2026-01-27T06:45:12.831Z
-> 분석 상품: 20개 | 분석 리뷰: 1,241개
+> 마지막 업데이트: 2026-02-05T13:00:15.559Z
+> 분석 상품: 20개 | 분석 리뷰: 2,037개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- AI 및 AR 기술 접목
-- 교육용 및 STEM 기능 강화
-- 맞춤형 학습 경험 제공
-- AI 기반 개인 맞춤형 및 스크린 없는 놀이 경험 제공 로봇
-- 감성 지능 및 상호작용 강화 로봇 (예: 감정 인식, 음성 인식)
+- AI 및 스마트 기술 통합
+- 교육 및 STEM 기능 강화
+- 상호작용성 및 개인화된 경험 제공
 
 ### 구매자 만족 포인트
 - ✓ 교육적 가치
-- ✓ 창의력 증진
-- ✓ 기술 학습 기회
 - ✓ 높은 상호작용성
+- ✓ 미래 기술 경험 제공
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격대
-- ⚠ 짧은 배터리 수명
-- ⚠ 내구성 문제
-- ⚠ 단순 반복적인 기능
+- ⚠ 배터리 수명
+- ⚠ 개인 정보 보호 문제
 
 ### 가격대 인사이트
 
@@ -33,35 +29,45 @@
 
 ### 1. 아카데미과학 메가포스 KAR98K 스나이퍼건 어린이 장난감총
 - **브랜드**: 아카데미과학
-- **가격**: 65,860원
-- **평점**: ⭐4.6 (17개 리뷰)
+- **가격**: 64,860원
+- **평점**: ⭐4.6 (18개 리뷰)
 - **핵심 스펙**: 완구 / 블록 / 매트 / 로봇 / 자동차 / 팽이 / 장난감무기 / 작동완구 완구 / 작동완구
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=97417952)
 
-### 2. 영실업 또봇V 미니 마스터V
-- **브랜드**: 영실업
-- **가격**: 23,090원
-- **평점**: ⭐4.7 (420개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 3세부터 / 또봇 / 로봇↔비클 / 기능: 변신 로봇 / 기능: 변신
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21335780)
-
-### 3. 에스에이엠지엔터테인먼트 메탈카드봇W 블루캅W
+### 2. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 렉스카이저
 - **브랜드**: 
-- **가격**: 93,800원
-- **평점**: ⭐4.6 (11개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 로봇↔자동차 / 기능: 변신 / 구성: 블루캅W본체,로봇카드,웨폰카드 로봇 / 구성: 블루캅W본체,로봇카드,웨폰카드
+- **가격**: 67,800원
+- **평점**: ⭐4.9 (131개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 미니특공대 / 로봇↔자동차 / 기능: 변신합체 / 구성: 렉스카이저,렉스블레이드,그레이트코인,설명서 로봇 / 구성: 렉스카이저,렉스블레이드,그레이트코인,설명서
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=100276877)
+- [상세보기](https://prod.danawa.com/info/?pcode=79137173)
 
-### 4. 에스에이엠지엔터테인먼트 메탈카드봇W 헤비아이언W
+### 3. 초이락컨텐츠컴퍼니 헬로카봇 싼타페 에이스
+- **브랜드**: 초이락컨텐츠컴퍼니
+- **가격**: 59,900원
+- **평점**: ⭐4.7 (1,218개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 37개월부터 / 헬로카봇 / 자동차(싼타페)↔로봇 / 색상: 레드 로봇 / 색상: 레드
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21248789)
+
+### 4. 레고 쟌의 울트라 합체 로봇 (71834)
+- **브랜드**: 레고
+- **가격**: 101,400원
+- **평점**: ⭐4.9 (51개 리뷰)
+- **핵심 스펙**: 블록 / 대상연령: 9세이상 / 시리즈: 닌자고 / 조각수: 1187조각 블록 / 조각수: 1187조각
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=75076688)
+
+### 5. 에스에이엠지엔터테인먼트 메탈카드봇W 헤비아이언W
 - **브랜드**: 
 - **가격**: 87,810원
 - **평점**: ⭐5 (10개 리뷰)
@@ -71,7 +77,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=100276853)
 
-### 5. 초이락컨텐츠컴퍼니 공룡메카드 메가티라노 플레이세트
+### 6. 영실업 또봇 헤비메탈
+- **브랜드**: 영실업
+- **가격**: 70,050원
+- **평점**: ⭐4.7 (57개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 또봇 / 로봇↔자동차 / 기능: 변신합체 / 구성: 또봇헤비메탈,또봇크롬,또봇스틸,또봇아이언,전시대,설명서 로봇 / 구성: 또봇헤비메탈,또봇크롬,또봇스틸,또봇아이언,전시대,설명서
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=89935649)
+
+### 7. 초이락컨텐츠컴퍼니 공룡메카드 메가티라노 플레이세트
 - **브랜드**: 초이락컨텐츠컴퍼니
 - **가격**: 62,420원
 - **평점**: ⭐3.2 (4개 리뷰)
@@ -81,17 +97,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=79791140)
 
-### 6. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 렉스카이저
-- **브랜드**: 
-- **가격**: 69,300원
-- **평점**: ⭐4.9 (127개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 미니특공대 / 로봇↔자동차 / 기능: 변신합체 / 구성: 렉스카이저,렉스블레이드,그레이트코인,설명서 로봇 / 구성: 렉스카이저,렉스블레이드,그레이트코인,설명서
+### 8. 영실업 NEW 또봇 트라이탄 (X+Y+Z)
+- **브랜드**: 영실업
+- **가격**: 43,190원
+- **평점**: ⭐4.8 (174개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 또봇 / 로봇↔자동차 / 기능: 변신합체 / 구성: 트라이탄,전시대 로봇 / 구성: 트라이탄,전시대
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=79137173)
+- [상세보기](https://prod.danawa.com/info/?pcode=30244364)
 
-### 7. 초이락컨텐츠컴퍼니 헬로카봇 에이스 레스큐 올스타
+### 9. 초이락컨텐츠컴퍼니 헬로카봇 그랜드 카봇X
+- **브랜드**: 초이락컨텐츠컴퍼니
+- **가격**: 58,750원
+- **평점**: ⭐4.9 (22개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 37개월이상 / 헬로카봇 / 로봇↔자동차↔기차↔전투기 / 기능: 변신합체 / 구성: 그랜드카봇X,그랜드엑스칼리버,그랜드실드,그랜드샷건2개,X-큐브팩,스티커,설명서
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=100277132)
+
+### 10. 초이락컨텐츠컴퍼니 헬로카봇 에이스 레스큐 올스타
 - **브랜드**: 초이락컨텐츠컴퍼니
 - **가격**: 46,200원
 - **평점**: ⭐5 (4개 리뷰)
@@ -101,17 +127,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=76471031)
 
-### 8. 파워레인저 애니멀포스 동물합체 DX 오션엠페러
-- **브랜드**: 파워레인저
-- **가격**: 66,400원
-- **평점**: ⭐4.8 (325개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 4세부터 / 파워레인저 / 동물↔로봇 / 기능: 변신 로봇 / 기능: 변신
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21287861)
-
-### 9. 초이락컨텐츠컴퍼니 메카드볼 아칸 N
+### 11. 초이락컨텐츠컴퍼니 메카드볼 아칸 N
 - **브랜드**: 초이락컨텐츠컴퍼니
 - **가격**: 26,000원
 - **평점**: ⭐5 (2개 리뷰)
@@ -121,7 +137,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=79577969)
 
-### 10. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 그레이트 렉스카이저 D9
+### 12. 에스에이엠지엔터테인먼트 메탈카드봇W 블루캅W
+- **브랜드**: 
+- **가격**: 93,800원
+- **평점**: ⭐4.6 (11개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 로봇↔자동차 / 기능: 변신 / 구성: 블루캅W본체,로봇카드,웨폰카드 로봇 / 구성: 블루캅W본체,로봇카드,웨폰카드
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=100276877)
+
+### 13. 에스에이엠지엔터테인먼트 최강공룡 미니특공대 그레이트 렉스카이저 D9
 - **브랜드**: 
 - **가격**: 278,300원
 - **평점**: ⭐5 (2개 리뷰)
@@ -131,17 +157,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=93446591)
 
-### 11. 영실업 또봇 팝
-- **브랜드**: 영실업
-- **가격**: 30,590원
-- **평점**: ⭐4.8 (28개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 또봇 / 구성: 또봇팝,스탠드마이크,전시대,캐릭터카드3장,설명서 로봇 / 구성: 또봇팝,스탠드마이크,전시대,캐릭터카드3장,설명서
+### 14. 초이락컨텐츠컴퍼니 헬로카봇 마이티가드X
+- **브랜드**: 초이락컨텐츠컴퍼니
+- **가격**: 97,520원
+- **평점**: ⭐4.9 (113개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 37개월이상 / 헬로카봇 / 특징: 소리 / 자동차↔로봇 / 기능: 변신합체 / 구성: 마이티가드,크루마이티,크루마이티스티커,레더건,메가소드,부스터,X큐브팩,설명서 로봇 / 구성: 마이티가드,크루마이티,크루마이티스티커,레더건,메가소드,부스터,X큐브팩,설명서
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=97486256)
+- [상세보기](https://prod.danawa.com/info/?pcode=47326229)
 
-### 12. EMO AI 애완용 로봇
+### 15. 초이락컨텐츠컴퍼니 헬로카봇 나이트X
+- **브랜드**: 초이락컨텐츠컴퍼니
+- **가격**: 22,240원
+- **평점**: ⭐4.9 (25개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 37개월이상 / 헬로카봇 / 로봇↔자동차 / 기능: 변신 로봇 / 기능: 변신
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=72229643)
+
+### 16. EMO AI 애완용 로봇
 - **브랜드**: EMO
 - **가격**: 449,940원
 - **평점**: ⭐5 (1개 리뷰)
@@ -151,7 +187,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21410588)
 
-### 13. 타미야 타미야 TAMIYA  미니카 트랙 타원형 홈 입체 레인 94893
+### 17. 초이락컨텐츠컴퍼니 요괴메카드 왕마요괴 다뚜르뚜
+- **브랜드**: 초이락컨텐츠컴퍼니
+- **가격**: 13,580원
+- **평점**: ⭐4.7 (155개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 6세부터 / 요괴↔로봇 로봇 / 요괴↔로봇
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21327338)
+
+### 18. 초이락컨텐츠컴퍼니 헬로카봇 그랜드카봇GX
+- **브랜드**: 초이락컨텐츠컴퍼니
+- **가격**: 99,070원
+- **평점**: ⭐4.9 (34개 리뷰)
+- **핵심 스펙**: 로봇 / 대상연령: 37개월이상 / 로봇↔자동차↔기차↔전투기 / 기능: 변신합체 / 구성: 캐논X, 그랜드카봇X, X-큐브팩 3개, 스티커 2장, 설명서 3장 로봇 / 구성: 캐논X, 그랜드카봇X, X-큐브팩 3개, 스티커 2장, 설명서 3장
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=104571221)
+
+### 19. 타미야 타미야 TAMIYA  미니카 트랙 타원형 홈 입체 레인 94893
 - **브랜드**: 타미야
 - **가격**: 81,310원
 - **평점**: ⭐5 (2개 리뷰)
@@ -161,7 +217,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21610685)
 
-### 14. 로보카폴리 다이캐스팅 테리
+### 20. 로보카폴리 다이캐스팅 테리
 - **브랜드**: 로보카폴리
 - **가격**: 8,550원
 - **평점**: ⭐5 (3개 리뷰)
@@ -170,66 +226,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=21615179)
-
-### 15. 산리오 블록 포차코 미니체육관
-- **브랜드**: 산리오
-- **가격**: 38,100원
-- **평점**: ⭐4.4 (5개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 로봇 / 작동완구 / 자동차 / 기차 / 비행기 완구 / 비행기
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=52161680)
-
-### 16. 초이락컨텐츠컴퍼니 초이락 헬로카봇 큐브시계 큐브시계X
-- **브랜드**: 초이락컨텐츠컴퍼니
-- **가격**: 33,230원
-- **평점**: ⭐4.9 (77개 리뷰)
-- **핵심 스펙**: 완구 / 블록 / 매트 / 로봇 / 작동완구 / 장난감무기 / 작동완구 완구
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=31418456)
-
-### 17. 에스에이엠지엔터테인먼트 메탈카드봇W 블레이온
-- **브랜드**: 
-- **가격**: 75,210원
-- **평점**: ⭐5 (8개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 36개월이상 / 로봇↔소방차 / 구성: 본체,로봇카드,웨폰카드 로봇 / 구성: 본체,로봇카드,웨폰카드
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=104224904)
-
-### 18. 초이락컨텐츠컴퍼니 헬로카봇 그랜드카봇GX
-- **브랜드**: 초이락컨텐츠컴퍼니
-- **가격**: 108,800원
-- **평점**: ⭐4.9 (34개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 37개월이상 / 로봇↔자동차↔기차↔전투기 / 기능: 변신합체 / 구성: 캐논X, 그랜드카봇X, X-큐브팩 3개, 스티커 2장, 설명서 3장 로봇 / 구성: 캐논X, 그랜드카봇X, X-큐브팩 3개, 스티커 2장, 설명서 3장
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=104571221)
-
-### 19. 주영이앤씨 고고다이노 공룡탐험대 사운드 변신로봇 케루
-- **브랜드**: 주영이앤씨
-- **가격**: 11,000원
-- **평점**: ⭐4.7 (141개 리뷰)
-- **핵심 스펙**: 로봇 / 특징: 소리 / 공룡↔비행기 로봇 / 공룡↔비행기
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21330848)
-
-### 20. 초이락컨텐츠컴퍼니 헬로카봇 그랜드 카봇X
-- **브랜드**: 초이락컨텐츠컴퍼니
-- **가격**: 60,880원
-- **평점**: ⭐4.9 (20개 리뷰)
-- **핵심 스펙**: 로봇 / 대상연령: 37개월이상 / 헬로카봇 / 로봇↔자동차↔기차↔전투기 / 기능: 변신합체 / 구성: 그랜드카봇X,그랜드엑스칼리버,그랜드실드,그랜드샷건2개,X-큐브팩,스티커,설명서
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=100277132)
 
 ---
 
@@ -244,8 +240,9 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvljO132-AjBjExKygQeapBs-reNVHQ8gA9iJCyBr8M8vEJAx0mlEYSPaFx4o_Scr4chLjlj0HNxZKqKTpQdahuGdlT8QsjBwp1QvnVz_qjXAOOPe-udbnAS9JarkK1Ag2JkYikggE61E2Vr1T5TIeExlx6aA=)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKouLV-eq4JhIuMIlEIn8HMxqC5-I0w_Ad1_PDGc1xRvwprGj-o-N7nFKbsknElo6Ttox3XySKOZof1fvzSLdxS-eOKYGuel151FVD3nvz2CQ4YEVEYD_DLVkT5kXjPN1_95WYBw6Uhpg3qHElPEKYrjaYOeckFz2wB8MXPN3sfaKu)
-- [toytooth.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGoOcOyCjBjy_yqkjYeVH2ZfjgUU63edPhvnt4U0-DJKVzgTALM_0o5JCokSP1B3LHcaPOytlSzYekQJkzqn4ECJoeDR7IBn5bd86dZTRhmtX13dpeUfv6AZ-6RVYfVI7zGzoQgFGMk_lFzXymWik6NsOqme_VAlTbBn4eY6L60vL34aVodBz5JKiB23xIKw7pTYNy9PacxTOM0fxIecboJCvYI10pOJnyogw==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF_xZS0IwfPkjXE-lqxR-9wYUXLvLJ3J1Qk1xfIcrhKi6HS3hZE24HrJ_X0H9R44F18THETkg-JOmYdvJ06qqQ3q2xiKcdpGXJN6D8NUYSTwddeZ2LUI2ML6bbh2azaSvhuY8bds08=)
-- [personalrobots.biz](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEY843mCne-JGmRMMAxcAC2A-T1lj3Y5J_-A1ZfwVK0lAcP-Z56pClVH35ikEp_J1J76QTl0JK9V3zFyGgR2s62IQ2J8vPna-TCxv7m2XNJCCOaljkKFgu3vXTr3WakR_xkcm58EPm_OC7ggTLAhyY7kS7KRCChHWFBlY9U9e6FmEMKWUerrfGWQ7uEiQ6UxmtkSvC9VSx9-BBvX6MVeYr9LPiill0=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHawg416LEs6BTNQhimBaoBWr4MNDyRwxzDKLUFyU_BhBaiJvdA82wUNGk04PWcFadq-i0ohGVSjxzV06mnOXnqiwsXlI9BhRez3_MJJfo7ULN5zmlOrJp5PXcO6pqM67YMHOkoecqW2vMBeq_XFmLoyBWmncw=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhi_YE0kmlNvPKnkO7VMEZgT6E-64bNjCY_4v4S6UhvXKcre1wc8yvk-VnW5dmch47NZOpmj7JR3wM-wz7_0vMmN8Bg_Q7pUsYL7eWD7wYNRdJhDuTfLEFPKx3Dhhmf6g4qxnXu_ywsqK7k-_BT0_rcVPTS3lszYOdxb2RPVnl1VVC)
+- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjknpRjpyI6MVeiimYQxkCi_qgwa9EzuJmPV9ai7XhS-WUQvKtxDloz3oT-VhOe9utiYVaR_E6uvmMxmASbtlqY4w3DeJFc5tNVelLXqqDUBeSgXzJtnFL6pp_n00UeHTkY2_Z_GsRV6GL93wKIDTqVAJ-gtpkmnj_3jA=)
+- [toytooth.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEL23i5tfPhPw6XoAnjsYWtO944jcNAR6G3oapha1VpJyypoi5FeiIqsLGJZFTMF9iS6SOtcCRDjulxUUjFlHZS1fbPHCmdMExlUCupfGnkguKQ_PTLbYykNr8IKmvXbYGzrsiqPBHuSaISMYhOcGp70XDplFamrl_KN9wjwK6vOYWMThIDWhMb5mywtt17Edt5zV-aWQACOllIv42h721NndFkCrq_vFGmw==)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENjxQtGTdNvSNB_7ED3cKiJ24CRJs99GhH3b1KUsYvI04uzhj88Ad_WK96A9IqDDdvwo-k051T0BULbWLuR38km10TOtvb9h3xc3jI-hUzGspC-sJgZpoIP9XkCIEI-iqMUHFt3BJ8I42f84HdzOuigg==)
+- [engadget.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXlkodOMZ0SQLG1ISZnhcuRUygHtO0JOke2IMY8RfnEJWocH6EQzPUytE8w7G955_3wM-j3r234okaCVSriAYHc4aE5rKqNPCJoU7MlPUDFNfnzv7nswwg5FeUceWHcGfWP8vtL0BR-refAYv8Erhe_u7ixt84pKOOTjMrLDgzmHhjRXchoRRTf1pEIcWpgqVnDZ4xkbtPO9SJyYe7MWmk6aPY6UMtoYUYtSdpg8WPW2XM0d0=)

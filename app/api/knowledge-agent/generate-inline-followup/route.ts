@@ -87,6 +87,18 @@ async function generateInlineFollowUp(
     return { hasFollowUp: false, skipReason: 'Budget question - no follow-up needed' };
   }
 
+  // 🆕 "상관없어요" 등 중립적 답변 시 꼬리질문 스킵
+  const neutralAnswerPatterns = [
+    '상관없', '상관 없', '괜찮', '아무거나', '잘 모르', '모르겠',
+    '없어요', '없습니다', '특별히 없', '딱히 없', '노상관', '노 상관'
+  ];
+  const isNeutralAnswer = neutralAnswerPatterns.some(pattern =>
+    userAnswer.toLowerCase().includes(pattern)
+  );
+  if (isNeutralAnswer) {
+    return { hasFollowUp: false, skipReason: 'Neutral answer - no follow-up needed' };
+  }
+
   // 🆕 온보딩/아기정보 컨텍스트 구성
   const userContextParts: string[] = [];
 
@@ -153,10 +165,19 @@ ${userContextSection}
 - ⛔ **위 "이미 수집된 정보"에 포함된 내용을 다시 묻는 질문** (예: 이미 월령을 알면 월령 묻기 금지)
 - ⛔ **이미 불만사항으로 언급된 내용을 다시 묻는 질문** (예: "소음" 불만 → 소음 관련 추가 질문 불필요)
 
-## 옵션 생성 규칙
+## 옵션 생성 규칙 (중요!)
 - 옵션은 3~4개 생성
 - ⛔ "상관없어요", "잘 모르겠어요", "둘 다", "기타" 같은 회피성 옵션 금지 (시스템이 자동 추가함)
 - 옵션에는 친절한 소괄호 부가설명 추가 (예: "대용량 (5L 이상)")
+- ⭐ **옵션은 구체적이고 정보 가치가 있어야 함**: 선택 즉시 추천에 반영 가능한 명확한 조건이어야 함
+  - ❌ 나쁜 예: "피하고 싶은 성분이 있나요?", "특별히 원하는 기능이 있나요?" (그 자체로 정보값 없음)
+  - ✅ 좋은 예: "BPA-free 소재", "스테인리스 재질", "유리 재질" (바로 필터링 가능)
+
+## 자연스러운 질문 작성 (중요!)
+- ⛔ 이미 수집된 정보(월령, 성별, 상황 등)를 '억지로' 언급하지 마세요
+  - ❌ 나쁜 예: "20개월 남아라고 하셨는데, 디자인은 어떤 게 좋으신가요?"
+- 질문은 자연스럽게 이전 답변과 연결되어야 함
+- 수집된 정보는 내부적으로 활용하되, 질문에서 굳이 반복하지 않음
 
 반드시 아래 JSON 형식으로만 응답하세요:
 
