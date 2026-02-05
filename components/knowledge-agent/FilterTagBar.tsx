@@ -36,7 +36,7 @@ export function FilterTagBar({
   }
 
   return (
-    <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm -mx-4">
+    <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm -mx-4 mt-4">
       <div className="flex gap-[6px] px-4 py-2 overflow-x-auto scrollbar-hide">
         {/* "모두" 태그 - 선택 해제용 */}
         <motion.button

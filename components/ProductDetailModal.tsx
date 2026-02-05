@@ -9,7 +9,7 @@ import { useFavorites } from '@/hooks/useFavorites';
 import Toast from '@/components/Toast';
 import OptionSelector from '@/components/ui/OptionSelector';
 import type { ProductVariant } from '@/types/recommend-v2';
-import { CaretDown } from '@phosphor-icons/react/dist/ssr';
+import { CaretDown, Star } from '@phosphor-icons/react/dist/ssr';
 
 // 실시간 가격 크롤링 결과 타입
 interface LivePriceData {
@@ -1597,6 +1597,34 @@ export default function ProductDetailModal({ productData, category, categoryName
                           )} */}
                         </div>
                       )}
+
+                      {/* 리뷰 모두보기 버튼 */}
+                      <div className="mt-8 pt-6 border-t border-gray-100">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPriceTab('danawa_reviews');
+                            // 리뷰 탭 영역으로 스크롤
+                            setTimeout(() => {
+                              reviewTabRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 100);
+                          }}
+                          className="w-full py-3.5 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors flex items-center justify-center gap-2"
+                        >
+                          <div className="flex items-center gap-1">
+                            <Star size={18} weight="fill" className="text-yellow-400" />
+                            <span className="text-[15px] font-bold text-gray-800">
+                              {averageRating > 0 ? averageRating.toFixed(1) : '—'}
+                            </span>
+                          </div>
+                          <span className="text-[14px] text-gray-500">
+                            리뷰 {productData.product.reviewCount.toLocaleString()}개 모두보기
+                          </span>
+                          <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   );
                 })()}

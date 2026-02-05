@@ -759,7 +759,7 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
                                       {/* 추천 완료 뱃지 - 썸네일 위쪽 */}
                                       {hasSavedResult && (
                                         <div className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-blue-500 rounded-md flex items-center justify-center z-10 whitespace-nowrap">
-                                          <span className="text-[10px] font-bold text-white leading-none">추천완료</span>
+                                          <span className="text-[10px] font-bold text-white leading-none">추천 결과 보기</span>
                                         </div>
                                       )}
                                       {imageSrc ? (
