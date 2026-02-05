@@ -26,6 +26,9 @@ interface ResultChatContainerProps {
   chatHistory?: Array<{ role: 'user' | 'assistant'; content: string }>;
   hideHelpBubble?: boolean;
   flowType?: 'v2' | 'ka';
+  // 외부에서 입력창 제어용
+  inputRef?: React.RefObject<HTMLTextAreaElement | null>;
+  isHighlighted?: boolean;
 }
 
 /**
@@ -44,11 +47,14 @@ export function ResultChatContainer({
   chatHistory = [],
   hideHelpBubble = false,
   flowType = 'v2',
+  inputRef: externalInputRef,
+  isHighlighted = false,
 }: ResultChatContainerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpBubble, setShowHelpBubble] = useState(true);
   const [inputValue, setInputValue] = useState('');
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const internalTextareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRef = externalInputRef || internalTextareaRef;
 
   // 상호작용 시 말풍선 숨김
   const handleInteraction = () => {
@@ -153,14 +159,14 @@ export function ResultChatContainer({
       {/* 채팅 입력창 */}
       <div className="relative flex items-end group">
         <div
-          className="relative w-full flex items-end overflow-hidden"
+          className={`relative w-full flex items-end overflow-hidden transition-all duration-300 ${isHighlighted ? 'ring-2 ring-blue-400 ring-offset-2' : ''}`}
           style={{
             background: 'rgba(255, 255, 255, 0.9)',
             backdropFilter: 'blur(15px)',
             WebkitBackdropFilter: 'blur(15px)',
             borderRadius: '20px',
-            boxShadow: '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
-            border: '1px solid #e2e2e7',
+            boxShadow: isHighlighted ? '0px 5px 20px 0px rgba(59, 130, 246, 0.25)' : '0px 5px 15px 0px rgba(21, 21, 21, 0.04)',
+            border: isHighlighted ? '1px solid #3b82f6' : '1px solid #e2e2e7',
           }}
         >
           {/* 그라데이션 ellipse */}

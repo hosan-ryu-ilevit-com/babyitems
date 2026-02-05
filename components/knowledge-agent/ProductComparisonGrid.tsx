@@ -30,6 +30,7 @@ interface KnowledgeProduct {
   productUrl?: string;
   tagScores?: ProductTagScores;
   rank?: number; // 원본 추천 순위 (1~5)
+  danawaRank?: number | null; // 다나와 인기순위
 }
 
 interface ProductComparisonGridProps {
@@ -240,12 +241,27 @@ export function ProductComparisonGrid({
               {/* 가격 + 버튼: mt-auto로 하단 고정 */}
               <div className="mt-auto">
                 {/* 가격 */}
-                <p className="text-[15px] font-bold text-gray-900 mb-6">
+                <p className="text-[15px] font-bold text-gray-900 mb-1">
                   {isEmpty(product.price)
                     ? '가격 문의'
                     : `최저 ${product.price!.toLocaleString()}원`
                   }
                 </p>
+
+                {/* 인기순위 */}
+                {(() => {
+                  const rawDanawaRank = product.danawaRank ?? product.raw?.danawaRank;
+                  const danawaRank = typeof rawDanawaRank === 'string'
+                    ? parseInt(rawDanawaRank.replace(/[^\d]/g, ''), 10)
+                    : rawDanawaRank;
+                  const hasDanawaRank = typeof danawaRank === 'number' && Number.isFinite(danawaRank) && danawaRank > 0;
+
+                  return hasDanawaRank ? (
+                    <p className="text-[12px] text-gray-400 font-medium mb-4">
+                      {categoryName} 인기순위 <span className="font-semibold text-gray-500">{danawaRank}위</span>
+                    </p>
+                  ) : <div className="mb-4" />;
+                })()}
 
                 {/* 버튼 그룹 */}
                 <div className="space-y-1.5">

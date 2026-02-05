@@ -841,6 +841,8 @@ export default function KnowledgeAgentPage() {
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [isChatInputHighlighted, setIsChatInputHighlighted] = useState(false);
+  const chatInputRef = useRef<HTMLTextAreaElement>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -4272,6 +4274,12 @@ export default function KnowledgeAgentPage() {
                 onFilterTagToggle={handleFilterTagToggle}
                 // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 전체 개수)
                 totalQuestionsCount={Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length}
+                // 🆕 채팅 입력창 하이라이트용
+                chatInputRef={chatInputRef}
+                onChatInputHighlight={() => {
+                  setIsChatInputHighlighted(true);
+                  setTimeout(() => setIsChatInputHighlighted(false), 1500);
+                }}
               />
             );
           });
@@ -4616,6 +4624,8 @@ export default function KnowledgeAgentPage() {
                   .filter(m => (m.role === 'user' || m.role === 'assistant'))
                   .map(m => ({ role: m.role as 'user' | 'assistant', content: m.content }))
                 }
+                inputRef={chatInputRef}
+                isHighlighted={isChatInputHighlighted}
               />
             </>
           ) : (phase === 'questions' || phase === 'report') && activeQuestion && !isTyping ? (
@@ -5090,6 +5100,9 @@ function MessageBubble({
   onFilterTagToggle,
   // 🆕 매칭도 계산용
   totalQuestionsCount,
+  // 🆕 채팅 입력창 하이라이트용
+  chatInputRef,
+  onChatInputHighlight,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -5128,6 +5141,9 @@ function MessageBubble({
   onFilterTagToggle: (tagId: string) => void;
   // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 전체 개수)
   totalQuestionsCount: number;
+  // 🆕 채팅 입력창 하이라이트용
+  chatInputRef?: React.RefObject<HTMLTextAreaElement | null>;
+  onChatInputHighlight?: () => void;
 }) {
   const isUser = message.role === 'user';
 
@@ -5618,6 +5634,26 @@ function MessageBubble({
                 </button>
               </div>
 
+              {/* AI 상담하기 안내 - 탭 바로 아래 */}
+              <div className="mt-4 mb-2">
+                <span className="text-[14px] text-gray-500">
+                  어떤 제품을 선택할지 고민된다면?{' '}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    // 채팅 입력창 포커스
+                    chatInputRef?.current?.focus();
+                    // 하이라이트 효과
+                    onChatInputHighlight?.();
+                  }}
+                  className="text-[14px] text-blue-500 font-medium hover:text-blue-600 transition-colors inline-flex items-center gap-0.5"
+                >
+                  AI와 상담하기
+                  <CaretRight size={14} weight="bold" />
+                </button>
+              </div>
+
               {/* 🆕 필터 태그 바 - 리스트 뷰일 때만 표시 */}
               {filterTags.length > 0 && showListView && (
                 <div className="mb-0">
@@ -5885,7 +5921,7 @@ function MessageBubble({
                 >
                   {/* 🆕 상품 선택 UI */}
                   <div className="space-y-2 ">
-                    <p className="text-[16px] font-medium text-blue-500 text-center mb-6">
+                    <p className="text-[16px] font-medium text-gray-600 text-center mt-5 mb-4">
                     상품 3개를 선택해서 비교해보세요
                     </p>
                     <div className="flex gap-1.5 w-full">
