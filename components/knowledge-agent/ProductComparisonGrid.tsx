@@ -375,50 +375,19 @@ export function ProductComparisonGrid({
           </div>
         </div>
 
-        {/* 스펙 비교 섹션 */}
-        {allSpecKeys.length > 0 && (
-          <div className="mt-5">
-            {allSpecKeys.map((specKey) => (
-              <div key={specKey}>
-                {/* 섹션 헤더 */}
-                <div className="px-4 pt-5 pb-1 mt-4">
-                  <h4 className="text-[22px] font-bold text-gray-900">{specKey}</h4>
-                </div>
-
-                {/* 디바이더 - 스펙 키 아래에 - 전체 너비만큼 */}
-                <div style={{ width: totalWidth }}>
-                  <div className="border-t border-gray-200 mx-4" />
-                </div>
-
-                {/* 각 제품별 스펙 값 */}
-                <div className="flex items-start py-2.5 px-2" style={{ width: totalWidth }}>
-                  {displayProducts.map((product) => {
-                    const value = product.specs?.[specKey];
-
-                    return (
-                      <div
-                        key={`${specKey}-${product.pcode}`}
-                        className="shrink-0 px-2"
-                        style={{ width: columnWidth }}
-                      >
-                        <p className={`text-[14px] font-medium leading-snug ${isEmpty(value) ? 'text-gray-400' : 'text-gray-800'}`}>
-                          {isEmpty(value) ? '-' : value}
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
         {/* 사용자 조건 충족도 섹션 */}
         {filterTags.length > 0 && (
           <div className="mt-5">
-           
-           
-            {filterTags.map((tag) => (
+            {filterTags.map((tag) => {
+              // 모든 제품이 미충족(X)인 경우 해당 row 숨김
+              const allProductsNotMet = displayProducts.every((product) => {
+                const score = product.tagScores?.[tag.id]?.score;
+                return score === null || !score;
+              });
+
+              if (allProductsNotMet) return null;
+
+              return (
               <div key={tag.id}>
                 {/* 태그 라벨 (키) */}
                 <div className="px-4 pt-5 pb-1 mt-4">
@@ -465,6 +434,45 @@ export function ProductComparisonGrid({
                             </p>
                           </div>
                         )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+            })}
+          </div>
+        )}
+
+        {/* 스펙 비교 섹션 */}
+        {allSpecKeys.length > 0 && (
+          <div className="mt-5">
+            {allSpecKeys.map((specKey) => (
+              <div key={specKey}>
+                {/* 섹션 헤더 */}
+                <div className="px-4 pt-5 pb-1 mt-4">
+                  <h4 className="text-[22px] font-bold text-gray-900">{specKey}</h4>
+                </div>
+
+                {/* 디바이더 - 스펙 키 아래에 - 전체 너비만큼 */}
+                <div style={{ width: totalWidth }}>
+                  <div className="border-t border-gray-200 mx-4" />
+                </div>
+
+                {/* 각 제품별 스펙 값 */}
+                <div className="flex items-start py-2.5 px-2" style={{ width: totalWidth }}>
+                  {displayProducts.map((product) => {
+                    const value = product.specs?.[specKey];
+
+                    return (
+                      <div
+                        key={`${specKey}-${product.pcode}`}
+                        className="shrink-0 px-2"
+                        style={{ width: columnWidth }}
+                      >
+                        <p className={`text-[14px] font-medium leading-snug ${isEmpty(value) ? 'text-gray-400' : 'text-gray-800'}`}>
+                          {isEmpty(value) ? '-' : value}
+                        </p>
                       </div>
                     );
                   })}
