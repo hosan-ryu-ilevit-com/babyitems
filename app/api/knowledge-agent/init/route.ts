@@ -1852,7 +1852,9 @@ async function generateQuestions(
   _knowledge: string,
   filters?: DanawaFilterSection[],
   reviewAnalysis?: ReviewAnalysis | null,  // 🔥 리뷰 분석 결과 (선택적)
-  personalizationContext?: string | null   // 🆕 개인화 메모리 컨텍스트
+  personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
+  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string } | null,  // 🆕 온보딩 데이터
+  babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean } | null  // 🆕 아기 정보
 ): Promise<QuestionTodo[]> {
   if (!ai) return getDefaultQuestions(categoryName, products, trendAnalysis);
 
@@ -1929,6 +1931,60 @@ ${personalizationContext}
 `
     : '';
 
+  // 🆕 온보딩/아기정보 컨텍스트 (수집된 정보로 질문 최적화)
+  let userContextSection = '';
+  if (onboarding || babyInfo) {
+    const contextParts: string[] = [];
+
+    if (onboarding) {
+      const situationMap: Record<string, string> = {
+        first: '처음 구매하는 사용자',
+        replace: '기존 제품 교체/업그레이드 목적',
+        gift: '선물용 구매',
+      };
+      contextParts.push(`- 구매 상황: ${situationMap[onboarding.purchaseSituation || ''] || onboarding.purchaseSituation || '(미입력)'}`);
+
+      if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0) {
+        contextParts.push(`- 기존 제품 불만사항: ${onboarding.replaceReasons.join(', ')}`);
+      }
+      if (onboarding.replaceOther) {
+        contextParts.push(`- 기타 불만: ${onboarding.replaceOther}`);
+      }
+    }
+
+    if (babyInfo) {
+      if (babyInfo.calculatedMonths !== undefined && babyInfo.calculatedMonths !== null) {
+        contextParts.push(`- ⭐ 아기 월령: ${babyInfo.calculatedMonths}개월 (이미 수집됨 - 월령 질문 생성 금지!)`);
+      } else if (babyInfo.expectedDate) {
+        contextParts.push(`- 출산예정일: ${babyInfo.expectedDate} (예비맘)`);
+      }
+      if (babyInfo.gender) {
+        const genderMap: Record<string, string> = { male: '남아', female: '여아', unknown: '아직 모름' };
+        contextParts.push(`- 아기 성별: ${genderMap[babyInfo.gender] || babyInfo.gender}`);
+      }
+    }
+
+    if (contextParts.length > 0) {
+      userContextSection = `
+## [⚠️ 사용자가 이미 입력한 정보 - 절대 다시 질문하지 마세요!]
+<CollectedUserInfo>
+${contextParts.join('\n')}
+</CollectedUserInfo>
+
+⚠️ **[중요] 위 정보에 대해 다시 질문하면 안 됩니다!**
+- **아기 월령이 이미 수집되었다면**: "아기 개월수", "아기 월령", "아기 나이" 등의 질문 생성 금지
+- **기존 제품 불만사항이 있다면**: 해당 불만사항을 해결하는 방향으로 질문 설계 (예: "소음" 불만 → "소음 민감도" 질문 스킵)
+- **교체 목적이라면**: "첫 구매인가요?" 같은 질문 생성 금지
+
+⚠️ **[스타일 주의] 질문에 나이/성별을 억지로 언급하지 마세요!**
+- ❌ 잘못된 예: "20개월 남아에게 적합한 디자인은?"
+- ✅ 올바른 예: "어떤 디자인 스타일을 선호하시나요?"
+- **이유**: 나이/성별 정보는 이미 수집되어 내부적으로 추천에 활용됩니다. 질문에 굳이 언급하면 어색합니다.
+- **원칙**: 질문은 일반적이고 자연스럽게, 수집된 정보는 뒤에서 필터링에만 활용
+`;
+    }
+  }
+
   const prompt = `
 당신은 "${categoryName}" 구매 결정을 돕는 전문 AI 쇼핑 컨시어지입니다.
 당신의 목표는 방대한 정보를 나열하는 것이 아니라, **사용자가 가장 적은 문답으로 최적의 제품군으로 좁혀갈 수 있도록 돕는 것**입니다.
@@ -1937,7 +1993,7 @@ ${personalizationContext}
 제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 3~4개**를 JSON 배열로 생성하세요.
 
 ⚠️ **중요: 예산 질문과 "피하고 싶은 단점" 질문은 별도로 생성되므로, 여기서는 생성하지 마세요!**
-${personalizationSection}
+${personalizationSection}${userContextSection}
 ## [시장 데이터]
 <MarketContext>
 - **카테고리:** ${categoryName}
@@ -1987,7 +2043,8 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
 
 ## [작성 규칙]
 1. **Target Audience Check:**
-   - "${categoryName}"이 아이의 월령, 키, 몸무게 등의 정보가 중요한 아기용품(기저귀, 분유, 유모차, 카시트 등)이라면 **반드시** 첫 질문으로 아기 월령 또는 몸무게를 물어보세요. (아기용품이 아니라면 생략)
+   - "${categoryName}"이 아기용품이고 **아기 월령 정보가 아직 수집되지 않은 경우에만** 첫 질문으로 아기 월령을 물어보세요.
+   - ⚠️ **위 [사용자가 이미 입력한 정보]에 아기 월령이 있다면 월령 질문을 생성하지 마세요!** (이미 수집됨)
 2. **Spec Filtering:**
    - 모든 제품이 공통으로 가진 스펙은 질문하지 마세요. (변별력 없음)
    - 사용자 취향이나 환경에 따라 제품 추천이 달라지는 항목을 우선순위로 두세요.
@@ -2462,7 +2519,13 @@ export async function POST(request: NextRequest) {
   const startTime = Date.now();
 
   try {
-    const { categoryKey: rawCategoryKey, streaming = true, personalizationContext } = await request.json();
+    const {
+      categoryKey: rawCategoryKey,
+      streaming = true,
+      personalizationContext,
+      onboarding,  // 온보딩 데이터 (구매 상황, 불편사항 등)
+      babyInfo,    // 아기 정보 (성별, 개월수)
+    } = await request.json();
 
     if (!rawCategoryKey) {
       return NextResponse.json({ error: 'categoryKey required' }, { status: 400 });
@@ -2472,6 +2535,11 @@ export async function POST(request: NextRequest) {
     const categoryKey = decodeURIComponent(rawCategoryKey);
     const categoryName = CATEGORY_NAME_MAP[categoryKey] || categoryKey;
 
+    // 🆕 온보딩/아기정보 컨텍스트 로깅
+    if (onboarding || babyInfo) {
+      console.log(`[Init] User context: onboarding=${JSON.stringify(onboarding)}, babyInfo=${JSON.stringify(babyInfo)}`);
+    }
+
     console.log(`[Init] Raw categoryKey: "${rawCategoryKey}" → Decoded: "${categoryKey}" → categoryName: "${categoryName}"`);
     console.log(`\n========================================`);
     console.log(`[Init V6 Streaming] Starting for: ${categoryName}`);
@@ -2480,7 +2548,7 @@ export async function POST(request: NextRequest) {
     // 스트리밍 모드가 아니면 기존 방식으로 처리
     if (!streaming) {
       const earlyWebSearchPromise = performWebSearchAnalysis(categoryName);
-      return handleNonStreamingRequest(categoryKey, categoryName, startTime, earlyWebSearchPromise, personalizationContext);
+      return handleNonStreamingRequest(categoryKey, categoryName, startTime, earlyWebSearchPromise, personalizationContext, onboarding, babyInfo);
     }
 
     // SSE 스트리밍 응답
@@ -2728,7 +2796,9 @@ export async function POST(request: NextRequest) {
               knowledge || generateLongTermMarkdown(longTermData),
               crawledFilters,
               null,  // 리뷰 분석 없이 웹검색 + 상품 데이터만 활용 (속도 최적화)
-              personalizationContext  // 🆕 개인화 메모리 컨텍스트
+              personalizationContext,  // 🆕 개인화 메모리 컨텍스트
+              onboarding,  // 🆕 온보딩 데이터
+              babyInfo     // 🆕 아기 정보
             ),
             reviewPromise,
           ]);
@@ -2972,7 +3042,9 @@ async function handleNonStreamingRequest(
   categoryName: string,
   startTime: number,
   earlyWebSearchPromise?: Promise<TrendAnalysis | null>,
-  personalizationContext?: string | null  // 🆕 개인화 메모리 컨텍스트
+  personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
+  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string } | null,  // 🆕 온보딩 데이터
+  babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean } | null  // 🆕 아기 정보
 ): Promise<Response> {
   const timings: StepTiming[] = [];
 
@@ -3031,7 +3103,9 @@ async function handleNonStreamingRequest(
     knowledge || generateLongTermMarkdown(longTermData),
     crawledFilters,
     null,  // reviewAnalysis
-    personalizationContext  // 🆕 개인화 메모리 컨텍스트
+    personalizationContext,  // 🆕 개인화 메모리 컨텍스트
+    onboarding,  // 🆕 온보딩 데이터
+    babyInfo     // 🆕 아기 정보
   );
   const phase3Duration = Date.now() - phase3Start;
   timings.push({ step: 'phase3_questions', duration: phase3Duration, details: `${questionTodos.length}개 질문` });

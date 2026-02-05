@@ -32,6 +32,11 @@ import type { BalanceQuestion as V2BalanceQuestion, UserSelections, TimelineStep
 import { HardcutVisualization } from '@/components/knowledge-agent/HardcutVisualization';
 import { PLPImageCarousel } from '@/components/knowledge-agent/PLPImageCarousel';
 import { FilterTagBar } from '@/components/knowledge-agent/FilterTagBar';
+import { OnboardingPhase } from '@/components/knowledge-agent/OnboardingPhase';
+import { BabyInfoPhase } from '@/components/knowledge-agent/BabyInfoPhase';
+import { ConditionReportCard, ConditionReportLoading } from '@/components/knowledge-agent/ConditionReportCard';
+import { InlineFollowUp } from '@/components/knowledge-agent/InlineFollowUp';
+import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 // HighlightedText, HighlightedMarkdownText 제거됨 - tagScores 기반 뱃지 UI로 대체
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
 import type { FilterTag } from '@/lib/knowledge-agent/types';
@@ -85,23 +90,23 @@ function getParentCategoryTab(categoryName: string): 'baby' | 'living' {
 // Types
 // ============================================================================
 
-type Phase = 'loading' | 'report' | 'questions' | 'hardcut_visual' | 'follow_up_questions' | 'balance' | 'final_input' | 'result' | 'free_chat';
+import type { Phase, OnboardingData, BabyInfo, ConditionReport } from '@/lib/knowledge-agent/types';
 
 // ============================================================================
 // Step Indicator Component (4단계 진행 표시 - recommend-v2 스타일)
 // ============================================================================
 
 const STEPS_BABY = [
-  { id: 1, label: '카테고리 분석', phases: ['loading'] },
-  { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
-  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
+  { id: 1, label: '구매 상황', phases: ['baby_info', 'onboarding'] }, // baby_info가 먼저
+  { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
+  { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
 const STEPS_LIVING = [
-  { id: 1, label: '카테고리 분석', phases: ['loading'] },
-  { id: 2, label: '맞춤 질문', phases: ['questions', 'report'] },
-  { id: 3, label: '선호도 파악', phases: ['hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
+  { id: 1, label: '구매 상황', phases: ['onboarding'] },
+  { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
+  { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
@@ -832,12 +837,25 @@ export default function KnowledgeAgentPage() {
   // Parent category (baby/living)
   const parentCategory = getParentCategoryTab(categoryName);
 
-  // State
-  const [phase, setPhase] = useState<Phase>('loading');
+  // State - baby 카테고리는 baby_info부터, living은 onboarding부터 시작
+  const [phase, setPhase] = useState<Phase>(() =>
+    getParentCategoryTab(categoryName) === 'baby' ? 'baby_info' : 'onboarding'
+  );
   const [resultProducts, setResultProducts] = useState<any[]>([]);
   const [filterTags, setFilterTags] = useState<FilterTag[]>([]);
   const [allFilterTags, setAllFilterTags] = useState<FilterTag[]>([]);  // 🆕 필터링 전 전체 태그 (PDP 조건 매핑용)
+
+  // 온보딩 관련 상태
+  const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
+  const [babyInfo, setBabyInfo] = useState<BabyInfo | null>(null);
+  const [conditionReport, setConditionReport] = useState<ConditionReport | null>(null);
+  const [isConditionReportLoading, setIsConditionReportLoading] = useState(false);
   const [selectedFilterTagIds, setSelectedFilterTagIds] = useState<Set<string>>(new Set());
+
+  // 인라인 꼬리질문 상태
+  const [inlineFollowUp, setInlineFollowUp] = useState<InlineFollowUpType | null>(null);
+  const [isLoadingInlineFollowUp, setIsLoadingInlineFollowUp] = useState(false);
+
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const [isChatLoading, setIsChatLoading] = useState(false);
@@ -899,6 +917,11 @@ export default function KnowledgeAgentPage() {
   const [followUpCustomInputValue, setFollowUpCustomInputValue] = useState('');
   const followUpCustomInputRef = useRef<HTMLInputElement>(null);
 
+  // 인라인 꼬리질문 대기 중인 메시지 (꼬리질문 답변 후 처리용)
+  const pendingInlineFollowUpMessageRef = useRef<string | null>(null);
+  const pendingInlineFollowUpQuestionIdRef = useRef<string | null>(null);
+  const pendingInlineFollowUpQuestionTextRef = useRef<string | null>(null); // 🆕 원래 질문 텍스트 저장
+
   // AI Helper (뭘 고를지 모르겠어요) 상태
   const [isAIHelperOpen, setIsAIHelperOpen] = useState(false);
   const [isNegativeAIHelperOpen, setIsNegativeAIHelperOpen] = useState(false);
@@ -930,6 +953,105 @@ export default function KnowledgeAgentPage() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [modalInitialTab, setModalInitialTab] = useState<'price' | 'danawa_reviews'>('price');
   const [scrollToPrice, setScrollToPrice] = useState<boolean>(false);
+
+  // ============================================================================
+  // 온보딩 완료 핸들러
+  // ============================================================================
+  const handleOnboardingComplete = useCallback((data: OnboardingData) => {
+    console.log('[KA Flow] 온보딩 완료:', data);
+    setOnboardingData(data);
+
+    // 모든 카테고리는 onboarding 후 바로 loading으로
+    // (baby 카테고리는 이미 baby_info에서 아기 정보 수집 완료)
+    console.log('[KA Flow] loading phase로 전환');
+    setPhase('loading');
+
+    // baby 카테고리는 이미 수집된 babyInfo 포함, living은 null
+    initializeAgent(data, babyInfo);
+  }, [babyInfo]);
+
+  // 아기 정보 완료 핸들러 (baby 카테고리: baby_info → onboarding)
+  const handleBabyInfoComplete = useCallback((info: BabyInfo | null) => {
+    console.log('[KA Flow] 아기 정보 완료:', info);
+    setBabyInfo(info);
+
+    // onboarding phase로 전환 (아직 initializeAgent 호출 안 함)
+    console.log('[KA Flow] onboarding phase로 전환');
+    setPhase('onboarding');
+  }, []);
+
+  // ============================================================================
+  // 인라인 꼬리질문 핸들러
+  // ============================================================================
+
+  // 꼬리질문 생성 요청
+  const fetchInlineFollowUp = useCallback(async (questionText: string, userAnswer: string, questionId?: string) => {
+    // 예산 질문은 꼬리질문 없음 (브랜드 질문은 API에서 별도 처리)
+    if (questionId === 'budget' || questionId === 'price_range' || questionId === 'budget_range') {
+      return; // 예산 질문은 꼬리질문 없음
+    }
+
+    setIsLoadingInlineFollowUp(true);
+    try {
+      const res = await fetch('/api/knowledge-agent/generate-inline-followup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryName,
+          questionText,
+          userAnswer,
+          collectedInfo,
+          questionId,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.hasFollowUp && data.followUp) {
+          console.log('[KA Flow] 인라인 꼬리질문 생성:', data.followUp.question);
+          setInlineFollowUp(data.followUp);
+          return true; // 꼬리질문 있음
+        }
+      }
+    } catch (error) {
+      console.error('[KA Flow] 인라인 꼬리질문 생성 오류:', error);
+    } finally {
+      setIsLoadingInlineFollowUp(false);
+    }
+    return false; // 꼬리질문 없음
+  }, [categoryName, collectedInfo]);
+
+  // 인라인 꼬리질문 핸들러는 fetchChatStream 이후에 정의됨 (handleInlineFollowUpAnswer, handleInlineFollowUpSkip)
+
+  // ============================================================================
+  // 조건 보고서 생성
+  // ============================================================================
+  const fetchConditionReport = useCallback(async () => {
+    setIsConditionReportLoading(true);
+    try {
+      const res = await fetch('/api/knowledge-agent/generate-condition-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryName,
+          collectedInfo,
+          onboarding: onboardingData,
+          babyInfo,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.report) {
+          setConditionReport(data.report);
+        }
+      }
+    } catch (error) {
+      console.error('[KA Flow] 조건 보고서 생성 오류:', error);
+    } finally {
+      setIsConditionReportLoading(false);
+    }
+  }, [categoryName, collectedInfo, onboardingData, babyInfo]);
 
   const handleProductClick = (product: any, tab: 'price' | 'danawa_reviews' = 'price', shouldScrollToPrice: boolean = false) => {
     if (tab === 'danawa_reviews') {
@@ -1407,11 +1529,10 @@ export default function KnowledgeAgentPage() {
       return;
     }
 
-    // 바로 loading phase로 시작
-    // 바로 loading 시작
-    console.log('[KA Flow] 바로 loading 시작');
-    setPhase('loading');
-    initializeAgent();
+    // baby 카테고리는 baby_info부터, living은 onboarding부터 시작
+    const initialPhase = getParentCategoryTab(categoryName) === 'baby' ? 'baby_info' : 'onboarding';
+    console.log(`[KA Flow] ${initialPhase} phase 시작 (parentCategory: ${getParentCategoryTab(categoryName)})`);
+    setPhase(initialPhase);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryKey]);
 
@@ -1613,7 +1734,7 @@ export default function KnowledgeAgentPage() {
     }
   }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, collectedInfo, saveResultToStorage]);
 
-  const initializeAgent = async () => {
+  const initializeAgent = async (onboarding?: OnboardingData | null, babyInfoArg?: BabyInfo | null) => {
     const initialQueries = [
       `${categoryName} 인기 순위 2026`,
       `${categoryName} 추천 베스트`,
@@ -1867,7 +1988,10 @@ export default function KnowledgeAgentPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           categoryKey,
-          streaming: true
+          streaming: true,
+          // 온보딩 데이터 전달 (질문 생성 시 활용)
+          onboarding: onboarding || undefined,
+          babyInfo: babyInfoArg || undefined,
         })
       });
 
@@ -2228,7 +2352,18 @@ export default function KnowledgeAgentPage() {
   const startV2Flow = async () => {
     if (!v2FlowEnabled) return;
 
-    console.log('[V2 Flow] Starting (new architecture - no hard-cut)...');
+    console.log('[V2 Flow] Starting - 조건 보고서 표시...');
+
+    // 🆕 조건 보고서 생성 (백그라운드)
+    fetchConditionReport();
+
+    // 조건 보고서 phase로 전환 (사용자가 확인 후 hardcut_visual로 진행)
+    setPhase('condition_report');
+  };
+
+  // 🆕 조건 보고서 확인 후 하드컷 시각화로 진행
+  const proceedToHardcutVisual = async () => {
+    console.log('[V2 Flow] 조건 보고서 확인 완료, hardcut_visual로 진행...');
     setIsTyping(true);
 
     try {
@@ -2748,6 +2883,8 @@ export default function KnowledgeAgentPage() {
           collectedInfo: finalCollectedInfo,
           balanceSelections,
           negativeSelections: [], // 회피조건 제거
+          onboarding: onboardingData, // 🆕 온보딩 데이터 (불편사항 포함)
+          babyInfo, // 🆕 아기 정보 (개월수, 성별)
         }),
       });
 
@@ -3972,6 +4109,55 @@ export default function KnowledgeAgentPage() {
     }
   };
 
+  // 인라인 꼬리질문 답변 처리 후 다음 질문으로 진행
+  const continueAfterInlineFollowUp = async () => {
+    const pendingMessage = pendingInlineFollowUpMessageRef.current;
+    const pendingQuestionId = pendingInlineFollowUpQuestionIdRef.current;
+
+    if (pendingMessage) {
+      pendingInlineFollowUpMessageRef.current = null;
+      pendingInlineFollowUpQuestionIdRef.current = null;
+      pendingInlineFollowUpQuestionTextRef.current = null; // 🆕 질문 텍스트도 초기화
+
+      await fetchChatStream({
+        categoryKey,
+        userMessage: pendingMessage,
+        conversationHistory: messages.map(m => ({ role: m.role, content: m.content })),
+        phase: phase === 'result' ? 'free_chat' : phase,
+        questionTodos,
+        collectedInfo,
+        currentQuestionId: pendingQuestionId || undefined,
+        products: crawledProducts
+      });
+    }
+  };
+
+  // 인라인 꼬리질문 답변 처리
+  const handleInlineFollowUpAnswer = async (answer: string, label: string) => {
+    // 🆕 저장된 원래 질문 텍스트 사용 (currentQuestion은 이미 바뀌었을 수 있음)
+    const originalQuestion = pendingInlineFollowUpQuestionTextRef.current || currentQuestion?.question || 'followup';
+    console.log('[KA Flow] 인라인 꼬리질문 답변:', label, '(원래 질문:', originalQuestion.slice(0, 30), ')');
+
+    // collectedInfo에 추가 (키는 원래 질문 + "_추가정보")
+    setCollectedInfo(prev => ({
+      ...prev,
+      [`${originalQuestion}_추가정보`]: label,
+    }));
+    setInlineFollowUp(null);
+
+    // 다음 질문으로 진행
+    await continueAfterInlineFollowUp();
+  };
+
+  // 인라인 꼬리질문 건너뛰기
+  const handleInlineFollowUpSkip = async () => {
+    console.log('[KA Flow] 인라인 꼬리질문 건너뛰기');
+    setInlineFollowUp(null);
+
+    // 다음 질문으로 진행
+    await continueAfterInlineFollowUp();
+  };
+
   const handleFreeChat = async (message: string) => {
     if (!message.trim() || isTyping) return;
 
@@ -4036,6 +4222,26 @@ export default function KnowledgeAgentPage() {
       }).catch(err => console.error('[KA Flow] Prefetch error:', err));
     }
 
+    // 🆕 인라인 꼬리질문 생성 시도 (맞춤질문 단계에서만)
+    if ((phase === 'questions' || phase === 'report') && activeMsg && !activeMsg.id?.startsWith('followup-q-')) {
+      pendingInlineFollowUpMessageRef.current = message;
+      pendingInlineFollowUpQuestionIdRef.current = currentQId || null;
+      pendingInlineFollowUpQuestionTextRef.current = activeMsg.content; // 🆕 원래 질문 텍스트 저장
+
+      const hasFollowUp = await fetchInlineFollowUp(
+        activeMsg.content,
+        message,
+        currentQId
+      );
+
+      if (hasFollowUp) {
+        // 인라인 꼬리질문이 있으면 여기서 멈춤 (꼬리질문 답변 후 계속)
+        console.log('[KA Flow] 인라인 꼬리질문 대기 중...');
+        return;
+      }
+    }
+
+    // 꼬리질문 없으면 바로 다음 진행
     await fetchChatStream({
       categoryKey,
       userMessage: message,
@@ -4157,6 +4363,60 @@ export default function KnowledgeAgentPage() {
           className={`px-4 pt-0 bg-white relative transition-all duration-300 ${phase === 'result' || phase === 'free_chat' ? '' : 'flex-1 min-h-0 overflow-y-auto scrollbar-hide'}`}
           style={{ paddingBottom: '500px', overflowAnchor: phase === 'result' || phase === 'free_chat' ? undefined : 'none' }}
         >
+          {/* 온보딩 Phase */}
+          {phase === 'onboarding' && (
+            <OnboardingPhase
+              categoryName={categoryName}
+              parentCategory={parentCategory}
+              onComplete={handleOnboardingComplete}
+              onBack={() => {
+                // baby 카테고리: 아기 정보로 돌아가기
+                // living 카테고리: 카테고리 선택으로 돌아가기
+                if (parentCategory === 'baby') {
+                  setPhase('baby_info');
+                } else {
+                  router.push('/knowledge-agent/living');
+                }
+              }}
+            />
+          )}
+
+          {/* 아기 정보 Phase (baby 카테고리만 - 온보딩보다 먼저) */}
+          {phase === 'baby_info' && (
+            <BabyInfoPhase
+              onComplete={handleBabyInfoComplete}
+              onBack={() => router.push('/knowledge-agent/baby')}
+            />
+          )}
+
+          {/* 조건 보고서 Phase */}
+          {phase === 'condition_report' && (
+            <div className="py-6">
+              {isConditionReportLoading ? (
+                <ConditionReportLoading />
+              ) : conditionReport ? (
+                <ConditionReportCard
+                  report={conditionReport}
+                  categoryName={categoryName}
+                  onContinue={proceedToHardcutVisual}
+                />
+              ) : (
+                // 로딩도 아니고 데이터도 없으면 바로 진행
+                <div className="flex justify-center py-8">
+                  <button
+                    onClick={proceedToHardcutVisual}
+                    className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold"
+                  >
+                    다음으로 진행
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 메인 채팅 플로우 */}
+          {phase !== 'onboarding' && phase !== 'baby_info' && phase !== 'condition_report' && (
+          <>
           <div className="space-y-8 pt-2">
             {(() => {
               // top3 결과가 있는지 확인하고, 있다면 그 인덱스 찾기
@@ -4355,6 +4615,7 @@ export default function KnowledgeAgentPage() {
               )}
               {isTyping && !isCalculating && <SearchingIndicator queries={activeSearchQueries} statusMessage={activeStatusMessage} />}
             </AnimatePresence>
+
             <div ref={messagesEndRef} />
           </div>
 
@@ -4442,6 +4703,8 @@ export default function KnowledgeAgentPage() {
               );
             })()}
           </AnimatePresence>
+          </>
+          )}
         </main>
 
         {/* 로딩 단계에서는 하단 채팅바 숨김 */}
@@ -4665,6 +4928,33 @@ export default function KnowledgeAgentPage() {
           ) : null}
         </div>
         )}
+
+        {/* 인라인 꼬리질문 오버레이 */}
+        <AnimatePresence>
+          {(inlineFollowUp || isLoadingInlineFollowUp) && (phase === 'questions' || phase === 'report') && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-50 bg-white"
+            >
+              {isLoadingInlineFollowUp && !inlineFollowUp ? (
+                <div className="h-full flex items-center justify-center">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                    <span className="text-sm text-gray-600 font-medium">추가 질문 확인 중...</span>
+                  </div>
+                </div>
+              ) : inlineFollowUp ? (
+                <InlineFollowUp
+                  followUp={inlineFollowUp}
+                  onAnswer={handleInlineFollowUpAnswer}
+                  onSkip={handleInlineFollowUpSkip}
+                />
+              ) : null}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {selectedProduct && (() => {

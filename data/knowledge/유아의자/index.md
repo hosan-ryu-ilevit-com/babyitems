@@ -1,27 +1,26 @@
 # 유아의자 전문가 지식
 
-> 마지막 업데이트: 2026-01-29T12:34:47.360Z
-> 분석 상품: 20개 | 분석 리뷰: 2,335개
+> 마지막 업데이트: 2026-02-05T11:04:11.005Z
+> 분석 상품: 20개 | 분석 리뷰: 2,536개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄화 (고가, 고품질 제품 선호)
-- 키즈테크 (기술 접목 유아용품)
-- 캐릭터IP 활용 (캐릭터 디자인 제품)
-- 글로벌 시장 진출 (해외 브랜드 및 수출 증가)
+- 프리미엄화 (고가 제품 인기)
+- 안전성 및 기능성 강화
+- 디자인 및 인테리어 조화
 
 ### 구매자 만족 포인트
-- ✓ 안전성 (바른 자세 지원, 안전 인증)
-- ✓ 편의성 (세척 용이, 이동 편리)
-- ✓ 디자인 (인테리어 조화, 미적 요소)
-- ✓ 다기능성 (성장 맞춤 조절, 다양한 활용)
+- ✓ 안전성
+- ✓ 튼튼함
+- ✓ 디자인
+- ✓ 편의성
+- ✓ 가성비
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격 (프리미엄 제품)
-- ⚠ 짧은 사용 기간 (영유아기 한정)
-- ⚠ 청소 어려움 (틈새 오염)
-- ⚠ 조절 불편 (안전벨트 등)
+- ⚠ 짧은 사용 기간
+- ⚠ 높은 가격
+- ⚠ 청소의 어려움
 
 ### 가격대 인사이트
 
@@ -33,14 +32,24 @@
 ### 1. 스토케 트립트랩 하이체어
 - **브랜드**: 스토케
 - **가격**: 372,000원
-- **평점**: ⭐4.9 (727개 리뷰)
+- **평점**: ⭐4.9 (733개 리뷰)
 - **핵심 스펙**: 발걸이포함
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=3126535)
 
-### 2. 리바트 세계가구 피노 토들러 높이조절 멀티 의자
+### 2. 도노도노 맘마존 아기 이유식의자 하이체어
+- **브랜드**: 도노도노
+- **가격**: 170,270원
+- **평점**: ⭐4.8 (41개 리뷰)
+- **핵심 스펙**: 식판탈부착 / 5점식안전 / 식판 / 안전가드
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=77277818)
+
+### 3. 리바트 세계가구 피노 토들러 높이조절 멀티 의자
 - **브랜드**: 리바트
 - **가격**: 221,130원
 - **평점**: ⭐4.5 (2개 리뷰)
@@ -50,77 +59,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=95205062)
 
-### 3. 야마토야 노스타3 의자 원목 유아 아기 높이조절 의자
-- **브랜드**: 야마토야
-- **가격**: 47,950원
-- **평점**: ⭐5 (6개 리뷰)
-- **핵심 스펙**: 유아의자 / 목재(MDF)등판 / 목재좌판 / 높낮이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=28113434)
-
-### 4. 싸이벡스 레모 4-in-1 하이체어
-- **브랜드**: 싸이벡스
-- **가격**: 779,000원
-- **평점**: ⭐4.9 (82개 리뷰)
-- **핵심 스펙**: 유아식탁의자 / 크기(가로x세로x높이): 56x54.5x81.5cm / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙 유아식탁의자 / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21527855)
-
-### 5. 베이비캠프 유아용 내츄럴 식탁의자
-- **브랜드**: 베이비캠프
-- **가격**: 65,880원
-- **평점**: ⭐4.7 (61개 리뷰)
-- **핵심 스펙**: 발걸이포함 / 식판탈부착 / 십자형 / 식판
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=11263080)
-
-### 6. 도노도노 맘마존 아기 이유식의자 하이체어
-- **브랜드**: 도노도노
-- **가격**: 170,100원
-- **평점**: ⭐4.8 (40개 리뷰)
-- **핵심 스펙**: 식판탈부착 / 5점식안전 / 식판 / 안전가드
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=77277818)
-
-### 7. 싸이벡스 레모 3-in-1 하이체어
-- **브랜드**: 싸이벡스
-- **가격**: 591,950원
-- **평점**: ⭐4.9 (139개 리뷰)
-- **핵심 스펙**: 유아식탁의자 / 크기(가로x세로x높이): 56x54.5x81.5cm / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙 유아식탁의자 / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21527828)
-
-### 8. 본베베 멀티레벨 하이체어 Z 식탁의자
-- **브랜드**: 본베베
-- **가격**: 129,000원
-- **평점**: ⭐5 (8개 리뷰)
-- **핵심 스펙**: 식판탈부착 / 식판깊이조절 / 5점식안전 / 식판
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=10523688)
-
-### 9. 생활특권 쫀득 빈백 대형 1인용
-- **브랜드**: 생활특권
-- **가격**: 94,540원
-- **평점**: ⭐3 (2개 리뷰)
-- **핵심 스펙**: 빈백소파 / 1인용 / 패브릭 / 커버분리가능
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=19548053)
-
-### 10. 시디즈 트레보 어린이 식탁 학습용 공부의자
+### 4. 시디즈 트레보 어린이 식탁 학습용 공부의자
 - **브랜드**: 시디즈
 - **가격**: 129,000원
 - **평점**: ⭐4.7 (22개 리뷰)
@@ -130,19 +69,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=72304205)
 
-### 11. 야마토야 아펠 트레이 하이체어 식탁의자
+### 5. 야마토야 노스타3 의자 원목 유아 아기 높이조절 의자
 - **브랜드**: 야마토야
-- **가격**: 279,300원
-- **평점**: ⭐4.8 (175개 리뷰)
-- **핵심 스펙**: 미끄럼방지 / 식판탈부착 / 식판 / 안전가드 / 쿠션시트
+- **가격**: 47,950원
+- **평점**: ⭐5 (6개 리뷰)
+- **핵심 스펙**: 유아의자 / 목재(MDF)등판 / 목재좌판 / 높낮이
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12564539)
+- [상세보기](https://prod.danawa.com/info/?pcode=28113434)
 
-### 12. 도노도노 맘마존 아기 이유식의자 하이체어+쿠션 세트
+### 6. 도노도노 맘마존 아기 이유식의자 하이체어+쿠션 세트
 - **브랜드**: 도노도노
-- **가격**: 191,410원
+- **가격**: 187,380원
 - **평점**: ⭐4.9 (526개 리뷰)
 - **핵심 스펙**: 식판탈부착 / 5점식안전 / 식판 / 안전가드 / 쿠션시트
 - **장점 요약**: 분석 중
@@ -150,7 +89,117 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=34423742)
 
-### 13. 파파스토이 베이블퓨어리 NEW 베이비 하이체어
+### 7. 싸이벡스 레모 3-in-1 하이체어
+- **브랜드**: 싸이벡스
+- **가격**: 579,490원
+- **평점**: ⭐4.9 (139개 리뷰)
+- **핵심 스펙**: 유아식탁의자 / 크기(가로x세로x높이): 56x54.5x81.5cm / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙 유아식탁의자 / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21527828)
+
+### 8. 싸이벡스 레모 4-in-1 하이체어
+- **브랜드**: 싸이벡스
+- **가격**: 762,600원
+- **평점**: ⭐4.9 (83개 리뷰)
+- **핵심 스펙**: 유아식탁의자 / 크기(가로x세로x높이): 56x54.5x81.5cm / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙 유아식탁의자 / 색상: 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21527855)
+
+### 9. 싸이벡스 아기 식탁의자 레모 하이체어
+- **브랜드**: 싸이벡스
+- **가격**: 371,910원
+- **평점**: ⭐5 (12개 리뷰)
+- **핵심 스펙**: 유아식탁의자 / 좌판높이조절: 13단계 / 발판높이조절: 12단계 / 크기(가로x세로x높이): 56x54.5x81.5cm / 색상: 올화이트, 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙, 샌드화이트 유아식탁의자 / 색상: 올화이트, 펄핑크, 스톤블루, 스웨이드그레이, 스터닝블랙, 샌드화이트
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=95282183)
+
+### 10. 생활지음 제미니 4LEGS 높이조절 유아동의자
+- **브랜드**: 생활지음
+- **가격**: 129,981원
+- **평점**: ⭐4.7 (304개 리뷰)
+- **핵심 스펙**: 유아의자 / 패브릭등판 / 패브릭좌판
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=8166868)
+
+### 11. 본베베 멀티레벨 하이체어 Z 식탁의자
+- **브랜드**: 본베베
+- **가격**: 129,000원
+- **평점**: ⭐5 (8개 리뷰)
+- **핵심 스펙**: 식판탈부착 / 식판깊이조절 / 5점식안전 / 식판
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=10523688)
+
+### 12. 베이비캠프 유아용 내츄럴 식탁의자
+- **브랜드**: 베이비캠프
+- **가격**: 65,190원
+- **평점**: ⭐4.7 (61개 리뷰)
+- **핵심 스펙**: 발걸이포함 / 식판탈부착 / 십자형 / 식판
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=11263080)
+
+### 13. 생활특권 쫀득 빈백 대형 1인용
+- **브랜드**: 생활특권
+- **가격**: 94,540원
+- **평점**: ⭐3 (2개 리뷰)
+- **핵심 스펙**: 빈백소파 / 1인용 / 패브릭 / 커버분리가능
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=19548053)
+
+### 14. 부가부 지라프 하이체어 식탁의자+베이비 세트+트레이
+- **브랜드**: 부가부
+- **가격**: 578,000원
+- **평점**: ⭐4.8 (157개 리뷰)
+- **핵심 스펙**: 발걸이포함 / 식판탈부착 / 5점식안전 / 식판 / 안전가드
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21652319)
+
+### 15. 일룸 아띠 아이 의자
+- **브랜드**: 일룸
+- **가격**: 75,000원
+- **평점**: ⭐4.9 (27개 리뷰)
+- **핵심 스펙**: 유아의자 / 인조가죽등판 / 인조가죽좌판 / 높낮이
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=14198399)
+
+### 16. 이케아 ANTILOP 유아용 식탁의자+트레이
+- **브랜드**: 이케아
+- **가격**: 39,140원
+- **평점**: ⭐4.6 (195개 리뷰)
+- **핵심 스펙**: 3점식안전 / 식판
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=9899415)
+
+### 17. 부가부 지라프 하이체어 식탁의자
+- **브랜드**: 부가부
+- **가격**: 374,500원
+- **평점**: ⭐4.9 (21개 리뷰)
+- **핵심 스펙**: 발걸이포함 / 5점식안전
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21652472)
+
+### 18. 파파스토이 베이블퓨어리 NEW 베이비 하이체어
 - **브랜드**: 파파스토이
 - **가격**: 94,050원
 - **평점**: ⭐5 (3개 리뷰)
@@ -160,75 +209,25 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=15147020)
 
-### 14. 부가부 지라프 하이체어 식탁의자+베이비 세트+트레이
-- **브랜드**: 부가부
-- **가격**: 578,000원
-- **평점**: ⭐4.8 (156개 리뷰)
-- **핵심 스펙**: 발걸이포함 / 식판탈부착 / 5점식안전 / 식판 / 안전가드
+### 19. 디홀릭 리틀피노 원목 어린이 식탁의자
+- **브랜드**: 디홀릭
+- **가격**: 67,500원
+- **평점**: ⭐4.9 (18개 리뷰)
+- **핵심 스펙**: 발걸이포함
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21652319)
+- [상세보기](https://prod.danawa.com/info/?pcode=17751296)
 
-### 15. 에시앙 P-Edition 아기 의자 + 베리유 래빗베개
-- **브랜드**: 에시앙
-- **가격**: 122,610원
-- **평점**: ⭐4.7 (214개 리뷰)
-- **핵심 스펙**: 사용연령
+### 20. 야마토야 아펠 트레이 하이체어 식탁의자
+- **브랜드**: 야마토야
+- **가격**: 279,300원
+- **평점**: ⭐4.8 (176개 리뷰)
+- **핵심 스펙**: 미끄럼방지 / 식판탈부착 / 식판 / 안전가드 / 쿠션시트
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8689406)
-
-### 16. 이케아 AGAM 하이체어
-- **브랜드**: 이케아
-- **가격**: 84,540원
-- **평점**: ⭐3.9 (12개 리뷰)
-- **핵심 스펙**: 유아식탁의자 / 프레임: 원목 / 크기: (가로x세로x높이)41 x 43 x 79cm / 색상: 화이트, 레드, 블랙 유아식탁의자 / 색상: 화이트, 레드, 블랙
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=4173347)
-
-### 17. 시디즈 몰티 헬로베이비 세트
-- **브랜드**: 시디즈
-- **가격**: 389,000원
-- **평점**: ⭐4.9 (115개 리뷰)
-- **핵심 스펙**: 탈부착시트 / 식판탈부착 / 식판 / 안전가드
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=11610302)
-
-### 18. 베이비캠프 PU시트 유아 식탁의자
-- **브랜드**: 베이비캠프
-- **가격**: 47,740원
-- **평점**: ⭐4.3 (22개 리뷰)
-- **핵심 스펙**: 발걸이포함 / 식판탈부착 / 2중구조식판 / 식판 / 안전가드 / 쿠션시트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17026661)
-
-### 19. 부가부 지라프 하이체어 식탁의자+베이비 세트
-- **브랜드**: 부가부
-- **가격**: 502,000원
-- **평점**: ⭐5 (1개 리뷰)
-- **핵심 스펙**: 발걸이포함 / 5점식안전 / 안전가드
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=36199472)
-
-### 20. 꿈비 고이터 syt 원목 하이체어 유아식탁의자+트레이+쿠션
-- **브랜드**: 꿈비
-- **가격**: 278,970원
-- **평점**: ⭐4.8 (22개 리뷰)
-- **핵심 스펙**: 탈부착시트 / 발걸이포함 / 식판탈부착 / 5점식안전 / 식판 / 안전가드 / 쿠션시트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26468030)
+- [상세보기](https://prod.danawa.com/info/?pcode=12564539)
 
 ---
 
@@ -243,9 +242,7 @@
 ---
 
 ## 📊 데이터 출처
-- [kpmg.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnf5B7cr1yNIoGZz9L0ZlJ-NDLUOotKXASmCUYZGxtO4phjYbxgLu0H74NLjHn5CZrWbv-DKnpLMQPKzMb3GCX-dAo9pp_Ti7Xtk4M529eSNlXhg84-JXkUdygTJnQvIEPGeX-153B5Pn5qhWkkgRso-ujLi0l0ZPu_pLWoKTn71_tEzQKxP6hFA1I3NI5Bml0nTX-l1AZfwmmeWGrrsR_V2HynC4qmH26R-IKNuVnLvUFjmAvVoauYI2GQ0Z-mf24OIrHCqY1fjDwPp27yQFWAuwL5_yOadC9V_q7C-vRzgSFG20r3mTVJS49Z83j_TtysFIowtp1zXPstm_6CVV66bKR6kHEkWVzX7JecrWV-3MU-o2K5pa-ACnvlI24asZrKLSV3esVkLHc4m4RonDZmufGhqwAJtXUiBKRT2stM0Hz15U_Is7IFg==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGr12RXYSz-htiTAwQSLwlSREoI1nhJr88gG5k2ZcfeS7d4WiuZM-fgQhcVbJ4jkJDLprmyvXCD8C2q2J0RHcXTazMFCRC1OBWFspwIWUh2LJN2sSBcLKlY2hYt8N7unIQzdDqITPTzzKq9OrKJ8z27FVrw-nbVxZpVWsJ4Czu4m-NfKvXy5axRyy5ZosUL)
-- [kingsresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5T3mjsu17PPfMm_gOqvHDOGA4cYR6dC5SwuSm-azYyXVg0ewemQy4qrZckBf51zqHdvoeuqEYMT5ds66wu7SEAmq2t-yOQ0ECp0kjXeqAbCRHbKOcpPnYPOD1svMEs9EtmMtOxblk763MFCNE7uOylAC-Og==)
-- [kidznbaby.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE61yJZbMIfSu4vPcRbVJRv0BtVagYh6SHUbXshFvMzCBCMl153Ji5FyXQwhFBdK1qxptKrkj7a7eqp1E-PIljY6qjGz-KTxZfgZwcktRlPX0M6z7cF3aKPN81gMPlVJW7YLKKHKPcY9eYX9GT6ovqr9O4Rg==)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh9Vwp8jkQx30grRhTK8w241PXJciF08FbY9VfAhAFXhGPyyicp70Jv7-r76mm23332fx71fxScGNZT8-1DKD8ouE8-g6Veo9XUWkRf_H4w3YVn_kTW8-et5c9LO61mNdsWiUDfrVclbiySKCFKlF4w3JbhMnkZnL2zBgC9EDPxGxkWyJEYD-pi6u00zTl)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfbCkarUqpTkarcp_U8Dt0B1LWMahuWo-W72aPzRLd5yOp37RX_00jFNKex-fvgJf2XiV5kQIqUw_Nid6-dDu2NqYjCvac2p3mPaZ2yVB6mUP0Jl7YkwH2-x16E-5TO_YxQ-8SvQ==)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSL_J3wlNkxEj-CvgpgPBgnwIACZkYAp24gfKz2Svge_oRKGkFnmExIefU6_sKMPuhDk1l5b6IbNZaOZeQWipeBR2SE3tTH8F1QcK2PNKV-HYSDqb1KCxl7wfWMoVjhzmXUlBLgD0cuSzag-Q_5YMOdQIwNixcul1hY9tzTZc=)
+- [cstimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFf7PFqKwMYuoxlM9JMCkZyjB3MIn5G21sflS-bOH56VblKM7BLfwDZQZ6rpo7esPM7mGjoGLtdc05B2x3OwwnbTER6ttx-Gg_vEwBe5Us71E80E8bygaL--903uSGBtKLac-EhjSNYpk5VYdUs6WIwpJhqPmQ=)
+- [gpkorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQERzsuj8b5Dk97X_ovX7ZkcqT3GXgZcXCarklrLvmhqWAq6b5eW7vUiTmfTcG2JkBQ_JIpvFbJvZ6-04i1H0zHAt5_G8CApNJNxUuZ1eqRTCh1vCDae59X0u5Xp49vDO_WdvrOhvmjvN07bSSzBe79Qzww5JDE=)
+- [momcozy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXpGn-OBx24zYFTY1tQRlRvtPVlBO1KJ9gwu7gBfe8-2B6swk6VhuzXv2jTrFB4mgv8oi8bz_IaKvEbGzY9gFKpEUrsQAKh6YZRqK5tP1by5A1i8N-JrsG5jYJagVgiUuB1ZDdq1H_bX7qe-Tbj5pDntpWI2QXJzMcPo50dcAWRIhMXO9Mfc5MlA==)

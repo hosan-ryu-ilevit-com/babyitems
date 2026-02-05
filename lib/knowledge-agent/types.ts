@@ -384,3 +384,103 @@ export interface EnrichedFinalRecommendation extends FinalRecommendation {
   highlightData?: HighlightData;   // Legacy
   tagScores?: ProductTagScores;    // 🆕 태그별 충족도
 }
+
+// ============================================================================
+// Phase 타입 정의
+// ============================================================================
+
+export type Phase =
+  | 'onboarding'          // 1단계: 구매 상황 파악
+  | 'baby_info'           // 1.1단계: 아기 정보 (baby 카테고리만)
+  | 'loading'             // 데이터 분석 + 질문 생성
+  | 'report'              // 분석 보고서 (legacy)
+  | 'questions'           // 맞춤질문 + 인라인 꼬리질문 + 브랜드/예산
+  | 'condition_report'    // 조건 보고서 (인라인 카드)
+  | 'hardcut_visual'      // 후보군 시각화
+  | 'follow_up_questions' // 추가질문
+  | 'balance'             // 밸런스 게임 (legacy)
+  | 'final_input'         // 자유 입력
+  | 'result'              // 결과
+  | 'free_chat';          // 결과 후 채팅
+
+// ============================================================================
+// 온보딩 관련 타입
+// ============================================================================
+
+/**
+ * 온보딩 데이터 - 구매 상황 및 불편사항 수집
+ */
+export interface OnboardingData {
+  purchaseSituation: 'first' | 'replace' | 'gift';
+  replaceReasons?: string[];      // 교체 시 불편사항 (복수선택)
+  replaceOther?: string;          // 기타 자유입력
+}
+
+/**
+ * 아기 정보 - baby 카테고리 전용
+ * 로컬스토리지에 저장하여 재방문 시 재사용
+ */
+export interface BabyInfo {
+  gender?: 'male' | 'female' | 'unknown';
+  birthDate?: string;             // YYYY-MM-DD (태어난 경우)
+  expectedDate?: string;          // YYYY-MM-DD (출산예정일)
+  isBornYet: boolean;
+  calculatedMonths?: number;      // 자동 계산된 개월 수
+}
+
+// ============================================================================
+// 조건 보고서 관련 타입
+// ============================================================================
+
+/**
+ * 조건 보고서 - 수집된 정보 요약 및 분석 결과
+ */
+export interface ConditionReport {
+  userProfile: {
+    situation: string;             // 구매 상황 요약
+    keyNeeds: string[];            // 핵심 니즈
+  };
+  analysis: {
+    recommendedSpecs: Array<{
+      specName: string;
+      value: string;
+      reason: string;
+    }>;
+    importantFactors: string[];    // 중요 고려사항
+    cautions: string[];            // 주의사항
+  };
+  directions: Array<{
+    type: 'premium' | 'value' | 'balanced';
+    description: string;
+  }>;
+  summary: {
+    mustHave: string[];            // 필수 조건
+    niceToHave: string[];          // 선호 조건
+    avoid: string[];               // 회피 조건
+  };
+}
+
+// ============================================================================
+// 인라인 꼬리질문 관련 타입
+// ============================================================================
+
+/**
+ * 인라인 꼬리질문 - 맞춤질문 답변 직후 즉시 생성
+ */
+export interface InlineFollowUp {
+  question: string;
+  type: 'deepdive' | 'contradiction' | 'clarify';
+  options: Array<{
+    value: string;
+    label: string;
+  }>;
+}
+
+/**
+ * 인라인 꼬리질문 API 응답
+ */
+export interface InlineFollowUpResponse {
+  hasFollowUp: boolean;
+  followUp?: InlineFollowUp;
+  skipReason?: string;
+}

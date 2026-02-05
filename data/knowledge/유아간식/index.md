@@ -1,27 +1,28 @@
 # 유아간식 전문가 지식
 
-> 마지막 업데이트: 2026-01-30T09:11:46.612Z
+> 마지막 업데이트: 2026-02-05T12:01:48.000Z
 > 분석 상품: 20개 | 분석 리뷰: 978개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 유기농 및 알레르기 프리 유아 식품 옵션 수요 증가
-- 개인화된 영양 및 발달 단계별 맞춤 제품 개발
-- 무첨가, 저염, 무당 등 건강 지향 간식 선호
+- 유기농 및 건강한 성분 강조
+- 성분 표시 및 영양 함량 중요성 증대
+- 다양한 맛과 제형의 간식 개발 (퓨레, 쌀과자, 츄러스 등)
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 영양 성분
-- ✓ 안전한 원료 사용
-- ✓ 다양한 맛과 제형
-- ✓ 편리한 섭취 용이성
-- ✓ 성장 발달 도움
+- ✓ 영양 보충 용이
+- ✓ 성장 발달 지원
+- ✓ 기분 전환 및 정서 함양
+- ✓ 다양한 제품 구비
+- ✓ 편리한 휴대 및 섭취
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대
-- ⚠ 까다로운 원료 수급
-- ⚠ 엄격한 안전 기준 준수
-- ⚠ 개인 상표 및 저가 브랜드 경쟁 심화
+- ⚠ 과도한 당분 및 나트륨 함유 가능성
+- ⚠ 인공 첨가물 포함 우려
+- ⚠ 영양 성분 표시 오류 가능성
+- ⚠ 편식 유발 가능성
+- ⚠ 과도한 섭취 시 본 식사에 영향
 
 ### 가격대 인사이트
 
@@ -40,15 +41,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29153762)
 
-### 2. 코스트코 깐메추리알 1kg 3 메추리알 장조림 아기반찬
-- **브랜드**: 코스트코
-- **가격**: 26,030원
-- **평점**: ⭐4.3 (20개 리뷰)
-- **핵심 스펙**: 
+### 2. 유기농산 오가닉스토리 유기농 베이비퍼프 사과야 25g 1개
+- **브랜드**: 유기농산
+- **가격**: 2,460원
+- **평점**: ⭐5 (190개 리뷰)
+- **핵심 스펙**: 스낵 스낵
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=44311061)
+- [상세보기](https://prod.danawa.com/info/?pcode=29051036)
 
 ### 3. 해태제과 계란과자 핑크퐁 70g
 - **브랜드**: 해태제과
@@ -60,7 +61,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13458545)
 
-### 4. 머거본 베이비스타 라멘 치킨맛
+### 4. 코스트코 깐메추리알 1kg 3 메추리알 장조림 아기반찬
+- **브랜드**: 코스트코
+- **가격**: 26,030원
+- **평점**: ⭐4.3 (20개 리뷰)
+- **핵심 스펙**: 
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=44311061)
+
+### 5. 머거본 베이비스타 라멘 치킨맛
 - **브랜드**: 머거본
 - **가격**: 1,500원
 - **평점**: ⭐4.7 (635개 리뷰)
@@ -70,7 +81,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29099366)
 
-### 5. 핑크퐁 핑크퐁 아기상어 자일리100 40g
+### 6. 핑크퐁 핑크퐁 아기상어 자일리100 40g
 - **브랜드**: 핑크퐁
 - **가격**: 8,400원
 - **평점**: ⭐5 (2개 리뷰)
@@ -80,17 +91,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29999978)
 
-### 6. 유기농산 오가닉스토리 유기농 베이비퍼프 사과야 25g 1개
-- **브랜드**: 유기농산
-- **가격**: 2,460원
-- **평점**: ⭐5 (190개 리뷰)
-- **핵심 스펙**: 스낵 스낵
+### 7. 메이지 초코베이비 초콜릿 32g x 10개 한박스
+- **브랜드**: 메이지
+- **가격**: 17,900원
+- **평점**: ⭐4.8 (16개 리뷰)
+- **핵심 스펙**: 초콜릿
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29051036)
+- [상세보기](https://prod.danawa.com/info/?pcode=29108105)
 
-### 7. 앙팡 밀크릿 220g 국산 우유사탕 밀크캔디 대략 100개입 아기사탕
+### 8. 앙팡 밀크릿 220g 국산 우유사탕 밀크캔디 대략 100개입 아기사탕
 - **브랜드**: 앙팡
 - **가격**: 7,560원
 - **평점**: ⭐4.5 (7개 리뷰)
@@ -100,19 +111,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29160377)
 
-### 8. 메이지 초코베이비 초콜릿 32g x 10개 한박스
-- **브랜드**: 메이지
-- **가격**: 16,950원
-- **평점**: ⭐4.8 (16개 리뷰)
-- **핵심 스펙**: 초콜릿
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29108105)
-
 ### 9. 핑크퐁 핑크퐁 아기상어 비타톡톡 80포 키즈 자 톨 V
 - **브랜드**: 핑크퐁
-- **가격**: 25,380원
+- **가격**: 26,730원
 - **평점**: ⭐4.7 (27개 리뷰)
 - **핵심 스펙**: 젤리
 - **장점 요약**: 분석 중
@@ -120,7 +121,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29059415)
 
-### 10. 매일유업 요미요미 유기농과자 초록2단계 25GX3봉/아기간식
+### 10. 타마고보로 120g 계란과자 아기간식 핑거스낵 130g
+- **브랜드**: 타마고보로
+- **가격**: 2,392원
+- **평점**: ⭐4.3 (15개 리뷰)
+- **핵심 스펙**: 쿠키 쿠키
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=29071733)
+
+### 11. 매일유업 요미요미 유기농과자 초록2단계 25GX3봉/아기간식
 - **브랜드**: 매일유업
 - **가격**: 10,000원
 - **평점**: ⭐4.6 (5개 리뷰)
@@ -130,19 +141,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=29128262)
 
-### 11. 타마고보로 120g 계란과자 아기간식 핑거스낵 130g
-- **브랜드**: 타마고보로
-- **가격**: 2,490원
-- **평점**: ⭐4.3 (15개 리뷰)
-- **핵심 스펙**: 쿠키 쿠키
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29071733)
-
 ### 12. 매일유업 요미요미 유기농과자 초록2단계 25GX8봉/아기간식
 - **브랜드**: 매일유업
-- **가격**: 22,960원
+- **가격**: 19,960원
 - **평점**: ⭐4.8 (15개 리뷰)
 - **핵심 스펙**: 스낵 스낵
 - **장점 요약**: 분석 중
@@ -243,9 +244,9 @@
 ---
 
 ## 📊 데이터 출처
-- [thinkfood.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHlFAqqw94csNLIAV5Lzy5KBh3xt_qK3oObRmmjpPu3e2Xw9XBDCaEmKBRkR_T-MKu8ztUYi5UK3RB-8Ig4ANOeFNjqiOjzS2tAY1TvyyGixh56Ruhqszsmgvv-SR_QwI8vWfbsQP9vMkaz1V9ZfaqxNYHSWSdDmg==)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzNs7QHYuZffeIv7Jw8lIFOg7llMA_SS5IRxvH5U6NpzNy3knVp2mrSImxeZX6N2QWUHCbgXqRxJTpD6GlI3bYbDD-dQD4bG1fF2EmZ_CPnLEwsI9Frpb1VbGmPk5PP-GdW3mdzvJS4w==)
-- [womaneconomy.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEIG6LnPB-M-zco922saknv_CI9mMbjkAH7uCHC7rbk0c4NHh6vXwWJRB9D4bH5Pxv7qdAKfsslizWdfltxR0t8XVHnsrJHsBmWCNJwRZ_FeRSSew6XLq66ONaeHnNxYLsVjxC7PvX1XRzoY6uv_b8dcTZNW2Vnfs73KKU=)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGShBpUlpDmQ0utgTQFTA75BuOSAlF0hOTgO81wbDVu_GDQ_tM5PTGs6g0oXzO82NAIH8VuyDCzrfmK-cUhCB0d8qZ0kV33Rdh5dPtnowxiepb6-fcVG0OzZ58qe7_nEODuJ0cDNp8I4OLAG2RGqc-3Q2PD4oAMWWuKVcrCLg==)
-- [ud-machine.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDfWUHlh6aCgdGIwUluvjy8k5YFUrsg7pw-qBB6kKd6abKxNeNwj8iU9OjL7l4Tb5bFSNHzCPVGGnwd30WE1kdcVytqndWoG2PvJhoSdGH9y-Noxv26_WEufWb8coQ2FFCMWcMD-l608BobBWVaTzohWYCPn8d-Uo2JA==)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2bunc_iZbDpARQz6koIZB28sorxvVNbOjSMT8CcwEVSZcDxNCzTXgERVSgTLAT7zrKX27DH1jAM6q_XpeuoZRlq8WtNlMDkGV4bk4Jc4HswDNjieRmpA_bE0qCQzLuyHBxzI0kY4NNRM=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX6delrsr1F1kbi76t8fQdQRR5XvW0C3yZZLrQ-DyCGcddOLvgQMXSlQc5tNIXDUWV4ocQ34-5aPrU6RG7lX6DyUHibYWljmV7c3oef4wR5xK0EPh2QUT-yetDETvSbzfB0JD4b-e06rAYSzRa4fkNfWBtz_xa2qqp-r8o)
+- [womaneconomy.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsoRMZxmGr2ojGkYlD3JtRCF4fr_6uxw0ShyA3tgt8qg3B7sE5sv64cMiDBRAs0XAYWZ8z_jTadEAh16clFoTFNgu3QGUNzYA6-U72_2-XjQDPxpkYQiVfKBczD3_9zL3Uee_tGavKHIBd3yhBCn32k2WjE2DIS6vwVcw=)
+- [ud-machine.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEONtFbs13lP58M9mgKQs4BHehHSHMPP41MzfNwHsDeqLWxsQbcSvwRL-U_RLPaos_DV5qIUEMKFC1zis7l1NUyfprJKNaitUt8yjGgdKcwibchPCbd60DpQWmzlOyVv7bvDFWoUTBz4UBzqEgquHPt1Pc2m5b3zRDP)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEhjKYcEa8FFduDb37JxwRDYmLifGo6ohIj2D-sigI9bfjxI0IWmkRBEo0fUddub9yBWceYZuWhKDbCsAv1Dr8YV6UTSMV8abeM9MEVyWcco4widOfwHymeNDuVfNm4ineDYrzFdQkfzsX1jAq59gGfE_5VQ6buIBWG_jZhg==)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkbA9I8QphjUEDRXl22WWnqSFiOWRaPjTdcXKwWl-GA3Dx89xHq6Ck_VNaOL-uGlNF6E1k7BtH2mrgrzYStJ_VSz4xG0_Gkp3vaP1XQF39EOR_0ZOiZ9ULSbZq2KULVrnKAgc9HWJQWg8HcnH03O0NZa-XYBkqiDu9cRIkBooFqtrBbX64Apfhqu7dIzykCg==)
+- [ud-machine.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0lSLGiInspMRNsPVhcWNFOS_V1_0O9frxul1fgyPFdbouXRWuEZ_5zDUuUSIrhEuoMUhcW7S1Bgbv92hEAPe0XiiwhQTrX-JZQNWBSAk-6j7VxF07Rx1YLxa6AS8Gq0AjJsVqx5JuA62nbIWrvdUYXyXZetX7hiMn2w==)

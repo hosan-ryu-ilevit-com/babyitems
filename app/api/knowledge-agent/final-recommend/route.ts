@@ -2667,7 +2667,13 @@ export async function POST(request: NextRequest) {
       balanceSelections,
       negativeSelections,
       personalizationContext,  // 🆕 개인화 메모리 컨텍스트
-    } = body as FinalRecommendationRequest & { personalizationContext?: string };
+      onboarding,  // 🆕 온보딩 데이터 (구매 상황, 기존 불편사항)
+      babyInfo,    // 🆕 아기 정보 (개월수, 성별)
+    } = body as FinalRecommendationRequest & {
+      personalizationContext?: string;
+      onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string };
+      babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean };
+    };
 
     if (!candidates || candidates.length === 0) {
       return NextResponse.json({
@@ -2697,9 +2703,61 @@ export async function POST(request: NextRequest) {
         : Promise.resolve(null),
     ]);
 
+    // 🆕 기존 불편사항을 회피 키워드에 추가 (리뷰 검색에도 반영)
+    if (onboarding?.replaceReasons && onboarding.replaceReasons.length > 0) {
+      expandedKeywords.avoidKeywords.push(...onboarding.replaceReasons);
+      console.log(`[FinalRecommend] 🆕 불편사항 회피 키워드 추가: ${onboarding.replaceReasons.join(', ')}`);
+    }
+
     console.log(`[FinalRecommend] ⚡ Step 0 완료 (${Date.now() - step0StartTime}ms): Keywords prefer=${expandedKeywords.preferKeywords.length}, avoid=${expandedKeywords.avoidKeywords.length}`);
     if (freeInputAnalysisResult) {
       console.log(`[FinalRecommend] Free input analyzed:`, freeInputAnalysisResult);
+    }
+
+    // ============================================================================
+    // 🆕 온보딩/아기 정보를 컨텍스트로 변환
+    // ============================================================================
+    let extendedContext = personalizationContext || '';
+
+    // 아기 정보 추가
+    if (babyInfo) {
+      const babyParts: string[] = [];
+      if (babyInfo.calculatedMonths !== undefined) {
+        babyParts.push(`아기 월령: ${babyInfo.calculatedMonths}개월`);
+      } else if (babyInfo.expectedDate) {
+        babyParts.push(`출산예정일: ${babyInfo.expectedDate}`);
+      }
+      if (babyInfo.gender) {
+        const genderMap: Record<string, string> = { male: '남아', female: '여아', unknown: '성별 미정' };
+        babyParts.push(`성별: ${genderMap[babyInfo.gender] || babyInfo.gender}`);
+      }
+      if (babyParts.length > 0) {
+        extendedContext += `\n[아기 정보] ${babyParts.join(' / ')}`;
+      }
+    }
+
+    // 온보딩 정보 추가 (특히 기존 제품 불편사항 → 회피 조건으로 반영!)
+    if (onboarding) {
+      const situationMap: Record<string, string> = {
+        first: '처음 구매',
+        replace: '기존 제품 교체/업그레이드',
+        gift: '선물용',
+      };
+      extendedContext += `\n[구매 상황] ${situationMap[onboarding.purchaseSituation || ''] || '일반'}`;
+
+      // ⚠️ 기존 제품 불편사항 → 회피 조건으로 강조!
+      if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0) {
+        const avoidConditions = onboarding.replaceReasons.map(reason => `"${reason}" 없어야 함`).join(', ');
+        extendedContext += `\n⚠️ [기존 제품 불만 → 회피 조건] ${avoidConditions}`;
+        console.log(`[FinalRecommend] 🆕 기존 불편사항 회피 조건: ${avoidConditions}`);
+      }
+      if (onboarding.replaceOther) {
+        extendedContext += `\n⚠️ [추가 불만 → 회피] "${onboarding.replaceOther}" 없어야 함`;
+      }
+    }
+
+    if (extendedContext !== personalizationContext) {
+      console.log(`[FinalRecommend] 🆕 Extended context with onboarding/babyInfo`);
     }
 
     // ============================================================================
@@ -2735,7 +2793,7 @@ export async function POST(request: NextRequest) {
         balanceSelections || [],
         expandedKeywords,
         freeInputAnalysisResult,
-        personalizationContext,  // 🆕 개인화 메모리 컨텍스트
+        extendedContext || null,  // 🆕 온보딩/아기정보 포함된 확장 컨텍스트
       ),
       // 필터 태그 생성 (2단계에서 사용) - 🆕 자유 입력 분석 결과도 전달
       generateFilterTags(
