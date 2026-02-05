@@ -190,7 +190,6 @@ export function ProductComparisonGrid({
           {displayProducts.map((product, index) => {
             const rank = product.rank || (index + 1); // 원본 순위 우선, 없으면 현재 index
             const matchRate = calculateMatchRate(product.tagScores, totalQuestionsCount);
-            const isTopPick = rank === 1 && matchRate !== undefined && matchRate >= 90;
 
             return (
             <div
@@ -224,19 +223,12 @@ export function ProductComparisonGrid({
                 {/* 순위 + 매칭도 뱃지 (썸네일 안 왼쪽 위) */}
                 <div className="absolute top-1.5 left-1.5 flex items-center gap-1">
                   <div className={`px-2.5 py-1.5 rounded-full flex items-center justify-center ${
-                    isTopPick ? 'bg-blue-500/95' : 'bg-gray-900/85'
+                    rank === 1 && matchRate !== undefined && matchRate >= 90 ? 'bg-blue-500/90' : 'bg-gray-900/75'
                   }`}>
                     <span className="text-white font-semibold text-[11px] leading-none">
                       추천 {rank}위
                     </span>
                   </div>
-                  {/* {matchRate !== undefined && (
-                    <div className="px-2.5 py-1.5 rounded-full bg-gray-900/75 flex items-center justify-center">
-                      <span className="text-white font-semibold text-[11px] leading-none">
-                        {matchRate}% 매칭
-                      </span>
-                    </div>
-                  )} */}
                 </div>
               </button>
 

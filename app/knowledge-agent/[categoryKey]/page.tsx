@@ -1328,6 +1328,58 @@ export default function KnowledgeAgentPage() {
         } else {
           console.log('[KA] ✅ Result restored from localStorage (with', data.filterTags?.length || 0, 'tags, no analyses, re-sorted by tagScores)');
         }
+
+        // 🔄 reviewsData 백그라운드 로드 (캐러셀용)
+        const pcodes = sortedProducts.map(p => p.pcode || p.id).filter(Boolean);
+        if (pcodes.length > 0) {
+          console.log('[KA Storage] 🔄 Loading reviews for', pcodes.length, 'products...');
+          (async () => {
+            try {
+              const reviewRes = await fetch('/api/knowledge-agent/crawl-reviews', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pcodes, maxPerProduct: 50 }),
+              });
+
+              if (!reviewRes.ok) throw new Error('Review fetch failed');
+              if (!reviewRes.body) throw new Error('No response body');
+
+              const reader = reviewRes.body.getReader();
+              const decoder = new TextDecoder();
+              let buffer = '';
+              let currentEvent = '';
+
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop() || '';
+
+                for (const line of lines) {
+                  if (line.startsWith('event:')) {
+                    currentEvent = line.slice(7).trim();
+                  } else if (line.startsWith('data:')) {
+                    const data = JSON.parse(line.slice(6));
+                    if (currentEvent === 'complete' && data.reviews) {
+                      setReviewsData(data.reviews);
+                      reviewsDataRef.current = data.reviews;
+                      console.log('[KA Storage] ✅ Reviews loaded:', Object.keys(data.reviews).length, 'products', Object.keys(data.reviews));
+                      // Log review counts per product
+                      Object.entries(data.reviews).forEach(([pcode, reviews]: [string, any]) => {
+                        console.log(`[KA Storage] Product ${pcode}: ${reviews?.length || 0} reviews`);
+                      });
+                    }
+                  }
+                }
+              }
+            } catch (err) {
+              console.error('[KA Storage] ❌ Failed to load reviews:', err);
+            }
+          })();
+        }
+
         return true;
       }
       return false;
@@ -5633,6 +5685,7 @@ function MessageBubble({
                       }
                       if (reviewImagesForCarousel.length >= 4) break;
                     }
+                    console.log(`[List View] Product ${pcodeForReviews}: ${productReviews.length} reviews, ${reviewImagesForCarousel.length} images extracted`);
 
                     // 🆕 조건 일치도 계산 (tagScores 기반)
                     const matchRate = (() => {
@@ -5669,6 +5722,7 @@ function MessageBubble({
                         >
                           {/* 제품 썸네일 캐러셀 */}
                           <PLPImageCarousel
+                            key={`carousel-${product.pcode || product.id}-${reviewImagesForCarousel.length}`}
                             productThumbnail={product.thumbnail}
                             reviewImages={reviewImagesForCarousel}
                             productTitle={title}
@@ -5832,7 +5886,7 @@ function MessageBubble({
                   {/* 🆕 상품 선택 UI */}
                   <div className="space-y-2 ">
                     <p className="text-[16px] font-medium text-blue-500 text-center mb-6">
-                    상품 3개를 선택하세요
+                    상품 3개를 선택해서 비교해보세요
                     </p>
                     <div className="flex gap-1.5 w-full">
                       {message.resultProducts.map((p: any, index: number) => {
@@ -5911,6 +5965,7 @@ function MessageBubble({
                     filterTags={filterTags}
                     onProductClick={onProductClick}
                     totalQuestionsCount={totalQuestionsCount}
+                    reviewsData={reviewsData}
                   />
                 </motion.div>
               )}

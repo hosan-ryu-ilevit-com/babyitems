@@ -12,6 +12,7 @@ interface PLPImageCarouselProps {
   maxImages?: number;
   autoScrollInterval?: number; // ms
   pauseAfterSwipe?: number; // ms
+  variant?: 'list' | 'comparison'; // 리스트 뷰 vs 비교표 뷰
 }
 
 /**
@@ -31,7 +32,11 @@ export function PLPImageCarousel({
   maxImages = 5,
   autoScrollInterval = 1300,
   pauseAfterSwipe = 2000,
+  variant = 'list',
 }: PLPImageCarouselProps) {
+  // 🐛 디버깅: 컴포넌트 렌더링 확인
+  console.log(`[PLPImageCarousel RENDER] ${productTitle.slice(0, 30)}... reviewImages: ${reviewImages.length}, rank: ${rank}`);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isInViewport, setIsInViewport] = useState(false);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
@@ -62,6 +67,11 @@ export function PLPImageCarousel({
 
   const imageCount = images.length;
   const hasMultipleImages = imageCount > 1;
+
+  // 🐛 디버깅: 컴포넌트가 받은 props와 생성된 images 확인
+  useEffect(() => {
+    console.log(`[PLPImageCarousel] ${productTitle.slice(0, 20)}...: reviewImages.length=${reviewImages.length}, images.length=${images.length}, hasMultiple=${hasMultipleImages}`);
+  }, [reviewImages.length, images.length, hasMultipleImages, productTitle]);
 
   // 무한 루프용 확장 배열: [마지막] + [원본들] + [첫번째]
   const extendedImages = hasMultipleImages
@@ -225,10 +235,16 @@ export function PLPImageCarousel({
     };
   }, []);
 
+  // variant별 컨테이너 클래스
+  const containerClass = variant === 'comparison'
+    ? "relative w-full h-full rounded-md overflow-hidden bg-gray-50"
+    : "relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100";
+  const comparisonStyle = variant === 'comparison' ? { aspectRatio: '1 / 1' } : undefined;
+
   // 이미지가 없으면 placeholder
   if (images.length === 0) {
     return (
-      <div ref={containerRef} className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
+      <div ref={containerRef} className={containerClass} style={comparisonStyle}>
         <div className="w-full h-full flex items-center justify-center bg-gray-100">
           <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -246,15 +262,15 @@ export function PLPImageCarousel({
   // 이미지가 1장이면 캐러셀 없이 단순 표시
   if (!hasMultipleImages) {
     return (
-      <div ref={containerRef} className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
+      <div ref={containerRef} className={containerClass} style={comparisonStyle}>
         {images.length > 0 ? (
           <Image
             src={images[0]}
             alt={productTitle}
-            width={128}
-            height={128}
-            className="w-full h-full object-cover"
-            quality={90}
+            fill
+            className="object-cover"
+            sizes={variant === 'comparison' ? "(max-width: 768px) 43vw, 210px" : "128px"}
+            quality={75}
             priority={rank <= 3}
             onError={() => handleImageError(images[0])}
           />
@@ -275,7 +291,7 @@ export function PLPImageCarousel({
   }
 
   return (
-    <div ref={containerRef} className="relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
+    <div ref={containerRef} className={containerClass} style={comparisonStyle}>
       {/* 캐러셀 컨테이너 */}
       <div
         ref={carouselRef}
@@ -291,17 +307,18 @@ export function PLPImageCarousel({
           return (
             <div
               key={`${idx}-${img}`}
-              className="w-full h-full shrink-0 snap-center bg-gray-100"
+              className="relative w-full h-full shrink-0 snap-center bg-gray-100"
               style={{ scrollSnapStop: 'always' }}
             >
-              {isFirstReal && productThumbnail ? (
+              {/* comparison variant는 모두 img 태그, list는 첫 이미지만 Next.js Image */}
+              {variant === 'list' && isFirstReal && productThumbnail ? (
                 <Image
                   src={img}
                   alt={productTitle}
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
-                  quality={90}
+                  fill
+                  className="object-cover"
+                  sizes="128px"
+                  quality={75}
                   priority={rank <= 3}
                   onError={() => handleImageError(img)}
                 />
