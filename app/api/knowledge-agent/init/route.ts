@@ -70,7 +70,7 @@ interface TrendAnalysis {
 interface QuestionTodo {
   id: string;
   question: string;
-  options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
+  options: Array<{ value: string; label: string; description?: string; isPopular?: boolean; isRecommend?: boolean }>;
   type: 'single' | 'multi';
   priority: number;
   dataSource: string;
@@ -1652,7 +1652,8 @@ async function refineQuestionOptions(
                 value: `opt_${i + 1}`,
                 label,
                 description: originalOpt?.description || '',
-                isPopular: originalOpt?.isPopular  // isPopular 유지
+                isPopular: originalOpt?.isPopular,  // isPopular 유지
+                isRecommend: originalOpt?.isRecommend  // isRecommend 유지
               };
             })
           };

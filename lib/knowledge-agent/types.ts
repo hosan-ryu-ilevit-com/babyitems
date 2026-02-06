@@ -467,6 +467,8 @@ export interface InlineFollowUp {
   options: Array<{
     value: string;
     label: string;
+    isPopular?: boolean;
+    isRecommend?: boolean;
   }>;
 }
 

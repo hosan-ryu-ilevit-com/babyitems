@@ -164,24 +164,25 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               {/* 질문 */}
               <div className="mb-8">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
-                  {categoryName} 추천 받으시려는 이유를 알려주세요. <span className="text-blue-500">*</span>
+                  {categoryName} 추천받기, <br></br>지금 어떤 상황이신가요? <span className="text-blue-500">*</span>
                 </h2>
+                <span className='text-gray-500'>더 정확한 추천을 위해 필요해요</span>
               </div>
 
               {/* 선택 옵션 */}
               <div className="space-y-3">
                 <SituationButton
-                  label="첫 구매에요"
-                  description="이 제품을 처음 구매하시는 분"
+                  label="첫 구매라 잘 모르겠어요 🌱"
+                  description="처음 구매하시는 분"
                   onClick={() => handleSituationSelect('first')}
                 />
                 <SituationButton
-                  label="교체/업그레이드해요"
-                  description="기존 쓰던게 있지만 바꾸고 싶으신 분"
+                  label="다른 걸로 바꿔볼까 해요 🔄"
+                  description=" 쓰던 것보다 더 나은 상품을 찾고 싶으신 분"
                   onClick={() => handleSituationSelect('replace')}
                 />
                 <SituationButton
-                  label="그냥 둘러보러 왔어요"
+                  label="그냥 둘러보려구요 👀"
                   description="당장 구매 계획이 없으신 분"
                   onClick={() => handleSituationSelect('gift')}
                 />
@@ -223,12 +224,12 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               className="w-full max-w-sm"
             >
               {/* 질문 */}
-              <div className="mb-8">
-                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
-                  기존 제품의 불편했던 점이 있나요? <span className="text-blue-500">*</span>
+              <div className="mb-4">
+                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1 mt-4">
+                  쓰시던 상품의 단점을 알려주세요 <span className="text-blue-500">*</span>
                 </h2>
-                <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
-                  선택하신 내용을 바탕으로 더 나은 제품을 추천해드릴게요
+                <p className="text-[16px] font-medium text-gray-500 leading-[1.4]">
+                  더 나은 제품을 추천해드릴게요
                 </p>
               </div>
 
@@ -273,29 +274,76 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 )}
 
                 {/* 기타 입력 */}
-                {!showOtherInput ? (
-                  <div
-                    className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
-                      borderRadius: '12px'
+                <div
+                  className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                    borderRadius: '12px'
+                  }}
+                  onClick={() => {
+                    if (!showOtherInput) {
+                      setShowOtherInput(true);
+                    }
+                  }}
+                >
+                  <input
+                    type="text"
+                    value={replaceOther}
+                    onChange={(e) => setReplaceOther(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && replaceOther.trim()) {
+                        e.preventDefault();
+                        setShowOtherInput(false);
+                      } else if (e.key === 'Escape') {
+                        setShowOtherInput(false);
+                        setReplaceOther('');
+                      }
                     }}
-                    onClick={() => setShowOtherInput(true)}
-                  >
-                    <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={replaceOther}
-                      onChange={(e) => setReplaceOther(e.target.value)}
-                      placeholder="불편했던 점을 입력해주세요"
-                      className="w-full px-5 py-4 rounded-[12px] border border-gray-200 focus:border-gray-400 focus:outline-none text-[16px]"
-                      autoFocus
-                    />
-                  </div>
-                )}
+                    placeholder="자유롭게 입력하세요"
+                    className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                      ${showOtherInput ? 'opacity-100' : 'opacity-0'}`}
+                    style={{ pointerEvents: showOtherInput ? 'auto' : 'none' }}
+                    autoFocus={showOtherInput}
+                  />
+
+                  {/* 버튼 오버레이 */}
+                  {!showOtherInput && (
+                    <div className="absolute inset-0 flex items-center px-5">
+                      <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
+                    </div>
+                  )}
+
+                  {/* 입력 액션 버튼 */}
+                  {showOtherInput && (
+                    <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        onClick={() => {
+                          setShowOtherInput(false);
+                          setReplaceOther('');
+                        }}
+                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                      >
+                        취소
+                      </button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          if (replaceOther.trim()) {
+                            setShowOtherInput(false);
+                          }
+                        }}
+                        disabled={!replaceOther.trim()}
+                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                          ${replaceOther.trim()
+                            ? 'bg-gray-900 text-white'
+                            : 'bg-gray-100 text-gray-400'}`}
+                      >
+                        추가
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
               </div>
             </motion.div>
 
@@ -343,14 +391,14 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               className="w-full max-w-sm"
             >
               {/* 질문 */}
-              <div className="mb-8">
-                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
+              <div className="mb-4 mt-4">
+                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1">
                   {purchaseSituation === 'first'
                     ? '어떤 상황에서 구매하시나요?'
                     : '어떤 이유로 둘러보고 계신가요?'} <span className="text-blue-500">*</span>
                 </h2>
                 <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
-                  상황을 알려주시면 더 구체적인 질문을 드릴 수 있어요.
+                  알려주시면 더 구체적인 질문을 드릴 수 있어요.
                 </p>
               </div>
 
@@ -393,29 +441,76 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 )}
 
                 {/* 기타 입력 */}
-                {!showSituationOtherInput ? (
-                  <div
-                    className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
-                      borderRadius: '12px'
+                <div
+                  className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                    borderRadius: '12px'
+                  }}
+                  onClick={() => {
+                    if (!showSituationOtherInput) {
+                      setShowSituationOtherInput(true);
+                    }
+                  }}
+                >
+                  <input
+                    type="text"
+                    value={situationOther}
+                    onChange={(e) => setSituationOther(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && situationOther.trim()) {
+                        e.preventDefault();
+                        setShowSituationOtherInput(false);
+                      } else if (e.key === 'Escape') {
+                        setShowSituationOtherInput(false);
+                        setSituationOther('');
+                      }
                     }}
-                    onClick={() => setShowSituationOtherInput(true)}
-                  >
-                    <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={situationOther}
-                      onChange={(e) => setSituationOther(e.target.value)}
-                      placeholder="상황을 입력해주세요"
-                      className="w-full px-5 py-4 rounded-[12px] border border-gray-200 focus:border-gray-400 focus:outline-none text-[16px]"
-                      autoFocus
-                    />
-                  </div>
-                )}
+                    placeholder="자유롭게 입력하세요"
+                    className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                      ${showSituationOtherInput ? 'opacity-100' : 'opacity-0'}`}
+                    style={{ pointerEvents: showSituationOtherInput ? 'auto' : 'none' }}
+                    autoFocus={showSituationOtherInput}
+                  />
+
+                  {/* 버튼 오버레이 */}
+                  {!showSituationOtherInput && (
+                    <div className="absolute inset-0 flex items-center px-5">
+                      <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
+                    </div>
+                  )}
+
+                  {/* 입력 액션 버튼 */}
+                  {showSituationOtherInput && (
+                    <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        onClick={() => {
+                          setShowSituationOtherInput(false);
+                          setSituationOther('');
+                        }}
+                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                      >
+                        취소
+                      </button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          if (situationOther.trim()) {
+                            setShowSituationOtherInput(false);
+                          }
+                        }}
+                        disabled={!situationOther.trim()}
+                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                          ${situationOther.trim()
+                            ? 'bg-gray-900 text-white'
+                            : 'bg-gray-100 text-gray-400'}`}
+                      >
+                        추가
+                      </motion.button>
+                    </div>
+                  )}
+                </div>
               </div>
             </motion.div>
 
@@ -465,8 +560,8 @@ function SituationButton({ label, description, onClick }: { label: string; descr
       className="w-full py-4 px-5 rounded-[12px] border border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30 transition-all text-left bg-white"
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-[16px] font-medium leading-[1.4] text-gray-600">{label}</span>
-        <span className="text-[12px] font-medium text-gray-400">{description}</span>
+        <span className="text-[16px] font-bold leading-[1.4] text-gray-600">{label}</span>
+        <span className="text-[14px] font-medium text-gray-400">{description}</span>
       </div>
     </button>
   );

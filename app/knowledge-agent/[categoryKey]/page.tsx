@@ -35,7 +35,7 @@ import { FilterTagBar } from '@/components/knowledge-agent/FilterTagBar';
 import { OnboardingPhase } from '@/components/knowledge-agent/OnboardingPhase';
 import { BabyInfoPhase } from '@/components/knowledge-agent/BabyInfoPhase';
 import { ConditionReportCard, ConditionReportLoading } from '@/components/knowledge-agent/ConditionReportCard';
-import { InlineFollowUp } from '@/components/knowledge-agent/InlineFollowUp';
+import { InlineFollowUpWrapper, type InlineFollowUpHandle } from '@/components/knowledge-agent/InlineFollowUp';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 // HighlightedText, HighlightedMarkdownText 제거됨 - tagScores 기반 뱃지 UI로 대체
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
@@ -97,14 +97,14 @@ import type { Phase, OnboardingData, BabyInfo, ConditionReport } from '@/lib/kno
 // ============================================================================
 
 const STEPS_BABY = [
-  { id: 1, label: '구매 상황', phases: ['baby_info', 'onboarding'] }, // baby_info가 먼저
+  { id: 1, label: '기본 상황', phases: ['baby_info', 'onboarding'] }, // baby_info가 먼저
   { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
 const STEPS_LIVING = [
-  { id: 1, label: '구매 상황', phases: ['onboarding'] },
+  { id: 1, label: '기본 상황', phases: ['onboarding'] },
   { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
@@ -1067,6 +1067,8 @@ export default function KnowledgeAgentPage() {
   // 인라인 꼬리질문 상태
   const [inlineFollowUp, setInlineFollowUp] = useState<InlineFollowUpType | null>(null);
   const [isLoadingInlineFollowUp, setIsLoadingInlineFollowUp] = useState(false);
+  const [hasInlineFollowUpSelection, setHasInlineFollowUpSelection] = useState(false);
+  const inlineFollowUpRef = useRef<InlineFollowUpHandle>(null);
 
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
@@ -2845,10 +2847,14 @@ export default function KnowledgeAgentPage() {
     if (prevIsGeneratingFollowUp.current && !isGeneratingFollowUp) {
       const guideMsgId = `a_followup_guide_${Date.now()}`;
 
+      // 🔧 타이핑 상태 종료 (로딩 인디케이터 제거)
+      setIsTyping(false);
+
       // 추가질문이 있는 경우: 안내 메시지 + 바로 첫 번째 질문 표시
       if (followUpQuestions.length > 0) {
         setCurrentFollowUpIndex(0);
-        setPhase('questions');
+        // 🔧 Phase 유지 - 추가질문은 메시지 기반으로 처리되므로 hardcut_visual phase 유지
+        // setPhase('questions'); // ← 제거: phase 변경하지 않음
 
         const firstQ = followUpQuestions[0];
         const questionContent = firstQ.question;
@@ -2885,6 +2891,8 @@ export default function KnowledgeAgentPage() {
               role: 'assistant',
               content: questionContent,
               options: firstQ.options.map(o => o.label),
+              popularOptions: firstQ.options.filter(o => o.isPopular).map(o => o.label),
+              recommendOptions: firstQ.options.filter(o => o.isRecommend).map(o => o.label),
               questionProgress: { current: 1, total: followUpQuestions.length },
               typing: true,
               timestamp: Date.now() + 3,
@@ -2928,13 +2936,13 @@ export default function KnowledgeAgentPage() {
   }, [isGeneratingFollowUp, followUpQuestions]);
 
   /**
-   * 꼬리질문 답변 처리
+   * 꼬리질문 답변 처리 (선택만 기록, 다음 질문 진행은 "다음" 버튼으로)
    */
   const handleFollowUpAnswer = (answer: string, questionId?: string) => {
     const currentQ = followUpQuestions[currentFollowUpIndex];
     if (!currentQ) return;
 
-    console.log(`[Follow-up] Answer: ${currentQ.question} -> ${answer}`);
+    console.log(`[Follow-up] Answer selected: ${currentQ.question} -> ${answer}`);
 
     // collectedInfo에 추가 (기존 응답과 병합)
     setCollectedInfo(prev => ({
@@ -2942,63 +2950,14 @@ export default function KnowledgeAgentPage() {
       [currentQ.question]: answer,
     }));
 
-    // 메시지 상태 업데이트: 현재 질문 메시지를 finalized로 만들고 선택된 옵션 기록
-    setMessages(prev => prev.map(m => 
-      m.id === `followup-q-${currentFollowUpIndex}` 
-        ? { ...m, isFinalized: true, selectedOptions: [answer] } 
+    // 메시지 상태 업데이트: 현재 질문 메시지에 선택된 옵션 기록 (finalized는 나중에)
+    setMessages(prev => prev.map(m =>
+      m.id === `followup-q-${currentFollowUpIndex}`
+        ? { ...m, selectedOptions: [answer] }
         : m
     ));
 
-    // 사용자 답변 메시지 추가
-    setMessages(prev => [
-      ...prev,
-      {
-        id: `followup-a-${currentFollowUpIndex}-${Date.now()}`,
-        role: 'user',
-        content: answer,
-        timestamp: Date.now(),
-      },
-    ]);
-
-    // 다음 질문으로 이동 또는 완료
-    if (currentFollowUpIndex < followUpQuestions.length - 1) {
-      const nextIndex = currentFollowUpIndex + 1;
-      setCurrentFollowUpIndex(nextIndex);
-      
-      // 다음 질문 메시지 추가
-      const nextQ = followUpQuestions[nextIndex];
-      const questionContent = nextQ.question;
-      setMessages(prev => [
-        ...prev,
-        {
-          id: `followup-q-${nextIndex}`,
-          role: 'assistant',
-          content: questionContent,
-          options: nextQ.options.map(o => o.label),
-          questionProgress: { current: nextIndex + 1, total: followUpQuestions.length },
-          typing: true,
-          timestamp: Date.now(),
-        }
-      ]);
-    } else {
-      // 모든 꼬리질문 완료 → 최종 추가 조건 입력 단계로
-      console.log('[Follow-up] All questions answered, proceeding to final input phase');
-      setInputValue('');  // 🆕 이전 입력 초기화
-      setPhase('final_input');
-      
-      // 가이드 메시지 추가
-      const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
-      setMessages(prev => [
-        ...prev,
-        {
-          id: finalInputMsgId,
-          role: 'assistant',
-          content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
-          typing: true,
-          timestamp: Date.now()
-        }
-      ]);
-    }
+    // ✅ 자동 진행 제거: 사용자가 "다음" 버튼을 명시적으로 눌러야 넘어감
   };
 
   /**
@@ -4402,25 +4361,95 @@ export default function KnowledgeAgentPage() {
 
   // 인라인 꼬리질문 답변 처리
   const handleInlineFollowUpAnswer = async (answer: string, label: string) => {
-    // 🆕 저장된 원래 질문 텍스트 사용 (currentQuestion은 이미 바뀌었을 수 있음)
     const originalQuestion = pendingInlineFollowUpQuestionTextRef.current || currentQuestion?.question || 'followup';
-    console.log('[KA Flow] 인라인 꼬리질문 답변:', label, '(원래 질문:', originalQuestion.slice(0, 30), ')');
+    const originalAnswer = pendingInlineFollowUpMessageRef.current || '';
 
-    // collectedInfo에 추가 (키는 원래 질문 + "_추가정보")
+    console.log('[KA Flow] 인라인 꼬리질문 답변:', label);
+
+    // 🔧 지연된 메시지들을 이제 추가
+    const timestamp = Date.now();
+    setMessages(prev => [
+      ...prev,
+      // 1. 원래 맞춤질문에 대한 사용자 답변
+      {
+        id: `u_original_${timestamp}`,
+        role: 'user' as const,
+        content: originalAnswer,
+        timestamp: timestamp,
+      },
+      // 2. 인라인 꼬리질문에 대한 사용자 답변
+      {
+        id: `u_followup_${timestamp}`,
+        role: 'user' as const,
+        content: label,
+        timestamp: timestamp + 1,
+      },
+    ]);
+
+    // collectedInfo에 추가
     setCollectedInfo(prev => ({
       ...prev,
       [`${originalQuestion}_추가정보`]: label,
     }));
+
     setInlineFollowUp(null);
+    setHasInlineFollowUpSelection(false);
 
     // 다음 질문으로 진행
     await continueAfterInlineFollowUp();
   };
 
-  // 인라인 꼬리질문 건너뛰기
-  const handleInlineFollowUpSkip = async () => {
-    console.log('[KA Flow] 인라인 꼬리질문 건너뛰기');
+  // 인라인 꼬리질문에서 뒤로 가기 (답변 제출하지 않고 원래 질문으로)
+  const handleInlineFollowUpBack = () => {
+    console.log('[KA Flow] 인라인 꼬리질문 닫기 - 원래 질문으로 복귀');
+
+    // 원래 맞춤질문 메시지를 찾아서 다시 활성화
+    setMessages(prev => {
+      // 마지막 assistant 메시지 중 options가 있고 꼬리질문이 아닌 것 찾기
+      const reversedMessages = [...prev].reverse();
+      const lastQuestionIndex = reversedMessages.findIndex(
+        m => m.role === 'assistant' && m.options && !m.id?.startsWith('followup-q-')
+      );
+
+      if (lastQuestionIndex === -1) return prev;
+
+      const actualIndex = prev.length - 1 - lastQuestionIndex;
+      const updatedMessages = [...prev];
+      updatedMessages[actualIndex] = {
+        ...updatedMessages[actualIndex],
+        isFinalized: false, // 다시 활성화
+      };
+
+      return updatedMessages;
+    });
+
+    // 꼬리질문만 닫고, 원래 질문의 선택 상태는 유지
     setInlineFollowUp(null);
+    setHasInlineFollowUpSelection(false);
+
+    // pending 메시지 클리어
+    pendingInlineFollowUpMessageRef.current = '';
+  };
+
+  // 인라인 꼬리질문 건너뛰기 (답변 제출하고 다음으로 진행)
+  const handleInlineFollowUpSkip = async () => {
+    const originalAnswer = pendingInlineFollowUpMessageRef.current || '';
+
+    console.log('[KA Flow] 인라인 꼬리질문 건너뛰기');
+
+    // 🔧 원래 맞춤질문에 대한 사용자 답변만 추가
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `u_${Date.now()}`,
+        role: 'user' as const,
+        content: originalAnswer,
+        timestamp: Date.now(),
+      },
+    ]);
+
+    setInlineFollowUp(null);
+    setHasInlineFollowUpSelection(false);
 
     // 다음 질문으로 진행
     await continueAfterInlineFollowUp();
@@ -4454,6 +4483,32 @@ export default function KnowledgeAgentPage() {
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
     }
 
+    const currentQId = activeMsg?.id?.startsWith('q_') ? activeMsg.id.slice(2) : currentQuestion?.id;
+
+    // 🔧 인라인 꼬리질문 체크를 먼저 수행 (사용자 메시지 추가 전)
+    if ((phase === 'questions' || phase === 'report') && activeMsg && !activeMsg.id?.startsWith('followup-q-')) {
+      pendingInlineFollowUpMessageRef.current = message;
+      pendingInlineFollowUpQuestionIdRef.current = currentQId || null;
+      pendingInlineFollowUpQuestionTextRef.current = activeMsg.content;
+
+      const hasFollowUp = await fetchInlineFollowUp(
+        activeMsg.content,
+        message,
+        currentQId
+      );
+
+      if (hasFollowUp) {
+        // ✅ 꼬리질문이 있으면 사용자 메시지를 추가하지 않고 대기
+        console.log('[KA Flow] 인라인 꼬리질문 대기 중 (사용자 메시지 추가 지연)');
+        setInputValue('');
+        return;
+      }
+
+      // 꼬리질문이 없으면 다음으로 진행
+      console.log('[KA Flow] 인라인 꼬리질문 없음, 사용자 메시지 추가 후 진행');
+    }
+
+    // 🔧 꼬리질문이 없는 경우에만 사용자 메시지 추가
     const newMsgId = `u_${Date.now()}`;
     setMessages(prev => [...prev, { id: newMsgId, role: 'user', content: message, timestamp: Date.now() }]);
     setInputValue('');
@@ -4461,7 +4516,6 @@ export default function KnowledgeAgentPage() {
     // 자동 스크롤은 messages 변경 시 useEffect에서 처리됨
 
     // ✅ 프리페치: avoid_negatives 2개 전 질문부터 미리 옵션 로드 시작 (API ~2초 소요)
-    const currentQId = activeMsg?.id?.startsWith('q_') ? activeMsg.id.slice(2) : currentQuestion?.id;
     const currentIdx = questionTodos.findIndex((q: any) => q.id === currentQId);
     const avoidNegativesIdx = questionTodos.findIndex((q: any) => q.id === 'avoid_negatives');
     const questionsUntilNegative = avoidNegativesIdx - currentIdx;
@@ -4490,26 +4544,7 @@ export default function KnowledgeAgentPage() {
       }).catch(err => console.error('[KA Flow] Prefetch error:', err));
     }
 
-    // 🆕 인라인 꼬리질문 생성 시도 (맞춤질문 단계에서만)
-    if ((phase === 'questions' || phase === 'report') && activeMsg && !activeMsg.id?.startsWith('followup-q-')) {
-      pendingInlineFollowUpMessageRef.current = message;
-      pendingInlineFollowUpQuestionIdRef.current = currentQId || null;
-      pendingInlineFollowUpQuestionTextRef.current = activeMsg.content; // 🆕 원래 질문 텍스트 저장
-
-      const hasFollowUp = await fetchInlineFollowUp(
-        activeMsg.content,
-        message,
-        currentQId
-      );
-
-      if (hasFollowUp) {
-        // 인라인 꼬리질문이 있으면 여기서 멈춤 (꼬리질문 답변 후 계속)
-        console.log('[KA Flow] 인라인 꼬리질문 대기 중...');
-        return;
-      }
-    }
-
-    // 꼬리질문 없으면 바로 다음 진행
+    // 다음 질문으로 진행
     await fetchChatStream({
       categoryKey,
       userMessage: message,
@@ -4687,7 +4722,29 @@ export default function KnowledgeAgentPage() {
                     (msg.questionId && msg.isFinalized)
                   ));
 
-              return (
+              // 🆕 인라인 꼬리질문 래퍼 적용 여부 (맞춤질문 단계에서만)
+              // isLatestAssistant이거나, 인라인 꼬리질문이 활성화된 경우 (finalized되었어도 래퍼 적용)
+              const isQuestionInPhase = (phase === 'questions' || phase === 'report') && !msg.id?.startsWith('followup-q-');
+              const hasActiveInlineFollowUp = !!(inlineFollowUp || isLoadingInlineFollowUp);
+
+              // 인라인 꼬리질문이 활성화된 경우, 가장 최근의 옵션이 있는 assistant 메시지에만 적용
+              const isLatestQuestionMessage = isQuestionInPhase && msg.role === 'assistant' && msg.options &&
+                                              !messages.slice(idx + 1).some(m => m.role === 'assistant' && m.options && !m.id?.startsWith('followup-q-'));
+
+              const shouldWrapWithInlineFollowUp = isQuestionInPhase &&
+                                                   (isLatestAssistant || (hasActiveInlineFollowUp && isLatestQuestionMessage));
+
+              // 디버깅 로그
+              if (shouldWrapWithInlineFollowUp && (inlineFollowUp || isLoadingInlineFollowUp)) {
+                console.log('[DEBUG] InlineFollowUpWrapper will be rendered:', {
+                  msgId: msg.id,
+                  hasFollowUp: !!inlineFollowUp,
+                  isLoading: isLoadingInlineFollowUp,
+                  followUpQuestion: inlineFollowUp?.question
+                });
+              }
+
+              const messageBubble = (
                 <MessageBubble
                   key={msg.id}
                   message={msg}
@@ -4787,7 +4844,21 @@ export default function KnowledgeAgentPage() {
                   setTimeout(() => setIsChatInputHighlighted(false), 1500);
                 }}
               />
-            );
+              );
+
+              // 🆕 인라인 꼬리질문 래퍼 적용
+              return shouldWrapWithInlineFollowUp ? (
+                <InlineFollowUpWrapper
+                  key={msg.id}
+                  followUp={inlineFollowUp}
+                  isLoadingFollowUp={isLoadingInlineFollowUp}
+                  onAnswer={handleInlineFollowUpAnswer}
+                  followUpRef={inlineFollowUpRef}
+                  onSelectionChange={setHasInlineFollowUpSelection}
+                >
+                  {messageBubble}
+                </InlineFollowUpWrapper>
+              ) : messageBubble;
           });
             })()}
 
@@ -4899,6 +4970,60 @@ export default function KnowledgeAgentPage() {
           {/* 플로팅 AI 도움 버튼 */}
           <AnimatePresence>
             {(() => {
+              // 꼬리질문이 있으면 꼬리질문을 우선 사용
+              if (inlineFollowUp) {
+                // 꼬리질문에서는 선택이 있어도 버튼 표시
+                return (
+                  <div className="fixed inset-x-0 bottom-0 pointer-events-none z-[112]">
+                    <div className="max-w-[480px] mx-auto w-full relative">
+                      {/* 플로팅 AI 버튼 */}
+                      <motion.button
+                        key="floating-ai-helper-inline"
+                        initial={{ opacity: 0, scale: 0.9, y: 0 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 0 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => {
+                          setAiHelperData({
+                            questionId: `inline_${inlineFollowUp.type}`,
+                            questionText: inlineFollowUp.question,
+                            options: inlineFollowUp.options.map(o => ({ value: o.value, label: o.label })),
+                            type: 'hard_filter'
+                          });
+                          setIsAIHelperOpen(true);
+                        }}
+                        className="absolute px-6 py-3 rounded-2xl text-s font-semibold text-white flex items-center gap-2 shadow-lg pointer-events-auto"
+                        style={{
+                          right: '16px',
+                          bottom: 'calc(100px + env(safe-area-inset-bottom))',
+                          background: 'linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%)'
+                        }}
+                      >
+                        <motion.svg
+                          className="w-4 h-4 text-white"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          animate={{
+                            rotate: [0, -15, 15, -15, 0],
+                            y: [0, -2.5, 0]
+                          }}
+                          transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            repeatDelay: 2,
+                            ease: "easeInOut"
+                          }}
+                        >
+                          <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+                        </motion.svg>
+                        잘 모르겠어요
+                      </motion.button>
+                    </div>
+                  </div>
+                );
+              }
+
               // 가장 최신의 활성 질문 메시지 찾기
               const latestQuestionMessage = [...messages].reverse().find(
                 msg => msg.role === 'assistant' &&
@@ -5005,11 +5130,147 @@ export default function KnowledgeAgentPage() {
           {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (() => {
             // 안내 메시지가 있는지 확인 (꼬리질문 생성 완료 후)
             const hasGuideMessage = messages.some(m => m.id?.startsWith('a_followup_guide_'));
+            const hasFollowUpQuestions = followUpQuestions.length > 0;
 
             return (
             <div className="space-y-3">
-               {/* 메인 버튼: 최종 추천 결과 보기 - 추가질문이 없을 때만 표시 (있으면 자동으로 questions phase로 이동) */}
-              {hasGuideMessage && followUpQuestions.length === 0 && (
+              {/* 🆕 추가질문이 있을 때: 이전/다음 버튼 */}
+              {hasGuideMessage && hasFollowUpQuestions && (() => {
+                // 현재 질문의 선택 상태 확인
+                const currentFollowUpMsg = messages.find(m => m.id === `followup-q-${currentFollowUpIndex}`);
+                const hasSelection = currentFollowUpMsg?.selectedOptions && currentFollowUpMsg.selectedOptions.length > 0;
+                const isLastQuestion = currentFollowUpIndex === followUpQuestions.length - 1;
+
+                return (
+                <div className="flex gap-3 justify-between mb-4">
+                  {/* 이전 버튼 */}
+                  {currentFollowUpIndex > 0 ? (
+                    <motion.button
+                      onClick={() => {
+                        const prevIndex = currentFollowUpIndex - 1;
+                        setCurrentFollowUpIndex(prevIndex);
+
+                        // 이전 질문 메시지 다시 추가
+                        const prevQ = followUpQuestions[prevIndex];
+                        const questionContent = prevQ.question;
+
+                        // 현재 질문 메시지 제거하고 이전 질문 메시지 추가
+                        setMessages(prev => {
+                          // followup-q로 시작하는 마지막 메시지들 제거 (현재 질문 + 사용자 답변)
+                          const lastFollowUpIndex = prev.findLastIndex(m => m.id?.startsWith('followup-q-'));
+                          if (lastFollowUpIndex !== -1) {
+                            return [
+                              ...prev.slice(0, lastFollowUpIndex),
+                              {
+                                id: `followup-q-${prevIndex}`,
+                                role: 'assistant' as const,
+                                content: questionContent,
+                                options: prevQ.options.map(o => o.label),
+                                popularOptions: prevQ.options.filter(o => o.isPopular).map(o => o.label),
+                                recommendOptions: prevQ.options.filter(o => o.isRecommend).map(o => o.label),
+                                questionProgress: { current: prevIndex + 1, total: followUpQuestions.length },
+                                typing: true,
+                                timestamp: Date.now(),
+                              }
+                            ];
+                          }
+                          return prev;
+                        });
+                      }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    >
+                      이전
+                    </motion.button>
+                  ) : (
+                    <div />
+                  )}
+
+                  {/* 다음 버튼 */}
+                  <motion.button
+                    onClick={() => {
+                      if (!hasSelection || !currentFollowUpMsg?.selectedOptions?.[0]) return;
+
+                      const userAnswer = currentFollowUpMsg.selectedOptions[0];
+
+                      // 1. 현재 질문을 finalized로 만들기
+                      setMessages(prev => prev.map(m =>
+                        m.id === `followup-q-${currentFollowUpIndex}`
+                          ? { ...m, isFinalized: true }
+                          : m
+                      ));
+
+                      // 2. 사용자 답변 메시지 추가
+                      setMessages(prev => [
+                        ...prev,
+                        {
+                          id: `followup-a-${currentFollowUpIndex}-${Date.now()}`,
+                          role: 'user',
+                          content: userAnswer,
+                          timestamp: Date.now(),
+                        },
+                      ]);
+
+                      // 3. 마지막 질문이면 final_input으로, 아니면 다음 질문으로
+                      if (isLastQuestion) {
+                        // 마지막 질문 완료 → final_input 단계로
+                        console.log('[Follow-up] All questions answered, proceeding to final input phase');
+                        setInputValue('');
+                        setPhase('final_input');
+
+                        const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
+                        setMessages(prev => [
+                          ...prev,
+                          {
+                            id: finalInputMsgId,
+                            role: 'assistant',
+                            content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+                            typing: true,
+                            timestamp: Date.now()
+                          }
+                        ]);
+                      } else {
+                        // 다음 질문으로 이동
+                        const nextIndex = currentFollowUpIndex + 1;
+                        setCurrentFollowUpIndex(nextIndex);
+
+                        // 다음 질문 메시지 추가
+                        const nextQ = followUpQuestions[nextIndex];
+                        const questionContent = nextQ.question;
+                        setMessages(prev => [
+                          ...prev,
+                          {
+                            id: `followup-q-${nextIndex}`,
+                            role: 'assistant',
+                            content: questionContent,
+                            options: nextQ.options.map(o => o.label),
+                            popularOptions: nextQ.options.filter(o => o.isPopular).map(o => o.label),
+                            recommendOptions: nextQ.options.filter(o => o.isRecommend).map(o => o.label),
+                            questionProgress: { current: nextIndex + 1, total: followUpQuestions.length },
+                            typing: true,
+                            timestamp: Date.now(),
+                          }
+                        ]);
+                      }
+                    }}
+                    disabled={!hasSelection}
+                    whileHover={hasSelection ? { scale: 1.02 } : {}}
+                    whileTap={hasSelection ? { scale: 0.98 } : {}}
+                    className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center ${
+                      hasSelection
+                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    다음
+                  </motion.button>
+                </div>
+                );
+              })()}
+
+               {/* 메인 버튼: 최종 추천 결과 보기 - 추가질문이 없을 때만 표시 */}
+              {hasGuideMessage && !hasFollowUpQuestions && (
                 <motion.button
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -5170,70 +5431,76 @@ export default function KnowledgeAgentPage() {
                 isHighlighted={isChatInputHighlighted}
               />
             </>
-          ) : (phase === 'questions' || phase === 'report') && activeQuestion && !isTyping ? (
-            /* 질문 단계: 이전/다음 버튼 */
-            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6">
-              <div className="flex gap-3 justify-between">
-                {canGoPrev ? (
+          ) : (phase === 'questions' || phase === 'report') && (activeQuestion || inlineFollowUp) && !isTyping ? (
+            inlineFollowUp ? (
+              /* 인라인 꼬리질문 활성화 시: 이전/다음 버튼 */
+              <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6">
+                <div className="flex gap-3 justify-between">
                   <motion.button
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={handlePrevStep}
+                    onClick={handleInlineFollowUpBack}
                     className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
                   >
                     이전
                   </motion.button>
-                ) : <div />}
 
-                <motion.button
-                  whileHover={selectedCount > 0 ? { scale: 1.01 } : {}}
-                  whileTap={selectedCount > 0 ? { scale: 0.98 } : {}}
-                  onClick={() => {
-                    const selectedOptions = activeQuestion?.selectedOptions || [];
-                    if (selectedOptions.length > 0) {
-                      handleFreeChat(selectedOptions.join(', '));
-                    }
-                  }}
-                  disabled={selectedCount === 0}
-                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
-                    ${selectedCount > 0
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
-                >
-                  다음
-                </motion.button>
+                  <motion.button
+                    whileHover={hasInlineFollowUpSelection ? { scale: 1.01 } : {}}
+                    whileTap={hasInlineFollowUpSelection ? { scale: 0.98 } : {}}
+                    onClick={() => {
+                      inlineFollowUpRef.current?.submit();
+                    }}
+                    disabled={!hasInlineFollowUpSelection}
+                    className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                      ${hasInlineFollowUpSelection
+                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                        : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+                  >
+                    다음
+                  </motion.button>
+                </div>
               </div>
-            </div>
+            ) : (
+              /* 질문 단계: 이전/다음 버튼 */
+              <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6">
+                <div className="flex gap-3 justify-between">
+                  {canGoPrev ? (
+                    <motion.button
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={handlePrevStep}
+                      className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    >
+                      이전
+                    </motion.button>
+                  ) : <div />}
+
+                  <motion.button
+                    whileHover={selectedCount > 0 ? { scale: 1.01 } : {}}
+                    whileTap={selectedCount > 0 ? { scale: 0.98 } : {}}
+                    onClick={() => {
+                      const selectedOptions = activeQuestion?.selectedOptions || [];
+                      if (selectedOptions.length > 0) {
+                        handleFreeChat(selectedOptions.join(', '));
+                      }
+                    }}
+                    disabled={selectedCount === 0}
+                    className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                      ${selectedCount > 0
+                        ? 'bg-gray-900 text-white hover:bg-gray-800'
+                        : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+                  >
+                    다음
+                  </motion.button>
+                </div>
+              </div>
+            )
           ) : null}
         </div>
         )}
 
-        {/* 인라인 꼬리질문 오버레이 */}
-        <AnimatePresence>
-          {(inlineFollowUp || isLoadingInlineFollowUp) && (phase === 'questions' || phase === 'report') && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 z-50 bg-white"
-            >
-              {isLoadingInlineFollowUp && !inlineFollowUp ? (
-                <div className="h-full flex items-center justify-center">
-                  <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-                    <span className="text-sm text-gray-600 font-medium">추가 질문 확인 중...</span>
-                  </div>
-                </div>
-              ) : inlineFollowUp ? (
-                <InlineFollowUp
-                  followUp={inlineFollowUp}
-                  onAnswer={handleInlineFollowUpAnswer}
-                  onSkip={handleInlineFollowUpSkip}
-                />
-              ) : null}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* 🔧 인라인 꼬리질문 오버레이 제거 - InlineFollowUpWrapper를 메시지 레벨에서 사용 */}
       </div>
 
       {selectedProduct && (() => {
@@ -6070,7 +6337,7 @@ function MessageBubble({
                         setCustomInputValue('');
                       }
                     }}
-                    placeholder="조건을 자유롭게 입력하세요"
+                    placeholder="자유롭게 입력하세요"
                     className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
                       ${isCustomInputActive ? 'opacity-100' : 'opacity-0'}`}
                     style={{ pointerEvents: isCustomInputActive ? 'auto' : 'none' }}

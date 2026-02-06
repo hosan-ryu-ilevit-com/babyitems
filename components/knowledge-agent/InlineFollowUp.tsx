@@ -1,15 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkle, X } from '@phosphor-icons/react/dist/ssr';
+import { Sparkle } from '@phosphor-icons/react/dist/ssr';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 
 interface InlineFollowUpProps {
   followUp: InlineFollowUpType;
   onAnswer: (answer: string, label: string) => void;
-  onSkip: () => void;
   isLoading?: boolean;
+  onSelectionChange?: (hasSelection: boolean) => void;
+}
+
+export interface InlineFollowUpHandle {
+  submit: () => void;
+  hasSelection: () => boolean;
 }
 
 /**
@@ -17,38 +22,45 @@ interface InlineFollowUpProps {
  * - 오른쪽 → 왼쪽 슬라이드 애니메이션
  * - 현재 질문의 연장선임을 직관적으로 표현
  */
-export function InlineFollowUp({
-  followUp,
-  onAnswer,
-  onSkip,
-  isLoading = false,
-}: InlineFollowUpProps) {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [customInput, setCustomInput] = useState('');
-  const [showCustomInput, setShowCustomInput] = useState(false);
+export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpProps>(
+  ({ followUp, onAnswer, isLoading = false, onSelectionChange }, ref) => {
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+    const [customInput, setCustomInput] = useState('');
+    const [showCustomInput, setShowCustomInput] = useState(false);
 
-  const toggleOption = (label: string) => {
-    setSelectedOptions(prev =>
-      prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]
-    );
-  };
+    const toggleOption = (label: string) => {
+      setSelectedOptions(prev =>
+        prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]
+      );
+    };
 
-  const handleSubmit = () => {
-    const finalSelections = [...selectedOptions];
-    if (customInput.trim()) {
-      finalSelections.push(customInput.trim());
-    }
-    // Join all selections
-    const combinedValue = finalSelections.join(', ');
-    const combinedLabel = finalSelections.join(', ');
-    onAnswer(combinedValue, combinedLabel);
-  };
+    const handleSubmit = () => {
+      const finalSelections = [...selectedOptions];
+      if (customInput.trim()) {
+        finalSelections.push(customInput.trim());
+      }
+      // Join all selections
+      const combinedValue = finalSelections.join(', ');
+      const combinedLabel = finalSelections.join(', ');
+      onAnswer(combinedValue, combinedLabel);
+    };
+
+    // Expose submit method to parent via ref
+    useImperativeHandle(ref, () => ({
+      submit: handleSubmit,
+      hasSelection: () => selectedOptions.length > 0 || customInput.trim().length > 0,
+    }));
+
+    // Track selection changes for customInput
+    useEffect(() => {
+      onSelectionChange?.(selectedOptions.length > 0 || customInput.trim().length > 0);
+    }, [customInput, selectedOptions.length, onSelectionChange]);
 
   // 타입별 스타일
   const getTypeStyle = () => {
     switch (followUp.type) {
       case 'deepdive':
-        return { bg: 'bg-blue-50', accent: 'text-blue-600', border: 'border-blue-200', label: '조금 더 알려주세요' };
+        return { bg: 'bg-blue-50', accent: 'text-blue-600', border: 'border-blue-200', label: '꼬리 질문' };
       case 'contradiction':
         return { bg: 'bg-amber-50', accent: 'text-amber-600', border: 'border-amber-200', label: '확인이 필요해요' };
       case 'clarify':
@@ -71,26 +83,17 @@ export function InlineFollowUp({
         damping: 30,
         opacity: { duration: 0.2 }
       }}
-      className="absolute inset-0 bg-white z-10"
+      className="absolute top-0 -left-4 -right-4 bg-white z-10"
     >
-      <div className="h-full flex flex-col px-4 py-6">
+      <div className="px-6 py-6 pb-24 max-w-full mx-auto w-full">
         {/* 상단 헤더 */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <div className={`w-8 h-8 rounded-full ${typeStyle.bg} flex items-center justify-center`}>
-              <Sparkle size={16} weight="fill" className={typeStyle.accent} />
-            </div>
-            <span className={`text-sm font-semibold ${typeStyle.accent}`}>
-              {typeStyle.label}
-            </span>
+        <div className="flex items-center gap-2 mb-6">
+          <div className={`w-8 h-8 rounded-full ${typeStyle.bg} flex items-center justify-center`}>
+            <Sparkle size={16} weight="fill" className={typeStyle.accent} />
           </div>
-          <button
-            onClick={onSkip}
-            className="p-2 -mr-2 rounded-full hover:bg-gray-100 transition-colors"
-            title="건너뛰기"
-          >
-            <X size={20} className="text-gray-400" />
-          </button>
+          <span className={`text-sm font-semibold ${typeStyle.accent}`}>
+            {typeStyle.label}
+          </span>
         </div>
 
         {/* 질문 텍스트 */}
@@ -106,7 +109,7 @@ export function InlineFollowUp({
         </div>
 
         {/* 옵션들 */}
-        <div className="flex-1 space-y-3">
+        <div className="space-y-3">
           {(() => {
             // "상관없어요" 선택 여부 확인
             const hasNotCareSelected = selectedOptions.includes('상관없어요');
@@ -126,7 +129,7 @@ export function InlineFollowUp({
                       disabled={isDisabled}
                       whileHover={!isDisabled ? { scale: 1.005 } : {}}
                       whileTap={!isDisabled ? { scale: 0.99 } : {}}
-                      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+                      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all flex items-center justify-between ${
                         isDisabled
                           ? 'bg-gray-50 border-gray-100 opacity-70 cursor-not-allowed'
                           : isSelected
@@ -139,6 +142,24 @@ export function InlineFollowUp({
                       }`}>
                         {option.label}
                       </span>
+
+                      {/* 추천/인기 태그 */}
+                      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                        {option.isRecommend && !isDisabled && (
+                          <span className={`px-1.5 py-0.5 text-[11px] font-semibold rounded-md transition-colors ${
+                            isSelected ? 'bg-white text-purple-600' : 'bg-purple-50 text-purple-600'
+                          }`}>
+                            추천
+                          </span>
+                        )}
+                        {option.isPopular && !isDisabled && (
+                          <span className={`px-1.5 py-0.5 text-[11px] font-semibold rounded-md transition-colors ${
+                            isSelected ? 'bg-white text-blue-500' : 'bg-blue-50 text-blue-600'
+                          }`}>
+                            인기
+                          </span>
+                        )}
+                      </div>
                     </motion.button>
                   );
                 })}
@@ -192,27 +213,12 @@ export function InlineFollowUp({
             );
           })()}
         </div>
-
-        {/* 하단 다음 버튼 */}
-        <div className="pt-6">
-          <motion.button
-            onClick={handleSubmit}
-            disabled={selectedOptions.length === 0 && !customInput.trim()}
-            whileHover={selectedOptions.length > 0 || customInput.trim() ? { scale: 1.02 } : {}}
-            whileTap={selectedOptions.length > 0 || customInput.trim() ? { scale: 0.98 } : {}}
-            className={`w-full py-4 rounded-[12px] text-[16px] font-semibold transition-all ${
-              selectedOptions.length > 0 || customInput.trim()
-                ? 'bg-gray-900 text-white hover:bg-gray-800'
-                : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'
-            }`}
-          >
-            다음
-          </motion.button>
-        </div>
       </div>
     </motion.div>
   );
-}
+});
+
+InlineFollowUp.displayName = 'InlineFollowUp';
 
 /**
  * 인라인 꼬리질문 래퍼 컴포넌트
@@ -223,7 +229,8 @@ interface InlineFollowUpWrapperProps {
   followUp: InlineFollowUpType | null;
   isLoadingFollowUp: boolean;
   onAnswer: (answer: string, label: string) => void;
-  onSkip: () => void;
+  followUpRef?: React.RefObject<InlineFollowUpHandle>;
+  onSelectionChange?: (hasSelection: boolean) => void;
 }
 
 export function InlineFollowUpWrapper({
@@ -231,10 +238,11 @@ export function InlineFollowUpWrapper({
   followUp,
   isLoadingFollowUp,
   onAnswer,
-  onSkip,
+  followUpRef,
+  onSelectionChange,
 }: InlineFollowUpWrapperProps) {
   return (
-    <div className="relative overflow-hidden">
+    <div className={`relative ${!followUp ? 'overflow-hidden' : ''}`}>
       {/* 기존 질문 콘텐츠 */}
       <motion.div
         animate={{
@@ -247,19 +255,39 @@ export function InlineFollowUpWrapper({
         {children}
       </motion.div>
 
-      {/* 로딩 인디케이터 (슬라이드 전 잠시 표시) */}
+      {/* 로딩 인디케이터 (맞춤질문 하단에 표시) */}
       <AnimatePresence>
         {isLoadingFollowUp && !followUp && (
           <motion.div
-            initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: '100%', opacity: 0 }}
-            className="absolute inset-0 bg-white/95 backdrop-blur-sm flex items-center justify-center z-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="mt-4 flex items-center gap-2"
           >
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-              <span className="text-sm text-gray-600 font-medium">추가 질문 확인 중...</span>
+            <div className="flex gap-1">
+              <motion.div
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                className="w-1.5 h-1.5 rounded-full bg-gray-400"
+              />
+              <motion.div
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                className="w-1.5 h-1.5 rounded-full bg-gray-400"
+              />
+              <motion.div
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                className="w-1.5 h-1.5 rounded-full bg-gray-400"
+              />
             </div>
+            <motion.span
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              className="text-[14px] text-gray-500"
+            >
+              꼬리 질문 생각하는 중...
+            </motion.span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -268,9 +296,10 @@ export function InlineFollowUpWrapper({
       <AnimatePresence>
         {followUp && (
           <InlineFollowUp
+            ref={followUpRef}
             followUp={followUp}
             onAnswer={onAnswer}
-            onSkip={onSkip}
+            onSelectionChange={onSelectionChange}
           />
         )}
       </AnimatePresence>

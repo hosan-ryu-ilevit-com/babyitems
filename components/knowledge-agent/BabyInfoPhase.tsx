@@ -1,19 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CaretRight, Baby, Calendar, Check } from '@phosphor-icons/react/dist/ssr';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { Baby, Calendar, Check, Smiley } from '@phosphor-icons/react/dist/ssr';
 import type { BabyInfo } from '@/lib/knowledge-agent/types';
 
 interface BabyInfoPhaseProps {
   onComplete: (data: BabyInfo | null) => void;
-  onBack?: () => void; // 이전 버튼 (카테고리 선택으로 돌아가기)
-  categoryName: string; // 카테고리 이름 (인사 문구에 사용)
+  onBack?: () => void;
+  categoryName: string;
 }
 
 const STORAGE_KEY = 'babyitem_baby_info';
 
-// 개월수 계산 함수
+// --- Utility Functions ---
+
 function calculateMonths(birthDate: string): number {
   const birth = new Date(birthDate);
   const now = new Date();
@@ -21,52 +22,38 @@ function calculateMonths(birthDate: string): number {
   return Math.max(0, months);
 }
 
-// 만 나이 계산 함수
 function calculateYears(months: number): number {
   return Math.floor(months / 12);
 }
 
-// 개월수 + 만 나이 표시 텍스트
 function getAgeDisplayText(months: number): string {
   const years = calculateYears(months);
-  if (years === 0) {
-    return `${months}개월`;
-  }
+  if (years === 0) return `${months}개월`;
   return `${months}개월 (만 ${years}세)`;
 }
 
-// D-day 계산 함수 (출산예정일까지 남은 일수)
 function calculateDDay(expectedDate: string): number {
   const expected = new Date(expectedDate);
   const now = new Date();
-  // 시간 제거하고 날짜만 비교
   expected.setHours(0, 0, 0, 0);
   now.setHours(0, 0, 0, 0);
   const diffTime = expected.getTime() - now.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
-// D-day 표시 텍스트
 function getDDayDisplayText(expectedDate: string): string {
   const dDay = calculateDDay(expectedDate);
-  if (dDay === 0) {
-    return 'D-Day';
-  } else if (dDay > 0) {
-    return `D-${dDay}`;
-  } else {
-    return `D+${Math.abs(dDay)}`;
-  }
+  if (dDay === 0) return 'D-Day';
+  if (dDay > 0) return `D-${dDay}`;
+  return `D+${Math.abs(dDay)}`;
 }
 
-// 저장된 정보 불러오기
 function loadSavedBabyInfo(): BabyInfo | null {
   if (typeof window === 'undefined') return null;
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const data = JSON.parse(saved) as BabyInfo;
-      // 개월수 재계산 (시간이 지났을 수 있으므로)
       if (data.birthDate) {
         data.calculatedMonths = calculateMonths(data.birthDate);
       }
@@ -78,7 +65,6 @@ function loadSavedBabyInfo(): BabyInfo | null {
   return null;
 }
 
-// 정보 저장
 function saveBabyInfo(data: BabyInfo) {
   if (typeof window === 'undefined') return;
   try {
@@ -88,85 +74,72 @@ function saveBabyInfo(data: BabyInfo) {
   }
 }
 
+// --- Animation Variants ---
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } },
+};
+
+// --- Main Component ---
+
 export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhaseProps) {
-  // 새 플로우: check_saved → born_yet → date (미출산) or date_gender (출산)
   const [step, setStep] = useState<'loading' | 'check_saved' | 'born_yet' | 'date' | 'date_gender'>('loading');
   const [savedInfo, setSavedInfo] = useState<BabyInfo | null>(null);
 
-  // 수집 데이터
+  // Data State
   const [gender, setGender] = useState<'male' | 'female' | 'unknown' | null>(null);
   const [isBornYet, setIsBornYet] = useState<boolean | null>(null);
   const [birthDate, setBirthDate] = useState('');
   const [expectedDate, setExpectedDate] = useState('');
 
-  // 저장된 정보 확인
   useEffect(() => {
     const saved = loadSavedBabyInfo();
     if (saved) {
       setSavedInfo(saved);
       setStep('check_saved');
     } else {
-      // 없으면 바로 born_yet 단계로 (새 플로우: 태어났는지 먼저 물어봄)
       setStep('born_yet');
     }
   }, []);
 
-  // 저장된 정보 사용
   const handleUseSavedInfo = () => {
-    if (savedInfo) {
-      onComplete(savedInfo);
-    }
+    if (savedInfo) onComplete(savedInfo);
   };
 
-  // 새로 입력
   const handleNewInput = () => {
     setStep('born_yet');
   };
 
-  // 태어났는지 선택
-  const handleBornYetSelect = (born: boolean) => {
-    setIsBornYet(born);
-    if (born) {
-      // 태어났으면 → 생년월일 + 성별 같은 페이지에서 입력
-      setStep('date_gender');
-    } else {
-      // 아직 안 태어났으면 → 출산예정일만 (성별 스킵)
-      setStep('date');
-    }
-  };
-
-  // 출산예정일 입력 완료 (미출산)
   const handleExpectedDateComplete = () => {
-    const data: BabyInfo = {
-      isBornYet: false,
-      expectedDate: expectedDate,
-    };
-
-    // 저장
+    const data: BabyInfo = { isBornYet: false, expectedDate };
     saveBabyInfo(data);
     onComplete(data);
   };
 
-  // 생년월일 + 성별 입력 완료 (출산)
   const handleBirthDateGenderComplete = () => {
     const data: BabyInfo = {
       gender: gender || undefined,
       isBornYet: true,
-      birthDate: birthDate,
+      birthDate,
       calculatedMonths: birthDate ? calculateMonths(birthDate) : undefined,
     };
-
-    // 저장
     saveBabyInfo(data);
     onComplete(data);
   };
 
-  // 건너뛰기
-  const handleSkip = () => {
-    onComplete(null);
-  };
-
-  // 저장된 정보 표시 텍스트
   const getSavedInfoText = (info: BabyInfo) => {
     const parts: string[] = [];
     if (info.gender === 'male') parts.push('남아');
@@ -182,9 +155,11 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] px-4 py-8 pb-[120px]">
+    <div className="flex flex-col items-center justify-center min-h-[500px] px-6 py-10 pb-[140px] bg-white relative overflow-hidden">
+      {/* Background Decoration Removed */}
+
+
       <AnimatePresence mode="wait">
-        {/* 로딩 상태 */}
         {step === 'loading' && (
           <motion.div
             key="loading"
@@ -193,371 +168,347 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             exit={{ opacity: 0 }}
             className="flex items-center justify-center"
           >
-            <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-orange-100 border-t-orange-400 rounded-full animate-spin" />
           </motion.div>
         )}
 
-        {/* 저장된 정보 확인 */}
         {step === 'check_saved' && savedInfo && (
           <motion.div
             key="check_saved"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="w-full max-w-sm relative z-10"
           >
-            {/* 인사 메시지 */}
-            <div className="text-center mb-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
+            <motion.div variants={itemVariants} className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-stone-800 mb-3 tracking-tight">
                 반가워요! 👋
               </h2>
-              <p className="text-gray-600">
-                <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
+              <p className="text-stone-500 text-lg leading-7 font-semibold">
+                <span className="font-bold text-stone-800">{categoryName}</span> 추천을 위해<br/>
+                기존 정보를 불러올까요?
               </p>
-            </div>
+            </motion.div>
 
-            {/* 저장된 정보 카드 */}
-            <div className="text-center mb-8 p-4 bg-blue-50 rounded-2xl">
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
-                <Baby size={24} className="text-blue-500" />
+            <motion.div variants={itemVariants} className="mb-8">
+              <div className="bg-[#FDFBF7] p-6 rounded-[24px] border border-stone-100 text-center relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10">
+                  <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
+                    <Baby size={32} weight="fill" />
+                  </div>
+                  <p className="text-xl font-bold text-stone-800">
+                    {getSavedInfoText(savedInfo)}
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-gray-500 mb-1">저장된 아기 정보가 있어요</p>
-              <p className="text-gray-900 font-medium">
-                {getSavedInfoText(savedInfo)}
-              </p>
-            </div>
+            </motion.div>
 
-            <div className="space-y-3">
+            <motion.div variants={itemVariants} className="space-y-3">
               <button
                 onClick={handleUseSavedInfo}
-                className="w-full p-4 rounded-2xl bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                className="w-full py-4 rounded-[12px] bg-stone-900 text-white text-[16px] font-semibold hover:bg-stone-800 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >
                 <Check size={20} weight="bold" />
-                이 정보로 계속하기
+                네, 이 정보로 시작
               </button>
               <button
                 onClick={handleNewInput}
-                className="w-full p-4 rounded-2xl border border-gray-200 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                className="w-full py-4 rounded-[12px] bg-white text-stone-600 text-[16px] font-semibold border border-stone-200 hover:bg-stone-50 hover:border-stone-300 transition-all"
               >
-                새로 입력하기
+                새로 입력
               </button>
-            </div>
+            </motion.div>
           </motion.div>
         )}
 
-        {/* 태어났는지 확인 (새 플로우: 첫 번째 질문) */}
         {step === 'born_yet' && (
           <>
             <motion.div
               key="born_yet"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-sm"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="w-full max-w-sm relative z-10"
             >
-              <div className="text-center mb-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-2">
-                  반가워요! 👋
+              <motion.div variants={itemVariants} className="text-center mb-10">
+                <h2 className="text-2xl font-bold text-gray-800 mb-1 tracking-tight">
+                  아이 정보를 등록해주세요!
                 </h2>
-                <p className="text-gray-600">
-                  <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
+                <p className="text-gray-500 text-s">
+                  상황에 맞는 선택지를 골라주세요
                 </p>
-                <p className="text-gray-500 mt-3 text-sm">
-                  아기가 태어났나요?
-                </p>
-              </div>
+              </motion.div>
 
-              <div className="space-y-3">
-                <button
-                  onClick={() => setIsBornYet(true)}
-                  className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
-                    isBornYet === true
-                      ? 'bg-blue-50 border-blue-100'
-                      : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
-                  }`}
-                >
-                  <div className="flex flex-col gap-0.5">
-                    <span className={`text-[16px] font-medium leading-[1.4] ${isBornYet === true ? 'text-blue-500' : 'text-gray-600'}`}>네, 태어났어요</span>
-                    <span className={`text-[12px] font-medium ${isBornYet === true ? 'text-blue-400' : 'text-gray-400'}`}>생년월일과 성별을 입력할게요</span>
-                  </div>
-                </button>
-                <button
-                  onClick={() => setIsBornYet(false)}
-                  className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
-                    isBornYet === false
-                      ? 'bg-blue-50 border-blue-100'
-                      : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
-                  }`}
-                >
-                  <div className="flex flex-col gap-0.5">
-                    <span className={`text-[16px] font-medium leading-[1.4] ${isBornYet === false ? 'text-blue-500' : 'text-gray-600'}`}>아직이에요</span>
-                    <span className={`text-[12px] font-medium ${isBornYet === false ? 'text-blue-400' : 'text-gray-400'}`}>출산예정일을 입력할게요</span>
-                  </div>
-                </button>
-              </div>
+              <motion.div variants={itemVariants} className="flex flex-col gap-3">
+                <SelectionCard
+                  onClick={() => {
+                    setIsBornYet(true);
+                    setStep('date_gender');
+                  }}
+                  icon={<Smiley size={24} weight="fill" />}
+                  label="태어났어요"
+                  color="orange"
+                />
+                <SelectionCard
+                  onClick={() => {
+                    setIsBornYet(false);
+                    setStep('date');
+                  }}
+                  icon={<Calendar size={24} weight="fill" />}
+                  label="아직 뱃속에 있어요"
+                  color="blue"
+                />
+              </motion.div>
             </motion.div>
 
             {/* 하단 고정 바 */}
             <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* 그라데이션 배경 - 뒤쪽 */}
+              {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
 
-              {/* 버튼 컨테이너 - 앞쪽 */}
               <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                {onBack ? (
-                  <motion.button
-                    onClick={onBack}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  >
-                    이전
-                  </motion.button>
-                ) : (
-                  <div />
-                )}
                 <motion.button
                   onClick={() => {
-                    if (isBornYet === true) {
-                      setStep('date_gender');
-                    } else if (isBornYet === false) {
-                      setStep('date');
+                    if (savedInfo) {
+                      setStep('check_saved');
+                    } else if (onBack) {
+                      onBack();
                     }
                   }}
-                  disabled={isBornYet === null}
-                  whileHover={isBornYet !== null ? { scale: 1.02 } : {}}
-                  whileTap={isBornYet !== null ? { scale: 0.98 } : {}}
-                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
-                    ${isBornYet !== null
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
                 >
-                  다음
+                  이전
                 </motion.button>
+                <div /> {/* 오른쪽 빈 공간 */}
               </div>
             </div>
           </>
         )}
 
-        {/* 출산예정일만 입력 (미출산 - 성별 스킵) */}
         {step === 'date' && (
-          <>
-            <motion.div
-              key="date"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-sm"
-            >
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar size={32} className="text-purple-500" />
-                </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">
-                  출산예정일을 알려주세요
-                </h2>
-                <p className="text-gray-500 text-sm">
-                  예정일에 맞는 제품을 추천해드릴게요
-                </p>
-              </div>
+          <motion.div
+            key="date"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="w-full max-w-sm relative z-10"
+          >
+            <motion.div variants={itemVariants} className="text-center mb-10">
+              
+              <h2 className="text-xl font-bold text-gray-800 mb-1">
+                출산예정일을 알려주세요
+              </h2>
+              <p className="text-gray-500">
+                더 정확한 추천을 해드릴 수 있어요
+              </p>
+            </motion.div>
 
-              <div className="space-y-4">
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="relative">
                 <input
                   type="date"
                   value={expectedDate}
                   onChange={(e) => setExpectedDate(e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
+                  className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-transparent ring-4 ring-stone-100 focus:ring-blue-100 focus:border-blue-500 text-center text-xl font-bold text-stone-800 outline-none transition-all shadow-sm"
                 />
                 {expectedDate && (
-                  <div className="text-center mt-2">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-pink-50 text-pink-600 rounded-full text-sm font-medium">
-                      <Calendar size={16} />
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute -bottom-10 left-0 right-0 text-center"
+                  >
+                    <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/70 text-white rounded-full text-sm font-semibold">
                       출산까지 {getDDayDisplayText(expectedDate)}
                     </span>
-                  </div>
+                  </motion.div>
                 )}
               </div>
             </motion.div>
 
-            {/* 하단 고정 바 */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* 그라데이션 배경 - 뒤쪽 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
-
-              {/* 버튼 컨테이너 - 앞쪽 */}
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                <motion.button
-                  onClick={() => setStep('born_yet')}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                >
-                  이전
-                </motion.button>
-                <motion.button
-                  onClick={handleExpectedDateComplete}
-                  disabled={!expectedDate}
-                  whileHover={expectedDate ? { scale: 1.02 } : {}}
-                  whileTap={expectedDate ? { scale: 0.98 } : {}}
-                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
-                    ${expectedDate
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
-                >
-                  다음
-                </motion.button>
-              </div>
-            </div>
-          </>
+            <NextButton
+              onClick={handleExpectedDateComplete}
+              disabled={!expectedDate}
+              onBack={() => setStep('born_yet')}
+            />
+          </motion.div>
         )}
 
-        {/* 생년월일 + 성별 같은 페이지에서 입력 (출산) */}
         {step === 'date_gender' && (
-          <>
-            <motion.div
-              key="date_gender"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-sm"
-            >
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Baby size={32} className="text-pink-500" />
-                </div>
-                <h2 className="text-xl font-bold text-gray-900 mb-2">
-                  아기 정보를 알려주세요
-                </h2>
-                <p className="text-gray-500 text-sm">
-                  개월수와 성별에 맞는 제품을 추천해드릴게요
-                </p>
-              </div>
+          <motion.div
+            key="date_gender"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="w-full max-w-sm relative z-10"
+          >
+            <motion.div variants={itemVariants} className="text-center mb-8">
+              <h2 className="text-xl font-bold text-gray-800 mb-1">
+                출생일과 성별을 입력해주세요
+              </h2>
+              <p className="text-gray-500">
+                더 정확한 추천을 해드릴 수 있어요
+              </p>
+            </motion.div>
 
-              {/* 성별 */}
-              <div className="mb-5">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">성별</label>
-                <div className="grid grid-cols-2 gap-2">
+            <motion.div variants={itemVariants} className="space-y-8">
+              {/* Gender Section */}
+              <div className="space-y-3">
+                <label className="block text-sm font-bold text-stone-400 uppercase tracking-wider ml-1">성별</label>
+                <div className="grid grid-cols-2 gap-3">
                   <GenderButton
-                    label="남아"
-                    emoji="👶🏻"
+                    label="남자"
                     selected={gender === 'male'}
                     onClick={() => setGender('male')}
-                    compact
+                    color="blue"
                   />
                   <GenderButton
-                    label="여아"
-                    emoji="👶🏻"
+                    label="여자"
                     selected={gender === 'female'}
                     onClick={() => setGender('female')}
-                    compact
+                    color="blue"
                   />
                 </div>
               </div>
 
-              {/* 생년월일 */}
-              <div className="mb-4">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">생년월일</label>
-                <input
-                  type="date"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  max={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
-                />
-                {birthDate && (
-                  <div className="text-center mt-2">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
-                      <Baby size={16} />
-                      {getAgeDisplayText(calculateMonths(birthDate))}
-                    </span>
-                  </div>
-                )}
+              {/* Date Section */}
+              <div className="space-y-3">
+                <label className="block text-sm font-bold text-stone-400 uppercase tracking-wider ml-1">생년월일</label>
+                <div className="relative">
+                  <input
+                    type="date"
+                    value={birthDate}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                    max={new Date().toISOString().split('T')[0]}
+                    className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-transparent ring-4 ring-stone-100 focus:ring-orange-100 focus:border-orange-500 text-center text-xl font-bold text-stone-800 outline-none transition-all shadow-sm"
+                  />
+                  {birthDate && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="absolute -bottom-10 left-0 right-0 text-center"
+                    >
+                      <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-black/80 text-white rounded-full text-sm font-semibold mt-2">
+                        {getAgeDisplayText(calculateMonths(birthDate))}
+                      </span>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             </motion.div>
 
-            {/* 하단 고정 바 */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* 그라데이션 배경 - 뒤쪽 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
-
-              {/* 버튼 컨테이너 - 앞쪽 */}
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                <motion.button
-                  onClick={() => setStep('born_yet')}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                >
-                  이전
-                </motion.button>
-                <motion.button
-                  onClick={handleBirthDateGenderComplete}
-                  disabled={!birthDate}
-                  whileHover={birthDate ? { scale: 1.02 } : {}}
-                  whileTap={birthDate ? { scale: 0.98 } : {}}
-                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
-                    ${birthDate
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
-                >
-                  다음
-                </motion.button>
-              </div>
-            </div>
-          </>
+            <NextButton
+              onClick={handleBirthDateGenderComplete}
+              disabled={!birthDate}
+              onBack={() => setStep('born_yet')}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
 }
 
-// 성별 선택 버튼
-function GenderButton({
-  label,
-  emoji,
-  selected,
-  onClick,
-  compact = false
-}: {
-  label: string;
-  emoji: string;
-  selected: boolean;
+// --- Sub Components ---
+
+interface SelectionCardProps {
   onClick: () => void;
-  compact?: boolean;
-}) {
-  if (compact) {
-    return (
-      <button
-        onClick={onClick}
-        className={`p-3 rounded-xl border transition-all text-center
-          ${selected
-            ? 'border-gray-900 bg-gray-900 text-white'
-            : 'border-gray-200 hover:border-gray-400 hover:bg-gray-50 text-gray-700'}`}
-      >
-        <span className="text-lg mb-1 block">{emoji}</span>
-        <span className="text-sm font-medium">{label}</span>
-      </button>
-    );
-  }
+  icon: React.ReactNode;
+  label: string;
+  color: 'orange' | 'blue';
+}
+
+function SelectionCard({ onClick, icon, label, color }: SelectionCardProps) {
+  const isOrange = color === 'orange';
+
+  const defaultGradient = isOrange
+    ? 'bg-gradient-to-br from-orange-50/30 to-white'
+    : 'bg-gradient-to-br from-blue-50/30 to-white';
+  const defaultIconColor = isOrange ? 'text-orange-300' : 'text-blue-300';
+  const defaultIconHoverColor = isOrange ? 'group-hover:text-orange-400' : 'group-hover:text-blue-400';
+
+  return (
+    <motion.button
+      onClick={onClick}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.98 }}
+      className={`relative flex flex-col items-center justify-center gap-2 p-4 rounded-[18px] border-2 border-stone-100 hover:border-stone-200 transition-all duration-300 group overflow-hidden ${defaultGradient}`}
+    >
+      <div className="relative z-10">
+        {React.cloneElement(icon as React.ReactElement<{ className?: string }>, {
+          className: `transition-colors duration-300 ${defaultIconColor} ${defaultIconHoverColor}`
+        })}
+      </div>
+
+      <div className="text-center relative z-10">
+        <span className="block text-base font-semibold leading-tight text-gray-800">
+          {label}
+        </span>
+      </div>
+    </motion.button>
+  );
+}
+
+function GenderButton({ label, selected, onClick, color }: any) {
+  const isPink = color === 'pink';
+  const activeClass = isPink
+    ? 'bg-pink-50 ring-2 ring-pink-400 text-pink-900'
+    : 'bg-blue-50 ring-2 ring-blue-400 text-blue-900';
 
   return (
     <button
       onClick={onClick}
-      className={`w-full p-4 rounded-2xl border transition-all text-left group flex items-center gap-4
+      className={`py-4 px-6 rounded-[16px] font-bold text-lg transition-all duration-200
         ${selected
-          ? 'border-gray-900 bg-gray-50'
-          : 'border-gray-200 hover:border-gray-400 hover:bg-gray-50'}`}
+          ? activeClass
+          : 'bg-[#FDFBF7] text-stone-500 border border-stone-100 hover:bg-[#F7F5F0]'
+        }`}
     >
-      <span className="text-2xl">{emoji}</span>
-      <div className="flex-1">
-        <p className={`font-semibold ${selected ? 'text-gray-900' : 'text-gray-700'}`}>{label}</p>
-      </div>
-      <CaretRight
-        size={20}
-        className={`transition-colors ${selected ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-600'}`}
-      />
+      {label}
     </button>
+  );
+}
+
+function NextButton({ onClick, disabled, onBack }: any) {
+  return (
+    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+      <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
+        {onBack && (
+          <motion.button
+            onClick={onBack}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+          >
+            이전
+          </motion.button>
+        )}
+
+        <motion.button
+          onClick={onClick}
+          disabled={disabled}
+          whileHover={!disabled ? { scale: 1.02 } : {}}
+          whileTap={!disabled ? { scale: 0.98 } : {}}
+          className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+            ${!disabled
+              ? 'bg-gray-900 text-white hover:bg-gray-800'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
+        >
+          다음
+        </motion.button>
+      </div>
+    </div>
   );
 }
 

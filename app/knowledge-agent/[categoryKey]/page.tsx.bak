@@ -5052,7 +5052,7 @@ function MessageBubble({
                         setCustomInputValue('');
                       }
                     }}
-                    placeholder="조건을 자유롭게 입력하세요"
+                    placeholder="자유롭게 입력하세요"
                     className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
                       ${isCustomInputActive ? 'opacity-100' : 'opacity-0'}`}
                     style={{ pointerEvents: isCustomInputActive ? 'auto' : 'none' }}

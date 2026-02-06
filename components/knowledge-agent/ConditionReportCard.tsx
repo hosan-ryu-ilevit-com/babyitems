@@ -72,7 +72,7 @@ export function ConditionReportCard({
             >
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold text-gray-800">
-                  ⚠️ 고려사항 & 참고하세요
+                  ✅ {categoryName} 구매 팁
                 </span>
               </div>
               {isExpanded ? (
@@ -95,7 +95,7 @@ export function ConditionReportCard({
                     {/* 고려사항 */}
                     {report.analysis.importantFactors.length > 0 && (
                       <div className="text-sm leading-relaxed bg-red-50 rounded-lg p-3">
-                        <p className="font-semibold text-red-700 mb-1">고려사항</p>
+                        <p className="font-bold text-red-700 text-xl mb-1">고려사항</p>
                         {report.analysis.importantFactors.map((factor, idx) => (
                           <p key={idx} className="text-red-800">• {factor}</p>
                         ))}
@@ -105,7 +105,7 @@ export function ConditionReportCard({
                     {/* 주의사항 */}
                     {report.analysis.cautions.length > 0 && (
                       <div className="text-sm text-gray-600 leading-relaxed bg-amber-50 rounded-lg p-3">
-                        <p className="font-semibold text-amber-700 mb-1">참고하세요</p>
+                        <p className="font-bold text-amber-700 text-xl mb-1">참고하세요</p>
                         {report.analysis.cautions.map((caution, idx) => (
                           <p key={idx} className="text-amber-800">• {caution}</p>
                         ))}

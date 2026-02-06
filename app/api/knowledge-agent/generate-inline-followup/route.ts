@@ -172,6 +172,12 @@ ${userContextSection}
 - ⭐ **옵션은 구체적이고 정보 가치가 있어야 함**: 선택 즉시 추천에 반영 가능한 명확한 조건이어야 함
   - ❌ 나쁜 예: "피하고 싶은 성분이 있나요?", "특별히 원하는 기능이 있나요?" (그 자체로 정보값 없음)
   - ✅ 좋은 예: "BPA-free 소재", "스테인리스 재질", "유리 재질" (바로 필터링 가능)
+- **isPopular**: 시장 데이터 기반 인기 옵션 (한 질문당 0~2개)
+- **isRecommend**: 사용자 상황 기반 추천 옵션 (한 질문당 1~2개, 웬만하면 1개는 표시)
+  * 아기 월령, 성별, 온보딩 상황을 고려
+  * 예: 신생아 → 저자극/무향 옵션에 isRecommend: true
+  * 예: "소음 불만" → 초저소음 옵션에 isRecommend: true
+  * 사용자 상황을 고려했을 때 적합한 옵션이 있다면 반드시 표시
 
 ## 자연스러운 질문 작성 (중요!)
 - ⛔ 이미 수집된 정보(월령, 성별, 상황 등)를 '억지로' 언급하지 마세요
@@ -188,8 +194,8 @@ ${userContextSection}
     "question": "꼬리질문 내용 (1문장, 친근한 말투)",
     "type": "deepdive" | "contradiction" | "clarify",
     "options": [
-      { "value": "option1", "label": "옵션1 라벨 (부가설명)" },
-      { "value": "option2", "label": "옵션2 라벨 (부가설명)" },
+      { "value": "option1", "label": "옵션1 라벨 (부가설명)", "isPopular": true },
+      { "value": "option2", "label": "옵션2 라벨 (부가설명)", "isRecommend": true },
       { "value": "option3", "label": "옵션3 라벨 (부가설명)" }
     ]
   }
