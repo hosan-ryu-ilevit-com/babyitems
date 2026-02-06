@@ -174,7 +174,7 @@ export function InlineFollowUp({
                     }}
                     onClick={() => setShowCustomInput(true)}
                   >
-                    <span className="text-[16px] font-medium text-gray-500">기타 (직접 입력)</span>
+                    <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
                   </div>
                 ) : (
                   <div className="relative">

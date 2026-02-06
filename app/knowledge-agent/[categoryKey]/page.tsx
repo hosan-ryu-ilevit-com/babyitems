@@ -488,7 +488,7 @@ interface QuestionTodo {
   id: string;
   question: string;
   reason: string;
-  options: Array<{ value: string; label: string; description?: string; isPopular?: boolean }>;
+  options: Array<{ value: string; label: string; description?: string; isPopular?: boolean; isRecommend?: boolean }>;
   type: 'single' | 'multi';
   priority: number;
   dataSource: string;
@@ -518,6 +518,7 @@ interface ChatMessage {
   content: string;
   options?: string[];  // 선택지 라벨 배열
   popularOptions?: string[];  // 인기 옵션 라벨들 (options 중에서 isPopular인 것들)
+  recommendOptions?: string[];  // 추천 옵션 라벨들 (options 중에서 isRecommend인 것들)
   selectedOptions?: string[]; // 복수 선택 저장
   isFinalized?: boolean;      // 선택 완료 여부 (지나간 질문)
   typing?: boolean;
@@ -610,7 +611,8 @@ function OptionButton({
   onClick,
   description,
   disabled,
-  isPopular
+  isPopular,
+  isRecommend
 }: {
   label: string;
   isSelected?: boolean;
@@ -618,6 +620,7 @@ function OptionButton({
   description?: string;
   disabled?: boolean;
   isPopular?: boolean;
+  isRecommend?: boolean;
 }) {
   return (
     <motion.button
@@ -643,15 +646,26 @@ function OptionButton({
           }`}>{description}</span>
         )}
       </div>
-      {isPopular && !disabled && (
-        <span className={`shrink-0 ml-2 px-1.5 py-0.5 text-[11px] font-semibold rounded-md transition-colors ${
-          isSelected 
-            ? 'bg-white text-blue-500' 
-            : 'bg-blue-50 text-blue-600'
-        }`}>
-          인기
-        </span>
-      )}
+      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+        {isRecommend && !disabled && (
+          <span className={`px-1.5 py-0.5 text-[11px] font-semibold rounded-md transition-colors ${
+            isSelected
+              ? 'bg-white text-purple-600'
+              : 'bg-purple-50 text-purple-600'
+          }`}>
+            추천
+          </span>
+        )}
+        {isPopular && !disabled && (
+          <span className={`px-1.5 py-0.5 text-[11px] font-semibold rounded-md transition-colors ${
+            isSelected
+              ? 'bg-white text-blue-500'
+              : 'bg-blue-50 text-blue-600'
+          }`}>
+            인기
+          </span>
+        )}
+      </div>
     </motion.button>
   );
 }
@@ -1025,6 +1039,7 @@ export default function KnowledgeAgentPage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
+  const conditionReportRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -1189,10 +1204,9 @@ export default function KnowledgeAgentPage() {
   }, [onboardingData, babyInfo]);
 
   const handleAnalysisBottomSheetCancel = useCallback(() => {
-    console.log('[KA Flow] 분석 시작 취소 - 이전 페이지로');
+    console.log('[KA Flow] 분석 시작 모달 닫기');
     setShowAnalysisBottomSheet(false);
-    router.back();
-  }, [router]);
+  }, []);
 
   // ============================================================================
   // 인라인 꼬리질문 핸들러
@@ -1294,6 +1308,10 @@ export default function KnowledgeAgentPage() {
     const popularOpts = firstQuestion.options
       .filter((o: any) => o.isPopular)
       .map((o: any) => o.label);
+    // 추천 옵션 추출 (isRecommend가 true인 것들의 label)
+    const recommendOpts = firstQuestion.options
+      .filter((o: any) => o.isRecommend)
+      .map((o: any) => o.label);
     setMessages(prev => [...prev, {
       id: firstQuestionMsgId,
       questionId: firstQuestion.id,
@@ -1301,6 +1319,7 @@ export default function KnowledgeAgentPage() {
       content: firstQuestion.question,
       options: firstQuestion.options.map((o: any) => o.label),
       popularOptions: popularOpts.length > 0 ? popularOpts : undefined,
+      recommendOptions: recommendOpts.length > 0 ? recommendOpts : undefined,
       questionProgress: { current: 1, total },
       dataSource: firstQuestion.dataSource,
       typing: true,
@@ -2575,12 +2594,43 @@ export default function KnowledgeAgentPage() {
 
     // 조건 보고서 phase로 전환 (사용자가 확인 후 hardcut_visual로 진행)
     setPhase('condition_report');
+
+    // ✨ 중간 보고서로 부드럽게 스크롤 (렌더링 대기 후)
+    setTimeout(() => {
+      if (conditionReportRef.current && mainRef.current) {
+        const container = mainRef.current;
+        const reportEl = conditionReportRef.current;
+        const containerRect = container.getBoundingClientRect();
+        const reportRect = reportEl.getBoundingClientRect();
+        const offset = 80; // 헤더 + 여유 공간
+
+        const relativeTop = reportRect.top - containerRect.top;
+        const targetScrollTop = container.scrollTop + relativeTop - offset;
+
+        container.scrollTo({
+          top: Math.max(0, targetScrollTop),
+          behavior: 'smooth'
+        });
+      }
+    }, 200);
   };
 
   // 🆕 조건 보고서 확인 후 하드컷 시각화로 진행
   const proceedToHardcutVisual = async () => {
     console.log('[V2 Flow] 조건 보고서 확인 완료, hardcut_visual로 진행...');
-    setIsTyping(true);
+
+    // ✨ 위로 부드럽게 스크롤
+    if (mainRef.current) {
+      mainRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // 스크롤 후 로딩 시작
+    setTimeout(() => {
+      setIsTyping(true);
+    }, 300);
 
     try {
       const allProducts = crawledProducts;
@@ -4532,6 +4582,7 @@ export default function KnowledgeAgentPage() {
             content: data.content,
             options: data.options,
             popularOptions: data.popularOptions,
+            recommendOptions: data.recommendOptions,
             questionProgress: data.progress,
             dataSource: data.dataSource,
             searchContext: data.searchContext || null,
@@ -4550,10 +4601,10 @@ export default function KnowledgeAgentPage() {
   return (
     <div className="h-screen bg-[#F8F9FB] flex flex-col font-sans overflow-hidden">
       <div
-        ref={phase === 'result' || phase === 'free_chat' ? mainRef : null}
-        className={`max-w-[480px] mx-auto w-full flex-1 ${phase === 'result' || phase === 'free_chat' ? 'overflow-y-auto scrollbar-hide' : 'flex flex-col min-h-0'} relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50`}
+        ref={phase === 'result' || phase === 'free_chat' || phase === 'condition_report' ? mainRef : null}
+        className={`max-w-[480px] mx-auto w-full flex-1 ${phase === 'result' || phase === 'free_chat' || phase === 'condition_report' ? 'overflow-y-auto scrollbar-hide' : 'flex flex-col min-h-0'} relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50`}
       >
-        <header className={`bg-white border-b border-gray-50/50 px-4 h-16 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
+        <header className={`bg-white border-b border-gray-50/50 px-4 h-16 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' || phase === 'condition_report' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
           <motion.button whileHover={{ x: -2 }} whileTap={{ scale: 0.95 }} onClick={() => setShowExitConfirmModal(true)} className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors">
             <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
           </motion.button>
@@ -4609,33 +4660,8 @@ export default function KnowledgeAgentPage() {
             />
           )}
 
-          {/* 조건 보고서 Phase */}
-          {phase === 'condition_report' && (
-            <div className="py-6">
-              {isConditionReportLoading ? (
-                <ConditionReportLoading />
-              ) : conditionReport ? (
-                <ConditionReportCard
-                  report={conditionReport}
-                  categoryName={categoryName}
-                  onContinue={proceedToHardcutVisual}
-                />
-              ) : (
-                // 로딩도 아니고 데이터도 없으면 바로 진행
-                <div className="flex justify-center py-8">
-                  <button
-                    onClick={proceedToHardcutVisual}
-                    className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold"
-                  >
-                    다음으로 진행
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
           {/* 메인 채팅 플로우 */}
-          {phase !== 'onboarding' && phase !== 'baby_info' && phase !== 'condition_report' && (
+          {phase !== 'onboarding' && phase !== 'baby_info' && (
           <>
           <div className="space-y-8 pt-2">
             {(() => {
@@ -4764,6 +4790,37 @@ export default function KnowledgeAgentPage() {
             );
           });
             })()}
+
+            {/* 조건 보고서 (질문 완료 후 메시지 아래에 표시) */}
+            {phase === 'condition_report' && (
+              <motion.div
+                ref={conditionReportRef}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+                className="py-6"
+              >
+                {isConditionReportLoading ? (
+                  <ConditionReportLoading />
+                ) : conditionReport ? (
+                  <ConditionReportCard
+                    report={conditionReport}
+                    categoryName={categoryName}
+                    onContinue={proceedToHardcutVisual}
+                  />
+                ) : (
+                  // 로딩도 아니고 데이터도 없으면 바로 진행
+                  <div className="flex justify-center py-8">
+                    <button
+                      onClick={proceedToHardcutVisual}
+                      className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold"
+                    >
+                      다음으로 진행
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            )}
 
             {/* 결과 채팅 로딩 인디케이터 */}
             <AnimatePresence>
@@ -4929,7 +4986,9 @@ export default function KnowledgeAgentPage() {
 
         {/* 로딩 단계에서는 하단 채팅바 숨김 */}
         {phase !== 'loading' && (
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[110] bg-gradient-to-t from-white via-white/95 to-transparent">
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+          {/* 그라데이션 배경 - 뒤쪽 */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
           {/* Navigation Buttons (Prev Only)
             {activeQuestion && canGoPrev && !isTyping && (
               <div className="flex mb-4">
@@ -5924,6 +5983,7 @@ function MessageBubble({
                     label={opt}
                     isSelected={message.selectedOptions?.includes(opt)}
                     isPopular={message.popularOptions?.includes(opt)}
+                    isRecommend={message.recommendOptions?.includes(opt)}
                     onClick={() => {
                       const isSelected = !message.selectedOptions?.includes(opt);
                       const totalSelected = isSelected

@@ -182,7 +182,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] px-4 py-8">
+    <div className="flex flex-col items-center justify-center min-h-[400px] px-4 py-8 pb-[120px]">
       <AnimatePresence mode="wait">
         {/* 로딩 상태 */}
         {step === 'loading' && (
@@ -242,35 +242,19 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                 새로 입력하기
               </button>
             </div>
-
-            {onBack && (
-              <button
-                onClick={onBack}
-                className="w-full mt-4 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
-              >
-                이전
-              </button>
-            )}
-
-            <button
-              onClick={handleSkip}
-              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              건너뛰기
-            </button>
           </motion.div>
         )}
 
         {/* 태어났는지 확인 (새 플로우: 첫 번째 질문) */}
         {step === 'born_yet' && (
-          <motion.div
-            key="born_yet"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm flex flex-col min-h-[400px]"
-          >
-            <div className="flex-1">
+          <>
+            <motion.div
+              key="born_yet"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-sm"
+            >
               <div className="text-center mb-8">
                 <h2 className="text-xl font-bold text-gray-900 mb-2">
                   반가워요! 👋
@@ -311,11 +295,15 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   </div>
                 </button>
               </div>
-            </div>
+            </motion.div>
 
-            {/* 하단 플로팅 바 */}
-            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
-              <div className="flex gap-3 justify-between">
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+              {/* 그라데이션 배경 - 뒤쪽 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+              {/* 버튼 컨테이너 - 앞쪽 */}
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
                 {onBack ? (
                   <motion.button
                     onClick={onBack}
@@ -347,27 +335,20 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   다음
                 </motion.button>
               </div>
-
-              <button
-                onClick={handleSkip}
-                className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                건너뛰기
-              </button>
             </div>
-          </motion.div>
+          </>
         )}
 
         {/* 출산예정일만 입력 (미출산 - 성별 스킵) */}
         {step === 'date' && (
-          <motion.div
-            key="date"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm flex flex-col min-h-[400px]"
-          >
-            <div className="flex-1">
+          <>
+            <motion.div
+              key="date"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-sm"
+            >
               <div className="text-center mb-8">
                 <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Calendar size={32} className="text-purple-500" />
@@ -397,11 +378,15 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
 
-            {/* 하단 플로팅 바 */}
-            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
-              <div className="flex gap-3 justify-between">
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+              {/* 그라데이션 배경 - 뒤쪽 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+              {/* 버튼 컨테이너 - 앞쪽 */}
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
                 <motion.button
                   onClick={() => setStep('born_yet')}
                   whileHover={{ scale: 1.02 }}
@@ -423,27 +408,20 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   다음
                 </motion.button>
               </div>
-
-              <button
-                onClick={handleSkip}
-                className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                건너뛰기
-              </button>
             </div>
-          </motion.div>
+          </>
         )}
 
         {/* 생년월일 + 성별 같은 페이지에서 입력 (출산) */}
         {step === 'date_gender' && (
-          <motion.div
-            key="date_gender"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm flex flex-col min-h-[400px]"
-          >
-            <div className="flex-1">
+          <>
+            <motion.div
+              key="date_gender"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-sm"
+            >
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Baby size={32} className="text-pink-500" />
@@ -496,11 +474,15 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
 
-            {/* 하단 플로팅 바 */}
-            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
-              <div className="flex gap-3 justify-between">
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+              {/* 그라데이션 배경 - 뒤쪽 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+              {/* 버튼 컨테이너 - 앞쪽 */}
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
                 <motion.button
                   onClick={() => setStep('born_yet')}
                   whileHover={{ scale: 1.02 }}
@@ -522,15 +504,8 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   다음
                 </motion.button>
               </div>
-
-              <button
-                onClick={handleSkip}
-                className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                건너뛰기
-              </button>
             </div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>

@@ -2700,16 +2700,57 @@ export async function POST(request: NextRequest) {
     const catName = categoryName || categoryKey;
 
     // ============================================================================
-    // 0단계: 키워드 확장 + 자유 입력 분석 (1단계 LLM 평가에 필요)
+    // 0단계: 온보딩 데이터를 collectedInfo에 병합 + 키워드 확장 + 자유 입력 분석
     // ============================================================================
-    const additionalCondition = collectedInfo?.['__additional_condition__'] || '';
-
-    console.log(`[FinalRecommend] ⚡ Step 0: extractExpandedKeywords + analyzeFreeInput`);
+    console.log(`[FinalRecommend] ⚡ Step 0: Enrich collectedInfo + extractExpandedKeywords + analyzeFreeInput`);
     const step0StartTime = Date.now();
 
+    // 🆕 온보딩 데이터를 collectedInfo에 추가 (필터 태그 생성용)
+    const enrichedCollectedInfo = { ...collectedInfo };
+
+    // 온보딩 정보를 collectedInfo 형식으로 추가
+    if (onboarding) {
+      // 기존 제품 불만사항
+      if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0) {
+        const validReasons = onboarding.replaceReasons.filter(r => r !== '상관없어요');
+        if (validReasons.length > 0) {
+          enrichedCollectedInfo['[온보딩] 기존 제품 불편사항'] = validReasons.join(', ');
+        }
+      }
+      if (onboarding.replaceOther) {
+        enrichedCollectedInfo['[온보딩] 기타 불편사항'] = onboarding.replaceOther;
+      }
+
+      // 구매 니즈/상황 (첫구매/둘러보기)
+      if (onboarding.firstSituations && onboarding.firstSituations.length > 0) {
+        const validSituations = onboarding.firstSituations.filter(s => s !== '상관없어요');
+        if (validSituations.length > 0) {
+          enrichedCollectedInfo['[온보딩] 구매 니즈/상황'] = validSituations.join(', ');
+        }
+      }
+      if (onboarding.firstSituationOther) {
+        enrichedCollectedInfo['[온보딩] 기타 구매 상황'] = onboarding.firstSituationOther;
+      }
+    }
+
+    // 아기 정보도 추가
+    if (babyInfo) {
+      if (babyInfo.calculatedMonths !== undefined) {
+        enrichedCollectedInfo['[아기 정보] 월령'] = `${babyInfo.calculatedMonths}개월`;
+      }
+      if (babyInfo.gender && babyInfo.gender !== 'unknown') {
+        const genderMap: Record<string, string> = { male: '남아', female: '여아' };
+        enrichedCollectedInfo['[아기 정보] 성별'] = genderMap[babyInfo.gender] || babyInfo.gender;
+      }
+    }
+
+    console.log(`[FinalRecommend] 🆕 Enriched collectedInfo: ${Object.keys(enrichedCollectedInfo).length}개 조건 (원본: ${Object.keys(collectedInfo || {}).length})`);
+
+    const additionalCondition = enrichedCollectedInfo?.['__additional_condition__'] || '';
+
     const [expandedKeywords, freeInputAnalysisResult] = await Promise.all([
-      // 키워드 확장 (LLM 평가 프롬프트용)
-      extractExpandedKeywords(catName, collectedInfo || {}),
+      // 키워드 확장 (LLM 평가 프롬프트용) - enrichedCollectedInfo 사용
+      extractExpandedKeywords(catName, enrichedCollectedInfo),
       // 자유 입력 분석
       (additionalCondition && additionalCondition.trim().length >= 2)
         ? analyzeFreeInput(catName, additionalCondition)
@@ -2804,21 +2845,21 @@ export async function POST(request: NextRequest) {
     const step1StartTime = Date.now();
 
     const [topProductsResult, filterTagsResult] = await Promise.all([
-      // Top N 선정 (리뷰 있고 + 본품만 대상)
+      // Top N 선정 (리뷰 있고 + 본품만 대상) - 🆕 온보딩 정보 포함
       selectTopProducts(
         catName,
         candidatesFiltered,  // 🆕 리뷰 있는 제품 + 액세서리 제외
         reviews || {},
-        collectedInfo || {},
+        enrichedCollectedInfo,  // 🆕 온보딩/아기정보 포함
         balanceSelections || [],
         expandedKeywords,
         freeInputAnalysisResult,
         extendedContext || null,  // 🆕 온보딩/아기정보 포함된 확장 컨텍스트
       ),
-      // 필터 태그 생성 (2단계에서 사용) - 🆕 자유 입력 분석 결과도 전달
+      // 필터 태그 생성 (2단계에서 사용) - 🆕 온보딩 데이터 포함된 enrichedCollectedInfo 사용
       generateFilterTags(
         catName,
-        collectedInfo || {},
+        enrichedCollectedInfo,  // 🆕 온보딩/아기정보 포함
         balanceSelections || [],
         [], // negativeSelections 제거
         freeInputAnalysisResult  // 🆕 자유 입력 분석 결과 전달
@@ -2859,8 +2900,8 @@ export async function POST(request: NextRequest) {
     const step2StartTime = Date.now();
 
     const parallelResults = await Promise.allSettled([
-      // 🆕 한줄평 생성 (PLP 표시용) - productInfoMap 활용
-      generateDetailedReasons(selectedProducts, enrichedReviews, catName, collectedInfo, productInfoMap),
+      // 🆕 한줄평 생성 (PLP 표시용) - productInfoMap + 온보딩 정보 활용
+      generateDetailedReasons(selectedProducts, enrichedReviews, catName, enrichedCollectedInfo, productInfoMap),
       // 태그 충족도 평가 (PLP 필터 필수)
       evaluateTagScoresForProducts(
         selectedProducts.map((p: HardCutProduct) => ({ pcode: p.pcode, product: p })),

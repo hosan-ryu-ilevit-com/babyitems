@@ -1355,6 +1355,165 @@ function generateAvoidNegativesQuestion(): QuestionTodo {
  * 필수 질문(예산) 생성
  * - 맞춤질문과 분리하여 항상 생성됨을 보장
  */
+/**
+ * 온보딩 기반 첫 질문 생성
+ */
+async function generateOnboardingQuestion(
+  categoryName: string,
+  onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string; firstSituations?: string[]; firstSituationOther?: string } | null,
+  babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean } | null
+): Promise<QuestionTodo | null> {
+  // 온보딩 데이터가 없거나 의미있는 정보가 없으면 null 반환
+  if (!onboarding || (!onboarding.replaceReasons?.length && !onboarding.firstSituations?.length && !onboarding.replaceOther && !onboarding.firstSituationOther)) {
+    return null;
+  }
+
+  // "상관없어요"만 선택한 경우도 스킵
+  const hasOnlyDontCare =
+    (onboarding.replaceReasons?.length === 1 && onboarding.replaceReasons[0] === '상관없어요') ||
+    (onboarding.firstSituations?.length === 1 && onboarding.firstSituations[0] === '상관없어요');
+
+  if (hasOnlyDontCare) {
+    return null;
+  }
+
+  if (!ai) {
+    return null;
+  }
+
+  try {
+    console.log(`[Step3.5] Generating onboarding-based question`);
+
+    const model = ai.getGenerativeModel({
+      model: 'gemini-2.5-flash-lite',
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 1000,
+        responseMimeType: 'application/json',
+      },
+    });
+
+    // 온보딩 정보 정리
+    const onboardingContext: string[] = [];
+
+    if (onboarding.purchaseSituation) {
+      const situationMap: Record<string, string> = {
+        first: '첫 구매',
+        replace: '기존 제품 교체/업그레이드',
+        gift: '선물용/둘러보기',
+      };
+      onboardingContext.push(`구매 상황: ${situationMap[onboarding.purchaseSituation] || onboarding.purchaseSituation}`);
+    }
+
+    if (onboarding.replaceReasons && onboarding.replaceReasons.length > 0 && !onboarding.replaceReasons.includes('상관없어요')) {
+      onboardingContext.push(`기존 제품 불만사항: ${onboarding.replaceReasons.join(', ')}`);
+    }
+
+    if (onboarding.replaceOther) {
+      onboardingContext.push(`기타 불만: ${onboarding.replaceOther}`);
+    }
+
+    if (onboarding.firstSituations && onboarding.firstSituations.length > 0 && !onboarding.firstSituations.includes('상관없어요')) {
+      onboardingContext.push(`구매 니즈/상황: ${onboarding.firstSituations.join(', ')}`);
+    }
+
+    if (onboarding.firstSituationOther) {
+      onboardingContext.push(`기타 상황: ${onboarding.firstSituationOther}`);
+    }
+
+    if (babyInfo?.calculatedMonths !== undefined) {
+      onboardingContext.push(`아기 월령: ${babyInfo.calculatedMonths}개월`);
+    }
+
+    const onboardingText = onboardingContext.join('\n');
+
+    const prompt = `당신은 "${categoryName}" 구매 전문가입니다.
+
+## 사용자가 온보딩에서 입력한 정보
+${onboardingText}
+
+## 목표
+위 온보딩 정보를 기반으로 **딱 1개의 첫 질문**을 생성하세요.
+
+## 생성 규칙
+1. **온보딩 정보와 직접 연관된 질문만 생성**
+   - 예: "기존 제품 불만: 소음이 커서" → "소음 레벨은 어느 정도가 좋으신가요?"
+   - 예: "구매 니즈: 목욕 시 안전한 제품" → "목욕 시 안전 기능은 어떤 게 중요하신가요?"
+   - 예: "기존 제품 불만: 세척이 번거로웠어요" → "세척 편의성은 어느 정도로 중요하신가요?"
+
+2. **여러 불만/니즈가 있다면 가장 구체적이고 중요한 것 1개만 선택**
+   - 우선순위: 구체적 스펙/기능 > 일반적 니즈
+
+3. **옵션 설계 (3-4개)**
+   - 온보딩 정보와 직접 연관된 구체적인 선택지
+   - 모든 옵션에 소괄호 설명 필수
+   - "상관없어요" 옵션은 시스템이 자동 추가하므로 생성 금지
+
+4. **질문 형태**
+   - 자연스럽고 친근한 말투
+   - 온보딩에서 언급한 키워드를 그대로 활용
+
+## 출력 형식
+단일 질문 객체만 출력 (배열 아님):
+
+{
+  "id": "onboarding_1",
+  "question": "질문 내용 (온보딩 키워드 포함)",
+  "options": [
+    {"value": "opt1", "label": "선택지1 (구체적 설명)", "description": "부가 설명"},
+    {"value": "opt2", "label": "선택지2 (구체적 설명)", "description": "부가 설명"},
+    {"value": "opt3", "label": "선택지3 (구체적 설명)", "description": "부가 설명"}
+  ],
+  "type": "single",
+  "priority": 0,
+  "dataSource": "온보딩 기반"
+}
+
+⚠️ JSON 객체만 출력 (배열 아님, 설명 없음)`;
+
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+
+    console.log('[Step3.5] LLM response:', text.slice(0, 200));
+
+    // JSON 파싱
+    let question: QuestionTodo | null = null;
+    try {
+      question = JSON.parse(text);
+    } catch (parseError) {
+      console.error('[Step3.5] JSON parse error:', parseError);
+      // JSON 추출 시도
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          question = JSON.parse(jsonMatch[0]);
+        } catch {
+          console.error('[Step3.5] Failed to extract JSON');
+        }
+      }
+    }
+
+    if (!question || !question.question || !question.options || question.options.length === 0) {
+      console.log('[Step3.5] Invalid question generated, skipping');
+      return null;
+    }
+
+    // 유효성 검사 및 필드 강제 설정
+    question.id = 'onboarding_1';
+    question.type = 'single';
+    question.priority = 0; // 가장 높은 우선순위
+    question.dataSource = '온보딩 기반';
+    question.completed = false;
+
+    console.log(`[Step3.5] ✅ Generated onboarding question: ${question.question}`);
+    return question;
+
+  } catch (error) {
+    console.error('[Step3.5] Error generating onboarding question:', error);
+    return null;
+  }
+}
+
 async function generateRequiredQuestions(
   categoryName: string,
   minPrice: number,
@@ -1916,6 +2075,25 @@ async function generateQuestions(
   - ⭐ 구매 시 고려사항: ${reviewAnalysis.commonConcerns?.join(' / ') || '(분석중)'}`
     : '';
 
+  // ✅ 온보딩 기반 첫 질문 생성 (프롬프트 구성 전에 먼저 생성 - 중복 방지 위해)
+  console.log(`[Step3] 🎯 Generating onboarding-based question first...`);
+  const onboardingQuestion = await generateOnboardingQuestion(categoryName, onboarding, babyInfo);
+
+  // 온보딩 질문이 생성되었다면 프롬프트에 추가할 섹션 준비
+  let onboardingQuestionSection = '';
+  if (onboardingQuestion) {
+    console.log(`[Step3] ✅ Onboarding question generated: "${onboardingQuestion.question}"`);
+    onboardingQuestionSection = `
+## [⚠️ 온보딩 기반 질문 - 이미 생성됨, 절대 중복 금지!]
+다음 질문은 이미 온보딩 정보를 기반으로 생성되었습니다. **이 질문과 의미적으로 중복되는 질문은 절대 생성하지 마세요!**
+
+- **이미 질문함:** "${onboardingQuestion.question}"
+- **질문 주제:** ${onboardingQuestion.options.map(o => o.label).join(', ')}
+
+⚠️ **중복 방지:** 위 질문과 같은 주제(용량, 크기, 소재, 기능 등)를 다시 묻지 마세요!
+`;
+  }
+
   // 🆕 개인화 정보 컨텍스트
   const personalizationSection = personalizationContext
     ? `
@@ -1982,6 +2160,11 @@ ${contextParts.join('\n')}
 - **아기 월령이 이미 수집되었다면**: "아기 개월수", "아기 월령", "아기 나이" 등의 질문 생성 금지
 - **기존 제품 불만사항이 있다면**: 해당 불만사항을 해결하는 방향으로 질문 설계 (예: "소음" 불만 → "소음 민감도" 질문 스킵)
 - **교체 목적이라면**: "첫 구매인가요?" 같은 질문 생성 금지
+- **⭐ 구매 상황/니즈나 기타 상황에서 구체적인 제품 타입/스펙을 언급했다면**: 해당 항목에 대한 선택 질문 생성 금지
+  - 예시: "밴드형 기저귀 찾아요" → "팬티형/밴드형 중 어떤 걸 선호하세요?" 질문 생성 금지 (사용자가 이미 밴드형을 원한다고 명시함)
+  - 예시: "대용량 제품 필요해요" → "용량은 어떤 걸 선호하세요?" 질문 생성 금지 (사용자가 이미 대용량을 원한다고 명시함)
+  - 예시: "조용한 제품 찾아요" → "소음은 신경 쓰시나요?" 질문 생성 금지 (사용자가 이미 저소음을 원한다고 명시함)
+  - **⚠️ 주의**: 위 정보를 꼼꼼히 읽고, 사용자가 이미 결정한 스펙/타입/특징에 대해서는 절대 다시 질문하지 마세요!
 
 ⚠️ **[스타일 주의] 질문에 나이/성별을 억지로 언급하지 마세요!**
 - ❌ 잘못된 예: "20개월 남아에게 적합한 디자인은?"
@@ -2000,7 +2183,7 @@ ${contextParts.join('\n')}
 제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 3~4개**를 JSON 배열로 생성하세요.
 
 ⚠️ **중요: 예산 질문과 "피하고 싶은 단점" 질문은 별도로 생성되므로, 여기서는 생성하지 마세요!**
-${personalizationSection}${userContextSection}
+${personalizationSection}${userContextSection}${onboardingQuestionSection}
 ## [시장 데이터]
 <MarketContext>
 - **카테고리:** ${categoryName}
@@ -2019,6 +2202,19 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
 </MarketContext>
 
 ## [질문 생성 전략 (Thinking Process)]
+0. **⭐⭐ 온보딩 기반 첫 질문 생성 (최우선 순위!) ⭐⭐**
+   - **[중요] 사용자가 온보딩에서 입력한 구체적인 상황/니즈/불만사항이 있다면, 반드시 그것을 기반으로 첫 번째 질문을 생성하세요!**
+   - **온보딩 정보를 단순히 "중복 방지"로만 쓰지 말고, 첫 질문의 주제로 적극 활용하세요.**
+   - **예시:**
+     * 온보딩: "기존 제품 불만: 소음이 커서, 무거워서"
+       → **첫 질문 (필수)**: "소음 레벨은 어느 정도가 좋으신가요?" 또는 "무게는 어느 정도가 적당하신가요?"
+     * 온보딩: "구매 니즈: 7개월 아기 목욕 시 안전한 제품 필요"
+       → **첫 질문 (필수)**: "목욕 시 안전 기능은 어떤 게 중요하신가요?" 또는 "아기 안전을 위한 기능이 필요하신가요?"
+     * 온보딩: "기존 제품 불만: 세척이 너무 번거로웠어요"
+       → **첫 질문 (필수)**: "세척 편의성은 어느 정도로 중요하신가요?" 또는 "관리가 쉬운 제품을 원하시나요?"
+     * 온보딩: "구매 니즈: 출산 전 미리 준비하려고요"
+       → **첫 질문 (필수)**: "출산 직후부터 사용 가능한 제품을 원하시나요?" 또는 "신생아용 기능이 중요하신가요?"
+   - **⚠️ 주의:** 온보딩 정보가 구체적이지 않거나 "상관없어요"만 선택한 경우에는 이 규칙을 적용하지 않아도 됩니다.
 1. **⭐ 핵심 구매 고려사항 우선:** '핵심 구매 고려사항'에 나열된 항목을 **반드시** 질문에 반영하세요. 이것이 이 카테고리에서 가장 중요한 선택 기준입니다.
    - 예: 기계식키보드 → 스위치종류 질문 필수 / 에어팟 → 노이즈캔슬링 질문 필수 / 아기물티슈 → 성분/두께 질문 필수
 2. **결정적 요인 식별:** 상위 제품들의 스펙과 필터 정보를 대조하여, 제품이 가장 크게 갈리는 기준(Factor)을 찾으세요. (예: 가습기의 가열식 vs 초음파식)
@@ -2037,7 +2233,22 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
        - 소재/재질: "스테인리스 내솥 (코팅 벗겨짐 없음)", "세라믹 코팅 (논스틱)", "티타늄 (가볍고 내구성)"
        - 기능/효익: "자동 세척 (관리 편함)", "타이머 기능 (예약 가능)", "분리형 물통 (청소 쉬움)"
 6. **인기 옵션 표시:** 시장 데이터(판매 순위, 리뷰 수, 트렌드)를 기반으로 가장 많이 선택되는 옵션에 \`isPopular: true\`를 표시하세요. **한 질문당 인기 옵션은 반드시 0~2개 사이여야 합니다 (3개 이상 절대 금지).** 인기 옵션이 명확하지 않으면 표시하지 않아도 됩니다.
-7. **브랜드 질문 생성 조건:**
+7. **⭐⭐ 개인화 추천 옵션 표시 (isRecommend):**
+   - **사용자의 개인 상황**을 고려하여 가장 적합한 옵션에 \`isRecommend: true\`를 표시하세요.
+   - **고려할 사용자 정보:**
+     * 아기 월령 (예: 신생아 0-3개월 → 저자극/무향/신생아용)
+     * 성별 (필요한 경우에만)
+     * 온보딩 상황 (교체 이유, 기존 불만, 구매 니즈)
+     * 구매 목적 (첫 구매 vs 교체 vs 선물)
+   - **한 질문당 1~2개 표시 (웬만하면 1개는 표시)** (3개 이상 절대 금지)
+   - **예시:**
+     * 아기 3개월 + 기저귀 질문 → "소형 (3-6개월용)" 옵션에 isRecommend: true
+     * 온보딩 "기존 제품 불만: 소음" + 소음 질문 → "초저소음 (40dB 이하)" 옵션에 isRecommend: true
+     * 온보딩 "첫 구매" + 용량 질문 → "중간 용량 (가성비 좋음)" 옵션에 isRecommend: true
+   - **⚠️ 주의:**
+     * isPopular와 isRecommend는 **별개**입니다 (둘 다 true일 수도 있음)
+     * 사용자 상황을 고려했을 때 적합한 옵션이 있다면 반드시 표시하세요
+8. **브랜드 질문 생성 조건:**
    - **⭐ 표시가 있을 경우 (브랜드 중요도 높음)**, 반드시 브랜드 선호도 질문을 생성하세요.
    - 질문 형태는 카테고리 특성에 맞춰 자연스럽게:
      * 아기용품: "믿고 쓰는 브랜드가 있으신가요?" 또는 "선호하는 브랜드가 있으신가요?"
@@ -2049,9 +2260,16 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
    - 브랜드 중요도가 낮을 경우 (⭐ 표시 없음) 브랜드 질문을 생성하지 마세요.
 
 ## [작성 규칙]
-1. **Target Audience Check:**
-   - "${categoryName}"이 아기용품이고 **아기 월령 정보가 아직 수집되지 않은 경우에만** 첫 질문으로 아기 월령을 물어보세요.
-   - ⚠️ **위 [사용자가 이미 입력한 정보]에 아기 월령이 있다면 월령 질문을 생성하지 마세요!** (이미 수집됨)
+1. **⭐ 중복 방지 - 최우선 규칙 (가장 중요!):**
+   - **질문 생성 전에 반드시 [사용자가 이미 입력한 정보]를 꼼꼼히 확인하세요!**
+   - 위 섹션에 언급된 정보는 **이미 사용자가 결정한 것**이므로 절대 다시 질문하지 마세요.
+   - **Target Audience Check:**
+     * "${categoryName}"이 아기용품이고 **아기 월령 정보가 아직 수집되지 않은 경우에만** 첫 질문으로 아기 월령을 물어보세요.
+     * ⚠️ **[사용자가 이미 입력한 정보]에 아기 월령이 있다면 월령 질문을 생성하지 마세요!** (이미 수집됨)
+   - **Preference Check:**
+     * 사용자가 "밴드형", "대용량", "저소음" 등 **구체적인 스펙/타입/특징**을 이미 언급했다면, 해당 항목에 대한 질문 생성 금지
+     * 예: "밴드형 기저귀 찾아요" → 팬티형/밴드형 질문 생성 금지
+     * 예: "조용한 제품 필요해요" → 소음 관련 질문 생성 금지
 2. **Spec Filtering:**
    - 모든 제품이 공통으로 가진 스펙은 질문하지 마세요. (변별력 없음)
    - 사용자 취향이나 환경에 따라 제품 추천이 달라지는 항목을 우선순위로 두세요.
@@ -2074,13 +2292,14 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
     "id": "protein_type",
     "question": "분유의 단백질 타입은 어떤 걸 선호하시나요?",
     "options": [
-      {"value": "a2", "label": "A2 단백질 (배앓이 줄임)", "description": "소화가 편하고 복통 완화", "isPopular": true},
+      {"value": "a2", "label": "A2 단백질 (배앓이 줄임)", "description": "소화가 편하고 복통 완화", "isPopular": true, "isRecommend": true},
       {"value": "hydrolyzed", "label": "가수분해 단백질 (알레르기 예방)", "description": "알레르기 위험이 있는 아기에게 적합"},
       {"value": "standard", "label": "일반 단백질 (A1+A2 혼합)", "description": "가성비 좋고 대부분 아기에게 무난", "isPopular": true}
     ],
     "type": "single",
     "priority": 1,
-    "dataSource": "웹 트렌드"
+    "dataSource": "웹 트렌드",
+    "_comment": "신생아(0-3개월)라면 A2 단백질에 isRecommend: true 적용"
   },
   {
     "id": "switch_type",
@@ -2293,16 +2512,17 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
   // ✅ 필수 질문 대기 및 합치기
   const { budgetQuestion } = await requiredQuestionsPromise;
 
-  // 맞춤질문 + 예산(priority 99) 순서로 합치기
+  // 온보딩 질문(맨 앞) + 맞춤질문 + 예산(priority 99) 순서로 합치기
   const allQuestions = [
+    ...(onboardingQuestion ? [onboardingQuestion] : []),
     ...customQuestions,
     budgetQuestion,
   ];
 
   // ✅ 모든 질문에 "상관없어요 (건너뛰기)" 옵션 추가
   const questionsWithSkip = addSkipOptionToQuestions(allQuestions);
-  console.log(`[Step3] Final questions: ${questionsWithSkip.length} (custom: ${customQuestions.length}, required: 1)`);
-  
+  console.log(`[Step3] Final questions: ${questionsWithSkip.length} (onboarding: ${onboardingQuestion ? 1 : 0}, custom: ${customQuestions.length}, required: 1)`);
+
   return questionsWithSkip;
 }
 

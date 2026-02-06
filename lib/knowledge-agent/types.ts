@@ -153,6 +153,7 @@ export interface QuestionOption {
   description?: string;
   filterSpec?: Record<string, unknown>;  // 스펙 필터 조건
   isPopular?: boolean;  // 인기 옵션 여부 (시장 데이터 기반)
+  isRecommend?: boolean;  // 개인화 추천 옵션 여부 (사용자 상황 기반)
 }
 
 export interface BalanceQuestion {

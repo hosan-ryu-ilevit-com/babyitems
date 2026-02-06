@@ -1,26 +1,26 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-02-05T11:47:50.733Z
+> 마지막 업데이트: 2026-02-06T04:20:44.632Z
 > 분석 상품: 20개 | 분석 리뷰: 327,029개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 성분 및 친환경 소재 중시
-- 두께감과 뛰어난 흡수력 선호
-- 가성비와 높은 품질의 균형 추구
-- 친환경 및 생분해성 소재 사용 증가
-- 천연 및 유기농 성분 선호
+- 안전성 강화 및 유해 성분 최소화
+- 친환경 소재 및 패키징
+- EWG 그린 등급 성분 사용
 
 ### 구매자 만족 포인트
-- ✓ 안전한 성분
-- ✓ 뛰어난 가성비
-- ✓ 도톰한 두께
-- ✓ 높은 휴대성
+- ✓ 뛰어난 휴대성 및 편리함
+- ✓ 다양한 용도 활용 가능
+- ✓ 피부 자극 최소화
+- ✓ 보습 효과
 
 ### 주의해야 할 단점
-- ⚠ 짧은 유통기한
-- ⚠ 과대 포장
+- ⚠ 방부제 함유 가능성
+- ⚠ 환경 문제 (일회용품)
+- ⚠ 일부 제품의 낮은 수분감
+- ⚠ 가격 대비 품질 차이
 
 ### 가격대 인사이트
 
@@ -242,9 +242,11 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1q7wsRZvQQwB87H-YpvTek24KLrb6IFdhAMW0goTLJcgcg19ZooJ3OUEQRwyZL0SMmqaHGw-hcnj9lnBDfqWxdsBB24SOdTj0lA2J0V44Ij3LdBcTDJHjyprUkZzSgwPB_2VsEuwWm-rNcdfgf7OWeGd-)
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhWzj9GjxpSPOH-YfMhWDgy2hOcL8IMu5FxUK9G0OjhWqY_crnrI0OMtflixa-EryEBFSA_bnZ7M5JVI7PENT2k0X609K5gGdk1qaqvqVYxHUqfZ3e-YFktPqnDUmEFA8G2_mZ4xtga6NoLmppXI95wt4KOGmP-FSTC6wSi7g=)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExv8cqBU_x-l06RYYlZE62SQYAKDBdckGQtv460ERZ0_1tIpMr13hp-R3Xy-314MCk_zov_F1nMedcJgXLzkEX4RFeAsflR2zl8tJeYwHTU7CNxtW3sDKw2v0EW5fGXtUkEgRrog7leqndyiJk7m7ehPDxAN-s7l1f7Mrs)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUjlo2C7Ai_ZSfFpem7HASsXCMcZcsVYL4N5GAZp0GjaqKeNMLYKvh2e4K_QxC3IPwLpPrgwgJD-2UxLT4lBHCfai7Yr0fc7QXZnvN4nWTyOJKD9qGLCXUr6n70VGb4O5iPWhqgFauMPKhm2eQYqnrCKlQqhMHW3PNgQI=)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2-3n2K6ofrBFITww0TjRHAxyXYH46zBo0f8P6CaA3mFnzRgiDOYFm_gw16uwn4aXBDsXfDacGm-zqSHc3DBRwGgglhOeWQwkeRMKDm-_zdHttkcLTt5_ozbZtTAhk2JnDoXuS85z1M9U5DReNY_QR9-1abxkmeF2xs4xPTiJGyCWXYrXJTjNdJp2QcWweC_s4qNdLAvBWNoTaRMPChkAtO9RI-K5g-Y3U)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH_8mu5U0wBCjpHtYXMIZ3l14b8wm_WxdI6hzUTQsGg3wKS56cCwvdaS6BL5bEj4elcAcxexq4oBX79tea6dlC5EdcX92wEwmU6VYGupAk27kgl5DSPCUwV5R3BDKMyEagpXr4K4DR8j8ECZwIXEPNIy6ZQgjZld3iX27EK_Q==)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGzr7ZCQqY45Irc-0xQKA4L1OOK6wNCSQxUW2BjMvoGCXB-KITLrVRlDzRDGlJV1Mb2dzumkzU4nL4ub9pPdSzzArLAICApTZVKmoEX9tqGWOrQJ9FbcsO9OvFnOJArvgOi1WEIScVWikQ8eibyOavUmsvAQwbmZtzEh3b)
+- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjuftO5bhKNn-NJTBMQmo9P7hle6qTPt38Kx6T8aAE1RDU18_nzfYh8XpnNypXfJbs735Q65PmoZC5p3GVNj5-7husfaX3APZaRWPlPuC75bgby7mN2vjmpTa8oUQ1W8PwhKWQMCtq8XIC0LyeaxU-M0ach-gCXN1HzMEHIz8W2ivaXipvKe_93_AD)
+- [seoul.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdChV-FIrPgS-vyeF-A5SB6A0oPm9BuwnaYBrTt2sBC_xqNXgReZodsgrGX2oWoQTtb4vvJjZ-1DogJ0oV6ML-k-k1XzX88znH1ZykR21CS5OG4uC3DNW2AiPkAxumzHE6Fg2Q5icC5aFwoPqSv4ubX_HZEFHlTahy)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCm4DiUeSfq0rPsw5U5bpes2jqC9eyJ2lbmLwPQeLlSzoBQJGgrQUf6J2lmAVrQj1K5MUnWEqbR0J5KwhaoFBfrDuTzIrkR1EpbF20Jduj9oX4TpZtKKzpsS1r_KCcqotsd1Bnd1GLcB4cysbMtsB8RwWnkfQljCUfFBctY9kTYzgqv_MbAfp90TbdVPE6CDdN_8aTkIc=)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKE9Ox94NcWdBotffthe2vfa9n8_CL8xGJyZmXBJBYU1VLdMuCA2hyMhAIQqMuNkfb1ZD8CqbdD0qmjEeOLBM0T6-ELfQeIypBrGV8LOIhIOkUYqXN-TokIK_jjs76RC2aEwrxsgQcoSZ-ys-MAsO4b8RqheiqIj9X-1A=)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGInR3T_IVn5M9db7KnkMt-gcHNQafgsnvLYo8bzWa-ut3GW5tb79TyZUn-33AiOxVTSqFSlR91bRjaXokz2F6RcfJenwajVNeOvA3DTmH20H0nZpzm6TJOjLqfxpvbj_tPgZ5QUmLRBjyK0bvxUg0LUBhq2JJMM10=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFG-tS1C-RidenabUI5BJfHQC1bMERsoIHSU_pjCgwMstMxAAAIVpsG2UeKOwfliRccbO9HVdZvgOJvFcFppC8-iKbxzgHocZSxVydiZ1i9xu0vSJz4R9SOzTbwpNJFTXmShePtrS8YSYXkN-vBXDq6_j72rYzfHfhyILI=)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHweCRqpHy01nLeuOx2utz1QJ7yK9huA_AUmy99z7KGVcUBuA6RTwo7nPDFauoUGgm-p26SUpEjaggNw3m-k-x__Z4S6Lq32UYJR8zYvBSPxmCo5kbk59cIJ531d_-J17PoUkiZ_TMwWK7cYkJEjUFDnT27USabThdaKSN9XQ==)

@@ -329,7 +329,8 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           const naturalResponse = await generateNaturalRedirect(userMessage, currentTodo.question, searchKeyword);
           const completedCount = updatedTodos.filter((t: any) => t.completed).length;
           const popularOpts = currentTodo.options.filter((o:any) => o.isPopular).map((o:any) => o.label);
-          return { success: true, phase: 'questions', content: `${naturalResponse}\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), popularOptions: popularOpts.length > 0 ? popularOpts : undefined, currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCount + 1, total: updatedTodos.length } };
+          const recommendOpts = currentTodo.options.filter((o:any) => o.isRecommend).map((o:any) => o.label);
+          return { success: true, phase: 'questions', content: `${naturalResponse}\n\n${currentTodo.question}`, options: currentTodo.options.map((o:any)=>o.label), popularOptions: popularOpts.length > 0 ? popularOpts : undefined, recommendOptions: recommendOpts.length > 0 ? recommendOpts : undefined, currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCount + 1, total: updatedTodos.length } };
         }
 
         // ✅ 단점 선택(avoid_negatives) 질문에서는 웹서치 건너뛰기
@@ -345,7 +346,8 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           const responseContent = `${webSearchResult?.insight || '정보를 찾지 못했어요.'}${webSearchResult?.relevantTip ? `\n\n💡 ${webSearchResult.relevantTip}` : ''}\n\n---\n\n다시 질문드릴게요!\n\n${currentTodo.question}`;
           const completedCountB = updatedTodos.filter((t: any) => t.completed).length;
           const popularOptsB = currentTodo.options.filter((o:any) => o.isPopular).map((o:any) => o.label);
-          return { success: true, phase: 'questions', content: responseContent, options: currentTodo.options.map((o:any)=>o.label), popularOptions: popularOptsB.length > 0 ? popularOptsB : undefined, currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, searchContext: webSearchResult, progress: { current: completedCountB + 1, total: updatedTodos.length } };
+          const recommendOptsB = currentTodo.options.filter((o:any) => o.isRecommend).map((o:any) => o.label);
+          return { success: true, phase: 'questions', content: responseContent, options: currentTodo.options.map((o:any)=>o.label), popularOptions: popularOptsB.length > 0 ? popularOptsB : undefined, recommendOptions: recommendOptsB.length > 0 ? recommendOptsB : undefined, currentQuestion: currentTodo, questionTodos: updatedTodos, collectedInfo: updatedInfo, searchContext: webSearchResult, progress: { current: completedCountB + 1, total: updatedTodos.length } };
         }
 
         // ✅ 수정: 자연어 응답은 원본 그대로 저장 (LLM이 의미론적으로 해석)
@@ -435,7 +437,8 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
     }
     const completedCountNext = updatedTodos.filter((t: any) => t.completed).length;
     const popularOptsNext = nextQuestion.options.filter((o: any) => o.isPopular).map((o: any) => o.label);
-    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, options: nextQuestion.options.map((o: any) => o.label), popularOptions: popularOptsNext.length > 0 ? popularOptsNext : undefined, ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCountNext + 1, total: updatedTodos.length } };
+    const recommendOptsNext = nextQuestion.options.filter((o: any) => o.isRecommend).map((o: any) => o.label);
+    return { success: true, phase: 'questions', content: `${transitionText}${nextQuestion.question}`, options: nextQuestion.options.map((o: any) => o.label), popularOptions: popularOptsNext.length > 0 ? popularOptsNext : undefined, recommendOptions: recommendOptsNext.length > 0 ? recommendOptsNext : undefined, ui_type: 'chat', currentQuestion: nextQuestion, questionTodos: updatedTodos, collectedInfo: updatedInfo, progress: { current: completedCountNext + 1, total: updatedTodos.length } };
   }
 
   // Free chat fallback

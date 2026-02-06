@@ -150,65 +150,80 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] px-4 py-8">
+    <div className="flex flex-col items-center justify-center min-h-[400px]">
       <AnimatePresence mode="wait">
         {step === 'situation' && (
-          <motion.div
-            key="situation"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
-          >
-            {/* 질문 */}
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900">
-                {categoryName}을 <br></br>무슨 이유로 추천받으시나요?
-              </h2>
-            </div>
+          <>
+            <motion.div
+              key="situation"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-sm"
+            >
+              {/* 질문 */}
+              <div className="mb-8">
+                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
+                  {categoryName} 추천 받으시려는 이유를 알려주세요. <span className="text-blue-500">*</span>
+                </h2>
+              </div>
 
-            {/* 선택 옵션 */}
-            <div className="space-y-3">
-              <SituationButton
-                label="첫 구매에요"
-                description="이 제품을 처음 구매하시는 분"
-                onClick={() => handleSituationSelect('first')}
-              />
-              <SituationButton
-                label="교체/업그레이드해요"
-                description="기존 쓰던게 있지만 바꾸고 싶으신 분"
-                onClick={() => handleSituationSelect('replace')}
-              />
-              <SituationButton
-                label="그냥 둘러보러 왔어요"
-                description="당장 구매 계획이 없으신 분"
-                onClick={() => handleSituationSelect('gift')}
-              />
-            </div>
+              {/* 선택 옵션 */}
+              <div className="space-y-3">
+                <SituationButton
+                  label="첫 구매에요"
+                  description="이 제품을 처음 구매하시는 분"
+                  onClick={() => handleSituationSelect('first')}
+                />
+                <SituationButton
+                  label="교체/업그레이드해요"
+                  description="기존 쓰던게 있지만 바꾸고 싶으신 분"
+                  onClick={() => handleSituationSelect('replace')}
+                />
+                <SituationButton
+                  label="그냥 둘러보러 왔어요"
+                  description="당장 구매 계획이 없으신 분"
+                  onClick={() => handleSituationSelect('gift')}
+                />
+              </div>
+            </motion.div>
 
-            {/* 이전 버튼 */}
-            {onBack && (
-              <button
-                onClick={onBack}
-                className="w-full mt-4 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
-              >
-                이전
-              </button>
-            )}
-          </motion.div>
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+              {/* 그라데이션 배경 - 뒤쪽 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+              {/* 버튼 컨테이너 - 앞쪽 */}
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
+                {onBack ? (
+                  <motion.button
+                    onClick={onBack}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  >
+                    이전
+                  </motion.button>
+                ) : (
+                  <div />
+                )}
+                <div /> {/* 다음 버튼 자리 (선택 시 자동 이동) */}
+              </div>
+            </div>
+          </>
         )}
 
         {step === 'replace_reasons' && (
-          <motion.div
-            key="replace_reasons"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm flex flex-col min-h-[400px]"
-          >
-            <div className="flex-1">
+          <>
+            <motion.div
+              key="replace_reasons"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-sm"
+            >
               {/* 질문 */}
-              <div className="mb-6">
+              <div className="mb-8">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
                   기존 제품의 불편했던 점이 있나요? <span className="text-blue-500">*</span>
                 </h2>
@@ -267,7 +282,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                     }}
                     onClick={() => setShowOtherInput(true)}
                   >
-                    <span className="text-[16px] font-medium text-gray-500">기타 (직접 입력)</span>
+                    <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
                   </div>
                 ) : (
                   <div className="relative">
@@ -282,11 +297,15 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
 
-            {/* 하단 플로팅 바 */}
-            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
-              <div className="flex gap-3 justify-between">
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+              {/* 그라데이션 배경 - 뒤쪽 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+              {/* 버튼 컨테이너 - 앞쪽 */}
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
                 <motion.button
                   onClick={() => {
                     setStep('situation');
@@ -310,21 +329,21 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 </motion.button>
               </div>
             </div>
-          </motion.div>
+          </>
         )}
 
         {/* 첫구매/둘러보기 상황 선택 */}
         {step === 'first_situations' && (
-          <motion.div
-            key="first_situations"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm flex flex-col min-h-[400px]"
-          >
-            <div className="flex-1">
+          <>
+            <motion.div
+              key="first_situations"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-sm"
+            >
               {/* 질문 */}
-              <div className="mb-6">
+              <div className="mb-8">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
                   {purchaseSituation === 'first'
                     ? '어떤 상황에서 구매하시나요?'
@@ -383,7 +402,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                     }}
                     onClick={() => setShowSituationOtherInput(true)}
                   >
-                    <span className="text-[16px] font-medium text-gray-500">기타 (직접 입력)</span>
+                    <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
                   </div>
                 ) : (
                   <div className="relative">
@@ -398,11 +417,15 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                   </div>
                 )}
               </div>
-            </div>
+            </motion.div>
 
-            {/* 하단 플로팅 바 */}
-            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
-              <div className="flex gap-3 justify-between">
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
+              {/* 그라데이션 배경 - 뒤쪽 */}
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+
+              {/* 버튼 컨테이너 - 앞쪽 */}
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
                 <motion.button
                   onClick={() => {
                     setStep('situation');
@@ -427,7 +450,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 </motion.button>
               </div>
             </div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>

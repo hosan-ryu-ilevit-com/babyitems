@@ -262,7 +262,6 @@ function handleBrandFollowUp(userAnswer: string): InlineFollowUpResponse {
         options: [
           { value: 'popular', label: '검증된 국민템이 좋아요' },
           { value: 'value', label: '실속있는 가성비 상품이 좋아요' },
-          { value: 'no_preference', label: '상관없어요' },
         ],
       },
     };
