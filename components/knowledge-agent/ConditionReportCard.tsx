@@ -16,7 +16,7 @@ export function ConditionReportCard({
   onContinue,
 }: ConditionReportCardProps) {
   const [isSpecOpen, setIsSpecOpen] = useState(true);
-  const [isTipOpen, setIsTipOpen] = useState(true);
+  const [isTipOpen, setIsTipOpen] = useState(false);
 
   return (
     <motion.div

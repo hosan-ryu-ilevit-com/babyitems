@@ -215,7 +215,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 />
                 <SituationButton
                   label=" 다른 걸로 바꿔보려고요 🛍️  "
-                  description=" 쓰던 것보다 나은 상품을 찾고 싶으신 분"
+                  description="더 나은 상품을 찾고 싶으신 분"
                   onClick={() => handleSituationSelect('replace')}
                 />
                 <SituationButton
@@ -263,10 +263,10 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               {/* 질문 */}
               <div className="mb-4">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1 mt-4">
-                  쓰시던 상품의 단점을 알려주세요 <span className="text-blue-500">*</span>
+                  쓰시던 {categoryName}의 단점을 알려주세요 <span className="text-blue-500">*</span>
                 </h2>
                 <p className="text-[16px] font-medium text-gray-500 leading-[1.4]">
-                  더 나은 제품을 추천해드릴게요
+                  단점이 보완된 상품을 우선으로 찾아드릴게요
                 </p>
               </div>
 
@@ -487,11 +487,11 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               <div className="mb-4 mt-4">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1">
                   {purchaseSituation === 'first'
-                    ? '어떤 상황에서 구매하시나요?'
-                    : '어떤 이유로 둘러보고 계신가요?'} <span className="text-blue-500">*</span>
+                    ? `${categoryName}, 어떤 상황에서 구매를 계획하시나요?`
+                    : `${categoryName}, 어떤 이유로 둘러보고 계신가요?`} <span className="text-blue-500">*</span>
                 </h2>
                 <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
-                  알려주시면 더 구체적인 질문을 드릴 수 있어요.
+                  알려주시면 더 좋은 추천을 할 수 있어요.
                 </p>
               </div>
 

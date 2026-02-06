@@ -1158,6 +1158,47 @@ export default function KnowledgeAgentPage() {
 
   // collectedInfo를 recommend-v2의 UserSelections 형식으로 변환
   const getUserSelections = (): UserSelections => {
+    const contextParts: string[] = [];
+
+    if (onboardingData) {
+      const situationMap: Record<string, string> = {
+        first: '첫 구매',
+        replace: '교체/업그레이드',
+        gift: '둘러보기/선물',
+      };
+
+      if (onboardingData.purchaseSituation) {
+        contextParts.push(`구매 상황: ${situationMap[onboardingData.purchaseSituation] || onboardingData.purchaseSituation}`);
+      }
+      if (onboardingData.replaceReasons && onboardingData.replaceReasons.length > 0) {
+        contextParts.push(`기존 제품 불만: ${onboardingData.replaceReasons.join(', ')}`);
+      }
+      if (onboardingData.replaceOther) {
+        contextParts.push(`기타 불만: ${onboardingData.replaceOther}`);
+      }
+      if (onboardingData.firstSituations && onboardingData.firstSituations.length > 0) {
+        contextParts.push(`구매 니즈: ${onboardingData.firstSituations.join(', ')}`);
+      }
+      if (onboardingData.firstSituationOther) {
+        contextParts.push(`기타 니즈: ${onboardingData.firstSituationOther}`);
+      }
+    }
+
+    if (babyInfo) {
+      if (babyInfo.calculatedMonths !== undefined) {
+        contextParts.push(`아기 월령: ${babyInfo.calculatedMonths}개월`);
+      } else if (babyInfo.expectedDate) {
+        contextParts.push(`출산예정일: ${babyInfo.expectedDate}`);
+      }
+      if (babyInfo.gender) {
+        const genderMap: Record<string, string> = { male: '남아', female: '여아', unknown: '모름' };
+        contextParts.push(`성별: ${genderMap[babyInfo.gender] || babyInfo.gender}`);
+      }
+    }
+
+    const initialMessage = messages.find(m => m.role === 'user')?.content || '';
+    const mergedContext = [initialMessage, ...contextParts].filter(Boolean).join('\n');
+
     return {
       hardFilters: Object.entries(collectedInfo).map(([key, value]) => ({
         questionText: key,
@@ -1167,7 +1208,7 @@ export default function KnowledgeAgentPage() {
         title: s.questionId, // ID를 타이틀로 사용 (정확한 타이틀은 찾기 어려움)
         selectedOption: s.selectedLabel
       })),
-      initialContext: messages.find(m => m.role === 'user')?.content || ''
+      initialContext: mergedContext
     };
   };
 

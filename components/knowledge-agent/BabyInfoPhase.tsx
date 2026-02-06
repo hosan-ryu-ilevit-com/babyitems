@@ -211,8 +211,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                 onClick={handleUseSavedInfo}
                 className="w-full py-4 rounded-[12px] bg-stone-900 text-white text-[16px] font-semibold hover:bg-stone-800 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >
-                <Check size={20} weight="bold" />
-                네, 이 정보로 시작
+                네, 이 정보로 시작하기
               </button>
               <button
                 onClick={handleNewInput}
