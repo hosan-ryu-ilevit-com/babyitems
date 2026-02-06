@@ -35,7 +35,7 @@ export function ConditionReportCard({
 
       {/* 핵심 니즈 */}
       <div className="bg-gray-50 rounded-[16px] p-4">
-        <p className="text-[22px] font-bold text-gray-500">핵심 조건</p>
+        <p className="text-[20px] font-bold text-gray-500">핵심 니즈</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {report.userProfile.keyNeeds.map((need, idx) => (
             <span
@@ -58,7 +58,7 @@ export function ConditionReportCard({
           onClick={() => setIsSpecOpen(prev => !prev)}
           className="w-full flex items-center justify-between text-left"
         >
-          <p className="text-[22px] font-bold text-gray-500">추천 스펙</p>
+          <p className="text-[20px] font-bold text-gray-500">추천하는 주요 조건</p>
          
         </button>
     

@@ -343,8 +343,9 @@ async function generateQuestions(
 2. **옵션 명확성:** 옵션 자체가 구체적이고 바로 필터링 가능해야 함
    - ✅ "BPA-free 소재" vs "일반 플라스틱"
    - ❌ "피하고 싶은 성분이 있나요?" (정보값 없음 - 금지!)
+   - **옵션은 반드시 2개(A/B)만 생성하고 value는 A/B로 설정**
 3. **사용자 언어:** 기술 용어 대신 효익(Benefit)과 상황 중심으로 질문하세요.
-4. **MECE 원칙:** 선택지는 3~5개로 구성하며, 상호 배타적이어야 함
+4. **MECE 원칙:** 선택지는 **A/B 2개**로 구성하며, 상호 배타적이어야 함
 5. **예산 질문 금지:** 예산 관련 질문은 이미 이전 단계에서 완료되었으므로 절대 생성하지 마세요.
 
 ---
@@ -360,7 +361,7 @@ ${answeredText}
 
 **🎯 질문 생성 원칙:** 아래 분석 결과(스펙 차이점, 리뷰, 트레이드오프)에서 **실제로 확인 가능한 정보만** 기반으로 질문을 생성하세요. 데이터에 없는 내용은 절대 질문하지 마세요!
 
-### ⭐ 핵심 구매 고려사항 (가장 중요!)
+### ⭐ 핵심 구매 고려사항
 ${analysis.buyingFactors.length > 0 ? analysis.buyingFactors.map(f => `- ${f}`).join('\n') : '(정보 없음)'}
 **→ 위 항목들은 이 카테고리에서 구매 결정에 가장 중요한 요소입니다. 아직 질문하지 않은 항목이 있다면 우선적으로 질문하세요!**
 
@@ -386,8 +387,7 @@ ${productsText}
 **현재 남은 후보 제품: ${sampleProducts.length}개**
 
 ### 질문 개수 결정 기준
-- 후보 10개 이상 → 3-5개 질문 (중요 포인트만)
-- 후보 5-9개 → 2-3개 질문 (최소한의 정보만)
+- 후보 수와 무관하게 **1~3개 질문만 생성. 추가로 물어봐야 할 질문이 많으면 3개, 별로 없으면 1~2개**
 
 ### 질문 생성 시 주의사항
 - **중복 금지:** 위에 나열된 "사용자가 이미 답변한 내용"과 의미적으로 중복되는 질문 절대 금지
@@ -491,8 +491,8 @@ ${productsText}
     "question": "메쉬 소재를 선호하신다고 하셨는데, 착용감은 어떤 게 좋으세요?",
     "reason": "메쉬 소재 내에서도 착용감 차이가 크므로 (딥다이브)",
     "options": [
-      { "value": "soft", "label": "부드러운 착용감 (3D 메쉬, 장시간 편안)", "description": "통기성 좋고 피부에 자극 없음", "isPopular": true, "isRecommend": true },
-      { "value": "firm", "label": "탄탄한 지지력 (하드 메쉬, 허리 보호)", "description": "안정적이고 무게 분산 좋음" }
+      { "value": "A", "label": "부드러운 착용감 (3D 메쉬, 장시간 편안)", "description": "통기성 좋고 피부에 자극 없음" },
+      { "value": "B", "label": "탄탄한 지지력 (하드 메쉬, 허리 보호)", "description": "안정적이고 무게 분산 좋음" }
     ],
     "type": "single",
     "priority": 1,
@@ -548,22 +548,27 @@ function parseQuestionsResponse(response: string): QuestionTodo[] {
 
     return parsed
       .filter((q: any) => q.question && Array.isArray(q.options) && q.options.length >= 2)
-      .map((q: any, index: number) => ({
-        id: q.id || `followup_${index + 1}`,
-        question: q.question,
-        reason: q.reason || '',
-        options: q.options.map((opt: any) => ({
-          value: opt.value || opt.label,
+      .slice(0, 2)
+      .map((q: any, index: number) => {
+        const normalizedOptions = q.options.slice(0, 2).map((opt: any, optIdx: number) => ({
+          value: optIdx === 0 ? 'A' : 'B',
           label: sanitizeOptionLabel(opt.label || ''),
           description: opt.description || '',
           isPopular: !!opt.isPopular,
           isRecommend: !!opt.isRecommend,
-        })),
-        type: q.type || 'single',
-        priority: q.priority || index + 1,
-        dataSource: q.dataSource || 'follow_up',
-        completed: false,
-      }));
+        }));
+
+        return {
+          id: q.id || `followup_${index + 1}`,
+          question: q.question,
+          reason: q.reason || '',
+          options: normalizedOptions,
+          type: 'single',
+          priority: q.priority || index + 1,
+          dataSource: q.dataSource || 'follow_up',
+          completed: false,
+        };
+      });
   } catch (error) {
     console.error('[Follow-up] Parse failed:', error);
     return [];

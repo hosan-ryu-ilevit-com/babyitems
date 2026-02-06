@@ -553,25 +553,20 @@ export const BalanceGameCarousel = forwardRef<BalanceGameCarouselRef, BalanceGam
                 </motion.button>
               </div>
 
-              {/* 하단 버튼 영역 - 디자인 변경 (상관없어요 Skip) */}
+              {/* 하단 버튼 영역 - 디자인 변경 (건너뛰기) */}
               <div className="pt-4">
                 <button
-                  onClick={() => handleSelectBoth(currentQuestion.id)}
+                  onClick={() => handleSkip(currentQuestion.id)}
                   className={`w-full h-[50px] px-4 rounded-xl border transition-all flex items-center justify-center gap-1.5 ${
-                    isCurrentBoth
-                      ? 'border-blue-100 bg-blue-50'
+                    isCurrentSkipped
+                      ? 'border-gray-200 bg-gray-100'
                       : 'border-gray-100 bg-white hover:border-gray-200'
                   }`}
                 >
                   <span className={`text-[16px] font-medium ${
-                    isCurrentBoth ? 'text-blue-500' : 'text-gray-600'
+                    isCurrentSkipped ? 'text-gray-500' : 'text-gray-600'
                   }`}>
-                    상관없어요
-                  </span>
-                  <span className={`text-[16px] font-medium ${
-                    isCurrentBoth ? 'text-blue-300' : 'text-gray-300'
-                  }`}>
-                    Skip
+                    건너뛰기
                   </span>
                 </button>
               </div>

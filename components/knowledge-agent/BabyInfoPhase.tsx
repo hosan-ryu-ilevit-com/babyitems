@@ -182,24 +182,24 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             className="w-full max-w-sm relative z-10"
           >
             <motion.div variants={itemVariants} className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-3 tracking-tight">
+              <h2 className="text-2xl font-bold text-gray-800 mb-3 tracking-tight">
                 반가워요! 👋
               </h2>
               <p className="text-gray-500 text-lg leading-7 font-semibold">
                 <span className="font-bold text-gray-700">{categoryName}</span> 추천을 위해<br/>
-                기존 정보를 불러올까요?
+                기존 정보를 사용할까요?
               </p>
             </motion.div>
 
             <motion.div variants={itemVariants} className="mb-8">
-              <div className="bg-[#FDFBF7] p-6 rounded-[24px] border border-stone-100 text-center relative overflow-hidden group">
+              <div className="bg-[#FDFBF7] p-6 rounded-[24px] text-center relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="relative z-10">
                   <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
                     <Baby size={32} weight="fill" />
                   </div>
-                  <p className="text-xl font-bold text-stone-800">
+                  <p className="text-lg font-semibold text-gray-800">
                     {getSavedInfoText(savedInfo)}
                   </p>
                 </div>
@@ -218,7 +218,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                 onClick={handleNewInput}
                 className="w-full py-4 rounded-[12px] bg-white text-stone-600 text-[16px] font-semibold border border-stone-200 hover:bg-stone-50 hover:border-stone-300 transition-all"
               >
-                새로 입력
+                새로 입력하기
               </button>
             </motion.div>
           </motion.div>

@@ -209,17 +209,17 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               {/* 선택 옵션 */}
               <div className="space-y-3">
                 <SituationButton
-                  label="첫 구매라 잘 모르겠어요 🌱"
-                  description="처음 구매하시는 분"
+                  label="처음으로 구매해요 🌱  "
+                  description="첫 구매라 잘 모르시는 분"
                   onClick={() => handleSituationSelect('first')}
                 />
                 <SituationButton
-                  label="다른 걸로 바꿔볼까 해요 🔄"
-                  description=" 쓰던 것보다 더 나은 상품을 찾고 싶으신 분"
+                  label=" 다른 걸로 바꿔보려고요 🛍️  "
+                  description=" 쓰던 것보다 나은 상품을 찾고 싶으신 분"
                   onClick={() => handleSituationSelect('replace')}
                 />
                 <SituationButton
-                  label="그냥 둘러보려구요 👀"
+                  label="그냥 둘러보려구요 👀  "
                   description="당장 구매 계획이 없으신 분"
                   onClick={() => handleSituationSelect('gift')}
                 />
@@ -709,8 +709,8 @@ function SituationButton({ label, description, onClick }: { label: string; descr
       className="w-full py-4 px-5 rounded-[12px] border border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30 transition-all text-left bg-white"
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-[16px] font-bold leading-[1.4] text-gray-600">{label}</span>
-        <span className="text-[14px] font-medium text-gray-400">{description}</span>
+        <span className="text-[18px] font-bold leading-[1.4] text-gray-600">{label}</span>
+        <span className="text-[16px] font-medium text-gray-400 mt-1">{description}</span>
       </div>
     </button>
   );

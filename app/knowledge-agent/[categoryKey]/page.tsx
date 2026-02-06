@@ -1069,6 +1069,13 @@ export default function KnowledgeAgentPage() {
   const [isLoadingInlineFollowUp, setIsLoadingInlineFollowUp] = useState(false);
   const [hasInlineFollowUpSelection, setHasInlineFollowUpSelection] = useState(false);
   const inlineFollowUpRef = useRef<InlineFollowUpHandle>(null!);
+  const [showFollowUpBalance, setShowFollowUpBalance] = useState(false);
+  const [followUpBalanceSelections, setFollowUpBalanceSelections] = useState<Set<string>>(new Set());
+  const [followUpBalanceAllAnswered, setFollowUpBalanceAllAnswered] = useState(false);
+  const followUpBalanceStateRef = useRef<{ selectionsKey: string; allAnswered: boolean }>({
+    selectionsKey: '',
+    allAnswered: false,
+  });
 
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
@@ -2850,14 +2857,14 @@ export default function KnowledgeAgentPage() {
       // 🔧 타이핑 상태 종료 (로딩 인디케이터 제거)
       setIsTyping(false);
 
-      // 추가질문이 있는 경우: 안내 메시지 + 바로 첫 번째 질문 표시
+      // 추가질문이 있는 경우: 안내 메시지 + 밸런스 게임 표시
       if (followUpQuestions.length > 0) {
         setCurrentFollowUpIndex(0);
+        setShowFollowUpBalance(true);
+        setFollowUpBalanceSelections(new Set());
+        setFollowUpBalanceAllAnswered(false);
         // 🔧 Phase 유지 - 추가질문은 메시지 기반으로 처리되므로 hardcut_visual phase 유지
         // setPhase('questions'); // ← 제거: phase 변경하지 않음
-
-        const firstQ = followUpQuestions[0];
-        const questionContent = firstQ.question;
 
         setMessages(prev => {
           if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
@@ -2882,24 +2889,14 @@ export default function KnowledgeAgentPage() {
               id: guideMsgId,
               role: 'assistant',
               questionId: 'followup_guide',
-              content: `더욱 정확한 추천을 위해 추가 질문을 생성했어요.`,
+              content: `더욱 정확한 추천을 위해 핵심 질문을 추가했어요.`,
               typing: true,
               timestamp: Date.now() + 2
-            },
-            {
-              id: `followup-q-0`,
-              role: 'assistant',
-              content: questionContent,
-              options: firstQ.options.map(o => o.label),
-              popularOptions: firstQ.options.filter(o => o.isPopular).map(o => o.label),
-              recommendOptions: firstQ.options.filter(o => o.isRecommend).map(o => o.label),
-              questionProgress: { current: 1, total: followUpQuestions.length },
-              typing: true,
-              timestamp: Date.now() + 3,
             }
           ];
         });
       } else {
+        setShowFollowUpBalance(false);
         // 추가질문이 없는 경우: 안내 메시지만
         setMessages(prev => {
           if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
@@ -4893,6 +4890,46 @@ export default function KnowledgeAgentPage() {
               </motion.div>
             )}
 
+            {/* 추가질문 밸런스 게임 */}
+            {showFollowUpBalance && followUpQuestions.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, x: 80 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -80 }}
+                transition={{ duration: 0.25, ease: 'easeInOut' }}
+                className="py-4"
+              >
+                <BalanceGameCarousel
+                  questions={followUpQuestions.map((q, idx) => ({
+                    id: `followup_balance_${idx}`,
+                    title: q.question,
+                    option_A: {
+                      text: q.options[0]?.label || 'A',
+                      target_rule_key: q.options[0]?.value || q.options[0]?.label || `followup_${idx}_A`,
+                    },
+                    option_B: {
+                      text: q.options[1]?.label || 'B',
+                      target_rule_key: q.options[1]?.value || q.options[1]?.label || `followup_${idx}_B`,
+                    },
+                  }))}
+                  onComplete={() => {}}
+                  onStateChange={(state) => {
+                    const selectionsKey = Array.from(state.currentSelections).sort().join('|');
+                    const prev = followUpBalanceStateRef.current;
+                    if (prev.selectionsKey !== selectionsKey) {
+                      setFollowUpBalanceSelections(new Set(state.currentSelections));
+                      prev.selectionsKey = selectionsKey;
+                    }
+                    if (prev.allAnswered !== state.allAnswered) {
+                      setFollowUpBalanceAllAnswered(state.allAnswered);
+                      prev.allAnswered = state.allAnswered;
+                    }
+                  }}
+                  showAIHelper={false}
+                />
+              </motion.div>
+            )}
+
             {/* 결과 채팅 로딩 인디케이터 */}
             <AnimatePresence>
               {isChatLoading && phase === 'result' && (
@@ -5152,130 +5189,62 @@ export default function KnowledgeAgentPage() {
             return (
             <div className="space-y-3">
               {/* 🆕 추가질문이 있을 때: 이전/다음 버튼 */}
-              {hasGuideMessage && hasFollowUpQuestions && (() => {
-                // 현재 질문의 선택 상태 확인
-                const currentFollowUpMsg = messages.find(m => m.id === `followup-q-${currentFollowUpIndex}`);
-                const hasSelection = currentFollowUpMsg?.selectedOptions && currentFollowUpMsg.selectedOptions.length > 0;
-                const isLastQuestion = currentFollowUpIndex === followUpQuestions.length - 1;
-
-                return (
+              {hasGuideMessage && hasFollowUpQuestions && showFollowUpBalance && (
                 <div className="flex gap-3 justify-between mb-4">
-                  {/* 이전 버튼 */}
-                  {currentFollowUpIndex > 0 ? (
-                    <motion.button
-                      onClick={() => {
-                        const prevIndex = currentFollowUpIndex - 1;
-                        setCurrentFollowUpIndex(prevIndex);
-
-                        // 이전 질문 메시지 다시 추가
-                        const prevQ = followUpQuestions[prevIndex];
-                        const questionContent = prevQ.question;
-
-                        // 현재 질문 메시지 제거하고 이전 질문 메시지 추가
-                        setMessages(prev => {
-                          // followup-q로 시작하는 마지막 메시지들 제거 (현재 질문 + 사용자 답변)
-                          const lastFollowUpIndex = prev.findLastIndex(m => m.id?.startsWith('followup-q-'));
-                          if (lastFollowUpIndex !== -1) {
-                            return [
-                              ...prev.slice(0, lastFollowUpIndex),
-                              {
-                                id: `followup-q-${prevIndex}`,
-                                role: 'assistant' as const,
-                                content: questionContent,
-                                options: prevQ.options.map(o => o.label),
-                                popularOptions: prevQ.options.filter(o => o.isPopular).map(o => o.label),
-                                recommendOptions: prevQ.options.filter(o => o.isRecommend).map(o => o.label),
-                                questionProgress: { current: prevIndex + 1, total: followUpQuestions.length },
-                                typing: true,
-                                timestamp: Date.now(),
-                              }
-                            ];
-                          }
-                          return prev;
-                        });
-                      }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    >
-                      이전
-                    </motion.button>
-                  ) : (
-                    <div />
-                  )}
-
-                  {/* 다음 버튼 */}
+                  <div />
                   <motion.button
                     onClick={() => {
-                      if (!hasSelection || !currentFollowUpMsg?.selectedOptions?.[0]) return;
+                      if (!followUpBalanceAllAnswered) return;
 
-                      const userAnswer = currentFollowUpMsg.selectedOptions[0];
+                      const selections = followUpBalanceSelections;
+                      const answeredPairs: Array<{ question: string; answer: string }> = [];
 
-                      // 1. 현재 질문을 finalized로 만들기
-                      setMessages(prev => prev.map(m =>
-                        m.id === `followup-q-${currentFollowUpIndex}`
-                          ? { ...m, isFinalized: true }
-                          : m
-                      ));
+                      followUpQuestions.forEach((q, idx) => {
+                        const optionA = q.options[0];
+                        const optionB = q.options[1];
+                        const optionAKey = optionA?.value || optionA?.label || `followup_${idx}_A`;
+                        const optionBKey = optionB?.value || optionB?.label || `followup_${idx}_B`;
 
-                      // 2. 사용자 답변 메시지 추가
+                        if (selections.has(optionAKey)) {
+                          answeredPairs.push({ question: q.question, answer: optionA?.label || 'A' });
+                        } else if (selections.has(optionBKey)) {
+                          answeredPairs.push({ question: q.question, answer: optionB?.label || 'B' });
+                        }
+                      });
+
+                      // collectedInfo에 반영
+                      if (answeredPairs.length > 0) {
+                        setCollectedInfo(prev => {
+                          const next = { ...prev };
+                          answeredPairs.forEach(({ question, answer }) => {
+                            next[question] = answer;
+                          });
+                          return next;
+                        });
+                      }
+
+                      // 완료 처리
+                      setShowFollowUpBalance(false);
+                      setInputValue('');
+                      setPhase('final_input');
+
+                      const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
                       setMessages(prev => [
                         ...prev,
                         {
-                          id: `followup-a-${currentFollowUpIndex}-${Date.now()}`,
-                          role: 'user',
-                          content: userAnswer,
-                          timestamp: Date.now(),
-                        },
+                          id: finalInputMsgId,
+                          role: 'assistant',
+                          content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+                          typing: true,
+                          timestamp: Date.now()
+                        }
                       ]);
-
-                      // 3. 마지막 질문이면 final_input으로, 아니면 다음 질문으로
-                      if (isLastQuestion) {
-                        // 마지막 질문 완료 → final_input 단계로
-                        console.log('[Follow-up] All questions answered, proceeding to final input phase');
-                        setInputValue('');
-                        setPhase('final_input');
-
-                        const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
-                        setMessages(prev => [
-                          ...prev,
-                          {
-                            id: finalInputMsgId,
-                            role: 'assistant',
-                            content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
-                            typing: true,
-                            timestamp: Date.now()
-                          }
-                        ]);
-                      } else {
-                        // 다음 질문으로 이동
-                        const nextIndex = currentFollowUpIndex + 1;
-                        setCurrentFollowUpIndex(nextIndex);
-
-                        // 다음 질문 메시지 추가
-                        const nextQ = followUpQuestions[nextIndex];
-                        const questionContent = nextQ.question;
-                        setMessages(prev => [
-                          ...prev,
-                          {
-                            id: `followup-q-${nextIndex}`,
-                            role: 'assistant',
-                            content: questionContent,
-                            options: nextQ.options.map(o => o.label),
-                            popularOptions: nextQ.options.filter(o => o.isPopular).map(o => o.label),
-                            recommendOptions: nextQ.options.filter(o => o.isRecommend).map(o => o.label),
-                            questionProgress: { current: nextIndex + 1, total: followUpQuestions.length },
-                            typing: true,
-                            timestamp: Date.now(),
-                          }
-                        ]);
-                      }
                     }}
-                    disabled={!hasSelection}
-                    whileHover={hasSelection ? { scale: 1.02 } : {}}
-                    whileTap={hasSelection ? { scale: 0.98 } : {}}
-                    className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center ${
-                      hasSelection
+                    disabled={!followUpBalanceAllAnswered}
+                    whileHover={followUpBalanceAllAnswered ? { scale: 1.02 } : {}}
+                    whileTap={followUpBalanceAllAnswered ? { scale: 0.98 } : {}}
+                    className={`w-[140px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center ${
+                      followUpBalanceAllAnswered
                         ? 'bg-gray-900 text-white hover:bg-gray-800'
                         : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
@@ -5283,8 +5252,7 @@ export default function KnowledgeAgentPage() {
                     다음
                   </motion.button>
                 </div>
-                );
-              })()}
+              )}
 
                {/* 메인 버튼: 최종 추천 결과 보기 - 추가질문이 없을 때만 표시 */}
               {hasGuideMessage && !hasFollowUpQuestions && (
