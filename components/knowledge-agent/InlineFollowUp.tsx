@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CaretRight, Sparkle, X, Check } from '@phosphor-icons/react/dist/ssr';
+import { Sparkle, X } from '@phosphor-icons/react/dist/ssr';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 
 interface InlineFollowUpProps {
@@ -23,14 +23,25 @@ export function InlineFollowUp({
   onSkip,
   isLoading = false,
 }: InlineFollowUpProps) {
-  const [selectedOption, setSelectedOption] = useState<{ value: string; label: string } | null>(null);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [customInput, setCustomInput] = useState('');
+  const [showCustomInput, setShowCustomInput] = useState(false);
 
-  const handleOptionSelect = (value: string, label: string) => {
-    setSelectedOption({ value, label });
-    // 선택 후 바로 제출 (간소화된 UX)
-    setTimeout(() => {
-      onAnswer(value, label);
-    }, 300);
+  const toggleOption = (label: string) => {
+    setSelectedOptions(prev =>
+      prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label]
+    );
+  };
+
+  const handleSubmit = () => {
+    const finalSelections = [...selectedOptions];
+    if (customInput.trim()) {
+      finalSelections.push(customInput.trim());
+    }
+    // Join all selections
+    const combinedValue = finalSelections.join(', ');
+    const combinedLabel = finalSelections.join(', ');
+    onAnswer(combinedValue, combinedLabel);
   };
 
   // 타입별 스타일
@@ -83,58 +94,120 @@ export function InlineFollowUp({
         </div>
 
         {/* 질문 텍스트 */}
-        <div className="mb-8">
-          <p className="text-xl font-bold text-gray-900 leading-snug">
-            {followUp.question}
+        <div className="mb-6">
+          <p className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
+            {followUp.question} <span className="text-blue-500">*</span>
           </p>
+        </div>
+
+        {/* 복수 선택 가능 안내 텍스트 */}
+        <div className="mb-4">
+          <span className="text-[14px] text-gray-400 font-medium">복수 선택 가능</span>
         </div>
 
         {/* 옵션들 */}
         <div className="flex-1 space-y-3">
-          {followUp.options.map((option) => {
-            const isSelected = selectedOption?.value === option.value;
+          {(() => {
+            // "상관없어요" 선택 여부 확인
+            const hasNotCareSelected = selectedOptions.includes('상관없어요');
+            // 다른 옵션이 선택되었는지 확인
+            const hasOtherSelected = selectedOptions.some(opt => opt !== '상관없어요');
 
             return (
-              <motion.button
-                key={option.value}
-                onClick={() => handleOptionSelect(option.value, option.label)}
-                disabled={isLoading || !!selectedOption}
-                whileTap={{ scale: 0.98 }}
-                className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl border-2 transition-all
-                  ${isSelected
-                    ? 'border-gray-900 bg-gray-900 text-white'
-                    : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
-                  }
-                  ${(isLoading || selectedOption) && !isSelected ? 'opacity-50' : ''}`}
-              >
-                <span className={`text-[16px] font-semibold ${isSelected ? 'text-white' : 'text-gray-800'}`}>
-                  {option.label}
-                </span>
-                {isSelected ? (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="w-6 h-6 rounded-full bg-white flex items-center justify-center"
+              <>
+                {followUp.options.map((option) => {
+                  const isSelected = selectedOptions.includes(option.label);
+                  const isDisabled = isLoading || hasNotCareSelected;
+
+                  return (
+                    <motion.button
+                      key={option.value}
+                      onClick={() => toggleOption(option.label)}
+                      disabled={isDisabled}
+                      whileHover={!isDisabled ? { scale: 1.005 } : {}}
+                      whileTap={!isDisabled ? { scale: 0.99 } : {}}
+                      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+                        isDisabled
+                          ? 'bg-gray-50 border-gray-100 opacity-70 cursor-not-allowed'
+                          : isSelected
+                          ? 'bg-blue-50 border-blue-100'
+                          : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
+                      }`}
+                    >
+                      <span className={`text-[16px] font-medium leading-[1.4] ${
+                        isDisabled ? 'text-gray-400' : isSelected ? 'text-blue-500' : 'text-gray-600'
+                      }`}>
+                        {option.label}
+                      </span>
+                    </motion.button>
+                  );
+                })}
+
+                {/* 상관없어요 버튼 */}
+                <motion.button
+                  onClick={() => toggleOption('상관없어요')}
+                  disabled={isLoading || hasOtherSelected}
+                  whileHover={!isLoading && !hasOtherSelected ? { scale: 1.005 } : {}}
+                  whileTap={!isLoading && !hasOtherSelected ? { scale: 0.99 } : {}}
+                  className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+                    isLoading || hasOtherSelected
+                      ? 'bg-gray-50 border-gray-100 opacity-70 cursor-not-allowed'
+                      : hasNotCareSelected
+                      ? 'bg-blue-50 border-blue-100'
+                      : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
+                  }`}
+                >
+                  <span className={`text-[16px] font-medium leading-[1.4] ${
+                    isLoading || hasOtherSelected ? 'text-gray-400' : hasNotCareSelected ? 'text-blue-500' : 'text-gray-600'
+                  }`}>
+                    상관없어요
+                  </span>
+                </motion.button>
+
+                {/* 기타 (직접 입력) */}
+                {!showCustomInput ? (
+                  <div
+                    className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                      borderRadius: '12px'
+                    }}
+                    onClick={() => setShowCustomInput(true)}
                   >
-                    <Check size={14} weight="bold" className="text-gray-900" />
-                  </motion.div>
+                    <span className="text-[16px] font-medium text-gray-500">기타 (직접 입력)</span>
+                  </div>
                 ) : (
-                  <CaretRight size={20} className="text-gray-400" />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={customInput}
+                      onChange={(e) => setCustomInput(e.target.value)}
+                      placeholder="직접 입력해주세요"
+                      className="w-full px-5 py-4 rounded-[12px] border border-gray-200 focus:border-gray-400 focus:outline-none text-[16px]"
+                      autoFocus
+                    />
+                  </div>
                 )}
-              </motion.button>
+              </>
             );
-          })}
+          })()}
         </div>
 
-        {/* 하단 건너뛰기 */}
-        <div className="pt-4">
-          <button
-            onClick={onSkip}
-            disabled={!!selectedOption}
-            className="w-full py-3 text-gray-400 hover:text-gray-600 text-sm font-medium transition-colors disabled:opacity-50"
+        {/* 하단 다음 버튼 */}
+        <div className="pt-6">
+          <motion.button
+            onClick={handleSubmit}
+            disabled={selectedOptions.length === 0 && !customInput.trim()}
+            whileHover={selectedOptions.length > 0 || customInput.trim() ? { scale: 1.02 } : {}}
+            whileTap={selectedOptions.length > 0 || customInput.trim() ? { scale: 0.98 } : {}}
+            className={`w-full py-4 rounded-[12px] text-[16px] font-semibold transition-all ${
+              selectedOptions.length > 0 || customInput.trim()
+                ? 'bg-gray-900 text-white hover:bg-gray-800'
+                : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'
+            }`}
           >
-            건너뛰기
-          </button>
+            다음
+          </motion.button>
         </div>
       </div>
     </motion.div>

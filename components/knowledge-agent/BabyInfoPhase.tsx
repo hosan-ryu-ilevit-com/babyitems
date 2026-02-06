@@ -268,89 +268,93 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
+            className="w-full max-w-sm flex flex-col min-h-[400px]"
           >
-            <div className="text-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                반가워요! 👋
-              </h2>
-              <p className="text-gray-600">
-                <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
-              </p>
-              <p className="text-gray-500 mt-3 text-sm">
-                아기가 태어났나요?
-              </p>
-            </div>
+            <div className="flex-1">
+              <div className="text-center mb-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  반가워요! 👋
+                </h2>
+                <p className="text-gray-600">
+                  <span className="font-semibold text-gray-900">{categoryName}</span> 추천을 도와드릴게요.
+                </p>
+                <p className="text-gray-500 mt-3 text-sm">
+                  아기가 태어났나요?
+                </p>
+              </div>
 
-            <div className="space-y-3">
-              <button
-                onClick={() => setIsBornYet(true)}
-                className={`w-full p-4 rounded-2xl border transition-all text-left group ${
-                  isBornYet === true
-                    ? 'border-gray-900 bg-gray-50'
-                    : 'border-gray-200 hover:border-gray-400 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className={`font-semibold ${isBornYet === true ? 'text-gray-900' : 'text-gray-700'}`}>네, 태어났어요</p>
-                    <p className="text-sm text-gray-500 mt-0.5">생년월일과 성별을 입력할게요</p>
-                  </div>
-                  {isBornYet === true && <Check size={20} weight="bold" className="text-gray-900" />}
-                </div>
-              </button>
-              <button
-                onClick={() => setIsBornYet(false)}
-                className={`w-full p-4 rounded-2xl border transition-all text-left group ${
-                  isBornYet === false
-                    ? 'border-gray-900 bg-gray-50'
-                    : 'border-gray-200 hover:border-gray-400 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className={`font-semibold ${isBornYet === false ? 'text-gray-900' : 'text-gray-700'}`}>아직이에요</p>
-                    <p className="text-sm text-gray-500 mt-0.5">출산예정일을 입력할게요</p>
-                  </div>
-                  {isBornYet === false && <Check size={20} weight="bold" className="text-gray-900" />}
-                </div>
-              </button>
-            </div>
-
-            <div className="flex gap-3 mt-6">
-              {onBack && (
+              <div className="space-y-3">
                 <button
-                  onClick={onBack}
-                  className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsBornYet(true)}
+                  className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+                    isBornYet === true
+                      ? 'bg-blue-50 border-blue-100'
+                      : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
+                  }`}
                 >
-                  이전
+                  <div className="flex flex-col gap-0.5">
+                    <span className={`text-[16px] font-medium leading-[1.4] ${isBornYet === true ? 'text-blue-500' : 'text-gray-600'}`}>네, 태어났어요</span>
+                    <span className={`text-[12px] font-medium ${isBornYet === true ? 'text-blue-400' : 'text-gray-400'}`}>생년월일과 성별을 입력할게요</span>
+                  </div>
                 </button>
-              )}
-              <button
-                onClick={() => {
-                  if (isBornYet === true) {
-                    setStep('date_gender');
-                  } else if (isBornYet === false) {
-                    setStep('date');
-                  }
-                }}
-                disabled={isBornYet === null}
-                className={`flex-1 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2
-                  ${isBornYet !== null
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'bg-gray-100 text-gray-300 cursor-not-allowed'}`}
-              >
-                다음
-                <CaretRight size={18} weight="bold" />
-              </button>
+                <button
+                  onClick={() => setIsBornYet(false)}
+                  className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+                    isBornYet === false
+                      ? 'bg-blue-50 border-blue-100'
+                      : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
+                  }`}
+                >
+                  <div className="flex flex-col gap-0.5">
+                    <span className={`text-[16px] font-medium leading-[1.4] ${isBornYet === false ? 'text-blue-500' : 'text-gray-600'}`}>아직이에요</span>
+                    <span className={`text-[12px] font-medium ${isBornYet === false ? 'text-blue-400' : 'text-gray-400'}`}>출산예정일을 입력할게요</span>
+                  </div>
+                </button>
+              </div>
             </div>
 
-            <button
-              onClick={handleSkip}
-              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              건너뛰기
-            </button>
+            {/* 하단 플로팅 바 */}
+            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
+              <div className="flex gap-3 justify-between">
+                {onBack ? (
+                  <motion.button
+                    onClick={onBack}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  >
+                    이전
+                  </motion.button>
+                ) : (
+                  <div />
+                )}
+                <motion.button
+                  onClick={() => {
+                    if (isBornYet === true) {
+                      setStep('date_gender');
+                    } else if (isBornYet === false) {
+                      setStep('date');
+                    }
+                  }}
+                  disabled={isBornYet === null}
+                  whileHover={isBornYet !== null ? { scale: 1.02 } : {}}
+                  whileTap={isBornYet !== null ? { scale: 0.98 } : {}}
+                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                    ${isBornYet !== null
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+                >
+                  다음
+                </motion.button>
+              </div>
+
+              <button
+                onClick={handleSkip}
+                className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                건너뛰기
+              </button>
+            </div>
           </motion.div>
         )}
 
@@ -361,64 +365,72 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
+            className="w-full max-w-sm flex flex-col min-h-[400px]"
           >
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Calendar size={32} className="text-purple-500" />
-              </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                출산예정일을 알려주세요
-              </h2>
-              <p className="text-gray-500 text-sm">
-                예정일에 맞는 제품을 추천해드릴게요
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <input
-                type="date"
-                value={expectedDate}
-                onChange={(e) => setExpectedDate(e.target.value)}
-                min={new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
-              />
-              {expectedDate && (
-                <div className="text-center mt-2">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-pink-50 text-pink-600 rounded-full text-sm font-medium">
-                    <Calendar size={16} />
-                    출산까지 {getDDayDisplayText(expectedDate)}
-                  </span>
+            <div className="flex-1">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar size={32} className="text-purple-500" />
                 </div>
-              )}
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  출산예정일을 알려주세요
+                </h2>
+                <p className="text-gray-500 text-sm">
+                  예정일에 맞는 제품을 추천해드릴게요
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <input
+                  type="date"
+                  value={expectedDate}
+                  onChange={(e) => setExpectedDate(e.target.value)}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
+                />
+                {expectedDate && (
+                  <div className="text-center mt-2">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-pink-50 text-pink-600 rounded-full text-sm font-medium">
+                      <Calendar size={16} />
+                      출산까지 {getDDayDisplayText(expectedDate)}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="flex gap-3 mt-6">
+            {/* 하단 플로팅 바 */}
+            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
+              <div className="flex gap-3 justify-between">
+                <motion.button
+                  onClick={() => setStep('born_yet')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  이전
+                </motion.button>
+                <motion.button
+                  onClick={handleExpectedDateComplete}
+                  disabled={!expectedDate}
+                  whileHover={expectedDate ? { scale: 1.02 } : {}}
+                  whileTap={expectedDate ? { scale: 0.98 } : {}}
+                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                    ${expectedDate
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+                >
+                  다음
+                </motion.button>
+              </div>
+
               <button
-                onClick={() => setStep('born_yet')}
-                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                onClick={handleSkip}
+                className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
               >
-                이전
-              </button>
-              <button
-                onClick={handleExpectedDateComplete}
-                disabled={!expectedDate}
-                className={`flex-1 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2
-                  ${expectedDate
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'bg-gray-100 text-gray-300 cursor-not-allowed'}`}
-              >
-                다음
-                <CaretRight size={18} weight="bold" />
+                건너뛰기
               </button>
             </div>
-
-            <button
-              onClick={handleSkip}
-              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              건너뛰기
-            </button>
           </motion.div>
         )}
 
@@ -429,87 +441,95 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
+            className="w-full max-w-sm flex flex-col min-h-[400px]"
           >
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Baby size={32} className="text-pink-500" />
-              </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                아기 정보를 알려주세요
-              </h2>
-              <p className="text-gray-500 text-sm">
-                개월수와 성별에 맞는 제품을 추천해드릴게요
-              </p>
-            </div>
-
-            {/* 성별 */}
-            <div className="mb-5">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">성별</label>
-              <div className="grid grid-cols-2 gap-2">
-                <GenderButton
-                  label="남아"
-                  emoji="👶🏻"
-                  selected={gender === 'male'}
-                  onClick={() => setGender('male')}
-                  compact
-                />
-                <GenderButton
-                  label="여아"
-                  emoji="👶🏻"
-                  selected={gender === 'female'}
-                  onClick={() => setGender('female')}
-                  compact
-                />
-              </div>
-            </div>
-
-            {/* 생년월일 */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">생년월일</label>
-              <input
-                type="date"
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
-                max={new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
-              />
-              {birthDate && (
-                <div className="text-center mt-2">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
-                    <Baby size={16} />
-                    {getAgeDisplayText(calculateMonths(birthDate))}
-                  </span>
+            <div className="flex-1">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Baby size={32} className="text-pink-500" />
                 </div>
-              )}
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  아기 정보를 알려주세요
+                </h2>
+                <p className="text-gray-500 text-sm">
+                  개월수와 성별에 맞는 제품을 추천해드릴게요
+                </p>
+              </div>
+
+              {/* 성별 */}
+              <div className="mb-5">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">성별</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <GenderButton
+                    label="남아"
+                    emoji="👶🏻"
+                    selected={gender === 'male'}
+                    onClick={() => setGender('male')}
+                    compact
+                  />
+                  <GenderButton
+                    label="여아"
+                    emoji="👶🏻"
+                    selected={gender === 'female'}
+                    onClick={() => setGender('female')}
+                    compact
+                  />
+                </div>
+              </div>
+
+              {/* 생년월일 */}
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">생년월일</label>
+                <input
+                  type="date"
+                  value={birthDate}
+                  onChange={(e) => setBirthDate(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                  className="w-full px-4 py-4 rounded-2xl border border-gray-200 focus:border-gray-400 focus:outline-none text-center text-lg font-medium"
+                />
+                {birthDate && (
+                  <div className="text-center mt-2">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
+                      <Baby size={16} />
+                      {getAgeDisplayText(calculateMonths(birthDate))}
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="flex gap-3 mt-6">
+            {/* 하단 플로팅 바 */}
+            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
+              <div className="flex gap-3 justify-between">
+                <motion.button
+                  onClick={() => setStep('born_yet')}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  이전
+                </motion.button>
+                <motion.button
+                  onClick={handleBirthDateGenderComplete}
+                  disabled={!birthDate}
+                  whileHover={birthDate ? { scale: 1.02 } : {}}
+                  whileTap={birthDate ? { scale: 0.98 } : {}}
+                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                    ${birthDate
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+                >
+                  다음
+                </motion.button>
+              </div>
+
               <button
-                onClick={() => setStep('born_yet')}
-                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                onClick={handleSkip}
+                className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
               >
-                이전
-              </button>
-              <button
-                onClick={handleBirthDateGenderComplete}
-                disabled={!birthDate}
-                className={`flex-1 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2
-                  ${birthDate
-                    ? 'bg-gray-900 text-white hover:bg-gray-800'
-                    : 'bg-gray-100 text-gray-300 cursor-not-allowed'}`}
-              >
-                다음
-                <CaretRight size={18} weight="bold" />
+                건너뛰기
               </button>
             </div>
-
-            <button
-              onClick={handleSkip}
-              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              건너뛰기
-            </button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -520,24 +520,14 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
     const searchQuery = query || inputValue.trim();
     if (!searchQuery || isProcessing) return;
 
-    // 카테고리 버튼 클릭 시
+    // 카테고리 버튼 클릭 시 - 바로 페이지 이동 (바텀시트는 온보딩 완료 후 표시)
     if (query) {
-      // 저장된 결과가 있으면 바로 결과 페이지로 이동 (바텀시트 스킵)
-      if (savedCategories.has(query)) {
-        logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
-        router.push(`/knowledge-agent/${encodeURIComponent(query)}`);
-        return;
-      }
-
-      // 저장된 결과가 없으면 모달 오픈
       logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
-      setActiveSearchItem(query);
-      setExtractedKeyword(query);
-      setShowConfirmModal(true);
+      router.push(`/knowledge-agent/${encodeURIComponent(query)}`);
       return;
     }
 
-    // 입력창 검색 시에만 추출 로직 실행
+    // 입력창 검색 시 키워드 추출 후 바로 페이지 이동
     setIsProcessing(true);
     logKnowledgeAgentSearchRequest(searchQuery, 'search_input');
     try {
@@ -548,13 +538,12 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
       });
       const data = await res.json();
       const finalKeyword = data.success && data.keyword ? data.keyword : searchQuery;
-      // 키워드 추출 성공 시에는 confirm 로깅을 따로 하므로 여기서는 skip하거나 보조 정보로 남김
-      setExtractedKeyword(finalKeyword);
-      setShowConfirmModal(true);
+      logKnowledgeAgentSearchConfirm(finalKeyword, inputValue);
+      router.push(`/knowledge-agent/${encodeURIComponent(finalKeyword)}`);
     } catch (error) {
       console.error('[Landing] Search failed:', error);
-      setExtractedKeyword(searchQuery);
-      setShowConfirmModal(true);
+      // 실패 시에도 원본 검색어로 이동
+      router.push(`/knowledge-agent/${encodeURIComponent(searchQuery)}`);
     } finally {
       setIsProcessing(false);
     }

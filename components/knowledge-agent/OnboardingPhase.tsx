@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, CaretRight, Plus } from '@phosphor-icons/react/dist/ssr';
 import type { OnboardingData, BabyInfo } from '@/lib/knowledge-agent/types';
 
 interface OnboardingPhaseProps {
@@ -205,87 +204,112 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
+            className="w-full max-w-sm flex flex-col min-h-[400px]"
           >
-            {/* 질문 */}
-            <div className="text-center mb-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-2">
-                기존 제품의 불편했던 점이 있나요?
-              </h2>
-              <p className="text-gray-500 text-sm">
-                선택하신 내용을 바탕으로 더 나은 제품을 추천해드릴게요
-              </p>
+            <div className="flex-1">
+              {/* 질문 */}
+              <div className="mb-6">
+                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
+                  기존 제품의 불편했던 점이 있나요? <span className="text-blue-500">*</span>
+                </h2>
+                <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
+                  선택하신 내용을 바탕으로 더 나은 제품을 추천해드릴게요
+                </p>
+              </div>
+
+              {/* 복수 선택 가능 안내 텍스트 */}
+              <div className="mb-4">
+                <span className="text-[14px] text-gray-400 font-medium">복수 선택 가능</span>
+              </div>
+
+              {/* 옵션 목록 */}
+              <div className="space-y-2 mb-4">
+                {isLoadingOptions ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                  </div>
+                ) : (
+                  <>
+                    {replaceOptions.map((reason) => {
+                      // "상관없어요"가 선택되었는지 확인
+                      const hasNotCareSelected = replaceReasons.includes('상관없어요');
+                      // 다른 옵션이 선택되었는지 확인
+                      const hasOtherSelected = replaceReasons.some(r => r !== '상관없어요');
+
+                      return (
+                        <ReasonCheckbox
+                          key={reason}
+                          label={reason}
+                          checked={replaceReasons.includes(reason)}
+                          onChange={() => toggleReason(reason)}
+                          disabled={hasNotCareSelected}
+                        />
+                      );
+                    })}
+
+                    {/* 상관없어요 버튼 */}
+                    <ReasonCheckbox
+                      label="상관없어요"
+                      checked={replaceReasons.includes('상관없어요')}
+                      onChange={() => toggleReason('상관없어요')}
+                      disabled={replaceReasons.some(r => r !== '상관없어요')}
+                    />
+                  </>
+                )}
+
+                {/* 기타 입력 */}
+                {!showOtherInput ? (
+                  <div
+                    className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                      borderRadius: '12px'
+                    }}
+                    onClick={() => setShowOtherInput(true)}
+                  >
+                    <span className="text-[16px] font-medium text-gray-500">기타 (직접 입력)</span>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={replaceOther}
+                      onChange={(e) => setReplaceOther(e.target.value)}
+                      placeholder="불편했던 점을 입력해주세요"
+                      className="w-full px-5 py-4 rounded-[12px] border border-gray-200 focus:border-gray-400 focus:outline-none text-[16px]"
+                      autoFocus
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* 옵션 목록 */}
-            <div className="space-y-2 mb-4">
-              {isLoadingOptions ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-                </div>
-              ) : (
-                replaceOptions.map((reason) => (
-                  <ReasonCheckbox
-                    key={reason}
-                    label={reason}
-                    checked={replaceReasons.includes(reason)}
-                    onChange={() => toggleReason(reason)}
-                  />
-                ))
-              )}
-
-              {/* 기타 입력 */}
-              {!showOtherInput ? (
-                <button
-                  onClick={() => setShowOtherInput(true)}
-                  className="w-full flex items-center gap-2 px-4 py-3 rounded-xl border border-dashed border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors"
+            {/* 하단 플로팅 바 */}
+            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
+              <div className="flex gap-3 justify-between">
+                <motion.button
+                  onClick={() => {
+                    setStep('situation');
+                    setPurchaseSituation(null);
+                    setReplaceReasons([]);
+                    setReplaceOther('');
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
                 >
-                  <Plus size={18} />
-                  <span className="text-sm">기타 (직접 입력)</span>
-                </button>
-              ) : (
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={replaceOther}
-                    onChange={(e) => setReplaceOther(e.target.value)}
-                    placeholder="불편했던 점을 입력해주세요"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gray-400 focus:outline-none text-sm"
-                    autoFocus
-                  />
-                </div>
-              )}
+                  이전
+                </motion.button>
+                <motion.button
+                  onClick={handleReplaceComplete}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-900 text-white hover:bg-gray-800"
+                >
+                  다음
+                </motion.button>
+              </div>
             </div>
-
-            {/* 버튼 */}
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setStep('situation');
-                  setPurchaseSituation(null);
-                  setReplaceReasons([]);
-                  setReplaceOther('');
-                }}
-                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
-              >
-                이전
-              </button>
-              <button
-                onClick={handleReplaceComplete}
-                className="flex-1 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
-              >
-                다음
-                <CaretRight size={18} weight="bold" />
-              </button>
-            </div>
-
-            {/* 스킵 옵션 */}
-            <button
-              onClick={() => onComplete({ purchaseSituation: 'replace' })}
-              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              건너뛰기
-            </button>
           </motion.div>
         )}
 
@@ -296,90 +320,113 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="w-full max-w-sm"
+            className="w-full max-w-sm flex flex-col min-h-[400px]"
           >
-            {/* 질문 */}
-            <div className="text-center mb-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-2">
-                {purchaseSituation === 'first'
-                  ? '어떤 상황에서 구매하시나요?'
-                  : '어떤 이유로 둘러보고 계신가요?'}
-              </h2>
-              <p className="text-gray-500 text-sm">
-                상황을 알려주시면 더 구체적인 질문을 드릴 수 있어요.
-              </p>
+            <div className="flex-1">
+              {/* 질문 */}
+              <div className="mb-6">
+                <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
+                  {purchaseSituation === 'first'
+                    ? '어떤 상황에서 구매하시나요?'
+                    : '어떤 이유로 둘러보고 계신가요?'} <span className="text-blue-500">*</span>
+                </h2>
+                <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">
+                  상황을 알려주시면 더 구체적인 질문을 드릴 수 있어요.
+                </p>
+              </div>
+
+              {/* 복수 선택 가능 안내 텍스트 */}
+              <div className="mb-4">
+                <span className="text-[14px] text-gray-400 font-medium">복수 선택 가능</span>
+              </div>
+
+              {/* 옵션 목록 */}
+              <div className="space-y-2 mb-4">
+                {isLoadingOptions ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                  </div>
+                ) : (
+                  <>
+                    {situationOptions.map((situation) => {
+                      // "상관없어요"가 선택되었는지 확인
+                      const hasNotCareSelected = selectedSituations.includes('상관없어요');
+
+                      return (
+                        <ReasonCheckbox
+                          key={situation}
+                          label={situation}
+                          checked={selectedSituations.includes(situation)}
+                          onChange={() => toggleSituation(situation)}
+                          disabled={hasNotCareSelected}
+                        />
+                      );
+                    })}
+
+                    {/* 상관없어요 버튼 */}
+                    <ReasonCheckbox
+                      label="상관없어요"
+                      checked={selectedSituations.includes('상관없어요')}
+                      onChange={() => toggleSituation('상관없어요')}
+                      disabled={selectedSituations.some(s => s !== '상관없어요')}
+                    />
+                  </>
+                )}
+
+                {/* 기타 입력 */}
+                {!showSituationOtherInput ? (
+                  <div
+                    className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                      borderRadius: '12px'
+                    }}
+                    onClick={() => setShowSituationOtherInput(true)}
+                  >
+                    <span className="text-[16px] font-medium text-gray-500">기타 (직접 입력)</span>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={situationOther}
+                      onChange={(e) => setSituationOther(e.target.value)}
+                      placeholder="상황을 입력해주세요"
+                      className="w-full px-5 py-4 rounded-[12px] border border-gray-200 focus:border-gray-400 focus:outline-none text-[16px]"
+                      autoFocus
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* 옵션 목록 */}
-            <div className="space-y-2 mb-4">
-              {isLoadingOptions ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-                </div>
-              ) : (
-                situationOptions.map((situation) => (
-                  <ReasonCheckbox
-                    key={situation}
-                    label={situation}
-                    checked={selectedSituations.includes(situation)}
-                    onChange={() => toggleSituation(situation)}
-                  />
-                ))
-              )}
-
-              {/* 기타 입력 */}
-              {!showSituationOtherInput ? (
-                <button
-                  onClick={() => setShowSituationOtherInput(true)}
-                  className="w-full flex items-center gap-2 px-4 py-3 rounded-xl border border-dashed border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors"
+            {/* 하단 플로팅 바 */}
+            <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6 mt-8">
+              <div className="flex gap-3 justify-between">
+                <motion.button
+                  onClick={() => {
+                    setStep('situation');
+                    setPurchaseSituation(null);
+                    setSelectedSituations([]);
+                    setSituationOther('');
+                    setShowSituationOtherInput(false);
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
                 >
-                  <Plus size={18} />
-                  <span className="text-sm">기타 (직접 입력)</span>
-                </button>
-              ) : (
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={situationOther}
-                    onChange={(e) => setSituationOther(e.target.value)}
-                    placeholder="상황을 입력해주세요"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gray-400 focus:outline-none text-sm"
-                    autoFocus
-                  />
-                </div>
-              )}
+                  이전
+                </motion.button>
+                <motion.button
+                  onClick={handleFirstSituationComplete}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-900 text-white hover:bg-gray-800"
+                >
+                  다음
+                </motion.button>
+              </div>
             </div>
-
-            {/* 버튼 */}
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setStep('situation');
-                  setPurchaseSituation(null);
-                  setSelectedSituations([]);
-                  setSituationOther('');
-                  setShowSituationOtherInput(false);
-                }}
-                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
-              >
-                이전
-              </button>
-              <button
-                onClick={handleFirstSituationComplete}
-                className="flex-1 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
-              >
-                다음
-                <CaretRight size={18} weight="bold" />
-              </button>
-            </div>
-
-            {/* 스킵 옵션 */}
-            <button
-              onClick={() => onComplete({ purchaseSituation: purchaseSituation! })}
-              className="w-full mt-3 py-2 text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              건너뛰기
-            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -392,38 +439,31 @@ function SituationButton({ label, description, onClick }: { label: string; descr
   return (
     <button
       onClick={onClick}
-      className="w-full p-4 rounded-2xl border border-gray-200 hover:border-gray-400 hover:bg-gray-50 transition-all text-left group"
+      className="w-full py-4 px-5 rounded-[12px] border border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30 transition-all text-left bg-white"
     >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="font-semibold text-gray-900">{label}</p>
-          <p className="text-sm text-gray-500 mt-0.5">{description}</p>
-        </div>
-        <CaretRight size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+      <div className="flex flex-col gap-0.5">
+        <span className="text-[16px] font-medium leading-[1.4] text-gray-600">{label}</span>
+        <span className="text-[12px] font-medium text-gray-400">{description}</span>
       </div>
     </button>
   );
 }
 
 // 불편사항 체크박스
-function ReasonCheckbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
+function ReasonCheckbox({ label, checked, onChange, disabled }: { label: string; checked: boolean; onChange: () => void; disabled?: boolean }) {
   return (
     <button
       onClick={onChange}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
-        checked
-          ? 'border-gray-900 bg-gray-50'
-          : 'border-gray-200 hover:border-gray-300'
+      disabled={disabled}
+      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+        disabled
+          ? 'bg-gray-50 border-gray-100 opacity-70 cursor-not-allowed'
+          : checked
+          ? 'bg-blue-50 border-blue-100'
+          : 'bg-white border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30'
       }`}
     >
-      <div
-        className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${
-          checked ? 'bg-gray-900' : 'border border-gray-300'
-        }`}
-      >
-        {checked && <Check size={14} className="text-white" weight="bold" />}
-      </div>
-      <span className={`text-sm ${checked ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+      <span className={`text-[16px] font-medium leading-[1.4] ${disabled ? 'text-gray-400' : checked ? 'text-blue-500' : 'text-gray-600'}`}>
         {label}
       </span>
     </button>
