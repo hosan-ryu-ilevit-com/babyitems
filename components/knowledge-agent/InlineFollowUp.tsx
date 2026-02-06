@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
+import { useState, useImperativeHandle, forwardRef, useEffect, useRef } from 'react';
+import { flushSync } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkle } from '@phosphor-icons/react/dist/ssr';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 
 interface InlineFollowUpProps {
@@ -15,6 +15,7 @@ interface InlineFollowUpProps {
 export interface InlineFollowUpHandle {
   submit: () => void;
   hasSelection: () => boolean;
+  setSelections: (labels: string[]) => void;
 }
 
 /**
@@ -27,6 +28,19 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
     const [customInput, setCustomInput] = useState('');
     const [showCustomInput, setShowCustomInput] = useState(false);
+    const [addedCustomOption, setAddedCustomOption] = useState<string | null>(null);
+    const customInputRef = useRef<HTMLInputElement>(null);
+
+    const activateCustomInput = () => {
+      if (showCustomInput) return;
+      // Keep focus within the user gesture on mobile.
+      flushSync(() => setShowCustomInput(true));
+      const inputEl = customInputRef.current;
+      if (inputEl) {
+        inputEl.focus();
+        inputEl.click();
+      }
+    };
 
     const toggleOption = (label: string) => {
       setSelectedOptions(prev =>
@@ -49,6 +63,11 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
     useImperativeHandle(ref, () => ({
       submit: handleSubmit,
       hasSelection: () => selectedOptions.length > 0 || customInput.trim().length > 0,
+      setSelections: (labels: string[]) => {
+        setSelectedOptions(labels);
+        setCustomInput('');
+        setShowCustomInput(false);
+      },
     }));
 
     // Track selection changes for customInput
@@ -56,15 +75,23 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
       onSelectionChange?.(selectedOptions.length > 0 || customInput.trim().length > 0);
     }, [customInput, selectedOptions.length, onSelectionChange]);
 
+    useEffect(() => {
+      if (!showCustomInput) return;
+      const inputEl = customInputRef.current;
+      if (!inputEl) return;
+      const rafId = requestAnimationFrame(() => inputEl.focus());
+      return () => cancelAnimationFrame(rafId);
+    }, [showCustomInput]);
+
   // 타입별 스타일
   const getTypeStyle = () => {
     switch (followUp.type) {
       case 'deepdive':
         return { bg: 'bg-blue-50', accent: 'text-blue-600', border: 'border-blue-200', label: '꼬리 질문' };
       case 'contradiction':
-        return { bg: 'bg-amber-50', accent: 'text-amber-600', border: 'border-amber-200', label: '확인이 필요해요' };
+        return { bg: 'bg-amber-50', accent: 'text-gray-600', border: 'border-amber-200', label: '꼬리 질문' };
       case 'clarify':
-        return { bg: 'bg-purple-50', accent: 'text-purple-600', border: 'border-purple-200', label: '구체적으로 알려주세요' };
+        return { bg: 'bg-purple-50', accent: 'text-gray-600', border: 'border-gray-200', label: '꼬리 질문' };
       default:
         return { bg: 'bg-gray-50', accent: 'text-gray-600', border: 'border-gray-200', label: '추가 질문' };
     }
@@ -88,9 +115,6 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
       <div className="px-6 py-6 pb-24 max-w-full mx-auto w-full">
         {/* 상단 헤더 */}
         <div className="flex items-center gap-2 mb-6">
-          <div className={`w-8 h-8 rounded-full ${typeStyle.bg} flex items-center justify-center`}>
-            <Sparkle size={16} weight="fill" className={typeStyle.accent} />
-          </div>
           <span className={`text-sm font-semibold ${typeStyle.accent}`}>
             {typeStyle.label}
           </span>
@@ -186,27 +210,102 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
                 </motion.button>
 
                 {/* 기타 (직접 입력) */}
-                {!showCustomInput ? (
+                {addedCustomOption ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                  >
+                    <span className="text-[16px] font-medium text-blue-500">{addedCustomOption}</span>
+                    <button
+                      onClick={() => {
+                        toggleOption(addedCustomOption);
+                        setAddedCustomOption(null);
+                      }}
+                      className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
+                        <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                  </motion.div>
+                ) : (
                   <div
                     className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
                       borderRadius: '12px'
                     }}
-                    onClick={() => setShowCustomInput(true)}
+                    onPointerDown={activateCustomInput}
+                    onClick={activateCustomInput}
                   >
-                    <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={customInput}
-                      onChange={(e) => setCustomInput(e.target.value)}
-                      placeholder="직접 입력해주세요"
-                      className="w-full px-5 py-4 rounded-[12px] border border-gray-200 focus:border-gray-400 focus:outline-none text-[16px]"
-                      autoFocus
-                    />
+                    <div className="relative" onClick={(e) => e.stopPropagation()}>
+                      <input
+                        ref={customInputRef}
+                        type="text"
+                        value={customInput}
+                        onChange={(e) => setCustomInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && customInput.trim()) {
+                            e.preventDefault();
+                            const value = customInput.trim();
+                            toggleOption(value);
+                            setAddedCustomOption(value);
+                            setCustomInput('');
+                            setShowCustomInput(false);
+                          } else if (e.key === 'Escape') {
+                            setShowCustomInput(false);
+                            setCustomInput('');
+                          }
+                        }}
+                        placeholder="자유롭게 입력하세요"
+                        className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                          ${showCustomInput ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ pointerEvents: showCustomInput ? 'auto' : 'none' }}
+                        autoFocus={showCustomInput}
+                      />
+                      {/* 버튼 오버레이 */}
+                      {!showCustomInput && (
+                        <div className="absolute inset-0 flex items-center">
+                          <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
+                        </div>
+                      )}
+
+                      {/* 입력 액션 버튼 */}
+                      {showCustomInput && (
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                          <button
+                            onClick={() => {
+                              setShowCustomInput(false);
+                              setCustomInput('');
+                            }}
+                            className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                          >
+                            취소
+                          </button>
+                          <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => {
+                              if (customInput.trim()) {
+                                const value = customInput.trim();
+                                toggleOption(value);
+                                setAddedCustomOption(value);
+                                setCustomInput('');
+                                setShowCustomInput(false);
+                              }
+                            }}
+                            disabled={!customInput.trim()}
+                            className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                              ${customInput.trim()
+                                ? 'bg-gray-900 text-white'
+                                : 'bg-gray-100 text-gray-400'}`}
+                          >
+                            추가
+                          </motion.button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </>
@@ -229,7 +328,7 @@ interface InlineFollowUpWrapperProps {
   followUp: InlineFollowUpType | null;
   isLoadingFollowUp: boolean;
   onAnswer: (answer: string, label: string) => void;
-  followUpRef?: React.RefObject<InlineFollowUpHandle>;
+  followUpRef?: React.RefObject<InlineFollowUpHandle | null>;
   onSelectionChange?: (hasSelection: boolean) => void;
 }
 
@@ -284,7 +383,7 @@ export function InlineFollowUpWrapper({
             <motion.span
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="text-[14px] text-gray-500"
+              className="text-[14px] text-gray-700"
             >
               꼬리 질문 생각하는 중...
             </motion.span>

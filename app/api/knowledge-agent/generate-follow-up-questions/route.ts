@@ -402,6 +402,7 @@ ${productsText}
     - ❌ 나쁜 질문: 데이터에 없는 "디자인 색상" 질문 → 나중에 태그 평가 시 증거 없음
     - ❌ 나쁜 질문: 확인 불가능한 "브랜드 신뢰도" → 주관적이고 증거 찾기 어려움
 - **⭐ [MUST] 구체적 수치/스펙 필수:** 옵션 라벨에 반드시 소괄호 안에 구체적인 수치, 스펙, 또는 효익을 명시하세요.[MUST]
+  - **옵션 라벨에 isPopular/isRecommend 같은 메타 문구 절대 포함 금지**
   * 수치: "대용량 (5L 이상)", "저소음 (40dB 이하)"
   * 전문 용어: "HEPA 필터 (미세먼지 99.9% 제거)", "무선 충전 (케이블 필요없음)"
   * 기능/효익: "자동 세척 (관리 편함)", "타이머 기능 (시간 맞춰 조리)"
@@ -539,6 +540,12 @@ function parseQuestionsResponse(response: string): QuestionTodo[] {
     const parsed = JSON.parse(jsonStr);
     if (!Array.isArray(parsed)) return [];
 
+    const sanitizeOptionLabel = (label: string): string =>
+      label
+        .replace(/[\s\[\(]*is(?:Recommend|Popular)\s*:\s*(?:true|false)[\]\)]*/gi, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
     return parsed
       .filter((q: any) => q.question && Array.isArray(q.options) && q.options.length >= 2)
       .map((q: any, index: number) => ({
@@ -547,7 +554,7 @@ function parseQuestionsResponse(response: string): QuestionTodo[] {
         reason: q.reason || '',
         options: q.options.map((opt: any) => ({
           value: opt.value || opt.label,
-          label: opt.label,
+          label: sanitizeOptionLabel(opt.label || ''),
           description: opt.description || '',
           isPopular: !!opt.isPopular,
           isRecommend: !!opt.isRecommend,

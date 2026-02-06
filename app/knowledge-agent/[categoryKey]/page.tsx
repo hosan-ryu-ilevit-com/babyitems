@@ -1068,7 +1068,7 @@ export default function KnowledgeAgentPage() {
   const [inlineFollowUp, setInlineFollowUp] = useState<InlineFollowUpType | null>(null);
   const [isLoadingInlineFollowUp, setIsLoadingInlineFollowUp] = useState(false);
   const [hasInlineFollowUpSelection, setHasInlineFollowUpSelection] = useState(false);
-  const inlineFollowUpRef = useRef<InlineFollowUpHandle>(null);
+  const inlineFollowUpRef = useRef<InlineFollowUpHandle>(null!);
 
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
@@ -5126,6 +5126,23 @@ export default function KnowledgeAgentPage() {
               </div>
             )} */}
 
+          {/* 중간 보고서 단계: 하단 고정 버튼 */}
+          {phase === 'condition_report' && !isConditionReportLoading && (
+            <div className="relative">
+              <div className="flex gap-3 justify-between bg-white rounded-[12px] p-2">
+                <div />
+                <motion.button
+                  onClick={proceedToHardcutVisual}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[180px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-900 text-white hover:bg-gray-800"
+                >
+                  확인하고 계속하기
+                </motion.button>
+              </div>
+            </div>
+          )}
+
           {/* 하드컷팅 시각화 완료 시 버튼 및 채팅 바 */}
           {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (() => {
             // 안내 메시지가 있는지 확인 (꼬리질문 생성 완료 후)
@@ -5655,6 +5672,17 @@ export default function KnowledgeAgentPage() {
           categoryName={categoryName}
           userSelections={getUserSelections()}
           onSelectOptions={(selectedOptions) => {
+            // 인라인 꼬리질문은 메시지 배열이 아니라 ref로 반영
+            if (aiHelperData.questionId.startsWith('inline_')) {
+              const optionList = aiHelperData.options as Array<{ value: string; label: string }>;
+              const selectedLabels = selectedOptions.map(
+                (value) => optionList.find((opt) => opt.value === value)?.label || value
+              );
+              inlineFollowUpRef.current?.setSelections(selectedLabels);
+              setIsAIHelperOpen(false);
+              return;
+            }
+
             // AI가 추천한 옵션들로 교체
             setMessages(prev => {
               const newMessages = prev.map(m => {

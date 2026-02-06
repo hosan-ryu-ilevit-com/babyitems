@@ -169,6 +169,7 @@ ${userContextSection}
 - 옵션은 3~4개 생성
 - ⛔ "상관없어요", "잘 모르겠어요", "둘 다", "기타" 같은 회피성 옵션 금지 (시스템이 자동 추가함)
 - 옵션에는 친절한 소괄호 부가설명 추가 (예: "대용량 (5L 이상)")
+- **옵션 라벨에 isPopular/isRecommend 같은 메타 문구 절대 포함 금지**
 - ⭐ **옵션은 구체적이고 정보 가치가 있어야 함**: 선택 즉시 추천에 반영 가능한 명확한 조건이어야 함
   - ❌ 나쁜 예: "피하고 싶은 성분이 있나요?", "특별히 원하는 기능이 있나요?" (그 자체로 정보값 없음)
   - ✅ 좋은 예: "BPA-free 소재", "스테인리스 재질", "유리 재질" (바로 필터링 가능)
@@ -225,6 +226,12 @@ ${userContextSection}
 
     // 유효성 검사
     if (data.hasFollowUp === true && data.followUp) {
+      const sanitizeOptionLabel = (label: string): string =>
+        label
+          .replace(/[\s\[\(]*is(?:Recommend|Popular)\s*:\s*(?:true|false)[\]\)]*/gi, '')
+          .replace(/\s{2,}/g, ' ')
+          .trim();
+
       // 옵션이 2개 미만이면 스킵
       if (!data.followUp.options || data.followUp.options.length < 2) {
         return { hasFollowUp: false, skipReason: 'Insufficient options generated' };
@@ -235,7 +242,10 @@ ${userContextSection}
         followUp: {
           question: data.followUp.question,
           type: data.followUp.type || 'deepdive',
-          options: data.followUp.options.slice(0, 4), // 최대 4개
+          options: data.followUp.options.slice(0, 4).map((opt: any) => ({
+            ...opt,
+            label: sanitizeOptionLabel(opt.label || ''),
+          })), // 최대 4개
         },
       };
     }

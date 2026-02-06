@@ -46,6 +46,13 @@ interface OnboardingQuestion {
   dataSource: string;
 }
 
+function sanitizeOptionLabel(label: string): string {
+  return label
+    .replace(/[\s\[\(]*is(?:Recommend|Popular)\s*:\s*(?:true|false)[\]\)]*/gi, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body: OnboardingQuestionRequest = await request.json();
@@ -145,6 +152,7 @@ ${onboardingText}
 3. **옵션 설계 (3-4개)**
    - 온보딩 정보와 직접 연관된 구체적인 선택지
    - 모든 옵션에 소괄호 설명 필수
+   - **옵션 라벨에 isPopular/isRecommend 같은 메타 문구 절대 포함 금지**
    - "상관없어요" 옵션은 시스템이 자동 추가하므로 생성 금지
    - **isPopular**: 시장 데이터 기반 인기 옵션 (한 질문당 0~2개)
    - **isRecommend**: 사용자 상황 기반 추천 옵션 (한 질문당 1~2개, 웬만하면 1개는 표시)
@@ -210,6 +218,10 @@ ${onboardingText}
     question.type = 'single';
     question.priority = 0; // 가장 높은 우선순위
     question.dataSource = '온보딩 기반';
+    question.options = question.options.map(opt => ({
+      ...opt,
+      label: sanitizeOptionLabel(opt.label || ''),
+    }));
 
     console.log('[OnboardingQuestion] ✅ Generated:', question.question);
 

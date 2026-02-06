@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { flushSync } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { OnboardingData, BabyInfo } from '@/lib/knowledge-agent/types';
 
@@ -29,6 +30,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   const [replaceReasons, setReplaceReasons] = useState<string[]>([]);
   const [replaceOther, setReplaceOther] = useState('');
   const [showOtherInput, setShowOtherInput] = useState(false);
+  const [addedReplaceOther, setAddedReplaceOther] = useState<string | null>(null);
   const [isLoadingOptions, setIsLoadingOptions] = useState(false);
   const [replaceOptions, setReplaceOptions] = useState<string[]>(DEFAULT_REPLACE_REASONS.default);
 
@@ -37,6 +39,49 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   const [selectedSituations, setSelectedSituations] = useState<string[]>([]);
   const [situationOther, setSituationOther] = useState('');
   const [showSituationOtherInput, setShowSituationOtherInput] = useState(false);
+  const [addedSituationOther, setAddedSituationOther] = useState<string | null>(null);
+
+  // Input refs for manual focus
+  const replaceOtherInputRef = useRef<HTMLInputElement>(null);
+  const situationOtherInputRef = useRef<HTMLInputElement>(null);
+
+  const activateReplaceOtherInput = () => {
+    if (showOtherInput) return;
+    // Keep focus within the user gesture on mobile.
+    flushSync(() => setShowOtherInput(true));
+    const inputEl = replaceOtherInputRef.current;
+    if (inputEl) {
+      inputEl.focus();
+      inputEl.click();
+    }
+  };
+
+  const activateSituationOtherInput = () => {
+    if (showSituationOtherInput) return;
+    // Keep focus within the user gesture on mobile.
+    flushSync(() => setShowSituationOtherInput(true));
+    const inputEl = situationOtherInputRef.current;
+    if (inputEl) {
+      inputEl.focus();
+      inputEl.click();
+    }
+  };
+
+  useEffect(() => {
+    if (!showOtherInput) return;
+    const inputEl = replaceOtherInputRef.current;
+    if (!inputEl) return;
+    const rafId = requestAnimationFrame(() => inputEl.focus());
+    return () => cancelAnimationFrame(rafId);
+  }, [showOtherInput]);
+
+  useEffect(() => {
+    if (!showSituationOtherInput) return;
+    const inputEl = situationOtherInputRef.current;
+    if (!inputEl) return;
+    const rafId = requestAnimationFrame(() => inputEl.focus());
+    return () => cancelAnimationFrame(rafId);
+  }, [showSituationOtherInput]);
 
   // 교체 선택 시 불편사항 옵션 로드
   useEffect(() => {
@@ -112,13 +157,9 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   };
 
   const handleFirstSituationComplete = () => {
-    const finalSituations = [...selectedSituations];
-    const finalOther = situationOther.trim();
-
     onComplete({
       purchaseSituation: purchaseSituation!,
-      firstSituations: finalSituations.length > 0 ? finalSituations : undefined,
-      firstSituationOther: finalOther || undefined,
+      firstSituations: selectedSituations.length > 0 ? selectedSituations : undefined,
     });
   };
 
@@ -131,13 +172,9 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   };
 
   const handleReplaceComplete = () => {
-    const finalReasons = [...replaceReasons];
-    const finalOther = replaceOther.trim();
-
     onComplete({
       purchaseSituation: 'replace',
-      replaceReasons: finalReasons.length > 0 ? finalReasons : undefined,
-      replaceOther: finalOther || undefined,
+      replaceReasons: replaceReasons.length > 0 ? replaceReasons : undefined,
     });
   };
 
@@ -150,7 +187,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px]">
+    <div className="flex flex-col items-center justify-start min-h-[400px] pt-4">
       <AnimatePresence mode="wait">
         {step === 'situation' && (
           <>
@@ -239,13 +276,40 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               </div>
 
               {/* 옵션 목록 */}
-              <div className="space-y-2 mb-4">
+              <AnimatePresence mode="wait">
                 {isLoadingOptions ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-                  </div>
+                  <motion.div
+                    key="replace-loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center py-8"
+                  >
+                    <div className="flex gap-1">
+                      <motion.div
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                      />
+                      <motion.div
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                        className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                      />
+                      <motion.div
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                        className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                      />
+                    </div>
+                  </motion.div>
                 ) : (
-                  <>
+                  <motion.div
+                    key="replace-options"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="space-y-2 mb-4"
+                  >
                     {replaceOptions.map((reason) => {
                       // "상관없어요"가 선택되었는지 확인
                       const hasNotCareSelected = replaceReasons.includes('상관없어요');
@@ -270,81 +334,109 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                       onChange={() => toggleReason('상관없어요')}
                       disabled={replaceReasons.some(r => r !== '상관없어요')}
                     />
-                  </>
+
+                    {/* 기타 입력 */}
+                    {addedReplaceOther ? (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                      >
+                        <span className="text-[16px] font-medium text-blue-500">{addedReplaceOther}</span>
+                        <button
+                          onClick={() => {
+                            toggleReason(addedReplaceOther);
+                            setAddedReplaceOther(null);
+                          }}
+                          className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
+                            <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                          </svg>
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <div
+                        className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                          borderRadius: '12px'
+                        }}
+                        onPointerDown={activateReplaceOtherInput}
+                        onClick={activateReplaceOtherInput}
+                      >
+                        <div className="relative" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            ref={replaceOtherInputRef}
+                            type="text"
+                            value={replaceOther}
+                            onChange={(e) => setReplaceOther(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && replaceOther.trim()) {
+                                e.preventDefault();
+                                const value = replaceOther.trim();
+                                toggleReason(value);
+                                setAddedReplaceOther(value);
+                                setReplaceOther('');
+                                setShowOtherInput(false);
+                              } else if (e.key === 'Escape') {
+                                setShowOtherInput(false);
+                                setReplaceOther('');
+                              }
+                            }}
+                            placeholder="자유롭게 입력하세요"
+                            className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                              ${showOtherInput ? 'opacity-100' : 'opacity-0'}`}
+                            style={{ pointerEvents: showOtherInput ? 'auto' : 'none' }}
+                            autoFocus={showOtherInput}
+                          />
+                          {/* 버튼 오버레이 */}
+                          {!showOtherInput && (
+                            <div className="absolute inset-0 flex items-center">
+                              <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
+                            </div>
+                          )}
+
+                          {/* 입력 액션 버튼 */}
+                          {showOtherInput && (
+                            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                              <button
+                                onClick={() => {
+                                  setShowOtherInput(false);
+                                  setReplaceOther('');
+                                }}
+                                className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                              >
+                                취소
+                              </button>
+                              <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => {
+                                  if (replaceOther.trim()) {
+                                    const value = replaceOther.trim();
+                                    toggleReason(value);
+                                    setAddedReplaceOther(value);
+                                    setReplaceOther('');
+                                    setShowOtherInput(false);
+                                  }
+                                }}
+                                disabled={!replaceOther.trim()}
+                                className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                                  ${replaceOther.trim()
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-gray-100 text-gray-400'}`}
+                              >
+                                추가
+                              </motion.button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
                 )}
-
-                {/* 기타 입력 */}
-                <div
-                  className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
-                    borderRadius: '12px'
-                  }}
-                  onClick={() => {
-                    if (!showOtherInput) {
-                      setShowOtherInput(true);
-                    }
-                  }}
-                >
-                  <input
-                    type="text"
-                    value={replaceOther}
-                    onChange={(e) => setReplaceOther(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && replaceOther.trim()) {
-                        e.preventDefault();
-                        setShowOtherInput(false);
-                      } else if (e.key === 'Escape') {
-                        setShowOtherInput(false);
-                        setReplaceOther('');
-                      }
-                    }}
-                    placeholder="자유롭게 입력하세요"
-                    className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
-                      ${showOtherInput ? 'opacity-100' : 'opacity-0'}`}
-                    style={{ pointerEvents: showOtherInput ? 'auto' : 'none' }}
-                    autoFocus={showOtherInput}
-                  />
-
-                  {/* 버튼 오버레이 */}
-                  {!showOtherInput && (
-                    <div className="absolute inset-0 flex items-center px-5">
-                      <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
-                    </div>
-                  )}
-
-                  {/* 입력 액션 버튼 */}
-                  {showOtherInput && (
-                    <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => {
-                          setShowOtherInput(false);
-                          setReplaceOther('');
-                        }}
-                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
-                      >
-                        취소
-                      </button>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          if (replaceOther.trim()) {
-                            setShowOtherInput(false);
-                          }
-                        }}
-                        disabled={!replaceOther.trim()}
-                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
-                          ${replaceOther.trim()
-                            ? 'bg-gray-900 text-white'
-                            : 'bg-gray-100 text-gray-400'}`}
-                      >
-                        추가
-                      </motion.button>
-                    </div>
-                  )}
-                </div>
-              </div>
+              </AnimatePresence>
             </motion.div>
 
             {/* 하단 고정 바 */}
@@ -360,6 +452,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                     setPurchaseSituation(null);
                     setReplaceReasons([]);
                     setReplaceOther('');
+                    setAddedReplaceOther(null);
                   }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -408,13 +501,40 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               </div>
 
               {/* 옵션 목록 */}
-              <div className="space-y-2 mb-4">
+              <AnimatePresence mode="wait">
                 {isLoadingOptions ? (
-                  <div className="flex items-center justify-center py-8">
-                    <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-                  </div>
+                  <motion.div
+                    key="situation-loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex items-center justify-center py-8"
+                  >
+                    <div className="flex gap-1">
+                      <motion.div
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                      />
+                      <motion.div
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                        className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                      />
+                      <motion.div
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                        className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                      />
+                    </div>
+                  </motion.div>
                 ) : (
-                  <>
+                  <motion.div
+                    key="situation-options"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="space-y-2 mb-4"
+                  >
                     {situationOptions.map((situation) => {
                       // "상관없어요"가 선택되었는지 확인
                       const hasNotCareSelected = selectedSituations.includes('상관없어요');
@@ -437,81 +557,109 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                       onChange={() => toggleSituation('상관없어요')}
                       disabled={selectedSituations.some(s => s !== '상관없어요')}
                     />
-                  </>
+
+                    {/* 기타 입력 */}
+                    {addedSituationOther ? (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                      >
+                        <span className="text-[16px] font-medium text-blue-500">{addedSituationOther}</span>
+                        <button
+                          onClick={() => {
+                            toggleSituation(addedSituationOther);
+                            setAddedSituationOther(null);
+                          }}
+                          className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
+                            <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                          </svg>
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <div
+                        className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                        style={{
+                          backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
+                          borderRadius: '12px'
+                        }}
+                        onPointerDown={activateSituationOtherInput}
+                        onClick={activateSituationOtherInput}
+                      >
+                        <div className="relative" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            ref={situationOtherInputRef}
+                            type="text"
+                            value={situationOther}
+                            onChange={(e) => setSituationOther(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && situationOther.trim()) {
+                                e.preventDefault();
+                                const value = situationOther.trim();
+                                toggleSituation(value);
+                                setAddedSituationOther(value);
+                                setSituationOther('');
+                                setShowSituationOtherInput(false);
+                              } else if (e.key === 'Escape') {
+                                setShowSituationOtherInput(false);
+                                setSituationOther('');
+                              }
+                            }}
+                            placeholder="자유롭게 입력하세요"
+                            className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
+                              ${showSituationOtherInput ? 'opacity-100' : 'opacity-0'}`}
+                            style={{ pointerEvents: showSituationOtherInput ? 'auto' : 'none' }}
+                            autoFocus={showSituationOtherInput}
+                          />
+                          {/* 버튼 오버레이 */}
+                          {!showSituationOtherInput && (
+                            <div className="absolute inset-0 flex items-center">
+                              <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
+                            </div>
+                          )}
+
+                          {/* 입력 액션 버튼 */}
+                          {showSituationOtherInput && (
+                            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                              <button
+                                onClick={() => {
+                                  setShowSituationOtherInput(false);
+                                  setSituationOther('');
+                                }}
+                                className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
+                              >
+                                취소
+                              </button>
+                              <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => {
+                                  if (situationOther.trim()) {
+                                    const value = situationOther.trim();
+                                    toggleSituation(value);
+                                    setAddedSituationOther(value);
+                                    setSituationOther('');
+                                    setShowSituationOtherInput(false);
+                                  }
+                                }}
+                                disabled={!situationOther.trim()}
+                                className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
+                                  ${situationOther.trim()
+                                    ? 'bg-gray-900 text-white'
+                                    : 'bg-gray-100 text-gray-400'}`}
+                              >
+                                추가
+                              </motion.button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
                 )}
-
-                {/* 기타 입력 */}
-                <div
-                  className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
-                    borderRadius: '12px'
-                  }}
-                  onClick={() => {
-                    if (!showSituationOtherInput) {
-                      setShowSituationOtherInput(true);
-                    }
-                  }}
-                >
-                  <input
-                    type="text"
-                    value={situationOther}
-                    onChange={(e) => setSituationOther(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && situationOther.trim()) {
-                        e.preventDefault();
-                        setShowSituationOtherInput(false);
-                      } else if (e.key === 'Escape') {
-                        setShowSituationOtherInput(false);
-                        setSituationOther('');
-                      }
-                    }}
-                    placeholder="자유롭게 입력하세요"
-                    className={`w-full bg-transparent text-[16px] text-gray-700 focus:outline-none pr-[120px] transition-opacity duration-150
-                      ${showSituationOtherInput ? 'opacity-100' : 'opacity-0'}`}
-                    style={{ pointerEvents: showSituationOtherInput ? 'auto' : 'none' }}
-                    autoFocus={showSituationOtherInput}
-                  />
-
-                  {/* 버튼 오버레이 */}
-                  {!showSituationOtherInput && (
-                    <div className="absolute inset-0 flex items-center px-5">
-                      <span className="text-[16px] font-medium text-blue-400">기타 - 직접 입력</span>
-                    </div>
-                  )}
-
-                  {/* 입력 액션 버튼 */}
-                  {showSituationOtherInput && (
-                    <div className="absolute right-[-12px] top-1/2 -translate-y-1/2 flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => {
-                          setShowSituationOtherInput(false);
-                          setSituationOther('');
-                        }}
-                        className="px-3 py-2 rounded-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-100 transition-all"
-                      >
-                        취소
-                      </button>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          if (situationOther.trim()) {
-                            setShowSituationOtherInput(false);
-                          }
-                        }}
-                        disabled={!situationOther.trim()}
-                        className={`px-4 py-2 rounded-[10px] text-[14px] font-semibold transition-all
-                          ${situationOther.trim()
-                            ? 'bg-gray-900 text-white'
-                            : 'bg-gray-100 text-gray-400'}`}
-                      >
-                        추가
-                      </motion.button>
-                    </div>
-                  )}
-                </div>
-              </div>
+              </AnimatePresence>
             </motion.div>
 
             {/* 하단 고정 바 */}
@@ -528,6 +676,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                     setSelectedSituations([]);
                     setSituationOther('');
                     setShowSituationOtherInput(false);
+                    setAddedSituationOther(null);
                   }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
