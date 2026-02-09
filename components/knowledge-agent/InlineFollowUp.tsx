@@ -87,13 +87,13 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
   const getTypeStyle = () => {
     switch (followUp.type) {
       case 'deepdive':
-        return { bg: 'bg-blue-50', accent: 'text-blue-600', border: 'border-blue-200', label: '꼬리 질문' };
+        return { bg: 'bg-blue-50', accent: 'text-gray-400', border: 'border-blue-200', label: '꼬리 질문' };
       case 'contradiction':
-        return { bg: 'bg-amber-50', accent: 'text-gray-600', border: 'border-amber-200', label: '꼬리 질문' };
+        return { bg: 'bg-amber-50', accent: 'text-gray-400', border: 'border-amber-200', label: '꼬리 질문' };
       case 'clarify':
-        return { bg: 'bg-purple-50', accent: 'text-gray-600', border: 'border-gray-200', label: '꼬리 질문' };
+        return { bg: 'bg-purple-50', accent: 'text-gray-400', border: 'border-gray-200', label: '꼬리 질문' };
       default:
-        return { bg: 'bg-gray-50', accent: 'text-gray-600', border: 'border-gray-200', label: '추가 질문' };
+        return { bg: 'bg-gray-50', accent: 'text-gray-400', border: 'border-gray-200', label: '추가 질문' };
     }
   };
 
@@ -112,23 +112,23 @@ export const InlineFollowUp = forwardRef<InlineFollowUpHandle, InlineFollowUpPro
       }}
       className="absolute top-0 -left-4 -right-4 bg-white z-10"
     >
-      <div className="px-6 py-6 pb-24 max-w-full mx-auto w-full">
+      <div className="px-4 py-6 pb-24 max-w-full mx-auto w-full">
         {/* 상단 헤더 */}
-        <div className="flex items-center gap-2 mb-6">
+        <div className="flex items-center gap-2 mb-2">
           <span className={`text-sm font-semibold ${typeStyle.accent}`}>
             {typeStyle.label}
           </span>
         </div>
 
         {/* 질문 텍스트 */}
-        <div className="mb-6">
+        <div className="mb-2">
           <p className="text-[18px] font-semibold text-gray-900 leading-snug break-keep">
             {followUp.question} <span className="text-blue-500">*</span>
           </p>
         </div>
 
         {/* 복수 선택 가능 안내 텍스트 */}
-        <div className="mb-4">
+        <div className="mb-3">
           <span className="text-[14px] text-gray-400 font-medium">복수 선택 가능</span>
         </div>
 

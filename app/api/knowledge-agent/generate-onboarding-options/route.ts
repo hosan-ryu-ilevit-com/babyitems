@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (type === 'replace_reasons') {
-      const options = await generateReplaceReasons(categoryName);
+      const options = await generateReplaceReasons(categoryName, babyInfo);
       return NextResponse.json({ options });
     }
 
@@ -44,18 +44,77 @@ export async function POST(request: NextRequest) {
 }
 
 /**
+ * 아기 정보 컨텍스트 빌더 (공통)
+ */
+function buildBabyContext(babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean }): string {
+  if (!babyInfo) return '';
+
+  if (babyInfo.isBornYet && babyInfo.calculatedMonths !== undefined) {
+    const months = babyInfo.calculatedMonths;
+    const genderText = babyInfo.gender === 'male' ? '남아' : babyInfo.gender === 'female' ? '여아' : '성별 미상';
+
+    let stageDesc = '';
+    if (months === 0) stageDesc = '신생아';
+    else if (months <= 3) stageDesc = '신생아~초기 영아';
+    else if (months <= 6) stageDesc = '뒤집기/목가누기 시기';
+    else if (months <= 9) stageDesc = '이유식 초기~중기, 앉기 시작';
+    else if (months <= 12) stageDesc = '이유식 후기, 기어다니기/서기 시작';
+    else if (months <= 18) stageDesc = '돌 지남, 걷기 시작';
+    else if (months <= 24) stageDesc = '활발한 걸음마기';
+    else if (months <= 36) stageDesc = '유아기 초반';
+    else stageDesc = '유아기';
+
+    return `[아기 정보]\n- 월령: ${months}개월 (${stageDesc})\n- 성별: ${genderText}`;
+  }
+
+  if (!babyInfo.isBornYet && babyInfo.expectedDate) {
+    const dDay = calculateDDay(babyInfo.expectedDate);
+    const dDayText = dDay > 0 ? `D-${dDay} (약 ${Math.ceil(dDay / 7)}주 후)` : dDay === 0 ? 'D-Day (오늘 예정)' : `D+${Math.abs(dDay)} (예정일 ${Math.abs(dDay)}일 지남)`;
+    return `[아기 정보]\n- 출산예정: ${babyInfo.expectedDate} (${dDayText})\n- 현재 임신 중, 출산 준비 단계`;
+  }
+
+  return '';
+}
+
+/**
  * 교체 시 불편사항 옵션 생성
  */
-async function generateReplaceReasons(categoryName: string): Promise<string[]> {
-  const prompt = `당신은 "${categoryName}" 제품 전문가입니다.
+async function generateReplaceReasons(
+  categoryName: string,
+  babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean },
+): Promise<string[]> {
+  // 아기 정보 컨텍스트 구성
+  const babyContext = buildBabyContext(babyInfo);
 
-사용자가 기존 "${categoryName}"를 교체하려고 합니다. 기존 제품에서 흔히 경험하는 불편사항이나 불만족 이유를 5개 생성해주세요.
+  // babyAgeContext for prompt
+  let babyAgeContext = '';
+  if (babyInfo) {
+    if (babyInfo.isBornYet && babyInfo.calculatedMonths !== undefined) {
+      const genderText = babyInfo.gender === 'male' ? '남아' : babyInfo.gender === 'female' ? '여아' : '성별 미상';
+      babyAgeContext = `${babyInfo.calculatedMonths}개월 ${genderText}`;
+    } else if (!babyInfo.isBornYet && babyInfo.expectedDate) {
+      const dDay = calculateDDay(babyInfo.expectedDate);
+      const dDayText = dDay > 0 ? `D-${dDay}` : dDay === 0 ? 'D-Day' : `D+${Math.abs(dDay)}`;
+      babyAgeContext = `출산예정 ${dDayText}`;
+    }
+  }
 
-요구사항:
-1. "${categoryName}" 제품 특성에 맞는 구체적인 불편사항
-2. 실제 소비자들이 자주 언급하는 이유들
-3. 각 옵션은 간결하게 (15자 내외)
-4. 기능/성능/편의성/디자인/내구성 등 다양한 측면 포함
+  const prompt = `당신은 "${categoryName}" 제품 구매 상담 전문가입니다.
+
+## 사용자 정보
+${babyContext || '- 아기 정보 없음'}
+
+## 구매 상황
+- 기존 "${categoryName}"를 사용 중이며, 불만족스러워서 다른 제품으로 교체하려고 합니다.
+
+## 요청
+이 사용자가 기존 "${categoryName}"에서 느꼈을 법한 구체적인 불편/불만 이유를 4개 생성해주세요.
+
+## 중요 요구사항
+1. **${categoryName} 제품에서만 나올 수 있는 구체적 불만**: "성능 부족", "사용 불편" 같은 어디에나 쓸 수 있는 일반적 표현은 절대 금지. "${categoryName}"를 실제로 써본 사람만 공감할 수 있는 구체적 불만이어야 합니다.
+${babyAgeContext ? `2. **아기 정보 반영 필수**: "${babyAgeContext}" 아기의 부모입니다. 이 월령/상황에서 "${categoryName}" 사용 시 실제로 겪는 불편을 반영하세요.` : '2. 아기 정보가 없으므로 일반적인 사용자 관점에서 생성하세요.'}
+3. **공감 가능**: 사용자가 "아, 맞아 이게 불편했지!" 라고 느낄 수 있을 정도로 구체적 (15~20자)
+4. **서로 다른 측면**: 4개가 모두 다른 종류의 불편이어야 합니다
 
 반드시 아래 JSON 형식으로만 응답하세요:
 {
@@ -63,8 +122,7 @@ async function generateReplaceReasons(categoryName: string): Promise<string[]> {
     "불편사항 1",
     "불편사항 2",
     "불편사항 3",
-    "불편사항 4",
-    "불편사항 5"
+    "불편사항 4"
   ]
 }`;
 
@@ -121,38 +179,17 @@ async function generateSituationOptions(
     purchaseSituation,
   });
 
-  // 아기 정보 컨텍스트 구성 (더 구체적으로)
-  let babyContext = '';
+  // 아기 정보 컨텍스트 구성
+  const babyContext = buildBabyContext(babyInfo);
+  // babyAgeContext for prompt injection
   let babyAgeContext = '';
-
   if (babyInfo) {
     if (babyInfo.isBornYet && babyInfo.calculatedMonths !== undefined) {
-      const months = babyInfo.calculatedMonths;
       const genderText = babyInfo.gender === 'male' ? '남아' : babyInfo.gender === 'female' ? '여아' : '성별 미상';
-
-      // 월령에 따른 발달 단계 설명
-      let stageDesc = '';
-      if (months === 0) stageDesc = '신생아';
-      else if (months <= 3) stageDesc = '신생아~초기 영아';
-      else if (months <= 6) stageDesc = '뒤집기/목가누기 시기';
-      else if (months <= 9) stageDesc = '이유식 초기~중기, 앉기 시작';
-      else if (months <= 12) stageDesc = '이유식 후기, 기어다니기/서기 시작';
-      else if (months <= 18) stageDesc = '돌 지남, 걷기 시작';
-      else if (months <= 24) stageDesc = '활발한 걸음마기';
-      else if (months <= 36) stageDesc = '유아기 초반';
-      else stageDesc = '유아기';
-
-      babyContext = `[아기 정보]
-- 월령: ${months}개월 (${stageDesc})
-- 성별: ${genderText}`;
-      babyAgeContext = `${months}개월 ${genderText}`;
+      babyAgeContext = `${babyInfo.calculatedMonths}개월 ${genderText}`;
     } else if (!babyInfo.isBornYet && babyInfo.expectedDate) {
       const dDay = calculateDDay(babyInfo.expectedDate);
       const dDayText = dDay > 0 ? `D-${dDay} (약 ${Math.ceil(dDay / 7)}주 후)` : dDay === 0 ? 'D-Day (오늘 예정)' : `D+${Math.abs(dDay)} (예정일 ${Math.abs(dDay)}일 지남)`;
-
-      babyContext = `[아기 정보]
-- 출산예정: ${babyInfo.expectedDate} (${dDayText})
-- 현재 임신 중, 출산 준비 단계`;
       babyAgeContext = `출산예정 ${dDayText}`;
     }
   }
@@ -173,7 +210,7 @@ ${babyContext || '- 아기 정보 없음'}
 - 설명: ${situationDesc}
 
 ## 요청
-위 사용자가 "${categoryName}"를 ${situationLabel}하려는 상황에서, 가장 fit할 확률이 높은 구체적인 상황/니즈 3~5개를 생성해주세요.
+위 사용자가 "${categoryName}"를 ${situationLabel}하려는 상황에서, 가장 fit할 확률이 높은 구체적인 상황/니즈 3~4개를 생성해주세요.
 
 ## 중요 요구사항
 1. **아기 정보 반영 필수**: ${babyAgeContext ? `"${babyAgeContext}"라는 정보를 반드시 반영하세요. 이 월령/출산예정에 맞는 구체적인 상황이어야 합니다.` : '아기 정보가 없으므로 일반적인 상황으로 생성하세요.'}
@@ -188,8 +225,7 @@ ${babyContext || '- 아기 정보 없음'}
     "상황 1",
     "상황 2",
     "상황 3",
-    "상황 4",
-    "상황 5"
+    "상황 4"
   ]
 }`;
 
@@ -236,7 +272,6 @@ function getDefaultSituationOptions(categoryName: string, purchaseSituation?: 'f
       '어떤 제품들이 있는지 궁금해서',
       '가격대가 어느 정도인지 알고 싶어서',
       '인기 있는 제품이 뭔지 궁금해서',
-      '최신 트렌드가 궁금해서',
     ];
   }
 
@@ -244,7 +279,6 @@ function getDefaultSituationOptions(categoryName: string, purchaseSituation?: 'f
     '출산 준비로 미리 알아보는 중',
     '선물용으로 찾고 있어요',
     '꼭 필요해서 구매하려고',
-    '더 좋은 제품으로 바꾸고 싶어서',
     '특별한 기능이 있는 제품이 필요해서',
   ];
 }
@@ -260,35 +294,30 @@ function getDefaultReplaceReasons(categoryName: string): string[] {
       '아기가 잘 안 물어서',
       '누수가 생겨서',
       '배앓이가 심해져서',
-      '용량이 부족해서',
     ],
     '유모차': [
       '무겁고 접기 불편해서',
       '방향 전환이 안 돼서',
       '수납공간이 부족해서',
       '아기가 불편해해서',
-      '고장이 자주 나서',
     ],
     '카시트': [
       '아기가 불편해해서',
       '설치가 어려워서',
       '통풍이 안 돼서',
       '사이즈가 안 맞아서',
-      '각도 조절이 불편해서',
     ],
     '에어프라이어': [
       '용량이 작아서',
       '조리가 고르지 않아서',
       '소음이 심해서',
       '세척이 어려워서',
-      '기능이 부족해서',
     ],
     '공기청정기': [
       '청정 능력이 부족해서',
       '소음이 너무 커서',
       '필터 비용이 부담돼서',
       '넓은 공간 커버 안 돼서',
-      '센서가 부정확해서',
     ],
   };
 
@@ -297,7 +326,6 @@ function getDefaultReplaceReasons(categoryName: string): string[] {
     '성능이 기대에 못 미쳐서',
     '고장/파손되어서',
     '사용하기 불편해서',
-    '디자인이 마음에 안 들어서',
     '더 좋은 제품을 발견해서',
   ];
 }

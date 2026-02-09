@@ -1,11 +1,85 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+
+const MALL_ICONS = [
+  '/icons/malls/name=coupang.png',
+  '/icons/malls/name=11.png',
+  '/icons/malls/name=gmarket.png',
+  '/icons/malls/name=naver.png',
+  '/icons/malls/name=auction.png',
+  '/icons/malls/name=ssg.png',
+  '/icons/malls/name=lotteon.png',
+  '/icons/malls/name=hmall.png',
+  '/icons/malls/name=emart.png',
+];
 import { logButtonClick, logPageView } from '@/lib/logging/clientLogger';
 import FeedbackButton from '@/components/FeedbackButton';
+
+function RotatingMallIcons() {
+  const [indices, setIndices] = useState([0, 1, 2]);
+  const [slotToSwap, setSlotToSwap] = useState(0);
+
+  const getNextIndex = useCallback((current: number[]) => {
+    const used = new Set(current);
+    const available = MALL_ICONS.map((_, i) => i).filter(i => !used.has(i));
+    return available[Math.floor(Math.random() * available.length)];
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndices(prev => {
+        const next = [...prev];
+        next[slotToSwap] = getNextIndex(prev);
+        return next;
+      });
+      setSlotToSwap(prev => (prev + 1) % 3);
+    }, 1800);
+    return () => clearInterval(interval);
+  }, [slotToSwap, getNextIndex]);
+
+  return (
+    <div className="flex items-center justify-center gap-2 mt-5">
+      <div className="flex items-center -space-x-1.5">
+        {indices.map((iconIdx, slot) => (
+          <div
+            key={slot}
+            className="w-6 h-6 rounded-full overflow-hidden border-[2px] border-white relative"
+            style={{ zIndex: 3 - slot }}
+          >
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={iconIdx}
+                initial={{ y: -24, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 24, opacity: 0 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                className="w-full h-full"
+              >
+                <Image
+                  src={MALL_ICONS[iconIdx]}
+                  alt="mall"
+                  width={22}
+                  height={22}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
+      <span
+        className="text-gray-400 font-medium"
+        style={{ fontSize: '14px' }}
+      >
+        다양한 플랫폼에서 상품을 찾아드려요
+      </span>
+    </div>
+  );
+}
 
 export default function Home() {
   const router = useRouter();
@@ -89,12 +163,10 @@ export default function Home() {
             >
               수천 개 아기용품 중<br /><span className="text-blue-500">아이에게 딱 맞는 하나</span> 찾기
             </h1>
-            <p
-              className="text-gray-600"
-              style={{ fontSize: '16px', lineHeight: '1.4', marginTop: '16px', fontFamily: 'Abel', fontWeight: 400 }}
-            >
-              광고 없이 리뷰와 판매량만 분석해서<br />딱 맞는 상품을 추천해드릴게요
-            </p>
+       
+
+            {/* 플랫폼 아이콘 + 안내 */}
+            <RotatingMallIcons />
           </motion.div>
 
           {/* 메인 이미지 영역 */}
@@ -118,25 +190,28 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* 안내 문구 배너 */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="w-full max-w-[380px] -mt-14 z-10"
-          >
-            <div className="flex items-center justify-center gap-2 px-1 py-2 bg-black/50 rounded-full">
-              <span className="text-white">ⓘ</span>
-              <span className="text-white text-sm font-medium">
-                올웨이즈 외 다양한 판매처의 아기용품을 추천해드려요
-              </span>
-            </div>
-          </motion.div>
         </main>
 
         {/* 하단 고정 버튼 및 의견 영역 */}
         <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 pt-5 z-50 max-w-[480px] mx-auto flex flex-col items-center bg-gradient-to-t from-white via-white to-transparent">
-        
+
+          {/* 꼬리 말풍선 */}
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: [0, -3, 0] }}
+            transition={{
+              opacity: { delay: 0.3, duration: 0.25 },
+              y: { delay: 0.3, duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
+            }}
+            className="mb-2 relative"
+          >
+            <div className="bg-gray-800 text-[#f9e000] text-[12px] font-medium px-3.5 py-1.5 rounded-lg">
+              광고 100% 제거
+            </div>
+            {/* 꼬리 삼각형 */}
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-[5px] w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-gray-800" />
+          </motion.div>
+
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={handleStart}

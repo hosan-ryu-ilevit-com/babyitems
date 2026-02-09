@@ -24,7 +24,7 @@ import { ProductComparisonGrid } from '@/components/knowledge-agent/ProductCompa
 import { AgenticLoadingPhase, createDefaultSteps, type AnalysisStep } from '@/components/knowledge-agent/AgenticLoadingPhase';
 import { AssistantMessage, LoadingAnimation } from '@/components/recommend-v2';
 import { InlineBudgetSelector } from '@/components/knowledge-agent/ChatUIComponents';
-import { BalanceGameCarousel } from '@/components/recommend-v2/BalanceGameCarousel';
+// BalanceGameCarousel 제거됨 (밸런스 게임 플로우 삭제)
 import { NegativeFilterList } from '@/components/recommend-v2/NegativeFilterList';
 import { AIHelperBottomSheet } from '@/components/recommend-v2/AIHelperBottomSheet';
 import { NegativeFilterAIHelperBottomSheet } from '@/components/recommend-v2/NegativeFilterAIHelperBottomSheet';
@@ -1069,13 +1069,7 @@ export default function KnowledgeAgentPage() {
   const [isLoadingInlineFollowUp, setIsLoadingInlineFollowUp] = useState(false);
   const [hasInlineFollowUpSelection, setHasInlineFollowUpSelection] = useState(false);
   const inlineFollowUpRef = useRef<InlineFollowUpHandle>(null!);
-  const [showFollowUpBalance, setShowFollowUpBalance] = useState(false);
-  const [followUpBalanceSelections, setFollowUpBalanceSelections] = useState<Set<string>>(new Set());
-  const [followUpBalanceAllAnswered, setFollowUpBalanceAllAnswered] = useState(false);
-  const followUpBalanceStateRef = useRef<{ selectionsKey: string; allAnswered: boolean }>({
-    selectionsKey: '',
-    allAnswered: false,
-  });
+  // 밸런스 게임 관련 state 제거됨
 
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
@@ -1133,8 +1127,7 @@ export default function KnowledgeAgentPage() {
   // 꼬리질문 (Follow-up Questions) 상태
   const [followUpQuestions, setFollowUpQuestions] = useState<QuestionTodo[]>([]);
   const [currentFollowUpIndex, setCurrentFollowUpIndex] = useState(0);
-  const [isGeneratingFollowUp, setIsGeneratingFollowUp] = useState(false);
-  const [showFollowUpLoading, setShowFollowUpLoading] = useState(false); // UI에 로딩 표시 여부 (딜레이 적용)
+  // isGeneratingFollowUp, showFollowUpLoading 제거됨 (밸런스 게임 플로우 삭제)
   const [followUpCustomInputActive, setFollowUpCustomInputActive] = useState(false);
   const [followUpCustomInputValue, setFollowUpCustomInputValue] = useState('');
   const followUpCustomInputRef = useRef<HTMLInputElement>(null);
@@ -1306,7 +1299,7 @@ export default function KnowledgeAgentPage() {
   // ============================================================================
   // 조건 보고서 생성
   // ============================================================================
-  const fetchConditionReport = useCallback(async () => {
+  const fetchConditionReport = useCallback(async (wsContext?: typeof webSearchContext) => {
     setIsConditionReportLoading(true);
     try {
       const res = await fetch('/api/knowledge-agent/generate-condition-report', {
@@ -1317,6 +1310,7 @@ export default function KnowledgeAgentPage() {
           collectedInfo,
           onboarding: onboardingData,
           babyInfo,
+          webSearchContext: wsContext || null,
         }),
       });
 
@@ -2639,8 +2633,8 @@ export default function KnowledgeAgentPage() {
 
     console.log('[V2 Flow] Starting - 조건 보고서 표시...');
 
-    // 🆕 조건 보고서 생성 (백그라운드)
-    fetchConditionReport();
+    // 🆕 조건 보고서 생성 (백그라운드) - 웹서치 컨텍스트 전달
+    fetchConditionReport(webSearchContext);
 
     // 조건 보고서 phase로 전환 (사용자가 확인 후 hardcut_visual로 진행)
     setPhase('condition_report');
@@ -2809,9 +2803,6 @@ export default function KnowledgeAgentPage() {
       setPhase('hardcut_visual');
       // 자동 스크롤은 phase 변경 시 useEffect에서 처리됨
 
-      // 🆕 꼬리질문 생성 (백그라운드)
-      generateFollowUpQuestions(allProducts);
-
     } catch (error) {
       console.error('[V2 Flow] Error:', error);
     } finally {
@@ -2819,159 +2810,7 @@ export default function KnowledgeAgentPage() {
     }
   };
 
-  /**
-   * 꼬리질문 생성 (백그라운드)
-   * - 맞춤 질문 완료 후 사용자 응답 + 상품 데이터 기반으로 추가 질문 생성
-   */
-  const generateFollowUpQuestions = async (products: any[]) => {
-    if (products.length === 0) return;
-
-    console.log('[V2 Flow] Generating follow-up questions...');
-    setIsGeneratingFollowUp(true);
-    setFollowUpQuestions([]); // 초기화
-
-    // ⏱️ 최소 로딩 시간 보장 (2초 ±10% 랜덤)
-    const startTime = Date.now();
-    const minLoadingTime = 2000 + (Math.random() * 400 - 200); // 1800ms ~ 2200ms
-
-    // 🆕 핵심 구매 고려사항만 전달 (가장 효과적)
-    const buyingFactors = webSearchProgress.results?.buyingFactors || [];
-    console.log('[V2 Flow] Follow-up buyingFactors:', buyingFactors.join(', ') || '(없음)');
-
-    try {
-      const res = await fetch('/api/knowledge-agent/generate-follow-up-questions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          categoryKey,
-          categoryName,
-          collectedInfo,
-          products,
-          reviews: reviewsDataRef.current,  // 최신 리뷰 데이터 사용
-          trendData: {
-            items: trendCons,
-            pros: [],
-            cons: trendCons,
-            priceInsight: '',
-          },
-          buyingFactors,  // 🆕 핵심 구매 고려사항
-          onboarding: onboardingData,  // 🆕 온보딩 데이터
-          babyInfo,                     // 🆕 아기 정보
-        }),
-      });
-
-      const data = await res.json();
-
-      if (data.success && data.hasFollowUpQuestions) {
-        setFollowUpQuestions(data.followUpQuestions);
-        console.log(`[V2 Flow] Generated ${data.followUpQuestions.length} follow-up questions`);
-      } else {
-        console.log(`[V2 Flow] No follow-up questions needed: ${data.skipReason || 'unknown'}`);
-      }
-    } catch (error) {
-      console.error('[V2 Flow] Follow-up questions error:', error);
-    } finally {
-      // ⏱️ 최소 로딩 시간 보장
-      const elapsed = Date.now() - startTime;
-      const remainingTime = Math.max(0, minLoadingTime - elapsed);
-
-      if (remainingTime > 0) {
-        console.log(`[V2 Flow] Waiting ${Math.round(remainingTime)}ms to ensure minimum loading time`);
-        await new Promise(resolve => setTimeout(resolve, remainingTime));
-      }
-
-      setIsGeneratingFollowUp(false);
-      setShowFollowUpLoading(false);
-    }
-  };
-
-  /**
-   * 꼬리질문 생성 완료 시 안내 메시지 추가 + 로딩 메시지 제거
-   */
-  const prevIsGeneratingFollowUp = useRef(false);
-
-  useEffect(() => {
-    // 생성 완료 시점 감지 (true → false 전환)
-    if (prevIsGeneratingFollowUp.current && !isGeneratingFollowUp) {
-      const guideMsgId = `a_followup_guide_${Date.now()}`;
-
-      // 🔧 타이핑 상태 종료 (로딩 인디케이터 제거)
-      setIsTyping(false);
-
-      // 추가질문이 있는 경우: 안내 메시지 + 밸런스 게임 표시
-      if (followUpQuestions.length > 0) {
-        setCurrentFollowUpIndex(0);
-        setShowFollowUpBalance(true);
-        setFollowUpBalanceSelections(new Set());
-        setFollowUpBalanceAllAnswered(false);
-        // 🔧 Phase 유지 - 추가질문은 메시지 기반으로 처리되므로 hardcut_visual phase 유지
-        // setPhase('questions'); // ← 제거: phase 변경하지 않음
-
-        setMessages(prev => {
-          if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
-
-          // 🔧 Race condition 방지: final_guide 메시지가 없으면 먼저 추가
-          const hasFinalGuide = prev.some(m => m.id.startsWith('a_final_input_'));
-          const baseMessages = hasFinalGuide ? prev : [
-            ...prev,
-            {
-              id: `a_final_input_${Date.now()}`,
-              role: 'assistant' as const,
-              questionId: 'final_guide',
-              content: `추천 후보 상품들을 잘 추렸어요! 🎯`,
-              typing: true,
-              timestamp: Date.now()
-            }
-          ];
-
-          return [
-            ...baseMessages,
-            {
-              id: guideMsgId,
-              role: 'assistant',
-              questionId: 'followup_guide',
-              content: `더욱 정확한 추천을 위해 핵심 질문을 추가했어요.`,
-              typing: true,
-              timestamp: Date.now() + 2
-            }
-          ];
-        });
-      } else {
-        setShowFollowUpBalance(false);
-        // 추가질문이 없는 경우: 안내 메시지만
-        setMessages(prev => {
-          if (prev.some(m => m.id.startsWith('a_followup_guide_'))) return prev;
-
-          // 🔧 Race condition 방지: final_guide 메시지가 없으면 먼저 추가
-          const hasFinalGuide = prev.some(m => m.id.startsWith('a_final_input_'));
-          const baseMessages = hasFinalGuide ? prev : [
-            ...prev,
-            {
-              id: `a_final_input_${Date.now()}`,
-              role: 'assistant' as const,
-              questionId: 'final_guide',
-              content: `추천 후보 상품들을 잘 추렸어요! 🎯`,
-              typing: true,
-              timestamp: Date.now()
-            }
-          ];
-
-          return [
-            ...baseMessages,
-            {
-              id: guideMsgId,
-              role: 'assistant',
-              questionId: 'followup_guide',
-              content: `충분한 정보를 수집해서 추가 질문이 필요 없어요! **최종 추천 결과 보기**를 눌러서 바로 결과를 확인해보세요.`,
-              typing: true,
-              timestamp: Date.now() + 2
-            }
-          ];
-        });
-      }
-    }
-    prevIsGeneratingFollowUp.current = isGeneratingFollowUp;
-  }, [isGeneratingFollowUp, followUpQuestions]);
+  // generateFollowUpQuestions 함수 제거됨 (밸런스 게임 플로우 삭제)
 
   /**
    * 꼬리질문 답변 처리 (선택만 기록, 다음 질문 진행은 "다음" 버튼으로)
@@ -3150,6 +2989,7 @@ export default function KnowledgeAgentPage() {
           negativeSelections: [], // 회피조건 제거
           onboarding: onboardingData, // 🆕 온보딩 데이터 (불편사항 포함)
           babyInfo, // 🆕 아기 정보 (개월수, 성별)
+          conditionReport, // 🆕 중간 보고서 (AI 요약 컨텍스트)
         }),
       });
 
@@ -4748,6 +4588,11 @@ export default function KnowledgeAgentPage() {
                 return null;
               }
 
+              // hardcut-visual 메시지는 조건 보고서 아래에서 별도 렌더링
+              if (msg.hardcutData) {
+                return null;
+              }
+
               const isLatestAssistant = msg.role === 'assistant' && (msg.options || msg.negativeFilterOptions) && !msg.isFinalized;
               // 후속 채팅 메시지(options/questionProgress 없는 일반 응답)는 투명도 적용 안 함
               const isFollowUpChat = msg.role === 'assistant' && !msg.options && !msg.questionProgress && !msg.negativeFilterOptions;
@@ -4841,26 +4686,23 @@ export default function KnowledgeAgentPage() {
                 onHardcutContinue={handleHardcutContinue}
                 onHardcutComplete={() => {
                   setIsHardcutVisualDone(true);
-                  // ✅ 로딩 완료 후 가이드 메시지 추가 (hardcutData 바로 다음에 추가됨)
-                  const finalInputMsgId = `a_final_input_${Date.now()}`;
+                  setIsTyping(false); // 로딩 인디케이터 제거
+                  // ✅ 하드컷 완료 → 바로 final_input으로 전환
+                  setInputValue('');
+                  setPhase('final_input');
+                  const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
                   setMessages(prev => {
-                    if (prev.some(m => m.id.startsWith('a_final_input_'))) return prev;
+                    if (prev.some(m => m.id.startsWith('a_final_input_guide_'))) return prev;
                     return [...prev,
                       {
                         id: finalInputMsgId,
                         role: 'assistant',
-                        questionId: 'final_guide',
-                        content: `추천 후보 상품들을 잘 추렸어요! 🎯`,
+                        content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
                         typing: true,
                         timestamp: Date.now()
                       }
                     ];
                   });
-
-                  // 🎯 가이드 메시지 표시 후 500ms 후에 로딩 인디케이터 표시
-                  setTimeout(() => {
-                    setShowFollowUpLoading(true);
-                  }, 500);
                 }}
                 showListView={showListView}
                 setShowListView={setShowListView}
@@ -4900,14 +4742,14 @@ export default function KnowledgeAgentPage() {
           });
             })()}
 
-            {/* 조건 보고서 (질문 완료 후 메시지 아래에 표시) */}
-            {phase === 'condition_report' && (
+            {/* 조건 보고서 (질문 완료 후 메시지 아래에 표시, 이후 phase에서도 비활성 유지) */}
+            {(['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input', 'result', 'free_chat'].includes(phase)) && (
               <motion.div
                 ref={conditionReportRef}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: phase !== 'condition_report' ? 0.4 : 1, y: 0 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="py-6"
+                className={`py-6 ${phase !== 'condition_report' ? 'pointer-events-none' : ''}`}
               >
                 {isConditionReportLoading ? (
                   <ConditionReportLoading />
@@ -4915,9 +4757,10 @@ export default function KnowledgeAgentPage() {
                   <ConditionReportCard
                     report={conditionReport}
                     categoryName={categoryName}
-                    onContinue={proceedToHardcutVisual}
+                    onContinue={phase === 'condition_report' ? proceedToHardcutVisual : undefined}
+                    products={crawledProducts}
                   />
-                ) : (
+                ) : phase === 'condition_report' ? (
                   // 로딩도 아니고 데이터도 없으면 바로 진행
                   <div className="flex justify-center py-8">
                     <button
@@ -4927,49 +4770,45 @@ export default function KnowledgeAgentPage() {
                       다음으로 진행
                     </button>
                   </div>
-                )}
+                ) : null}
               </motion.div>
             )}
 
-            {/* 추가질문 밸런스 게임 */}
-            {showFollowUpBalance && followUpQuestions.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, x: 80 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -80 }}
-                transition={{ duration: 0.25, ease: 'easeInOut' }}
-                className="py-4"
-              >
-                <BalanceGameCarousel
-                  questions={followUpQuestions.map((q, idx) => ({
-                    id: `followup_balance_${idx}`,
-                    title: q.question,
-                    option_A: {
-                      text: q.options[0]?.label || 'A',
-                      target_rule_key: q.options[0]?.value || q.options[0]?.label || `followup_${idx}_A`,
-                    },
-                    option_B: {
-                      text: q.options[1]?.label || 'B',
-                      target_rule_key: q.options[1]?.value || q.options[1]?.label || `followup_${idx}_B`,
-                    },
-                  }))}
-                  onComplete={() => {}}
-                  onStateChange={(state) => {
-                    const selectionsKey = Array.from(state.currentSelections).sort().join('|');
-                    const prev = followUpBalanceStateRef.current;
-                    if (prev.selectionsKey !== selectionsKey) {
-                      setFollowUpBalanceSelections(new Set(state.currentSelections));
-                      prev.selectionsKey = selectionsKey;
-                    }
-                    if (prev.allAnswered !== state.allAnswered) {
-                      setFollowUpBalanceAllAnswered(state.allAnswered);
-                      prev.allAnswered = state.allAnswered;
-                    }
-                  }}
-                  showAIHelper={false}
-                />
-              </motion.div>
-            )}
+            {/* 하드컷 시각화 (조건 보고서 아래에 위치) */}
+            {(() => {
+              const hardcutMsg = messages.find(m => m.hardcutData);
+              if (!hardcutMsg?.hardcutData) return null;
+              return (
+                <div className="py-2">
+                  <HardcutVisualization
+                    totalBefore={hardcutMsg.hardcutData.totalBefore}
+                    totalAfter={hardcutMsg.hardcutData.totalAfter}
+                    filteredProducts={hardcutMsg.hardcutData.filteredProducts}
+                    appliedRules={hardcutMsg.hardcutData.appliedRules}
+                    onContinue={handleHardcutContinue}
+                    onComplete={() => {
+                      setIsHardcutVisualDone(true);
+                      setIsTyping(false);
+                      setInputValue('');
+                      setPhase('final_input');
+                      const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
+                      setMessages(prev => {
+                        if (prev.some(m => m.id.startsWith('a_final_input_guide_'))) return prev;
+                        return [...prev,
+                          {
+                            id: finalInputMsgId,
+                            role: 'assistant' as const,
+                            content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
+                            typing: true,
+                            timestamp: Date.now()
+                          }
+                        ];
+                      });
+                    }}
+                  />
+                </div>
+              );
+            })()}
 
             {/* 결과 채팅 로딩 인디케이터 */}
             <AnimatePresence>
@@ -5001,35 +4840,7 @@ export default function KnowledgeAgentPage() {
               )}
             </AnimatePresence>
 
-            {/* 추가질문 생성 중 로딩 인디케이터 */}
-            <AnimatePresence>
-              {showFollowUpLoading && isGeneratingFollowUp && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="flex items-center gap-3 py-3 px-1"
-                >
-                  <div className="flex gap-1">
-                    {[0, 1, 2].map(i => (
-                      <motion.div
-                        key={i}
-                        animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1, 0.8] }}
-                        transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
-                        className="w-1.5 h-1.5 rounded-full bg-blue-500"
-                      />
-                    ))}
-                  </div>
-                  <motion.span
-                    animate={{ backgroundPosition: ["-100% 0", "100% 0"] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="text-[14px] bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600 bg-[length:200%_auto] bg-clip-text text-transparent font-medium"
-                  >
-                    추가 질문 필요 판단하는 중...
-                  </motion.span>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* 추가질문 생성 중 로딩 인디케이터 - 제거됨 */}
 
             {/* 하드컷팅 시각화 단계 - 메시지로 이동됨 */}
 
@@ -5207,7 +5018,7 @@ export default function KnowledgeAgentPage() {
           {/* 중간 보고서 단계: 하단 고정 버튼 */}
           {phase === 'condition_report' && !isConditionReportLoading && (
             <div className="relative">
-              <div className="flex gap-3 justify-between bg-white rounded-[12px] p-2">
+              <div className="flex gap-3 justify-between rounded-[12px] p-2">
                 <div />
                 <motion.button
                   onClick={proceedToHardcutVisual}
@@ -5221,114 +5032,7 @@ export default function KnowledgeAgentPage() {
             </div>
           )}
 
-          {/* 하드컷팅 시각화 완료 시 버튼 및 채팅 바 */}
-          {phase === 'hardcut_visual' && isHardcutVisualDone && !isTyping && (() => {
-            // 안내 메시지가 있는지 확인 (꼬리질문 생성 완료 후)
-            const hasGuideMessage = messages.some(m => m.id?.startsWith('a_followup_guide_'));
-            const hasFollowUpQuestions = followUpQuestions.length > 0;
-
-            return (
-            <div className="space-y-3">
-              {/* 🆕 추가질문이 있을 때: 이전/다음 버튼 */}
-              {hasGuideMessage && hasFollowUpQuestions && showFollowUpBalance && (
-                <div className="flex gap-3 justify-between mb-4">
-                  <div />
-                  <motion.button
-                    onClick={() => {
-                      if (!followUpBalanceAllAnswered) return;
-
-                      const selections = followUpBalanceSelections;
-                      const answeredPairs: Array<{ question: string; answer: string }> = [];
-
-                      followUpQuestions.forEach((q, idx) => {
-                        const optionA = q.options[0];
-                        const optionB = q.options[1];
-                        const optionAKey = optionA?.value || optionA?.label || `followup_${idx}_A`;
-                        const optionBKey = optionB?.value || optionB?.label || `followup_${idx}_B`;
-
-                        if (selections.has(optionAKey)) {
-                          answeredPairs.push({ question: q.question, answer: optionA?.label || 'A' });
-                        } else if (selections.has(optionBKey)) {
-                          answeredPairs.push({ question: q.question, answer: optionB?.label || 'B' });
-                        }
-                      });
-
-                      // collectedInfo에 반영
-                      if (answeredPairs.length > 0) {
-                        setCollectedInfo(prev => {
-                          const next = { ...prev };
-                          answeredPairs.forEach(({ question, answer }) => {
-                            next[question] = answer;
-                          });
-                          return next;
-                        });
-                      }
-
-                      // 완료 처리
-                      setShowFollowUpBalance(false);
-                      setInputValue('');
-                      setPhase('final_input');
-
-                      const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
-                      setMessages(prev => [
-                        ...prev,
-                        {
-                          id: finalInputMsgId,
-                          role: 'assistant',
-                          content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
-                          typing: true,
-                          timestamp: Date.now()
-                        }
-                      ]);
-                    }}
-                    disabled={!followUpBalanceAllAnswered}
-                    whileHover={followUpBalanceAllAnswered ? { scale: 1.02 } : {}}
-                    whileTap={followUpBalanceAllAnswered ? { scale: 0.98 } : {}}
-                    className={`w-[140px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center ${
-                      followUpBalanceAllAnswered
-                        ? 'bg-gray-900 text-white hover:bg-gray-800'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    다음
-                  </motion.button>
-                </div>
-              )}
-
-               {/* 메인 버튼: 최종 추천 결과 보기 - 추가질문이 없을 때만 표시 */}
-              {hasGuideMessage && !hasFollowUpQuestions && (
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  whileHover={{ scale: 1.01, translateY: -1 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    // 바로 추천받기 대신 마지막 조건 입력 단계로 이동
-                    setInputValue('');  // 🆕 이전 입력 초기화
-                    setPhase('final_input');
-                    const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
-                    setMessages(prev => [
-                      ...prev,
-                      {
-                        id: finalInputMsgId,
-                        role: 'assistant',
-                        content: `추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.`,
-                        typing: true,
-                        timestamp: Date.now()
-                      }
-                    ]);
-                  }}
-                  className="w-full py-4 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 group transition-all"
-                >
-                  <div className="shrink-0 w-5 h-5 flex items-center justify-center">
-                    <Image src="/icons/ic-ai.svg" alt="" width={16} height={16} />
-                  </div>
-                  <span className="text-[16px] font-semibold tracking-tight">최종 추천 결과 보기</span>
-                </motion.button>
-              )}
-            </div>
-            );
-          })()}
+          {/* 하드컷팅 시각화 완료 시 버튼 - 제거됨 (onHardcutComplete에서 바로 final_input으로 전환) */}
 
           {/* 마지막 추가 조건 입력 단계 */}
           {phase === 'final_input' && !isTyping && (

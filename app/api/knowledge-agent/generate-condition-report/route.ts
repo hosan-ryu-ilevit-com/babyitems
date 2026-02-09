@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
       babyInfo,
       balanceSelections,
       negativeSelections,
+      webSearchContext,
     } = await request.json();
 
     if (!categoryName || !collectedInfo) {
@@ -31,7 +32,8 @@ export async function POST(request: NextRequest) {
       onboarding,
       babyInfo,
       balanceSelections,
-      negativeSelections
+      negativeSelections,
+      webSearchContext
     );
 
     return NextResponse.json({ report });
@@ -53,7 +55,11 @@ async function generateConditionReport(
   onboarding?: OnboardingData,
   babyInfo?: BabyInfo,
   balanceSelections?: BalanceSelection[],
-  negativeSelections?: string[]
+  negativeSelections?: string[],
+  webSearchContext?: {
+    marketSummary?: { topBrands?: string[]; topPros?: string[]; topCons?: string[]; priceRange?: { min: number; max: number }; reviewCount?: number };
+    trendAnalysis?: { top10Summary?: string; trends?: string[]; pros?: string[]; cons?: string[]; priceInsight?: string; buyingFactors?: string[] };
+  }
 ): Promise<ConditionReport> {
   // 컨텍스트 정보 구성
   let contextInfo = '';
@@ -106,9 +112,25 @@ async function generateConditionReport(
   // 회피 조건
   const avoidInfo = negativeSelections?.join(', ') || '';
 
+  // 시장 분석 컨텍스트 (웹서치 기반)
+  let marketContext = '';
+  const trend = webSearchContext?.trendAnalysis;
+  const market = webSearchContext?.marketSummary;
+  if (trend || market) {
+    marketContext += '\n=== 시장 분석 (웹서치 기반) ===\n';
+    if (trend?.top10Summary) marketContext += `시장 현황: ${trend.top10Summary}\n`;
+    if (trend?.trends?.length) marketContext += `최근 트렌드: ${trend.trends.join(', ')}\n`;
+    if (trend?.pros?.length) marketContext += `구매자 만족 포인트: ${trend.pros.join(', ')}\n`;
+    if (trend?.cons?.length) marketContext += `주의해야 할 단점: ${trend.cons.join(', ')}\n`;
+    if (trend?.buyingFactors?.length) marketContext += `핵심 구매 고려사항: ${trend.buyingFactors.join(', ')}\n`;
+    if (trend?.priceInsight) marketContext += `가격대 정보: ${trend.priceInsight}\n`;
+    if (market?.topBrands?.length) marketContext += `인기 브랜드: ${market.topBrands.join(', ')}\n`;
+    if (market?.priceRange) marketContext += `가격 범위: ${market.priceRange.min.toLocaleString()}원 ~ ${market.priceRange.max.toLocaleString()}원\n`;
+  }
+
   const prompt = `당신은 "${categoryName}" 구매 컨설턴트입니다.
 
-사용자가 입력한 조건들을 분석하여 조건 보고서를 작성하세요.
+사용자가 입력한 조건들과 시장 분석 데이터를 종합하여 조건 보고서를 작성하세요.
 
 === 수집된 정보 ===
 ${contextInfo}
@@ -121,25 +143,22 @@ ${balanceInfo || '(없음)'}
 
 회피 조건:
 ${avoidInfo || '(없음)'}
-
+${marketContext}
 === 요구사항 ===
-1. 사용자 프로필을 2-3문장으로 요약
+1. 사용자 프로필을 2-3문장으로 요약. 핵심 키워드(나이/개월수, 구매 목적, 중요 조건 등)는 반드시 **키워드** 형태로 감싸서 강조하세요.
 2. 핵심 니즈를 3-5개 도출
-3. 추천 스펙을 구체적으로 제시 (해당 카테고리 특성에 맞게)
-4. 중요 고려사항과 주의사항 제시
+3. 추천 스펙을 구체적으로 제시 (시장 트렌드와 구매자 만족/불만 포인트를 참고하여 실용적으로). value와 reason 내에서도 핵심 수치나 키워드는 **키워드** 형태로 강조하세요.
 
 반드시 아래 JSON 형식으로만 응답하세요:
 {
   "userProfile": {
-    "situation": "구매 상황 요약 (1-2문장)",
+    "situation": "구매 상황 요약 (1-2문장, **핵심키워드** 형태로 강조)",
     "keyNeeds": ["핵심 니즈1", "핵심 니즈2", "핵심 니즈3"]
   },
   "analysis": {
     "recommendedSpecs": [
-      { "specName": "스펙명", "value": "추천값", "reason": "추천 이유" }
-    ],
-    "importantFactors": ["중요 고려사항1", "중요 고려사항2"],
-    "cautions": ["주의사항1", "주의사항2"]
+      { "specName": "스펙명", "value": "**추천값** 포함 설명", "reason": "**핵심근거** 포함 추천 이유" }
+    ]
   }
 }`;
 

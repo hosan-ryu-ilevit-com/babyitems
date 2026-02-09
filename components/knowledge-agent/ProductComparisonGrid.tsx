@@ -77,8 +77,25 @@ export function ProductComparisonGrid({
   const [prosConsProgress, setProsConsProgress] = useState(0);
   const prosConsLoadedRef = useRef(false);
 
-  // 최대 5개 제품까지 표시
-  const displayProducts = useMemo(() => products.slice(0, 5), [products]);
+  // 최대 5개 제품까지 표시 + 조건 충족도 기준 정렬 (✓ 많은 순 → ✗ 많은 순)
+  const displayProducts = useMemo(() => {
+    const sliced = products.slice(0, 5);
+    if (filterTags.length === 0) return sliced;
+
+    return [...sliced].sort((a, b) => {
+      const scoreOf = (p: KnowledgeProduct) => {
+        let s = 0;
+        for (const tag of filterTags) {
+          const v = p.tagScores?.[tag.id]?.score;
+          if (v === 'full') s += 1;
+          else if (v === 'partial') s += 0.5;
+          else s -= 1; // null / undefined → ✗
+        }
+        return s;
+      };
+      return scoreOf(b) - scoreOf(a);
+    });
+  }, [products, filterTags]);
 
   // 장단점 데이터가 있는지 확인
   const hasProsConsData = useMemo(() => {
@@ -394,7 +411,15 @@ export function ProductComparisonGrid({
         {/* 사용자 조건 충족도 섹션 */}
         {filterTags.length > 0 && (
           <div className="mt-5">
-            {filterTags.map((tag) => {
+            {[...filterTags].sort((a, b) => {
+              // ✓ 많은 조건이 위로, ✗ 많은 조건이 아래로
+              const tagScore = (tag: FilterTag) =>
+                displayProducts.reduce((sum, p) => {
+                  const s = p.tagScores?.[tag.id]?.score;
+                  return sum + (s === 'full' ? 1 : s === 'partial' ? 0.5 : -1);
+                }, 0);
+              return tagScore(b) - tagScore(a);
+            }).map((tag) => {
               // 모든 제품이 미충족(X)인 경우 해당 row 숨김
               const allProductsNotMet = displayProducts.every((product) => {
                 const score = product.tagScores?.[tag.id]?.score;

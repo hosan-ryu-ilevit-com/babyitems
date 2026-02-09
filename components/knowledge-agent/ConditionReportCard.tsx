@@ -4,38 +4,61 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { ConditionReport } from '@/lib/knowledge-agent/types';
 
+interface ProductPreview {
+  pcode: string;
+  name: string;
+  brand: string | null;
+  price: number | null;
+  thumbnail: string | null;
+}
+
 interface ConditionReportCardProps {
   report: ConditionReport;
   categoryName: string;
   onContinue?: () => void;
+  products?: ProductPreview[];
+}
+
+function renderHighlightedText(text: string, style: 'bold' | 'code' = 'bold') {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const keyword = part.slice(2, -2);
+      if (style === 'code') {
+        return <span key={i} className="px-1.5 py-0.5 bg-blue-50 text-blue-600 font-semibold rounded-md text-[13px]">{keyword}</span>;
+      }
+      return <span key={i} className="font-bold text-blue-500">{keyword}</span>;
+    }
+    return part;
+  });
 }
 
 export function ConditionReportCard({
   report,
   categoryName,
   onContinue,
+  products,
 }: ConditionReportCardProps) {
   const [isSpecOpen, setIsSpecOpen] = useState(true);
-  const [isTipOpen, setIsTipOpen] = useState(false);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
+      className="space-y-4"
     >
       {/* 헤더 */}
       <div>
         <p className="text-[16px] font-semibold text-gray-400 text-center">중간 보고서</p>
         <h3 className="text-[24px] font-bold  text-center mb-4">추천 조건 요약</h3>
-        <p className="text-[16px] font-bold text-gray-500 leading-6 mt-2">
-          {report.userProfile.situation}
+        <p className="text-[16px] font-medium text-gray-800 leading-5.5 mt-2">
+          {renderHighlightedText(report.userProfile.situation, 'code')}
         </p>
       </div>
 
       {/* 핵심 니즈 */}
       <div className="bg-gray-50 rounded-[16px] p-4">
-        <p className="text-[20px] font-bold text-gray-500">핵심 니즈</p>
+        <p className="text-[16px] font-bold text-gray-800">핵심 니즈</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {report.userProfile.keyNeeds.map((need, idx) => (
             <span
@@ -58,7 +81,7 @@ export function ConditionReportCard({
           onClick={() => setIsSpecOpen(prev => !prev)}
           className="w-full flex items-center justify-between text-left"
         >
-          <p className="text-[20px] font-bold text-gray-500">추천하는 주요 조건</p>
+          <p className="text-[16px] font-bold text-gray-800">추천하는 주요 조건</p>
          
         </button>
     
@@ -75,14 +98,14 @@ export function ConditionReportCard({
                 {report.analysis.recommendedSpecs.map((spec, idx) => (
                   <div key={idx} className="bg-white rounded-[12px] p-4 space-y-3">
                     <div className="flex items-center gap-2">
-                      <p className="text-[16px] font-bold ai-gradient-text">{spec.specName}</p>
+                      <p className="text-[16px] font-bold text-blue-500">{spec.specName}</p>
                     </div>
                     <div className="grid grid-cols-[44px_1fr] gap-3 text-[14px] font-medium text-gray-700 leading-relaxed">
                     
                       <div className="text-gray-500">기준</div>
-                      <div className="text-gray-900 font-bold">{spec.value}</div>
+                      <div className="text-gray-900 font-bold">{renderHighlightedText(spec.value, 'code')}</div>
                       <div className="text-gray-500">근거</div>
-                      <div>{spec.reason}</div>
+                      <div>{renderHighlightedText(spec.reason, 'code')}</div>
                     
                     </div>
                   </div>
@@ -93,67 +116,41 @@ export function ConditionReportCard({
         </AnimatePresence>
       </div>
 
-      {/* 구매 팁 */}
-      {(report.analysis.importantFactors.length > 0 || report.analysis.cautions.length > 0) && (
+      {/* 대표 상품 미리보기 */}
+      {products && products.length > 0 && (
         <div className="bg-gray-50 rounded-[16px] p-4">
-          <button
-            type="button"
-            onClick={() => setIsTipOpen(prev => !prev)}
-            className="w-full flex items-center justify-between text-left"
-          >
-            <p className="text-[16px] font-semibold text-gray-900">🎯 {categoryName} 구매 팁</p>
-            <span className="text-[14px] font-semibold text-gray-500">
-              {isTipOpen ? '접기' : '펼치기'}
-            </span>
-          </button>
-          <AnimatePresence>
-            {isTipOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="overflow-hidden"
-              >
-                <div className="mt-4 space-y-4">
-                  {report.analysis.importantFactors.length > 0 && (
-                    <div>
-                      <p className="text-[18px] font-bold text-gray-600">고려사항</p>
-                      <div className="mt-2 space-y-1">
-                        {report.analysis.importantFactors.map((factor, idx) => (
-                          <p key={idx} className="text-[14px] font-medium text-gray-600 leading-relaxed">
-                            • {factor}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {report.analysis.cautions.length > 0 && (
-                    <div>
-                      <p className="text-[18px] font-bold text-gray-600">참고사항</p>
-                      <div className="mt-2 space-y-1">
-                        {report.analysis.cautions.map((caution, idx) => (
-                          <p key={idx} className="text-[14px] font-medium text-gray-600 leading-relaxed">
-                            • {caution}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-[16px] font-bold text-gray-800">대표 상품</p>
+            <span className="text-[12px] font-medium text-gray-400">{products.length}개 분석됨</span>
+          </div>
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
+            {products.slice(0, 6).map((p) => (
+              <div key={p.pcode} className="flex-shrink-0 w-[80px]">
+                {p.thumbnail ? (
+                  <img
+                    src={p.thumbnail}
+                    alt=""
+                    className="w-[80px] h-[80px] rounded-[12px] object-cover bg-gray-100"
+                  />
+                ) : (
+                  <div className="w-[80px] h-[80px] rounded-[12px] bg-gray-100 flex items-center justify-center">
+                    <span className="text-[11px] text-gray-300 font-bold">{p.brand?.slice(0, 2)}</span>
+                  </div>
+                )}
+                <p className="text-[11px] text-gray-400 mt-1.5 truncate">{p.brand}</p>
+                <p className="text-[12px] font-medium text-gray-700 line-clamp-1">{p.name}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
       {/* 신뢰 메시지 */}
       <div>
         <p className="text-[16px] font-medium text-gray-700 leading-6">
-          위 내용을 기준으로 <span className="font-bold text-blue-600">{categoryName}</span> 추천을 진행할게요.
+          위 내용을 기준으로 <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 font-semibold rounded-md text-[15px]">{categoryName}</span> 추천을 진행할게요.
           {report.userProfile.keyNeeds.length > 0 && (
-            <> 핵심 니즈인 <span className="font-bold text-blue-600">{report.userProfile.keyNeeds[0]}</span> 중심으로
+            <> 핵심 니즈인 <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 font-semibold rounded-md text-[15px]">{report.userProfile.keyNeeds[0]}</span> 중심으로
             추천 정확도를 높여보도록 하겠습니다! 👍</>
           )}
         </p>

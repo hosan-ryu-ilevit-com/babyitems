@@ -103,7 +103,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
       const res = await fetch('/api/knowledge-agent/generate-onboarding-options', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categoryName, type: 'replace_reasons' }),
+        body: JSON.stringify({ categoryName, type: 'replace_reasons', babyInfo }),
       });
       if (res.ok) {
         const data = await res.json();
@@ -311,10 +311,8 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                     className="space-y-2 mb-4"
                   >
                     {replaceOptions.map((reason) => {
-                      // "상관없어요"가 선택되었는지 확인
-                      const hasNotCareSelected = replaceReasons.includes('상관없어요');
-                      // 다른 옵션이 선택되었는지 확인
-                      const hasOtherSelected = replaceReasons.some(r => r !== '상관없어요');
+                      // "건너뛰기"가 선택되었는지 확인
+                      const hasNotCareSelected = replaceReasons.includes('건너뛰기');
 
                       return (
                         <ReasonCheckbox
@@ -327,20 +325,12 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                       );
                     })}
 
-                    {/* 상관없어요 버튼 */}
-                    <ReasonCheckbox
-                      label="상관없어요"
-                      checked={replaceReasons.includes('상관없어요')}
-                      onChange={() => toggleReason('상관없어요')}
-                      disabled={replaceReasons.some(r => r !== '상관없어요')}
-                    />
-
                     {/* 기타 입력 */}
                     {addedReplaceOther ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                        className={`w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between ${replaceReasons.includes('건너뛰기') ? 'opacity-70' : ''}`}
                       >
                         <span className="text-[16px] font-medium text-blue-500">{addedReplaceOther}</span>
                         <button
@@ -349,6 +339,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                             setAddedReplaceOther(null);
                           }}
                           className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                          disabled={replaceReasons.includes('건너뛰기')}
                         >
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
                             <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -357,13 +348,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                       </motion.div>
                     ) : (
                       <div
-                        className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                        className={`w-full py-4 px-5 relative transition-all ${replaceReasons.includes('건너뛰기') ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-50'}`}
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
                           borderRadius: '12px'
                         }}
-                        onPointerDown={activateReplaceOtherInput}
-                        onClick={activateReplaceOtherInput}
+                        onPointerDown={replaceReasons.includes('건너뛰기') ? undefined : activateReplaceOtherInput}
+                        onClick={replaceReasons.includes('건너뛰기') ? undefined : activateReplaceOtherInput}
                       >
                         <div className="relative" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -434,6 +425,14 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                         </div>
                       </div>
                     )}
+
+                    {/* 건너뛰기 버튼 */}
+                    <ReasonCheckbox
+                      label="건너뛰기"
+                      checked={replaceReasons.includes('건너뛰기')}
+                      onChange={() => toggleReason('건너뛰기')}
+                      disabled={replaceReasons.some(r => r !== '건너뛰기')}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -536,8 +535,8 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                     className="space-y-2 mb-4"
                   >
                     {situationOptions.map((situation) => {
-                      // "상관없어요"가 선택되었는지 확인
-                      const hasNotCareSelected = selectedSituations.includes('상관없어요');
+                      // "건너뛰기"가 선택되었는지 확인
+                      const hasNotCareSelected = selectedSituations.includes('건너뛰기');
 
                       return (
                         <ReasonCheckbox
@@ -550,20 +549,12 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                       );
                     })}
 
-                    {/* 상관없어요 버튼 */}
-                    <ReasonCheckbox
-                      label="상관없어요"
-                      checked={selectedSituations.includes('상관없어요')}
-                      onChange={() => toggleSituation('상관없어요')}
-                      disabled={selectedSituations.some(s => s !== '상관없어요')}
-                    />
-
                     {/* 기타 입력 */}
                     {addedSituationOther ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between"
+                        className={`w-full py-4 px-5 bg-blue-50 border border-blue-100 rounded-[12px] flex items-center justify-between ${selectedSituations.includes('건너뛰기') ? 'opacity-70' : ''}`}
                       >
                         <span className="text-[16px] font-medium text-blue-500">{addedSituationOther}</span>
                         <button
@@ -572,6 +563,7 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                             setAddedSituationOther(null);
                           }}
                           className="ml-2 p-1 hover:bg-blue-100 rounded-full transition-colors"
+                          disabled={selectedSituations.includes('건너뛰기')}
                         >
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-blue-400">
                             <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -580,13 +572,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                       </motion.div>
                     ) : (
                       <div
-                        className="w-full py-4 px-5 relative transition-all cursor-pointer hover:bg-gray-50"
+                        className={`w-full py-4 px-5 relative transition-all ${selectedSituations.includes('건너뛰기') ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer hover:bg-gray-50'}`}
                         style={{
                           backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%23D1D5DB' stroke-width='2' stroke-dasharray='6%2c 6' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e")`,
                           borderRadius: '12px'
                         }}
-                        onPointerDown={activateSituationOtherInput}
-                        onClick={activateSituationOtherInput}
+                        onPointerDown={selectedSituations.includes('건너뛰기') ? undefined : activateSituationOtherInput}
+                        onClick={selectedSituations.includes('건너뛰기') ? undefined : activateSituationOtherInput}
                       >
                         <div className="relative" onClick={(e) => e.stopPropagation()}>
                           <input
@@ -657,6 +649,14 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                         </div>
                       </div>
                     )}
+
+                    {/* 건너뛰기 버튼 */}
+                    <ReasonCheckbox
+                      label="건너뛰기"
+                      checked={selectedSituations.includes('건너뛰기')}
+                      onChange={() => toggleSituation('건너뛰기')}
+                      disabled={selectedSituations.some(s => s !== '건너뛰기')}
+                    />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -722,7 +722,9 @@ function ReasonCheckbox({ label, checked, onChange, disabled }: { label: string;
     <button
       onClick={onChange}
       disabled={disabled}
-      className={`w-full py-4 px-5 rounded-[12px] border text-left transition-all ${
+      className={`w-full py-4 px-5 rounded-[12px] border transition-all ${
+        label === '건너뛰기' ? 'text-center' : 'text-left'
+      } ${
         disabled
           ? 'bg-gray-50 border-gray-100 opacity-70 cursor-not-allowed'
           : checked

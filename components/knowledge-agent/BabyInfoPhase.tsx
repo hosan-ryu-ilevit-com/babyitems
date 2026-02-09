@@ -155,7 +155,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[500px] px-6 py-10 pb-[140px] bg-white relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-[500px] px-2 pb-[140px] bg-white relative overflow-hidden">
       {/* Background Decoration Removed */}
 
 
@@ -173,54 +173,57 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
         )}
 
         {step === 'check_saved' && savedInfo && (
-          <motion.div
-            key="check_saved"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="w-full max-w-sm relative z-10"
-          >
-            <motion.div variants={itemVariants} className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-3 tracking-tight">
-                반가워요! 👋
-              </h2>
-              <p className="text-gray-500 text-lg leading-7 font-semibold">
-                <span className="font-bold text-gray-700">{categoryName}</span> 추천을 위해<br/>
-                기존 정보를 사용할까요?
-              </p>
-            </motion.div>
+          <>
+            <motion.div
+              key="check_saved"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="w-full max-w-sm relative z-10"
+            >
+              <motion.div variants={itemVariants} className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-3 tracking-tight">
+                  반가워요! 👋
+                </h2>
+                <p className="text-gray-500 text-lg leading-7 font-semibold">
+                  <span className="font-bold text-gray-700">{categoryName}</span> 추천을 위해<br/>
+                  기존 정보를 사용할까요?
+                </p>
+              </motion.div>
 
-            <motion.div variants={itemVariants} className="mb-8">
-              <div className="bg-[#FDFBF7] p-6 rounded-[24px] text-center relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-500">
-                    <Baby size={32} weight="fill" />
+              <motion.div variants={itemVariants} className="mb-6">
+                <div className="flex flex-col items-center justify-center gap-2 p-8 rounded-[18px] border-2 border-stone-100 bg-gradient-to-br from-orange-50/30 to-white">
+                  <div className="text-orange-300">
+                    <Baby size={30} weight="fill" />
                   </div>
-                  <p className="text-lg font-semibold text-gray-800">
+                  <p className="text-base font-semibold text-gray-800">
                     {getSavedInfoText(savedInfo)}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="space-y-3">
-              <button
-                onClick={handleUseSavedInfo}
-                className="w-full py-4 rounded-[12px] bg-stone-900 text-white text-[16px] font-semibold hover:bg-stone-800 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-              >
-                네, 이 정보로 시작하기
-              </button>
-              <button
-                onClick={handleNewInput}
-                className="w-full py-4 rounded-[12px] bg-white text-stone-600 text-[16px] font-semibold border border-stone-200 hover:bg-stone-50 hover:border-stone-300 transition-all"
-              >
-                새로 입력하기
-              </button>
-            </motion.div>
-          </motion.div>
+            {/* 하단 고정 바 */}
+            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[60]">
+              <div className="relative flex flex-col gap-2">
+                <motion.button
+                  onClick={handleNewInput}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 rounded-[12px] text-[16px] font-semibold text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 transition-all"
+                >
+                  변경하기
+                </motion.button>
+                <motion.button
+                  onClick={handleUseSavedInfo}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 rounded-[12px] bg-stone-900 text-white text-[16px] font-semibold hover:bg-stone-800 transition-all"
+                >
+                  네, 이 정보로 시작하기
+                </motion.button>
+              </div>
+            </div>
+          </>
         )}
 
         {step === 'born_yet' && (

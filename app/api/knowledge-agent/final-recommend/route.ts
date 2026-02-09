@@ -1754,9 +1754,10 @@ async function evaluateAllCandidatesWithLLM(
     },
   });
 
-  // 브랜드 선택 추출
+  // 브랜드 선택 추출 (_추가정보 키는 브랜드명이 아닌 선호 스타일이므로 제외)
   let selectedBrand: string | null = null;
   for (const [question, answer] of Object.entries(collectedInfo)) {
+    if (question.includes('_추가정보')) continue;
     if (question.includes('brand') || question.includes('브랜드') || question.includes('제조사')) {
       const skipPatterns = ['skip', 'any', '상관없', '건너뛰', '아무', '없어요', '없음'];
       const isSkip = skipPatterns.some(pattern => answer.toLowerCase().includes(pattern));
@@ -1778,10 +1779,13 @@ async function evaluateAllCandidatesWithLLM(
     ? `[사용자 기본 정보]\n${personalizationContext}\n\n`
     : '';
 
-  // 사용자 조건 문자열
+  // 사용자 조건 문자열 (_추가정보 키는 선호 스타일이므로 조건에 포함)
   const userConditions = Object.entries(collectedInfo)
     .filter(([k]) => !k.startsWith('__'))
-    .filter(([k]) => !k.includes('brand') && !k.includes('브랜드') && !k.includes('제조사'))
+    .filter(([k]) => {
+      if (k.includes('_추가정보')) return true; // 브랜드 선호 스타일(국민템/가성비)은 조건에 포함
+      return !k.includes('brand') && !k.includes('브랜드') && !k.includes('제조사');
+    })
     .map(([q, a]) => `- ${q}: ${a}`)
     .join('\n') || '없음';
 
@@ -2168,6 +2172,7 @@ async function selectTopNPcodes(
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
   count: number = RECOMMENDATION_COUNT,
+  conditionReport?: { userProfile: { situation: string; keyNeeds: string[] }; analysis: { recommendedSpecs: Array<{ specName: string; value: string; reason: string }> } } | null,
 ): Promise<{ pcode: string; briefReason: string }[]> {
   if (!ai) {
     return candidates.slice(0, count).map(p => ({
@@ -2198,19 +2203,25 @@ async function selectTopNPcodes(
    장점:${pros.slice(0, 4).join(',')} | 단점:${cons.slice(0, 3).join(',')}`;
   }).join('\n');
 
+  // 중간 보고서 컨텍스트 (AI가 요약한 핵심 니즈/추천 스펙)
+  const reportContext = conditionReport
+    ? `\n## AI 분석 요약 (중간 보고서)\n- 상황: ${conditionReport.userProfile.situation.replace(/\*\*/g, '')}\n- 핵심 니즈: ${conditionReport.userProfile.keyNeeds.join(', ')}\n- 추천 스펙: ${conditionReport.analysis.recommendedSpecs.map(s => `${s.specName}=${s.value.replace(/\*\*/g, '')}`).join(', ')}\n`
+    : '';
+
   const prompt = `## ${categoryName} Top ${count} 선정
 
 ## 사용자 조건
 ${Object.entries(collectedInfo).filter(([k]) => !k.startsWith('__')).map(([q, a]) => `- ${q}: ${a}`).join('\n') || '없음'}
 
 ## 우선순위: ${balanceSelections.map(b => b.selectedLabel).join(', ') || '없음'}
-
+${reportContext}
 ## 후보 (${candidates.length}개)
 ${candidateInfo}
 
 ## 작업
 사용자 조건에 가장 적합한 상품 ${count}개를 선정하세요.
 - 리뷰 평점/개수 + 스펙 매칭 + 사용자 우선순위 종합 고려
+- AI 분석 요약의 핵심 니즈와 추천 스펙을 우선 반영
 
 ## 응답 (JSON만)
 {"topN":[{"pcode":"코드1","briefReason":"선정이유(15자)"},{"pcode":"코드2","briefReason":"이유"},...]}`;
@@ -2519,6 +2530,7 @@ async function selectTopProducts(
   expandedKeywords?: ExpandedKeywords,
   freeInputAnalysis?: FreeInputAnalysis | null,
   personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
+  conditionReport?: { userProfile: { situation: string; keyNeeds: string[] }; analysis: { recommendedSpecs: Array<{ specName: string; value: string; reason: string }> } } | null,
 ): Promise<{ selectedProducts: HardCutProduct[]; productInfoMap: Record<string, ProductInfo> }> {
   const pcodes = candidates.map(c => c.pcode);
 
@@ -2622,6 +2634,7 @@ async function selectTopProducts(
       collectedInfo,
       balanceSelections,
       RECOMMENDATION_COUNT,
+      conditionReport,
     );
   }
 
@@ -2682,10 +2695,12 @@ export async function POST(request: NextRequest) {
       personalizationContext,  // 🆕 개인화 메모리 컨텍스트
       onboarding,  // 🆕 온보딩 데이터 (구매 상황, 기존 불편사항)
       babyInfo,    // 🆕 아기 정보 (개월수, 성별)
+      conditionReport,  // 🆕 중간 보고서 (AI 요약 컨텍스트)
     } = body as FinalRecommendationRequest & {
       personalizationContext?: string;
       onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string; firstSituations?: string[]; firstSituationOther?: string };
       babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean };
+      conditionReport?: { userProfile: { situation: string; keyNeeds: string[] }; analysis: { recommendedSpecs: Array<{ specName: string; value: string; reason: string }> } };
     };
 
     if (!candidates || candidates.length === 0) {
@@ -2855,6 +2870,7 @@ export async function POST(request: NextRequest) {
         expandedKeywords,
         freeInputAnalysisResult,
         extendedContext || null,  // 🆕 온보딩/아기정보 포함된 확장 컨텍스트
+        conditionReport || null,  // 🆕 중간 보고서 (AI 요약 컨텍스트)
       ),
       // 필터 태그 생성 (2단계에서 사용) - 🆕 온보딩 데이터 포함된 enrichedCollectedInfo 사용
       generateFilterTags(
