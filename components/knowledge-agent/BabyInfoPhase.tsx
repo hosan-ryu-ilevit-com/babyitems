@@ -279,6 +279,15 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
                   color="blue"
                 />
               </motion.div>
+
+              <motion.div variants={itemVariants} className="mt-6 text-center">
+                <button
+                  onClick={() => onComplete(null)}
+                  className="text-s font-semibold text-gray-500 hover:text-gray-600 transition-colors"
+                >
+                  건너뛰기
+                </button>
+              </motion.div>
             </motion.div>
 
             {/* 하단 고정 바 */}
@@ -301,7 +310,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
                 >
                   이전
                 </motion.button>
-                <div /> {/* 오른쪽 빈 공간 */}
+                <div />
               </div>
             </div>
           </>
