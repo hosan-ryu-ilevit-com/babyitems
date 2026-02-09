@@ -98,13 +98,13 @@ export function ConditionReportCard({
                 {report.analysis.recommendedSpecs.map((spec, idx) => (
                   <div key={idx} className="bg-white rounded-[12px] p-4 space-y-3">
                     <div className="flex items-center gap-2">
-                      <p className="text-[16px] font-bold text-blue-500">{spec.specName}</p>
+                      <p className="text-[14px] font-semibold text-gray-400">{spec.specName}</p>
                     </div>
                     <div className="grid grid-cols-[44px_1fr] gap-3 text-[14px] font-medium text-gray-700 leading-relaxed">
                     
-                      <div className="text-gray-500">조건</div>
-                      <div className="text-gray-900 font-bold">{spec.value}</div>
-                      <div className="text-gray-500">근거</div>
+                      <div className="text-gray-500 font-semibold">조건</div>
+                      <div className="text-black-800 font-bold">{spec.value}</div>
+                      <div className="text-gray-500 font-semibold">근거</div>
                       <div>{renderHighlightedText(spec.reason, 'code')}</div>
                     
                     </div>

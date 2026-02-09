@@ -4,11 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Baby, Calendar, Check, Smiley } from '@phosphor-icons/react/dist/ssr';
 import type { BabyInfo } from '@/lib/knowledge-agent/types';
+import { logKABabyInfoCompleted } from '@/lib/logging/clientLogger';
 
 interface BabyInfoPhaseProps {
   onComplete: (data: BabyInfo | null) => void;
   onBack?: () => void;
   categoryName: string;
+  categoryKey?: string;
 }
 
 const STORAGE_KEY = 'babyitem_baby_info';
@@ -95,7 +97,7 @@ const itemVariants: Variants = {
 
 // --- Main Component ---
 
-export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhaseProps) {
+export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }: BabyInfoPhaseProps) {
   const [step, setStep] = useState<'loading' | 'check_saved' | 'born_yet' | 'date' | 'date_gender'>('loading');
   const [savedInfo, setSavedInfo] = useState<BabyInfo | null>(null);
 
@@ -116,7 +118,12 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
   }, []);
 
   const handleUseSavedInfo = () => {
-    if (savedInfo) onComplete(savedInfo);
+    if (savedInfo) {
+      if (categoryKey) {
+        logKABabyInfoCompleted(categoryKey, savedInfo, true);
+      }
+      onComplete(savedInfo);
+    }
   };
 
   const handleNewInput = () => {
@@ -126,6 +133,9 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
   const handleExpectedDateComplete = () => {
     const data: BabyInfo = { isBornYet: false, expectedDate };
     saveBabyInfo(data);
+    if (categoryKey) {
+      logKABabyInfoCompleted(categoryKey, data, false);
+    }
     onComplete(data);
   };
 
@@ -137,6 +147,9 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
       calculatedMonths: birthDate ? calculateMonths(birthDate) : undefined,
     };
     saveBabyInfo(data);
+    if (categoryKey) {
+      logKABabyInfoCompleted(categoryKey, data, false);
+    }
     onComplete(data);
   };
 
@@ -183,16 +196,16 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
               className="w-full max-w-sm relative z-10"
             >
               <motion.div variants={itemVariants} className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-3 tracking-tight">
+                <h2 className="text-xl font-bold text-gray-800 mb-3 tracking-tight">
                   반가워요! 👋
                 </h2>
-                <p className="text-gray-500 text-lg leading-7 font-semibold">
+                <p className="text-gray-500 text-m leading-6 font-semibold">
                   <span className="font-bold text-gray-700">{categoryName}</span> 추천을 위해<br/>
                   기존 정보를 사용할까요?
                 </p>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="mb-6">
+              <motion.div variants={itemVariants} className="mb-10">
                 <motion.button
                   type="button"
                   onClick={handleNewInput}
@@ -320,7 +333,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   value={expectedDate}
                   onChange={(e) => setExpectedDate(e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
-                  className={`w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 text-center text-[16px] font-bold text-stone-800 outline-none transition-all shadow-sm ${!expectedDate ? 'date-empty' : ''}`}
+                  className={`w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 text-center text-[16px] font-bold text-gray-800 outline-none transition-all ${!expectedDate ? 'date-empty' : ''}`}
                 />
                 {!expectedDate && (
                   <span className="date-placeholder pointer-events-none absolute inset-0 flex items-center justify-center text-[16px] font-bold text-gray-400">

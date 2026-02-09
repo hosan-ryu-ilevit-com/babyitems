@@ -2928,6 +2928,11 @@ export default function KnowledgeAgentPage() {
 
     console.log(`[Follow-up] Answer selected: ${currentQ.question} -> ${answer}`);
 
+    // 꼬리질문 답변 로깅 (AI 질문 + 사용자 답변)
+    if (categoryKey) {
+      logKAQuestionAnswered(categoryKey, currentQ.question, answer, '꼬리질문');
+    }
+
     // collectedInfo에 추가 (기존 응답과 병합)
     setCollectedInfo(prev => ({
       ...prev,
@@ -4352,6 +4357,11 @@ export default function KnowledgeAgentPage() {
 
     console.log('[KA Flow] 인라인 꼬리질문 답변:', label);
 
+    // 인라인 꼬리질문 답변 로깅 (AI 질문 + 사용자 답변)
+    if (categoryKey && inlineFollowUp) {
+      logKAQuestionAnswered(categoryKey, inlineFollowUp.question, label, '꼬리질문');
+    }
+
     // 🔧 지연된 메시지들을 이제 추가
     const timestamp = Date.now();
     setMessages(prev => [
@@ -4467,7 +4477,7 @@ export default function KnowledgeAgentPage() {
 
       // 질문 완료 로깅 (옵션 토글은 별도로 logKnowledgeAgentHardFilterSelection에서 처리)
       if (categoryKey) {
-        logKAQuestionAnswered(categoryKey, activeMsg.content, message);
+        logKAQuestionAnswered(categoryKey, activeMsg.content, message, '맞춤질문');
       }
       setMessages(prev => prev.map(m => m.id === activeMsg.id ? { ...m, isFinalized: true } : m));
     }
@@ -4672,6 +4682,7 @@ export default function KnowledgeAgentPage() {
                 }
               }}
               babyInfo={babyInfo}
+              categoryKey={categoryKey}
             />
           )}
 
@@ -4681,6 +4692,7 @@ export default function KnowledgeAgentPage() {
               onComplete={handleBabyInfoComplete}
               onBack={() => router.push('/knowledge-agent/baby')}
               categoryName={categoryName}
+              categoryKey={categoryKey}
             />
           )}
 
@@ -5064,7 +5076,7 @@ export default function KnowledgeAgentPage() {
 
             <AnimatePresence>
               {isCalculating && (
-                <div className="py-12">
+                <div className="py-4">
                   <LoadingAnimation progress={loadingProgress} timelineSteps={timelineSteps} />
                 </div>
               )}

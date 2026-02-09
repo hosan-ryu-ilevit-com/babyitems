@@ -133,7 +133,11 @@ export type LogEventType =
   | 'ka_review_sort_change' // KA 리뷰 정렬 변경 (최신순/별점높은순/별점낮은순)
   | 'ka_filter_tag_toggle' // KA 필터 태그 토글 (결과 페이지)
   | 'ka_question_generated' // Knowledge Agent AI 질문 생성 로깅
-  | 'ka_product_match_rate'; // Knowledge Agent 상품 매칭도 로깅
+  | 'ka_product_match_rate' // Knowledge Agent 상품 매칭도 로깅
+  // KA 온보딩/베이비 인트로 이벤트
+  | 'ka_baby_info_completed' // 아기 정보 입력 완료
+  | 'ka_onboarding_situation_selected' // 구매 상황 선택 (첫구매/교체/둘러보기)
+  | 'ka_onboarding_completed'; // 온보딩 완료 (상황 + 후속 설문 포함)
 
 export interface LogEvent {
   sessionId: string;

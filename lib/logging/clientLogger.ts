@@ -1851,12 +1851,19 @@ export function logKALoadingPhaseCompleted(categoryKey: string, phase: string, d
   });
 }
 
-export function logKAQuestionAnswered(categoryKey: string, question: string, answer: string): void {
+export function logKAQuestionAnswered(
+  categoryKey: string,
+  question: string,
+  answer: string,
+  questionType: '맞춤질문' | '꼬리질문' | '꼬리질문_밸런스' = '맞춤질문'
+): void {
+  const typeLabel = questionType === '맞춤질문' ? '[맞춤질문]' : '[꼬리질문]';
+  const shortQuestion = question.length > 40 ? question.substring(0, 40) + '...' : question;
   sendLogEvent('ka_question_answered', {
     page: 'ka-question',
-    buttonLabel: `답변: ${answer}`,
+    buttonLabel: `${typeLabel} 답변: ${answer}`,
     userInput: answer,
-    metadata: { categoryKey, question, answer }
+    metadata: { categoryKey, question, answer, questionType, aiQuestion: question }
   });
 }
 
@@ -2368,6 +2375,118 @@ export function logKnowledgeAgentHardFilterSelection(
       isMultiple, 
       totalSelected 
     }
+  });
+}
+
+// ============================================
+// KA 온보딩/베이비 인트로 로깅 함수들
+// ============================================
+
+/**
+ * 아기 정보 입력 완료 로깅
+ */
+export function logKABabyInfoCompleted(
+  categoryKey: string,
+  babyInfo: {
+    isBornYet: boolean;
+    gender?: string;
+    birthDate?: string;
+    expectedDate?: string;
+    calculatedMonths?: number;
+  },
+  usedSavedInfo: boolean
+): void {
+  const ageText = babyInfo.calculatedMonths !== undefined
+    ? `${babyInfo.calculatedMonths}개월`
+    : babyInfo.expectedDate
+      ? `출산예정`
+      : '';
+  const genderText = babyInfo.gender === 'male' ? '남아' : babyInfo.gender === 'female' ? '여아' : '';
+  const infoSummary = [genderText, ageText].filter(Boolean).join(' · ') || '정보 없음';
+
+  sendLogEvent('ka_baby_info_completed', {
+    page: 'ka-flow',
+    buttonLabel: usedSavedInfo ? `[저장된 정보 사용] ${infoSummary}` : `[새로 입력] ${infoSummary}`,
+    metadata: {
+      categoryKey,
+      isBornYet: babyInfo.isBornYet,
+      gender: babyInfo.gender,
+      birthDate: babyInfo.birthDate,
+      expectedDate: babyInfo.expectedDate,
+      calculatedMonths: babyInfo.calculatedMonths,
+      usedSavedInfo,
+    },
+  });
+}
+
+/**
+ * 온보딩 구매 상황 선택 로깅
+ */
+export function logKAOnboardingSituationSelected(
+  categoryKey: string,
+  categoryName: string,
+  situation: 'first' | 'replace' | 'gift'
+): void {
+  const situationMap: Record<string, string> = {
+    first: '처음으로 구매해요',
+    replace: '다른 걸로 바꿔보려고요',
+    gift: '그냥 둘러보려구요',
+  };
+
+  sendLogEvent('ka_onboarding_situation_selected', {
+    page: 'ka-flow',
+    buttonLabel: `구매 상황: ${situationMap[situation]}`,
+    metadata: {
+      categoryKey,
+      categoryName,
+      situation,
+      situationLabel: situationMap[situation],
+    },
+  });
+}
+
+/**
+ * 온보딩 완료 로깅 (상황 + 후속 설문 포함)
+ */
+export function logKAOnboardingCompleted(
+  categoryKey: string,
+  categoryName: string,
+  onboardingData: {
+    purchaseSituation: 'first' | 'replace' | 'gift';
+    replaceReasons?: string[];
+    replaceOther?: string;
+    firstSituations?: string[];
+    firstSituationOther?: string;
+  }
+): void {
+  const situationMap: Record<string, string> = {
+    first: '첫 구매',
+    replace: '교체/업그레이드',
+    gift: '둘러보기/선물',
+  };
+
+  let detailParts: string[] = [];
+  if (onboardingData.replaceReasons && onboardingData.replaceReasons.length > 0) {
+    detailParts.push(`불만사항: ${onboardingData.replaceReasons.join(', ')}`);
+  }
+  if (onboardingData.firstSituations && onboardingData.firstSituations.length > 0) {
+    detailParts.push(`상황: ${onboardingData.firstSituations.join(', ')}`);
+  }
+  const detailText = detailParts.length > 0 ? ` (${detailParts.join(' | ')})` : '';
+
+  sendLogEvent('ka_onboarding_completed', {
+    page: 'ka-flow',
+    buttonLabel: `온보딩 완료: ${situationMap[onboardingData.purchaseSituation]}${detailText}`,
+    metadata: {
+      categoryKey,
+      categoryName,
+      purchaseSituation: onboardingData.purchaseSituation,
+      purchaseSituationLabel: situationMap[onboardingData.purchaseSituation],
+      replaceReasons: onboardingData.replaceReasons,
+      replaceOther: onboardingData.replaceOther,
+      firstSituations: onboardingData.firstSituations,
+      firstSituationOther: onboardingData.firstSituationOther,
+    },
   });
 }
 

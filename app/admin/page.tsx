@@ -208,6 +208,12 @@ export default function AdminPage() {
       ka_recommendation_received: '🧠 KA 추천 결과',
       ka_question_generated: '🤖 AI 질문 생성',
       ka_product_match_rate: '🎯 상품 매칭도',
+      ka_question_answered: '💬 KA 질문 답변',
+      ka_question_skipped: '⏭️ KA 질문 스킵',
+      // KA 온보딩/베이비 인트로 이벤트
+      ka_baby_info_completed: '👶 아기 정보 입력',
+      ka_onboarding_situation_selected: '🏷️ 구매 상황 선택',
+      ka_onboarding_completed: '✅ 온보딩 완료',
     };
     return labels[type] || type;
   };
@@ -2568,7 +2574,104 @@ export default function AdminPage() {
                               {event.buttonLabel && (
                                 <div className="mb-2">{formatButtonLabel(event.buttonLabel)}</div>
                               )}
-                              {event.userInput && (
+                              {/* KA 질문 답변 (맞춤질문/꼬리질문 구분 + AI 질문 표시) */}
+                              {event.eventType === 'ka_question_answered' && event.metadata && (() => {
+                                const meta = event.metadata as Record<string, unknown>;
+                                const questionType = (meta.questionType as string) || '맞춤질문';
+                                const aiQuestion = (meta.aiQuestion as string) || (meta.question as string) || '';
+                                const answer = (meta.answer as string) || event.userInput || '';
+                                const isFollowUp = questionType === '꼬리질문' || questionType === '꼬리질문_밸런스';
+                                return (
+                                  <div className="space-y-1.5">
+                                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${
+                                      isFollowUp
+                                        ? 'bg-orange-100 text-orange-700'
+                                        : 'bg-blue-100 text-blue-700'
+                                    }`}>
+                                      {isFollowUp ? '🔗 꼬리질문' : '📋 맞춤질문'}
+                                    </span>
+                                    {aiQuestion && (
+                                      <div className="bg-blue-50 border-l-4 border-blue-400 p-2 rounded text-sm">
+                                        <span className="text-blue-700 font-semibold">AI 질문</span>
+                                        <p className="text-gray-800 mt-1">{aiQuestion}</p>
+                                      </div>
+                                    )}
+                                    <div className="bg-green-50 border-l-4 border-green-500 p-2 rounded text-sm">
+                                      <span className="text-green-700 font-semibold">사용자 답변</span>
+                                      <p className="text-gray-800 mt-1">{answer}</p>
+                                    </div>
+                                  </div>
+                                );
+                              })()}
+                              {/* KA 아기 정보 입력 완료 */}
+                              {event.eventType === 'ka_baby_info_completed' && event.metadata && (() => {
+                                const meta = event.metadata as Record<string, unknown>;
+                                const gender = meta.gender === 'male' ? '남아' : meta.gender === 'female' ? '여아' : '';
+                                const months = meta.calculatedMonths as number | undefined;
+                                const expectedDate = meta.expectedDate as string | undefined;
+                                const usedSaved = meta.usedSavedInfo as boolean;
+                                return (
+                                  <div className="bg-orange-50 border-l-4 border-orange-400 p-2 rounded text-xs space-y-1">
+                                    <p className="font-semibold text-orange-700">
+                                      👶 아기 정보 {usedSaved ? '(저장된 정보 사용)' : '(새로 입력)'}
+                                    </p>
+                                    <div className="bg-white p-2 rounded space-y-0.5">
+                                      {gender && <p className="text-gray-700">성별: {gender}</p>}
+                                      {months !== undefined && <p className="text-gray-700">나이: {months}개월</p>}
+                                      {expectedDate && <p className="text-gray-700">출산예정일: {expectedDate}</p>}
+                                      {typeof meta.birthDate === 'string' && <p className="text-gray-700">생년월일: {meta.birthDate}</p>}
+                                    </div>
+                                  </div>
+                                );
+                              })()}
+                              {/* KA 구매 상황 선택 */}
+                              {event.eventType === 'ka_onboarding_situation_selected' && event.metadata && (() => {
+                                const meta = event.metadata as Record<string, unknown>;
+                                return (
+                                  <div className="bg-indigo-50 border-l-4 border-indigo-400 p-2 rounded text-xs">
+                                    <p className="font-semibold text-indigo-700">
+                                      🏷️ 구매 상황 선택
+                                    </p>
+                                    <p className="text-gray-800 mt-1 font-medium">{String(meta.situationLabel)}</p>
+                                    {typeof meta.categoryName === 'string' && <p className="text-gray-500 mt-0.5">카테고리: {meta.categoryName}</p>}
+                                  </div>
+                                );
+                              })()}
+                              {/* KA 온보딩 완료 */}
+                              {event.eventType === 'ka_onboarding_completed' && event.metadata && (() => {
+                                const meta = event.metadata as Record<string, unknown>;
+                                const replaceReasons = meta.replaceReasons as string[] | undefined;
+                                const firstSituations = meta.firstSituations as string[] | undefined;
+                                return (
+                                  <div className="bg-emerald-50 border-l-4 border-emerald-400 p-2 rounded text-xs space-y-1">
+                                    <p className="font-semibold text-emerald-700">
+                                      ✅ 온보딩 완료
+                                    </p>
+                                    <div className="bg-white p-2 rounded space-y-1">
+                                      <p className="text-gray-700 font-medium">상황: {String(meta.purchaseSituationLabel)}</p>
+                                      {replaceReasons && replaceReasons.length > 0 && (
+                                        <div>
+                                          <p className="text-gray-600 font-medium">불만사항:</p>
+                                          {replaceReasons.map((r, i) => (
+                                            <p key={i} className="text-gray-700 ml-2">• {r}</p>
+                                          ))}
+                                        </div>
+                                      )}
+                                      {firstSituations && firstSituations.length > 0 && (
+                                        <div>
+                                          <p className="text-gray-600 font-medium">구매 니즈:</p>
+                                          {firstSituations.map((s, i) => (
+                                            <p key={i} className="text-gray-700 ml-2">• {s}</p>
+                                          ))}
+                                        </div>
+                                      )}
+                                      {typeof meta.categoryName === 'string' && <p className="text-gray-500 mt-0.5">카테고리: {meta.categoryName}</p>}
+                                    </div>
+                                  </div>
+                                );
+                              })()}
+                              {/* 일반 사용자 입력 (KA 질문 답변이 아닌 경우만) */}
+                              {event.userInput && event.eventType !== 'ka_question_answered' && (
                                 <div className="bg-green-50 border-l-4 border-green-500 p-2 rounded text-sm mb-2">
                                   <span className="text-green-700 font-semibold">사용자</span>
                                   <p className="text-gray-800 mt-1">{event.userInput}</p>

@@ -51,7 +51,7 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
         ref={calculatingRef}
         initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full py-12 flex flex-col items-start"
+        className="w-full py-2 flex flex-col items-start"
       >
         {/* 항상 펼쳐진 상태의 로딩 UI */}
         {timelineSteps.length > 0 && (

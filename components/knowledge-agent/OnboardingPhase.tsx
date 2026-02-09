@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { flushSync } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { OnboardingData, BabyInfo } from '@/lib/knowledge-agent/types';
+import { logKAOnboardingSituationSelected, logKAOnboardingCompleted } from '@/lib/logging/clientLogger';
 
 interface OnboardingPhaseProps {
   categoryName: string;
@@ -11,6 +12,7 @@ interface OnboardingPhaseProps {
   onComplete: (data: OnboardingData) => void;
   onBack?: () => void; // 이전 버튼 (baby: 아기 정보로, living: 카테고리 선택으로)
   babyInfo?: BabyInfo | null; // 아기 정보 (상황 옵션 생성에 사용)
+  categoryKey?: string;
 }
 
 // 카테고리별 기본 불편사항 옵션 (AI 생성 전 fallback)
@@ -24,7 +26,7 @@ const DEFAULT_REPLACE_REASONS: Record<string, string[]> = {
   ],
 };
 
-export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack, babyInfo }: OnboardingPhaseProps) {
+export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack, babyInfo, categoryKey }: OnboardingPhaseProps) {
   const [step, setStep] = useState<'situation' | 'replace_reasons' | 'first_situations'>('situation');
   const [purchaseSituation, setPurchaseSituation] = useState<'first' | 'replace' | 'gift' | null>(null);
   const [replaceReasons, setReplaceReasons] = useState<string[]>([]);
@@ -147,6 +149,11 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   const handleSituationSelect = (situation: 'first' | 'replace' | 'gift') => {
     setPurchaseSituation(situation);
 
+    // 구매 상황 선택 로깅
+    if (categoryKey) {
+      logKAOnboardingSituationSelected(categoryKey, categoryName, situation);
+    }
+
     if (situation === 'replace') {
       // 교체 선택 시 불편사항 수집 단계로
       setStep('replace_reasons');
@@ -157,10 +164,14 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   };
 
   const handleFirstSituationComplete = () => {
-    onComplete({
+    const data: OnboardingData = {
       purchaseSituation: purchaseSituation!,
       firstSituations: selectedSituations.length > 0 ? selectedSituations : undefined,
-    });
+    };
+    if (categoryKey) {
+      logKAOnboardingCompleted(categoryKey, categoryName, data);
+    }
+    onComplete(data);
   };
 
   const toggleSituation = (situation: string) => {
@@ -172,10 +183,14 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
   };
 
   const handleReplaceComplete = () => {
-    onComplete({
+    const data: OnboardingData = {
       purchaseSituation: 'replace',
       replaceReasons: replaceReasons.length > 0 ? replaceReasons : undefined,
-    });
+    };
+    if (categoryKey) {
+      logKAOnboardingCompleted(categoryKey, categoryName, data);
+    }
+    onComplete(data);
   };
 
   const toggleReason = (reason: string) => {
