@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { callGeminiWithRetry } from '@/lib/ai/gemini';
 import type { QuestionTodo, TrendData } from '@/lib/knowledge-agent/types';
+import { deduplicateQuestions } from '@/lib/knowledge-agent/question-dedup';
 
 // Gemini
 const geminiApiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_GENERATIVE_AI_API_KEY;
@@ -659,7 +660,7 @@ export async function POST(request: NextRequest) {
     console.log(`  - BuyingFactors: ${buyingFactors.join(', ') || '(없음)'}`);
 
     // 질문 생성
-    const questions = await generateQuestions(
+    let questions = await generateQuestions(
       categoryName,
       collectedInfo,
       analysisResult,
@@ -667,6 +668,24 @@ export async function POST(request: NextRequest) {
       onboarding,  // 🆕 온보딩 데이터
       babyInfo     // 🆕 아기 정보
     );
+
+    // 🔍 Flash Lite 중복 검증: 꼬리질문 vs 이미 수집된 정보
+    if (questions.length > 0) {
+      const toDedup = questions.map(q => ({
+        id: q.id,
+        question: q.question,
+        options: q.options.map(o => o.label),
+      }));
+      const dedupResult = await deduplicateQuestions(
+        toDedup,
+        { collectedInfo },
+        { categoryName, verbose: true }
+      );
+      if (dedupResult.removedIds.length > 0) {
+        questions = questions.filter(q => !dedupResult.removedIds.includes(q.id));
+        console.log(`[Follow-up] 🔍 Dedup: ${dedupResult.removedIds.length}개 중복 제거 → ${questions.length}개 유지`);
+      }
+    }
 
     const duration = Date.now() - startTime;
     console.log(`[Follow-up] ✅ Generated ${questions.length} questions in ${duration}ms`);

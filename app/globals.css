@@ -247,8 +247,9 @@ body {
 }
 
 .animate-shimmer {
+  background-image: linear-gradient(90deg, #F4F5F7 0%, #EDEFF2 50%, #F4F5F7 100%);
   background-size: 200% 100%;
-  animation: shimmer 1.2s infinite linear;
+  animation: shimmer 1.2s infinite linear reverse;
 }
 
 /* Marquee animations for category carousel */
@@ -289,10 +290,29 @@ input[type="date"] {
   -webkit-appearance: none;
   appearance: none;
   color-scheme: light;
+  background-color: #FFFFFF;
+  color: #1F2937;
+  -webkit-text-fill-color: #1F2937;
 }
 
 input[type="date"]::-webkit-date-and-time-value {
   text-align: center;
+  color: #1F2937;
+  -webkit-text-fill-color: #1F2937;
+  opacity: 1;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  color: #1F2937;
+  -webkit-text-fill-color: #1F2937;
+}
+
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #1F2937;
+  -webkit-text-fill-color: #1F2937;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -302,6 +322,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 100%;
   opacity: 0;
   cursor: pointer;
+}
+
+@media (pointer: fine), (any-pointer: fine) {
+  .date-placeholder {
+    display: none !important;
+  }
+}
+
+/* Hide native date input text when empty (custom placeholder shown instead) */
+input[type="date"].date-empty::-webkit-datetime-edit {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+input[type="date"].date-empty::-webkit-datetime-edit-text,
+input[type="date"].date-empty::-webkit-datetime-edit-month-field,
+input[type="date"].date-empty::-webkit-datetime-edit-day-field,
+input[type="date"].date-empty::-webkit-datetime-edit-year-field {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Prevent double-tap zoom on mobile */

@@ -28,6 +28,7 @@ import {
 } from '@/lib/knowledge-agent/memory-manager';
 import { generateLongTermMarkdown } from '@/lib/knowledge-agent/markdown-parser';
 import type { WebSearchInsight, ProductKnowledge, LongTermMemoryData } from '@/lib/knowledge-agent/types';
+import { deduplicateQuestions, generateReplacementQuestions, type QuestionForDedup } from '@/lib/knowledge-agent/question-dedup';
 import { CATEGORY_NAME_MAP } from '@/lib/knowledge-agent/types';
 
 // 다나와 크롤러
@@ -2403,6 +2404,43 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
 
         // 선택지 정제 (중복/유사 제거, 일관된 포맷)
         customQuestions = await refineQuestionOptions(questions);
+
+        // 🔍 Flash Lite 중복 검증: 온보딩 질문 vs 맞춤질문 + 맞춤질문 상호 간
+        if (onboardingQuestion && customQuestions.length > 0) {
+          const toDedup: QuestionForDedup[] = customQuestions.map(q => ({
+            id: q.id,
+            question: q.question,
+            options: q.options.map(o => o.label),
+          }));
+          const existingQ: QuestionForDedup[] = [{
+            id: onboardingQuestion.id,
+            question: onboardingQuestion.question,
+            options: onboardingQuestion.options.map((o: any) => o.label),
+          }];
+          const dedupResult = await deduplicateQuestions(toDedup, { existingQuestions: existingQ }, { categoryName, verbose: true });
+          if (dedupResult.removedIds.length > 0) {
+            customQuestions = customQuestions.filter(q => !dedupResult.removedIds.includes(q.id));
+            console.log(`[Step3] 🔍 Dedup: ${dedupResult.removedIds.length}개 중복 제거 → ${customQuestions.length}개 유지`);
+
+            // 🔄 제거된 수만큼 대체 질문 재생성
+            const survivingQ: QuestionForDedup[] = [
+              ...existingQ,
+              ...customQuestions.map(q => ({ id: q.id, question: q.question, options: q.options.map(o => o.label) })),
+            ];
+            const marketCtx = `카테고리: ${categoryName}\n가격: ${minPrice.toLocaleString()}~${maxPrice.toLocaleString()}원\n브랜드: ${brands.slice(0, 6).join(', ')}\n상위 제품:\n${productSpecsForAnalysis}`;
+            const replacements = await generateReplacementQuestions(
+              dedupResult.removedIds.length,
+              categoryName,
+              survivingQ,
+              marketCtx,
+            );
+            if (replacements.length > 0) {
+              customQuestions.push(...(replacements as QuestionTodo[]));
+              console.log(`[Step3] 🔄 대체 질문 ${replacements.length}개 추가 → 총 ${customQuestions.length}개`);
+            }
+          }
+        }
+
         console.log(`[Step3] Successfully generated ${customQuestions.length} custom questions`);
       } catch (e) {
         console.error('[Step3] JSON parse error:', e);
@@ -2438,6 +2476,41 @@ ${brandImportance.shouldGenerateBrandQuestion ? `- **⭐ 브랜드 선택 중요
             });
 
             customQuestions = await refineQuestionOptions(questions);
+
+            // 🔍 Flash Lite 중복 검증 (repair 경로)
+            if (onboardingQuestion && customQuestions.length > 0) {
+              const toDedup: QuestionForDedup[] = customQuestions.map(q => ({
+                id: q.id,
+                question: q.question,
+                options: q.options.map(o => o.label),
+              }));
+              const existingQ: QuestionForDedup[] = [{
+                id: onboardingQuestion.id,
+                question: onboardingQuestion.question,
+                options: onboardingQuestion.options.map((o: any) => o.label),
+              }];
+              const dedupResult = await deduplicateQuestions(toDedup, { existingQuestions: existingQ }, { categoryName, verbose: true });
+              if (dedupResult.removedIds.length > 0) {
+                customQuestions = customQuestions.filter(q => !dedupResult.removedIds.includes(q.id));
+
+                // 🔄 제거된 수만큼 대체 질문 재생성 (repair 경로)
+                const survivingQ: QuestionForDedup[] = [
+                  ...existingQ,
+                  ...customQuestions.map(q => ({ id: q.id, question: q.question, options: q.options.map(o => o.label) })),
+                ];
+                const marketCtx = `카테고리: ${categoryName}\n가격: ${minPrice.toLocaleString()}~${maxPrice.toLocaleString()}원\n브랜드: ${brands.slice(0, 6).join(', ')}\n상위 제품:\n${productSpecsForAnalysis}`;
+                const replacements = await generateReplacementQuestions(
+                  dedupResult.removedIds.length,
+                  categoryName,
+                  survivingQ,
+                  marketCtx,
+                );
+                if (replacements.length > 0) {
+                  customQuestions.push(...(replacements as QuestionTodo[]));
+                }
+              }
+            }
+
             console.log(`[Step3] JSON repair succeeded: ${customQuestions.length} custom questions`);
           }
         } catch (repairError) {

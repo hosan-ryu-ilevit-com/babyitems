@@ -1261,6 +1261,11 @@ export default function KnowledgeAgentPage() {
     setShowAnalysisBottomSheet(false);
     setPhase('loading');
 
+    // 스크롤 컨테이너(mainRef)를 최상단으로 리셋
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+
     // onboardingData와 babyInfo를 사용하여 initializeAgent 호출
     if (onboardingData) {
       initializeAgent(onboardingData, babyInfo);

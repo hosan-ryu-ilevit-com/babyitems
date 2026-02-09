@@ -166,31 +166,59 @@ export function ConditionReportLoading() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className="space-y-4"
     >
-      <div className="animate-pulse space-y-4">
-        <div className="h-4 w-20 bg-gray-200 rounded" />
-        <div className="h-7 w-40 bg-gray-200 rounded" />
-        <div className="h-4 w-full bg-gray-100 rounded" />
-        <div className="h-4 w-4/5 bg-gray-100 rounded" />
+      {/* 헤더 */}
+      <div className="space-y-3">
+        <div className="h-4 w-20 bg-gray-200 rounded mx-auto animate-shimmer" />
+        <div className="h-7 w-44 bg-gray-200 rounded mx-auto animate-shimmer" />
+        <div className="h-4 w-full bg-gray-100 rounded animate-shimmer" />
+        <div className="h-4 w-4/5 bg-gray-100 rounded mx-auto animate-shimmer" />
       </div>
-      <div className="animate-pulse space-y-3">
-        <div className="h-4 w-24 bg-gray-200 rounded" />
-        <div className="h-4 w-2/3 bg-gray-100 rounded" />
-        <div className="h-4 w-1/2 bg-gray-100 rounded" />
+
+      {/* 핵심 니즈 */}
+      <div className="bg-gray-50 rounded-[16px] p-4 space-y-3">
+        <div className="h-4 w-20 bg-gray-200 rounded animate-shimmer" />
+        <div className="flex flex-wrap gap-2">
+          <div className="h-8 w-24 bg-white rounded-[12px] animate-shimmer" />
+          <div className="h-8 w-20 bg-white rounded-[12px] animate-shimmer" />
+          <div className="h-8 w-28 bg-white rounded-[12px] animate-shimmer" />
+        </div>
       </div>
-      <div className="animate-pulse space-y-3">
-        <div className="h-4 w-24 bg-gray-200 rounded" />
-        <div className="h-5 w-3/4 bg-gray-100 rounded" />
-        <div className="h-4 w-full bg-gray-100 rounded" />
+
+      {/* 추천 스펙 */}
+      <div className="bg-gray-50 rounded-[16px] p-4 space-y-4">
+        <div className="h-4 w-32 bg-gray-200 rounded animate-shimmer" />
+        <div className="bg-white rounded-[12px] p-4 space-y-3">
+          <div className="h-4 w-24 bg-blue-100 rounded animate-shimmer" />
+          <div className="grid grid-cols-[44px_1fr] gap-3">
+            <div className="h-3 w-10 bg-gray-200 rounded animate-shimmer" />
+            <div className="h-3 w-3/4 bg-gray-100 rounded animate-shimmer" />
+            <div className="h-3 w-10 bg-gray-200 rounded animate-shimmer" />
+            <div className="h-3 w-full bg-gray-100 rounded animate-shimmer" />
+          </div>
+        </div>
       </div>
-      <div className="animate-pulse space-y-3">
-        <div className="h-4 w-24 bg-gray-200 rounded" />
-        <div className="h-4 w-3/5 bg-gray-100 rounded" />
-        <div className="h-4 w-2/3 bg-gray-100 rounded" />
+
+      {/* 대표 상품 미리보기 */}
+      <div className="bg-gray-50 rounded-[16px] p-4 space-y-3">
+        <div className="h-4 w-20 bg-gray-200 rounded animate-shimmer" />
+        <div className="flex gap-3 overflow-hidden">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div key={idx} className="w-[80px] flex-shrink-0 space-y-2">
+              <div className="w-[80px] h-[80px] rounded-[12px] bg-gray-100 animate-shimmer" />
+              <div className="h-3 w-12 bg-gray-100 rounded animate-shimmer" />
+              <div className="h-3 w-16 bg-gray-100 rounded animate-shimmer" />
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="animate-pulse">
-        <div className="h-4 w-full bg-gray-100 rounded" />
+
+      {/* 신뢰 메시지 */}
+      <div className="space-y-2">
+        <div className="h-4 w-full bg-gray-100 rounded animate-shimmer" />
+        <div className="h-4 w-4/5 bg-gray-100 rounded animate-shimmer" />
       </div>
     </motion.div>
   );

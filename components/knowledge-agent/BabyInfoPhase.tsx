@@ -193,27 +193,28 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
               </motion.div>
 
               <motion.div variants={itemVariants} className="mb-6">
-                <div className="flex flex-col items-center justify-center gap-2 p-8 rounded-[18px] border-2 border-stone-100 bg-gradient-to-br from-orange-50/30 to-white">
+                <motion.button
+                  type="button"
+                  onClick={handleNewInput}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full flex flex-col items-center justify-center gap-2 p-8 rounded-[18px] border-2 border-stone-100 bg-gradient-to-br from-orange-50/30 to-white hover:border-stone-200 hover:bg-orange-50/40 transition-all"
+                >
                   <div className="text-orange-300">
                     <Baby size={30} weight="fill" />
                   </div>
                   <p className="text-base font-semibold text-gray-800">
                     {getSavedInfoText(savedInfo)}
                   </p>
-                </div>
+                  <span className="text-sm font-semibold text-gray-400 mt-2 -mb-1 underline">
+                    변경하기
+                  </span>
+                </motion.button>
               </motion.div>
             </motion.div>
 
             {/* 하단 고정 바 */}
             <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[60]">
               <div className="relative flex flex-col gap-2">
-                <motion.button
-                  onClick={handleNewInput}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 rounded-[12px] text-[16px] font-semibold text-gray-600 border border-gray-200 bg-white hover:bg-gray-50 transition-all"
-                >
-                  변경하기
-                </motion.button>
                 <motion.button
                   onClick={handleUseSavedInfo}
                   whileTap={{ scale: 0.98 }}
@@ -270,9 +271,9 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             {/* 하단 고정 바 */}
             <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent z-0" />
 
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
+              <div className="relative z-10 flex gap-3 justify-between bg-white rounded-[12px] p-2">
                 <motion.button
                   onClick={() => {
                     if (savedInfo) {
@@ -319,8 +320,13 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   value={expectedDate}
                   onChange={(e) => setExpectedDate(e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 text-center text-[16px] font-bold text-stone-800 outline-none transition-all shadow-sm"
+                  className={`w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 text-center text-[16px] font-bold text-stone-800 outline-none transition-all shadow-sm ${!expectedDate ? 'date-empty' : ''}`}
                 />
+                {!expectedDate && (
+                  <span className="date-placeholder pointer-events-none absolute inset-0 flex items-center justify-center text-[16px] font-bold text-gray-400">
+                    연도. 월. 일
+                  </span>
+                )}
                 {expectedDate && (
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -390,8 +396,13 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                     max={new Date().toISOString().split('T')[0]}
-                    className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 text-center text-[16px] font-bold text-stone-800 outline-none transition-all shadow-sm"
+                    className={`w-full px-6 py-5 rounded-[20px] bg-white border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 text-center text-[16px] font-bold text-gray-800 outline-none transition-all ${!birthDate ? 'date-empty' : ''}`}
                   />
+                  {!birthDate && (
+                    <span className="date-placeholder pointer-events-none absolute inset-0 flex items-center justify-center text-[16px] font-bold text-gray-400">
+                      연도. 월. 일
+                    </span>
+                  )}
                   {birthDate && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -483,9 +494,9 @@ function NextButton({ onClick, disabled, onBack }: any) {
   return (
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent z-0" />
 
-      <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
+      <div className="relative z-10 flex gap-3 justify-between bg-white rounded-[12px] p-2">
         {onBack && (
           <motion.button
             onClick={onBack}

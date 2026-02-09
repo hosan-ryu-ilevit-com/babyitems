@@ -101,28 +101,18 @@ export function HardcutVisualization({
       {/* 메인 카드 - AgenticLoadingPhase 스타일 */}
       <div className={`transition-all duration-300 bg-white border-b border-gray-200`}>
         {/* 헤더 */}
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full py-4 flex items-center gap-3 text-left transition-colors"
-        >
+       
+       
           <div className="flex items-center gap-2 flex-1 min-w-0">
-            <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+            <div className="shrink-0 w-5 h-5 flex items-center justify-center mb-4">
               <Image src="/icons/ic-ai.svg" alt="" width={16} height={16} />
             </div>
-            <span className="text-[16px] font-medium ai-gradient-text">
+            <span className="text-[16px] font-medium ai-gradient-text mb-4">
               조건에 맞는 제품 선별 중
             </span>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <motion.span
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              className="text-gray-500"
-            >
-              <CaretDown size={16} weight="bold" />
-            </motion.span>
-          </div>
-        </button>
+       
 
         {/* 상세 내용 */}
         <AnimatePresence>

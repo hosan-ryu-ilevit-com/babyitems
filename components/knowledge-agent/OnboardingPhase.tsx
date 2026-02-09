@@ -461,9 +461,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 </motion.button>
                 <motion.button
                   onClick={handleReplaceComplete}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-900 text-white hover:bg-gray-800"
+                  whileHover={replaceReasons.length > 0 ? { scale: 1.02 } : {}}
+                  whileTap={replaceReasons.length > 0 ? { scale: 0.98 } : {}}
+                  disabled={replaceReasons.length === 0}
+                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                    ${replaceReasons.length > 0
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
                 >
                   다음
                 </motion.button>
@@ -686,9 +690,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
                 </motion.button>
                 <motion.button
                   onClick={handleFirstSituationComplete}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-900 text-white hover:bg-gray-800"
+                  whileHover={selectedSituations.length > 0 ? { scale: 1.02 } : {}}
+                  whileTap={selectedSituations.length > 0 ? { scale: 0.98 } : {}}
+                  disabled={selectedSituations.length === 0}
+                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                    ${selectedSituations.length > 0
+                      ? 'bg-gray-900 text-white hover:bg-gray-800'
+                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
                 >
                   다음
                 </motion.button>
