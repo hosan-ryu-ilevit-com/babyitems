@@ -462,7 +462,7 @@ ${productsText}
   - 한 질문당 0~2개만 표시
 - **⭐⭐ 개인화 추천 옵션 표시 (isRecommend):**
   - 사용자의 개인 상황(아기 월령, 성별, 온보딩 상황 등)을 고려하여 가장 적합한 옵션에 \`isRecommend: true\` 표시
-  - 한 질문당 1~2개 표시 (웬만하면 1개는 표시)
+  - 한 질문당 0~1개 표시
   - 예: 신생아 → 저자극/무향 옵션에 isRecommend
   - 예: 온보딩 "소음 불만" → 초저소음 옵션에 isRecommend
   - isPopular와 isRecommend는 별개 (둘 다 true 가능)

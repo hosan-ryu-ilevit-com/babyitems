@@ -1,26 +1,27 @@
 # 유아세제 전문가 지식
 
-> 마지막 업데이트: 2026-01-26T08:15:29.228Z
-> 분석 상품: 20개 | 분석 리뷰: 24,324개
+> 마지막 업데이트: 2026-02-09T04:44:28.238Z
+> 분석 상품: 20개 | 분석 리뷰: 26,899개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 친환경 및 저자극성 제품 선호
-- 효소 기술 발전 및 혁신적인 제형 도입
-- 편의성을 위한 농축 및 사전 계량 세제 수요 증가
-- 온라인 소매 채널 및 구독 서비스 인기
+- 친환경 및 천연 성분 선호
+- 저자극성 및 피부 안전성 강조
+- 온라인 구매 및 구독 서비스 이용 증가
 
 ### 구매자 만족 포인트
-- ✓ 친환경 성분
-- ✓ 에코서트 인증 원료
-- ✓ 전 성분 공개
-- ✓ 우수한 세척 성능
-- ✓ 안전 기준 적합
+- ✓ 우수한 세척력
+- ✓ 순한 성분
+- ✓ 좋은 향
+- ✓ 뛰어난 가성비
+- ✓ 피부 자극 없음
 
 ### 주의해야 할 단점
-- ⚠ 용기 내구성 우려 (일부 제품)
-- ⚠ 제품 간 세척 성능 차이
+- ⚠ 높은 가격
+- ⚠ 거품 과다
+- ⚠ 향 불만족
+- ⚠ 세척력 부족
 
 ### 가격대 인사이트
 
@@ -31,95 +32,45 @@
 
 ### 1. 프로쉬 알로에베라 고농축 세탁세제 3L
 - **브랜드**: 프로쉬
-- **가격**: 14,380원
-- **평점**: ⭐4.8 (1,974개 리뷰)
+- **가격**: 14,360원
+- **평점**: ⭐4.8 (1,982개 리뷰)
 - **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 고농축 / 피부저자극 / 유아용 / 성분: 무색소, 무방부제 세탁세제 / 성분: 무색소, 무방부제
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=14884376)
 
-### 2. 베비언스 핑크퐁 베이비 세탁세제 리필 2.2L
-- **브랜드**: 베비언스
-- **가격**: 18,900원
-- **평점**: ⭐4.8 (2,162개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제 세탁세제 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제
+### 2. 프로쉬 알로에베라 고농축 세탁세제 3L
+- **브랜드**: 프로쉬
+- **가격**: 14,050원
+- **평점**: ⭐4.7 (2,243개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 고농축 / 피부저자극 / 유아용 / 성분: 무색소, 무방부제 세탁세제 / 성분: 무색소, 무방부제
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=5874306)
+- [상세보기](https://prod.danawa.com/info/?pcode=14884409)
 
 ### 3. 퍼실 센서티브 젤 1.35L
 - **브랜드**: 퍼실
-- **가격**: 17,630원
-- **평점**: ⭐4.5 (1,918개 리뷰)
+- **가격**: 30,670원
+- **평점**: ⭐4.7 (3,273개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 알러지케어 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제 / ECARF인증 세탁세제 / ECARF인증
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=3753444)
+
+### 4. 퍼실 센서티브 젤 1.35L
+- **브랜드**: 퍼실
+- **가격**: 17,860원
+- **평점**: ⭐4.5 (1,921개 리뷰)
 - **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 알러지케어 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제 / ECARF인증 세탁세제 / ECARF인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=3753440)
 
-### 4. B&B 섬유세제 리필 1.5L
-- **브랜드**: 
-- **가격**: 20,600원
-- **평점**: ⭐4.3 (1,147개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무파라벤, 무인산염, 무방부제 세탁세제 / MIT, 무파라벤, 무인산염, 무방부제
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=7436581)
-
-### 5. 프로쉬 베이비 세탁세제 1.5L
-- **브랜드**: 프로쉬
-- **가격**: 16,020원
-- **평점**: ⭐4.7 (11개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 성분: 무미세플라스틱, 무색소 세탁세제 / 성분: 무미세플라스틱, 무색소
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29807696)
-
-### 6. 퍼실 센서티브 젤 1.35L
-- **브랜드**: 퍼실
-- **가격**: 17,830원
-- **평점**: ⭐4.5 (470개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 알러지케어 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제 / ECARF인증 세탁세제 / ECARF인증
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=3753437)
-
-### 7. 네이쳐러브메레 유아 오리지널 세제 1.3L
-- **브랜드**: 네이쳐러브메레
-- **가격**: 10,570원
-- **평점**: ⭐4.6 (373개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무인산염 세탁세제 / 성분: 무형광증백제, 무인산염
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13727066)
-
-### 8. 프로쉬 알로에베라 고농축 세탁세제 1.5L
-- **브랜드**: 프로쉬
-- **가격**: 12,500원
-- **평점**: ⭐4.9 (1,293개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 고농축 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무미세플라스틱, 무인산염 세탁세제 / MIT, 무미세플라스틱, 무인산염
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=5970587)
-
-### 9. 프로쉬 베이비 세탁세제 1.5L
-- **브랜드**: 프로쉬
-- **가격**: 16,020원
-- **평점**: ⭐4.9 (308개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 성분: 무미세플라스틱, 무색소 세탁세제 / 성분: 무미세플라스틱, 무색소
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13330208)
-
-### 10. 아토엔오투 1종 젖병&주방세제 무향 480g
+### 5. 아토엔오투 1종 젖병&주방세제 무향 480g
 - **브랜드**: 아토엔오투
 - **가격**: 7,900원
 - **평점**: ⭐4.7 (101개 리뷰)
@@ -129,9 +80,39 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13191125)
 
-### 11. B&B 섬유세제 리필 1.5L
+### 6. 프로쉬 베이비 세탁세제 1.5L
+- **브랜드**: 프로쉬
+- **가격**: 15,130원
+- **평점**: ⭐4.9 (308개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 성분: 무미세플라스틱, 무색소 세탁세제 / 성분: 무미세플라스틱, 무색소
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=13330208)
+
+### 7. 프로쉬 알로에베라 고농축 세탁세제 1.5L
+- **브랜드**: 프로쉬
+- **가격**: 13,820원
+- **평점**: ⭐4.9 (1,293개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 고농축 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무미세플라스틱, 무인산염 세탁세제 / MIT, 무미세플라스틱, 무인산염
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=5970587)
+
+### 8. 퍼실 센서티브 젤 1.35L
+- **브랜드**: 퍼실
+- **가격**: 17,830원
+- **평점**: ⭐4.5 (470개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 알러지케어 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제 / ECARF인증 세탁세제 / ECARF인증
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=3753437)
+
+### 9. B&B 섬유세제 리필 1.5L
 - **브랜드**: 
-- **가격**: 7,110원
+- **가격**: 7,210원
 - **평점**: ⭐4.7 (582개 리뷰)
 - **핵심 스펙**: 세탁세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무파라벤, 무인산염, 무방부제 세탁세제 / MIT, 무파라벤, 무인산염, 무방부제
 - **장점 요약**: 분석 중
@@ -139,9 +120,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=7436458)
 
-### 12. 이엔에스 아이브제 레드루트 세탁세제 무향 1L
+### 10. 이엔에스 아이브제 레드루트 세탁세제 무향 1L
 - **브랜드**: 이엔에스
-- **가격**: 19,300원
+- **가격**: 17,940원
 - **평점**: ⭐4.8 (12개 리뷰)
 - **핵심 스펙**: 세탁세제 / 울세제 / 액체형 / 본품 / 일반,드럼겸용 / 고농축 / 중성 / 피부저자극 / 유아용 / 탈취 / 성분: 무형광증백제, 무CMIT / MIT, 무미세플라스틱 / BDIH인증 세탁세제 / BDIH인증
 - **장점 요약**: 분석 중
@@ -149,17 +130,47 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=16873256)
 
-### 13. 슈가버블 구연산 레몬 주방세제 2.5L
-- **브랜드**: 슈가버블
-- **가격**: 10,920원
-- **평점**: ⭐4.5 (21개 리뷰)
-- **핵심 스펙**: 주방세제 / 액체형 / 본품 / 과일·채소용 / 피부저자극 / 유아용 / 친환경 / 에코서트인증 주방세제 / 에코서트인증
+### 11. 토루토루 아기액상세제 2.6L
+- **브랜드**: 토루토루
+- **가격**: 19,210원
+- **평점**: ⭐4.7 (6,497개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무파라벤, 무인산염, 무방부제 세탁세제 / MIT, 무파라벤, 무인산염, 무방부제
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75534032)
+- [상세보기](https://prod.danawa.com/info/?pcode=2553205)
 
-### 14. 네이쳐러브메레 유아 세탁세제 오리지널 리필 1.3L
+### 12. 마이비 삶기 세탁세제 용기 500g
+- **브랜드**: 마이비
+- **가격**: 19,950원
+- **평점**: ⭐4.6 (18개 리뷰)
+- **핵심 스펙**: 세탁세제 / 표백제 / 가루형 / 본품 / 유아용 세탁세제 / 유아용
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=101172881)
+
+### 13. 베비언스 핑크퐁 베이비 세탁세제 리필 2.2L
+- **브랜드**: 베비언스
+- **가격**: 18,260원
+- **평점**: ⭐4.8 (2,164개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제 세탁세제 / 성분: 무형광증백제, 무파라벤, 무색소, 무인산염, 무표백제
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=5874306)
+
+### 14. 네이쳐러브메레 유아 오리지널 세제 1.3L
+- **브랜드**: 네이쳐러브메레
+- **가격**: 10,570원
+- **평점**: ⭐4.6 (373개 리뷰)
+- **핵심 스펙**: 세탁세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무인산염 세탁세제 / 성분: 무형광증백제, 무인산염
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=13727066)
+
+### 15. 네이쳐러브메레 유아 세탁세제 오리지널 리필 1.3L
 - **브랜드**: 네이쳐러브메레
 - **가격**: 14,850원
 - **평점**: ⭐4.6 (4,138개 리뷰)
@@ -169,25 +180,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13727084)
 
-### 15. 퍼실 센서티브 젤 1.35L 3개 + 버넬 센서티브 3개
-- **브랜드**: 퍼실
-- **가격**: 18,950원
-- **평점**: ⭐5 (2개 리뷰)
-- **핵심 스펙**: 세탁세제 / 섬유유연제 / 액체형 / 세트 / 유아용 / ECARF인증 세탁세제 / ECARF인증
+### 16. 마이비 피부에 순한 유아세제 리필 2.1L
+- **브랜드**: 마이비
+- **가격**: 7,740원
+- **평점**: ⭐4.5 (354개 리뷰)
+- **핵심 스펙**: 세탁세제 / 울세제 / 액체형 / 리필 / 일반,드럼겸용 / 피부저자극 / 유아용 / 탈취 세탁세제 / 탈취
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=30915680)
-
-### 16. 슈가버블 구연산 레몬 주방세제 2.5L
-- **브랜드**: 슈가버블
-- **가격**: 4,790원
-- **평점**: ⭐4.7 (2,149개 리뷰)
-- **핵심 스펙**: 주방세제 / 액체형 / 본품 / 과일·채소용 / 피부저자극 / 유아용 / 친환경 / 에코서트인증 주방세제 / 에코서트인증
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75471617)
+- [상세보기](https://prod.danawa.com/info/?pcode=96845000)
 
 ### 17. 프로쉬 알로에베라 고농축 세탁세제 1.5L
 - **브랜드**: 프로쉬
@@ -199,35 +200,35 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20769908)
 
-### 18. 토루토루 아기액상세제 2.6L
-- **브랜드**: 토루토루
-- **가격**: 18,780원
-- **평점**: ⭐4.7 (6,494개 리뷰)
-- **핵심 스펙**: 세탁세제 / 액체형 / 본품 / 일반,드럼겸용 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무파라벤, 무인산염, 무방부제 세탁세제 / MIT, 무파라벤, 무인산염, 무방부제
+### 18. 퍼실 센서티브 젤 1.35L 3개 + 버넬 센서티브 3개
+- **브랜드**: 퍼실
+- **가격**: 18,950원
+- **평점**: ⭐5 (2개 리뷰)
+- **핵심 스펙**: 세탁세제 / 섬유유연제 / 액체형 / 세트 / 유아용 / ECARF인증 세탁세제 / ECARF인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=2553205)
+- [상세보기](https://prod.danawa.com/info/?pcode=30915680)
 
-### 19. 넬리 베이비 세탁세제 틴케이스 1kg
-- **브랜드**: 넬리
-- **가격**: 17,770원
-- **평점**: ⭐4.8 (110개 리뷰)
-- **핵심 스펙**: 세탁세제 / 가루형 / 본품 / 일반,드럼겸용 / 피부저자극 / 유아용 / 항균 / 성분: 무형광증백제, 무CMIT / MIT, 무색소, 무인산염 세탁세제 / MIT, 무색소, 무인산염
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=5364939)
-
-### 20. 슈가버블 구연산 레몬 주방세제 리필 2L
+### 19. 슈가버블 구연산 레몬 주방세제 2.5L
 - **브랜드**: 슈가버블
-- **가격**: 4,710원
-- **평점**: ⭐0 (0개 리뷰)
-- **핵심 스펙**: 주방세제 / 액체형 / 리필 / 과일·채소용 / 피부저자극 / 유아용 / 친환경 / 에코서트인증 주방세제 / 에코서트인증
+- **가격**: 10,800원
+- **평점**: ⭐4.5 (24개 리뷰)
+- **핵심 스펙**: 주방세제 / 액체형 / 본품 / 과일·채소용 / 피부저자극 / 유아용 / 친환경 / 에코서트인증 주방세제 / 에코서트인증
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=75534020)
+- [상세보기](https://prod.danawa.com/info/?pcode=75534032)
+
+### 20. 아토엔오투 1종 젖병&주방세제 레몬향 480g
+- **브랜드**: 아토엔오투
+- **가격**: 10,090원
+- **평점**: ⭐4.7 (85개 리뷰)
+- **핵심 스펙**: 젖병세정제 / 액체형 / 본품 / 과일·채소용 / 고농축 / 피부저자극 / 유아용 젖병세정제 / 유아용
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=101165126)
 
 ---
 
@@ -242,9 +243,8 @@
 ---
 
 ## 📊 데이터 출처
-- [datainsightsmarket.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4iW0nEnFqr8llBnqaUJi-FBrzhFSpIlOXDWshPqJaMEuqJ9wGZLUlNCKbawXaFm-gMj7xC31Vr0ZbnlrtknL-CNl0-bHtrHEttTQLxi233BC-uptPiQXtsTn1HMdpxe_q3Qk6JkVgBruCHP7ZmFBctBTegY8ygHIvXBptRNmLk48R1YOh_A0ylqw=)
-- [cbmeturkiye.com.tr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHzU_SWSev1GEHRzRkMLVfQlskHIjQOJf1OGrO76WbgVtlrfNi-NvDeaMEboE14OgeAXRt8IHWQ-MQfmij9MXqicr-wcPG8bNVLo6mI0AU_rwnu4terNCr4-NnVOVRdMX7LIDLPmq0jOjMfd6v9G81Nzftc0O5tlCPnSFFbeD-bhHRMsirhz_NRm4heBIlRSd_BEzM0V_Gfy828k3LjxHWnpC_ZxtaOjG5skTGvIsQe3fJMNEP6zwtLdoXaL992ls=)
-- [ufinechem.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0G1NtB8vJLGnO72_6IrpEifLcgbSWJgUwh6EYlv5IqxeIULC9f07iDIgVwrFkoPX6Ov-jekzYWI9BiE7bd-ZtkOnkuVkc_ijZI6hZJEsqYv9FfaSg4Zk7phYTTYrWtCzPRwROVasPmomaM37jm2q_qd9-R3kQ-V2VuF5DIg6JSI5d7ynNieZ3HYZazEsI-dq8aUJCAaTOHpbjkdnJ57YgG1yammCPBi0=)
-- [kca.go.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzXLz_P5hIUdLWFyIEfn3ddYxXCN8VgVU6VxkS3sXIgsPDEK1Rhlpo4Zc2k366bRwXMHQh-u4KtOadRF34XtDwCiGh-_74vJjTrvEbwoNTVIM5JhKfYBEqyCvbjPpI-Dx6sZrGP9kVIk1AR38b7HAgVHCIOxGtKocqFzrmgWBryMkLJHqmTAz5DGNwtg==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEf82MmxicjK15feUdDTyoYddy8wMTXWkMA3eXbfqHhydVnGcWU6iHLCmBCQ6G5O5Z62ewdOvJkQLaXOzZ5lh_ued5A_-HQIe_cml7UQnZIMxkgtdAoozm9rre4O-qIaL_MbCcEYQ==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfplbTqB2KGtEzUmMRYb3SA2Gu5TB-oWuPkVAovkKwKQ9XSxLlbRpa2hDyJi1W_0g-mrnlJNpA4cgm9_Rv2rsM9Ak2Z2Jsmsau50owlh-_LLCBSlQyIc1DeyyERJMwttbN7z_UXhA=)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBtrr7-I0AEdePu0H3oz5fgv1wbcxbBCi07L7VNpMrnGrvbKxraRCyRi-jyt2QU8weAf1uA62F3p4mfulu7vHAAJnmAqucgQMg3cYrzO1ie6MpsHR8HhzoIMPnpdG9GN0UF1UVgkYWzzB_S81OweiAaeiXAWaa67_cOCWCIbKbXebdxrJ9ECx2UoKV)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGceUIdDMRNuol0joYFSpqzhJ-pYjYzuhDpnCXE1fMKqp-Ap0hwDQSKVgQjyqIw1mesQJqlAFpaHrPNVCwqNnMvgrbF9ak_JtNcB2yCPMc39Li22yFzJ3sLfUiB1dIhsPnf8xICkTbYQww3cRmkU-3m6_cn9RaXdBI1oZWgeW1Yw2Em6ZlH7S6bZcX8-U0mYCGBw-WvByoJi4gulOGrtOJ3KXk=)
+- [datainsightsmarket.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCYDL5-pjiorPjWcxROAfcvD2zOq0WBvr6E7UVd_IgzdwzxUM8NTEAe1fj5HVXS5UpPTq-BczQ-S8ZGaJRbrP4Ec7U-L36-ZL5fNw66JQLBe2i0fMyLg8U6bL_-YlreIa6E4gaga2hzWcRw07kKdMVIVSpelIKvzPJMqDCrkJonb0adcsPD9USixg=)
+- [researchandmarkets.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHdtbKlP_juSE8RkVTe2bX41YLnjX_U_FrBZx9eted2piEIQ9wzKzm6JbLQSTq8iuhMbxftD5a9ddkMB2MWa25qhCNuTMnsy9M5fLjeItqrlg_qxe9PmGY2SXicCSIEritnqWLICvfnbK2IexLnj36gKfsmfdPpV9RdxJdcXzFm0NCHYzvXabeVFKiqsGg31Hnxg==)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTUrerqdqjJpgN4Sna3bKLyF-p-Fwk2EHC9Y322Ko5r7Gk0dtXMruNv4owkOrD_FaBrFlP4Rhana7yntYQUpMk1UYatODLO_yD0U7q_AB84aGNFXwufGe_4dAqv5_tABVpNxrTxwvrleVQ1rf0btL4lxwuKohQOQ5iwNIRf3tAg7-44cOn-tZEaIn2)

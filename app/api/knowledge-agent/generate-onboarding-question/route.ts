@@ -155,7 +155,7 @@ ${onboardingText}
    - **옵션 라벨에 isPopular/isRecommend 같은 메타 문구 절대 포함 금지**
    - "상관없어요" 옵션은 시스템이 자동 추가하므로 생성 금지
    - **isPopular**: 시장 데이터 기반 인기 옵션 (한 질문당 0~2개)
-   - **isRecommend**: 사용자 상황 기반 추천 옵션 (한 질문당 1~2개, 웬만하면 1개는 표시)
+   - **isRecommend**: 사용자 상황 기반 추천 옵션 (한 질문당 0~1개)
      * 아기 월령, 성별, 온보딩 상황을 고려
      * 예: 신생아 → 저자극/무향 옵션에 isRecommend: true
      * 예: "소음 불만" → 초저소음 옵션에 isRecommend: true

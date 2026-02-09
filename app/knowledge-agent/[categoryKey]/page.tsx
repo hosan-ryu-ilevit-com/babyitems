@@ -35,6 +35,7 @@ import { FilterTagBar } from '@/components/knowledge-agent/FilterTagBar';
 import { OnboardingPhase } from '@/components/knowledge-agent/OnboardingPhase';
 import { BabyInfoPhase } from '@/components/knowledge-agent/BabyInfoPhase';
 import { ConditionReportCard, ConditionReportLoading } from '@/components/knowledge-agent/ConditionReportCard';
+import { BasicInfoSummaryCard } from '@/components/knowledge-agent/BasicInfoSummaryCard';
 import { InlineFollowUpWrapper, type InlineFollowUpHandle } from '@/components/knowledge-agent/InlineFollowUp';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 // HighlightedText, HighlightedMarkdownText 제거됨 - tagScores 기반 뱃지 UI로 대체
@@ -1062,6 +1063,7 @@ export default function KnowledgeAgentPage() {
   const [babyInfo, setBabyInfo] = useState<BabyInfo | null>(null);
   const [conditionReport, setConditionReport] = useState<ConditionReport | null>(null);
   const [isConditionReportLoading, setIsConditionReportLoading] = useState(false);
+  const [isAnalysisSummaryShown, setIsAnalysisSummaryShown] = useState(false);
   const [selectedFilterTagIds, setSelectedFilterTagIds] = useState<Set<string>>(new Set());
 
   // 인라인 꼬리질문 상태
@@ -1340,6 +1342,7 @@ export default function KnowledgeAgentPage() {
 
   // 분석 요약 카드로 접힐 때 호출 - 대기 중인 첫 질문 표시
   const handleAnalysisSummaryShow = () => {
+    setIsAnalysisSummaryShown(true);
     const pending = pendingFirstQuestionRef.current;
     if (!pending) return;
 
@@ -2603,6 +2606,78 @@ export default function KnowledgeAgentPage() {
     }
 
     // 메시지 삭제 후 약간의 지연을 주어 스크롤이 자연스럽게 위로 올라가도록 함
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 100);
+  };
+
+  // 중간 보고서(condition_report)에서 마지막 질문으로 되돌아가기
+  const handleBackFromConditionReport = () => {
+    import('@/lib/logging/clientLogger').then(({ logButtonClick }) => {
+      logButtonClick('knowledge-agent-back-from-report', '이전 (중간보고서)');
+    });
+
+    // 1. 마지막 질문 메시지 찾기
+    const lastQuestionMsg = [...messages].reverse().find(m => m.role === 'assistant' && m.options);
+    if (!lastQuestionMsg) return;
+
+    const lastQuestionId = lastQuestionMsg.id?.startsWith('q_')
+      ? lastQuestionMsg.id.slice(2)
+      : lastQuestionMsg.id;
+
+    // 2. phase를 questions로 복원
+    setPhase('questions');
+
+    // 3. v2Flow / conditionReport 상태 초기화
+    setV2FlowStarted(false);
+    setConditionReport(null);
+
+    // 4. 마지막 질문의 사용자 답변 메시지 제거 + 질문 재활성화
+    setMessages(prev => {
+      const newMessages = [...prev];
+      const lastQIdx = [...newMessages].reverse().findIndex(m => m.role === 'assistant' && m.options);
+      if (lastQIdx === -1) return prev;
+
+      const actualIdx = newMessages.length - 1 - lastQIdx;
+
+      // 마지막 질문 뒤의 사용자 답변 메시지들 제거
+      const trimmed = newMessages.slice(0, actualIdx + 1);
+
+      // 마지막 질문을 활성 상태로 되돌림
+      trimmed[actualIdx] = {
+        ...trimmed[actualIdx],
+        isFinalized: false,
+        selectedOptions: [],
+      };
+
+      return trimmed;
+    });
+
+    // 5. questionTodos에서 마지막 질문을 미완료로 롤백
+    setQuestionTodos(prev => prev.map(q => {
+      if (q.id === lastQuestionId) {
+        return { ...q, completed: false, answer: undefined };
+      }
+      return q;
+    }));
+
+    // 6. collectedInfo에서 마지막 질문의 답변 제거
+    setCollectedInfo(prev => {
+      const updated = { ...prev };
+      const lastQuestion = questionTodos.find(q => q.id === lastQuestionId);
+      if (lastQuestion) {
+        delete updated[lastQuestion.question];
+      }
+      return updated;
+    });
+
+    // 7. currentQuestion을 마지막 질문으로 설정
+    const lastQuestion = questionTodos.find(q => q.id === lastQuestionId);
+    if (lastQuestion) {
+      setCurrentQuestion({ ...lastQuestion, completed: false, answer: undefined });
+    }
+
+    // 8. 스크롤 조정
     setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }, 100);
@@ -4723,6 +4798,10 @@ export default function KnowledgeAgentPage() {
                   setIsChatInputHighlighted(true);
                   setTimeout(() => setIsChatInputHighlighted(false), 1500);
                 }}
+                babyInfo={babyInfo}
+                onboardingData={onboardingData}
+                parentCategory={parentCategory}
+                isAnalysisSummaryShown={isAnalysisSummaryShown}
               />
               );
 
@@ -4742,8 +4821,8 @@ export default function KnowledgeAgentPage() {
           });
             })()}
 
-            {/* 조건 보고서 (질문 완료 후 메시지 아래에 표시, 이후 phase에서도 비활성 유지) */}
-            {(['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input', 'result', 'free_chat'].includes(phase)) && (
+            {/* 조건 보고서 (질문 완료 후 메시지 아래에 표시, 이후 phase에서도 비활성 유지, result에서는 숨김) */}
+            {(['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'].includes(phase)) && (
               <motion.div
                 ref={conditionReportRef}
                 initial={{ opacity: 0, y: 20 }}
@@ -4774,8 +4853,8 @@ export default function KnowledgeAgentPage() {
               </motion.div>
             )}
 
-            {/* 하드컷 시각화 (조건 보고서 아래에 위치) */}
-            {(() => {
+            {/* 하드컷 시각화 (조건 보고서 아래에 위치, result에서는 숨김) */}
+            {(['hardcut_visual', 'follow_up_questions', 'balance', 'final_input'].includes(phase)) && (() => {
               const hardcutMsg = messages.find(m => m.hardcutData);
               if (!hardcutMsg?.hardcutData) return null;
               return (
@@ -5019,7 +5098,14 @@ export default function KnowledgeAgentPage() {
           {phase === 'condition_report' && !isConditionReportLoading && (
             <div className="relative">
               <div className="flex gap-3 justify-between rounded-[12px] p-2">
-                <div />
+                <motion.button
+                  onClick={handleBackFromConditionReport}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                >
+                  이전
+                </motion.button>
                 <motion.button
                   onClick={proceedToHardcutVisual}
                   whileHover={{ scale: 1.02 }}
@@ -5689,6 +5775,11 @@ function MessageBubble({
   // 🆕 채팅 입력창 하이라이트용
   chatInputRef,
   onChatInputHighlight,
+  // 기본 정보 반영 완료 카드용
+  babyInfo,
+  onboardingData,
+  parentCategory,
+  isAnalysisSummaryShown,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -5730,6 +5821,11 @@ function MessageBubble({
   // 🆕 채팅 입력창 하이라이트용
   chatInputRef?: React.RefObject<HTMLTextAreaElement | null>;
   onChatInputHighlight?: () => void;
+  // 기본 정보 반영 완료 카드용
+  babyInfo?: BabyInfo | null;
+  onboardingData?: OnboardingData | null;
+  parentCategory?: 'baby' | 'living';
+  isAnalysisSummaryShown?: boolean;
 }) {
   const isUser = message.role === 'user';
 
@@ -5866,6 +5962,14 @@ function MessageBubble({
             summary={message.analysisData.summary}
             onSummaryShow={onAnalysisSummaryShow}
             webSearchProgress={webSearchProgress}
+          />
+        )}
+
+        {!isUser && message.analysisData && isAnalysisSummaryShown && (
+          <BasicInfoSummaryCard
+            babyInfo={babyInfo}
+            onboardingData={onboardingData}
+            parentCategory={parentCategory}
           />
         )}
 

@@ -103,7 +103,7 @@ export function ConditionReportCard({
                     <div className="grid grid-cols-[44px_1fr] gap-3 text-[14px] font-medium text-gray-700 leading-relaxed">
                     
                       <div className="text-gray-500">기준</div>
-                      <div className="text-gray-900 font-bold">{renderHighlightedText(spec.value, 'code')}</div>
+                      <div className="text-gray-900 font-bold">{spec.value}</div>
                       <div className="text-gray-500">근거</div>
                       <div>{renderHighlightedText(spec.reason, 'code')}</div>
                     
