@@ -225,11 +225,21 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
 
             {/* 하단 고정 바 */}
             <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[60]">
-              <div className="relative flex flex-col gap-2">
+              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
+                {onBack && (
+                  <motion.button
+                    onClick={onBack}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  >
+                    이전
+                  </motion.button>
+                )}
                 <motion.button
                   onClick={handleUseSavedInfo}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 rounded-[12px] bg-stone-900 text-white text-[16px] font-semibold hover:bg-stone-800 transition-all"
+                  className="flex-1 py-4 rounded-[12px] bg-stone-900 text-white text-[16px] font-semibold hover:bg-stone-800 transition-all"
                 >
                   네, 이 정보로 시작하기
                 </motion.button>
