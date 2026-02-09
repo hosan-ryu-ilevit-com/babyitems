@@ -10,7 +10,9 @@ interface OnboardingPhaseProps {
   categoryName: string;
   parentCategory: 'baby' | 'living';
   onComplete: (data: OnboardingData) => void;
-  onBack?: () => void; // 이전 버튼 (baby: 아기 정보로, living: 카테고리 선택으로)
+  onBack?: () => void; // 이전 버튼 (카테고리 선택으로)
+  onNeedBabyInfo?: (situation: 'first' | 'replace') => void; // baby 카테고리: 아기 정보 등록 요청
+  initialSituation?: 'first' | 'replace' | null; // baby_info 완료 후 복귀 시 이어서 진행할 상황
   babyInfo?: BabyInfo | null; // 아기 정보 (상황 옵션 생성에 사용)
   categoryKey?: string;
 }
@@ -26,9 +28,17 @@ const DEFAULT_REPLACE_REASONS: Record<string, string[]> = {
   ],
 };
 
-export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack, babyInfo, categoryKey }: OnboardingPhaseProps) {
-  const [step, setStep] = useState<'situation' | 'replace_reasons' | 'first_situations'>('situation');
-  const [purchaseSituation, setPurchaseSituation] = useState<'first' | 'replace' | 'gift' | null>(null);
+export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack, onNeedBabyInfo, initialSituation, babyInfo, categoryKey }: OnboardingPhaseProps) {
+  const [step, setStep] = useState<'situation' | 'replace_reasons' | 'first_situations'>(() => {
+    // baby_info에서 복귀한 경우 바로 후속 단계로
+    if (initialSituation) {
+      return initialSituation === 'replace' ? 'replace_reasons' : 'first_situations';
+    }
+    return 'situation';
+  });
+  const [purchaseSituation, setPurchaseSituation] = useState<'first' | 'replace' | 'gift' | null>(
+    initialSituation ?? null
+  );
   const [replaceReasons, setReplaceReasons] = useState<string[]>([]);
   const [replaceOther, setReplaceOther] = useState('');
   const [showOtherInput, setShowOtherInput] = useState(false);
@@ -152,6 +162,12 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
     // 구매 상황 선택 로깅
     if (categoryKey) {
       logKAOnboardingSituationSelected(categoryKey, categoryName, situation);
+    }
+
+    // baby 카테고리에서 첫구매/교체 선택 시 아기 정보 등록 먼저
+    if (onNeedBabyInfo && (situation === 'first' || situation === 'replace')) {
+      onNeedBabyInfo(situation);
+      return;
     }
 
     if (situation === 'replace') {

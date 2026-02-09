@@ -196,12 +196,10 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
               className="w-full max-w-sm relative z-10"
             >
               <motion.div variants={itemVariants} className="text-center mb-8">
-                <h2 className="text-xl font-bold text-gray-800 mb-3 tracking-tight">
-                  반가워요! 👋
-                </h2>
+              
                 <p className="text-gray-500 text-m leading-6 font-semibold">
                   <span className="font-bold text-gray-700">{categoryName}</span> 추천을 위해<br/>
-                  기존 정보를 사용할까요?
+                  기존 아이 정보를 사용할까요?
                 </p>
               </motion.div>
 
@@ -254,8 +252,8 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
                 <h2 className="text-xl font-bold text-gray-800 mb-1 tracking-tight">
                   아이 정보를 등록해주세요
                 </h2>
-                <p className="text-gray-500 text-s">
-                  상황에 맞는 선택지를 골라주세요
+                <p className="text-gray-400 text-s font-semibold">
+                  한 번만 등록하면 자동으로 저장돼요
                 </p>
               </motion.div>
 

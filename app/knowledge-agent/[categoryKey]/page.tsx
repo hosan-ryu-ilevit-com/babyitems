@@ -98,7 +98,7 @@ import type { Phase, OnboardingData, BabyInfo, ConditionReport } from '@/lib/kno
 // ============================================================================
 
 const STEPS_BABY = [
-  { id: 1, label: '기본 상황', phases: ['baby_info', 'onboarding'] }, // baby_info가 먼저
+  { id: 1, label: '기본 상황', phases: ['onboarding', 'baby_info'] }, // onboarding 먼저, baby_info는 조건부
   { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
@@ -1069,10 +1069,8 @@ export default function KnowledgeAgentPage() {
   // Parent category (baby/living)
   const parentCategory = getParentCategoryTab(categoryName);
 
-  // State - baby 카테고리는 baby_info부터, living은 onboarding부터 시작
-  const [phase, setPhase] = useState<Phase>(() =>
-    getParentCategoryTab(categoryName) === 'baby' ? 'baby_info' : 'onboarding'
-  );
+  // State - 모든 카테고리 onboarding부터 시작 (baby_info는 상황 선택 후 조건부 표시)
+  const [phase, setPhase] = useState<Phase>('onboarding');
   const [resultProducts, setResultProducts] = useState<any[]>([]);
   const [filterTags, setFilterTags] = useState<FilterTag[]>([]);
   const [allFilterTags, setAllFilterTags] = useState<FilterTag[]>([]);  // 🆕 필터링 전 전체 태그 (PDP 조건 매핑용)
@@ -1080,6 +1078,7 @@ export default function KnowledgeAgentPage() {
   // 온보딩 관련 상태
   const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
   const [babyInfo, setBabyInfo] = useState<BabyInfo | null>(null);
+  const [pendingSituation, setPendingSituation] = useState<'first' | 'replace' | null>(null);
   const [conditionReport, setConditionReport] = useState<ConditionReport | null>(null);
   const [isConditionReportLoading, setIsConditionReportLoading] = useState(false);
   const [isAnalysisSummaryShown, setIsAnalysisSummaryShown] = useState(false);
@@ -1243,15 +1242,22 @@ export default function KnowledgeAgentPage() {
     setShowAnalysisBottomSheet(true);
   }, []);
 
-  // 아기 정보 완료 핸들러 (baby 카테고리: baby_info → onboarding)
+  // 아기 정보 필요 핸들러 (onboarding에서 첫구매/교체 선택 시 호출)
+  const handleNeedBabyInfo = useCallback((situation: 'first' | 'replace') => {
+    console.log('[KA Flow] 아기 정보 필요 - 상황:', situation);
+    setPendingSituation(situation);
+    setPhase('baby_info');
+  }, []);
+
+  // 아기 정보 완료 핸들러 (baby_info → onboarding 후속 단계로 복귀)
   const handleBabyInfoComplete = useCallback((info: BabyInfo | null) => {
     console.log('[KA Flow] 아기 정보 완료:', info);
     setBabyInfo(info);
 
-    // onboarding phase로 전환 (아직 initializeAgent 호출 안 함)
-    console.log('[KA Flow] onboarding phase로 전환');
+    // onboarding phase로 전환 (pendingSituation을 통해 후속 단계로 이동)
+    console.log('[KA Flow] onboarding phase로 전환, pendingSituation:', pendingSituation);
     setPhase('onboarding');
-  }, []);
+  }, [pendingSituation]);
 
   // ============================================================================
   // 분석 시작 바텀시트 핸들러
@@ -1841,10 +1847,9 @@ export default function KnowledgeAgentPage() {
       return;
     }
 
-    // baby 카테고리는 baby_info부터, living은 onboarding부터 시작
-    const initialPhase = getParentCategoryTab(categoryName) === 'baby' ? 'baby_info' : 'onboarding';
-    console.log(`[KA Flow] ${initialPhase} phase 시작 (parentCategory: ${getParentCategoryTab(categoryName)})`);
-    setPhase(initialPhase);
+    // 모든 카테고리 onboarding부터 시작 (baby_info는 상황 선택 후 조건부 표시)
+    console.log(`[KA Flow] onboarding phase 시작 (parentCategory: ${getParentCategoryTab(categoryName)})`);
+    setPhase('onboarding');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryKey]);
 
@@ -4673,14 +4678,15 @@ export default function KnowledgeAgentPage() {
               parentCategory={parentCategory}
               onComplete={handleOnboardingComplete}
               onBack={() => {
-                // baby 카테고리: 아기 정보로 돌아가기
-                // living 카테고리: 카테고리 선택으로 돌아가기
+                // 카테고리 선택으로 돌아가기
                 if (parentCategory === 'baby') {
-                  setPhase('baby_info');
+                  router.push('/knowledge-agent/baby');
                 } else {
                   router.push('/knowledge-agent/living');
                 }
               }}
+              onNeedBabyInfo={parentCategory === 'baby' ? handleNeedBabyInfo : undefined}
+              initialSituation={pendingSituation}
               babyInfo={babyInfo}
               categoryKey={categoryKey}
             />
@@ -4690,7 +4696,11 @@ export default function KnowledgeAgentPage() {
           {phase === 'baby_info' && (
             <BabyInfoPhase
               onComplete={handleBabyInfoComplete}
-              onBack={() => router.push('/knowledge-agent/baby')}
+              onBack={() => {
+                // 상황 질문으로 돌아가기
+                setPendingSituation(null);
+                setPhase('onboarding');
+              }}
               categoryName={categoryName}
               categoryKey={categoryKey}
             />
