@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
 import type { InlineFollowUpResponse } from '@/lib/knowledge-agent/types';
 
+
 /**
  * POST /api/knowledge-agent/generate-inline-followup
  *
@@ -144,12 +145,19 @@ async function generateInlineFollowUp(
     ? `\n## 이미 수집된 사용자 정보 (중복 질문 금지!)\n${userContextParts.map(p => `- ${p}`).join('\n')}\n`
     : '';
 
-  // 남은 맞춤질문 목록 (중복 방지용)
-  const remainingQuestionsSection = remainingQuestions && remainingQuestions.length > 0
-    ? `\n## ⛔ 이후 예정된 질문 목록 (이 주제들과 겹치는 꼬리질문 절대 금지!)
-아래 질문들은 이후 순서대로 사용자에게 보여질 예정입니다. **이 질문들이 다루는 주제/옵션과 의미적으로 겹치는 꼬리질문은 생성하지 마세요!**
-${remainingQuestions.map((q, i) => `${i + 1}. "${q.question}" (옵션: ${q.options.join(', ')})`).join('\n')}\n`
-    : '';
+  // 남은 질문에서 주제 키워드 추출 (중복 방지 강화용)
+  const avoidTopics = remainingQuestions && remainingQuestions.length > 0
+    ? remainingQuestions.map(q => {
+        // 질문 텍스트에서 핵심 주제어 추출
+        const keywords = [...q.options.slice(0, 3)];
+        return `"${q.question}" → 주제: ${keywords.join(', ')}`;
+      })
+    : [];
+
+  // 수집 정보에서 이미 다룬 주제 추출
+  const coveredTopics = Object.entries(collectedInfo)
+    .filter(([k]) => !k.startsWith('__'))
+    .map(([k, v]) => `"${k}" → ${v}`);
 
   // 일반 질문에 대한 AI 기반 꼬리질문 생성
   const prompt = `당신은 "${categoryName}" 구매 상담 전문가입니다.
@@ -157,11 +165,20 @@ ${remainingQuestions.map((q, i) => `${i + 1}. "${q.question}" (옵션: ${q.optio
 사용자가 다음 질문에 답변했습니다:
 - 질문: "${questionText}"
 - 답변: "${userAnswer}"
+${userContextSection}
+## 🚨 최우선 규칙: 주제 중복 절대 금지
+꼬리질문을 만들기 전에, 아래 목록을 반드시 확인하세요.
+아래 주제와 **같은 스펙/기능/속성을 묻거나, 옵션이 겹치는 질문은 절대 생성하지 마세요.**
+**표현이 달라도 수집하는 정보가 같으면 중복입니다.**
 
-지금까지 수집된 정보:
-${Object.entries(collectedInfo).map(([k, v]) => `- ${k}: ${v}`).join('\n') || '(없음)'}
-${userContextSection}${remainingQuestionsSection}
-이 답변을 바탕으로 더 나은 추천을 위해 꼬리질문이 필요한지 판단하세요.
+### ⛔ 이후 예정된 질문 (이 주제와 겹치면 중복!)
+${avoidTopics.length > 0 ? avoidTopics.map((t, i) => `${i + 1}. ${t}`).join('\n') : '(없음)'}
+
+### ⛔ 이미 수집된 정보 (이 주제를 다시 묻지 마세요!)
+${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join('\n') : '(없음)'}
+
+→ 꼬리질문은 위 주제들과 **완전히 다른 관점/측면**에서만 생성하세요.
+→ 사용자의 답변("${userAnswer}")에서 위 목록이 다루지 않는 **다른 세부사항**을 파고드세요.
 
 ## 꼬리질문이 필요한 경우
 1. deepdive: 사용자의 답변을 더 구체화해야 할 때 (예: "넓은 공간" → 몇 평인지)
@@ -171,11 +188,9 @@ ${userContextSection}${remainingQuestionsSection}
 ## 꼬리질문이 불필요한 경우 (생성하지 마세요!)
 - 답변이 충분히 명확할 때
 - 추가 정보가 추천에 큰 영향을 주지 않을 때
-- "상관없어요" 등 중립적 답변일 때
-- ⛔ **위 "이미 수집된 정보"에 포함된 내용을 다시 묻는 질문** (예: 이미 월령을 알면 월령 묻기 금지)
-- ⛔ **이미 불만사항으로 언급된 내용을 다시 묻는 질문** (예: "소음" 불만 → 소음 관련 추가 질문 불필요)
+- 위 목록과 겹치지 않는 유의미한 추가 질문이 도저히 없을 때
 
-## 옵션 생성 규칙 (중요!)
+## 옵션 생성 규칙
 - 옵션은 3~4개 생성
 - ⛔ "상관없어요", "잘 모르겠어요", "둘 다", "기타" 같은 회피성 옵션 금지 (시스템이 자동 추가함)
 - 옵션에는 친절한 소괄호 부가설명 추가 (예: "대용량 (5L 이상)")
@@ -186,13 +201,10 @@ ${userContextSection}${remainingQuestionsSection}
 - **isPopular**: 시장 데이터 기반 인기 옵션 (한 질문당 0~2개)
 - **isRecommend**: 사용자 상황 기반 추천 옵션 (한 질문당 0~1개)
   * 아기 월령, 성별, 온보딩 상황을 고려
-  * 예: 신생아 → 저자극/무향 옵션에 isRecommend: true
-  * 예: "소음 불만" → 초저소음 옵션에 isRecommend: true
   * 사용자 상황을 고려했을 때 적합한 옵션이 있다면 반드시 표시
 
-## 자연스러운 질문 작성 (중요!)
+## 자연스러운 질문 작성
 - ⛔ 이미 수집된 정보(월령, 성별, 상황 등)를 '억지로' 언급하지 마세요
-  - ❌ 나쁜 예: "20개월 남아라고 하셨는데, 디자인은 어떤 게 좋으신가요?"
 - 질문은 자연스럽게 이전 답변과 연결되어야 함
 - 수집된 정보는 내부적으로 활용하되, 질문에서 굳이 반복하지 않음
 
@@ -246,6 +258,12 @@ ${userContextSection}${remainingQuestionsSection}
       if (!data.followUp.options || data.followUp.options.length < 2) {
         return { hasFollowUp: false, skipReason: 'Insufficient options generated' };
       }
+
+      // 꼬리질문은 dedup 체크 불필요:
+      // - 꼬리질문은 원래 같은 주제를 deepdive하는 것이 목적
+      // - dedup이 "같은 주제 = 중복"으로 판단하여 false positive 발생
+      // - 프롬프트에서 이미 남은 질문/수집 정보와의 중복 방지를 충분히 지시
+      // - 재생성해도 결국 같은 질문이 나옴 (원래 중복이 아니었으므로)
 
       return {
         hasFollowUp: true,
