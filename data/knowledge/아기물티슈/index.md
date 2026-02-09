@@ -1,23 +1,25 @@
 # 아기물티슈 전문가 지식
 
-> 마지막 업데이트: 2026-02-09T01:45:25.429Z
+> 마지막 업데이트: 2026-02-09T05:54:23.589Z
 > 분석 상품: 20개 | 분석 리뷰: 340,972개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전한 성분 강조
-- 친환경 소재 사용
-- 두꺼운 두께와 넉넉한 사이즈
+- 안전한 성분 및 친환경 소재 선호
+- 두꺼운 평량과 높은 수분 함량
+- 온라인 채널 및 소셜 커머스 판매 강세
 
 ### 구매자 만족 포인트
 - ✓ 뛰어난 가성비
-- ✓ 촉촉함
-- ✓ 도톰한 두께
+- ✓ 도톰하고 물기 많음
 - ✓ 순한 성분
-- ✓ 발진 없음
+- ✓ 피부 발진 없음
+- ✓ 넉넉한 1장 면적
 
 ### 주의해야 할 단점
+- ⚠ 얇은 원단
+- ⚠ 성분 의심
 
 ### 가격대 인사이트
 
@@ -239,11 +241,11 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGs7S7CnasHokI2313oNVoZKXtJLdN0gRbEQJIeU3ogkJTUiBJpbUQxIY8SwSrVPvOq1oZa3N-YcN7OYKP18zc8CKohbaK0MZub1M1gJfo_nH-LCUyM9zQTK0lFW-JvmIEM3-l7B6f84ANZZ4Inw49bCTL2oqfWkS3cvD_Q)
-- [bebesup.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSVHS6TyxuwNZWzhjI-C6dLj_GitDdgraz-5vMR9zHvtlkBlcd-sKDZZ5C8HEQVwG8Qge4X5n89ZR2zaI_y90f5IiuVCFI7edA10-EMy-THcFNO12k)
-- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0ULKpOrppHnII-6tWaAqFMGjGycD6Y1epybor6bFG04s45DfdSLz9EDnaLXuzWntAMOYyH5ap5iK1l_2oAe98mnvqpsU2bf1-8EkSc-zFhcCJuuqpfCIYcdrsg3I271rGL9tMOqiuzZL7eC5-6EOsLUo9r81txikUXYJiPdcv9thKRiGP1s3_F83Z)
-- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7kUGkbaZlzIdos57UvYYZFxKQYJg3Ri59n6FojX_i9dZu2pLOsvYSeGnQPFLvpzdBqBsVoQqxmvyu8S5i6i3cqmeLVSvlYPxlfR6rYZOIsrhJZaus0s6uOOh1NhXGmH6VBdTDbqlG5IM6j5eFe-x58yVihoKpoNaU0qrQAftf9LlOJN9IAnL7C80l81Jm5jGxXlYBguc=)
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJRXNgT6sAejUvNgIgz8Hbua5Qdfq2ezEsXf1wk3a6LcS3NKJcVyRy2i6QCYPq_1JvlxIqR3weaklaTmdDyMNUIOrsBpfgeZI8N-H3ZOk--VHzo_IyxVGs2tCiTh8rhw0zG2moYGEpW5cXivHJY2yu4nVA0y7e2YA=)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHi3ebE8l3mCuZAjmZVb-ufnP9SGR4FbvbKBXywvVTtsiqdgrIhgc7BhTyZ4_8r0lUIxbBN3Hk9CiJT_TdeDtTnHzmTC9AEm0BgTLxd8k8JSqaXqduW4LBrC75mUwgFISQUmFUKif6FmY-jXMF_Qb5rXlCIaAMqgFkJC3EzB2zIoTQTisLpwzZ4mu6aBmzdmTYynUrSpU-YaoGld467NwVhwA6UJHKZej-dnOwLFQGhvr_fQ1HH1ZyB4yFrDEZaf-Sr3f1DqcPNGQ==)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpUkw_ZesyH-JvZnI9xiWO5-jyF3NeyVvUtqU2YqMRWC_WBCSNUwriNVRPvhYlcBD5AUP3wON6AiiAMcEj8clp_-Ih-jBq4qNvXlEDfoCPlDS-Hq-C058Yw_Xjy4x7iCzdGyyLr7y8qFcgMt192oZ2zRPFbWyKr3WMN4A=)
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgr8RMTYgJkDF19w2_cTmaqvrDpZ-OrPvndGFEMHTrECZkdTULGp2ISuhPZcWxJ3LjDvi42t9JfSM6MgOKa8ikJ4dcAQkaA7zDpTZfQaUYLOJDhcRt1p1RL8OYWpu_rJKFp4gHUw4INJACBArINz3DwgQCWOWv-fU5RTc_ZvH33BJmfpcxQTvtifoyeAeuJEGW1AVVSdKAiOA0-OFzyJnV2RbX0bnw_czn)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqU-Piz12cMx04gUEDBZb5GAqmPP1OlAyEAsRI7hZYP9f_-Q5OKTxE4heIAYOL8gURnukV_3wVF3VTMYejwgIsshBowSiUohZVuWYm_8H3b4RlOJQH6QQE0_b3ywiQN8WdWBAKgg6tZ8ZFIcRV4yaAFXql_YvQGpJNnTmD)
+- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnnoNfMCBhq5KzGDjgQyRLVV-BTXNqimjkp6ytECYY6ul4sphhSIPZg2ZzEw-SnrC0dTBjgz4ZtXgay0P3v_QXvo1IirF0fYAjPR4tCWo8auMPMN5n6anGYfReGbAAfgKu8eh0zb8Jkq3E3M7gOkId_yK6FWpqshtg5845jVar3Kl9iPOFhVCCEU55)
+- [bebesup.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC8okUApPCldtmQbdCLfV85zznOcJYQjqPfnFdPXEv0wJooz-JBhCITlWOaaiLCVOc9o2tVVF-Wk1Y_eMAY0IXHP_6brnhT9mRQKCmxYjtAH57Wk9J)
+- [clean-wipe.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEECim9ksCRtWXJ0S3yNmXb6SBhDhAPQjfpSa8J6n5pXSgSyQAkWntzL5vd0bNO7Cc_A3GjxrVjuGqxOQWdxZvt3_TBYvYTOosZFJ8wl_fZLuweUGmFvRSBHzn3ILlkGjjjHRmVaKQgatLnU7piWqhLQaOtWnIoXv4YlP10VdkMgKoRYhRuynaydvvsvwPVTM5n01bdtg==)
+- [futuremarketinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG824M3tBUG2vMF3m73I8_yYS9EZdt6OKhJ99UYfCPBLNHzsd1d9hYiVkDV_pUU_S3DrUPT8xK7VnzwUn8XEF9zry2h1HHG5b_yteGYOPwvAaLa-qDKTLpez6kqDVqLhIYi0t_PBTIh58PU7O-TuGrB8OC46-Wn-g==)
+- [nonwovens-industry.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgAHnrO9sHIQH85X_SVqPfBgLNU3LyxMH4_uMxvMbvhxRdQJlWeT_1I4C931my3Oftthp1DZn9uBcP29nq2kx-Qu3DJLcptClIFQLP7Lb7zwmDMMXUKT1Y02AzuCDoP7lB4c_3jKyR4FJmOxNBl7v1GDjdr-mHIzll3t6QoT1SR4q6muF4dOQsWw==)
+- [donga.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5jZxcwNzb0AanlclrtvfIxyBvLCFi8q_0SasCF8aD51CvmRc78eZk4_9RQKcaN460LnCBKijpd18aakxM3zQhBZigY9J3VjPuT1W8oJkoesARSV99x9xK12NKCIr6kMz_Q9rI8Iag2EKQCSlsmCEWga_FLQ==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHIlHOg0NabsoauoVYR1xtZ8FH30kp4zQ_bz6-H_MfPwxDCpqxFtRwMncZbZeJVSAJJvR98uxdHHLs9JuBRRwwAlfgYlfzLpmTA2vBkoQt5SlOozBaTidJMfrVrPOX1dnbu1_IAIg==)

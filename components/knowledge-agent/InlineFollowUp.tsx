@@ -361,7 +361,7 @@ export function InlineFollowUpWrapper({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="mt-4 flex items-center gap-2"
+            className="absolute inset-0 flex items-center justify-center gap-2"
           >
             <div className="flex gap-1">
               <motion.div
@@ -383,7 +383,7 @@ export function InlineFollowUpWrapper({
             <motion.span
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="text-[14px] text-gray-700"
+              className="text-[14px] text-gray-800 font-semibold"
             >
               꼬리 질문 생각하는 중...
             </motion.span>

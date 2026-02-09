@@ -283,6 +283,32 @@ body {
   animation-play-state: paused;
 }
 
+/* Date picker mobile fixes */
+input[type="date"] {
+  position: relative;
+  -webkit-appearance: none;
+  appearance: none;
+  color-scheme: light;
+}
+
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: center;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Prevent double-tap zoom on mobile */
+html {
+  touch-action: manipulation;
+}
+
 /* Highlight draw animation */
 @keyframes highlight-draw-home {
   0% { background-size: 0% 100%; }

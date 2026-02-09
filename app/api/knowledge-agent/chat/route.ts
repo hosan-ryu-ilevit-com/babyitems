@@ -419,9 +419,15 @@ async function processChatLogic(body: any, categoryKey: string, searchKeyword: s
           model: MODEL_NAME,
           generationConfig: { temperature: 0.5, maxOutputTokens: 250 }
         });
-        const prompt = `사용자가 "${currentQ}"라는 질문에 "${userMessage}"를 선택했습니다.
+        // 직전 꼬리질문 Q&A 맥락
+        const lastInlineFollowUp = body.lastInlineFollowUp as { question: string; answer: string } | undefined;
+        const followUpContext = lastInlineFollowUp
+          ? `\n또한, 직전 꼬리질문 "${lastInlineFollowUp.question}"에 "${lastInlineFollowUp.answer}"라고 답변했습니다.`
+          : '';
 
-이 선택에 대해 공감하는 1개의 간단한 문장을 작성하세요. 단순 공감보다는 근거가 포함되면 좋습니다. '저도 마음에 듭니다, 저도 좋다고 생각해요, 저도 그 옵션으로 구매한 적이 있어요' 식의 **AI의 생각이나 의도가 1인칭으로 드러나는 문장은 생성해서는 안됩니다. ** 딱딱한 말투보다는 되도록 '~요', '~습니다' 처럼 자연스럽고 친근한 문체를 사용해주세요. 
+        const prompt = `사용자가 "${currentQ}"라는 질문에 "${userMessage}"를 선택했습니다.${followUpContext}
+
+이 선택에 대해 공감하는 1개의 간단한 문장을 작성하세요. 단순 공감보다는 근거가 포함되면 좋습니다. 꼬리질문 답변이 있다면 그 맥락도 자연스럽게 반영해주세요. '저도 마음에 듭니다, 저도 좋다고 생각해요, 저도 그 옵션으로 구매한 적이 있어요' 식의 **AI의 생각이나 의도가 1인칭으로 드러나는 문장은 생성해서는 안됩니다. ** 딱딱한 말투보다는 되도록 '~요', '~습니다' 처럼 자연스럽고 친근한 문체를 사용해주세요.
 
 ⛔ 금지사항:
 - 질문 금지 (물음표 사용 금지)

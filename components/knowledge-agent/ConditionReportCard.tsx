@@ -50,7 +50,7 @@ export function ConditionReportCard({
       {/* 헤더 */}
       <div>
         <p className="text-[16px] font-semibold text-gray-400 text-center">중간 보고서</p>
-        <h3 className="text-[24px] font-bold  text-center mb-4">추천 조건 요약</h3>
+        <h3 className="text-[22px] font-bold  text-center mb-4">{categoryName} 추천 조건 요약</h3>
         <p className="text-[16px] font-medium text-gray-800 leading-5.5 mt-2">
           {renderHighlightedText(report.userProfile.situation, 'code')}
         </p>
@@ -102,7 +102,7 @@ export function ConditionReportCard({
                     </div>
                     <div className="grid grid-cols-[44px_1fr] gap-3 text-[14px] font-medium text-gray-700 leading-relaxed">
                     
-                      <div className="text-gray-500">기준</div>
+                      <div className="text-gray-500">조건</div>
                       <div className="text-gray-900 font-bold">{spec.value}</div>
                       <div className="text-gray-500">근거</div>
                       <div>{renderHighlightedText(spec.reason, 'code')}</div>
@@ -121,7 +121,6 @@ export function ConditionReportCard({
         <div className="bg-gray-50 rounded-[16px] p-4">
           <div className="flex items-center justify-between mb-3">
             <p className="text-[16px] font-bold text-gray-800">대표 상품</p>
-            <span className="text-[12px] font-medium text-gray-400">{products.length}개 분석됨</span>
           </div>
           <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
             {products.slice(0, 6).map((p) => (

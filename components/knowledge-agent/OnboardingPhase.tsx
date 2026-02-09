@@ -709,8 +709,8 @@ function SituationButton({ label, description, onClick }: { label: string; descr
       className="w-full py-4 px-5 rounded-[12px] border border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30 transition-all text-left bg-white"
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-[18px] font-bold leading-[1.4] text-gray-600">{label}</span>
-        <span className="text-[16px] font-medium text-gray-400 mt-1">{description}</span>
+        <span className="text-[16px] font-bold leading-[1.4] text-gray-600">{label}</span>
+        <span className="text-[14px] font-medium text-gray-400 mt-1">{description}</span>
       </div>
     </button>
   );

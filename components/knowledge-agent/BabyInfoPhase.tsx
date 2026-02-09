@@ -319,7 +319,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
                   value={expectedDate}
                   onChange={(e) => setExpectedDate(e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-transparent ring-4 ring-stone-100 focus:ring-blue-100 focus:border-blue-500 text-center text-xl font-bold text-stone-800 outline-none transition-all shadow-sm"
+                  className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 text-center text-[16px] font-bold text-stone-800 outline-none transition-all shadow-sm"
                 />
                 {expectedDate && (
                   <motion.div
@@ -364,7 +364,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
             <motion.div variants={itemVariants} className="space-y-8">
               {/* Gender Section */}
               <div className="space-y-3">
-                <label className="block text-sm font-bold text-stone-400 uppercase tracking-wider ml-1">성별</label>
+                <label className="block text-sm font-semibold text-gray-400 ml-1">성별</label>
                 <div className="grid grid-cols-2 gap-3">
                   <GenderButton
                     label="남자"
@@ -383,14 +383,14 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName }: BabyInfoPhas
 
               {/* Date Section */}
               <div className="space-y-3">
-                <label className="block text-sm font-bold text-stone-400 uppercase tracking-wider ml-1">생년월일</label>
+                <label className="block text-sm font-semibold text-gray-400 ml-1">생년월일</label>
                 <div className="relative">
                   <input
                     type="date"
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
                     max={new Date().toISOString().split('T')[0]}
-                    className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-transparent ring-4 ring-stone-100 focus:ring-orange-100 focus:border-orange-500 text-center text-xl font-bold text-stone-800 outline-none transition-all shadow-sm"
+                    className="w-full px-6 py-5 rounded-[20px] bg-white border-2 border-stone-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 text-center text-[16px] font-bold text-stone-800 outline-none transition-all shadow-sm"
                   />
                   {birthDate && (
                     <motion.div

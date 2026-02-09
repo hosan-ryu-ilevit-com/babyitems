@@ -1041,11 +1041,30 @@ export default function KnowledgeAgentPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   const conditionReportRef = useRef<HTMLDivElement>(null);
+  const hardcutRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 자동 스크롤 훅
   const { scrollToMessage, scrollToTop } = useAutoScroll(mainRef);
+
+  const scrollToRef = useCallback((ref: React.RefObject<HTMLElement | null>, offset = 80) => {
+    const container = mainRef.current;
+    const el = ref.current;
+    if (!container || !el) return;
+
+    requestAnimationFrame(() => {
+      const containerRect = container.getBoundingClientRect();
+      const elRect = el.getBoundingClientRect();
+      const relativeTop = elRect.top - containerRect.top;
+      const targetScrollTop = container.scrollTop + relativeTop - offset;
+
+      container.scrollTo({
+        top: Math.max(0, targetScrollTop),
+        behavior: 'smooth'
+      });
+    });
+  }, [mainRef]);
 
   // Parent category (baby/living)
   const parentCategory = getParentCategoryTab(categoryName);
@@ -1264,6 +1283,11 @@ export default function KnowledgeAgentPage() {
       return; // 예산 질문은 꼬리질문 없음
     }
 
+    // 아직 안 보여준 남은 맞춤질문 목록 (중복 방지용)
+    const remainingQuestions = questionTodos
+      .filter(q => !q.completed && q.id !== questionId)
+      .map(q => ({ question: q.question, options: q.options.map(o => o.label) }));
+
     setIsLoadingInlineFollowUp(true);
     try {
       const res = await fetch('/api/knowledge-agent/generate-inline-followup', {
@@ -1275,8 +1299,9 @@ export default function KnowledgeAgentPage() {
           userAnswer,
           collectedInfo,
           questionId,
-          onboarding: onboardingData,  // 🆕 온보딩 데이터
-          babyInfo,                     // 🆕 아기 정보
+          onboarding: onboardingData,
+          babyInfo,
+          remainingQuestions,
         }),
       });
 
@@ -1294,7 +1319,7 @@ export default function KnowledgeAgentPage() {
       setIsLoadingInlineFollowUp(false);
     }
     return false; // 꼬리질문 없음
-  }, [categoryName, collectedInfo, onboardingData, babyInfo]);
+  }, [categoryName, collectedInfo, onboardingData, babyInfo, questionTodos]);
 
   // 인라인 꼬리질문 핸들러는 fetchChatStream 이후에 정의됨 (handleInlineFollowUpAnswer, handleInlineFollowUpSkip)
 
@@ -2677,10 +2702,12 @@ export default function KnowledgeAgentPage() {
       setCurrentQuestion({ ...lastQuestion, completed: false, answer: undefined });
     }
 
-    // 8. 스크롤 조정
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }, 100);
+    // 8. 마지막 질문 메시지로 스크롤 (DOM 업데이트 대기 후)
+    if (lastQuestionMsg.id) {
+      setTimeout(() => {
+        scrollToMessage(lastQuestionMsg.id);
+      }, 150);
+    }
   };
 
   // ============================================================================
@@ -2711,10 +2738,15 @@ export default function KnowledgeAgentPage() {
     // 🆕 조건 보고서 생성 (백그라운드) - 웹서치 컨텍스트 전달
     fetchConditionReport(webSearchContext);
 
+    // typing indicator를 phase 전환과 동시에 제거 (같은 렌더 사이클에서 배치 처리)
+    // finally 블록에서 나중에 따로 제거되면 레이아웃 시프트 + 스크롤 점프 발생
+    setIsTyping(false);
+    setActiveStatusMessage(null);
+
     // 조건 보고서 phase로 전환 (사용자가 확인 후 hardcut_visual로 진행)
     setPhase('condition_report');
 
-    // ✨ 중간 보고서로 부드럽게 스크롤 (렌더링 대기 후)
+    // ✨ 중간 보고서로 부드럽게 스크롤 (DOM 안정 대기 후)
     setTimeout(() => {
       if (conditionReportRef.current && mainRef.current) {
         const container = mainRef.current;
@@ -2731,22 +2763,14 @@ export default function KnowledgeAgentPage() {
           behavior: 'smooth'
         });
       }
-    }, 200);
+    }, 300);
   };
 
   // 🆕 조건 보고서 확인 후 하드컷 시각화로 진행
   const proceedToHardcutVisual = async () => {
     console.log('[V2 Flow] 조건 보고서 확인 완료, hardcut_visual로 진행...');
 
-    // ✨ 위로 부드럽게 스크롤
-    if (mainRef.current) {
-      mainRef.current.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    }
-
-    // 스크롤 후 로딩 시작
+    // 로딩 시작
     setTimeout(() => {
       setIsTyping(true);
     }, 300);
@@ -2876,7 +2900,10 @@ export default function KnowledgeAgentPage() {
       });
       setIsHardcutVisualDone(false);
       setPhase('hardcut_visual');
-      // 자동 스크롤은 phase 변경 시 useEffect에서 처리됨
+      // 하드컷 시각화로 부드럽게 이동 (위로 점프 방지)
+      setTimeout(() => {
+        scrollToRef(hardcutRef, 80);
+      }, 200);
 
     } catch (error) {
       console.error('[V2 Flow] Error:', error);
@@ -4290,14 +4317,14 @@ export default function KnowledgeAgentPage() {
   };
 
   // 인라인 꼬리질문 답변 처리 후 다음 질문으로 진행
-  const continueAfterInlineFollowUp = async () => {
+  const continueAfterInlineFollowUp = async (lastInlineFollowUp?: { question: string; answer: string }) => {
     const pendingMessage = pendingInlineFollowUpMessageRef.current;
     const pendingQuestionId = pendingInlineFollowUpQuestionIdRef.current;
 
     if (pendingMessage) {
       pendingInlineFollowUpMessageRef.current = null;
       pendingInlineFollowUpQuestionIdRef.current = null;
-      pendingInlineFollowUpQuestionTextRef.current = null; // 🆕 질문 텍스트도 초기화
+      pendingInlineFollowUpQuestionTextRef.current = null;
 
       await fetchChatStream({
         categoryKey,
@@ -4307,7 +4334,8 @@ export default function KnowledgeAgentPage() {
         questionTodos,
         collectedInfo,
         currentQuestionId: pendingQuestionId || undefined,
-        products: crawledProducts
+        products: crawledProducts,
+        ...(lastInlineFollowUp && { lastInlineFollowUp }),
       });
     }
   };
@@ -4345,11 +4373,14 @@ export default function KnowledgeAgentPage() {
       [`${originalQuestion}_추가정보`]: label,
     }));
 
+    // 꼬리질문 Q&A를 캡처 (inlineFollowUp 클리어 전에)
+    const followUpQA = inlineFollowUp ? { question: inlineFollowUp.question, answer: label } : undefined;
+
     setInlineFollowUp(null);
     setHasInlineFollowUpSelection(false);
 
-    // 다음 질문으로 진행
-    await continueAfterInlineFollowUp();
+    // 다음 질문으로 진행 (꼬리질문 Q&A 전달)
+    await continueAfterInlineFollowUp(followUpQA);
   };
 
   // 인라인 꼬리질문에서 뒤로 가기 (답변 제출하지 않고 원래 질문으로)
@@ -4589,10 +4620,10 @@ export default function KnowledgeAgentPage() {
   return (
     <div className="h-screen bg-[#F8F9FB] flex flex-col font-sans overflow-hidden">
       <div
-        ref={phase === 'result' || phase === 'free_chat' || phase === 'condition_report' ? mainRef : null}
-        className={`max-w-[480px] mx-auto w-full flex-1 ${phase === 'result' || phase === 'free_chat' || phase === 'condition_report' ? 'overflow-y-auto scrollbar-hide' : 'flex flex-col min-h-0'} relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50`}
+        ref={phase === 'result' || phase === 'free_chat' ? mainRef : null}
+        className={`max-w-[480px] mx-auto w-full flex-1 ${phase === 'result' || phase === 'free_chat' ? 'overflow-y-auto scrollbar-hide' : 'flex flex-col min-h-0'} relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50`}
       >
-        <header className={`bg-white border-b border-gray-50/50 px-4 h-16 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' || phase === 'condition_report' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
+        <header className={`bg-white border-b border-gray-50/50 px-4 h-16 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
           <motion.button whileHover={{ x: -2 }} whileTap={{ scale: 0.95 }} onClick={() => setShowExitConfirmModal(true)} className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors">
             <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
           </motion.button>
@@ -4651,7 +4682,7 @@ export default function KnowledgeAgentPage() {
           {/* 메인 채팅 플로우 */}
           {phase !== 'onboarding' && phase !== 'baby_info' && (
           <>
-          <div className="space-y-8 pt-2">
+          <div className="space-y-4 pt-2">
             {(() => {
               // top3 결과가 있는지 확인하고, 있다면 그 인덱스 찾기
               const resultMessageIndex = messages.findIndex(m => m.resultProducts && m.resultProducts.length > 0);
@@ -4665,6 +4696,11 @@ export default function KnowledgeAgentPage() {
 
               // hardcut-visual 메시지는 조건 보고서 아래에서 별도 렌더링
               if (msg.hardcutData) {
+                return null;
+              }
+
+              // final_input 안내 메시지는 하드컷 아래에서 별도 렌더링
+              if (msg.id?.startsWith('a_final_input_guide_')) {
                 return null;
               }
 
@@ -4778,6 +4814,9 @@ export default function KnowledgeAgentPage() {
                       }
                     ];
                   });
+                  setTimeout(() => {
+                    scrollToMessage(finalInputMsgId);
+                  }, 200);
                 }}
                 showListView={showListView}
                 setShowListView={setShowListView}
@@ -4858,7 +4897,7 @@ export default function KnowledgeAgentPage() {
               const hardcutMsg = messages.find(m => m.hardcutData);
               if (!hardcutMsg?.hardcutData) return null;
               return (
-                <div className="py-2">
+                <div ref={hardcutRef} className="py-2">
                   <HardcutVisualization
                     totalBefore={hardcutMsg.hardcutData.totalBefore}
                     totalAfter={hardcutMsg.hardcutData.totalAfter}
@@ -4883,7 +4922,102 @@ export default function KnowledgeAgentPage() {
                           }
                         ];
                       });
+                      setTimeout(() => {
+                        scrollToMessage(finalInputMsgId);
+                      }, 200);
                     }}
+                  />
+                </div>
+              );
+            })()}
+
+            {/* final_input 안내 메시지 (하드컷 아래 고정) */}
+            {phase === 'final_input' && !isTyping && !isCalculating && (() => {
+              const finalGuideMessage = messages.find(m => m.id?.startsWith('a_final_input_guide_'));
+              if (!finalGuideMessage) return null;
+              return (
+                <div className="pt-2">
+                  <MessageBubble
+                    message={finalGuideMessage}
+                    onOptionToggle={handleOptionToggle}
+                    onProductClick={handleProductClick}
+                    phase={phase}
+                    inputRef={inputRef}
+                    isLatestAssistantMessage={false}
+                    isInactive={false}
+                    selectedNegativeKeys={selectedNegativeKeys}
+                    onNegativeKeyToggle={(key) => setSelectedNegativeKeys(prev => prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key])}
+                    categoryKey={categoryKey}
+                    categoryName={categoryName}
+                    userSelections={getUserSelections()}
+                    onAIHelperOpen={(data) => {
+                      setAiHelperData(data);
+                      setIsAIHelperOpen(true);
+                    }}
+                    onPopularRecommend={(query) => {
+                      const isNegQ = finalGuideMessage.questionId === 'avoid_negatives' || 
+                                    finalGuideMessage.id?.includes('avoid_negatives') ||
+                                    finalGuideMessage.content?.toLowerCase().includes('단점') ||
+                                    finalGuideMessage.content?.toLowerCase().includes('피하고') ||
+                                    finalGuideMessage.content?.toLowerCase().includes('피할');
+                      setAiHelperData({
+                        questionId: finalGuideMessage.id,
+                        questionText: finalGuideMessage.content,
+                        options: finalGuideMessage.options?.map(o => ({ value: o, label: o })) || [],
+                        type: isNegQ ? 'negative' : 'hard_filter'
+                      });
+                      setAiHelperAutoSubmitText(query);
+                      setIsAIHelperOpen(true);
+                    }}
+                    onContextRecommend={(query) => {
+                      const isNegQ = finalGuideMessage.questionId === 'avoid_negatives' || 
+                                    finalGuideMessage.id?.includes('avoid_negatives') ||
+                                    finalGuideMessage.content?.toLowerCase().includes('단점') ||
+                                    finalGuideMessage.content?.toLowerCase().includes('피하고') ||
+                                    finalGuideMessage.content?.toLowerCase().includes('피할');
+                      setAiHelperData({
+                        questionId: finalGuideMessage.id,
+                        questionText: finalGuideMessage.content,
+                        options: finalGuideMessage.options?.map(o => ({ value: o, label: o })) || [],
+                        type: isNegQ ? 'negative' : 'hard_filter'
+                      });
+                      setAiHelperAutoSubmitText(query);
+                      setIsAIHelperOpen(true);
+                    }}
+                    onNegativeAIHelperOpen={(autoSubmitText) => {
+                      if (autoSubmitText) {
+                        setAiHelperAutoSubmitText(autoSubmitText);
+                      }
+                      setIsNegativeAIHelperOpen(true);
+                    }}
+                    onFreeChat={handleFreeChat}
+                    onHardcutContinue={handleHardcutContinue}
+                    onHardcutComplete={() => {
+                      setIsHardcutVisualDone(true);
+                      setIsTyping(false);
+                      setInputValue('');
+                      setPhase('final_input');
+                    }}
+                    showListView={showListView}
+                    setShowListView={setShowListView}
+                    pricesData={pricesData}
+                    onAnalysisSummaryShow={handleAnalysisSummaryShow}
+                    reviewsData={reviewsData}
+                    webSearchProgress={webSearchProgress}
+                    selectedFilterTagIds={selectedFilterTagIds}
+                    sortedResultProducts={sortedResultProducts}
+                    filterTags={filterTags}
+                    onFilterTagToggle={handleFilterTagToggle}
+                    totalQuestionsCount={Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length}
+                    chatInputRef={chatInputRef}
+                    onChatInputHighlight={() => {
+                      setIsChatInputHighlighted(true);
+                      setTimeout(() => setIsChatInputHighlighted(false), 1500);
+                    }}
+                    babyInfo={babyInfo}
+                    onboardingData={onboardingData}
+                    parentCategory={parentCategory}
+                    isAnalysisSummaryShown={isAnalysisSummaryShown}
                   />
                 </div>
               );
@@ -5121,7 +5255,7 @@ export default function KnowledgeAgentPage() {
           {/* 하드컷팅 시각화 완료 시 버튼 - 제거됨 (onHardcutComplete에서 바로 final_input으로 전환) */}
 
           {/* 마지막 추가 조건 입력 단계 */}
-          {phase === 'final_input' && !isTyping && (
+          {phase === 'final_input' && !isTyping && !isCalculating && (
             <div className="space-y-4">
               {/* 바로 추천받기 버튼 - 입력 중이면 숨김 (페이드만) */}
               <AnimatePresence>
@@ -5831,6 +5965,7 @@ function MessageBubble({
 
   // 꼬리질문 여부 확인
   const isFollowUp = message.id?.startsWith('followup-q-');
+  const isInlineFollowUpAnswer = message.id?.startsWith('u_followup_');
 
   // 로딩 시작 시간 기록
   const [startTime] = useState(Date.now());
@@ -5944,7 +6079,7 @@ function MessageBubble({
       data-message-id={message.id}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: isInactive ? 0.5 : 1, y: 0 }}
-      className={`scroll-mt-[52px] flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'pointer-events-none' : ''} transition-opacity duration-300`}
+      className={`scroll-mt-[52px] flex ${isUser ? 'justify-end' : 'justify-start'} w-full ${isInactive ? 'pointer-events-none' : ''} transition-opacity duration-300 ${isInlineFollowUpAnswer ? '-mt-2 mb-5' : ''}`}
     >
       <div className={`${isUser ? 'max-w-[85%]' : 'w-full'} space-y-3`}>
         {!isUser && message.searchContext && (
@@ -6023,7 +6158,7 @@ function MessageBubble({
             ) : (
               <AssistantMessage
                 content={message.content}
-                typing={message.typing}
+                typing={message.typing && !isInactive}
                 speed={10}
                 textClassName={
                   // 일반 채팅 응답 (질문이 아닌 경우): 단순 스타일
@@ -6669,11 +6804,16 @@ function MessageBubble({
                           (product.pcode || product.id) === (p.pcode || p.id)
                         ) + 1;
 
+                        // pricesData 캐시 우선 사용 (PDP/리스트뷰와 동일한 가격)
+                        const cachedPrice = pricesData?.[p.pcode || p.id];
+                        const danawaPrice = p.danawaPrice;
+                        const resolvedPrice = cachedPrice?.lowestPrice || (danawaPrice?.lowest_price && danawaPrice.lowest_price > 0 ? danawaPrice.lowest_price : p.price);
+
                         return {
                           pcode: p.pcode || p.id,
                           name: p.name || p.title,
                           brand: p.brand || null,
-                          price: p.price || null,
+                          price: resolvedPrice || null,
                           thumbnail: p.thumbnail || null,
                           raw: p,
                           rating: p.rating || p.averageRating || null,

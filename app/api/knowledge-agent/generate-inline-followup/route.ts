@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
       userAnswer,
       collectedInfo,
       questionId,
-      onboarding,  // 🆕 온보딩 데이터
-      babyInfo,    // 🆕 아기 정보
+      onboarding,
+      babyInfo,
+      remainingQuestions,  // 아직 안 보여준 맞춤질문 목록 (중복 방지용)
     } = await request.json();
 
     if (!categoryName || !questionText || !userAnswer) {
@@ -36,7 +37,8 @@ export async function POST(request: NextRequest) {
       collectedInfo || {},
       questionId,
       onboarding,
-      babyInfo
+      babyInfo,
+      remainingQuestions
     );
 
     return NextResponse.json(result);
@@ -75,7 +77,8 @@ async function generateInlineFollowUp(
   collectedInfo: Record<string, string>,
   questionId?: string,
   onboarding?: OnboardingContext | null,
-  babyInfo?: BabyInfoContext | null
+  babyInfo?: BabyInfoContext | null,
+  remainingQuestions?: { question: string; options: string[] }[] | null
 ): Promise<InlineFollowUpResponse> {
   // 브랜드/예산 질문은 별도 처리 (정해진 꼬리질문 또는 없음)
   if (questionId === 'brand' || questionId === 'preferred_brand' || questionId === 'brand_preference') {
@@ -141,6 +144,13 @@ async function generateInlineFollowUp(
     ? `\n## 이미 수집된 사용자 정보 (중복 질문 금지!)\n${userContextParts.map(p => `- ${p}`).join('\n')}\n`
     : '';
 
+  // 남은 맞춤질문 목록 (중복 방지용)
+  const remainingQuestionsSection = remainingQuestions && remainingQuestions.length > 0
+    ? `\n## ⛔ 이후 예정된 질문 목록 (이 주제들과 겹치는 꼬리질문 절대 금지!)
+아래 질문들은 이후 순서대로 사용자에게 보여질 예정입니다. **이 질문들이 다루는 주제/옵션과 의미적으로 겹치는 꼬리질문은 생성하지 마세요!**
+${remainingQuestions.map((q, i) => `${i + 1}. "${q.question}" (옵션: ${q.options.join(', ')})`).join('\n')}\n`
+    : '';
+
   // 일반 질문에 대한 AI 기반 꼬리질문 생성
   const prompt = `당신은 "${categoryName}" 구매 상담 전문가입니다.
 
@@ -150,7 +160,7 @@ async function generateInlineFollowUp(
 
 지금까지 수집된 정보:
 ${Object.entries(collectedInfo).map(([k, v]) => `- ${k}: ${v}`).join('\n') || '(없음)'}
-${userContextSection}
+${userContextSection}${remainingQuestionsSection}
 이 답변을 바탕으로 더 나은 추천을 위해 꼬리질문이 필요한지 판단하세요.
 
 ## 꼬리질문이 필요한 경우
