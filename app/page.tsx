@@ -139,7 +139,10 @@ export default function Home() {
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col relative">
         {/* 헤더 */}
-        <header className="h-[54px] flex items-center px-5 sticky top-0 z-50 bg-[#FBFBFD]">
+        <header className="h-[54px] flex items-center justify-between px-5 sticky top-0 z-50 bg-[#FBFBFD]">
+          <a href="https://alwayz-pmf.ilevit.com/integration" className="p-2 -ml-2">
+            <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
+          </a>
           <Image
             src="/icons/logo.svg"
             alt="아기용품 AI 로고"
@@ -147,6 +150,7 @@ export default function Home() {
             height={25}
             priority
           />
+          <div className="w-9" />
         </header>
 
         {/* 메인 컨텐츠 */}
