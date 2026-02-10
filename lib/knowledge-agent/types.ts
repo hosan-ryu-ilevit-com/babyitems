@@ -320,11 +320,43 @@ export interface FinalRecommendationRequest {
   excludeBrands?: string[];
 }
 
+export interface RecommendProcessMetaItem {
+  pcode: string;
+  name: string;
+  brand: string | null;
+  thumbnail: string | null;
+  stage1Score: number;
+  stage1Passed: boolean;
+  stage2Rank: number | null;
+  stage2Passed: boolean;
+  stage3Passed: boolean;
+  dropReason: string | null;
+}
+
+export interface RecommendProcessMetaRules {
+  stage1: string;
+  stage2: string;
+  stage3: string;
+}
+
+export interface RecommendProcessMeta {
+  totalCandidates: number;
+  defaultVisibleCount: number;
+  stage1PassedCount: number;
+  stage2PassedCount: number;
+  stage3PassedCount: number;
+  stage2Top10Pcodes: string[];
+  stage3Top5Pcodes: string[];
+  items: RecommendProcessMetaItem[];
+  rules: RecommendProcessMetaRules;
+}
+
 export interface FinalRecommendationResponse {
   success: boolean;
   recommendations: FinalRecommendation[];
   summary?: string;                // 전체 추천 요약
   filterTags?: FilterTag[];        // 필터 태그
+  processMeta?: RecommendProcessMeta;
   error?: string;
 }
 
@@ -480,6 +512,7 @@ export interface InlineFollowUp {
  */
 export interface InlineFollowUpResponse {
   hasFollowUp: boolean;
+  confidence?: 'high' | 'low';
   followUp?: InlineFollowUp;
   skipReason?: string;
 }

@@ -16,8 +16,10 @@ import type {
   BalanceSelection,
   FinalRecommendation,
   FinalRecommendationRequest,
+  FinalRecommendationResponse,
   ReviewLite,
   FilterTag,
+  RecommendProcessMeta,
 } from '@/lib/knowledge-agent/types';
 import type { ProductInfo } from '@/lib/indexing/types';
 
@@ -2533,9 +2535,17 @@ async function selectTopProducts(
   freeInputAnalysis?: FreeInputAnalysis | null,
   personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
   conditionReport?: { userProfile: { situation: string; keyNeeds: string[] }; analysis: { recommendedSpecs: Array<{ specName: string; value: string; reason: string }> } } | null,
-): Promise<{ selectedProducts: HardCutProduct[]; productInfoMap: Record<string, ProductInfo> }> {
+): Promise<{
+  selectedProducts: HardCutProduct[];
+  productInfoMap: Record<string, ProductInfo>;
+  stage1Scores: Array<{ pcode: string; score: number }>;
+  stage2Top10Pcodes: string[];
+  effectiveCandidates: HardCutProduct[];
+  excludedByBrandCandidates: HardCutProduct[];
+}> {
   const preferSet = new Set(preferBrands.map(b => b.trim()).filter(Boolean));
   const excludeSet = new Set(excludeBrands.map(b => b.trim()).filter(Boolean));
+  const excludedByBrandCandidates = candidates.filter(c => excludeSet.has((c.brand || '').trim()));
   const filteredCandidates = candidates.filter(c => !excludeSet.has((c.brand || '').trim()));
   const effectiveCandidates = filteredCandidates.length > 0 ? filteredCandidates : candidates;
   const pcodes = effectiveCandidates.map(c => c.pcode);
@@ -2570,6 +2580,8 @@ async function selectTopProducts(
   const USE_PARALLEL_LLM_EVAL = true; // 🧪 테스트용 플래그
 
   let topNSelection: { pcode: string; briefReason: string }[];
+  let stage1Scores: Array<{ pcode: string; score: number }> = [];
+  let stage2Top10Pcodes: string[] = [];
 
   if (USE_PARALLEL_LLM_EVAL && effectiveCandidates.length > 10) {
     // 🆕 새 방식: 전체를 병렬 LLM 평가
@@ -2585,6 +2597,7 @@ async function selectTopProducts(
       productInfoMap,  // 🆕 인덱싱된 제품 정보 전달
       personalizationContext,  // 🆕 개인화 메모리 컨텍스트
     );
+    stage1Scores = evaluations.map((e) => ({ pcode: e.pcode, score: e.score }));
 
     // 상위 N개 선택 (카테고리 불일치 제외, 리뷰 0개는 이미 사전 필터링됨)
     const validEvaluations = evaluations.filter(e => {
@@ -2600,6 +2613,7 @@ async function selectTopProducts(
     const TOP_N_POOL = 10; // Top 10에서 필터링
 
     const top10 = validEvaluations.slice(0, TOP_N_POOL);
+    stage2Top10Pcodes = top10.map((e) => e.pcode);
     const withEnoughReviews = top10.filter(e => {
       const reviewCount = reviews[e.pcode]?.length || 0;
       return reviewCount >= MIN_REVIEW_COUNT;
@@ -2636,6 +2650,16 @@ async function selectTopProducts(
     if (effectiveCandidates.length > PRESCREEN_LIMIT) {
       filteredCandidatesForPrescreen = prescreenCandidates(effectiveCandidates, reviews, collectedInfo, expandedKeywords, rankMap);
     }
+    const filteredPcodeSet = new Set(filteredCandidatesForPrescreen.map((p) => p.pcode));
+    const fallbackOrdered = [
+      ...filteredCandidatesForPrescreen,
+      ...effectiveCandidates.filter((p) => !filteredPcodeSet.has(p.pcode)),
+    ];
+    stage1Scores = fallbackOrdered.map((p, idx) => ({
+      pcode: p.pcode,
+      score: Math.max(0, 100 - idx),
+    }));
+    stage2Top10Pcodes = filteredCandidatesForPrescreen.slice(0, 10).map((p) => p.pcode);
 
     console.log(`[FinalRecommend] 2-Step Architecture: ${effectiveCandidates.length} candidates`);
 
@@ -2697,7 +2721,7 @@ async function selectTopProducts(
 
   console.log(`[FinalRecommend] Step1 완료: ${selectedProducts.map((p: HardCutProduct) => p.pcode).join(', ')}`);
 
-  return { selectedProducts, productInfoMap };
+  return { selectedProducts, productInfoMap, stage1Scores, stage2Top10Pcodes, effectiveCandidates, excludedByBrandCandidates };
 }
 
 export async function POST(request: NextRequest) {
@@ -2997,7 +3021,14 @@ export async function POST(request: NextRequest) {
       )
     ]);
 
-    const { selectedProducts, productInfoMap } = topProductsResult;
+    const {
+      selectedProducts,
+      productInfoMap,
+      stage1Scores,
+      stage2Top10Pcodes,
+      effectiveCandidates,
+      excludedByBrandCandidates,
+    } = topProductsResult;
     console.log(`[FinalRecommend] ⚡ Step 1 완료 (${Date.now() - step1StartTime}ms): Top ${selectedProducts.length}, FilterTags ${filterTagsResult.length}개, ProductInfo ${Object.keys(productInfoMap).length}개`);
 
     // 추천된 상품들의 pcode 추출
@@ -3167,13 +3198,81 @@ export async function POST(request: NextRequest) {
       rec.rank = idx + 1;
     });
 
+    const stage3Top5Pcodes = enrichedRecommendations.slice(0, RECOMMENDATION_COUNT).map((rec: EnrichedRec) => rec.pcode);
+    const stage1ScoreMap = new Map(stage1Scores.map((item) => [item.pcode, item.score]));
+    const stage2RankMap = new Map(stage2Top10Pcodes.map((pcode, idx) => [pcode, idx + 1]));
+    const stage3Set = new Set(stage3Top5Pcodes);
+    const stage2Set = new Set(stage2Top10Pcodes);
+
+    const processItemsFromEffective = effectiveCandidates.map((candidate) => {
+      const stage1Score = stage1ScoreMap.get(candidate.pcode) ?? 0;
+      const stage1Passed = stage1Score > 0;
+      const stage2Passed = stage2Set.has(candidate.pcode);
+      const stage3Passed = stage3Set.has(candidate.pcode);
+      const stage2Rank = stage2RankMap.get(candidate.pcode) ?? null;
+
+      let dropReason: string | null = null;
+      if (!stage1Passed) {
+        dropReason = '1단계 적합도 점수 기준 미달';
+      } else if (!stage2Passed) {
+        dropReason = '2단계 심층 분석 Top10 미진입';
+      } else if (!stage3Passed) {
+        dropReason = '3단계 Top5 최종 선정에서 제외';
+      }
+
+      return {
+        pcode: candidate.pcode,
+        name: candidate.name,
+        brand: candidate.brand || null,
+        thumbnail: candidate.thumbnail || null,
+        stage1Score,
+        stage1Passed,
+        stage2Rank,
+        stage2Passed,
+        stage3Passed,
+        dropReason,
+      };
+    });
+
+    const processItemsFromExcluded = excludedByBrandCandidates.map((candidate) => ({
+      pcode: candidate.pcode,
+      name: candidate.name,
+      brand: candidate.brand || null,
+      thumbnail: candidate.thumbnail || null,
+      stage1Score: 0,
+      stage1Passed: false,
+      stage2Rank: null,
+      stage2Passed: false,
+      stage3Passed: false,
+      dropReason: '선택한 제외 브랜드에 해당',
+    }));
+
+    const processMeta: RecommendProcessMeta = {
+      totalCandidates: processItemsFromEffective.length + processItemsFromExcluded.length,
+      defaultVisibleCount: 50,
+      stage1PassedCount: processItemsFromEffective.filter((item) => item.stage1Passed).length,
+      stage2PassedCount: processItemsFromEffective.filter((item) => item.stage2Passed).length,
+      stage3PassedCount: processItemsFromEffective.filter((item) => item.stage3Passed).length,
+      stage2Top10Pcodes,
+      stage3Top5Pcodes,
+      items: [...processItemsFromEffective, ...processItemsFromExcluded],
+      rules: {
+        stage1: '맞춤질문 적합도 점수와 후보 품질 기준으로 1차 통과 여부를 판단',
+        stage2: '1차 통과 후보 중 점수 상위 Top10을 심층 분석 대상으로 선정',
+        stage3: 'Top10에서 유사도/우선순위를 반영해 최종 Top5를 선정',
+      },
+    };
+
     console.log(`[FinalRecommend] 🔄 태그 기반 재정렬 완료:`, enrichedRecommendations.map((r: EnrichedRec) => `${r.rank}위:${r.pcode}(태그${calcTagScore(r.tagScores || {})}점)`).join(', '));
 
     const elapsedMs = Date.now() - startTime;
     console.log(`✅ [FinalRecommend] 완료: Top ${recommendations.length} 선정 (${(elapsedMs / 1000).toFixed(1)}초)`);
 
     // 응답 (PLP 필수 데이터만)
-    const response = {
+    const response: FinalRecommendationResponse & {
+      freeInputAnalysis?: FreeInputAnalysis | null;
+      reviews?: Record<string, ReviewLite[]>;
+    } = {
       success: true,
       recommendations: enrichedRecommendations,
       summary: `${catName} 추천 Top ${recommendations.length}`,
@@ -3183,6 +3282,7 @@ export async function POST(request: NextRequest) {
       filterTags: filterTagsResult,
       // 🆕 리뷰 데이터 (crawl-reviews API 중복 호출 방지, 30개씩)
       reviews: enrichedReviews,
+      processMeta,
     };
 
     return NextResponse.json(response);

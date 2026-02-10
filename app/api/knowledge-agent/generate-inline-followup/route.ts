@@ -180,15 +180,26 @@ ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join(
 → 꼬리질문은 위 주제들과 **완전히 다른 관점/측면**에서만 생성하세요.
 → 사용자의 답변("${userAnswer}")에서 위 목록이 다루지 않는 **다른 세부사항**을 파고드세요.
 
-## 꼬리질문이 필요한 경우
+## confidence 판단 기준
+꼬리질문의 필요성을 confidence로 판단하세요:
+
+**confidence: "high"** (꼬리질문 생성):
+- 답변이 모호하여 제품 추천 결과가 크게 달라질 수 있을 때
+- 답변에서 구체적 수치/조건을 파악하면 추천 정확도가 확실히 올라갈 때
+- 이전 답변과 명백한 모순이 있을 때
+
+**confidence: "low"** (꼬리질문 생성하지 않음):
+- 답변이 이미 충분히 명확할 때
+- 추가 정보가 있어도 추천 결과에 큰 차이가 없을 때
+- 꼬리질문이 "있으면 좋지만 없어도 되는" 수준일 때
+- 위 목록과 겹치지 않는 유의미한 추가 질문이 도저히 없을 때
+
+⚠️ 대부분의 답변은 충분히 명확합니다. confidence: "high"는 정말 추가 정보가 필수적인 경우에만 부여하세요.
+
+꼬리질문 타입:
 1. deepdive: 사용자의 답변을 더 구체화해야 할 때 (예: "넓은 공간" → 몇 평인지)
 2. contradiction: 이전 답변과 모순이 있을 때
 3. clarify: 답변이 모호하거나 여러 해석이 가능할 때
-
-## 꼬리질문이 불필요한 경우 (생성하지 마세요!)
-- 답변이 충분히 명확할 때
-- 추가 정보가 추천에 큰 영향을 주지 않을 때
-- 위 목록과 겹치지 않는 유의미한 추가 질문이 도저히 없을 때
 
 ## 옵션 생성 규칙
 - 옵션은 3~4개 생성
@@ -210,8 +221,9 @@ ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join(
 
 반드시 아래 JSON 형식으로만 응답하세요:
 
-꼬리질문이 필요한 경우:
+confidence가 "high"인 경우:
 {
+  "confidence": "high",
   "hasFollowUp": true,
   "followUp": {
     "question": "꼬리질문 내용 (1문장, 친근한 말투)",
@@ -224,8 +236,9 @@ ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join(
   }
 }
 
-꼬리질문이 불필요한 경우:
+confidence가 "low"인 경우:
 {
+  "confidence": "low",
   "hasFollowUp": false,
   "skipReason": "불필요한 이유 (1문장)"
 }`;
@@ -246,7 +259,18 @@ ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join(
 
     const data = JSON.parse(jsonMatch[0]);
 
-    // 유효성 검사
+    const confidence = data.confidence || 'low';
+
+    // confidence가 low면 스킵
+    if (confidence === 'low' || data.hasFollowUp === false) {
+      return {
+        hasFollowUp: false,
+        confidence: 'low',
+        skipReason: data.skipReason || 'Low confidence - no follow-up needed',
+      };
+    }
+
+    // confidence high + hasFollowUp true
     if (data.hasFollowUp === true && data.followUp) {
       const sanitizeOptionLabel = (label: string): string =>
         label
@@ -256,35 +280,31 @@ ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join(
 
       // 옵션이 2개 미만이면 스킵
       if (!data.followUp.options || data.followUp.options.length < 2) {
-        return { hasFollowUp: false, skipReason: 'Insufficient options generated' };
+        return { hasFollowUp: false, confidence: 'low', skipReason: 'Insufficient options generated' };
       }
-
-      // 꼬리질문은 dedup 체크 불필요:
-      // - 꼬리질문은 원래 같은 주제를 deepdive하는 것이 목적
-      // - dedup이 "같은 주제 = 중복"으로 판단하여 false positive 발생
-      // - 프롬프트에서 이미 남은 질문/수집 정보와의 중복 방지를 충분히 지시
-      // - 재생성해도 결국 같은 질문이 나옴 (원래 중복이 아니었으므로)
 
       return {
         hasFollowUp: true,
+        confidence: 'high',
         followUp: {
           question: data.followUp.question,
           type: data.followUp.type || 'deepdive',
           options: data.followUp.options.slice(0, 4).map((opt: any) => ({
             ...opt,
             label: sanitizeOptionLabel(opt.label || ''),
-          })), // 최대 4개
+          })),
         },
       };
     }
 
     return {
       hasFollowUp: false,
+      confidence: 'low',
       skipReason: data.skipReason || 'AI determined no follow-up needed',
     };
   } catch (error) {
     console.error('[generateInlineFollowUp] Error:', error);
-    return { hasFollowUp: false, skipReason: 'Generation error' };
+    return { hasFollowUp: false, confidence: 'low', skipReason: 'Generation error' };
   }
 }
 
@@ -300,6 +320,7 @@ function handleBrandFollowUp(userAnswer: string): InlineFollowUpResponse {
   ) {
     return {
       hasFollowUp: true,
+      confidence: 'high',
       followUp: {
         question: '따로 선호하시는 브랜드가 없군요. 그렇다면 나의 선택 기준에 가까운 쪽을 골라주세요.',
         type: 'deepdive',
@@ -314,6 +335,7 @@ function handleBrandFollowUp(userAnswer: string): InlineFollowUpResponse {
   // 특정 브랜드를 선택한 경우 → 꼬리질문 없음
   return {
     hasFollowUp: false,
+    confidence: 'low',
     skipReason: 'Specific brand selected - no follow-up needed',
   };
 }

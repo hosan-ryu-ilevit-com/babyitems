@@ -385,7 +385,7 @@ export function InlineFollowUpWrapper({
               transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               className="text-[14px] text-gray-800 font-semibold"
             >
-              꼬리 질문 생각하는 중...
+              생각하는 중...
             </motion.span>
           </motion.div>
         )}

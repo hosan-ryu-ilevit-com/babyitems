@@ -383,7 +383,7 @@ export function FinalRecommendLoadingView({
               {(brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
                 ? (brandPromptMode === 'exclude'
                     ? `선택한 ${excludeBrands.length}개 브랜드 제외할게요`
-                    : `선택한 ${preferredBrands.length}개 브랜드를 더 우선 추천할게요`)
+                    : `선택한 ${preferredBrands.length}개 브랜드 우선 추천 받을게요`)
                 : '상관없어요'}
             </button>
           </div>

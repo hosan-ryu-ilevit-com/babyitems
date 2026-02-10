@@ -36,11 +36,12 @@ import { OnboardingPhase } from '@/components/knowledge-agent/OnboardingPhase';
 import { BabyInfoPhase } from '@/components/knowledge-agent/BabyInfoPhase';
 import { ConditionReportCard, ConditionReportLoading } from '@/components/knowledge-agent/ConditionReportCard';
 import { BasicInfoSummaryCard } from '@/components/knowledge-agent/BasicInfoSummaryCard';
+import { RecommendProcessBottomSheet } from '../../../components/knowledge-agent/RecommendProcessBottomSheet';
 import { InlineFollowUpWrapper, type InlineFollowUpHandle } from '@/components/knowledge-agent/InlineFollowUp';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
 // HighlightedText, HighlightedMarkdownText 제거됨 - tagScores 기반 뱃지 UI로 대체
 import { ResultChatContainer } from '@/components/recommend-v2/ResultChatContainer';
-import type { FilterTag } from '@/lib/knowledge-agent/types';
+import type { FilterTag, RecommendProcessMeta } from '@/lib/knowledge-agent/types';
 import { ResultChatMessage } from '@/components/recommend-v2/ResultChatMessage';
 import SimpleConfirmModal from '@/components/SimpleConfirmModal';
 import {
@@ -1118,6 +1119,8 @@ export default function KnowledgeAgentPage() {
   const [isLoadingInlineFollowUp, setIsLoadingInlineFollowUp] = useState(false);
   const [hasInlineFollowUpSelection, setHasInlineFollowUpSelection] = useState(false);
   const inlineFollowUpRef = useRef<InlineFollowUpHandle>(null!);
+  const [followUpCount, setFollowUpCount] = useState(0); // 꼬리질문 예산 카운터
+  const FOLLOW_UP_MAX_BUDGET = 3;
   // 밸런스 게임 관련 state 제거됨
 
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
@@ -1144,6 +1147,8 @@ export default function KnowledgeAgentPage() {
   const [brandPromptMode, setBrandPromptMode] = useState<'exclude' | 'prefer'>('exclude');
   const [excludeBrands, setExcludeBrands] = useState<string[]>([]);
   const [preferredBrands, setPreferredBrands] = useState<string[]>([]);
+  const [recommendProcessMeta, setRecommendProcessMeta] = useState<RecommendProcessMeta | null>(null);
+  const [isRecommendProcessBottomSheetOpen, setIsRecommendProcessBottomSheetOpen] = useState(false);
 
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
   const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>(() => createDefaultSteps(categoryName));
@@ -1473,6 +1478,12 @@ export default function KnowledgeAgentPage() {
       return; // 예산 질문은 꼬리질문 없음
     }
 
+    // 꼬리질문 budget 소진 시 API 호출 자체를 스킵
+    if (followUpCount >= FOLLOW_UP_MAX_BUDGET) {
+      console.log(`[KA Flow] 꼬리질문 budget 소진 (${followUpCount}/${FOLLOW_UP_MAX_BUDGET}), 스킵`);
+      return false;
+    }
+
     // 아직 안 보여준 남은 맞춤질문 목록 (중복 방지용)
     const remainingQuestions = questionTodos
       .filter(q => !q.completed && q.id !== questionId)
@@ -1497,10 +1508,13 @@ export default function KnowledgeAgentPage() {
 
       if (res.ok) {
         const data = await res.json();
-        if (data.hasFollowUp && data.followUp) {
-          console.log('[KA Flow] 인라인 꼬리질문 생성:', data.followUp.question);
+        if (data.hasFollowUp && data.confidence === 'high' && data.followUp) {
+          console.log(`[KA Flow] 꼬리질문 생성 (confidence: high, ${followUpCount + 1}/${FOLLOW_UP_MAX_BUDGET}):`, data.followUp.question);
           setInlineFollowUp(data.followUp);
+          setFollowUpCount(prev => prev + 1);
           return true; // 꼬리질문 있음
+        } else {
+          console.log(`[KA Flow] 꼬리질문 스킵 (confidence: ${data.confidence || 'low'})`);
         }
       }
     } catch (error) {
@@ -1509,7 +1523,7 @@ export default function KnowledgeAgentPage() {
       setIsLoadingInlineFollowUp(false);
     }
     return false; // 꼬리질문 없음
-  }, [categoryName, collectedInfo, onboardingData, babyInfo, questionTodos]);
+  }, [categoryName, collectedInfo, onboardingData, babyInfo, questionTodos, followUpCount]);
 
   // 인라인 꼬리질문 핸들러는 fetchChatStream 이후에 정의됨 (handleInlineFollowUpAnswer, handleInlineFollowUpSkip)
 
@@ -1942,7 +1956,8 @@ export default function KnowledgeAgentPage() {
     tags?: FilterTag[],
     analyses?: Record<string, any>,  // 🆕 PDP 분석 데이터 (왜 추천했나요?, 주요 포인트)
     allTags?: FilterTag[],  // 🆕 전체 필터 태그 (PDP 조건 매핑용)
-    userAnswers?: Record<string, string>  // 🆕 매칭도 계산용 (맞춤질문+꼬리질문)
+    userAnswers?: Record<string, string>,  // 🆕 매칭도 계산용 (맞춤질문+꼬리질문)
+    processMetaArg?: RecommendProcessMeta | null
   ) => {
     console.log('[KA Storage] saveResultToStorage called:', {
       productsLength: products?.length,
@@ -1983,6 +1998,7 @@ export default function KnowledgeAgentPage() {
         productAnalyses: analyses || {},
         // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 개수)
         collectedInfoForMatchRate: userAnswers || {},
+        processMeta: processMetaArg || recommendProcessMeta || null,
         savedAt: Date.now(),
       };
 
@@ -2003,7 +2019,7 @@ export default function KnowledgeAgentPage() {
         });
       }
     }
-  }, [STORAGE_KEY]);
+  }, [STORAGE_KEY, recommendProcessMeta]);
 
   const loadResultFromStorage = useCallback((): boolean => {
     try {
@@ -2046,6 +2062,9 @@ export default function KnowledgeAgentPage() {
         // filterTags 복원
         if (data.filterTags && Array.isArray(data.filterTags)) {
           setFilterTags(data.filterTags);
+        }
+        if (data.processMeta) {
+          setRecommendProcessMeta(data.processMeta as RecommendProcessMeta);
         }
         // 🆕 allFilterTags 복원 (PDP 조건 매핑용)
         if (data.allFilterTags && Array.isArray(data.allFilterTags)) {
@@ -3416,6 +3435,10 @@ export default function KnowledgeAgentPage() {
         console.log(`[V2 Flow] freeInputAnalysis saved:`, data.freeInputAnalysis);
       }
 
+      if (data.processMeta) {
+        setRecommendProcessMeta(data.processMeta as RecommendProcessMeta);
+      }
+
       // 🆕 필터 태그 저장 (상품에 매칭되는 태그만)
       if (data.filterTags && Array.isArray(data.filterTags)) {
         // 🆕 전체 태그 저장 (PDP 조건 매핑용)
@@ -3658,6 +3681,8 @@ export default function KnowledgeAgentPage() {
     setBrandPreferenceOptions([]);
     setBrandPreferenceCounts({});
     setLiveCandidateScores({});
+    setRecommendProcessMeta(null);
+    setIsRecommendProcessBottomSheetOpen(false);
     setIsTyping(true);
 
     try {
@@ -5282,6 +5307,8 @@ export default function KnowledgeAgentPage() {
                 sortedResultProducts={sortedResultProducts}
                 filterTags={filterTags}
                 onFilterTagToggle={handleFilterTagToggle}
+                recommendProcessMeta={recommendProcessMeta}
+                onOpenRecommendProcessBottomSheet={() => setIsRecommendProcessBottomSheetOpen(true)}
                 // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 전체 개수)
                 totalQuestionsCount={Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length}
                 // 🆕 채팅 입력창 하이라이트용
@@ -5461,6 +5488,8 @@ export default function KnowledgeAgentPage() {
                     sortedResultProducts={sortedResultProducts}
                     filterTags={filterTags}
                     onFilterTagToggle={handleFilterTagToggle}
+                    recommendProcessMeta={recommendProcessMeta}
+                    onOpenRecommendProcessBottomSheet={() => setIsRecommendProcessBottomSheetOpen(true)}
                     totalQuestionsCount={Object.keys(collectedInfo).filter(k => !k.startsWith('__')).length}
                     chatInputRef={chatInputRef}
                     onChatInputHighlight={() => {
@@ -6335,6 +6364,15 @@ export default function KnowledgeAgentPage() {
         onCancel={handleAnalysisBottomSheetCancel}
         isLoading={isInitRunning}
       />
+
+      <RecommendProcessBottomSheet
+        isOpen={isRecommendProcessBottomSheetOpen}
+        onClose={() => setIsRecommendProcessBottomSheetOpen(false)}
+        processMeta={recommendProcessMeta}
+        finalRecommendations={resultProducts}
+        filterTags={filterTags}
+        preferredBrands={preferredBrands}
+      />
     </div>
   );
 }
@@ -6371,6 +6409,8 @@ function MessageBubble({
   sortedResultProducts,
   filterTags,
   onFilterTagToggle,
+  recommendProcessMeta,
+  onOpenRecommendProcessBottomSheet,
   // 🆕 매칭도 계산용
   totalQuestionsCount,
   // 🆕 채팅 입력창 하이라이트용
@@ -6417,6 +6457,8 @@ function MessageBubble({
   sortedResultProducts: any[];
   filterTags: FilterTag[];
   onFilterTagToggle: (tagId: string) => void;
+  recommendProcessMeta?: RecommendProcessMeta | null;
+  onOpenRecommendProcessBottomSheet?: () => void;
   // 🆕 매칭도 계산용 (맞춤질문+꼬리질문 전체 개수)
   totalQuestionsCount: number;
   // 🆕 채팅 입력창 하이라이트용
@@ -6866,13 +6908,21 @@ function MessageBubble({
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible text-center">
-              <h3 className="text-[24px] font-bold text-gray-900 mb-5 leading-tight">
-                조건에 맞는<br></br>{categoryName} TOP 5 
-              </h3>
-             
+            
               
               {/* 탭 UI - 비교표/리스트 전환 */}
-              <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="flex items-center justify-center gap-1.5 mb-3 w-full">
+                {recommendProcessMeta && (
+                  <button
+                    type="button"
+                    onClick={() => onOpenRecommendProcessBottomSheet?.()}
+                    className="flex-1 min-w-0 h-[36px] px-2 rounded-xl transition-all duration-200 bg-gray-50 border border-gray-100"
+                  >
+                    <span className="text-[14px] font-semibold transition-colors whitespace-nowrap text-gray-400">
+                      추천 과정 보기
+                    </span>
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     if (showListView) {
@@ -6887,13 +6937,13 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`h-[40px] px-4 rounded-2xl transition-all duration-200 ${
+                  className={`flex-1 min-w-0 h-[36px] px-2 rounded-xl transition-all duration-200 ${
                     !showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
                   }`}
                 >
-                  <span className={`text-[18px] font-semibold transition-colors whitespace-nowrap ${
+                  <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
                     !showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
                     비교표로 보기
@@ -6913,13 +6963,13 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`h-[40px] px-4 rounded-2xl transition-all duration-200 ${
+                  className={`flex-1 min-w-0 h-[36px] px-2 rounded-xl transition-all duration-200 ${
                     showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
                   }`}
                 >
-                  <span className={`text-[18px] font-semibold transition-colors whitespace-nowrap ${
+                  <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
                     showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
                     리스트로 보기
