@@ -1,14 +1,14 @@
-# 세션: 20260210_042550_60kf
-> 시작: 2026-02-10T04:25:50.059Z
-> 카테고리키: 디럭스 유모차
+# 세션: 20260210_074211_rkjc
+> 시작: 2026-02-10T07:42:11.676Z
+> 카테고리키: 디럭스
 > 카테고리: 디럭스 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 시장 현황
-- 인사이트: 디럭스 유모차는 신생아부터 유아기까지 편안하고 안전하게 사용할 수 있는 고급형 유모차로, 뛰어난 안정성과 핸들링이 장점입니다. 최근에는 블랙 색상과 실용성을 강조한 제품들이 인기를 얻고 있으며, 국내외 브랜드 간의 경쟁이 치열합니다. 가격대가 높은 편이지만, 고급 소재와 다양한 기능으로 소비자들의 만족도를 높이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQuBwOEUbmLJrYPuNvDH_kVJNEWdcVvMSkvAwnsRwImo43fCugxT-6z-J8awOvF9z1wRRnr21NMAzi1Ynj5pf-Acb0YgM-CARDAX58aw590ECj3GY5F_jPjiAeMoNMYar3kETk-wp8GdVzRsqlNEYbu4qNdPEt-30jJDrfR8sNDxGbocOw0rx0NdFPKPT1CkXlAZsvJ_BeRUkQCzd8s0w_5wKJ_L3V_Rui9RvS0Yc690Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFei_4KkkKQXvfe7_DIR0qcaNm4GXxAYbfBKtRMxpVwRVrOAqh0tvNXUDSeyPeL4Cyr-WKcT_rpXqYwSmpJfJXZFrYucxqDRfjY097W5ngZL0Lbvd4f7K3Qf_osZmMUJI0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvKg60SAJbZGSB1oZa9nDgKyCyqxa5s2JuOA-PiJYb9WjnqsQZL6JBUMx-DFAkXLnre8ZfVrq4o5tJzsxrGGkiBgW32vk7awnQ7eQyEMFkTWPkjKZJj7y3cAlI610-k-r3cKCaRw7CnS-oWZkohWlg_p6QmaucvIyva32BtH5L6T3D82PPTWjJAy_VfCuq6VeSWhHjyXYwoFVbcK6nVbVVRw3igFqmEAsZ75MVPlhSCPGmOT_HvrnKQTJrd95Hfxj3S5n3PH7GTFioEnfAfawWoRpllmCa7oTFnagr3bCW6Y79nMZAZA3QfA3CmwToqzJ6js-ZSry7S2gqPP7Sv3e8-NXSoCoUwpUcjHn0dfNDlWps_fIGolpbnMghhJJsccHcanmx2kWOzROD0ovzwhAwD6aRS0CCd6alwOREuOd_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyTp0naqkaLtJojOJ50sQWq-fiWh-F4gRzOcsle-JeR7fCIuaIECy5m7_Jr9xUadpTOVt_BwrZ-Q7J-1mqVCjy2uGFu0W6TmAUCdCtGl_mZYcSMSs0GFIO4QfZMPJEafkdzzOJUg6aHlLQ2J4_06JJ3VLogS8YQzuaWEBaelcj4xergFrOcUzlujIk6FO2T6vI7ZeWfTWbFE4XVuEljYAmoieknra4oiHFOg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE19Z07tjgC6byUEhxpSk2Db4MeYmhhv6Trsv0srp8rwBGAJwFH3H046SEgCE-8wPn_wW-6WV8jUOXEIsZ8SWB7WBVJjjtIvvJxu5ESnJA8GZYNihP_QPBdCCzXArqeVAAtWi1QnFXHOnAkenmi3ZGw6SSR87ZHu9XgzrXnPkL5g17M, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGacfI1lyD8N212rTqTLM9XDT17grFkaJl4UGSudIMZhvhbDwiYWs8BBEXZje7b2UaCpPgd5j8w9NNZ_jL7a3uj9NsSbc1q1NWsA6Wkx9B5msJ8X3lbhNxCWEfzsvqBwZ4bcNam9IcUlXI=
+- 인사이트: 디럭스 유모차는 신생아부터 사용 가능하며 안정성과 뛰어난 핸들링이 장점입니다. 하지만 무게가 무겁고 부피가 크다는 단점이 있습니다. 최근에는 휴대성과 안정성을 겸비한 절충형 유모차도 인기를 얻고 있으며, 프리미엄 브랜드 간의 경쟁이 치열합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwfv5MlmDUSaolxVe12_PS_s-JPoZu7WXXCdO8CIBT_lpUbImOjX_AmSmaA3zS7ti0muV0XoQoFFubAS2AwzW-UP5cXxl7XQEvjDcJOOR4aN2Qkv3ii8ik, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQMg1ajPxENGzuPEOBeXah1-G_HcssQlcp6PF4kR8Um8drbFPlJ1KOcjnq6etTlGwUgUlWYWrKqQMGuRbazDfnoFaxXeqGxwIkfS9X7jUXSnsr8jCQTksmAVNCylhM-deUePg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGp-_MmhgjgL9dP-I2Yr7QDNd3PsEHYjBk5Da1NojYM5yoO-Jr-09-M1xu52WDrdEv6ZfCuNCnr4JrSe1pigf4FcgPmzd-ODAk1AAS6aUQ4_hV9B8CRgjYejbH6RhL39bd2i7pyDDeXDRACNkV7C-aMd07ZQQpRtmnPMNUHzSFJyoc7VbaFI_k9-TVqcQDUJXJFUfNigZDA9S54WDTSedv2_N8Nxigx1nFLKMWGMd5i7tGxTftriJQ9AxU0vUe5mv4fld52ceqit_iTGuUjtzEC5wvBRcc5SvTP2a1XX7beG1S-JQhJKyME5ILrOuKtaKLuZJt5YVBqqJAK9UsBMIzXRMX2JPJ81DQTMLgtLm1UMZyYEIW01yV46KDzsigiHyRyWpG8yBlxAMjU8vCvenLLNWeh1Iy8QsyBQ15fJh8, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFbMiIHbTr5eHuX6yE_CuMG56l3br_wfWtOy7B2tCLyOHMgM-LUQqu53i4nJkyuP0uQjD4qfqGv67n3umygRqYINdWQZqRddz1T0amMKQifMojBpYSdq4R0TmfwxfixMfetRH4FJqv4tEARPqWNzGaJXCLA8o2FPU9SrfxTVaoQSELWzRaZGLKtlvAlBCboba5RLRKguzL-T6uXN9ae6_BDlH0YmhCO6yMh7A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqpM6DGuwJ7eJjOvEOE4a1NGfqs2kEpc9hZIApt9dqY6ahAc7zUStmYAci9Tp3RGKg-YAG2iG6usLEqUkSliyEg_HFu80r_33Ev0wM6860NuiUMdNz0jePlepsZSgeC5F3lNYXXSeJpRLXXBaeHF65caeAdg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUqX5e-V8uQRpb8Ks5uzrqinomx4w11pE_DYWHHdW4UyMKLuBj95RujQfgZxkuTfinTwsC5BP2Q56-tZCJ4OVgk6_F-Ei0RYJg71Tbt6MZTmM8odmKRfzGERc0IBBcIUaDQxD3NYjgbaNqjP6Mzd7Owg==
 
 ---
 
@@ -16,6 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| 신생아부터 오래 쓸 프리미엄 디럭스 유모차를 찾으시는군요! 혹시 유모차를 휴대하실 때 가장 중요하게 생각하시는 부분은 무엇인가요? | 원핸드 폴딩, 초경량 휴대 |
+| 유모차를 사용할 때 가장 중요하게 생각하는 주행감은 무엇인가요? | 안정감 있고 부드러운 핸들링 (안정적인 주행) |
+| 아기의 편안함과 편의를 위해 시트에서 가장 중요하게 생각하는 기능은 무엇인가요? | 높은 시트 포지션 (시야 확보 및 오염 방지) |
+| 예산은 어느 정도로 생각하세요? (평균 74만원, 37만원~96만원대가 가장 많아요) | 37만원 이하 |
 
 ---
 

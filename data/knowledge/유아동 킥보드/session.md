@@ -1,14 +1,14 @@
-# 세션: 20260210_055625_xaao
-> 시작: 2026-02-10T05:56:25.017Z
-> 카테고리키: 유아동 킥보드
+# 세션: 20260210_071624_mv7r
+> 시작: 2026-02-10T07:16:24.793Z
+> 카테고리키: 유아동
 > 카테고리: 유아동 킥보드
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 유아동 킥보드 시장 현황
-- 인사이트: 유아동 킥보드 시장은 아이들의 균형 감각과 운동 능력 발달을 돕는 중요한 놀이 도구로서 꾸준한 수요를 보이고 있습니다. 안전성, 내구성, 사용 편의성이 중요하게 고려되며, 최근에는 친환경 소재와 에코 패키징 등 지속 가능성도 중요한 구매 결정 요소로 떠오르고 있습니다. 또한, 소셜 미디어를 통한 마케팅과 온라인 및 오프라인 채널을 통합한 옴니채널 전략이 중요해지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYGmM1E7lwixda19PTETMUzl-UKN8imrcHLBOb2HP4b4nIGObprjB-7lcOVJB_ilsZ7tDTvKa8kZ6gvpfwEBvo6SH0CpJ0PtUZ4iQsT2TdurLWPPpQng1N_9GZOpk6lR3ZjOUJqOShGoQUdudjBhzjD5huPsZJrwqXoxiM8nd9IoKXsXsdTdSJZlvV2m8L6aWIxOJmcts53o4qFf8To8zSWIMgK-4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6oBuIXsbccxFNvV5sgGBi7lLqwjWZNBufUk4NQeWIiNrnIizI2du2uHnfKSsHmKOMlZfbWvvomO7q6PJQyJTtaxpWnDEonTJKxmJryAX1UywWz6a9JTYSvZeyxxTB7ubchshsnnJaK_uhDcj3EOl0lJWJee7mdpmiqUDyr185A1FtghxXqC8SUN7NL72uHqXx_uFR16K0twVeiM-NHBNCSvjFkBjtQEHRKg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSjbvP7RauFtbY8kfFLCAhRXXngO1McRFGxbTpzfM21H5gsirdBNObUm6YKb31ln11ilrxHzDFb_2bLM4fN3NdjbWK79Ns3Nm_bkMipefbmnxZv9DrobbdbQwDh095u4MtZrrfGaK0as0Ris9PBTi1vEd03-s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJQuQzik5tWZDQ5viuRjZwYSRg8v2JRgdsz33GSAt-o6MVYdR0QLer6Wbj-vvC37WobojhkEU36rQ50-zkUqhs2dfjXe4FlNghXxjae2sM-jndhB984Ic9ZI5owlOhJLStyalU5v4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcxJvX-5AVlLBrh4HlmGI81EpIJhIfN7KmCTiedRxu2kE8V1Wp4SebD2P4D_MdUUmDli4w3JOfCb7TSRn5qCQN_n6OdxsKgWtbcvgKqFJoKPczUZb5FsrAC66AxnHjdXjFXCcgQf34Dnp13PkgCohHHH94C7RN3YAGGj_2_3oKd2VLN_47Ng-7bRovK-enot8IztJTC8n39zsOZFNjlX4zPQcc8WY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8axxZvX6abquYZmSy3ZKFB5YkpYn7g8Bh8p6ojMJNJWNh2Mahd3fa_tK4dGu-P3jP_TRszeDd6PxqcFKCO1Jl4iTApeEOe7Vmr2Yr5zMmANU9XqkUXZry6zdSXbhrXYfK2_oIM5cf7KzgGwJjd1tXt5NjKVlem5qYzMCy4cFcvUHm3_3y8t9s3stfaf1nHLN7qk0h6cwepzc1U80ioThWcsBzlb5_y2uBafzmhv1AzFM55pEo-1r7X7GkciyNJBPf9glkv406m58eF0nJvksSqWPKKrRnJYlOaYdsxz41pksu1gKrQ2b528Z1yONk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnzsUUljLex7UGSuXzGGT-_lUeuPNVIAW8pVhkKy_1yXk4GXLNwve0t3zjvBTzZNeI3G3AaP1dp79Tgl6B6nA5hY5klF0NgLyvnLyT7j55LhQXgM8FNAOUQi0VCYwq-ZZBJqE2z2zksSIOioj2Zj4ipAai2UABNQfTKNNepC-CK_QXHT-6FMS1ZFWyTkv9038HN7FHvapIQmId5pKqz_6-MGVHmgw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzb3oRWx0CFJc1119veyHmprjCjSU0Oe0-bn4MAD8zXlyVfPxljZE_h6mSq1HqPDTOpJYEG0oAM9G4V2LpXpdO4ACdrSmdf20QgLjpq6HiP23VtqYpA_Y-OlqKr3Z6duBPjED2QPQ=
+- 인사이트: 유아동 킥보드 시장은 안전성과 지속 가능성을 중시하는 트렌드를 보이며, 전동 킥보드의 인기가 높아지고 있습니다. 소비자들은 제품의 품질, 내구성, 조립 편의성을 중요하게 고려하며, 소셜 미디어를 통한 정보 탐색 및 구매가 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZQzqJdcJpd3AJCxCel33ZMef3tYclWX7WA5TrPzG1TChR9QLO82TQsIgAaaBuIho_x9WIJKwNRMV2JSIwRZzgokapMfay1N-QDfMqBahDEz_Ol50Ruc7efQrV34Bkrm37OxRfJoGyer3BdDQPD1npTfoahg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGeA007DhmBTB0yt_v6XaymxBH77W2e0sqDI0tD4UIkZgsvlMXOkdL-dUgiwcqrdf4eVXo_N_zKl42IDixW4Cer5EijLKlsLLIuHmyPXLFk6bBGVY5zhfkSQ9p-GyTkAmZztDHYZAem7ADuzgynMa6PWm5HapRyoaxUMIZ7gfwNtGzDWGDgoY2r_-LtFb6KJRJ0vuluiEIRI6sIkHvTH6bbyxvFDg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi5WT2Afb6Y-0STuUigtoMlwN9M8cAmHMX4coyPZt6LLbjLwRfJ_HXfBsfXDd1JfSmZ3qOBC8NgNFhUXimdOSAcXlFJwz1K_clIrsQjCERvnQ-c-oGh6XulC0oknOdi4gwIImuGEPBMy8yY2_-o1L-4rKfDuyLorZDvNPBRLiFo7-YiZDabM2slRhol95iItV6og3qGNTPChXVk7ibmKZN-GpQPfU2hrBn
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이가 걷기 시작해서 운동 겸 안전한 킥보드를 찾으시는군요! 아이가 돌아다니기 시작한 만큼, 어떤 안전 기능이 가장 중요하신가요? | 미끄럼 방지 손잡이, 넓고 안정적인 발판 |
+| 아이의 연령과 발달 단계를 고려했을 때, 어떤 형태의 킥보드를 선호하시나요? | 발란스 바이크 전환형 (핸들 분리/조절) |
+| 킥보드 바퀴에서 어떤 점을 중요하게 생각하시나요? | LED 바퀴 (야간 시인성 및 재미) |
+| 킥보드 휴대 및 보관 편의성 중 어떤 점이 더 중요하신가요? | 접이식 (휴대 및 보관 용이) |
+| 예산은 어느 정도로 생각하세요? (평균 15만원, 9만원~20만원대가 가장 많아요) | 10만원 ~ 20만원대 |
 
 ---
 

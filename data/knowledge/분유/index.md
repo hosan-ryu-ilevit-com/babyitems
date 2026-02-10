@@ -1,6 +1,6 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T05:52:49.619Z
+> 마지막 업데이트: 2026-02-10T06:03:53.947Z
 > 분석 상품: 20개 | 분석 리뷰: 34,492개
 
 ## 📈 2026년 시장 트렌드
@@ -9,20 +9,22 @@
 - 프리미엄 및 특수 분유 시장 성장
 - 온라인 유통 채널 확장
 - 건강 및 안전성 강조
-- 수입 분유 시장 점유율 확대
+- 수출 확대 및 해외 시장 공략 (특히 동남아)
+- 성인용 분유 시장 등장
 
 ### 구매자 만족 포인트
-- ✓ 일정한 영양 균형 유지
-- ✓ 특수 분유 선택 가능 (알레르기, 소화 장애)
-- ✓ 편리한 보관 및 사용
-- ✓ 모유 영양과 유사하게 개선된 제품
+- ✓ 프리미엄 제품 다양화
+- ✓ 소화 용이성 강화
+- ✓ 수출 호조
+- ✓ 성분 투명성 및 유기농 인증 (수입 분유)
+- ✓ 국내 브랜드 인지도 상승 (동남아 시장)
 
 ### 주의해야 할 단점
-- ⚠ 모유 대비 낮은 흡수율 (지방, 무기질)
-- ⚠ 비타민 C 함량 부족
-- ⚠ 비용 부담
-- ⚠ 모유의 복잡한 면역 성분 대체 불가
-- ⚠ 일부 성분 (팜유, A1 단백질)에 대한 우려
+- ⚠ 수입 분유 경쟁 심화
+- ⚠ 높은 가격대 (수입 분유)
+- ⚠ 국내 브랜드의 해외 시장 의존도
+- ⚠ 특정 성분 (팜유, A1 단백질, 덱스트린 등)에 대한 우려
+- ⚠ 온라인 판매 의존도 증가에 따른 오프라인 채널 약세
 
 ### 가격대 인사이트
 
@@ -244,6 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxsbaq10F9MAs5liNyiSaNiwxtZu8yghiy99n2QGdy2Wvg75njWoVOEMsInsgeX1GJyuJ3HvIWRKxwYiq9VecY-Pyz1SeS5iz9gEiYUjJ4_c4FPFCOpZ_CJSHwTkjhL_dJglusQ1JTfV8Trj7FraWJO9KigSVvUf9vyfKtHTUUd5pVWke2-e8WLmudJRjClA==)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZSs_6wO5oFs2NulFaFO21gpl7EFnrkwFemL3w-clzJbOnWgMaJTATZ5tQM5wyDn0pxLt0rGWLzsqsNLPS_iKD2m4Ym84EDAB0LiT3-tLKssRld4Hw0w1CnVAqiC_hb9mhzxScP8aj-8_HjFm8dMoTI07EhXLlIJIbS0WPQMbDH1jr3W7nNsAGcPVjEb2lDFfdT_NTllsc)
-- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0IBbTpDW00ln3pdXckR5k_eQDa9aB9T-UXv-1Kdm_tgjhcu7_VzVEj1bWP7Bh_YD4HxqGQyjXqfsyK3708eWjT5GQIcypng55XQDw2hMjUT6V8OQ7FLd9sx9VpzBd86k1-GkEJjZFUzWqQv09DbeuPejrOIVQMymB4DPOWa4B-u0fVe1xxKkfMfjjbhjLN2hRF-VMdg==)
+- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAMyGBxq3HVeJ6HU9LfSAvAZdvKYl5Ik6iRvOUMkZT9Nhx1aFGveqa2gzZZGip7W7zbZCvVk8QyuGh-0oKKtvClQBnU72u3CgS92xOmCe4E76GhUdDnCNdybTAtSNsVSd9JA7hfx05sIvlG5-Og0BnRNM5EpFdl5eDBPAcUl-AHfQCG4B01vz2HiaVo9EUCbtpuBVpXA==)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHA65KIxcFN1q_3an7188j-TXrLYQSNigzaJnRJuqf6OVphNj2rNqAsiylGHTZbP1k6vQOeDBVZCXrOznzg0UpnEpx70Q2n7El_3eAtrK522ymxoU7_jh60xmRo3ngFhR_Vd4mmQMu23zx2k3u-T9By5lvW4DcttmzGFh7t_3LHfLn-947dPMEPMAwRI84YFxxYRPDAfL1F)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-dUTCED46jrKSdLlyAfe3fRXljqbKW5jMEfRwTxd1MFl_5VZJJOnsyiUVjvJlgcDbpYJc3NICqqZIUn-X6ixkJTaiNpIsIcf5nwfIiXS_ZKLR7rm8F2p7H1aEwloeVS6kEs2oHakGWVT8Z9KtKHxSUw2jV_QFX1LrubWJYeD38ZOz)

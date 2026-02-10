@@ -2281,7 +2281,7 @@ async function generateDetailedReasons(
   }
 
   const ai = new GoogleGenerativeAI(geminiApiKey);
-  const modelName = process.env.GEMINI_ONE_LINER_MODEL || 'gemini-3-flash-preview';
+  const modelName = process.env.GEMINI_ONE_LINER_MODEL || 'gemini-2.5-flash-lite';
   const model = ai.getGenerativeModel({
     model: modelName,
     generationConfig: {
@@ -2702,7 +2702,97 @@ async function selectTopProducts(
 
 export async function POST(request: NextRequest) {
   try {
-    const body: FinalRecommendationRequest = await request.json();
+    const body: FinalRecommendationRequest & { streamScores?: boolean } = await request.json();
+    const streamScores = Boolean(body.streamScores);
+
+    if (streamScores) {
+      const encoder = new TextEncoder();
+      const writeEvent = (event: string, payload: unknown) =>
+        encoder.encode(`event: ${event}\ndata: ${JSON.stringify(payload)}\n\n`);
+
+      const stream = new ReadableStream({
+        async start(controller) {
+          const send = (event: string, payload: unknown) => {
+            controller.enqueue(writeEvent(event, payload));
+          };
+
+          try {
+            send('status', { message: '후보 점수화 시작' });
+
+            const rawCandidates = Array.isArray(body.candidates) ? body.candidates : [];
+            const reviewsMap = body.reviews || {};
+            const candidatesForScore = rawCandidates.slice(0, 120);
+
+            // 빠른 백엔드 프리스코어 (중간 SSE 반영용)
+            const quickScores = candidatesForScore
+              .map((p: any, idx: number) => {
+                const pcode = String(p?.pcode || idx);
+                const reviewCount = Math.max(0, Number(reviewsMap[pcode]?.length || p?.reviewCount || 0));
+                const rating = Math.max(0, Math.min(5, Number(p?.rating || 0)));
+                const rank = Number(p?.danawaRank || 0);
+                const matchScore = Math.max(0, Number(p?.matchScore || 0));
+
+                const rankScore = rank > 0 ? Math.max(0, (130 - rank) / 130) : 0.35;
+                const reviewScore = Math.min(1, Math.log10(reviewCount + 1) / 3);
+                const ratingScore = rating > 0 ? rating / 5 : 0.45;
+                const matchNorm = Math.min(1, matchScore / 100);
+                const score100 = Math.round(
+                  (rankScore * 0.35 + reviewScore * 0.25 + ratingScore * 0.2 + matchNorm * 0.2) * 100
+                );
+
+                return { pcode, score: score100 };
+              })
+              .sort((a, b) => b.score - a.score);
+
+            const chunkSize = 12;
+            for (let i = 0; i < quickScores.length; i += chunkSize) {
+              const partial = quickScores.slice(0, i + chunkSize);
+              send('score_update', {
+                scores: partial,
+                evaluatedCount: Math.min(i + chunkSize, quickScores.length),
+                totalCount: quickScores.length,
+              });
+              await new Promise((resolve) => setTimeout(resolve, 110));
+            }
+
+            send('status', { message: '최종 AI 평가 진행 중' });
+
+            const internalResponse = await fetch(request.url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                ...body,
+                streamScores: false,
+              }),
+            });
+
+            const finalPayload = await internalResponse.json();
+            if (!internalResponse.ok || !finalPayload?.success) {
+              throw new Error(finalPayload?.error || 'Final recommend failed');
+            }
+
+            send('complete', finalPayload);
+            controller.close();
+          } catch (error) {
+            send('error', {
+              message: error instanceof Error ? error.message : 'Unknown streaming error',
+            });
+            controller.close();
+          }
+        },
+      });
+
+      return new Response(stream, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache, no-transform',
+          Connection: 'keep-alive',
+        },
+      });
+    }
+
     const {
       categoryKey,
       categoryName,

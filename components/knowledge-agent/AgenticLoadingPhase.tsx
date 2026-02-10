@@ -341,13 +341,35 @@ function ProductAnalysisContent({
     return match?.icon || null;
   };
 
+  const ProductThumbnailChip = ({ thumbnail }: { thumbnail: string | null }) => {
+    if (!thumbnail) {
+      return <div className="w-full h-full bg-gray-100" />;
+    }
+
+    return (
+      <img
+        src={thumbnail}
+        alt=""
+        width={32}
+        height={32}
+        loading="lazy"
+        decoding="async"
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.style.display = 'none';
+        }}
+      />
+    );
+  };
+
   return (
     <div className="space-y-4">
       <div className="text-center space-y-1">
         <p className="text-[13px] font-semibold text-gray-700">
-          제품을 불러오고 있어요 <span className="text-blue-500">{displayPercent}%</span>
+          실시간 인기템을 불러오고 있어요 <span className="text-blue-500">{displayPercent}%</span>
         </p>
-        <p className="text-[12px] text-gray-400">가장 잘 맞는 제품을 찾고 있어요</p>
+        <p className="text-[12px] text-gray-400">가장 잘 맞는 제품을 찾아드릴게요</p>
       </div>
 
       {products.length === 0 && step.status !== 'done' ? (
@@ -376,25 +398,13 @@ function ProductAnalysisContent({
               <div className="flex flex-wrap items-center gap-1">
                 {group.items.map((p, i) => (
                   <motion.div
-                    key={`${group.source}-${p.pcode}-${i}`}
-                    initial={{ opacity: 0, x: -4 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    key={`${group.source}-${p.pcode}`}
+                    initial={{ opacity: 0, x: -4, scale: 0.86 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
                     transition={{ delay: groupIdx * 0.04 + i * 0.01 }}
                     className="w-8 h-8 rounded-[6px] overflow-hidden bg-gray-100 border border-gray-100 shrink-0"
                   >
-                    {p.thumbnail ? (
-                      <img
-                        src={p.thumbnail}
-                        alt=""
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-100" />
-                    )}
+                    <ProductThumbnailChip thumbnail={p.thumbnail} />
                   </motion.div>
                 ))}
               </div>
@@ -403,13 +413,7 @@ function ProductAnalysisContent({
         </div>
       )}
 
-      {step.status === 'done' && (
-        <div className="pt-1 border-t border-gray-100">
-          <p className="text-[12px] text-gray-500">
-            TOP {Math.min(count, TARGET_COUNT)}개 분석 완료
-          </p>
-        </div>
-      )}
+    
     </div>
   );
 }

@@ -1,30 +1,30 @@
 # 이유식 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T05:50:48.496Z
+> 마지막 업데이트: 2026-02-10T05:59:32.560Z
 > 분석 상품: 20개 | 분석 리뷰: 35,016개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - 프리미엄 이유식 선호
-- 온라인 판매 채널 성장
-- 맞춤형 케어 및 통합 육아 솔루션 확장
-- 다양한 메뉴 및 월령별 세분화
+- 간편식 이유식 수요 증가
+- 온라인 유통 채널 성장
+- 맞춤형/월령별 세분화된 식단 제공
 - 유기농 및 친환경 재료 강조
 
 ### 구매자 만족 포인트
+- ✓ 다양한 메뉴 구성
 - ✓ 시간 절약
-- ✓ 다양한 식단 구성
 - ✓ 영양 균형
-- ✓ 편의성
-- ✓ 아기의 흥미 유발 (자기주도 이유식)
+- ✓ 재료의 신선함
+- ✓ 안전한 제조 과정
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격
 - ⚠ 첨가물 및 방부제 우려
 - ⚠ 수제 이유식 선호
-- ⚠ 부모의 부담 (준비 및 정리)
-- ⚠ 아이의 식감 거부 (자기주도 이유식 시)
+- ⚠ 일부 제품의 영양 불균형 가능성
+- ⚠ 파우치 형태의 식습관 형성 문제
 
 ### 가격대 인사이트
 
@@ -246,6 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVyEuPrUda2cm1Jkix5RdmhV3JLME3Of56ONm-Iga37O8iZqFuz_JmFUnzGSaDc9FwVoyi6CZvqHiIV5L3qdPU1RNSLJ7C8aAStE8iKWTepm0cYyU-AbLmE3086uvJcHB6eGqd-cLX4Gud733XZdacc3lFbCZeFJQOyQVzSz0=)
-- [towardshealthcare.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEY1t1N1fNu-Kt9W-6vj43RyMjqIEmVQ_9MOYVgA-m2iJsFkg5stNmRW_ln_jTF95j80BYYbVOCP15Q9LNQ_hZwuHerUgEtxIpu8O2eZ4UDSqMDAWEW5caccBe2QNU-WZxPqFVOU1JHUwUyLFojfMrHz8zNMEv7OvGldWcOiiJqvjxxuw==)
-- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6VDdoyyRiE0YropgD9Y2EjFlLRO-5hbaUVFrHCd8U7NkeQDs43vVYQQq3ox-CFmoAYSUtQnxK3ZWQDdA70Y9wha16VyGqxDI6LfBQV57mtu8U0GHYxZhCI1o6DIlmjyTEWsmx12HaYY3HUE-t7BFE0PbZNqUy)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGICAq6cQs0NR_yMa3lnZQTLFLgN1yqWKpNZf5U1mBJqAFlz2ag8C6SAhZ10hkQJ8P9SlIONUvFQ-_MOrCSy8evSD8-n3zjcO_RsWomcroC8PGhyYuqqyRGpYHxlJoKGpKveeqM5_DsO8J4Kw06HnDbFuBPR_tALnfEcypISsA=)
+- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHo2vukF5FKQVkdTR3TOMxBYioWmp6I_pmrNV-HTjQoIbaoW2RttVQJGlLQzqDD1QuGxuo7QfZ6YCppIcrWHS7XSAS_s1OgjCd2sZRT_UZXblJ4-OfiQ1uMQw751PhjmNlXjazyWrU8MiM0TO6AXB4ZjC-fTwUF_9bWpiUaIrHE2rjv3MTHsPzQEAeZ9OSNxi5eeQU=)
+- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuJ-KE7akWhacSDMkbui58_8GfhEp1zF7M3INpMbdFd4exfuGOY6x-nZ8nRZ3_o2f8rKID50scrLq4-9zkNNcRYZ3rF3zTw0tnwr6pjAYzcxA7rDk48W23wr76FODSKDfhu6NxHgPKoyPn8WYzO0SnIRMzbLRVHZ_agYLTOj8_LC4=)

@@ -1,5 +1,5 @@
-# 세션: 20260210_055251_7jdr
-> 시작: 2026-02-10T05:52:51.433Z
+# 세션: 20260210_060355_uh75
+> 시작: 2026-02-10T06:03:55.956Z
 > 카테고리키: 분유
 > 카테고리: 분유
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유 시장 현황
-- 인사이트: 국내 분유 시장은 출산율 반등과 프리미엄 제품 선호 현상에 힘입어 축소 흐름에서 벗어나 반등의 실마리를 보이고 있습니다. 2016년 약 4700억 원 규모에서 2022년 3045억 원까지 축소되었으나, 최근 출생아 수 증가와 함께 1인당 소비 단가가 상승하며 새로운 성장 동력을 얻고 있습니다. 다만, 유럽 및 미국발 유기농 수입 분유가 빠르게 점유율을 확대하며 시장 재편이 이루어지고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxsbaq10F9MAs5liNyiSaNiwxtZu8yghiy99n2QGdy2Wvg75njWoVOEMsInsgeX1GJyuJ3HvIWRKxwYiq9VecY-Pyz1SeS5iz9gEiYUjJ4_c4FPFCOpZ_CJSHwTkjhL_dJglusQ1JTfV8Trj7FraWJO9KigSVvUf9vyfKtHTUUd5pVWke2-e8WLmudJRjClA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZSs_6wO5oFs2NulFaFO21gpl7EFnrkwFemL3w-clzJbOnWgMaJTATZ5tQM5wyDn0pxLt0rGWLzsqsNLPS_iKD2m4Ym84EDAB0LiT3-tLKssRld4Hw0w1CnVAqiC_hb9mhzxScP8aj-8_HjFm8dMoTI07EhXLlIJIbS0WPQMbDH1jr3W7nNsAGcPVjEb2lDFfdT_NTllsc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0IBbTpDW00ln3pdXckR5k_eQDa9aB9T-UXv-1Kdm_tgjhcu7_VzVEj1bWP7Bh_YD4HxqGQyjXqfsyK3708eWjT5GQIcypng55XQDw2hMjUT6V8OQ7FLd9sx9VpzBd86k1-GkEJjZFUzWqQv09DbeuPejrOIVQMymB4DPOWa4B-u0fVe1xxKkfMfjjbhjLN2hRF-VMdg==
+- 인사이트: 국내 분유 시장은 출산율 반등과 MZ세대 부모들의 프리미엄 분유 소비 증가에 힘입어 장기 침체에서 벗어나고 있습니다. 다만, 유럽 및 미국산 유기농 수입 분유의 점유율 확대와 함께 시장 재편이 이루어지고 있습니다. 2025년 글로벌 분유 시장은 약 351억 달러 규모로 성장할 것으로 예상되며, 2031년에는 439억 달러에 이를 전망입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAMyGBxq3HVeJ6HU9LfSAvAZdvKYl5Ik6iRvOUMkZT9Nhx1aFGveqa2gzZZGip7W7zbZCvVk8QyuGh-0oKKtvClQBnU72u3CgS92xOmCe4E76GhUdDnCNdybTAtSNsVSd9JA7hfx05sIvlG5-Og0BnRNM5EpFdl5eDBPAcUl-AHfQCG4B01vz2HiaVo9EUCbtpuBVpXA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHA65KIxcFN1q_3an7188j-TXrLYQSNigzaJnRJuqf6OVphNj2rNqAsiylGHTZbP1k6vQOeDBVZCXrOznzg0UpnEpx70Q2n7El_3eAtrK522ymxoU7_jh60xmRo3ngFhR_Vd4mmQMu23zx2k3u-T9By5lvW4DcttmzGFh7t_3LHfLn-947dPMEPMAwRI84YFxxYRPDAfL1F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-dUTCED46jrKSdLlyAfe3fRXljqbKW5jMEfRwTxd1MFl_5VZJJOnsyiUVjvJlgcDbpYJc3NICqqZIUn-X6ixkJTaiNpIsIcf5nwfIiXS_ZKLR7rm8F2p7H1aEwloeVS6kEs2oHakGWVT8Z9KtKHxSUw2jV_QFX1LrubWJYeD38ZOz
 
 ---
 

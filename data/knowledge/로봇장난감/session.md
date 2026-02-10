@@ -1,5 +1,5 @@
-# 세션: 20260210_054338_fe5f
-> 시작: 2026-02-10T05:43:38.780Z
+# 세션: 20260210_073005_m94p
+> 시작: 2026-02-10T07:30:05.075Z
 > 카테고리키: 로봇장난감
 > 카테고리: 로봇장난감
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 로봇 장난감 시장 동향
-- 인사이트: 로봇 장난감 시장은 AI 기술 통합과 STEM 교육에 대한 관심 증가로 인해 강력한 성장을 경험하고 있습니다. 특히 교육용 및 오락용 로봇 장난감 모두 소비자들의 높은 관심을 받고 있으며, 북미 시장이 가장 크지만 아시아-태평양 지역의 성장세가 두드러집니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9n8VQUw6ahE4hFrIwWx4RvI5d0_XAH7iAfe1EugAccY3kjmpQnZDvECbTNegNH4EUo2duoSQO4i-rOx5LoK-ZndhgV7Zgkyda9IWbSxI1avqa9oBfyJ1-wJe4a6eY9brbhs-1tdSLQwIpuq2SnFS_HmgC6fybuUBeC8cuIYS0h6J-26-Wjj4yorgt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHvqtzoZ3fYg0uEWkVKbiUa8kjeL5FQ40yKTLZX_97jpW5aDk5BD0tKJXYifM-ojfauTdutiY541GBaTibkDYHdqCndZEtVqOOqQtEATUABmt4VKTVdEuoB1Wh4_nfO5Ts8w_eVHmUiKew8rCdtf3Km3JdUpTxWSM4wDNcfj_w4SpyE01E=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaogFBL6zKGrK-sP3ZMRE_DAqM7WfhZaiEEh4MPn7FitUEbatWPETyuwhhqnXO1NTQTESsl_oAFYCwFsHtHShHb6-kvIXLMnKO7n6suPSx0LaD02EwOosiwtawyEFE7aZBX_RTVF4SrMV6D6pnZZLkH3UyHVyfDnmG6KFYOlP3qkdfqYYW3i3QkGmbaQ_wb_4KnlIJLHFIojlZsw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRRGrfmqfMIEpqm4DakrRllOWi0X4JzJ1RNytE94m9QMug_MMw7Mm6j43GFbsQsMalTvXyIwKcBxbuxjX-SrAviFeeZFJp1Jj3ZgFcSeB17XujHNSN9RzVY0AG3YQkyWXNW7MeCrWrSX5FY7QNdvbQDgnPCiX62De5bwfuRD4TYZFvceuY_HDa70gk00-_9I4KlKJb2KXIcr5TztaW0Ud6rcdYc-0cxhXM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBZurqb6JywdyT69twZeKXmXAieAY0lTm568dUq0IJPIH7pilMdOE79wGxbOeqo2JRpmb9Ssxl_0-ryD7zTjb_mPXWPViDlVZQTCzuQOUb_-lopBVX64Q8pDj51mQHcNHIssA5pA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6mFW8_XM6ut590gt_rUvncpyqQz_oCt8xVySzD0P9BIvSNX6l1aUAvNRn21vIOxGKFTeAAl5eXMcH0oQ-8O_BvMZBR62iaV2HgxP4Ox3qH7ATIkOA85wXM9b-Pp5mMFcSgxjU6A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmbAG_nW9WPVv5S2xFwS9xiiX2fXJcTXr-1YWrLaFad33FGguFj-G8GS1VyUrb1Bth7-xQvR9kXCOYXo2ytsM9Kaz6sn67oAqFtAA7HW8riOEP-jBMM0RFoXVyWpv7YMCKg-rugA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEy2Vqs9PFqDoMkFpLzsUm28elRBXy1kKVJiNVOBKUOhCJwtC1OT5D3bF-ME33npYW7jLOExamTMEVwMftx79V4_Jn3EM1vyGsDXFzc4yzWcgqB5qBU8kbn3SS6EiDCX3aQX214
+- 인사이트: 로봇 장난감 시장은 AI 및 STEM 교육에 대한 관심 증가로 인해 빠르게 성장하고 있으며, 2035년까지 상당한 규모로 확대될 것으로 예상됩니다. 특히 교육용 및 엔터테인먼트용 로봇 장난감에 대한 수요가 높습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHoxwPkE3w0LqPl3iwubIuT9HmtPVYxI113DtOWUH5KqWDX8sptD1RpsgOm_Ob0AacJTkU_D8s3_6tAUma1V_EcKVb0RAeXiaKAwrUn11ZriKALxLyMqvbzBHZlaKTEo3vhcAVDU_b7u5cgbrP9eBSZg_d4S-MUrQ3ugHx4ne27pMjqBsNqGGSg7dDy, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGx6Nr8vGu6U1RSpyXkeNq7mGuf6FoJ0OmeAJpZwtbXMu0k-Yi7B4_iXb7W_q7mbSUxb03YiK4HO1R3mmVJgE5UsJjzqkLXKobd96zRkcBo7X532RsxYkUpHBUQf270azlYjMVJFZHvIg8ueoccmzZGskatnjFkPVdzmnAj7VgT8VqqwFpOb-JRvbn2-gzuRTwrEMElpsRK0Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEp-UzM_iHFgvn2Go7h8Hw21oqsgKv3K7t03hcbX8Kss472u3-y7TfWL4R_7fYiWXwf4MY5TD7gNMmgYSoiito-Vk-SSwg8uEyEwQPorbarLaF7wtXBFfvHPXJP5zqElchI891LPoStGxRySG7Al5CnhW_YOylxs0l3PcZr4UFudLB7PXLCsvGAMBSznrCLYSEFlrhL3lQPswqotw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESJXXTzReLMVS94me3iJ9Ap0oQ2VdopQRvhuZ6rsLARkFPDm9aAMsh82UlThS6dnt-2z06OsGYvGyAQn7ox-YXff51I5GhdzTADZRl_BZTZ7LqYBW4Qepx9qWyE7NWjEln8ZoCL-gCn7y1hYEsR-BFd4KjIzjSEY9WGmhz3y6V5p3cnKgR_Bi_GF-OoNb0OgJlXqH8KAg0TWQ_8sErkNwvLi7t7F9MxYoPBg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHG3G5RWkvETeTLACGLvobIIlf5JK-Uwaptl7ZyKRfOaBfekcSCn6OtTdMGGB9GxfiptgCAFkwGBJMqxQGTJbPuAkHeogLjEqidPmeu9teLwN0OTNvNe_FqUcjjOrJjIzNFuWZzbKQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHLAmjxvU3BZ_NwXTa4WSHeg_nlGIcMbAV7h1VIk1OUTs642PvDzPpt_OKGS1cXp-bADmJEPLw4FVP9ZSvcG3UBr64BHlRI-DyhQUY2Pf3VprpXlGJec44MVtjzNDajB_nfshMsNmw=
 
 ---
 
@@ -16,6 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| 조카 선물용으로 인기 많은 로봇 장난감 찾으시는군요! 혹시 조카가 로봇 장난감으로 어떤 놀이를 즐기면 좋을까요? | 로봇을 조립하고 변신시키는 놀이 |
+| 로봇 장난감에 어떤 기능이 있으면 좋을까요? | AI/머신러닝 (지능형 기술) |
+| 로봇 장난감의 내구성과 소재는 어떤 점을 중요하게 생각하시나요? | 높은 내구성 (튼튼한 소재) |
+| 예산은 어느 정도로 생각하세요? (평균 9만 3천원, 1만 4천원~12만원대가 가장 많아요) | 12만원대 |
 
 ---
 

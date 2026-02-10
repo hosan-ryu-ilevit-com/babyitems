@@ -1,5 +1,5 @@
-# 세션: 20260210_054349_ol0s
-> 시작: 2026-02-10T05:43:49.320Z
+# 세션: 20260210_060116_e1uk
+> 시작: 2026-02-10T06:01:16.547Z
 > 카테고리키: 놀이방매트
 > 카테고리: 놀이방매트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 놀이방매트 시장 현황
-- 인사이트: 놀이방매트는 층간소음 완화, 아이의 안전 확보, 인테리어 효과 등 다양한 이유로 가정의 필수품으로 자리 잡고 있습니다. 특히 코로나19 이후 실내 활동 증가로 수요가 꾸준히 늘고 있으며, 시장 규모 또한 지속적으로 성장하고 있습니다. 최근에는 디자인과 친환경성을 강화한 시공매트가 새로운 트렌드로 떠오르고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENcaG-wpXe4-yCyxp5a0mmRmYkLyDQ1u4uJLkUdklR-R0DAEmVDK9rEhi2Ewikw9-XuWdUo2TCu6YChNGVo3M5YSi9JZXrh7y1BSOP3t-IDA6NZh8j18y_z6UqnGYUItgj0eg6hCSHTBU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF0U1dU93t_s2415XmMftGy09YUxW96iqaPnyj09mOEOLm6Fsw3FT3EDexEPzIterLlem6ZwZDaMRKtx9cbfsWpCiWZho5sCh1qV8YNCbpBc5x7bQzXspaGV9SopAwAUKd8pjDMA-PjKJAJwOpNRsugdmfaFW455w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOsdQh9W14yLBXj_Bl8c1Od5HSVuEvzI1NCeq-IPpeFFmvKS2UqCArUKW1q1feV3WFARS53Yk-Ioa7Z6H2Q5k0vFMmyhKPLzNzkZ69QrEA8bsHf6rDqIPyQWT9vxP2Nms2xpHZ_Az3qSNL2Nb49zPGUTchXRmhW8jTSkFlVg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzOV3NQXoPZMyd_6bBnU_r46zsfLaErV5Yoi1y4u-z4E-1UtnEAKZMyiyQ3o1JKBZoRAE02YBfHtVBuamHR7G2Wwe1IEDY06crN-tBRcvRERQ07KI9FKVDIhtIbSV3GidB3_1iznKxUvam0Fj8dlR2Ji0EWygp1TxrEmOwpdZ24kawQF-Sp561wKpP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiSFiUYHXPTS05t8jQx7aS_aHasmDproIZo6tZ6Lx5_F8ZRuwEGruhDEDHrQx2NsQecngnvkTaGPUVVhctCf1xXb7psjfePwJOdTBgMKb4AHC6jft5rDJyO5Lw0M7Rdl3g1GVTDfpQB_WoJPcpKruRnWWvilzIXQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFl8MDrJiG_QDy0uvcg2HMK8onj9kyHeKdEAekdwLXfAGccnrPSzxfjhxs7HSZvlw1m42wDTP4YlhyYqi1BOBsUu0gwXjHTnR8AgCdQwjCbuJP0qm_vi2IbIOUWfjWmVJYJtWEFC1ohx4dsH6bhDYPypqc3JUXPJEnVa9Zv1y431f4s5qzGkMFFg8slrME=
+- 인사이트: 놀이방매트는 아이들의 안전과 층간소음 완화를 위해 필수적인 육아용품으로 자리 잡았습니다. 최근에는 디자인과 친환경성을 강화한 제품들이 인기를 얻으며, 단순한 유아용품을 넘어 인테리어 상품으로서의 가치도 높아지고 있습니다. 시장 규모는 꾸준히 성장하고 있으며, 다양한 소재와 형태로 소비자들의 선택 폭이 넓어지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbekaoUgc1V8pITDeOeUlSRhPirogtNnvrjpyKlcdKDoUfW9dgmPO1oVPIOjnBXBqnTp2f_4WGfjEtp9KBcT_OGTCnIJsyE28XbyQ103nR1CLKhNFdzloDwUU4emZ3xCxJAaF1AFL1QCvsH6zR_W6S6_d98WB1p85I2qkcIDGL94xfvUxTSZ7IOwc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdIRVagAolYDrnYTS-V212K4IMQn8L_Oi0AyBxhoHoNKvImG9LQYOwVH-pfcmmx3jPivPQmYpIxEHGjcdHMG1wGjUx3BAZ0M_qRJ3DshMkI3L-usZF3Tpqj1vM_wmkgtTvOpcid9xW0Ab-VnN6AjKqCXni2A7PZS1x_Po6DGwC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHY5hb49gCXo1QQPN1Hu11Oi2Ek-AmqhJBsRC6CcoiI63OkPim-piSgXqPDUqO_68clEyojREYrt8W8f5Xf6oFs6cxgRn96-_eSkL34A1S5zt73GjIli5icp_ONWh9S7fAitz2rU8OFyEbJXobjqnOT56h3Q-Ue
 
 ---
 

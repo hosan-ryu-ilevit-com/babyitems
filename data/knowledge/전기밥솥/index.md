@@ -1,26 +1,30 @@
 # 전기밥솥 전문가 지식
 
-> 마지막 업데이트: 2026-02-06T04:37:45.600Z
-> 분석 상품: 20개 | 분석 리뷰: 76,452개
+> 마지막 업데이트: 2026-02-10T07:06:00.793Z
+> 분석 상품: 20개 | 분석 리뷰: 76,912개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- IH 압력밥솥의 인기가 지속되지만, 열판 압력밥솥과 비압력밥솥의 점유율도 상승하는 추세입니다.
-- 스테인리스 내솥이 코팅 벗겨짐 걱정 없이 위생적이고 반영구적인 장점으로 인해 선호도가 높습니다.
-- 1인 가구 증가와 간편식 선호 트렌드로 인해 즉석밥 시장이 확대되면서 전기밥솥 시장 성장이 둔화되는 경향을 보입니다.
+- IH 압력밥솥의 지속적인 인기
+- 스테인리스 내솥 및 풀스텐 내솥의 부상
+- MZ세대를 겨냥한 1인 소형 밥솥 및 컬러 제품 출시
+- 다양한 식품 조리 기능 강화
+- 해외 시장 공략 강화
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 밥맛 구현 (IH 압력 방식 등)
-- ✓ 다양한 기능 (트윈프레셔, 오픈쿠킹 등)
-- ✓ 위생적인 스테인리스 내솥
-- ✓ 반영구적인 내구성 (스테인리스 내솥)
+- ✓ 맛있는 밥맛 구현 기술
+- ✓ 다양한 요리 기능
+- ✓ IH 기술을 통한 균일하고 빠른 조리
+- ✓ 사용 편의성 및 디자인 다양화
+- ✓ 브랜드 신뢰도
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격대 (프리미엄 IH밥솥 중심)
-- ⚠ 코팅 내솥의 코팅 벗겨짐
-- ⚠ 세척 및 관리의 번거로움
-- ⚠ 긴 조리 시간
+- ⚠ 즉석밥 시장 확대에 따른 경쟁 심화
+- ⚠ 높은 가격대의 프리미엄 제품 비중 증가
+- ⚠ 스테인리스 내솥의 눌어붙음 및 세척 어려움
+- ⚠ 소비전력 대비 긴 조리 시간 가능성
+- ⚠ 일부 제품의 성능 일관성 부족
 
 ### 가격대 인사이트
 
@@ -32,7 +36,7 @@
 ### 1. 쿠쿠전자 CRP-DHP0610FW
 - **브랜드**: 쿠쿠전자
 - **가격**: 223,429원
-- **평점**: ⭐4.6 (2,500개 리뷰)
+- **평점**: ⭐4.6 (2,502개 리뷰)
 - **핵심 스펙**: IH압력밥솥 / 6인용 / 에코스테인리스내솥 / Xwall블랙샤인코팅 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 1등급 / 1090W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
@@ -41,43 +45,43 @@
 
 ### 2. 쿠쿠전자 트윈프레셔 마스터셰프 CRP-LHTR0610FW
 - **브랜드**: 쿠쿠전자
-- **가격**: 314,680원
-- **평점**: ⭐4.7 (6,927개 리뷰)
+- **가격**: 314,238원
+- **평점**: ⭐4.7 (6,930개 리뷰)
 - **핵심 스펙**: IH압력밥솥 / 6인용 / 에코스테인리스내솥 / Xwall블랙샤인코팅 / 커브드 / 무압취사 / 오픈쿠킹 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지아이 / 대기전력차단스위치 / 에너지 / 1등급 / 1090W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=9401703)
 
-### 3. 쿠쿠전자 CRP-DHP0610FD
+### 3. 쿠쿠전자 CRP-CHP1010FD
 - **브랜드**: 쿠쿠전자
-- **가격**: 199,120원
-- **평점**: ⭐4.7 (17,333개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 6인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 1등급 / 1090W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=7286017)
-
-### 4. 쿠쿠전자 CRP-CHP1010FD
-- **브랜드**: 쿠쿠전자
-- **가격**: 226,410원
-- **평점**: ⭐4.7 (13,855개 리뷰)
+- **가격**: 244,950원
+- **평점**: ⭐4.7 (13,859개 리뷰)
 - **핵심 스펙**: IH압력밥솥 / 10인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 1등급 / 1455W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=7280086)
 
-### 5. 쿠첸 브레인 듀얼프레셔 CRH-TWS0610W
+### 4. 쿠첸 브레인 듀얼프레셔 CRH-TWS0610W
 - **브랜드**: 쿠첸
-- **가격**: 205,710원
+- **가격**: 201,520원
 - **평점**: ⭐4.7 (797개 리뷰)
 - **핵심 스펙**: IH압력밥솥 / 6인용 / 304풀스테인리스내솥 / 무압취사 / 냉동보관밥 / 음성안내 / 자동세척 / 내솥불림 / 자동보온해제 / 에너지 / 1등급 / 1200W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=27474590)
+
+### 5. 쿠쿠전자 CRP-DHP0610FD
+- **브랜드**: 쿠쿠전자
+- **가격**: 193,460원
+- **평점**: ⭐4.7 (17,344개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 6인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 1등급 / 1090W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=7286017)
 
 ### 6. 쿠쿠전자 트윈프레셔 마스터셰프 CRP-LHTR1010FW
 - **브랜드**: 쿠쿠전자
@@ -89,107 +93,97 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=9574767)
 
-### 7. 쿠쿠전자 CRP-JHR1060FD
+### 7. 쿠쿠전자 에그 CR-0375FW
 - **브랜드**: 쿠쿠전자
-- **가격**: 270,690원
-- **평점**: ⭐4.7 (3,297개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 10인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 커브드 / 에어버블 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지아이 / 대기전력차단스위치 / 에너지 / 1등급 / 1455W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8179273)
-
-### 8. 쿠쿠전자 CRP-JHR0660FD
-- **브랜드**: 쿠쿠전자
-- **가격**: 221,900원
-- **평점**: ⭐4.7 (2,151개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 6인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 커브드 / 에어버블 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 1등급 / 1090W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8105740)
-
-### 9. 쿠쿠전자 에그 CR-0375FW
-- **브랜드**: 쿠쿠전자
-- **가격**: 61,980원
-- **평점**: ⭐4.6 (4,070개 리뷰)
+- **가격**: 62,450원
+- **평점**: ⭐4.6 (4,072개 리뷰)
 - **핵심 스펙**: 비압력밥솥 / 마이콤식 / 에너지 / 1등급 / 테프론코팅 / 자동세척 / 탑컨트롤 / 425W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=11757677)
 
-### 10. 쿠쿠전자 CRP-CHP1010FW
+### 8. 쿠쿠전자 CRP-DHAS069FB
 - **브랜드**: 쿠쿠전자
-- **가격**: 226,410원
-- **평점**: ⭐4.6 (1,619개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 10인용 / 에코스테인리스내솥 / Xwall블랙샤인코팅 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 2등급 / 1455W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17106941)
-
-### 11. 쿠첸 그레인 CRT-UPDS1070W
-- **브랜드**: 쿠첸
-- **가격**: 314,100원
-- **평점**: ⭐4.7 (68개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 10인용 / 316Ti 풀스테인리스내솥 / 2.1기압취사 / 무압취사 / 냉동보관밥 / 음성안내 / 자동세척 / 패킹교체알림 / 내솥불림 / 자동보온해제 / 에너지 / 1등급 / 1500W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=63143585)
-
-### 12. 쿠쿠전자 CRP-P0660FD
-- **브랜드**: 쿠쿠전자
-- **가격**: 143,393원
-- **평점**: ⭐4.6 (7,961개 리뷰)
-- **핵심 스펙**: 열판압력밥솥 / 6인용 / Xwall블랙코팅 / 음성안내 / 자동세척 / 에너지 / 1등급 / 890W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8119789)
-
-### 13. 쿠쿠전자 CRP-DHAS069FWM
-- **브랜드**: 쿠쿠전자
-- **가격**: 267,120원
-- **평점**: ⭐4.4 (269개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 6인용 / 풀스테인리스내솥 / 음성안내 / 다이렉트터치 / 자동세척 / 내솥불림 / 에너지아이 / 에너지 / 2등급 / 1090W
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=55469033)
-
-### 14. 쿠쿠전자 CRP-DHAS069FB
-- **브랜드**: 쿠쿠전자
-- **가격**: 271,250원
-- **평점**: ⭐4.6 (761개 리뷰)
+- **가격**: 265,780원
+- **평점**: ⭐4.6 (765개 리뷰)
 - **핵심 스펙**: IH압력밥솥 / 6인용 / 풀스테인리스내솥 / 음성안내 / 다이렉트터치 / 자동세척 / 내솥불림 / 에너지 / 2등급 / 1090W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17529047)
 
-### 15. 쿠쿠전자 CRP-HUF10BS
+### 9. 쿠쿠전자 CRP-P0660FD
 - **브랜드**: 쿠쿠전자
-- **가격**: 168,053원
-- **평점**: ⭐4.6 (1,268개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 10인용 / 무쇠내솥 / Xwall블랙코팅 / 타철명장 / 자동세척 / 에너지 / 1등급 / 1465W
+- **가격**: 147,730원
+- **평점**: ⭐4.6 (7,966개 리뷰)
+- **핵심 스펙**: 열판압력밥솥 / 6인용 / Xwall블랙코팅 / 음성안내 / 자동세척 / 에너지 / 1등급 / 890W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=14145179)
+- [상세보기](https://prod.danawa.com/info/?pcode=8119789)
 
-### 16. 쿠첸 121 플러스 CRT-RPS0671I
+### 10. 쿠첸 그레인 CRT-UPDS1070W
 - **브랜드**: 쿠첸
-- **가격**: 256,400원
-- **평점**: ⭐4.7 (240개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 6인용 / 316Ti스테인리스내솥 / 엣지 / 2.1기압취사 / 저압취사 / 밥맛조절 / 냉동보관밥 / 음성안내 / 자동세척 / 패킹교체알림 / 내솥불림 / 에너지 / 1등급 / 1200W
+- **가격**: 298,390원
+- **평점**: ⭐4.7 (69개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 10인용 / 316Ti 풀스테인리스내솥 / 2.1기압취사 / 무압취사 / 냉동보관밥 / 음성안내 / 자동세척 / 패킹교체알림 / 내솥불림 / 자동보온해제 / 에너지 / 1등급 / 1500W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=29857628)
+- [상세보기](https://prod.danawa.com/info/?pcode=63143585)
 
-### 17. 쿠쿠전자 CRP-CHAS109FW
+### 11. 쿠쿠전자 CRP-JHR0660FD
+- **브랜드**: 쿠쿠전자
+- **가격**: 218,870원
+- **평점**: ⭐4.7 (2,152개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 6인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 커브드 / 에어버블 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 1등급 / 1090W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=8105740)
+
+### 12. 쿠쿠전자 CRP-JHR1060FD
+- **브랜드**: 쿠쿠전자
+- **가격**: 265,300원
+- **평점**: ⭐4.7 (3,298개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 10인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 커브드 / 에어버블 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지아이 / 대기전력차단스위치 / 에너지 / 1등급 / 1455W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=8179273)
+
+### 13. 쿠쿠전자 CRP-P1055FD
+- **브랜드**: 쿠쿠전자
+- **가격**: 143,021원
+- **평점**: ⭐4.6 (3,417개 리뷰)
+- **핵심 스펙**: 열판압력밥솥 / 10인용 / Xwall블랙코팅 / 음성안내 / 자동세척 / 에너지 / 1등급 / 1150W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=9574920)
+
+### 14. 쿠쿠전자 CRP-HWF1060FB
+- **브랜드**: 쿠쿠전자
+- **가격**: 199,270원
+- **평점**: ⭐4.6 (1,583개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 10인용 / 무쇠내솥 / 블랙코팅 / 타철명장 / 음성안내 / 자동세척 / 에너지 / 1등급 / 1465W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=6433521)
+
+### 15. 쿠쿠전자 CRP-CHP1010FW
+- **브랜드**: 쿠쿠전자
+- **가격**: 219,940원
+- **평점**: ⭐4.6 (1,622개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 10인용 / 에코스테인리스내솥 / Xwall블랙샤인코팅 / 음성안내 / 다이렉트터치 / 자동세척 / 에너지 / 2등급 / 1455W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=17106941)
+
+### 16. 쿠쿠전자 CRP-CHAS109FW
 - **브랜드**: 쿠쿠전자
 - **가격**: 294,736원
 - **평점**: ⭐4.5 (2,273개 리뷰)
@@ -199,35 +193,45 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17433731)
 
-### 18. 쿠쿠전자 CRP-HWF1060FB
+### 17. 쿠쿠전자 CRP-DHAS069FWM
 - **브랜드**: 쿠쿠전자
-- **가격**: 173,490원
-- **평점**: ⭐4.6 (1,582개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 10인용 / 무쇠내솥 / 블랙코팅 / 타철명장 / 음성안내 / 자동세척 / 에너지 / 1등급 / 1465W
+- **가격**: 271,850원
+- **평점**: ⭐4.4 (269개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 6인용 / 풀스테인리스내솥 / 음성안내 / 다이렉트터치 / 자동세척 / 내솥불림 / 에너지아이 / 에너지 / 2등급 / 1090W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=6433521)
+- [상세보기](https://prod.danawa.com/info/?pcode=55469033)
 
-### 19. 쿠쿠전자 CRP-P1055FD
+### 18. 쿠쿠전자 CRP-JHR0610FC
 - **브랜드**: 쿠쿠전자
-- **가격**: 142,812원
-- **평점**: ⭐4.6 (3,411개 리뷰)
-- **핵심 스펙**: 열판압력밥솥 / 10인용 / Xwall블랙코팅 / 음성안내 / 자동세척 / 에너지 / 1등급 / 1150W
+- **가격**: 202,460원
+- **평점**: ⭐4.7 (912개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 6인용 / 스테인리스내솥 / Xwall블랙샤인코팅 / 커브드 / 에어버블 / 음성안내 / 다이렉트터치 / 에너지아이 / 에너지 / 2등급 / 1090W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=9574920)
+- [상세보기](https://prod.danawa.com/info/?pcode=16640444)
 
-### 20. 쿠쿠전자 CRP-EHS0320FB
-- **브랜드**: 쿠쿠전자
-- **가격**: 200,760원
-- **평점**: ⭐4.7 (497개 리뷰)
-- **핵심 스펙**: IH압력밥솥 / 스테인리스내솥 / Xwall블랙샤인코팅 / 에어버블 / 음성안내 / 자동세척 / 에너지 / 1등급 / 850W
+### 19. 쿠첸 121 플러스 CRT-RPS0671I
+- **브랜드**: 쿠첸
+- **가격**: 258,380원
+- **평점**: ⭐4.7 (240개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 6인용 / 316Ti스테인리스내솥 / 엣지 / 2.1기압취사 / 저압취사 / 밥맛조절 / 냉동보관밥 / 음성안내 / 자동세척 / 패킹교체알림 / 내솥불림 / 에너지 / 1등급 / 1200W
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13053368)
+- [상세보기](https://prod.danawa.com/info/?pcode=29857628)
+
+### 20. 쿠쿠전자 CRP-HUF10BS
+- **브랜드**: 쿠쿠전자
+- **가격**: 168,053원
+- **평점**: ⭐4.6 (1,269개 리뷰)
+- **핵심 스펙**: IH압력밥솥 / 10인용 / 무쇠내솥 / Xwall블랙코팅 / 타철명장 / 자동세척 / 에너지 / 1등급 / 1465W
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=14145179)
 
 ---
 
@@ -242,9 +246,9 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQESDNAaZ_NXZ0RWRugW0Yg-gD5LK5_hxG-fb55B3Mc1GxzdKv9IkV8deHxseio7OG53tBFbBvAL-cifwrjpiONs6xbfk3TW4j67J5X64oleAJD-Iu2H8dLmF06Fc__SWN2u7CTZ8xOR7BuolnqaGgoe5mLO_gYv5y-9hY2J57rKI05HYGT0)
-- [news1.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3-UZt_IGX82jP8zPmiESxPL44A_2rMeM_Y0DrZEDFWGof1Q_ZLhyukk2IhJdojsltC6bmSkx26eMCG8FDCjzKTp9-WT7tY9EPj9kwq7g0yGQxXfn4QWF7W-cQYMAYurvwxQGL6qpo-Oo1)
-- [ncsi.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHPC9LHswArFyqqTC6rEz3YpuWUtsF0Mw9BAG1LBPg165dc_PXr6YHyQUYk_-7DZ3Bj_-Zermj6ZzxY71f_8-JFRpvruYOvEuovdqOfAs9Yy2Xz5mmvFwiT3pJrwWMGRpDgYM5iM2HIXnDaFbUv3ZfZWw==)
-- [fortunebusinessinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJ1lG-FcPkRX4c_H8g298qHQpcKIhYg2O7-CZSB0GLWQzswzkK4lGtWQyrdhjxqiGQ1T8XU58PshUCyK4RBxoc5TusDFzWW8D-BljtEZOg-_6NDAu6krapb8gKvu_VsyiD09I4p3CkPCGu6DnCfHXRAeDbULJpno3Y2hCWurnDijn0_9CngVIJ)
-- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFWxkXc4GMChpxL2Xx0AYZ_V8gLqcIgZ28hcPpF0jGC2T4R3kgSoSkQ0IepLcq8stmyrr8WUfn1BPas5qvZ9tgFy59KKzVaWJNsm1zF3YE7ZfG4NQ4HKaTBTj2hc5qNQWDiWuBnvTwJ9gvd_MbU-_Xm5M2XBTIYl8S057VKn7H)
-- [koreatimes.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEW9q5oan9s-8pllHO2KpWtLPw0D429nJjO2mpbPs1EnTXJcoj14btYxhV3atN2lGJSuc8_lm76powJEQw1zVnGdpesSKgVBknLDE_j1n7omaazn4FZky5NwTRLAZQ1fqlu8bmYLIZn2LDEIDsz)
+- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpqnhs-oPXBZ30GVis4ohmh-kS-UHvS77MnVub_BV68qrBgpiGdHpKub5sN0s10bIZk-65S_KMb17QWe0zUtnACw0yp8fni7hVZwQ5mLwo_JDs141x1m7a-soUYsdZbyzV3Z4L_pwFaH5q7WQYJ8p1P2ouUuFqVy8DWzabFjqqdMBy97Cdcw==)
+- [news1.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAv6ljq4dyLWkLHuvJ23TcCh7bESSkxgZZcbF28LxOok-YTHc3FogTDswYZsJPdSV459x5Z8XuMB_PN3w6mzwpJ7NrBNE-yw2brHVij3LleO1-Uubv6xJLr3K4iaiwvMV_186g2Mw1CSTj6Q==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGG1cWSRbhcQSJRkE9MzdBBBC73p4WciqAB5zvK6pFittLu64IQQyecMnEPdSHoS7-hS9HiLLx95Py0pljrtkLcYHWca1Ow89E5N3qGJHobJkIv_ruSou8RWdxWebFfs1hdSaNLeUU=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFk06HL0VLMh6k6ga368hACVTWm74tRATVjcTvPpNqC0XG3K4a8Wg1bABrVLhW3ArteM5zqw6wys4GUt6DNzKBodZp2Na1gWCDgKJylBQFWEcI0dFK3GSl1LX08jMkSzd9e3tI9uRNsESAByjS49dr8838_ZjcC54nm0734qzMiHtjKwTLSZosI0WOZr55CL9U9q3A1kSnnhJ9Ui63XB8gH0CRLWgvY8d2EDtcU87-3_wlGrEeGks6jR7UpE0v8DfLrXa6ndxUSbIB8aJU48Av4OSsUaTgdZJVFMJENx6gDmz0bSlQLpQpFgMOaIkqUclXZeLO-dBUBheNDL_AHapVQ_66IQ9L8sHJMzwkomYiTEB_ZX-wGUGPa1-8Phywpl_w3VziB-nqb1rRePEhA2Tug_r2XYoGzsKW8hjji-hMFDoq3tqjhp9aq9hfnfd3SAQnScwPV8LZnPg==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFlF437zqHJ5OtM90KXkwTfyPFXmy6RuRsIEas0w-mWGhFBA7Ml32d1JcuIrOH9jNIeXuomCgbTjl3_76VGww9_SXqes7p0btfSY6qyi3sOMqnX_nW7Aua3qz0aGoz5D95y)
+- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbR6zhYxdVWCTgP61qum_zfvbP324-kG7K1YkQxfGBW6fwW75C6VCqaOWxdnVEexUjtXV3EOTuuBQOeMUNwY-EwISUbIq1jvZELas3_2vNRp5WbkJ2ZIfQCfi0P8Rq3naYmfcQMTpw9u-0xlAxDAjYXQM=)

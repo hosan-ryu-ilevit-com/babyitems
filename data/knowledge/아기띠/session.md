@@ -1,5 +1,5 @@
-# 세션: 20260210_055000_cx2b
-> 시작: 2026-02-10T05:50:00.829Z
+# 세션: 20260210_060511_u1kn
+> 시작: 2026-02-10T06:05:11.256Z
 > 카테고리키: 아기띠
 > 카테고리: 아기띠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기띠 시장 현황
-- 인사이트: 아기띠 시장은 2026년 약 6억 9,812만 달러에서 2031년 9억 7,549만 달러로 연평균 6.92% 성장할 것으로 예상됩니다. 이는 변화하는 라이프스타일과 함께 꾸준한 수요 증가를 보이고 있습니다. 특히, 국내 브랜드 '코니'는 해외 시장에서 큰 성공을 거두며 글로벌 인지도를 높이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFY1Usv4-47H9PnwOvZjTyS0o_OcalkcuI4RPHogf6GwG9n_H-uHs4J8lcpzCO70wOxwK9hBhxuxpaoO9sYQGItDDbmPgx3TXmqXnNk2miT7pkW0gsnEroG6by5-bR3YRgXvVV_YOw56VuWo6sFVu40mU3p7N7ejuTn4LOsWAHsKZQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJGuX7ZX_wWLVBQjfXFBLaM5U2MGCA0k272G2hwve_dRTFF0qwWQQb38T_XSAslr-ZCfzajUk5RRWGaLNf-5qvKQiT2yw8YmtYZEHMtEzkzV9xr1IA2oq3BfE9Xve1fApY_ISOdGyuCin05aAFC8YYGxaX8lM-dg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxagy8TZR_GOVHykRdJXSn0gfs-bHMvAPpDAB0-VvOcWyKclRRB2b5oGiDBFmqGCd9SEaGdRCl8RefonowlRdOoQGiyOmWEhweAsPghdZUszRU-V_-EQKPOXxasi1-j0GrJGmUZCE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8KN6YxR9eBYu6bNjR6eTXn-MjFVd6U_HGcvFWts7drD-i9F3vXcvQ_zEzfRlHZCivtgEePwMreH3yEyZRRdr_afT7gqx3cVZmr8GZKzK22Ehw_DJk9v-CeQ2Jeai9E8q-vWVF88GSZYUuJCJvATX8fmw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQEc9WWXIHM1y5CEzvb64LzetOo0m9OhkL19gTzz6lEcgmFZHD3qyo_b8v5Uc6q9t1JYwWS5FXcUdkmM-MfJER7kuNaQdUUEcUjaaGXaZZQ-Ur9sT8bHoA5htBq0AH5gFR-ywQ3tOjxuei7cJaZlk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjFtXKz7OjRPIA_NFJHlKbFZzGJ8Tj_bZ9PBg_6BcHuNBdPGsMPgoYTDR0Cy3ftFoo0THsujcCsMZnvGTRrK5skv8V4tXoWWzs27w-zR2ShIgTGTjOI5r5XpWrK1a9ElH8zlBb-qrHAJ4dBw==
+- 인사이트: 아기띠 시장은 2026년까지 약 6억 9,812만 달러 규모로 성장할 것으로 예상되며, 2031년에는 9억 7,549만 달러에 이를 것으로 전망됩니다. 이는 연평균 6.92%의 성장률에 해당하며, 변화하는 라이프스타일이 주요 성장 동력으로 작용하고 있습니다. 특히 해외 시장에서의 K-아기띠 인기가 높으며, 글로벌 누적 판매량 100만 개를 돌파한 브랜드도 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFn6GJRComjPjw0wmx2d8hmODwDT30blmS5ykRPpGkFvQMwNwzTkgNrzllhdEddBZI6PAfKDV9I8RKFSPcvh0DUypcmQAa4qycg3KsCtBjBe1rM4vkYYjDnO6z8amiqYNdXb-8iTvU9ZyOtofSGAKnq2Cw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaIBV-svpADScV15X21XLDcqcvNsgU-eCZcbmM3BEH-9A2gTFgYbwjfTo0ivKDfSQAdV_1uPoriVYVLtWNG37uTbi5eqRUzXMmY0W2CadCxQpoatN4zZExv4QFNwd4n0iLghNOqxNcXXVzjkkY5jc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJDhK997p6oMf8mtKTuxuKMFgFPXIX8NbKTlclfy76602zQLDLCSfmo9wDyHpswNkUMhKe3blxCwflZVVWHvOnoUoMEoM5C4pN0FfqrEMmVWhmiIpgE0oon5UoVnNF5pGrjgUnMBJGz72OdQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJspOBYVNWZIyDJzjq-teRsu5d-FFVxKaYBOj30mgwRJlkrhEJBxewa-eq9jDls6mh60VR95ndyCdknAHQ22lgtYPdDRuSY1qYR5CzQjhziTIVMNj2NdABSNdEtwrzLzIwmldmaKA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHyowgzNquOSYHrbJm7mmvVjU7Jp9wyBQ5HN01ZcVnDMTy0l-7XP32pvpRXJyseMRCV49b2tpRhsSt16atNs4EX6B24ViRQjads1WBHHuscwuxhQJKKJiM-PAyJyg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9KoOb-r6MjvUciqLnZgh0Oc-vLzFp1FvPQCRMl511wlfBw17TzkNrPmD_ngxcyJZx_GWkHBJ4Gg2EhSMJbAmPY4yChpjqh72F6ZePJvjmGexE_LStLNEGlamVUmICuFO5E0a0ClPV3WpNPA==
 
 ---
 

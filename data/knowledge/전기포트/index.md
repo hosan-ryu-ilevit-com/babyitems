@@ -1,31 +1,31 @@
 # 전기포트 전문가 지식
 
-> 마지막 업데이트: 2026-02-05T07:39:30.336Z
-> 분석 상품: 20개 | 분석 리뷰: 12,745개
+> 마지막 업데이트: 2026-02-10T07:11:15.466Z
+> 분석 상품: 20개 | 분석 리뷰: 14,962개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 스마트 기능(자동 보온/가열, 블루투스 통신)
-- 경량 및 소형화 (휴대성 강화)
-- 다기능성 (온도 조절, 보온, 티 우림, 분유 제조, 라면 조리 등)
-- 친환경 소재 사용
-- 개인화된 경험 제공
+- 이동성 및 휴대성 강화 (접이식, 경량 디자인)
+- 스마트 기능 (자동 보온/가열, 온도 조절)
+- 다양한 소재 및 디자인 (스테인리스 스틸, 유리, 플라스틱, 빈티지 디자인)
+- 온도 조절 및 보온 기능 강화 (티포트, 분유포트, 멀티포트)
+- 지속 가능성 고려
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 가성비
 - ✓ 빠른 가열 속도
-- ✓ 다양한 기능
+- ✓ 간편한 사용법
+- ✓ 다양한 기능 (온도 조절, 보온)
 - ✓ 세척 용이성
-- ✓ 안전 기능
-- ✓ 휴대성
+- ✓ 디자인 다양성
+- ✓ 뛰어난 가성비
 
 ### 주의해야 할 단점
-- ⚠ 내구성 부족 (플라스틱 소재)
-- ⚠ 환경 호르몬 우려 (일부 플라스틱)
-- ⚠ 깨지기 쉬움 (유리 소재)
-- ⚠ 표면 온도 높음 (스테인리스 소재)
-- ⚠ 가격 부담 (고기능성 제품)
+- ⚠ 빈번한 고장
+- ⚠ 누수 문제
+- ⚠ 플라스틱 맛
+- ⚠ 표면 온도 상승 (화상 위험)
+- ⚠ 뚜껑 디자인 (화상 위험)
 
 ### 가격대 인사이트
 
@@ -34,15 +34,15 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 테팔 센스 화이트 KO6921
+### 1. 테팔 엘리먼트 플라스틱 KO2001
 - **브랜드**: 테팔
-- **가격**: 49,410원
-- **평점**: ⭐4.6 (254개 리뷰)
-- **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 1800W / 통주물 / 보온기능 / 온도조절 / 이물질거름망 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
+- **가격**: 28,870원
+- **평점**: ⭐4.5 (1,083개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 플라스틱 / 일체형 / 2400W / 수위표시창 / 이물질거름망 / 원터치뚜껑열림 / 자동전원차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17586449)
+- [상세보기](https://prod.danawa.com/info/?pcode=6469149)
 
 ### 2. 신일전자 SEP-WH17KP
 - **브랜드**: 신일전자
@@ -54,7 +54,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=74805527)
 
-### 3. 키친아트 프리미오 KAEK-J18B
+### 3. 테팔 센스 화이트 KO6921
+- **브랜드**: 테팔
+- **가격**: 48,860원
+- **평점**: ⭐4.6 (254개 리뷰)
+- **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 1800W / 통주물 / 보온기능 / 온도조절 / 이물질거름망 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=17586449)
+
+### 4. 테팔 세이프티 화이트앤블랙 KO2611
+- **브랜드**: 테팔
+- **가격**: 30,830원
+- **평점**: ⭐4.6 (3,134개 리뷰)
+- **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 1800~2150W / 통주물 / 보온기능 / 이물질거름망 / 전원표시램프 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=6356703)
+
+### 5. 키친아트 프리미오 KAEK-J18B
 - **브랜드**: 키친아트
 - **가격**: 18,830원
 - **평점**: ⭐4.1 (83개 리뷰)
@@ -64,57 +84,97 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=39250301)
 
-### 4. 테팔 세이프티 화이트앤블랙 KO2611
-- **브랜드**: 테팔
-- **가격**: 30,660원
-- **평점**: ⭐4.6 (3,134개 리뷰)
-- **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 1800~2150W / 통주물 / 보온기능 / 이물질거름망 / 전원표시램프 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=6356703)
-
-### 5. 필립스 HD9305
-- **브랜드**: 필립스
-- **가격**: 34,860원
-- **평점**: ⭐4.6 (2,396개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.5L / 스테인리스 / 분리형 / 2200W / 평면열판 / 수위표시창 / 이물질거름망 / 코드수납 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=2862252)
-
-### 6. 필립스 HD9318/00
-- **브랜드**: 필립스
-- **가격**: 20,270원
-- **평점**: ⭐4.7 (1,248개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.7L / 플라스틱 / 일체형 / 1850~2200W / 평면열판 / 수위표시창 / 이물질거름망 / 전원표시램프 / 코드수납 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12224762)
-
-### 7. 리빙센스 LSK-1688 (LSK-1800)
+### 6. 리빙센스 LSK-1688 (LSK-1800)
 - **브랜드**: 리빙센스
-- **가격**: 7,000원
-- **평점**: ⭐4.6 (1,576개 리뷰)
+- **가격**: 7,070원
+- **평점**: ⭐4.6 (1,578개 리뷰)
 - **핵심 스펙**: 무선포트 / 1.8L / 스테인리스 / 일체형 / 1500W / 이물질거름망 / 전원표시램프 / 코드수납 / 열차단손잡이 / 원터치뚜껑열림 / 자동전원차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13248977)
 
-### 8. 테팔 KO8528KR
+### 7. 테팔 KO8528KR
 - **브랜드**: 테팔
 - **가격**: 51,300원
-- **평점**: ⭐4.7 (989개 리뷰)
+- **평점**: ⭐4.7 (990개 리뷰)
 - **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 1800W / 통주물 / 디지털디스플레이 / 보온기능 / 온도조절 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=12406592)
 
-### 9. 필립스 HD9396/90
+### 8. 필립스 HD9318/00
+- **브랜드**: 필립스
+- **가격**: 21,010원
+- **평점**: ⭐4.7 (1,249개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 플라스틱 / 일체형 / 1850~2200W / 평면열판 / 수위표시창 / 이물질거름망 / 전원표시램프 / 코드수납 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12224762)
+
+### 9. 보국전자 BKP-4125
+- **브랜드**: 보국전자
+- **가격**: 62,600원
+- **평점**: ⭐4.4 (20개 리뷰)
+- **핵심 스펙**: 보온포트 / 2.5L / 유리 / 분리형 / 1000~1200W / 자동급수 / 분유포트겸용 / 디지털디스플레이 / 보온기능 / 온도조절 / 염소배출기능 / 수위표시창 / 전원표시램프 / 버튼잠금
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=73072682)
+
+### 10. 테팔 KI5338KR
+- **브랜드**: 테팔
+- **가격**: 28,030원
+- **평점**: ⭐4.7 (120개 리뷰)
+- **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 2400W / 수위표시창 / 이물질거름망 / 전원표시램프 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=62793119)
+
+### 11. 허밍 HMK-2211
+- **브랜드**: 허밍
+- **가격**: 24,650원
+- **평점**: ⭐4.8 (57개 리뷰)
+- **핵심 스펙**: 무선포트 / 0.6L / 스테인리스 / 분리형 / 800W / 통주물 / 평면열판 / 전원표시램프 / 코드수납 / 표면열차단 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=28211027)
+
+### 12. 테팔 인퓨자 BJ800D
+- **브랜드**: 테팔
+- **가격**: 62,385원
+- **평점**: ⭐4.6 (462개 리뷰)
+- **핵심 스펙**: 티포트 / 1.5L / 유리 / 분리형 / 1200~1430W / 분유포트겸용 / 보온기능 / 온도조절 / 수위표시창 / 전원표시램프
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=7545871)
+
+### 13. 필립스 5000시리즈 HD9339/80
+- **브랜드**: 필립스
+- **가격**: 38,960원
+- **평점**: ⭐4.7 (1,296개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 유리 / 분리형 / 1850~2200W / 평면열판 / 수위표시창 / 이물질거름망 / 전원표시램프 / 코드수납 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=12151274)
+
+### 14. 키친아트 KJS-0018GH
+- **브랜드**: 키친아트
+- **가격**: 17,000원
+- **평점**: ⭐4.5 (63개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.8L / 유리 / 일체형 / 1500W / 수위표시창 / 전원표시램프
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=73560428)
+
+### 15. 필립스 HD9396/90
 - **브랜드**: 필립스
 - **가격**: 56,900원
 - **평점**: ⭐4.7 (20개 리뷰)
@@ -124,79 +184,9 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=33427001)
 
-### 10. 테팔 KI5338KR
-- **브랜드**: 테팔
-- **가격**: 31,200원
-- **평점**: ⭐4.7 (119개 리뷰)
-- **핵심 스펙**: 무선포트 / 1L / 스테인리스 / 일체형 / 2400W / 수위표시창 / 이물질거름망 / 전원표시램프 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=62793119)
-
-### 11. 마이어 MH-MEP1
-- **브랜드**: 마이어
-- **가격**: 88,530원
-- **평점**: ⭐4.7 (279개 리뷰)
-- **핵심 스펙**: 보온포트 / 3L / 스테인리스 / 분리형 / 1200W / 자동급수 / 디지털디스플레이 / 보온기능 / 온도조절 / 염소배출기능 / 수위표시창 / 전원표시램프 / 코드수납 / 표면열차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=72223547)
-
-### 12. 필립스 5000시리즈 HD9339/80
-- **브랜드**: 필립스
-- **가격**: 37,600원
-- **평점**: ⭐4.7 (1,295개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.7L / 유리 / 분리형 / 1850~2200W / 평면열판 / 수위표시창 / 이물질거름망 / 전원표시램프 / 코드수납 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=12151274)
-
-### 13. 키친아트 허브 KK-2005
-- **브랜드**: 키친아트
-- **가격**: 11,620원
-- **평점**: ⭐4.5 (260개 리뷰)
-- **핵심 스펙**: 라면포트 / 1.5L / 스테인리스 / 분리형 / 1350W / 온도조절 / 평면열판 / 전원표시램프 / 열차단손잡이
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=47832929)
-
-### 14. 발뮤다 문케틀 KPT02KR
-- **브랜드**: 발뮤다
-- **가격**: 311,670원
-- **평점**: ⭐4.6 (13개 리뷰)
-- **핵심 스펙**: 드립포트 / 0.9L / 스테인리스 / 분리형 / 1200W / 디지털디스플레이 / 보온기능 / 온도조절 / 전원표시램프 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=77380124)
-
-### 15. 테팔 얼티메이트 디스플레이 KI831E
-- **브랜드**: 테팔
-- **가격**: 64,490원
-- **평점**: ⭐4.5 (173개 리뷰)
-- **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 일체형 / 1800W / 통주물 / 보온기능 / 온도조절 / 평면열판 / 이물질거름망 / 표면열차단 / 자동전원차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17434979)
-
-### 16. 트윙고 트래블팟 WMP-900HF
-- **브랜드**: 트윙고
-- **가격**: 35,910원
-- **평점**: ⭐4.7 (211개 리뷰)
-- **핵심 스펙**: 라면포트 / 0.9L / 스테인리스 / 분리형 / 570~820W / 접이식포트 / 프리볼트
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=55385072)
-
-### 17. 쿠쿠전자 CK-C170T
+### 16. 쿠쿠전자 CK-C170T
 - **브랜드**: 쿠쿠전자
-- **가격**: 42,120원
+- **가격**: 40,180원
 - **평점**: ⭐4.6 (145개 리뷰)
 - **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 일체형 / 1850W / 통주물 / 보온기능 / 평면열판 / 표면열차단 / 열차단손잡이
 - **장점 요약**: 분석 중
@@ -204,17 +194,37 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=16908503)
 
-### 18. PN풍년 폴더팟 PFPKA-800G
-- **브랜드**: PN풍년
-- **가격**: 26,350원
-- **평점**: ⭐4.5 (442개 리뷰)
-- **핵심 스펙**: 라면포트 / 1L / 실리콘 / 분리형 / 850W / 온도조절 / 접이식포트 / 프리볼트 / 안전뚜껑 / 찜기
+### 17. 필립스 HD9305
+- **브랜드**: 필립스
+- **가격**: 34,890원
+- **평점**: ⭐4.6 (2,396개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.5L / 스테인리스 / 분리형 / 2200W / 평면열판 / 수위표시창 / 이물질거름망 / 코드수납 / 자동전원차단
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=11989541)
+- [상세보기](https://prod.danawa.com/info/?pcode=2862252)
 
-### 19. 휴아코 휴빅 HB-1181D
+### 18. 테팔 올레아 KI160DKR
+- **브랜드**: 테팔
+- **가격**: 38,780원
+- **평점**: ⭐4.6 (1,928개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.7L / 스테인리스 / 일체형 / 2400W / 수위표시창 / 이물질거름망 / 전원표시램프 / 원터치뚜껑열림 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=6469186)
+
+### 19. 키친아트 허브 KAJ-D304T
+- **브랜드**: 키친아트
+- **가격**: 14,480원
+- **평점**: ⭐4.4 (39개 리뷰)
+- **핵심 스펙**: 무선포트 / 1.8L / 스테인리스 / 일체형 / 1500W / 통주물 / 이물질거름망 / 코드수납 / 표면열차단 / 원터치뚜껑열림 / 자동전원차단
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=29307488)
+
+### 20. 휴아코 휴빅 HB-1181D
 - **브랜드**: 휴아코
 - **가격**: 38,800원
 - **평점**: ⭐4.8 (41개 리뷰)
@@ -223,16 +233,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=16333991)
-
-### 20. 엘프슈타펠 BNB-7500W
-- **브랜드**: 엘프슈타펠
-- **가격**: 298,000원
-- **평점**: ⭐4.8 (63개 리뷰)
-- **핵심 스펙**: 티포트 / 1.5L / 유리 / 분리형 / 1500W / 분유포트겸용 / 보온기능 / 온도조절 / 수위표시창 / 이물질거름망 / 전원표시램프 / 표면열차단
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13717352)
 
 ---
 
@@ -247,9 +247,11 @@
 ---
 
 ## 📊 데이터 출처
-- [nosearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9r9-52g3ow0LnDsOT6gZX3VVAu_vAOHyFoo_bgIrEDSF9iCrlEQ5D22YgBHrCze4NDEPx8_qAJtp8jicc8RM_YbSRFuy64Rhlfh8cMB_nrxjiCnbOBCOXDSDkIIvPd60qPo5jKY7uXKLOpc3zwyLi0Q8n)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEw8yyLLvZijiRdMwxn0wAnjoTWGjaNJRTJ8H0xzTtQ9MByy6ukfzljzZY8XLpnq27_kryZn3JQ2_3z8AXnpXE4K_nh5ZPr5t-Zh4APks_0qlmpPD8RVY_9EHKI5hNazB8T4i2N2h6UcJhMz6uIrMhTux7OYrVuR0icaCDv-VZ93l_T1rhUAtbENJSR8VA9R98ZChuRsh1Kh18jZg7v99T4rk3L5XSsFEr-gw==)
-- [ajd.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEMMDqZD2Z1pgBOASgVyk3gH5tffq_bdTnTnmLUkAD10M9GK3LD5P_zCCcLZaoKHOcf5BwYzCzhdCDJb_A-8DWaeW2SE5KgtKbsa-IFYPBLu-pP_lT-NDkxqyrmhvqVSxPWbbemXS_3vCNLPTKsniwu8oG1IDyIwXFr4R4v4pAjDXcJaeTPjm1w_5gioqi)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXCR0CanXbC2BPnvgioNH0ATjvrZv-PtYLhjLqWyjyWKijfxIOK9mWs1pih4UTGY3cZ6RRma3oVhNZsVULpR_sjfsqtC_e1kEKwdkqnqoNDdVoMDb_Ac4TQhJmmDV3DDZ6fvANDnvz3XwnG3BRiC8nnjxvmzr4qMi1Y1IltTFEgX7OY6VF1rU4Grpf44jcMDSIBQ0XIL5jA4_l_4Ev1bd7bDM2Edjb03tDYw==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAVHJk9tGbaonIFpu7GJkpZa1o8hAQf69hnplf3NjWJ5OPeq9vnhQ1yeAj-VTfEIqQXdQn8m1Y4PnLFriZk3BmI8Kgw7daPlU7ahuxdAaU00RqerIzVmBJJZ_38YvHcRdUMmIJ-Tg=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxa4kxVGoidlbHg7k6nxVBNeNd_uOq-08Xa-52KUpcEGbiqBZ2fiyA9Hr1GaARnFn-jr974mAhnu1tmuWI-Ff6ZZ_YKRBmkaDW6tYOSiTKvWCvP9e1X18vp-aw5PjmIOnqlwYwlAg=)
+- [danawa.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBXE91CgsXlR1uwho7Ywj-o4aBDYdjBctsHPhMFbfPX7Rf3Hmxo2miduA6hhEES7hQ5tKDmKQsjLV97dYNE2GF5F-8K2DTosdpjlIhG6SL4tSDztQmYkFgW4215Mk_74UOQxc0ZgfbMkdWsftaRsY0k9NaORHAMes=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGICxKgkSaopciB2KEHkdbHJgLItLjwDWHHfE2hfNl7ryj2Qiebse7ZFjvCKPpXVnDfRwoRMTb6uEbKugfgUtlpxJC2vvpYeMFABnJAFDD7znQmWzb9tmpmufEek31BO12MjT0tyaTx1y6xb3qFXkiCfhJ4oVAAHQVIIHJRSmLZ3i3URKV5F4sfmXHCoe5OuKCZnrZbxayKHGrOaffWcYJqCsii-X9ZD1pEiA==)
+- [marketreport.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF29p7Mc2ehE0lwk6rhfzuCA55x7g0tZtWqzJZigEEuIAgvHluDTUk_PU155FIkyrSg8xNGYvUGKmTC8568-MJer4OiDNyZaMUlGX6pssublku2WLEZEQUBBT11k7CR-l1e2IQygn7c7Bp5eeEd5yf4ZSGDjobNAe4AhSg_)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsCty3aYmJ_wNjfoH4pJ-4sduJHv5erytAn7YbNiRgVLGAPGNvzPEtzReHCvRaBocm-0lZMbsvqtIAQdgDEvSvNeQDym8Wf9wkfIGoTuSc_B8HKHhMoiFVYemkrRriBgwyzPGXcCfJIPKWAk5CQjyhXWRt97HhkI6hnjJBloFDJ-4MKbqof070GjDmOmUVAi5TK98s6N09VrjCL26eNrVCJO4C4UWRTXW7_w==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7HR0VPxrB_7Id1EY0kF7YrNEhS9g6hnKnhnePke_EP2h3XiP4IADv_EmaddnosVP3yw6ru39Xv8FbEBS3OFiQV4ydpvy3Xsh2jm6XswEoHjkoq4MtYOtKwAbg345IdStw4SKiPDo=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXdbfHe-6-1kMpCxQWyutWXAA3Tz-1RARc2gZQ-b8lvsRN2CdX7jD_5pzFKitCnqCfJJmL_zJcaAucQYuvSGG6dP0B8XZbPBX4Odd2uLnqIeDQxyzLFw4tbJUW6PTwC0iz8hF1jA==)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHV53esn3EWK6zjufam3nwrOMzx2dZFIHIkjNo2UygdeXcYiDtChI3-nNU_veOcgmuosjOGCrW0fdkbPAqL6h103wWazkpHDK_ed9hIEirMUzepwe6M58D7_SsSKBw1z7szpCWAcIha9RaEyEMc2CPWRvPdzhDU5MFtgPATfJm_NW8gaa_4sDpcJ9-5oNq0PbdREvMhqQwNvArTSH_UzmibnvSdwTe_ZFexpGJxJuqgpYcQCfbNbdbeK5WpfBNBrO-p7AKKiftarvccnGutXzJrCAknJp8SLTj3lX17TfseowrFegGVZi-ugwsh57rCAoxUBgC0z7tAVl2hJRIUj10MP3CU8jDbRmLKXsEpGDFWoV9Rk2NzP4icDzpe)
+- [jjintip.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAloX7EkxEKEkyEOD00j0p_X7qKftZJHTUZP94p8UgrCUAfpUUXSRDLGvdpTzPvQSQbMgTYU5g1XMBqLZU8ClzZhuCU17O7tNHTLwNiPb9KQ==)

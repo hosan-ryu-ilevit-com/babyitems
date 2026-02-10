@@ -1,5 +1,5 @@
-# 세션: 20260210_055050_iioq
-> 시작: 2026-02-10T05:50:50.414Z
+# 세션: 20260210_055934_muyg
+> 시작: 2026-02-10T05:59:34.039Z
 > 카테고리키: 이유식
 > 카테고리: 이유식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 이유식 시장 현황
-- 인사이트: 국내 이유식 시장은 맞벌이 부부 증가와 편리성을 추구하는 소비 트렌드에 힘입어 지난 10년간 5배 이상 성장하며 3천억 원을 돌파했습니다. 특히 프리미엄 이유식 제품이 인기를 얻고 있으며, 온라인 판매 채널의 성장세도 두드러집니다. 향후 시장은 더욱 확대될 것으로 전망됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVyEuPrUda2cm1Jkix5RdmhV3JLME3Of56ONm-Iga37O8iZqFuz_JmFUnzGSaDc9FwVoyi6CZvqHiIV5L3qdPU1RNSLJ7C8aAStE8iKWTepm0cYyU-AbLmE3086uvJcHB6eGqd-cLX4Gud733XZdacc3lFbCZeFJQOyQVzSz0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEY1t1N1fNu-Kt9W-6vj43RyMjqIEmVQ_9MOYVgA-m2iJsFkg5stNmRW_ln_jTF95j80BYYbVOCP15Q9LNQ_hZwuHerUgEtxIpu8O2eZ4UDSqMDAWEW5caccBe2QNU-WZxPqFVOU1JHUwUyLFojfMrHz8zNMEv7OvGldWcOiiJqvjxxuw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6VDdoyyRiE0YropgD9Y2EjFlLRO-5hbaUVFrHCd8U7NkeQDs43vVYQQq3ox-CFmoAYSUtQnxK3ZWQDdA70Y9wha16VyGqxDI6LfBQV57mtu8U0GHYxZhCI1o6DIlmjyTEWsmx12HaYY3HUE-t7BFE0PbZNqUy
+- 인사이트: 국내 이유식 시장은 맞벌이 부부 증가와 편리성을 추구하는 소비 트렌드에 힘입어 지난 10년간 5배 이상 성장하며 3000억 원을 돌파했습니다. 특히 프리미엄 이유식 시장이 강세를 보이며, 다양한 메뉴와 고급 재료를 앞세운 제품들이 인기를 얻고 있습니다. 앞으로도 시장은 지속적으로 확대될 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGICAq6cQs0NR_yMa3lnZQTLFLgN1yqWKpNZf5U1mBJqAFlz2ag8C6SAhZ10hkQJ8P9SlIONUvFQ-_MOrCSy8evSD8-n3zjcO_RsWomcroC8PGhyYuqqyRGpYHxlJoKGpKveeqM5_DsO8J4Kw06HnDbFuBPR_tALnfEcypISsA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHo2vukF5FKQVkdTR3TOMxBYioWmp6I_pmrNV-HTjQoIbaoW2RttVQJGlLQzqDD1QuGxuo7QfZ6YCppIcrWHS7XSAS_s1OgjCd2sZRT_UZXblJ4-OfiQ1uMQw751PhjmNlXjazyWrU8MiM0TO6AXB4ZjC-fTwUF_9bWpiUaIrHE2rjv3MTHsPzQEAeZ9OSNxi5eeQU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuJ-KE7akWhacSDMkbui58_8GfhEp1zF7M3INpMbdFd4exfuGOY6x-nZ8nRZ3_o2f8rKID50scrLq4-9zkNNcRYZ3rF3zTw0tnwr6pjAYzcxA7rDk48W23wr76FODSKDfhu6NxHgPKoyPn8WYzO0SnIRMzbLRVHZ_agYLTOj8_LC4=
 
 ---
 

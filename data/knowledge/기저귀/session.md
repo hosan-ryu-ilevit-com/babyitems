@@ -1,5 +1,5 @@
-# 세션: 20260210_054823_ssyn
-> 시작: 2026-02-10T05:48:23.754Z
+# 세션: 20260210_060941_6xg9
+> 시작: 2026-02-10T06:09:41.022Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 기저귀 시장은 2025년 약 1,099억 달러에서 2032년에는 1,943억 달러에 이를 것으로 예상되며, 연평간 8.48%의 성장률을 보일 전망입니다. 특히 유아용 기저귀 시장은 2025년 772억 6천만 달러를 넘어 2035년에는 1,319억 7천만 달러에 이를 것으로 예상되며, 연평균 5.5%의 성장률을 기록할 것으로 보입니다. 성인용 기저귀 시장 또한 2024년 216억 4천만 달러에서 2032년까지 연평균 8.73% 성장할 것으로 예측됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzDu2-fO0MucO8ZTNL4kR8JkpRWQwqfPqlnwSWVH-Z35ChcelVWXDzIYcjo5KvYYMFzOU_c11vDXmW6-_YF3pstKyJ05Y9EgT7kmk9K-i8r8Q28DKCqbsL1bZZAMKHs1ZV0WZXTTZvVtp_VNb7rWphKF4TxYNOfGqIPkjgc45xm4wh4ZY14CeYCSK95dzzHMJQ0OwW0Gg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFH5AS0koqNI5sLj0pEhnHXoByUKzhU6LqE8Od6f8NxVsgwuMoCP569WmMWhZEpP4lO-ey_klnC5DjDn5K8u4hKOvl5gV_p9zao_YjbOHGC5kVYPyitCBAW3Cgs-47fGc1IqQ2d4rDba1KQcHCQHaVupyiXCPh2qu5-QZ2l, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrvj5eqe5-aaWHLBHKDDKOWVb9F_F48nLbRnGi-EQ7pFTwYQrGypy7JScymPczH-wZ1148WMxbbppTbLTt13DsR9oAkCN4qr_OBZrfeNBkrABNv0ATYxrCEovkBmSSF7NtIrh0xZwuy5RUzw6aj6HGn4IZDmlbE7eFfHlY7kbcn2Y1vrhZOP4HeQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpt1l0hN92m_hlPnOmef-7tONy0o0OTbA_5Fta6raAVwZaqOWiHPzlJYFmMuG55OMg4q12sypii5ADcuhUQFtFaeph9oGWkxmK2ydJwpsops9j6B5MsWcr0zSLqVcd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHgdyyHOHv3jKt71_L10ij_mCj9wqCP47b6NDvUmwkKMIvXpWDdl9WYvFu6FWFcRU7nvHn-lAX_5ygo5gFD6pakMW446PRFyY1D2UOc2S4ddPv8UcCAYleraB_H6r-2BA-BgmNV9FkSIV85RSCEfoWT_qm_N8gsCeA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2pJr5Nv7fG43FTQAS7MZzD5Eq7UCGbvo8XX7Hc8gwRkkQiR8yyIb-IFvgnyJ4D_zggVB1B2w0iuAizqsMfLRnpMth4HCSgO21gacQ0r14sC99rJf6i7TGz2jc2koLaI4XI6tNhb_XKwGlinrV_6lgiBTEMI-2_mYVL8D3i0pa8-LPd4ZOQj_KlOMDaRZrx4fVHts9EpTEVAuFowL2EdDcxJkHsenass8wbFxEVzqvugtrK-gkjrsS9-MOitidt-__elkMdjvuMYCwOiAM4x7NXcOsD-jOj4IkGMYpmZkTFzaCemf9OaOvI_0Uqk_nkYTJeoZdtRcPIzZV4Jc6onJ_3hus7rGm
+- 인사이트: 국내 기저귀 시장은 저출산 및 고령화 추세에 따라 성인용 기저귀의 수요가 증가하고 어린이용 기저귀의 수요는 감소하는 추세입니다. 전체 위생용품 시장은 꾸준히 성장하고 있으며, 기저귀는 화장지, 일회용 컵에 이어 세 번째로 높은 생산액을 차지하고 있습니다. 친환경 및 고기능성 소재 개발, 재활용 이슈가 중요한 트렌드로 부상하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdlkbfUIkOHElYeeKz0xDBIpqt4wPCBsPJuNoDwQJqBPuML1mAiUnYae0ezd3Tb6t6drrZAKXOOXv5QZO2hKmKBOYrCQ-x2-Hps5ZOhanmBwMcTzw2-0BO4Sm2tjvt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZp72Qb1g-HLw1gBy31gs7_z9G8FtQHraZsk5ayCCgnapYVYEVTopgmg2csolagUKqIJEuj5dzsMpK709Ij079p17n5Zl7OxG5-ERwVDmQNkMFcrVKkmvIgb9g4m0O6wEzKyDtoedtCU_P9ZAHUOvLYyLryBdBCwflCeYbGla0pwOi6zlktDdJw2WJPzg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBkkbGHnaljNK3zXbVWzyXVYuVMO0_OrDSyRCdTj2X9vKWNdAarIHrerK0DWzaLHZoZsVlu6FYZUJuX0KXLGR5odsp-9Fjt9vudr6VxCg6Ox0huWb0YAOw1CteDFJkLPkwmuC7h5_BYNvtms87H65Dj4rvktM7DA==
 
 ---
 
@@ -16,6 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
+| 신생아용 기저귀 사이즈, 어떤 기준으로 고르셨나요? | 직접 채워보고 결정 |
+| 아기 피부는 민감할 수 있어 소재 선택이 중요해요. 아기 피부 타입에 맞는 소재를 선택해 드릴까요? | 극도로 부드러운 저자극 소재 (민감한 아기 피부에 적합) |
+| 샘 방지 기능과 흡수력은 기저귀의 핵심 기능이에요. 어떤 점을 더 중요하게 생각하시나요? | 최강 흡수력 (샘 걱정 최소화) |
+| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 1천원, 1만 8천원~4만원대가 가장 많아요) | 1만 8천원 ~ 4만원대 |
 
 ---
 

@@ -8,8 +8,8 @@
  * - 펼친 상태: 3단계 Accordion (아이콘 + 라벨 + 시간)
  */
 
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import type { TimelineStep } from '@/types/recommend-v2';
 
@@ -21,10 +21,14 @@ interface FinalRecommendLoadingViewProps {
   steps: TimelineStep[];
   progress: number;           // 0-100
   showBrandPreferencePrompt?: boolean;
+  brandPromptMode?: 'exclude' | 'prefer';
   brandOptions?: string[];
-  preferBrands?: string[];
+  brandOptionCounts?: Record<string, number>;
   excludeBrands?: string[];
-  onBrandToggle?: (brand: string, type: 'prefer' | 'exclude') => void;
+  preferredBrands?: string[];
+  candidateThumbnails?: Array<string | { id?: string; thumbnail: string; title?: string; brand?: string; preScore?: number }>;
+  candidateThumbnailMeta?: Array<{ id?: string; thumbnail: string; title?: string; brand?: string; preScore?: number }>;
+  onBrandToggle?: (brand: string) => void;
   onBrandConfirm?: () => void;
   onBrandSkip?: () => void;
 }
@@ -32,47 +36,6 @@ interface FinalRecommendLoadingViewProps {
 // ============================================================================
 // Sub Components
 // ============================================================================
-
-/**
- * 실시간 타이머 (0.1초 단위)
- */
-function RealTimeTimer({ startTime }: { startTime: number }) {
-  const [elapsed, setElapsed] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setElapsed(Date.now() - startTime);
-    }, 100); // 100ms마다 업데이트
-    return () => clearInterval(interval);
-  }, [startTime]);
-
-  return (
-    <span className="text-[13px] text-gray-400 font-medium tabular-nums">
-      {(elapsed / 1000).toFixed(1)}s
-    </span>
-  );
-}
-
-/**
- * 전체 진행 타이머 (상단 메시지용)
- */
-function GlobalTimer({ startTime }: { startTime: number }) {
-  const [elapsed, setElapsed] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setElapsed(Date.now() - startTime);
-    }, 100);
-    return () => clearInterval(interval);
-  }, [startTime]);
-
-  return (
-    <span className="text-[13px] text-gray-400 font-medium tabular-nums">
-      {(elapsed / 1000).toFixed(1)}s
-    </span>
-  );
-}
-
 
 /**
  * 단계 카드 (항상 표시)
@@ -104,12 +67,6 @@ function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: numb
       <div className="relative z-10 w-4 h-4 rounded-full border-[1.5px] border-gray-300 bg-white" />
     );
   };
-
-  // 진행 중일 때 실시간 타이머, 완료되면 소요 시간 표시
-  const shouldShowTimer = step.status === 'in_progress' && step.startTime;
-  const duration = step.endTime && step.startTime
-    ? ((step.endTime - step.startTime) / 1000).toFixed(1) + 's'
-    : null;
 
   // 부가 설명 추출 (details 배열의 첫 번째 항목)
   const subDescription = step.details && step.details.length > 0 ? step.details[0] : '';
@@ -152,14 +109,6 @@ function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: numb
           <span className="text-[14px] font-semibold text-gray-600">
             {step.title}
           </span>
-          {/* 실시간 타이머 or 소요 시간 */}
-          {shouldShowTimer && step.startTime ? (
-            <RealTimeTimer startTime={step.startTime} />
-          ) : duration ? (
-            <span className="text-[13px] text-gray-300 font-medium tabular-nums">
-              {duration}
-            </span>
-          ) : null}
         </div>
         {/* 부가 설명 */}
         {subDescription && (
@@ -180,37 +129,150 @@ export function FinalRecommendLoadingView({
   steps,
   progress,
   showBrandPreferencePrompt = false,
+  brandPromptMode = 'exclude',
   brandOptions = [],
-  preferBrands = [],
+  brandOptionCounts = {},
   excludeBrands = [],
+  preferredBrands = [],
+  candidateThumbnails = [],
+  candidateThumbnailMeta = [],
   onBrandToggle,
   onBrandConfirm,
   onBrandSkip,
 }: FinalRecommendLoadingViewProps) {
+  const hashString = (value: string) => {
+    let hash = 0;
+    for (let i = 0; i < value.length; i += 1) {
+      hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+    }
+    return hash;
+  };
+
   // 현재 활성화된 단계 찾기
   const currentStep = steps.find(s => s.status === 'in_progress') || steps[steps.length - 1];
 
   // 헤더 제목에서 [n/4] 패턴 제거
   const headerTitle = (currentStep?.title || 'AI 추천 생성 중').replace(/\[\d+\/\d+\]\s*/, '');
 
-  // 전체 시작 시간 (첫 번째 단계의 startTime)
-  const globalStartTime = steps[0]?.startTime;
+  const MAX_THUMBNAILS = 80;
+  const MIN_VISIBLE_THUMBNAILS = 5;
+  const thumbnailPool = useMemo(() => {
+    const normalized = (candidateThumbnailMeta.length > 0
+      ? candidateThumbnailMeta
+      : candidateThumbnails.map((thumb) => {
+          if (typeof thumb === 'string') {
+            return { id: thumb, thumbnail: thumb, title: '', brand: '', preScore: 0 };
+          }
+          return {
+            id: thumb.id || thumb.thumbnail,
+            thumbnail: thumb.thumbnail,
+            title: thumb.title || '',
+            brand: thumb.brand || '',
+            preScore: thumb.preScore || 0,
+          };
+        }))
+      .filter((item) => Boolean(item?.thumbnail))
+      .slice(0, MAX_THUMBNAILS);
+    if (normalized.length > 0) return normalized;
+    return Array.from({ length: MAX_THUMBNAILS }).map((_, i) => ({ id: `placeholder-${i}`, thumbnail: '', title: '', brand: '', preScore: 0 }));
+  }, [candidateThumbnails, candidateThumbnailMeta]);
 
+  const maxVisible = Math.max(MIN_VISIBLE_THUMBNAILS, Math.min(MAX_THUMBNAILS, thumbnailPool.length));
+  const isBrandPromptActive = showBrandPreferencePrompt && brandOptions.length > 0;
+  const [frozenProgress, setFrozenProgress] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (isBrandPromptActive && frozenProgress === null) {
+      setFrozenProgress(progress);
+      return;
+    }
+    if (!isBrandPromptActive && frozenProgress !== null) {
+      setFrozenProgress(null);
+    }
+  }, [isBrandPromptActive, frozenProgress, progress]);
+
+  const effectiveProgress = frozenProgress ?? progress;
+
+  const targetVisibleCount = useMemo(() => {
+    const ratio = Math.max(0, Math.min(1, effectiveProgress / 100));
+    return Math.max(
+      MIN_VISIBLE_THUMBNAILS,
+      Math.round(maxVisible - (maxVisible - MIN_VISIBLE_THUMBNAILS) * ratio)
+    );
+  }, [maxVisible, effectiveProgress]);
+
+  const [visibleThumbCount, setVisibleThumbCount] = useState(maxVisible);
+
+  useEffect(() => {
+    setVisibleThumbCount(maxVisible);
+  }, [maxVisible]);
+
+  useEffect(() => {
+    if (visibleThumbCount === targetVisibleCount) return;
+    const direction = targetVisibleCount > visibleThumbCount ? 1 : -1;
+    const timer = setInterval(() => {
+      setVisibleThumbCount((prev) => {
+        if (prev === targetVisibleCount) return prev;
+        const next = prev + direction;
+        if (direction > 0) return Math.min(next, targetVisibleCount);
+        return Math.max(next, targetVisibleCount);
+      });
+    }, 42);
+
+    return () => clearInterval(timer);
+  }, [targetVisibleCount, visibleThumbCount]);
+
+  useEffect(() => {
+    if (effectiveProgress >= 99 && visibleThumbCount !== MIN_VISIBLE_THUMBNAILS) {
+      setVisibleThumbCount(MIN_VISIBLE_THUMBNAILS);
+    }
+  }, [effectiveProgress, visibleThumbCount]);
+
+  const visibleByScore = useMemo(
+    () => [...thumbnailPool].sort((a, b) => (b.preScore || 0) - (a.preScore || 0)).slice(0, visibleThumbCount),
+    [thumbnailPool, visibleThumbCount]
+  );
+  const [finalFiveLock, setFinalFiveLock] = useState<string[]>([]);
+  useEffect(() => {
+    if (effectiveProgress >= 99 && finalFiveLock.length === 0 && visibleByScore.length >= 5) {
+      setFinalFiveLock(visibleByScore.slice(0, 5).map((thumb) => String(thumb.id || thumb.thumbnail)));
+      return;
+    }
+    if (effectiveProgress < 99 && finalFiveLock.length > 0) {
+      setFinalFiveLock([]);
+    }
+  }, [effectiveProgress, finalFiveLock.length, visibleByScore]);
+
+  const lockedVisibleByScore = useMemo(() => {
+    if (finalFiveLock.length !== 5) return visibleByScore;
+    const lookup = new Map(
+      thumbnailPool.map((thumb) => [String(thumb.id || thumb.thumbnail), thumb])
+    );
+    return finalFiveLock
+      .map((id) => lookup.get(id))
+      .filter(Boolean) as typeof visibleByScore;
+  }, [finalFiveLock, thumbnailPool, visibleByScore]);
+
+  const visibleThumbs = useMemo(
+    () =>
+      [...lockedVisibleByScore].sort(
+        (a, b) =>
+          (hashString(String(a.id || a.thumbnail)) % 1009) -
+          (hashString(String(b.id || b.thumbnail)) % 1009)
+      ),
+    [lockedVisibleByScore]
+  );
+  const getColumnCount = (count: number) => {
+    if (count <= 5) return 5;
+    if (count <= 12) return 6;
+    if (count <= 24) return 7;
+    return 8;
+  };
+  const columnCount = getColumnCount(visibleThumbs.length);
+  const showFinalFiveMeta = lockedVisibleByScore.length <= 5;
   return (
     <div className="w-full">
-      {/* AI 메시지 스타일 안내 문구 */}
-      <div className="flex flex-col mb-4">
-        <p className="text-[20px] text-gray-800 font-semibold leading-[140%]">
-          맞춤 추천을 위해<br />
-          AI가 열심히 분석 중이에요
-        </p>
-        <p className="text-[14px] text-gray-400 font-medium leading-[140%] mt-2 flex items-center gap-1.5">
-          <span>30초 내외로 완료될 예정이니 조금만 기다려주세요.</span>
-          {globalStartTime && (
-            <GlobalTimer startTime={globalStartTime} />
-          )}
-        </p>
-      </div>
+     
 
       {/* 헤더 (현재 진행 중인 단계) */}
       <div className="w-full py-4 px-1 flex items-center gap-3">
@@ -255,82 +317,127 @@ export function FinalRecommendLoadingView({
         </motion.span>
       </div>
 
-      {/* 프로그레스 바 */}
-      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden mt-2 mb-4">
-        <motion.div
-          className="h-full bg-gradient-to-r from-blue-400 to-purple-500"
-          initial={{ width: '0%' }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-        />
-      </div>
-
-      {/* 단계 리스트 (항상 표시) */}
-      <div className="px-1 space-y-0 border-t border-gray-100 pt-2">
-        {steps.map((step, idx) => (
+      {/* 현재 단계 1개만 표시 (그리드 위) */}
+      <div className="px-1 space-y-0 border-t border-gray-100 pt-2 mb-3">
+        {currentStep && (
           <StepCard
-            key={step.id}
-            step={step}
-            index={idx}
-            totalSteps={steps.length}
+            key={currentStep.id}
+            step={currentStep}
+            index={0}
+            totalSteps={1}
           />
-        ))}
+        )}
       </div>
 
-      {showBrandPreferencePrompt && brandOptions.length > 0 && (
-        <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/50">
-          <p className="text-[14px] font-semibold text-gray-800 mb-3">
-            추천 정확도를 높이기 위해 브랜드 선호를 알려주세요
+      {isBrandPromptActive && (
+        <div className="mt-0 mb-6 p-4 rounded-2xl border border-gray-200 bg-white">
+          <p className="text-[16px] font-semibold text-gray-700 mb-1">
+            {brandPromptMode === 'exclude' ? '선호하지 않는 브랜드가 있나요?' : '선호하는 브랜드가 있나요?'}
           </p>
-          <div className="space-y-2">
+          <p className="text-[14px] text-gray-500 mb-4">
+            {brandPromptMode === 'exclude'
+              ? '추천 결과에서 제외해드릴게요'
+              : '최종 Top 추천에서 가중치를 반영할게요'}
+          </p>
+          <div className="flex flex-wrap gap-2">
             {brandOptions.map((brand) => {
-              const isPreferred = preferBrands.includes(brand);
-              const isExcluded = excludeBrands.includes(brand);
+              const isActive = brandPromptMode === 'exclude'
+                ? excludeBrands.includes(brand)
+                : preferredBrands.includes(brand);
+              const count = brandOptionCounts[brand] || 1;
               return (
-                <div key={brand} className="flex items-center justify-between gap-2">
-                  <span className="text-[14px] text-gray-700">{brand}</span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => onBrandToggle?.(brand, 'prefer')}
-                      className={`px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-colors ${
-                        isPreferred ? 'bg-blue-500 text-white' : 'bg-white text-blue-600 border border-blue-200'
-                      }`}
-                    >
-                      우선 추천
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onBrandToggle?.(brand, 'exclude')}
-                      className={`px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-colors ${
-                        isExcluded ? 'bg-gray-800 text-white' : 'bg-white text-gray-600 border border-gray-200'
-                      }`}
-                    >
-                      제외
-                    </button>
-                  </div>
-                </div>
+                <button
+                  key={brand}
+                  type="button"
+                  onClick={() => onBrandToggle?.(brand)}
+                  className={`px-3 py-2 rounded-xl text-[13px] font-semibold transition-colors border ${
+                    isActive
+                      ? (brandPromptMode === 'exclude'
+                          ? 'bg-red-50 text-red-700 border-red-200'
+                          : 'bg-blue-50 text-blue-700 border-blue-200')
+                      : 'bg-white text-gray-700 border-gray-200'
+                  }`}
+                >
+                  <span>{brand}</span>
+                  <span className={`${
+                    isActive
+                      ? (brandPromptMode === 'exclude' ? 'text-red-400' : 'text-blue-400')
+                      : 'text-gray-400'
+                  } ml-1 text-[12px] font-normal`}>
+                    ({count})
+                  </span>
+                </button>
               );
             })}
           </div>
-          <div className="mt-3 flex items-center justify-end gap-2">
+          <div className="mt-5">
             <button
               type="button"
-              onClick={onBrandSkip}
-              className="px-3 py-1.5 rounded-lg text-[12px] font-semibold text-gray-500 bg-white border border-gray-200"
+              onClick={
+                (brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
+                  ? onBrandConfirm
+                  : onBrandSkip
+              }
+              className="w-full py-3.5 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center"
             >
-              건너뛰기
-            </button>
-            <button
-              type="button"
-              onClick={onBrandConfirm}
-              className="px-3 py-1.5 rounded-lg text-[12px] font-semibold text-white bg-gray-900"
-            >
-              반영하기
+              {(brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
+                ? (brandPromptMode === 'exclude'
+                    ? `선택한 ${excludeBrands.length}개 브랜드 제외할게요`
+                    : `선택한 ${preferredBrands.length}개 브랜드를 더 우선 추천할게요`)
+                : '상관없어요'}
             </button>
           </div>
         </div>
       )}
+
+      {/* 후보 썸네일 그리드 (Top5 직전까지 축소 + 확대) */}
+      <div className="mt-2 mb-4">
+        <div
+          className="grid gap-1 w-full"
+          style={{
+            gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+          }}
+        >
+          <AnimatePresence mode="popLayout">
+            {visibleThumbs.map((thumb) => (
+              <motion.div
+                key={String(thumb.id || thumb.thumbnail || 'placeholder')}
+                layout
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.86 }}
+                transition={{ type: 'spring', stiffness: 190, damping: 26, mass: 0.9 }}
+                className="overflow-hidden bg-gray-100 border border-gray-100 rounded-[8px] w-full aspect-square"
+              >
+                {thumb.thumbnail ? (
+                  <img
+                    src={thumb.thumbnail}
+                    alt=""
+                    className="w-full h-full object-cover transition-opacity duration-300"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-100" />
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+        {showFinalFiveMeta && (
+          <div className="grid gap-1 mt-1.5 w-full" style={{ gridTemplateColumns: `repeat(5, minmax(0, 1fr))` }}>
+            {lockedVisibleByScore.slice(0, 5).map((thumb, idx) => (
+              <div key={`meta-${idx}-${thumb.id || thumb.thumbnail}`} className="text-center min-w-0">
+                <p className="text-[10px] text-gray-500 truncate">{thumb.brand || '-'}</p>
+                <p className="text-[10px] text-gray-400 truncate">{thumb.title || '추천 후보'}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

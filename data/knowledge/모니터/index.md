@@ -1,29 +1,24 @@
 # 모니터 전문가 지식
 
-> 마지막 업데이트: 2026-02-03T07:00:27.229Z
-> 분석 상품: 20개 | 분석 리뷰: 2,024개
+> 마지막 업데이트: 2026-02-10T07:08:56.863Z
+> 분석 상품: 20개 | 분석 리뷰: 2,713개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- OLED 모니터의 가파른 성장세
-- 게이밍 모니터 수요 급증
-- 울트라와이드 및 커브드 모니터의 보편화
+- OLED 모니터 시장의 높은 성장세
+- 게이밍 모니터 시장에서의 OLED 채택률 증가
+- 삼성전자, LG전자, 에이수스 등 주요 브랜드 경쟁 심화
 
 ### 구매자 만족 포인트
-- ✓ 몰입감 높은 시청 경험
-- ✓ 넓은 시야각
-- ✓ 눈의 피로 감소
-- ✓ 생산성 향상
-- ✓ 멀티태스킹 최적화
-- ✓ 향상된 깊이 인식
-- ✓ 왜곡 및 눈부심 감소
+- ✓ 뛰어난 화질
+- ✓ 빠른 응답 속도
+- ✓ 게이밍 모니터 최적화
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격
-- ⚠ 부피가 큼
-- ⚠ 벽 설치 어려움
-- ⚠ 패널 탄성력으로 인한 틈새 발생 가능성
+- ⚠ 파란색 휘도 저하 가능성
+- ⚠ 번인 현상 가능성
 
 ### 가격대 인사이트
 
@@ -32,17 +27,7 @@
 
 ## 🏆 추천 후보 상품 (Top 20)
 
-### 1. 크로스오버 27QD166CM QHD iPS USB-C 화이트 Ai 멀티스탠드
-- **브랜드**: 크로스오버
-- **가격**: 166,470원
-- **평점**: ⭐4.8 (20개 리뷰)
-- **핵심 스펙**: 68.5cm(27인치) / QHD(2560 x 1440) / 100Hz / IPS / 와이드(16:9) / 5ms(GTG) / 350cd / 1,000:1 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.1kg / 헤드폰 아웃 / USB PD 지원
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=90890663)
-
-### 2. 주연테크 X24F-180
+### 1. 주연테크 X24F-180
 - **브랜드**: 주연테크
 - **가격**: 99,000원
 - **평점**: ⭐5 (2개 리뷰)
@@ -52,17 +37,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=55797437)
 
-### 3. 알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점
-- **브랜드**: 알파스캔
-- **가격**: 305,970원
-- **평점**: ⭐4.8 (17개 리뷰)
-- **핵심 스펙**: 80cm(32인치) / 4K UHD(3840 x 2160) / 60Hz / VA / 와이드(16:9) / 4ms(GTG) / 300cd / 3,500:1 / HDR10 / 틸트(상하) / 5.26kg / 헤드폰 아웃 / 베사홀 / 100 x 100mm / 10bit (8bit + FRC)
+### 2. BenQ GW2791 아이케어 무결점
+- **브랜드**: BenQ
+- **가격**: 153,800원
+- **평점**: ⭐5 (12개 리뷰)
+- **핵심 스펙**: 69cm(27인치) / FHD(1920 x 1080) / 100Hz / IPS / 와이드(16:9) / 5ms(GTG) / 250nit / 1,300:1 / 틸트(상하) / 4.1kg / sRGB / 99% / HDMI / DP
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=97118564)
+- [상세보기](https://prod.danawa.com/info/?pcode=72229352)
 
-### 4. 앱코 하이퍼뷰 IP27F180D FAST-IPS FHD 200 HDR
+### 3. 앱코 하이퍼뷰 IP27F180D FAST-IPS FHD 200 HDR
 - **브랜드**: 앱코
 - **가격**: 175,000원
 - **평점**: ⭐5 (1개 리뷰)
@@ -72,57 +57,47 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=72676679)
 
-### 5. 삼성전자 오디세이 G5 G51F LS32FG510
-- **브랜드**: 삼성전자
-- **가격**: 298,080원
-- **평점**: ⭐5 (16개 리뷰)
-- **핵심 스펙**: 80cm(32인치) / QHD(2560 x 1440) / 180Hz / VA / 와이드(16:9) / 1ms(MPRT) / 300cd / 3,000:1 / HDR10 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.8kg / 헤드폰 아웃
+### 4. 크로스오버 27QD166CM QHD iPS USB-C 화이트 Ai 멀티스탠드
+- **브랜드**: 크로스오버
+- **가격**: 166,470원
+- **평점**: ⭐4.8 (21개 리뷰)
+- **핵심 스펙**: 68.5cm(27인치) / QHD(2560 x 1440) / 100Hz / IPS / 와이드(16:9) / 5ms(GTG) / 350nit / 1,000:1 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.1kg / 헤드폰 아웃 / USB PD 지원
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=103055438)
+- [상세보기](https://prod.danawa.com/info/?pcode=90890663)
 
-### 6. 알파스캔 AOC 27B36X 게이밍 144 IPS 프리싱크 AI HDR 무결점
+### 5. 알파스캔 AOC 27B36X 게이밍 144 IPS 프리싱크 AI HDR 무결점
 - **브랜드**: 알파스캔
-- **가격**: 135,800원
-- **평점**: ⭐4.8 (7개 리뷰)
-- **핵심 스펙**: 68.6cm(27인치) / FHD(1920 x 1080) / 144Hz / IPS / 와이드(16:9) / 0.5ms(MPRT) / 300cd / 1,500:1 / HDR10 / 틸트(상하) / 3.11kg / 헤드폰 아웃 / 베사홀 / 100 x 100mm / sRGB
+- **가격**: 146,010원
+- **평점**: ⭐4.8 (15개 리뷰)
+- **핵심 스펙**: 68.6cm(27인치) / FHD(1920 x 1080) / 144Hz / IPS / 와이드(16:9) / 0.5ms(MPRT) / 300nit / 1,500:1 / HDR10 / 틸트(상하) / 3.11kg / 헤드폰 아웃 / sRGB / 121% / Adobe RGB
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=100005752)
 
-### 7. 래안텍 PANTHEON QA2720S 나노IPS 120 QHD USB-C 화이트 멀티스탠드 무결점
+### 6. 래안텍 PANTHEON QA2720S 나노IPS 120 QHD USB-C 화이트 멀티스탠드 무결점
 - **브랜드**: 래안텍
 - **가격**: 175,910원
-- **평점**: ⭐5 (20개 리뷰)
-- **핵심 스펙**: 68cm(27인치) / QHD(2560 x 1440) / 120Hz / Nano-IPS / 와이드(16:9) / 1ms(MPRT) / 350cd / 2,000:1 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.8kg / 헤드폰 아웃 / 베사홀
+- **평점**: ⭐5 (37개 리뷰)
+- **핵심 스펙**: 68cm(27인치) / QHD(2560 x 1440) / 120Hz / Nano-IPS / 와이드(16:9) / 1ms(MPRT) / 350nit / 2,000:1 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.8kg / 헤드폰 아웃 / 10bit (8bit + FRC)
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=102608342)
 
-### 8. 삼성전자 오디세이 G5 G50F LS27FG500
+### 7. 삼성전자 오디세이 G5 G50F LS27FG500
 - **브랜드**: 삼성전자
 - **가격**: 273,090원
-- **평점**: ⭐4.7 (233개 리뷰)
-- **핵심 스펙**: 68.4cm(27인치) / QHD(2560 x 1440) / 180Hz / IPS / 와이드(16:9) / 1ms(GTG) / 300cd / 1,000:1 / HDR10 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 4.1kg / 베사홀
+- **평점**: ⭐4.8 (254개 리뷰)
+- **핵심 스펙**: 68.4cm(27인치) / QHD(2560 x 1440) / 180Hz / IPS / 와이드(16:9) / 1ms(GTG) / 300nit / 1,000:1 / HDR10 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 4.1kg / sRGB
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=99893291)
 
-### 9. 알파스캔 3425Q120W 울트라와이드 WQHD 딥 블랙 IPS 120 USB-C HDR 화이트 높낮이 무결점
-- **브랜드**: 알파스캔
-- **가격**: 341,330원
-- **평점**: ⭐4.9 (31개 리뷰)
-- **핵심 스펙**: 86.7cm(34인치) / Ultra WQHD(3440 x 1440) / 120Hz / IPS Black / 울트라와이드(21:9) / 1900R / 5ms(GTG) / 400cd / 2,000:1 / HDR10 / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 8.1kg / 헤드폰 아웃
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=102881435)
-
-### 10. 앱코 LPC34Q165D 프라임 나노IPS BLACK UWQHD HDR 블랙 무결점
+### 8. 앱코 LPC34Q165D 프라임 나노IPS BLACK UWQHD HDR 블랙 무결점
 - **브랜드**: 앱코
 - **가격**: 295,850원
 - **평점**: ⭐4.5 (4개 리뷰)
@@ -132,105 +107,125 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=71277374)
 
-### 11. 크로스오버 279QA9 Fast-iPS 180 WQHD 게이밍 무결점
-- **브랜드**: 크로스오버
-- **가격**: 197,560원
-- **평점**: ⭐4.7 (161개 리뷰)
-- **핵심 스펙**: 68.6cm(27인치) / QHD(2560 x 1440) / 180Hz / Fast IPS / 와이드(16:9) / 0.5ms(OD) / 400cd / 1,000:1 / 틸트(상하) / 4.74kg / 헤드폰 아웃 / 베사홀 / 75 x 75mm / sRGB / 147%
+### 9. LG전자 울트라기어 32GS75Q
+- **브랜드**: LG전자
+- **가격**: 390,600원
+- **평점**: ⭐4.8 (957개 리뷰)
+- **핵심 스펙**: 80cm(32인치) / QHD(2560 x 1440) / 180Hz / IPS / 와이드(16:9) / 1ms(GTG) / 400nit / 1,200:1 / HDR10 / VESA HDR 400 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 7.5kg / 헤드폰 아웃
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20478848)
+- [상세보기](https://prod.danawa.com/info/?pcode=62639555)
 
-### 12. 삼성전자 오디세이 G7 S32DG700
+### 10. 삼성전자 오디세이 G5 G51F LS32FG510
 - **브랜드**: 삼성전자
-- **가격**: 704,990원
-- **평점**: ⭐4.8 (810개 리뷰)
-- **핵심 스펙**: 80cm(32인치) / 4K UHD(3840 x 2160) / 144Hz / Fast IPS / 와이드(16:9) / 1ms(GTG) / 350cd / 1,000:1 / HDR10+ / VESA HDR 400 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 8kg
+- **가격**: 296,220원
+- **평점**: ⭐4.9 (21개 리뷰)
+- **핵심 스펙**: 80cm(32인치) / QHD(2560 x 1440) / 180Hz / VA / 와이드(16:9) / 1ms(MPRT) / 300nit / 3,000:1 / HDR10 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.8kg / 헤드폰 아웃
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=73883666)
+- [상세보기](https://prod.danawa.com/info/?pcode=103055438)
 
-### 13. LG전자 24U411A
-- **브랜드**: LG전자
-- **가격**: 122,220원
-- **평점**: ⭐4.8 (83개 리뷰)
-- **핵심 스펙**: 60cm(24인치) / FHD(1920 x 1080) / 120Hz / 와이드(16:9) / 5ms(GTG) / 250cd / 1,500:1 / HDR10 / 틸트(상하) / 3.2kg / 헤드폰 아웃 / 베사홀 / 100 x 100mm / sRGB / 99%
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=95344271)
-
-### 14. LG전자 울트라HD 27US550
-- **브랜드**: LG전자
-- **가격**: 296,140원
-- **평점**: ⭐4.9 (393개 리뷰)
-- **핵심 스펙**: 68.4cm(27인치) / 4K UHD(3840 x 2160) / 60Hz / IPS / 와이드(16:9) / 5ms(GTG) / 300cd / 1,000:1 / HDR10 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 6.8kg / 헤드폰 아웃
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=78237926)
-
-### 15. LG전자 울트라기어 27G411A
-- **브랜드**: LG전자
-- **가격**: 185,400원
-- **평점**: ⭐4.8 (126개 리뷰)
-- **핵심 스펙**: 68.5cm(27인치) / FHD(1920 x 1080) / 144Hz / IPS / 와이드(16:9) / 1ms(MBR) / 250cd / 1,500:1 / HDR10 / 틸트(상하) / 3.8kg / 헤드폰 아웃 / 베사홀 / 100 x 100mm / sRGB
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=96986510)
-
-### 16. 알파스캔 AOC 27B36H3 4면 보더리스 IPS 120 시력보호 무결점
+### 11. 알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점
 - **브랜드**: 알파스캔
-- **가격**: 122,120원
-- **평점**: ⭐4.9 (27개 리뷰)
-- **핵심 스펙**: 68.6cm(27인치) / FHD(1920 x 1080) / 120Hz / AH-IPS / 와이드(16:9) / 1ms(MPRT) / 300cd / 1500:1 / 틸트(상하) / 3.4kg / 베사홀 / 100 x 100mm / sRGB / 116% / Adobe RGB
+- **가격**: 319,000원
+- **평점**: ⭐4.8 (17개 리뷰)
+- **핵심 스펙**: 80cm(32인치) / 4K UHD(3840 x 2160) / 60Hz / VA / 와이드(16:9) / 4ms(GTG) / 300nit / 3,500:1 / HDR10 / 틸트(상하) / 5.26kg / 헤드폰 아웃 / 10bit (8bit + FRC) / sRGB / 125%
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=97118564)
+
+### 12. 알파스캔 AOC 27B36H3 4면 보더리스 IPS 120 시력보호 무결점
+- **브랜드**: 알파스캔
+- **가격**: 131,130원
+- **평점**: ⭐4.9 (32개 리뷰)
+- **핵심 스펙**: 68.6cm(27인치) / FHD(1920 x 1080) / 120Hz / AH-IPS / 와이드(16:9) / 1ms(MPRT) / 300nit / 1500:1 / 틸트(상하) / 3.4kg / sRGB / 116% / Adobe RGB / 99% / DCI-P3
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=99128231)
 
-### 17. 알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점
+### 13. LG전자 울트라기어 27G411A
+- **브랜드**: LG전자
+- **가격**: 186,837원
+- **평점**: ⭐4.8 (131개 리뷰)
+- **핵심 스펙**: 68.5cm(27인치) / FHD(1920 x 1080) / 144Hz / IPS / 와이드(16:9) / 1ms(MBR) / 250nit / 1,500:1 / HDR10 / 틸트(상하) / 3.8kg / 헤드폰 아웃 / sRGB / 99% / 조준선 표시
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=96986510)
+
+### 14. 알파스캔 AOC U27G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점
 - **브랜드**: 알파스캔
-- **가격**: 509,880원
-- **평점**: ⭐4.8 (32개 리뷰)
-- **핵심 스펙**: 80.1cm(32인치) / 4K UHD(3840 x 2160) / 160Hz / Fast IPS / 와이드(16:9) / 0.3ms(MPRT) / 450cd / 1,000:1 / HDR10 / VESA HDR 400 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 8.22kg
+- **가격**: 397,840원
+- **평점**: ⭐4.9 (32개 리뷰)
+- **핵심 스펙**: 68.4cm(27인치) / 4K UHD(3840 x 2160) / 160Hz / Fast IPS / 와이드(16:9) / 0.3ms(MPRT) / 450nit / 1,000:1 / VESA HDR 400 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 5.8kg / 헤드폰 아웃
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=99287948)
+
+### 15. 알파스캔 3425Q120W 울트라와이드 WQHD 딥 블랙 IPS 120 USB-C HDR 화이트 높낮이 무결점
+- **브랜드**: 알파스캔
+- **가격**: 352,470원
+- **평점**: ⭐4.8 (37개 리뷰)
+- **핵심 스펙**: 86.7cm(34인치) / Ultra WQHD(3440 x 1440) / 120Hz / IPS Black / 울트라와이드(21:9) / 1900R / 5ms(GTG) / 400nit / 2,000:1 / HDR10 / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 8.1kg / 헤드폰 아웃
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=102881435)
+
+### 16. LG전자 24U411A
+- **브랜드**: LG전자
+- **가격**: 127,030원
+- **평점**: ⭐4.8 (84개 리뷰)
+- **핵심 스펙**: 60cm(24인치) / FHD(1920 x 1080) / 120Hz / 와이드(16:9) / 5ms(GTG) / 250nit / 1,500:1 / HDR10 / 틸트(상하) / 3.2kg / 헤드폰 아웃 / sRGB / 99% / 조준선 표시 / 인풋랙 제어
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=95344271)
+
+### 17. 삼성전자 오디세이 G7 S32DG700
+- **브랜드**: 삼성전자
+- **가격**: 689,990원
+- **평점**: ⭐4.8 (829개 리뷰)
+- **핵심 스펙**: 80cm(32인치) / 4K UHD(3840 x 2160) / 144Hz / Fast IPS / 와이드(16:9) / 1ms(GTG) / 350nit / 1,000:1 / HDR10+ / VESA HDR 400 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 8kg
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=73883666)
+
+### 18. 알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점
+- **브랜드**: 알파스캔
+- **가격**: 508,020원
+- **평점**: ⭐4.8 (45개 리뷰)
+- **핵심 스펙**: 80.1cm(32인치) / 4K UHD(3840 x 2160) / 160Hz / Fast IPS / 와이드(16:9) / 0.3ms(MPRT) / 450nit / 1,000:1 / HDR10 / VESA HDR 400 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 8.22kg
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=97118876)
 
-### 18. 알파스캔 AOC 27G11 게이밍 240 FAST IPS HDR 무결점
-- **브랜드**: 알파스캔
-- **가격**: 238,000원
-- **평점**: ⭐5 (11개 리뷰)
-- **핵심 스펙**: 68.6cm(27인치) / FHD(1920 x 1080) / 240Hz / Fast IPS / 와이드(16:9) / 0.3ms(MPRT) / 300cd / 1,000:1 / HDR10 / 틸트(상하) / 4kg / 헤드폰 아웃 / 베사홀 / 100 x 100mm / sRGB
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=93072572)
-
-### 19. BenQ GW2791 아이케어 무결점
-- **브랜드**: BenQ
-- **가격**: 147,870원
-- **평점**: ⭐5 (12개 리뷰)
-- **핵심 스펙**: 69cm(27인치) / FHD(1920 x 1080) / 100Hz / IPS / 와이드(16:9) / 5ms(GTG) / 250cd / 1,300:1 / 틸트(상하) / 4.1kg / 베사홀 / 100 x 100mm / sRGB / 99% / HDMI
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=72229352)
-
-### 20. 크로스오버 미켈란 32WQ290TM Fast-IPS 게이밍 400 TYPE-C PD90 멀티스탠드 무결점
+### 19. 크로스오버 32UCA950 UHD4K IPS USB-C PD65 프로아트 멀티스탠드 무결점
 - **브랜드**: 크로스오버
-- **가격**: 298,590원
-- **평점**: ⭐4.5 (18개 리뷰)
-- **핵심 스펙**: 81.3cm(32인치) / QHD(2560 x 1440) / 180Hz / Fast IPS / 와이드(16:9) / 1ms(OD) / 400cd / 1,200:1 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 6.9kg / 헤드폰 아웃 / LED 조명
+- **가격**: 337,960원
+- **평점**: ⭐4.9 (20개 리뷰)
+- **핵심 스펙**: 80cm(32인치) / 4K UHD(3840 x 2160) / 60Hz / IPS / 와이드(16:9) / 5ms(GTG) / 550nit / 1,300:1 / 피벗(회전) / 엘리베이션(높낮이) / 틸트(상하) / 스위블(좌우) / 6.15kg / 헤드폰 아웃 / LED 조명
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=74546000)
+- [상세보기](https://prod.danawa.com/info/?pcode=99889406)
+
+### 20. 크로스오버 279QA9 Fast-iPS 180 WQHD 게이밍 무결점
+- **브랜드**: 크로스오버
+- **가격**: 197,560원
+- **평점**: ⭐4.7 (162개 리뷰)
+- **핵심 스펙**: 68.6cm(27인치) / QHD(2560 x 1440) / 180Hz / Fast IPS / 와이드(16:9) / 0.5ms(OD) / 400nit / 1,000:1 / 틸트(상하) / 4.74kg / 헤드폰 아웃 / sRGB / 147% / Adobe RGB / 101%
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20478848)
 
 ---
 
@@ -245,6 +240,6 @@
 ---
 
 ## 📊 데이터 출처
-- [pcworld.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhYc0473GLS0RAU0v9bzyy437FwSw_o9B3jcZe33Ff9XwoS-9kQu64XyJspcYaRL6gCcozSKCUGPGbVc1X-mFEbj9CpaF4EAbF9awyBOhlXJVbODV0YBRWlx64XMa6OlSqLw5lgAz7EKHAWNgOuE5326IaPP2mOPVOYNpBpomgCB6BE2m2LyQ47K0u)
-- [quasarzone.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGPSWLVl2s457uitTe6_u83IlvoSdDpZUbfOJkuH7mRVdd1JmkNkZoaS06Bx1mOIU3DsWuDnT6gsTI3IuYeG4w9rVS4HM3iQp65EYM31d7YOamkEHB415poI45WtgW2CJw0GJmQOlVpmA=)
-- [itworld.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsN9DzOl70heKWfbxiJgImfWpRsbvGx60EH5Z_kKE5BnloxDIFiJhvkYuRaxapSvJjnaut_skmD6_O7i3G2ycwRqfbq4bBXfUNf42rOiJM5hiiGVc82NKyUmYl7hxxbvwfuImwX9_SsxrORGRAqGxPOdS7oLLBYc-3Ns6BvZVW4p3vKhu88e90eODR7NHXMITpdSmsG9p12bnRFCIwnT4gvywYDMqtRtV8APuCyotqt3nBuDSG6EWcQ0SFS5OqnrAsWgxoIpiIsPOZG90rp7en2ea0dEWcFY7gZU_-7r8ZrO5Ns0pVRINj0xH0xV5D4Z9Y)
+- [itworld.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBABT06sqFS-pspgWlSHKVdAKOXKZOEThGgd_WUnlj9NI70qecn8o4Gdtz-VceVcWCRam-yxw6Rl8hELvVlJOeLVmwN5hi8BcQVjQfFUsAM7oUijKPR0H1DI_CUSambwgWjfLawqEXMX806Bp7EmW6YbredLbpRkZSyYhaqKMC9IKGKT9ITzhOEVvcgVBuFl_X7XQMToe9tAPp-UXXdX6-WMpFmvlJFUMrRA0uIi-AaDrvaswT-lauOLuz__9VlM0vYoYslISbdq8zik-M-nvK_EIEBc4vqbgquU597H9AIIEPEdo6koDGyoee_v34rik=)
+- [ruliweb.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtDpFlNrBt5WQfMGsSjp2TuUMzOmX-vt7ixg1Y_WrPaOm7tAc_B6rbB1bzXVkNHxky0S7Uay7z6vQppJfWy0vc0KSOcTtVF3Z_4O9BVGtWywRwoIOe7nfotnStiwr9nF0cfQEiTTJ6YBM4Dkg=)
+- [reddit.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYgv7bacGHUYCUhvgjB5khhHiuOSyx6oga83aQadszXaI1RvNtW-DazQFHoWXETDVwphen_ExyA40gr2NemmnajZCdhAgvFf0zl4fzufkin95c6YFtYNdxJDxRTX7D4AWRMPU7_wdMAa4FzZIarFKWgSaosdPLg7AzhycZW-FtcHQ5yu7EPLQw79BtDiRI066emQtD4hol6IGfRgezgz-8PCebmRUs0ZE=)

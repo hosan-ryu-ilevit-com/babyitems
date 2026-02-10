@@ -598,6 +598,8 @@ interface CrawledProductPreview {
   brand: string | null;
   price: number | null;
   thumbnail: string | null;
+  reviewCount?: number;
+  rating?: number | null;
   danawaRank?: number | null;
   specSummary?: string;
   lowestMall?: string | null;
@@ -1136,9 +1138,12 @@ export default function KnowledgeAgentPage() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [timelineSteps, setTimelineSteps] = useState<TimelineStep[]>([]);
   const [brandPreferenceOptions, setBrandPreferenceOptions] = useState<string[]>([]);
+  const [brandPreferenceCounts, setBrandPreferenceCounts] = useState<Record<string, number>>({});
+  const [liveCandidateScores, setLiveCandidateScores] = useState<Record<string, number>>({});
   const [showBrandPreferencePrompt, setShowBrandPreferencePrompt] = useState(false);
-  const [preferBrands, setPreferBrands] = useState<string[]>([]);
+  const [brandPromptMode, setBrandPromptMode] = useState<'exclude' | 'prefer'>('exclude');
   const [excludeBrands, setExcludeBrands] = useState<string[]>([]);
+  const [preferredBrands, setPreferredBrands] = useState<string[]>([]);
 
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
   const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>(() => createDefaultSteps(categoryName));
@@ -1640,7 +1645,7 @@ export default function KnowledgeAgentPage() {
 
   // 프로그레스 애니메이션 cleanup 함수 저장용
   const progressAnimationCleanupRef = useRef<(() => void) | null>(null);
-  const brandPromptResolverRef = useRef<((value: { preferBrands: string[]; excludeBrands: string[] }) => void) | null>(null);
+  const brandPromptResolverRef = useRef<((value: string[]) => void) | null>(null);
 
   /**
    * 프로그레스 바를 부드럽게 애니메이션 (22초 완료 기준)
@@ -1682,7 +1687,7 @@ export default function KnowledgeAgentPage() {
     return cleanup;
   }, []);
 
-  const getTopBrandCandidates = useCallback((limit: number = 8): string[] => {
+  const getTopBrandCandidates = useCallback((limit: number = 18): Array<{ brand: string; count: number }> => {
     const source = crawledProducts.length > 0 ? crawledProducts : hardCutProducts;
     const brandCounts = new Map<string, number>();
     source.forEach((p: any) => {
@@ -1693,20 +1698,61 @@ export default function KnowledgeAgentPage() {
     return Array.from(brandCounts.entries())
       .sort((a, b) => b[1] - a[1])
       .slice(0, limit)
-      .map(([brand]) => brand);
+      .map(([brand, count]) => ({ brand, count }));
   }, [crawledProducts, hardCutProducts]);
 
-  const awaitBrandPreferenceSelection = useCallback((brands: string[]): Promise<{ preferBrands: string[]; excludeBrands: string[] }> => {
+  const awaitBrandPreferenceSelection = useCallback(async (brands: Array<{ brand: string; count: number }>): Promise<{ excludeBrands: string[]; preferBrands: string[] }> => {
     if (brands.length === 0) {
-      return Promise.resolve({ preferBrands: [], excludeBrands: [] });
+      setBrandPreferenceOptions([]);
+      setBrandPreferenceCounts({});
+      return { excludeBrands: [], preferBrands: [] };
     }
-    setBrandPreferenceOptions(brands);
-    setPreferBrands([]);
+
+    const waitForPromptSelection = () =>
+      new Promise<string[]>((resolve) => {
+        brandPromptResolverRef.current = resolve;
+      });
+
+    const counts = brands.reduce<Record<string, number>>((acc, cur) => {
+      acc[cur.brand] = cur.count;
+      return acc;
+    }, {});
+
+    // 1) 제외 브랜드 질문
+    const excludeOptionNames = brands.map((b) => b.brand);
+    setBrandPromptMode('exclude');
+    setBrandPreferenceOptions(excludeOptionNames);
+    setBrandPreferenceCounts(counts);
     setExcludeBrands([]);
+    setPreferredBrands([]);
     setShowBrandPreferencePrompt(true);
-    return new Promise((resolve) => {
-      brandPromptResolverRef.current = resolve;
-    });
+    const selectedExcludeBrands = await waitForPromptSelection();
+
+    // 제외 브랜드 답변 후 잠시 로딩만 보여준 뒤 선호 브랜드 질문 노출
+    setShowBrandPreferencePrompt(false);
+    await new Promise((resolve) => setTimeout(resolve, 3600));
+
+    const preferOptionNames = excludeOptionNames.filter((brand) => !selectedExcludeBrands.includes(brand));
+    if (preferOptionNames.length === 0) {
+      setShowBrandPreferencePrompt(false);
+      setBrandPreferenceOptions([]);
+      setBrandPreferenceCounts({});
+      return { excludeBrands: selectedExcludeBrands, preferBrands: [] };
+    }
+
+    setBrandPromptMode('prefer');
+    setBrandPreferenceOptions(preferOptionNames);
+    setPreferredBrands([]);
+    setShowBrandPreferencePrompt(true);
+    const selectedPreferBrands = await waitForPromptSelection();
+
+    setShowBrandPreferencePrompt(false);
+    setBrandPreferenceOptions([]);
+    setBrandPreferenceCounts({});
+    return {
+      excludeBrands: selectedExcludeBrands,
+      preferBrands: selectedPreferBrands,
+    };
   }, []);
 
   // 최종 추천 단계의 타임라인 UX 헬퍼
@@ -1715,7 +1761,7 @@ export default function KnowledgeAgentPage() {
     userSelectionCount: number,
     negativeCount: number,
     includeBrandPrompt: boolean = false
-  ) => {
+  ): Promise<{ excludeBrands: string[]; preferBrands: string[] }> => {
     setIsCalculating(true);
     setTimelineSteps([]);
     setLoadingProgress(0);
@@ -1741,6 +1787,10 @@ export default function KnowledgeAgentPage() {
       ? conditionParts.join('과 ')
       : '선택하신 조건';
 
+    // 브랜드 제외 질문 결과 (후보 점수화 전에 반영)
+    let selectedExcludeBrands: string[] = [];
+    let selectedPreferBrands: string[] = [];
+
     // 1단계: 선호도 분석 (6.2초 ±10%)
     const step1Duration = getRandomDuration(6200);
     const step1: TimelineStep = {
@@ -1759,6 +1809,14 @@ export default function KnowledgeAgentPage() {
 
     // 1단계 완료 처리
     const step1Completed = { ...step1, status: 'completed' as const, endTime: Date.now() };
+
+    // 1단계 이후 브랜드 제외 질문 (로딩 UI가 이미 렌더된 상태에서 노출)
+    const brandCandidates = includeBrandPrompt ? getTopBrandCandidates() : [];
+    if (includeBrandPrompt && brandCandidates.length > 0) {
+      const brandSelection = await awaitBrandPreferenceSelection(brandCandidates);
+      selectedExcludeBrands = brandSelection.excludeBrands || [];
+      selectedPreferBrands = brandSelection.preferBrands || [];
+    }
 
     // 2단계: 제품 스펙 수집 (6.2초 ±10%)
     const step2Duration = getRandomDuration(6200);
@@ -1779,12 +1837,6 @@ export default function KnowledgeAgentPage() {
 
     // 2단계 완료 처리
     const step2Completed = { ...step2, status: 'completed' as const, endTime: Date.now() };
-
-    // 로딩 중간 지점에서 브랜드 우선/제외 선호 수집
-    const brandCandidates = includeBrandPrompt ? getTopBrandCandidates() : [];
-    if (includeBrandPrompt && brandCandidates.length > 0) {
-      await awaitBrandPreferenceSelection(brandCandidates);
-    }
 
     // 3단계: 리뷰 데이터 종합 평가 (6.2초 ±10%)
     const step3Duration = getRandomDuration(6200);
@@ -1821,37 +1873,34 @@ export default function KnowledgeAgentPage() {
     // 프로그레스는 animateProgressSmoothly가 자동으로 99%까지 업데이트
 
     // 여기서는 완료 처리하지 않음 (API 응답 시 컴포넌트가 언마운트됨)
+    return { excludeBrands: selectedExcludeBrands, preferBrands: selectedPreferBrands };
   }, [categoryName, animateProgressSmoothly, getTopBrandCandidates, awaitBrandPreferenceSelection]);
 
-  const handleBrandPreferenceToggle = useCallback((brand: string, type: 'prefer' | 'exclude') => {
-    if (type === 'prefer') {
-      setPreferBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
-      setExcludeBrands(prev => prev.filter(b => b !== brand));
+  const handleBrandPreferenceToggle = useCallback((brand: string) => {
+    if (brandPromptMode === 'exclude') {
+      setExcludeBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
       return;
     }
-    setExcludeBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
-    setPreferBrands(prev => prev.filter(b => b !== brand));
-  }, []);
+    setPreferredBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
+  }, [brandPromptMode]);
 
   const confirmBrandPreferenceSelection = useCallback(() => {
-    setShowBrandPreferencePrompt(false);
-    const payload = {
-      preferBrands: [...preferBrands],
-      excludeBrands: [...excludeBrands],
-    };
+    const selected = brandPromptMode === 'exclude' ? [...excludeBrands] : [...preferredBrands];
     const resolver = brandPromptResolverRef.current;
     brandPromptResolverRef.current = null;
-    resolver?.(payload);
-  }, [preferBrands, excludeBrands]);
+    resolver?.(selected);
+  }, [brandPromptMode, excludeBrands, preferredBrands]);
 
   const skipBrandPreferenceSelection = useCallback(() => {
-    setPreferBrands([]);
-    setExcludeBrands([]);
-    setShowBrandPreferencePrompt(false);
+    if (brandPromptMode === 'exclude') {
+      setExcludeBrands([]);
+    } else {
+      setPreferredBrands([]);
+    }
     const resolver = brandPromptResolverRef.current;
     brandPromptResolverRef.current = null;
-    resolver?.({ preferBrands: [], excludeBrands: [] });
-  }, []);
+    resolver?.([]);
+  }, [brandPromptMode]);
 
   // 웹서치 Context (밸런스게임/단점 생성용 - 리뷰 크롤링 전에 사용)
   const [webSearchContext, setWebSearchContext] = useState<{
@@ -2335,6 +2384,46 @@ export default function KnowledgeAgentPage() {
     });
   }, [resultProducts, selectedFilterTagIds]);
 
+  // 최종 추천 로딩 썸네일 풀 (최대 80개)
+  const finalLoadingThumbnails = useMemo(() => {
+    const source = (crawledProducts.length > 0 ? crawledProducts : hardCutProducts) as Array<{
+      pcode?: string;
+      thumbnail?: string | null;
+      reviewCount?: number;
+      rating?: number | null;
+      danawaRank?: number | null;
+      name?: string;
+      title?: string;
+      brand?: string | null;
+    }>;
+
+    const scored = source
+      .filter((item) => Boolean(item?.thumbnail))
+      .map((item, idx) => {
+        const pcode = String(item.pcode || idx);
+        const reviewCount = Math.max(0, Number(item.reviewCount || 0));
+        const rating = Math.max(0, Math.min(5, Number(item.rating || 0)));
+        const rank = Number(item.danawaRank || 0);
+
+        const rankScore = rank > 0 ? Math.max(0, (130 - rank) / 130) : 0.35;
+        const reviewScore = Math.min(1, Math.log10(reviewCount + 1) / 3);
+        const ratingScore = rating > 0 ? rating / 5 : 0.45;
+        const preScore = rankScore * 0.5 + reviewScore * 0.3 + ratingScore * 0.2;
+
+        return {
+          id: pcode,
+          thumbnail: item.thumbnail as string,
+          title: (item.name || item.title || '').trim(),
+          brand: String(item.brand || '').trim(),
+          preScore: liveCandidateScores[pcode] ?? preScore,
+        };
+      })
+      .sort((a, b) => b.preScore - a.preScore)
+      .slice(0, 80);
+
+    return scored;
+  }, [crawledProducts, hardCutProducts, liveCandidateScores]);
+
   // 결과가 생성되면 로컬스토리지에 저장
   useEffect(() => {
     if (phase === 'result' && resultProducts.length > 0) {
@@ -2467,7 +2556,7 @@ export default function KnowledgeAgentPage() {
         searchResults: (trendResult?.sources || []).slice(0, 5),
         thinking: trendResult?.trendAnalysis?.top10Summary || '',
       });
-      await new Promise(r => setTimeout(r, 1100)); // 사용자가 결과 인식할 시간
+      await new Promise(r => setTimeout(r, 2000)); // 완료 렌더 후 추가 유지 시간
 
       // 3. 질문 생성 단계
       let questionTodosFromQuestions: any[] = [];
@@ -3101,150 +3190,29 @@ export default function KnowledgeAgentPage() {
     }, 300);
   };
 
-  // 🆕 조건 보고서 확인 후 하드컷 시각화로 진행
+  // 조건 보고서 확인 후 최종 입력 단계로 바로 진행
   const proceedToHardcutVisual = async () => {
-    console.log('[V2 Flow] 조건 보고서 확인 완료, hardcut_visual로 진행...');
+    console.log('[V2 Flow] 조건 보고서 확인 완료, final_input으로 바로 진행...');
+    setIsTyping(false);
+    setInputValue('');
+    setIsHardcutVisualDone(true);
+    setPhase('final_input');
 
-    // 로딩 시작
+    const finalInputMsgId = `a_final_input_guide_${Date.now()}`;
+    setMessages(prev => {
+      if (prev.some(m => m.id.startsWith('a_final_input_guide_'))) return prev;
+      return [...prev, {
+        id: finalInputMsgId,
+        role: 'assistant',
+        content: '추천을 위한 모든 준비가 끝났어요! 🎯 마지막으로 더 고려해야 할 조건이 있다면 입력해주세요. 없다면 **바로 추천받기**를 눌러주세요.',
+        typing: true,
+        timestamp: Date.now()
+      }];
+    });
+
     setTimeout(() => {
-      setIsTyping(true);
-    }, 300);
-
-    try {
-      const allProducts = crawledProducts;
-      const currentReviewsData = reviewsDataRef.current;  // 최신 리뷰 데이터 사용
-      console.log(`[V2 Flow] Using ${allProducts.length} products with ${Object.keys(currentReviewsData).length} reviews`);
-
-      // 사용자가 선택한 조건들을 규칙 형태로 변환
-      const appliedRules: Array<{ rule: string; matchedCount: number }> = [];
-
-      // 질문 텍스트와 답변을 조합하여 의미 있는 조건 문구 생성
-      const formatCondition = (question: string, answer: string): string => {
-        const q = question.toLowerCase();
-        const a = answer;
-
-        // 예산 관련
-        if (q.includes('예산') || q.includes('가격')) {
-          return `예산 ${a}`;
-        }
-        // 월령/나이 관련
-        if (q.includes('월령') || q.includes('개월') || q.includes('나이')) {
-          return `${a} 아기용`;
-        }
-        // 용도/목적 관련
-        if (q.includes('용도') || q.includes('목적') || q.includes('사용')) {
-          return `${a} 용도`;
-        }
-        // 타입/종류/형태 관련
-        if (q.includes('타입') || q.includes('종류') || q.includes('형태') || q.includes('방식')) {
-          return `${a} 타입`;
-        }
-        // 사이즈/크기 관련
-        if (q.includes('사이즈') || q.includes('크기') || q.includes('용량')) {
-          return `${a} 사이즈`;
-        }
-        // 브랜드 관련
-        if (q.includes('브랜드')) {
-          return `${a} 브랜드 선호`;
-        }
-        // 편의성/기능 관련 (있으면 좋음 등의 답변)
-        if (a === '있으면 좋음' || a === '필수' || a === '중요') {
-          // 질문에서 핵심 키워드 추출
-          const keywords = question.match(/[가-힣]+\s*(편의|기능|성능|안전|세척|청소|휴대|소음|디자인)/);
-          if (keywords) {
-            return `${keywords[0]} ${a === '필수' ? '필수' : '중요'}`;
-          }
-          // 질문의 핵심 부분 추출 (첫 10자 정도)
-          const core = question.replace(/[?？어떠세요어떤가요원하시나요]*/g, '').trim().slice(0, 15);
-          return `${core} 중요`;
-        }
-        // 기본: 답변이 충분히 설명적이면 그대로, 아니면 질문 요약 + 답변
-        if (a.length > 5) {
-          return a;
-        }
-        // 질문에서 핵심 키워드 추출
-        const questionCore = question.replace(/[?？은는이가을를에서로]*/g, '').trim().slice(0, 10);
-        return `${questionCore}: ${a}`;
-      };
-
-      // 1. 질문에서 선택한 조건들 추가
-      Object.entries(collectedInfo).forEach(([question, answer]) => {
-        // 내부 키나 건너뛰기 옵션 제외
-        if (question.startsWith('__') || answer === '상관없어요' || answer === 'skip') return;
-
-        const answerStr = Array.isArray(answer) ? answer.join(', ') : String(answer);
-        if (answerStr && answerStr.length < 100) {
-          const formattedRule = formatCondition(question, answerStr);
-          appliedRules.push({
-            rule: formattedRule,
-            matchedCount: Math.floor(allProducts.length * (0.3 + Math.random() * 0.4)),
-          });
-        }
-      });
-
-      // 2. 피하고 싶은 단점들 추가 - selectedNegativeKeys에서 negativeOptions를 사용하여 레이블로 변환
-      const avoidNegativeLabels = selectedNegativeKeys
-        .map(key => negativeOptions.find(opt => opt.target_rule_key === key)?.label)
-        .filter((label): label is string => !!label);
-      if (avoidNegativeLabels.length > 0) {
-        avoidNegativeLabels.forEach((neg: string) => {
-          appliedRules.push({
-            rule: `❌ "${neg}" 제외`,
-            matchedCount: Math.floor(allProducts.length * 0.1 + Math.random() * 10),
-          });
-        });
-      }
-
-      // 🆕 DB의 product_count 사용 (없으면 실제 상품 수 fallback)
-      const displayCount = dbProductCount || allProducts.length;
-
-      // 3. 리뷰 분석 완료 표시 (DB product_count 기준)
-      appliedRules.push({
-        rule: `📊 ${displayCount}개 상품 리뷰 분석 완료`,
-        matchedCount: displayCount,
-      });
-
-      // ✅ 기존 state 대신 메시지로 추가하여 순서 및 스타일 제어
-      setMessages(prev => [
-        ...prev,
-        {
-          id: 'hardcut-visual',
-          role: 'assistant',
-          content: '',
-          timestamp: Date.now(),
-          hardcutData: {
-            totalBefore: displayCount,
-            totalAfter: displayCount,
-            appliedRules,
-            filteredProducts: allProducts.slice(0, 20).map(p => ({
-              pcode: p.pcode,
-              name: p.name,
-              brand: p.brand || '',
-              price: p.price || 0,
-              thumbnail: p.thumbnail,
-              matchScore: 0,
-              matchedConditions: [],
-            }))
-          }
-        }
-      ]);
-      setHardcutResult({
-        totalBefore: displayCount,
-        totalAfter: displayCount,
-        appliedRules,
-      });
-      setIsHardcutVisualDone(false);
-      setPhase('hardcut_visual');
-      // 하드컷 시각화로 부드럽게 이동 (위로 점프 방지)
-      setTimeout(() => {
-        scrollToRef(hardcutRef, 80);
-      }, 200);
-
-    } catch (error) {
-      console.error('[V2 Flow] Error:', error);
-    } finally {
-      setIsTyping(false);
-    }
+      scrollToMessage(finalInputMsgId);
+    }, 200);
   };
 
   // generateFollowUpQuestions 함수 제거됨 (밸런스 게임 플로우 삭제)
@@ -3402,20 +3370,88 @@ export default function KnowledgeAgentPage() {
    */
   const handleV2FinalRecommend = async (
     balanceSelections: any[],
-    collectedInfoOverride?: Record<string, string>
+    collectedInfoOverride?: Record<string, string>,
+    options?: { excludeBrands?: string[]; preferBrands?: string[] }
   ) => {
     // 새 아키텍처: hardCutProducts 대신 crawledProducts (120개 전체) 사용
-    const candidates = crawledProducts.length > 0 ? crawledProducts : hardCutProducts;
-    if (!v2FlowEnabled || candidates.length === 0) return null;
+    const allCandidates = crawledProducts.length > 0 ? crawledProducts : hardCutProducts;
+    if (!v2FlowEnabled || allCandidates.length === 0) return null;
+    const finalExcludeBrands = (options?.excludeBrands ?? excludeBrands).map((b) => String(b || '').trim()).filter(Boolean);
+    const finalPreferBrands = (options?.preferBrands ?? preferredBrands).map((b) => String(b || '').trim()).filter(Boolean);
+    const excludeSet = new Set(finalExcludeBrands);
+    const candidates = allCandidates.filter((c: any) => !excludeSet.has(String(c?.brand || '').trim()));
+    const effectiveCandidates = candidates.length > 0 ? candidates : allCandidates;
 
     // collectedInfoOverride가 있으면 우선 사용 (비동기 setState 문제 해결)
-    const finalCollectedInfo = collectedInfoOverride || collectedInfo;
+    const finalCollectedInfoBase = collectedInfoOverride || collectedInfo;
+    const existingPreferredBrands = String(finalCollectedInfoBase['[브랜드 선호]'] || '')
+      .split(',')
+      .map((brand) => brand.trim())
+      .filter(Boolean);
+    const mergedPreferredBrands = Array.from(new Set([...existingPreferredBrands, ...finalPreferBrands]));
+    const finalCollectedInfo = mergedPreferredBrands.length > 0
+      ? { ...finalCollectedInfoBase, '[브랜드 선호]': mergedPreferredBrands.join(', ') }
+      : finalCollectedInfoBase;
 
-    console.log(`[V2 Flow] Generating final recommendations from ${candidates.length} candidates with ${Object.keys(reviewsData).length} products' reviews...`);
+    console.log(`[V2 Flow] Generating final recommendations from ${effectiveCandidates.length} candidates with ${Object.keys(reviewsData).length} products' reviews...`);
     console.log(`[V2 Flow] collectedInfo keys:`, Object.keys(finalCollectedInfo));
     if (finalCollectedInfo['__additional_condition__']) {
       console.log(`[V2 Flow] __additional_condition__:`, finalCollectedInfo['__additional_condition__']);
     }
+
+    const applyFinalRecommendPayload = (data: any) => {
+      console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
+
+      // 🆕 리뷰 데이터 즉시 저장 (crawl-reviews 중복 호출 방지)
+      if (data.reviews) {
+        setReviewsData(data.reviews);
+        reviewsDataRef.current = data.reviews;  // 즉시 ref도 업데이트
+        const totalReviews = Object.values(data.reviews).reduce((sum: number, reviews: any) => sum + (reviews?.length || 0), 0);
+        console.log(`[V2 Flow] Reviews saved from final-recommend: ${Object.keys(data.reviews).length}개 제품, ${totalReviews}개 리뷰`);
+      }
+
+      // ✅ 추가: 자유 입력 분석 결과 저장 (PDP 선호/회피 조건 표시용)
+      if (data.freeInputAnalysis) {
+        setFreeInputAnalysis(data.freeInputAnalysis);
+        console.log(`[V2 Flow] freeInputAnalysis saved:`, data.freeInputAnalysis);
+      }
+
+      // 🆕 필터 태그 저장 (상품에 매칭되는 태그만)
+      if (data.filterTags && Array.isArray(data.filterTags)) {
+        // 🆕 전체 태그 저장 (PDP 조건 매핑용)
+        setAllFilterTags(data.filterTags);
+
+        // 5개 상품 중 하나라도 full/partial인 태그만 남김
+        const matchedTags = data.filterTags.filter((tag: FilterTag) => {
+          return data.recommendations.some((rec: any) => {
+            const tagScores = rec.tagScores || {};
+            const scoreData = tagScores[tag.id];
+            return scoreData?.score === 'full' || scoreData?.score === 'partial';
+          });
+        });
+
+        setFilterTags(matchedTags);
+        setSelectedFilterTagIds(new Set()); // 초기화 (모두 선택 해제 = 전체 보기)
+        console.log(`[V2 Flow] filterTags saved: ${matchedTags.length}개 (원본 ${data.filterTags.length}개)`);
+      }
+
+      // Top N pcode 추출 (5개)
+      const allTopNPcodes = data.recommendations
+        .slice(0, 5)
+        .map((r: any) => r.pcode)
+        .filter(Boolean);
+
+      // ⚡ Top N 확정 즉시 가격 프리페치 (백그라운드, 리뷰 크롤링보다 빠름)
+      if (allTopNPcodes.length > 0) {
+        console.log(`[V2 Flow] 💰 가격 프리페치 시작: ${allTopNPcodes.join(', ')}`);
+        fetchPricesForTop3(allTopNPcodes); // await 없이 백그라운드 실행
+      }
+
+      return {
+        recommendations: data.recommendations,
+        filterTags: data.filterTags || []
+      };
+    };
 
     try {
       const res = await fetch('/api/knowledge-agent/final-recommend', {
@@ -3424,76 +3460,113 @@ export default function KnowledgeAgentPage() {
         body: JSON.stringify({
           categoryKey,
           categoryName,
-          candidates: candidates, // 120개 전체 (hard-cut 제거)
+          candidates: effectiveCandidates, // 브랜드 제외 반영된 후보
           reviews: reviewsData,   // init API에서 미리 크롤링된 리뷰 사용
           collectedInfo: finalCollectedInfo,
           balanceSelections,
           negativeSelections: [], // 회피조건 제거
-          preferBrands,
-          excludeBrands,
+          preferBrands: finalPreferBrands,
+          excludeBrands: finalExcludeBrands,
           onboarding: onboardingData, // 🆕 온보딩 데이터 (불편사항 포함)
           babyInfo, // 🆕 아기 정보 (개월수, 성별)
           conditionReport, // 🆕 중간 보고서 (AI 요약 컨텍스트)
+          streamScores: true,
         }),
       });
 
-      const data = await res.json();
-      if (data.success) {
-        console.log(`[V2 Flow] Final recommendations: ${data.recommendations.length}`);
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('text/event-stream')) {
+        const reader = res.body?.getReader();
+        if (!reader) throw new Error('No stream body');
 
-        // 🆕 리뷰 데이터 즉시 저장 (crawl-reviews 중복 호출 방지)
-        if (data.reviews) {
-          setReviewsData(data.reviews);
-          reviewsDataRef.current = data.reviews;  // 즉시 ref도 업데이트
-          const totalReviews = Object.values(data.reviews).reduce((sum: number, reviews: any) => sum + (reviews?.length || 0), 0);
-          console.log(`[V2 Flow] Reviews saved from final-recommend: ${Object.keys(data.reviews).length}개 제품, ${totalReviews}개 리뷰`);
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let currentEvent = '';
+        let finalPayload: any = null;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (line.startsWith('event: ')) {
+              currentEvent = line.slice(7).trim();
+            } else if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (currentEvent === 'score_update' && Array.isArray(data?.scores)) {
+                  setLiveCandidateScores((prev) => {
+                    const next = { ...prev };
+                    data.scores.forEach((item: { pcode: string; score: number }) => {
+                      next[String(item.pcode)] = Number(item.score) || 0;
+                    });
+                    return next;
+                  });
+                  if (typeof data?.evaluatedCount === 'number' && typeof data?.totalCount === 'number' && data.totalCount > 0) {
+                    const ratio = Math.max(0, Math.min(1, data.evaluatedCount / data.totalCount));
+                    setLoadingProgress((prev) => Math.max(prev, Math.round(ratio * 95)));
+                  }
+                } else if (currentEvent === 'complete') {
+                  finalPayload = data;
+                  if (data?.success && Array.isArray(data?.recommendations)) {
+                    const finalTop5Pcodes = data.recommendations
+                      .slice(0, 5)
+                      .map((r: any) => String(r?.pcode || ''))
+                      .filter(Boolean);
+
+                    // 최종 추천이 확정되는 즉시, 로딩 썸네일도 동일 Top5로 강제 정렬
+                    setLiveCandidateScores(() => {
+                      const resetMap: Record<string, number> = {};
+                      effectiveCandidates.forEach((c: any, idx: number) => {
+                        resetMap[String(c?.pcode || idx)] = 1;
+                      });
+                      finalTop5Pcodes.forEach((pcode: string, idx: number) => {
+                        resetMap[pcode] = 200 - idx; // 반드시 상위에 오도록 고정 점수
+                      });
+                      return resetMap;
+                    });
+                    setLoadingProgress(100);
+                  }
+                } else if (currentEvent === 'error') {
+                  throw new Error(data?.message || 'Stream failed');
+                }
+              } catch (streamError) {
+                if (currentEvent === 'error') throw streamError;
+              }
+              currentEvent = '';
+            }
+          }
         }
 
-        // ✅ 추가: 자유 입력 분석 결과 저장 (PDP 선호/회피 조건 표시용)
-        if (data.freeInputAnalysis) {
-          setFreeInputAnalysis(data.freeInputAnalysis);
-          console.log(`[V2 Flow] freeInputAnalysis saved:`, data.freeInputAnalysis);
+        if (finalPayload?.success) {
+          return applyFinalRecommendPayload(finalPayload);
         }
-
-        // 🆕 필터 태그 저장 (상품에 매칭되는 태그만)
-        if (data.filterTags && Array.isArray(data.filterTags)) {
-          // 🆕 전체 태그 저장 (PDP 조건 매핑용)
-          setAllFilterTags(data.filterTags);
-          
-          // 5개 상품 중 하나라도 full/partial인 태그만 남김
-          const matchedTags = data.filterTags.filter((tag: FilterTag) => {
-            return data.recommendations.some((rec: any) => {
-              const tagScores = rec.tagScores || {};
-              const scoreData = tagScores[tag.id];
-              return scoreData?.score === 'full' || scoreData?.score === 'partial';
+      } else {
+        const data = await res.json();
+        if (data.success) {
+          if (Array.isArray(data?.recommendations)) {
+            const finalTop5Pcodes = data.recommendations
+              .slice(0, 5)
+              .map((r: any) => String(r?.pcode || ''))
+              .filter(Boolean);
+            setLiveCandidateScores(() => {
+              const resetMap: Record<string, number> = {};
+              effectiveCandidates.forEach((c: any, idx: number) => {
+                resetMap[String(c?.pcode || idx)] = 1;
+              });
+              finalTop5Pcodes.forEach((pcode: string, idx: number) => {
+                resetMap[pcode] = 200 - idx;
+              });
+              return resetMap;
             });
-          });
-
-          setFilterTags(matchedTags);
-          setSelectedFilterTagIds(new Set()); // 초기화 (모두 선택 해제 = 전체 보기)
-          console.log(`[V2 Flow] filterTags saved: ${matchedTags.length}개 (원본 ${data.filterTags.length}개)`);
+            setLoadingProgress(100);
+          }
+          return applyFinalRecommendPayload(data);
         }
-
-        // Top N pcode 추출 (5개)
-        const allTopNPcodes = data.recommendations
-          .slice(0, 5)
-          .map((r: any) => r.pcode)
-          .filter(Boolean);
-
-        // ⚡ Top N 확정 즉시 가격 프리페치 (백그라운드, 리뷰 크롤링보다 빠름)
-        if (allTopNPcodes.length > 0) {
-          console.log(`[V2 Flow] 💰 가격 프리페치 시작: ${allTopNPcodes.join(', ')}`);
-          fetchPricesForTop3(allTopNPcodes); // await 없이 백그라운드 실행
-        }
-
-        // ✅ 리뷰 크롤링은 handleNegativeFilterComplete에서 50개로 통합 처리
-        // (중복 크롤링 제거)
-
-        // 🆕 recommendations와 filterTags 함께 반환 (로깅용)
-        return { 
-          recommendations: data.recommendations, 
-          filterTags: data.filterTags || [] 
-        };
       }
     } catch (error) {
       console.error('[V2 Flow] Final recommend error:', error);
@@ -3579,8 +3652,12 @@ export default function KnowledgeAgentPage() {
     }
 
     setShowBrandPreferencePrompt(false);
-    setPreferBrands([]);
+    setBrandPromptMode('exclude');
     setExcludeBrands([]);
+    setPreferredBrands([]);
+    setBrandPreferenceOptions([]);
+    setBrandPreferenceCounts({});
+    setLiveCandidateScores({});
     setIsTyping(true);
 
     try {
@@ -3588,8 +3665,11 @@ export default function KnowledgeAgentPage() {
       const candidateCount = dbProductCount || crawledProducts.length || hardCutProducts.length;
 
       // 로딩 UX 중간에 브랜드 선호/제외를 수집한 뒤 최종 추천 실행
-      await runFinalTimelineUX(candidateCount, userSelectionCount, 0, true);
-      const apiResult = await handleV2FinalRecommend([], updatedInfo);
+      const brandSelection = await runFinalTimelineUX(candidateCount, userSelectionCount, 0, true);
+      const apiResult = await handleV2FinalRecommend([], updatedInfo, {
+        excludeBrands: brandSelection.excludeBrands,
+        preferBrands: brandSelection.preferBrands,
+      });
 
       // 이전 프로그레스 애니메이션 취소
       if (progressAnimationCleanupRef.current) {
@@ -3680,6 +3760,8 @@ export default function KnowledgeAgentPage() {
           };
         });
         setResultProducts(mappedResultProducts);
+        // 마지막 5개 썸네일/메타가 잠깐이라도 안정적으로 보이도록 한 템포 유지
+        await new Promise((resolve) => setTimeout(resolve, 180));
         setPhase('result');
 
         // ✅ [로깅] 상품별 매칭도 로깅 (returnedFilterTags 사용 - 비동기 상태 업데이트 문제 해결)
@@ -5012,26 +5094,15 @@ export default function KnowledgeAgentPage() {
                   router.push('/knowledge-agent/living');
                 }
               }}
-              onNeedBabyInfo={parentCategory === 'baby' ? handleNeedBabyInfo : undefined}
+              // baby 카테고리도 living과 동일 플로우로 통일 (아기 정보 단계 비활성화)
+              onNeedBabyInfo={undefined}
               initialSituation={pendingSituation}
               babyInfo={babyInfo}
               categoryKey={categoryKey}
             />
           )}
 
-          {/* 아기 정보 Phase (baby 카테고리만 - 온보딩보다 먼저) */}
-          {phase === 'baby_info' && (
-            <BabyInfoPhase
-              onComplete={handleBabyInfoComplete}
-              onBack={() => {
-                // 상황 질문으로 돌아가기
-                setPendingSituation(null);
-                setPhase('onboarding');
-              }}
-              categoryName={categoryName}
-              categoryKey={categoryKey}
-            />
-          )}
+          {/* 아기 정보 단계 비활성화: 가전과 동일하게 온보딩만 사용 */}
 
           {phase === 'question_generation' && (
             <div className="py-2">
@@ -5446,9 +5517,13 @@ export default function KnowledgeAgentPage() {
                     progress={loadingProgress}
                     timelineSteps={timelineSteps}
                     showBrandPreferencePrompt={showBrandPreferencePrompt}
-                    brandOptions={brandPreferenceOptions}
-                    preferBrands={preferBrands}
+                    brandPromptMode={brandPromptMode}
+                    brandOptions={brandPreferenceOptions as any}
+                    brandOptionCounts={brandPreferenceCounts}
                     excludeBrands={excludeBrands}
+                    preferredBrands={preferredBrands}
+                    candidateThumbnails={finalLoadingThumbnails}
+                    candidateThumbnailMeta={finalLoadingThumbnails}
                     onBrandToggle={handleBrandPreferenceToggle}
                     onBrandConfirm={confirmBrandPreferenceSelection}
                     onBrandSkip={skipBrandPreferenceSelection}

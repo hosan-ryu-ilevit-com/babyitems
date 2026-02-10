@@ -1,5 +1,5 @@
-# 세션: 20260128_072528_rsr8
-> 시작: 2026-01-28T07:25:28.010Z
+# 세션: 20260210_071118_knvd
+> 시작: 2026-02-10T07:11:18.108Z
 > 카테고리키: 전기포트
 > 카테고리: 전기포트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전기포트 시장 현황
-- 인사이트: 전기포트 시장은 1~2L 용량 제품이 97%를 차지하며 대중적으로 사용되고 있습니다. 키친아트, 테팔, 필립스 등의 제조사가 시장 점유율을 높이고 있으며, 특히 1인 가구 증가와 캠핑 등 야외 활동 증가로 인해 간편하게 조리할 수 있는 멀티포트와 휴대용 포터블 제품의 수요가 늘고 있습니다. 또한, 스마트 기능(자동 보온/가열)과 친환경 소재 사용이 트렌드로 부상하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF76lRY-BPstkD9k6TkxUsm9WMYi0nwn4gqgZ-ORYw5UV8k1a8NaXdvm7LpbUHbz3H772PAQF7Wa_66IF5_io8Vwhxa_Cx05x95n0-wV6F8VJONVFwPZ_l6wvlOwk9Giwhn7lHHX3Q3LBSV2YIZRVLhgYc7jksDOQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBNx8a2VNy05PYIdY0bLB3E20IEb8F6HNcafbKHSvibsARdu4WdS_mz6MW0znIX4moBn3bkIGIfeVJ3_rb4N6C6ZPEmFqtUA4E2Y9SjhvajSnf67-TlLhEEelfp5vZ9k02-r3fVqZeTBsRkfkKVsqQqnTXT4ILIs70Y_eHSez8wNIBokmIq2oE4aXtQeEN25pFeks0oqABiwxj6y1t_Zv_7mpCIhyQ_3TH, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTCs3zOi1aIFRBWkrFcw8qc0hlM5Po9s1P_3DnAyk1pscCZ8jX2Vi3161LX0K9vxvTQXQr-Rq3XhrCT6oxmnYhy_CBa52kb32N31bNPySH7zDV4pvksk65v6jui7Mez6jYXLyH_wjdtBelAL7SbLVd8GQFX1Z_NsMScneZ-CQ4oRBC_HLNG2Xkpfx5vkyL7pkgR4oBnn7OgTOUXdpmzw1z-ZPOxb0TAdjmUQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-GGRM4rQ9BJXBE4IXKFYChq7l95JxOgPKLF2YyVyfWTZyrtUao_GEBwJGkQT2oFw0cHPkjTo5GzwCb-XcFSAKPGJb-0CAbWgsRggOVmxmI4DTpnuNICmVLVCETWNCM55uN6QqYT0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpfy1FLYRwBR5V9H8vKK-X8hIaV6DBzi1PIsQ557xMX0QhExCO0My3m7iMPLVgy_U1FPcJS3peWOrLFvJspLmvG6EoWUK96ViszogAsdaMmCY5_7hCECeld6KCq1IywpNx5VvWwgs=
+- 인사이트: 전기포트는 물을 빠르고 효율적으로 끓이는 가전제품으로, 스테인리스 스틸, 유리, 플라스틱 등 다양한 소재와 디자인으로 출시되고 있습니다. 최근에는 이동성과 스마트 기능이 강조되는 추세이며, 1~2L 용량의 제품이 시장의 대부분을 차지하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBXE91CgsXlR1uwho7Ywj-o4aBDYdjBctsHPhMFbfPX7Rf3Hmxo2miduA6hhEES7hQ5tKDmKQsjLV97dYNE2GF5F-8K2DTosdpjlIhG6SL4tSDztQmYkFgW4215Mk_74UOQxc0ZgfbMkdWsftaRsY0k9NaORHAMes=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGICxKgkSaopciB2KEHkdbHJgLItLjwDWHHfE2hfNl7ryj2Qiebse7ZFjvCKPpXVnDfRwoRMTb6uEbKugfgUtlpxJC2vvpYeMFABnJAFDD7znQmWzb9tmpmufEek31BO12MjT0tyaTx1y6xb3qFXkiCfhJ4oVAAHQVIIHJRSmLZ3i3URKV5F4sfmXHCoe5OuKCZnrZbxayKHGrOaffWcYJqCsii-X9ZD1pEiA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF29p7Mc2ehE0lwk6rhfzuCA55x7g0tZtWqzJZigEEuIAgvHluDTUk_PU155FIkyrSg8xNGYvUGKmTC8568-MJer4OiDNyZaMUlGX6pssublku2WLEZEQUBBT11k7CR-l1e2IQygn7c7Bp5eeEd5yf4ZSGDjobNAe4AhSg_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsCty3aYmJ_wNjfoH4pJ-4sduJHv5erytAn7YbNiRgVLGAPGNvzPEtzReHCvRaBocm-0lZMbsvqtIAQdgDEvSvNeQDym8Wf9wkfIGoTuSc_B8HKHhMoiFVYemkrRriBgwyzPGXcCfJIPKWAk5CQjyhXWRt97HhkI6hnjJBloFDJ-4MKbqof070GjDmOmUVAi5TK98s6N09VrjCL26eNrVCJO4C4UWRTXW7_w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7HR0VPxrB_7Id1EY0kF7YrNEhS9g6hnKnhnePke_EP2h3XiP4IADv_EmaddnosVP3yw6ru39Xv8FbEBS3OFiQV4ydpvy3Xsh2jm6XswEoHjkoq4MtYOtKwAbg345IdStw4SKiPDo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXdbfHe-6-1kMpCxQWyutWXAA3Tz-1RARc2gZQ-b8lvsRN2CdX7jD_5pzFKitCnqCfJJmL_zJcaAucQYuvSGG6dP0B8XZbPBX4Odd2uLnqIeDQxyzLFw4tbJUW6PTwC0iz8hF1jA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHV53esn3EWK6zjufam3nwrOMzx2dZFIHIkjNo2UygdeXcYiDtChI3-nNU_veOcgmuosjOGCrW0fdkbPAqL6h103wWazkpHDK_ed9hIEirMUzepwe6M58D7_SsSKBw1z7szpCWAcIha9RaEyEMc2CPWRvPdzhDU5MFtgPATfJm_NW8gaa_4sDpcJ9-5oNq0PbdREvMhqQwNvArTSH_UzmibnvSdwTe_ZFexpGJxJuqgpYcQCfbNbdbeK5WpfBNBrO-p7AKKiftarvccnGutXzJrCAknJp8SLTj3lX17TfseowrFegGVZi-ugwsh57rCAoxUBgC0z7tAVl2hJRIUj10MP3CU8jDbRmLKXsEpGDFWoV9Rk2NzP4icDzpe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAloX7EkxEKEkyEOD00j0p_X7qKftZJHTUZP94p8UgrCUAfpUUXSRDLGvdpTzPvQSQbMgTYU5g1XMBqLZU8ClzZhuCU17O7tNHTLwNiPb9KQ==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 전기포트 내부 소재는 어떤 것을 선호하시나요? | 스테인리스 스틸 (위생적이고 냄새 배지 않음) |
-| 한 번에 몇 잔 정도의 물을 끓여 사용하시나요? | 1L 이하 (1~2인 가구, 간편하게 사용) |
-| 전기포트 외에 어떤 추가 기능이 필요하신가요? | 상관없어요 |
-| 선호하시는 전기포트 제조사가 있으신가요? | 신일전자 (국내 브랜드) |
-| 예산은 어느 정도로 생각하세요? (평균 6만 4천원, 3만 5천원~8만 3천원대가 가장 많아요) | 3만 5천원 ~ 8만 3천원 |
+| 커피나 차를 자주 드시는군요! 빠른 온수 기능이 필요하다고 하셨는데, 전기포트의 용량은 어느 정도로 생각하시나요? | 1.0L 이하 |
+| 전기포트의 재질은 어떤 것을 선호하시나요? | 스테인리스 스틸 (내구성과 위생적) |
+| 안전을 위해 어떤 기능이 중요하신가요? | 자동 전원 차단 (안전) |
+| 전기포트 사용 시 어떤 편의 기능이 중요하신가요? | 온도 조절 기능 (맞춤 설정) |
+| 예산은 어느 정도로 생각하세요? (평균 3만 5천원, 2만 1천원~4만 5천원대가 가장 많아요) | 2만 1천원 ~ 4만 5천원 |
 
 ---
 
@@ -29,26 +29,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 신일전자 SEP-WH17KP - 28,900원 - ⭐5
-2. 테팔 올레아 KI160DKR - 36,500원 - ⭐4.6
-3. 테팔 세이프티 화이트앤블랙 KO2611 - 29,480원 - ⭐4.6
-4. 키친아트 프리미오 KAEK-J18B - 19,450원 - ⭐4.1
-5. 테팔 KO8528KR - 51,300원 - ⭐4.7
-6. 트윙고 트래블팟 WMP-900HF - 36,650원 - ⭐4.7
-7. 필립스 HD9318/00 - 20,610원 - ⭐4.7
-8. 키친아트 소렐 KIA-EK15 - 42,000원 - ⭐4.5
-9. 필립스 5000시리즈 HD9339/80 - 35,690원 - ⭐4.7
-10. 필립스 데일리컬렉션 HD9306/03 - 29,700원 - ⭐4.6
-11. 테팔 얼티메이트 디스플레이 KI831E - 62,390원 - ⭐4.5
-12. 필립스 데일리컬렉션 HD9348/13 - 37,050원 - ⭐4.7
-13. 테팔 센스 화이트 KO6931 - 50,490원 - ⭐4.6
-14. 테팔 KI5338KR - 26,910원 - ⭐4.7
-15. 리빙센스 LSK-1500 - 6,210원 - ⭐4.5
-16. 보르르 B17-505 - 95,000원 - ⭐4.8
-17. 테팔 센스 화이트 KO6921 - 49,410원 - ⭐4.6
-18. 샤오미 미지아 MJJYSH01YM - 37,390원 - ⭐4.8
-19. 엘프슈타펠 BNB-7500W - 298,000원 - ⭐4.8
-20. 마이어 MH-MEP1 - 90,400원 - ⭐4.7
+1. 테팔 엘리먼트 플라스틱 KO2001 - 28,870원 - ⭐4.5
+2. 신일전자 SEP-WH17KP - 28,900원 - ⭐5
+3. 테팔 센스 화이트 KO6921 - 48,860원 - ⭐4.6
+4. 테팔 세이프티 화이트앤블랙 KO2611 - 30,830원 - ⭐4.6
+5. 키친아트 프리미오 KAEK-J18B - 18,830원 - ⭐4.1
+6. 리빙센스 LSK-1688 (LSK-1800) - 7,070원 - ⭐4.6
+7. 테팔 KO8528KR - 51,300원 - ⭐4.7
+8. 필립스 HD9318/00 - 21,010원 - ⭐4.7
+9. 보국전자 BKP-4125 - 62,600원 - ⭐4.4
+10. 테팔 KI5338KR - 28,030원 - ⭐4.7
+11. 허밍 HMK-2211 - 24,650원 - ⭐4.8
+12. 테팔 인퓨자 BJ800D - 62,385원 - ⭐4.6
+13. 필립스 5000시리즈 HD9339/80 - 38,960원 - ⭐4.7
+14. 키친아트 KJS-0018GH - 17,000원 - ⭐4.5
+15. 필립스 HD9396/90 - 56,900원 - ⭐4.7
+16. 쿠쿠전자 CK-C170T - 40,180원 - ⭐4.6
+17. 필립스 HD9305 - 34,890원 - ⭐4.6
+18. 테팔 올레아 KI160DKR - 38,780원 - ⭐4.6
+19. 키친아트 허브 KAJ-D304T - 14,480원 - ⭐4.4
+20. 휴아코 휴빅 HB-1181D - 38,800원 - ⭐4.8
 
 ---
 

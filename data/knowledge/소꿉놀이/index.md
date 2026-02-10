@@ -1,25 +1,24 @@
 # 소꿉놀이 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T05:44:33.871Z
+> 마지막 업데이트: 2026-02-10T07:33:37.347Z
 > 분석 상품: 20개 | 분석 리뷰: 2,510개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 교육적 가치 강조 (STEM 연계)
-- 역할 놀이의 발달적 효과 부각
-- 안전하고 친환경적인 소재 선호
+- 역할 놀이의 발달적 효과 강조
+- 다양한 장난감을 활용한 놀이
+- 상징적 사고 능력 발달 촉진
 
 ### 구매자 만족 포인트
-- ✓ 인지 발달 촉진
-- ✓ 사회성 및 정서 발달
-- ✓ 창의력 및 상상력 향상
-- ✓ 언어 능력 발달
+- ✓ 인지 발달
+- ✓ 정서 발달
+- ✓ 상징적 사고 능력 향상
+- ✓ 역할 분담 학습
 
 ### 주의해야 할 단점
-- ⚠ 일부 제품의 안전성 문제
-- ⚠ 높은 가격대
-- ⚠ 단순한 구성
+- ⚠ 성별 고정관념 형성 가능성
+- ⚠ 과도한 교육적 접근 지양 필요
 
 ### 가격대 인사이트
 
@@ -241,6 +240,6 @@
 ---
 
 ## 📊 데이터 출처
-- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGypbFQpn1b8Qhmz67yuvJ8KdXbsCcMMm80YsyTxIUOOmzNx2KLfzDGbCgIzvru19HtSoSW8vHlSB267w6Wg--3cb8xi_bM4ZwvP0Rf_Ex_VmPiUmdAZUx2xCXi2IEJkn3_7ri943auFKsYbuzJxZDrNP3F4Yp7fbEdYxtLxkiYytU_dsF9yNn)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHadiVgtrvI-whl4x1yAMoA9blsCHetf8M3VtVFF30UKE6u_z7czdYWGW-jwcCIM85mDynnLX_1qfqRq9CkkYyrwzpQ4R7ZgeWrVJa8zAE8Gbm0mPFmZP2vWfx5AhMQf68Xj90fifi0mCg-t_0ufBh71KvdZYvSNiRAiAl2lM7VBh2q9f3p9CN7wgi9Uu65Hp3eoKvTbZKD1Kr2M54sEFQIIZopyx8Zq1TbaHf1iXxPtO2sxsfVyhGr5BCSxWl0yG5NUpEWRb7SpTVhzGfoLxk=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGw1caP4KcoD0oj9AxZ2SLIonuBgrWuua5DjLsTq0jsJI7zoc6EE9SpxkxK8EvszYzaR8DnIc3VGGeQMJv62U70acdvTWp5ZyTWDDEpZaEWngAl4d5AM8VE2dxzS4N0mcINxmfPCw==)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqmcgNBimFpF7n86ZYqrkeRnwr9UvTCtCXwZO2xOBsc5XmjRdOczzCvHZD106zKCzLilFFdsAZYGaPsX12V7CxyjV5cBwpjfcwXvIEgVDxV6QUE7YrDcKDslqjzPW4iVTQ4EQ3aN3TBh0PBHIB1-4i84ahuzsiPSbouVWD4CdoEjviTfdnE7bqDyDknVuwLyzOwQ_HHbKnzaGS1Cc4PxR0m_e9y5YDm23FFWZW09PatUXEfCyb-kDH-fJyGzjGGSgytgr1gLndzqtZRrckFQ==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfZArYLYfpk-eLDiWiGxuPZuvLJW0sYg0NlLy-Ql3SevY8dEwM_Fje7-1WyPRzXGekyTKH3eSrfDXdRiEkp73FI7ajlI6wkuhC8c0PQM87kaPEmOIqwoTwz29OZ9RA1iQFxgkl)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdUY83HuYv5eYM2g_d479m9_BZPwmDkh2Clj5NRWwZpx64pgMLCVfCEUfw8wmbH7Em3ZK0-FRgghK2oEevMTvYoqnsTAVydLMiDBxOQEqP0BLIFT8xoL9u)

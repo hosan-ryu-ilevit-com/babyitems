@@ -252,7 +252,7 @@ export function OnboardingPhase({
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
                   {categoryName} 추천받기, <br></br>지금 어떤 상황이신가요? <span className="text-blue-500">*</span>
                 </h2>
-                <span className='text-gray-500'>더 정확한 추천을 위해 필요해요</span>
+                <span className='text-gray-500'>상황을 분석해서 맞춤 질문을 드릴게요</span>
               </div>
 
               {/* 선택 옵션 */}
@@ -553,7 +553,7 @@ export function OnboardingPhase({
               <div className="mb-4 mt-4">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1">
                   {purchaseSituation === 'first'
-                    ? `${categoryName}, 어떤 상황에서 구매를 계획하시나요?`
+                    ? `${categoryName}, 어떤 상황에서 첫구매를 계획하시나요?`
                     : `${categoryName}, 어떤 이유로 둘러보고 계신가요?`} <span className="text-blue-500">*</span>
                 </h2>
                 <p className="text-[16px] font-medium text-gray-600 leading-[1.4]">

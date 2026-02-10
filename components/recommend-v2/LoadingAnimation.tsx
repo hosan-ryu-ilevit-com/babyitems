@@ -10,10 +10,14 @@ interface LoadingAnimationProps {
   progress: number;
   timelineSteps: TimelineStep[];
   showBrandPreferencePrompt?: boolean;
+  brandPromptMode?: 'exclude' | 'prefer';
   brandOptions?: string[];
-  preferBrands?: string[];
+  brandOptionCounts?: Record<string, number>;
   excludeBrands?: string[];
-  onBrandToggle?: (brand: string, type: 'prefer' | 'exclude') => void;
+  preferredBrands?: string[];
+  candidateThumbnails?: Array<string | { id?: string; thumbnail: string; title?: string; brand?: string; preScore?: number }>;
+  candidateThumbnailMeta?: Array<{ id?: string; thumbnail: string; title?: string; brand?: string; preScore?: number }>;
+  onBrandToggle?: (brand: string) => void;
   onBrandConfirm?: () => void;
   onBrandSkip?: () => void;
 }
@@ -29,9 +33,13 @@ export function LoadingAnimation({
   progress,
   timelineSteps,
   showBrandPreferencePrompt = false,
+  brandPromptMode = 'exclude',
   brandOptions = [],
-  preferBrands = [],
+  brandOptionCounts = {},
   excludeBrands = [],
+  preferredBrands = [],
+  candidateThumbnails = [],
+  candidateThumbnailMeta = [],
   onBrandToggle,
   onBrandConfirm,
   onBrandSkip,
@@ -76,9 +84,13 @@ export function LoadingAnimation({
             steps={timelineSteps}
             progress={progress}
             showBrandPreferencePrompt={showBrandPreferencePrompt}
+            brandPromptMode={brandPromptMode}
             brandOptions={brandOptions}
-            preferBrands={preferBrands}
+            brandOptionCounts={brandOptionCounts}
             excludeBrands={excludeBrands}
+            preferredBrands={preferredBrands}
+            candidateThumbnails={candidateThumbnails}
+            candidateThumbnailMeta={candidateThumbnailMeta}
             onBrandToggle={onBrandToggle}
             onBrandConfirm={onBrandConfirm}
             onBrandSkip={onBrandSkip}

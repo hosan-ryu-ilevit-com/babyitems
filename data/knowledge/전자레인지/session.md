@@ -1,5 +1,5 @@
-# 세션: 20260127_013555_48ub
-> 시작: 2026-01-27T01:35:55.455Z
+# 세션: 20260210_065857_jnux
+> 시작: 2026-02-10T06:58:57.348Z
 > 카테고리키: 전자레인지
 > 카테고리: 전자레인지
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 전자레인지 시장 현황
-- 인사이트: 전자레인지 시장은 2024년 약 105억 달러 규모로 평가되었으며, 2025년부터 2034년까지 연평균 4.6% 성장할 것으로 예상됩니다. 특히 가정용 고객이 시장의 상당 부분을 차지하며, 스마트홈 상품 확대와 함께 꾸준한 성장이 전망됩니다. 삼성전자는 유럽 시장에서 9년 연속 점유율 1위를 기록하는 등 글로벌 경쟁력을 보여주고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQmh2Qr7VMveopBVkEMP9Pg_eUXPcrmsrvwZodKyZUetkSXWtGv0jFZc049fiumOtNdTh4ENDYlBqfWvI5OVQiHaB9I-LjXBeXbbi7Z-YJ-c_RpPpMD7KIv7kY-c8E_tRf0n28CWarGoAzsnjTB16d0MPpodeHQQrhMQSNpH3P8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEORLC4utNw27Rp2OnHZUvt1p1PcBKequoE02BRpTmquGCKwdNRJMpyrv5hOhq_a9nGM7CL8orfH2R2RfO40un8-GSWY8XctnsTUsLKUACs_k0OGWnLjLnM30GaImQ0AwWG_ih1HpDrjeI3Dbe26V5ZYfU79MwZjsQBbMmsvtKMSuNFw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdYCMVKBvCe7U2otx-Vqh4cM1q551BChxC_g-jfrdDwsU4Pf-fImeejTD91VUS_O-ylFfvWvceY7m-a4tQ6tlqs40dk-DRnFKcy9bw6OW47_8h2d2-FuwdmB7zRQRP8T0VYp4uY_O17yno7C825WKljsGCb54v-w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFfxy4gtxIdL_pudOZQ_BX261USfrHTeMJFPiwLX1wMvlS8HV0i34OAFotHFKUxM_tE0lHzOTa53rsipcCZVH-pqh1trk4H5r6QgDUhpHtbBIj6LMYGSXFdxk773s03Z8aZ1cj1wMZ_xr-Uo-eJobWSvzWKffo8K3UiMg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpOpiqI5MAQCwmJ_z-4BCYIm20gG4q1F_4P8ar23veAZIrC_LM8PWjUfW68RJOT6q2m28kr95tp14JGrukWdu_7Prl8t4JDTOVcD9idas0jkDV7SAGAN0ZkTTrbV7eSWxhU5L834WFewdoblL9Hr77OwHs24KILlnrwUHVqHWAyFtiK-YuY5WN49wC7TfyJDp6zWJWpeDCctzaVjoC3VU5rTcG5sUuKNcG7Sy8mZCqxJNadTtHeRFJu0vdX1gPPw2it9g1VD3aPHaHhUwQUwmZ_47B3ZlpuXzU0FB2HlzTylIe7XflGd6AK5RBndq_4-ZWz1gUDT1i-qiwMXHqXRCo3-wySeun66DH1Ko6JN3i9ij4MMGsbZib_bdmVMMwzqf8fiVtePVKlvFo-OfRMzr-TT4kZC-ky9FELHrolJVY5TX7I1IFrRtnz-ys5XONziEahGVYh9ormGN1uRUd-_z_8x4RYGDJayaLI8Yu3jOesFviawnqW03VelOla_a4, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz_xOyfKLFIiponV_CB5NpBQq3CUVz5wjHE6KDE1htesJdRr2CZWDbGMMBDErKN_VkOFj_Sq9D2ooRYstzVNe_k8U12K2dQ7GsLoiMkAvWqDNn4Guq_ylr0rObCUazgH-aAywptncpIzONjPRZ7Lr3HEcfLC8=
+- 인사이트: 글로벌 전자레인지 시장은 2024년 약 105억 달러 규모로 평가되었으며, 2025년부터 2034년까지 연평균 4.6%의 성장률을 기록할 것으로 예상됩니다. 이는 소비자 라이프스타일 변화와 편리함에 대한 수요 증가에 기인합니다. 시장은 스마트 전자레인지, 에너지 절약 기능, 다양한 소비자 요구 충족을 위한 맞춤형 기능 도입 등으로 발전하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFgqbjmzXOE1kVPbDOwuwF7YcFPoqwEjdoGfMyRcjBRDV6zgNvKxppaahSls_zWp4Xf0F1PCvoI9WoMTY9ay0Y0xn26GRlFw9oOxdqHaSH8TRddjZvnCsZVwZrbnVatoguGr3BhgThU1jd1st7LZZzsRic_MAF0jm3MXTdAXE8fGA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZBiQyAovN4mvKwCcRXJxk9ExLxFAX53J08QNv4YU7WLBDEMu_7RaHHFP5S6w4VkxSgHkDwi56vcKQFDuG6gyAdgioIvp7_yIqqJE9iItzZ1dvo3Ih9i58V0txQSAed2jhkTRTUVh8L21ueh1zElUsP3dyf2UoarA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8-HO3UkV2Vketskpb4raxIBsR4R2asOqYEfcJgXJDe9crDg_oOCUfhAP2aRBckdWc7VtM5vQXS8ZYsgEHWl4_--1JJOg_UzLsEM3pulrw7XOEWkKIQoK8EHVimm5x02G1vvJLOo0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGHLWY6DZqv71ZusqCpPGyNbMxcNd9VITGGAlrpyPsGEeU0ei-pcwHd_9btVjhJh0-D3Geu4g5rginv-Z1MjXq1xeFwTxWCBzdI73G2kP8zGcKLAQ126aGNHkzGmrwKLTzVSnylKT8EurRci3jFfc-rECyJg6iOE3e5SiSq, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFezcmOQncxMUe8NzkuEVfUSOsOph1pTEBbyj3eXARvbEUfbFJhHOI3Z3D4yj36hmKZBPLw0sqIILprle42xSs7JwJENM9iMTi8zCTVCeEFwbThWLLINgo7kPOWfyJdjKUpo5CrWLsxd0c8HSJWhhA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRk3SQUWPqL3nw8NwhRFL5i2pzWkyCl9GZ_PYVZ7AQ3-LDX_wADykdDUw0iVT0jCxwGC3VndjwJIEEZEPeJ9XyJeD6yyWK6kbrcVgR-Fxs7JAYbOcW1UP1FdlKA8zrThPhBLobU4TMG_BCHj1R80z0VRl2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHY04LhswUs8agC9LGw-NoAOFtokEz8X59rrNAjzw4hmrvK3k7mHpaquBrfIUDj9oUoYqqrWmPGbp0U8Ld4yEWJ9Wu72_tEdJQ9I7Bn7iTTZjKPbQFut_mK0bSzy9COYWEnTeISzCEK0UxHDsJk3iZJ
 
 ---
 
@@ -16,39 +16,39 @@
 
 | 항목 | 답변 |
 |------|------|
-| 가족 구성원 수와 사용 빈도를 고려했을 때, 어느 정도 용량의 전자레인지가 적절할까요? | 20L 이하 |
-| 어떤 방식으로 음식을 조리하는 것을 선호하시나요? | 그릴, 오븐 겸용 |
-| 전자레인지 조작은 어떤 방식이 가장 편리하신가요? | 터치식 |
-| 음식을 얼마나 빠르게 조리하고 싶으신가요? (출력이 높을수록 빠릅니다) | 800W ~ 1000W |
-| 예산은 어느 정도로 생각하세요? (평균 12만 4천원, 9만원~16만원대가 가장 많아요) | 9만원 ~ 16만원대 |
+| 신혼집에 첫 전자레인지를 구매하시는군요! 기본 기능 위주로 보신다면, 혹시 가장 중요하게 생각하시는 기능이 있으신가요? | 데우기 기능, 자동 조리 기능 |
+| 전자레인지 내부 용량은 어느 정도가 필요하신가요? | 20L ~ 23L (2인 가구, 일반 가정) |
+| 전자레인지의 출력(W)은 어느 정도를 선호하시나요? | 700W ~ 1000W (균일하고 빠른 조리) |
+| 전자레인지 조작 방식은 어떤 것을 선호하시나요? | 터치 방식 (세련되고 깔끔한 디자인) |
+| 예산은 어느 정도로 생각하세요? (평균 13만원, 9만원~17만원대가 가장 많아요) | 17만원 이하 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 96개 (전체 96개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. LG전자 MW23GD - 144,970원 - ⭐4.7
-2. 삼성전자 MS23C3535AK - 115,330원 - ⭐4.7
-3. 쿠쿠전자 CMW-A201DW - 55,820원 - ⭐4.6
-4. LG전자 MW22CA - 114,780원 - ⭐4.7
-5. LG전자 디오스 MW23FD - 154,000원 - ⭐4.9
-6. 삼성전자 MS23C3535AW - 111,760원 - ⭐4.6
-7. LG전자 오브제컬렉션 MWJ23E - 159,366원 - ⭐4.8
-8. LG전자 MW25S - 159,331원 - ⭐4.7
-9. 삼성전자 비스포크 MG23A5378CE - 168,046원 - ⭐4.7
-10. LG전자 MW23WD - 136,740원 - ⭐4.7
-11. LG전자 오브제컬렉션 MWJ25E - 198,363원 - ⭐4.8
-12. LG전자 오브제컬렉션 MWJ20EDN - 138,380원 - ⭐4.9
-13. 쿠쿠전자 CMW-SF2510EW - 99,864원 - ⭐4.6
-14. LG전자 MW23BD - 129,650원 - ⭐4.9
-15. 쿠쿠전자 CMW-2310DW - 75,670원 - ⭐4.6
-16. 매직쉐프 MMW-WC25TES - 197,990원 - ⭐4.6
-17. 삼성전자 MS23C3513AW - 133,990원 - ⭐4.7
-18. LG전자 MW25B - 162,078원 - ⭐4.7
-19. 쿠쿠전자 CMW-A201DB - 55,220원 - ⭐4.6
-20. LG전자 MW30BDN - 169,000원 - ⭐4.9
+1. LG전자 MW23GD - 124,372원 - ⭐4.7
+2. 삼성전자 MS23C3535AK - 118,000원 - ⭐4.7
+3. 쿠쿠전자 CMW-A201DW - 56,160원 - ⭐4.6
+4. LG전자 디오스 MW23FD - 149,000원 - ⭐4.9
+5. LG전자 MW22CA - 113,920원 - ⭐4.7
+6. 삼성전자 비스포크 MG23A5378CE - 170,497원 - ⭐4.7
+7. 쿠쿠전자 CMW-DF2010DW - 91,220원 - ⭐4.6
+8. LG전자 오브제컬렉션 MWJ25E - 195,764원 - ⭐4.8
+9. LG전자 오브제컬렉션 MWJ23E - 158,699원 - ⭐4.8
+10. 삼성전자 MS23C3535AW - 112,050원 - ⭐4.6
+11. LG전자 MW23BD - 129,328원 - ⭐4.8
+12. 쿠쿠전자 CMW-SF2510EW - 112,520원 - ⭐4.6
+13. 쿠쿠전자 CMW-2310DW - 74,750원 - ⭐4.6
+14. LG전자 MW25S - 159,037원 - ⭐4.7
+15. LG전자 MW23BD - 129,650원 - ⭐4.9
+16. LG전자 MW23WD - 147,570원 - ⭐4.7
+17. 삼성전자 비스포크 MG23A5378CF - 159,914원 - ⭐4.5
+18. LG전자 MW30BDN - 155,000원 - ⭐4.9
+19. LG전자 MW23BP - 124,994원 - ⭐4.8
+20. LG전자 오브제컬렉션 MWJ23P - 146,572원 - ⭐4.8
 
 ---
 

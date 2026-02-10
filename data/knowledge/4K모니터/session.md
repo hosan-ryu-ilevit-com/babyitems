@@ -1,5 +1,5 @@
-# 세션: 20260129_031857_5cxx
-> 시작: 2026-01-29T03:18:57.315Z
+# 세션: 20260210_063606_rhbm
+> 시작: 2026-02-10T06:36:06.938Z
 > 카테고리키: 4K모니터
 > 카테고리: 4K모니터
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 4K 모니터 시장 현황
-- 인사이트: - 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6ZIp9QYL4i8MtnrMzAPxfoNnBELj8n4kLPES_nBaV-MthBdeZjgnS-7NWOQDdicFFuy4Qc2iOVvXMtmBFnDoQpJxUcwx7ffvqo__oAPSQmJkFbfuTAQQWtcXIEGYCi-dkchFHWSuVTKGts7NrCAwiPQFQ-U386W7I, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR5dBvLquvQJXwgjS8rzggADZ0uTIy8wOC8UuJNGSvPvd5mzsR7ObT9X7EyU-bhvziJKvsNxttR6MEKFAdby3Fzhh0gurjr81A1YQsfWZhrm7l2LHdWdqLkKQPPkQaD0A1mgCN8AeDnw6E6kf_UyzkAVN6AgxnZ-xQyHSUJ8GDsO_At54DZVyUTxcXqlqgZ6msa0wz3naG4fS2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE761ULLYw0JMB7VKoAK0crQUdRWtSseIHYPF8aET7QlEHuTP0BGbxj7GYJkI69iqqVQbcSLcNbrtOfhdVpzAlKOOuSN0ZbBri-WIIymJfV8bJcfXwJbctYOBQqBEVtOVBkILqOUqzZIiQDrFDingwzSQxcODvJSvtLwT28r9vZoBsZAEWFzaSIc0tgojEQItPDgNALYCM8pzNEHzfEieNe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-LdDTktHSTwfLz99czQqMgp5bNaX32ynCkNqF_Lz6322Tyf47DrgOvqgsSlZMHI0Ax96QQmfvGT4VxB5iSH-NTptNkLKzxaZ9DyAgwy6Xt6JWolLQV-1zy3zieUYMIRmt5weIj8NS081msdbr5sKjZqqSqQdwqlEVEY12Nv2BL91xvpFCW-IA_p6r8nfrAZXqCy2dH02h4wdn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8K9HD4RSgfWQN4PjKK9ohMfoFr7p_znFXid2lF9AVlFq2IItz9iMk4pz0LMPWhoACivDbXGlOcAt7Bkg9cGFZ2vAHZ8jAZGM9bKssxeMhokWTMRY63jJal8yJLReFUmxFnLPN38s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEM92-HT7xFHkmmN_nkAiGPAVcM51s92ky4_1NfDdpJsA8f-pgjpH84QJ4tyciSYZNLK_tvCwbkz5qgrzW7QvZsOh7Lu2B7nlGo3CYgY6ueikHpTA2FuDqew1GBifGmJ8fou5sImy8FeFkfcl2gWpcis50tgNcI4MuPv2w9WBsCzda5-VtLpuGTAYVcxPpGUDMADXGGSwA7ARFg0il2BhO9x2GUXhPG35WRMZUO8OWBN-bkxXyK_Eml_z62DGP-LBUOVl7PQBSpT4pIdkC8U7ztKRzVN6MN4BFsU1dsner446dFspQS2w==
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6ZIp9QYL4i8MtnrMzAPxfoNnBELj8n4kLPES_nBaV-MthBdeZjgnS-7NWOQDdicFFuy4Qc2iOVvXMtmBFnDoQpJxUcwx7ffvqo__oAPSQmJkFbfuTAQQWtcXIEGYCi-dkchFHWSuVTKGts7NrCAwiPQFQ-U386W7I, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGR5dBvLquvQJXwgjS8rzggADZ0uTIy8wOC8UuJNGSvPvd5mzsR7ObT9X7EyU-bhvziJKvsNxttR6MEKFAdby3Fzhh0gurjr81A1YQsfWZhrm7l2LHdWdqLkKQPPkQaD0A1mgCN8AeDnw6E6kf_UyzkAVN6AgxnZ-xQyHSUJ8GDsO_At54DZVyUTxcXqlqgZ6msa0wz3naG4fS2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE761ULLYw0JMB7VKoAK0crQUdRWtSseIHYPF8aET7QlEHuTP0BGbxj7GYJkI69iqqVQbcSLcNbrtOfhdVpzAlKOOuSN0ZbBri-WIIymJfV8bJcfXwJbctYOBQqBEVtOVBkILqOUqzZIiQDrFDingwzSQxcODvJSvtLwT28r9vZoBsZAEWFzaSIc0tgojEQItPDgNALYCM8pzNEHzfEieNe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-LdDTktHSTwfLz99czQqMgp5bNaX32ynCkNqF_Lz6322Tyf47DrgOvqgsSlZMHI0Ax96QQmfvGT4VxB5iSH-NTptNkLKzxaZ9DyAgwy6Xt6JWolLQV-1zy3zieUYMIRmt5weIj8NS081msdbr5sKjZqqSqQdwqlEVEY12Nv2BL91xvpFCW-IA_p6r8nfrAZXqCy2dH02h4wdn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8K9HD4RSgfWQN4PjKK9ohMfoFr7p_znFXid2lF9AVlFq2IItz9iMk4pz0LMPWhoACivDbXGlOcAt7Bkg9cGFZ2vAHZ8jAZGM9bKssxeMhokWTMRY63jJal8yJLReFUmxFnLPN38s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEM92-HT7xFHkmmN_nkAiGPAVcM51s92ky4_1NfDdpJsA8f-pgjpH84QJ4tyciSYZNLK_tvCwbkz5qgrzW7QvZsOh7Lu2B7nlGo3CYgY6ueikHpTA2FuDqew1GBifGmJ8fou5sImy8FeFkfcl2gWpcis50tgNcI4MuPv2w9WBsCzda5-VtLpuGTAYVcxPpGUDMADXGGSwA7ARFg0il2BhO9x2GUXhPG35WRMZUO8OWBN-bkxXyK_Eml_z62DGP-LBUOVl7PQBSpT4pIdkC8U7ztKRzVN6MN4BFsU1dsner446dFspQS2w==
+- 인사이트: 4K 모니터 시장은 고해상도 콘텐츠에 대한 소비자 선호도 증가와 기술 발전으로 인해 지속적으로 성장하고 있습니다. 특히 게이밍, 전문가용 작업, 고품질 엔터테인먼트 수요가 시장 성장을 견인하고 있습니다. 2025년에는 32인치 모델의 인기가 높아지고 있으며, OLED와 같은 새로운 기술이 시장에 영향을 미치고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv-NImJnRtkAQEttNJ7vs00Y1_mGV2L7guzne-U37gdSibgly6fXsDsPD74KY-9T0Q86XUUUec3-eg2zVxcvMyptRof0mAv80ozc5F7Q8JiUuBqZVcAx2WIS7PWEsZkK8hAdkgiddgO9x7uhARo34I3tMa442qA-4vRDI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNg5vXwEGB24-Gb4cbhlIjKM9Ka3lAVKCMmjwSRc0Ji3caRx1vYptEGps2fv5hGDX_cTvR5y2scs13zQvkm62_qwdVW58YXSBbIW15tzCSh0KcfJby95fg, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFutvO30Bik1AoP6_1O96JFCaPvw03u53EplPrOHaUiWyNqBkzWv2pm2V8gLxxeTIYtiE_MjS1SzBfsouvkaQvkKffmxzOko1dwHWaNFJVrMi5sq71C0W-ssvE8JTnJqMMYKovOyzWS9gYItZKh4j16A3_BaGNNo7j_7hlp7VywgcK83tkgOHyYmaVvp3U3riTFGjZLbaQn5MQnjIBhnuV6qo6l8_6_YQ9rU_1z1hzvfMzfDHMUXaGmTsmPNoSKt7icSvjCoZWxguXBmdNeDdIS258q1MZcn3o15EdcBWL81CDjTR7yS3jEJWhXXroPSys=
 
 ---
 
@@ -16,40 +16,38 @@
 
 | 항목 | 답변 |
 |------|------|
-| 재택근무 시 듀얼 4K 모니터 구성에 가장 중요하게 생각하시는 부분은 무엇인가요? | 화면 품질 (색감, 밝기), 눈의 편안함 (플리커프리, 로우블루라이트) |
-| 어떤 종류의 패널을 선호하시나요? | IPS 패널 (넓은 시야각과 정확한 색감) |
-| 모니터 화면 크기는 어느 정도를 선호하시나요? | 27인치 (일반적인 듀얼 모니터 구성에 적합) |
-| 화면 주사율(Hz)은 어느 정도가 필요하신가요? | 120Hz ~ 144Hz (부드러운 화면 전환) |
-| 모니터 연결 시 가장 중요하게 생각하는 포트는 무엇인가요? | USB-C (하나의 케이블로 영상, 데이터, 충전까지) |
-| 예산은 어느 정도로 생각하세요? (평균 62만원, 45만원~81만원대가 가장 많아요) | 45만원 이하 |
+| 기존 모니터의 낮은 주사율 때문에 게임 시 끊김 현상을 겪으셨군요. 어떤 주사율을 선호하시나요? | 165Hz |
+| 어떤 화면 크기를 선호하시나요? 사용 환경과 목적에 따라 최적의 크기가 다릅니다. | 32인치 이상 (몰입감 있는 대화면) |
+| 선호하시는 모니터 브랜드가 있으신가요? | LG전자 |
+| 예산은 어느 정도로 생각하세요? (평균 62만원, 40만원대~80만원대가 가장 많아요) | 45만원 ~ 80만원대 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 116개 (전체 116개 중)
+현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점 - 305,970원 - ⭐4.8
-2. 삼성전자 오디세이 G7 S32DG700 - 708,990원 - ⭐4.8
-3. LG전자 울트라HD 27US550 - 321,110원 - ⭐4.9
-4. 알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 578,990원 - ⭐4.8
-5. 알파스캔 AOC U27G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 439,000원 - ⭐4.9
-6. MSI MAG 322URDF700 E16 듀얼모드 게이밍 4K AI Vision 무결점 - 481,490원 - ⭐4.7
-7. 필립스 에브니아 32M2N8800 UHD OLED 240 프리싱크 HDR 게이밍 화이트 무결점 - 1,090,000원 - ⭐4.9
-8. LG전자 울트라HD 32UN650K - 441,770원 - ⭐4.9
-9. 크로스오버 27USW9 UHD4K-iPS USB-C 화이트 무결점 - 215,100원 - ⭐4.7
-10. 크로스오버 27ULD950 UHD4K PD65 프로아트 화이트 멀티스탠드 무결점 - 278,100원 - ⭐4.7
-11. LG전자 울트라기어 올레드 32GX870A - 1,525,200원 - ⭐4.9
-12. DELL UltraSharp U2725QE - 809,100원 - ⭐5
-13. LG전자 울트라기어 32G810SAW - 796,576원 - ⭐4.8
-14. 삼성전자 SMART M7 S32FM701 - 418,580원 - ⭐4.9
-15. 삼성전자 오디세이 OLED G8 S32FG810 - 1,314,000원 - ⭐4.9
-16. 크로스오버 32UCA950 UHD4K IPS USB-C PD65 프로아트 멀티스탠드 무결점 - 350,100원 - ⭐4.8
-17. 필립스 32E1N1800 4K UHD 보더리스 HDR 시력보호 스피커 무결점 - 339,000원 - ⭐5
-18. DELL S2725QC - 436,050원 - ⭐5
-19. 삼성전자 SMART M7 LS43FM701 - 557,100원 - ⭐4.9
-20. MSI MPG 322URX QD-OLED 4K UHD 240 DP2.1 PD98 - 1,709,050원 - ⭐4.7
+1. 알파스캔 AOC U32V11 4K UHD 프리싱크 HDR 시력보호 무결점 - 319,000원 - ⭐4.8
+2. 알파스캔 AOC U27G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 397,840원 - ⭐4.9
+3. 삼성전자 오디세이 G7 S32DG700 - 689,990원 - ⭐4.8
+4. 알파스캔 AOC U32G4 게이밍 320 듀얼 모드 4K UHD HDR 400 무결점 - 508,020원 - ⭐4.8
+5. 크로스오버 32UCA950 UHD4K IPS USB-C PD65 프로아트 멀티스탠드 무결점 - 337,960원 - ⭐4.9
+6. 필립스 에브니아 32M2N8800 UHD OLED 240 프리싱크 HDR 게이밍 화이트 무결점 - 1,090,000원 - ⭐4.9
+7. LG전자 울트라HD 27UP850K - 403,990원 - ⭐4.8
+8. LG전자 울트라HD 32UN650K - 398,110원 - ⭐4.9
+9. LG전자 울트라기어 올레드 32GX870A - 1,413,300원 - ⭐4.9
+10. DELL UltraSharp U2725QE - 791,120원 - ⭐4.9
+11. DELL UltraSharp U3225QE - 1,143,120원 - ⭐4.6
+12. 삼성전자 SMART M7 S32FM701 - 389,960원 - ⭐4.9
+13. LG전자 울트라HD 27US550 - 296,140원 - ⭐4.9
+14. 삼성전자 뷰피니티 S7 S32D706 - 378,990원 - ⭐4.9
+15. LG전자 울트라HD 32UP830K - 447,200원 - ⭐4.8
+16. 크로스오버 27ULD950 UHD4K PD65 프로아트 화이트 멀티스탠드 무결점 - 272,670원 - ⭐4.7
+17. 삼성전자 오디세이 OLED G8 S32FG810 - 1,314,000원 - ⭐4.9
+18. 필립스 32E1N1800 4K UHD 보더리스 HDR 시력보호 스피커 무결점 - 339,000원 - ⭐5
+19. 필립스 에브니아 32M2N8900 UHD OLED 240 게이밍 USB-C 화이트 무결점 - 1,094,310원 - ⭐4.9
+20. DELL S2725QC - 436,050원 - ⭐5
 
 ---
 
