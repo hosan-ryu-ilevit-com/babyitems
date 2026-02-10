@@ -1,5 +1,5 @@
-# 세션: 20260210_060554_lfyz
-> 시작: 2026-02-10T06:05:54.450Z
+# 세션: 20260210_113604_4o0p
+> 시작: 2026-02-10T11:36:04.284Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 시장 현황
-- 인사이트: 유아 간식 시장은 건강에 대한 부모의 관심 증가와 함께 유기농 및 천연 성분 선호도가 높아지면서 꾸준히 성장하고 있습니다. 맞벌이 가구 증가로 인한 편리함 추구와 함께, 온라인 채널의 발달로 접근성이 향상되었습니다. 다만, 높은 제품 가격과 엄격한 규제는 시장 성장의 잠재적 제약 요인이 될 수 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpGCnP6kSr_B7sz_-nSOMO_ZDQw-8Iw-vMIxoC4Yi_DXbnmzEwiMzoa6HyxkMdB28dKBre-fUab4von4TzqGa0_0wDD8dBTYYPEgXDt-2z5w7hUiiwpdi756yrTw69MHCQmeaPh57gAzJE9uRqv9amqU1tpvHV6w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPHdlnJx4upoUWNCBEi34Gh9NoTuh3lZQY8dgmAoOln0q9--CgAAELkxsB5hk2ThN2wwXkyfjdtM6CdNV9kjw0aDn74PtSPFJOlEnI9Eo3-yn9ySnKXI1u4OTTu03RDqiC1k_RCCfmbSSkcoLRp4kytG4hnuR3zK-CJbQ8FSB5uL2O0_1bQM8WpXkL2x_cBhrbgft50rR8k8iAOMmefk2mB8alwPerP9sNW5_GmXdDNfK6DFBCEGTb0Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf-Zhm9utRkzyZBPjJ0_aiwKZik6MMt6MUyeMErkA_wdVONR7aTO-G0W9x5FELXppxQ34GEmFM5WSFygADrhIBGxee8K5VVrfm0ndPQQoTvEEriJxtRQy76jkDnDmV-_C6vngprxQi4Pu5hxl4y3mla7bUHJZprtjhTv3cyoge-Q0E
+- 인사이트: 유아 간식 시장은 건강 및 안전에 대한 부모의 관심 증가와 함께 꾸준히 성장하고 있습니다. 유기농, 천연 성분, 첨가물 없는 제품에 대한 수요가 높으며, 편리함과 휴대성을 갖춘 제품도 인기를 얻고 있습니다. 맞벌이 가구 증가와 소비력 향상도 시장 성장에 기여하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwbETCraY0EF9vfhUlNzlikRX3k4w2xAoOjZ0rTay2O2vQ3rKILfdjTMpRfY7nbtFto9yLYy7xI2NYhUNIqBA5YBDPSPXs5oApF9x36vPPLGmmNXJx8KNNg8tOj6kuZm6nNwyoammN10WuOMcoRDhqTDk861wU040JUrPP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKMSg2C9De76ifTzYTrxuGkTqrLQ-YUlyaupylnzCj4_k7oxOJyG__b6Wr4fPt-YUJsyoGk42HAQNYjGLq2cuK9qs6p4ELvlEVSmivMaVF0Eahx8TLUr9PUO3f_zXSfXXQhv3w3hofynzbWBtIp4wB1bsMfh8UrGnsinxLEbsfNnos9AucUMUlg374, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH50uICT6N3LgTxouzzUl9JR-UKEbQjjyOTLzIKsCKdf0pUAh7fSlHFaaBMzMEuZLIayFistfTvx3KNQIKtfGq4PHcNpCc_xAIgHP-F7Lw3f5lupGkS_fc_x_aTVBfjg9a8nAZDyTiwfltYvoXnYgyjDPqwK7mOBUkf--8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkTdQdLUggvVp2xJV8kMUniuu_kq5bqlTd0Mzq2qByd4B74cWP5yFD6rF1f1yKKUBoWTV367ldPwr8y-sCdipK4lyjilvbyimuuWNi5izXaTqX-5BlaOiU0A4TdtalOtXXQyWneZZl498cmXmstyFmwSKFC-fUTsfAwVkW7GNy4Emf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5q_9z4WsWbDQRhGP7bLiSNuCZYk7Qi1XD-EH7mCjABtHZrxn3Zmff006rSFfQvNKEFSOWQBneddoOAxLXNm0ensw79S8pi2F7U5sb7wjuNb_z683UCTchmZGMv6XzUpnR_5ODdiO00EN9UQiPBGWiH4M2bHWOeXcpbE6Lcw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5TNL6SuC9LQl5vu42TGNBtHFLI1KH98utPFlm_ygqmWG7IK4OYxam1-v0L6h4Z9OzXaoQPieZ255Jmk9aamSWe0M76xO4QFcpsILVuPZF3gip7z5zwu4-TENfmlEwKXmwDQSrnePOPfwhQhMGbTOzBuZ2FZqt9hCfNYsGxQFlI0tGFw==
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 기존 간식의 인공적인 색깔 때문에 고민이셨군요! 아이에게 안심하고 줄 수 있도록, 간식 색깔은 어떤 점이 가장 중요하신가요? | 인공 색소 무첨가 |
+| 어떤 종류의 유아 간식을 찾으시나요? | 쿠키/비스킷 (씹는 재미) |
+| 간식 선택 시 가장 중요하게 생각하는 원재료는 무엇인가요? | 유기농 및 천연 재료 |
+| 간식 포장 방식은 어떤 점이 가장 중요하신가요? | 쉽게 열리고 쏟아지지 않는 포장 |
+| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 4천원대가 가장 많아요) | 6천원 ~ 1만 4천원대 |
 
 ---
 

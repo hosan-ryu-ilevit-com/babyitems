@@ -1,5 +1,5 @@
-# 세션: 20260210_073400_43qm
-> 시작: 2026-02-10T07:34:00.907Z
+# 세션: 20260210_112158_qph1
+> 시작: 2026-02-10T11:21:58.237Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: 소꿉놀이는 아이들의 역할 놀이 중 하나로, 엄마, 아빠 등 역할을 나누어 놀이를 진행합니다. 최근에는 다양한 장난감을 활용하여 역할 놀이를 하는 것이 일반적이며, 이는 아이들의 상징적 사고 능력 발달에 도움을 줍니다. 소꿉놀이는 아이들의 인지, 정서 발달을 촉진하는 중요한 놀이 활동으로 여겨집니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqmcgNBimFpF7n86ZYqrkeRnwr9UvTCtCXwZO2xOBsc5XmjRdOczzCvHZD106zKCzLilFFdsAZYGaPsX12V7CxyjV5cBwpjfcwXvIEgVDxV6QUE7YrDcKDslqjzPW4iVTQ4EQ3aN3TBh0PBHIB1-4i84ahuzsiPSbouVWD4CdoEjviTfdnE7bqDyDknVuwLyzOwQ_HHbKnzaGS1Cc4PxR0m_e9y5YDm23FFWZW09PatUXEfCyb-kDH-fJyGzjGGSgytgr1gLndzqtZRrckFQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfZArYLYfpk-eLDiWiGxuPZuvLJW0sYg0NlLy-Ql3SevY8dEwM_Fje7-1WyPRzXGekyTKH3eSrfDXdRiEkp73FI7ajlI6wkuhC8c0PQM87kaPEmOIqwoTwz29OZ9RA1iQFxgkl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdUY83HuYv5eYM2g_d479m9_BZPwmDkh2Clj5NRWwZpx64pgMLCVfCEUfw8wmbH7Em3ZK0-FRgghK2oEevMTvYoqnsTAVydLMiDBxOQEqP0BLIFT8xoL9u
+- 인사이트: 소꿉놀이는 아이들의 모방 심리에서 시작되는 대표적인 역할 놀이로, 부모의 행동을 관찰하고 이를 놀이로 표현하며 사회성, 언어 능력, 창의력 등을 발달시키는 데 도움을 줍니다. 최근에는 '랜놀(랜덤 놀이)'과 같이 일상에 재미를 더하는 새로운 놀이 트렌드도 등장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEL8o8lVYYjVVy0DM7ea20_MTZ_7Ii1JWEPoXAOvLrQfZ-hVYe-n4IW9RiiAU1Ti096Xn3UTFZ1Zq4NtFbbHPs6v_0KuZvpNwEOZRGkrJwebjEl9XdyWwk_1kqJ_peHJT8vJcUaxHyhF72VbVERkpIX82G8xp6S2g6HfVOCMEZn_8oGq5WLssFQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3SlwzIksQFN0l7NQiDFSpMTmd8TBeHVAK-w-RWIYm768B2Fyy5a5qwKlVHl_nB6BfBtAuTFE62_jN607jDKaNsMy0Wa51W18dEvmSN7PzGHPVG_ItXhbDnYGhzOjFBhN01bkchfCCWZTkH3uWYhfodoWda8e-nPbyLmsBSqglWX9dorfgVZcpuvOe7b0hROn6xuHyk3_fzRZIh2VDeR_SUEaUFVqQEXtilHQimZR18rfxQC-Ovwrb6fj3DyoZdUrKMrJt7tAa1yrxBcAbjH0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5naFBssgX-BglRJhxuYb9f9GsqlFNIpPGWMk_fRn3VpEpDSK2ZeGASoezDFs2zywErIbsl138duB8BfnOGtdRmZ2drWyJhvcXhDVxjT7_1IWa6PQvXUiIQA0zrTf_37g=
 
 ---
 
@@ -16,11 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 기존 냄비 뚜껑이 헐거워서 불편하셨군요! 꽉 잡아주는 뚜껑은 어떤 방식이 좋으신가요? | 잠금형 뚜껑, 밀착형 뚜껑 |
-| 어떤 종류의 소꿉놀이를 가장 선호하시나요? | 주방놀이 (요리, 식사 준비) |
-| 소꿉놀이 장난감의 소재는 어떤 것을 선호하시나요? | 원목 (자연 친화적이고 튼튼함) |
-| 놀이의 확장성을 얼마나 중요하게 생각하시나요? | 매우 중요 (다양한 역할/상황 연출) |
-| 소꿉놀이 제품 예산은 어느 정도로 생각하세요? (평균 약 3만 7천원, 1만 8천원 ~ 4만 8천원대가 가장 많아요) | 2만원 ~ 5만원대 |
+| 친구가 추천해준 인기 제품, 아이의 역할 놀이 시작 시기에 딱 맞는 소꿉놀이 세트를 찾고 계시는군요! 어떤 종류의 소꿉놀이 세트가 가장 흥미를 끄시나요? | 병원놀이 세트 |
+| 소꿉놀이 세트의 소재는 어떤 것을 선호하시나요? | 플라스틱 소재 (내구성 좋음) |
+| 소꿉놀이를 통해 아이가 어떤 능력을 키우길 바라시나요? | 창의력 및 상상력 (이야기 만들기) |
+| 소꿉놀이 제품 예산은 어느 정도로 생각하세요? (평균 약 3만 7천원, 1만 8천원~4만 8천원대가 가장 많아요) | 2만원 이하 |
 
 ---
 

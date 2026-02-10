@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { FilterTag, RecommendProcessMeta, RecommendProcessMetaItem } from '@/lib/knowledge-agent/types';
 
@@ -30,23 +30,28 @@ interface RecommendProcessBottomSheetProps {
     prosFromReviews?: string[];
     consFromReviews?: string[];
     tagScores?: Record<string, { score: 'full' | 'partial' | null; reason?: string; evidence?: string }>;
-    oneLiner?: string;
     recommendationReason?: string;
   }>;
   filterTags?: FilterTag[];
   preferredBrands?: string[];
 }
 
+type StageTab = 'passed' | 'failed';
+
 function SectionSummary({
   title,
   passedItems,
   failedItems,
   subtitle,
+  selectedTab,
+  onTabChange,
 }: {
   title: string;
   passedItems: RecommendProcessMetaItem[];
   failedItems: RecommendProcessMetaItem[];
   subtitle: string;
+  selectedTab: StageTab;
+  onTabChange: (tab: StageTab) => void;
 }) {
   const passed = passedItems.length;
   const failed = failedItems.length;
@@ -94,22 +99,46 @@ function SectionSummary({
       </div>
       <p className="text-[12px] text-gray-500">{subtitle}</p>
       <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-[12px] bg-blue-50 px-2.5 py-2">
-          <p className="text-[11px] font-semibold text-blue-700 flex items-center gap-1">
-            <span className="text-blue-500 font-bold text-[16px] leading-none">✓</span>
+        <button
+          type="button"
+          onClick={() => onTabChange('passed')}
+          className={`rounded-[12px] px-2.5 py-2 text-left transition-colors ring-1 ring-inset ${
+            selectedTab === 'passed' ? 'bg-blue-50 ring-blue-200' : 'bg-gray-100 ring-transparent'
+          }`}
+        >
+          <p className={`text-[11px] font-semibold flex items-center gap-1 ${
+            selectedTab === 'passed' ? 'text-blue-700' : 'text-gray-500'
+          }`}>
+            <span className={`font-bold text-[16px] leading-none ${
+              selectedTab === 'passed' ? 'text-blue-500' : 'text-gray-500'
+            }`}>✓</span>
             통과한 제품
           </p>
-          <p className="text-[14px] font-bold text-indigo-700 mt-0.5">{passed}개</p>
+          <p className={`text-[14px] font-bold mt-0.5 ${
+            selectedTab === 'passed' ? 'text-indigo-700' : 'text-gray-500'
+          }`}>{passed}개</p>
           {renderPreview(passedItems, 'blue')}
-        </div>
-        <div className="rounded-[12px] bg-red-50 px-2.5 py-2">
-          <p className="text-[11px] font-semibold text-red-600 flex items-center gap-1">
-            <span className="text-red-400 font-bold text-[16px] leading-none">✗</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => onTabChange('failed')}
+          className={`rounded-[12px] px-2.5 py-2 text-left transition-colors ring-1 ring-inset ${
+            selectedTab === 'failed' ? 'bg-red-50 ring-red-200' : 'bg-gray-100 ring-transparent'
+          }`}
+        >
+          <p className={`text-[11px] font-semibold flex items-center gap-1 ${
+            selectedTab === 'failed' ? 'text-red-600' : 'text-gray-500'
+          }`}>
+            <span className={`font-bold text-[16px] leading-none ${
+              selectedTab === 'failed' ? 'text-red-400' : 'text-gray-500'
+            }`}>✗</span>
             탈락한 제품
           </p>
-          <p className="text-[14px] font-bold text-red-600 mt-0.5">{failed}개</p>
+          <p className={`text-[14px] font-bold mt-0.5 ${
+            selectedTab === 'failed' ? 'text-red-600' : 'text-gray-500'
+          }`}>{failed}개</p>
           {renderPreview(failedItems, 'red')}
-        </div>
+        </button>
       </div>
     </div>
   );
@@ -118,11 +147,9 @@ function SectionSummary({
 function StageList({
   title,
   items,
-  scoreLabel,
 }: {
   title: string;
   items: RecommendProcessMetaItem[];
-  scoreLabel: string;
 }) {
   return (
     <div className="space-y-2">
@@ -143,10 +170,22 @@ function StageList({
             <div className="min-w-0 flex-1">
               <p className="text-[11px] text-gray-400 font-medium truncate">{item.brand || '브랜드 미상'}</p>
               <p className="text-[13px] font-semibold text-gray-800 truncate">{item.name}</p>
-              <p className="text-[11px] text-gray-500 mt-0.5">
-                {scoreLabel} {item.stage1Score}
-                {item.stage2Rank ? ` · Top10 ${item.stage2Rank}위` : ''}
-              </p>
+              <div className="mt-1">
+                {(() => {
+                  const normalized = Math.min(10, Math.floor((item.stage1Score || 0) / 10));
+                  const colorClass =
+                    normalized === 0
+                      ? 'bg-red-50 text-red-600'
+                      : normalized <= 6
+                        ? 'bg-yellow-50 text-yellow-700'
+                        : 'bg-blue-50 text-blue-600';
+                  return (
+                    <span className={`inline-flex items-center rounded-[6px] px-2 py-0.5 text-[10px] font-semibold ${colorClass}`}>
+                      {normalized}점
+                    </span>
+                  );
+                })()}
+              </div>
             </div>
           </div>
         ))}
@@ -163,6 +202,17 @@ export function RecommendProcessBottomSheet({
   filterTags = [],
   preferredBrands = [],
 }: RecommendProcessBottomSheetProps) {
+  const [stage1Tab, setStage1Tab] = useState<StageTab>('passed');
+  const [stage2Tab, setStage2Tab] = useState<StageTab>('passed');
+  const [stage3Tab, setStage3Tab] = useState<StageTab>('passed');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    setStage1Tab('passed');
+    setStage2Tab('passed');
+    setStage3Tab('passed');
+  }, [isOpen]);
+
   const sortedItems = useMemo(() => {
     if (!processMeta?.items) return [];
     return [...processMeta.items].sort((a, b) => {
@@ -185,7 +235,6 @@ export function RecommendProcessBottomSheet({
         const pcode = String(rec.pcode || rec.id || '');
         const meta = processMap.get(pcode);
         return {
-          rank: idx + 1,
           pcode,
           name: rec.name || rec.title || meta?.name || '',
           brand: rec.brand || meta?.brand || null,
@@ -197,7 +246,7 @@ export function RecommendProcessBottomSheet({
           rating: rec.rating,
           reviewCount: rec.reviewCount,
           specSummary: rec.specSummary,
-          reasoning: rec.reasoning || rec.recommendationReason || rec.oneLiner || '',
+          reasoning: rec.reasoning || rec.recommendationReason || '',
           reviewProof: rec.reviewProof,
           highlights: rec.highlights || [],
           concerns: rec.concerns || [],
@@ -266,7 +315,7 @@ export function RecommendProcessBottomSheet({
             <div className="sticky top-0 z-10 bg-white px-4 pt-3 pb-2 border-b border-gray-100">
               <div className="w-10 h-1 rounded-full bg-gray-200 mx-auto mb-3" />
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-bold text-gray-900">추천 과정 상세</h3>
+                <h3 className="text-[18px] font-bold text-gray-900">추천 과정 보기</h3>
                 <button
                   onClick={onClose}
                   className="h-[34px] px-3 rounded-[10px] bg-gray-100 text-gray-600 text-[13px] font-semibold hover:bg-gray-200 transition-colors"
@@ -283,12 +332,17 @@ export function RecommendProcessBottomSheet({
                   passedItems={stage1PassedItems}
                   failedItems={stage1FailedItems}
                   subtitle={processMeta.rules.stage1}
+                  selectedTab={stage1Tab}
+                  onTabChange={setStage1Tab}
                 />
               </div>
               <StageList
-                title={`1단계 후보 리스트 (${stage1Items.length}개)`}
-                items={stage1Items}
-                scoreLabel="적합도 점수"
+                title={
+                  stage1Tab === 'passed'
+                    ? `1단계 통과 리스트 (${stage1PassedItems.length}개)`
+                    : `1단계 탈락 리스트 (${stage1FailedItems.length}개)`
+                }
+                items={stage1Tab === 'passed' ? stage1PassedItems : stage1FailedItems}
               />
 
               <div className="pt-3 mt-0.5 border-t border-gray-200">
@@ -297,12 +351,17 @@ export function RecommendProcessBottomSheet({
                   passedItems={stage2PassedSummaryItems}
                   failedItems={stage2FailedSummaryItems}
                   subtitle={processMeta.rules.stage2}
+                  selectedTab={stage2Tab}
+                  onTabChange={setStage2Tab}
                 />
               </div>
               <StageList
-                title="2단계 통과 리스트 (Top10)"
-                items={stage2PassedItems}
-                scoreLabel="적합도 점수"
+                title={
+                  stage2Tab === 'passed'
+                    ? `2단계 통과 리스트 (${stage2PassedSummaryItems.length}개)`
+                    : `2단계 탈락 리스트 (${stage2FailedSummaryItems.length}개)`
+                }
+                items={stage2Tab === 'passed' ? stage2PassedSummaryItems : stage2FailedSummaryItems}
               />
 
               <div className="pt-3 mt-0.5 border-t border-gray-200">
@@ -311,9 +370,11 @@ export function RecommendProcessBottomSheet({
                   passedItems={stage3PassedSummaryItems}
                   failedItems={stage3FailedSummaryItems}
                   subtitle={processMeta.rules.stage3}
+                  selectedTab={stage3Tab}
+                  onTabChange={setStage3Tab}
                 />
               </div>
-              <div className="space-y-2">
+              {stage3Tab === 'passed' ? (
                 <div className="space-y-2">
                   {top5ItemsWithTags.map((item) => (
                     <div key={`top5-${item.pcode}`} className="rounded-[14px] bg-gray-50 p-2.5">
@@ -339,8 +400,8 @@ export function RecommendProcessBottomSheet({
                           <span
                             className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${
                               item.preferredBrandMatched
-                                ? 'bg-blue-50 text-blue-600'
-                                : 'bg-gray-100 text-gray-500'
+                                ? 'bg-white text-blue-600'
+                                : 'bg-white text-gray-500'
                             }`}
                           >
                             선호브랜드 {item.preferredBrandMatched ? '일치' : '불일치'}
@@ -349,7 +410,7 @@ export function RecommendProcessBottomSheet({
                         {item.fullTags.slice(0, 4).map((tag) => (
                           <span
                             key={`${item.pcode}-full-${tag}`}
-                            className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600"
+                            className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-white text-indigo-600"
                           >
                             {tag}
                           </span>
@@ -357,7 +418,7 @@ export function RecommendProcessBottomSheet({
                         {item.partialTags.slice(0, 3).map((tag) => (
                           <span
                             key={`${item.pcode}-partial-${tag}`}
-                            className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-600"
+                            className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-white text-sky-600"
                           >
                             {tag} (부분일치)
                           </span>
@@ -370,24 +431,15 @@ export function RecommendProcessBottomSheet({
                           {item.unmetTags.length > 3 ? ` 외 ${item.unmetTags.length - 3}개` : ''}
                         </p>
                       )}
-                      {item.reasoning && (
-                        <p className="mt-2 text-[11px] text-gray-700 leading-relaxed">
-                          {item.reasoning.split(/(\*\*.*?\*\*)/g).map((part: string, index: number) => {
-                            if (part.startsWith('**') && part.endsWith('**')) {
-                              return (
-                                <strong key={index} className="font-bold text-gray-900">
-                                  {part.slice(2, -2)}
-                                </strong>
-                              );
-                            }
-                            return <span key={index}>{part}</span>;
-                          })}
-                        </p>
-                      )}
                     </div>
                   ))}
                 </div>
-              </div>
+              ) : (
+                <StageList
+                  title={`3단계 탈락 리스트 (${stage3FailedSummaryItems.length}개)`}
+                  items={stage3FailedSummaryItems}
+                />
+              )}
             </div>
           </motion.div>
         </div>

@@ -1,5 +1,5 @@
-# 세션: 20260210_080143_lvnx
-> 시작: 2026-02-10T08:01:43.131Z
+# 세션: 20260210_105207_coxl
+> 시작: 2026-02-10T10:52:07.208Z
 > 카테고리키: 점퍼루
 > 카테고리: 점퍼루
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 점퍼루 시장 현황
-- 인사이트: 점퍼루는 아기가 스스로 뛰고 놀 수 있도록 도와주는 육아용품으로, 다양한 브랜드와 디자인의 제품들이 출시되어 있습니다. 특히 2024년에는 디즈니베이비, 엔픽스, 이븐플로, 피셔프라이스 등의 브랜드가 인기 순위 상위권을 차지하고 있습니다. 점퍼루는 아기의 대근육 발달을 돕고 엄마에게 잠시나마 자유 시간을 제공하는 장점이 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkXGrdtRVoHJLyrbTN4OCCGd2QsMR7fzLvZXs0-hHEFQj6dL9zl6234GLQ9slMwuFy_MwH6m-KfGceVAzkOUKe0H391lFg9Dl8_rDAeh_9D0KChyfN9FqrXUDJDuVHZpG7UCkylA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExJ81EYD5lBBTBsGEr1MFr7BQEzuezuBdt7A1jbZXYhr2M-2YNHurdUZ3JNs2CI7fCey0IIRDEXm9xg2bd2h_0l8OQSfSzGK2aAccKhRuXJ7w_FiucyXbDNAuyFTt1zIrxYZyTRg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlpOnlqFj28h2-kXoAPLsPkNr54YdYKBWbw2ZzERWRtCtZb1-6oXrxtdCOg_6cGtQHkTHQSKduxAFcCCbbSCNnBYk9UY4pK00VHaa4_XVWeshBsLm6DK4wsN9id9vCxmxHtwC1ug4y_58zfTOvFywzxA7InZUEXQ==
+- 인사이트: 점퍼루는 아기가 점프하며 놀 수 있는 육아용품으로, 주로 5~6개월부터 12~15개월까지 사용 가능합니다. 아기의 근육 발달과 균형 감각 향상에 도움을 줄 수 있지만, 사용 시간과 높이 조절에 주의해야 합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7ggy_wGgceme2taVHz_TZwiVQRNzpiwnBwX-VbvfVxSJ_lgPjjl0fGKK8-tz-XcPlctKxYhk_XbN5y74dLa8qs8xIhYFmCbgGbW1CSPlAjYtxkmaMnpQZSk36PWeOAUUldPqxXMC5DRk-WqObiimMWZesg3s9Cg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJfZ8mN6nLa-HkAD3cMnROM5CgaU6k73YXtPl6p3qoJ9ArCHdN7UKVnuqjvxuU7FsB5tsGbqIEkKdTselozSBIifj8zNySdCTki88SQ0q1nTiU4KK_KlV9mNttB6MdbabCOrgyJ7-CU3Ulb9rmtLBppsxnVc8ZLQ8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0n6Po8PY2UgHXJ6hEuQaqmz1yJgPiKmQSOR97RsDR5NCtlfhGnnA1G0llJ2HzoJijpSic9uxFhnR7liyEGjtLi7ilE6AHBXOFcIwKnVhgMeWWwGXEqO6WbQBJ3En83xNd2ktgT-4=
 
 ---
 

@@ -286,7 +286,7 @@ export function ProductComparisonGrid({
                   <button
                     type="button"
                     onClick={() => onProductClick?.(product.raw ?? product, 'price', true)}
-                    className="block w-full py-2 bg-blue-500 text-white rounded-md text-center transition-colors"
+                    className="block w-full py-2 bg-[#1e2329] hover:bg-black text-white rounded-md text-center transition-colors"
                   >
                     <div className="flex flex-col items-center gap-0.5">
                       <span className="text-[13px] font-semibold">최저가 비교하기</span>
@@ -315,7 +315,7 @@ export function ProductComparisonGrid({
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-3 pt-2">
           <div className="px-4 mt-4 mb-2 flex items-center gap-4">
-            <h4 className="text-[22px] font-bold text-gray-900">장단점 요약</h4>
+            <h4 className="text-[22px] font-bold text-gray-900">리뷰 장단점 요약</h4>
             {!hasProsConsData && (
               <span className="text-[12px] text-gray-400">
                 상세 정보/리뷰 분석 중 <span className="text-blue-500 font-medium">{prosConsProgress}%</span>
@@ -547,7 +547,7 @@ export function ProductComparisonGrid({
                   <button
                     type="button"
                     onClick={() => onProductClick?.(product.raw ?? product, 'price', true)}
-                    className="block w-full py-2 bg-blue-500 text-white rounded-md text-center transition-colors"
+                    className="block w-full py-2 bg-[#1e2329] hover:bg-black text-white rounded-md text-center transition-colors"
                   >
                     <div className="flex flex-col items-center gap-0.5">
                       <span className="text-[13px] font-semibold">최저가 비교하기</span>

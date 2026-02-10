@@ -34,9 +34,6 @@ export function PLPImageCarousel({
   pauseAfterSwipe = 2000,
   variant = 'list',
 }: PLPImageCarouselProps) {
-  // 🐛 디버깅: 컴포넌트 렌더링 확인
-  console.log(`[PLPImageCarousel RENDER] ${productTitle.slice(0, 30)}... reviewImages: ${reviewImages.length}, rank: ${rank}`);
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isInViewport, setIsInViewport] = useState(false);
   const [isPausedByUser, setIsPausedByUser] = useState(false);
@@ -67,11 +64,6 @@ export function PLPImageCarousel({
 
   const imageCount = images.length;
   const hasMultipleImages = imageCount > 1;
-
-  // 🐛 디버깅: 컴포넌트가 받은 props와 생성된 images 확인
-  useEffect(() => {
-    console.log(`[PLPImageCarousel] ${productTitle.slice(0, 20)}...: reviewImages.length=${reviewImages.length}, images.length=${images.length}, hasMultiple=${hasMultipleImages}`);
-  }, [reviewImages.length, images.length, hasMultipleImages, productTitle]);
 
   // 무한 루프용 확장 배열: [마지막] + [원본들] + [첫번째]
   const extendedImages = hasMultipleImages
@@ -240,6 +232,7 @@ export function PLPImageCarousel({
     ? "relative w-full h-full rounded-md overflow-hidden bg-gray-50"
     : "relative w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-50 border border-gray-100";
   const comparisonStyle = variant === 'comparison' ? { aspectRatio: '1 / 1' } : undefined;
+  const rankBadgeText = `추천 ${rank}위`;
 
   // 이미지가 없으면 placeholder
   if (images.length === 0) {
@@ -252,7 +245,7 @@ export function PLPImageCarousel({
         </div>
         <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center">
           <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
-            {matchRate !== undefined ? `${matchRate}% 매칭` : `${rank}위`}
+            {rankBadgeText}
           </span>
         </div>
       </div>
@@ -283,7 +276,7 @@ export function PLPImageCarousel({
         )}
         <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center">
           <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
-            {matchRate !== undefined ? `${matchRate}% 매칭` : `${rank}위`}
+            {rankBadgeText}
           </span>
         </div>
       </div>
@@ -339,7 +332,7 @@ export function PLPImageCarousel({
       {/* 랭킹 배지 */}
       <div className="absolute top-0 left-0 px-2 h-[26px] bg-gray-900/85 rounded-br-[12px] flex items-center justify-center z-10">
         <span className="text-white font-semibold text-[12px] leading-none whitespace-nowrap">
-          {matchRate !== undefined ? `${matchRate}% 매칭` : `${rank}위`}
+          {rankBadgeText}
         </span>
       </div>
     </div>

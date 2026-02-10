@@ -100,10 +100,10 @@ const itemVariants: Variants = {
 export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }: BabyInfoPhaseProps) {
   const [step, setStep] = useState<'loading' | 'check_saved' | 'born_yet' | 'date' | 'date_gender'>('loading');
   const [savedInfo, setSavedInfo] = useState<BabyInfo | null>(null);
+  const [bornYetSelection, setBornYetSelection] = useState<'born' | 'expected' | null>(null);
 
   // Data State
   const [gender, setGender] = useState<'male' | 'female' | 'unknown' | null>(null);
-  const [isBornYet, setIsBornYet] = useState<boolean | null>(null);
   const [birthDate, setBirthDate] = useState('');
   const [expectedDate, setExpectedDate] = useState('');
 
@@ -128,6 +128,16 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
 
   const handleNewInput = () => {
     setStep('born_yet');
+  };
+
+  const handleBornYetNext = () => {
+    if (bornYetSelection === 'born') {
+      setStep('date_gender');
+      return;
+    }
+    if (bornYetSelection === 'expected') {
+      setStep('date');
+    }
   };
 
   const handleExpectedDateComplete = () => {
@@ -269,19 +279,15 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
 
               <motion.div variants={itemVariants} className="flex flex-col gap-3">
                 <SelectionCard
-                  onClick={() => {
-                    setIsBornYet(true);
-                    setStep('date_gender');
-                  }}
+                  onClick={() => setBornYetSelection('born')}
+                  selected={bornYetSelection === 'born'}
                   icon={<Smiley size={24} weight="fill" />}
                   label="태어났어요"
                   color="orange"
                 />
                 <SelectionCard
-                  onClick={() => {
-                    setIsBornYet(false);
-                    setStep('date');
-                  }}
+                  onClick={() => setBornYetSelection('expected')}
+                  selected={bornYetSelection === 'expected'}
                   icon={<Calendar size={24} weight="fill" />}
                   label="아직 뱃속에 있어요"
                   color="blue"
@@ -298,29 +304,17 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
               </motion.div>
             </motion.div>
 
-            {/* 하단 고정 바 */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent z-0" />
-
-              <div className="relative z-10 flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                <motion.button
-                  onClick={() => {
-                    if (savedInfo) {
-                      setStep('check_saved');
-                    } else if (onBack) {
-                      onBack();
-                    }
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                >
-                  이전
-                </motion.button>
-                <div />
-              </div>
-            </div>
+            <NextButton
+              onClick={handleBornYetNext}
+              disabled={!bornYetSelection}
+              onBack={() => {
+                if (savedInfo) {
+                  setStep('check_saved');
+                } else if (onBack) {
+                  onBack();
+                }
+              }}
+            />
           </>
         )}
 
@@ -467,9 +461,10 @@ interface SelectionCardProps {
   icon: React.ReactNode;
   label: string;
   color: 'orange' | 'blue';
+  selected?: boolean;
 }
 
-function SelectionCard({ onClick, icon, label, color }: SelectionCardProps) {
+function SelectionCard({ onClick, icon, label, color, selected = false }: SelectionCardProps) {
   const isOrange = color === 'orange';
 
   const defaultGradient = isOrange
@@ -477,22 +472,25 @@ function SelectionCard({ onClick, icon, label, color }: SelectionCardProps) {
     : 'bg-gradient-to-br from-blue-50/30 to-white';
   const defaultIconColor = isOrange ? 'text-orange-300' : 'text-blue-300';
   const defaultIconHoverColor = isOrange ? 'group-hover:text-orange-400' : 'group-hover:text-blue-400';
+  const selectedClass = 'bg-blue-50 ring-2 ring-blue-400 border-blue-200';
 
   return (
     <motion.button
       onClick={onClick}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
-      className={`relative flex flex-col items-center justify-center gap-2 p-4 rounded-[18px] border-2 border-stone-100 hover:border-stone-200 transition-all duration-300 group overflow-hidden ${defaultGradient}`}
+      className={`relative flex flex-col items-center justify-center gap-2 p-4 rounded-[18px] border-2 transition-all duration-300 group overflow-hidden ${
+        selected ? selectedClass : `border-stone-100 hover:border-stone-200 ${defaultGradient}`
+      }`}
     >
       <div className="relative z-10">
         {React.cloneElement(icon as React.ReactElement<{ className?: string }>, {
-          className: `transition-colors duration-300 ${defaultIconColor} ${defaultIconHoverColor}`
+          className: `transition-colors duration-300 ${selected ? 'text-blue-500' : `${defaultIconColor} ${defaultIconHoverColor}`}`
         })}
       </div>
 
       <div className="text-center relative z-10">
-        <span className="block text-base font-semibold leading-tight text-gray-800">
+        <span className={`block text-base font-semibold leading-tight ${selected ? 'text-blue-900' : 'text-gray-800'}`}>
           {label}
         </span>
       </div>

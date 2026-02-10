@@ -40,6 +40,7 @@ export function OnboardingPhase({
   categoryKey,
   analysisProgressLabel,
 }: OnboardingPhaseProps) {
+  const [transitionDirection, setTransitionDirection] = useState<1 | -1>(1);
   const [step, setStep] = useState<'situation' | 'replace_reasons' | 'first_situations'>(() => {
     // baby_info에서 복귀한 경우 바로 후속 단계로
     if (initialSituation) {
@@ -169,23 +170,29 @@ export function OnboardingPhase({
 
   const handleSituationSelect = (situation: 'first' | 'replace' | 'gift') => {
     setPurchaseSituation(situation);
+  };
+
+  const handleSituationNext = () => {
+    if (!purchaseSituation) return;
 
     // 구매 상황 선택 로깅
     if (categoryKey) {
-      logKAOnboardingSituationSelected(categoryKey, categoryName, situation);
+      logKAOnboardingSituationSelected(categoryKey, categoryName, purchaseSituation);
     }
 
     // baby 카테고리에서 첫구매/교체 선택 시 아기 정보 등록 먼저
-    if (onNeedBabyInfo && (situation === 'first' || situation === 'replace')) {
-      onNeedBabyInfo(situation);
+    if (onNeedBabyInfo && (purchaseSituation === 'first' || purchaseSituation === 'replace')) {
+      onNeedBabyInfo(purchaseSituation);
       return;
     }
 
-    if (situation === 'replace') {
+    if (purchaseSituation === 'replace') {
       // 교체 선택 시 불편사항 수집 단계로
+      setTransitionDirection(1);
       setStep('replace_reasons');
     } else {
       // 첫구매/둘러보기는 상황 선택 단계로
+      setTransitionDirection(1);
       setStep('first_situations');
     }
   };
@@ -228,18 +235,69 @@ export function OnboardingPhase({
     );
   };
 
+  const isBottomNavStep =
+    step === 'situation' || step === 'replace_reasons' || step === 'first_situations';
+
+  const handleStepBack = () => {
+    if (step === 'situation') {
+      onBack?.();
+      return;
+    }
+
+    if (step === 'replace_reasons') {
+      setTransitionDirection(-1);
+      setStep('situation');
+      setPurchaseSituation(null);
+      setReplaceReasons([]);
+      setReplaceOther('');
+      setAddedReplaceOther(null);
+      return;
+    }
+
+    if (step === 'first_situations') {
+      setTransitionDirection(-1);
+      setStep('situation');
+      setPurchaseSituation(null);
+      setSelectedSituations([]);
+      setSituationOther('');
+      setShowSituationOtherInput(false);
+      setAddedSituationOther(null);
+    }
+  };
+
+  const handleStepNext = () => {
+    if (step === 'situation') {
+      handleSituationNext();
+      return;
+    }
+    if (step === 'replace_reasons') {
+      handleReplaceComplete();
+      return;
+    }
+    if (step === 'first_situations') {
+      handleFirstSituationComplete();
+    }
+  };
+
+  const isNextDisabled =
+    (step === 'situation' && !purchaseSituation) ||
+    (step === 'replace_reasons' && replaceReasons.length === 0) ||
+    (step === 'first_situations' && selectedSituations.length === 0);
+
   return (
     <div className="flex flex-col items-center justify-start min-h-[400px] pt-4">
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false} custom={transitionDirection}>
         {step === 'situation' && (
-          <>
-            <motion.div
-              key="situation"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-sm"
-            >
+          <motion.div
+            key="situation_screen"
+            custom={transitionDirection}
+            initial={{ opacity: 0, x: transitionDirection > 0 ? 28 : -28 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: transitionDirection > 0 ? -28 : 28 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
+          >
+            <div className="w-full">
               {analysisProgressLabel && (
                 <div className="mb-3">
                   <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[12px] font-semibold text-blue-600">
@@ -261,54 +319,37 @@ export function OnboardingPhase({
                   label="처음으로 구매해요 🌱  "
                   description="첫 구매라 잘 모르시는 분"
                   onClick={() => handleSituationSelect('first')}
+                  selected={purchaseSituation === 'first'}
                 />
                 <SituationButton
                   label=" 다른 걸로 바꿔보려고요 🛍️  "
                   description="더 나은 상품을 찾고 싶으신 분"
                   onClick={() => handleSituationSelect('replace')}
+                  selected={purchaseSituation === 'replace'}
                 />
                 <SituationButton
                   label="그냥 둘러보려구요 👀  "
                   description="당장 구매 계획이 없으신 분"
                   onClick={() => handleSituationSelect('gift')}
+                  selected={purchaseSituation === 'gift'}
                 />
               </div>
-            </motion.div>
-
-            {/* 하단 고정 바 */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* 그라데이션 배경 - 뒤쪽 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
-
-              {/* 버튼 컨테이너 - 앞쪽 */}
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                {onBack ? (
-                  <motion.button
-                    onClick={onBack}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  >
-                    이전
-                  </motion.button>
-                ) : (
-                  <div />
-                )}
-                <div /> {/* 다음 버튼 자리 (선택 시 자동 이동) */}
-              </div>
             </div>
-          </>
+
+          </motion.div>
         )}
 
         {step === 'replace_reasons' && (
-          <>
-            <motion.div
-              key="replace_reasons"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-sm"
-            >
+          <motion.div
+            key="replace_reasons_screen"
+            custom={transitionDirection}
+            initial={{ opacity: 0, x: transitionDirection > 0 ? 28 : -28 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: transitionDirection > 0 ? -28 : 28 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
+          >
+            <div className="w-full">
               {analysisProgressLabel && (
                 <div className="mb-3 mt-2">
                   <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[12px] font-semibold text-blue-600">
@@ -492,56 +533,23 @@ export function OnboardingPhase({
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
-
-            {/* 하단 고정 바 */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* 그라데이션 배경 - 뒤쪽 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
-
-              {/* 버튼 컨테이너 - 앞쪽 */}
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                <motion.button
-                  onClick={() => {
-                    setStep('situation');
-                    setPurchaseSituation(null);
-                    setReplaceReasons([]);
-                    setReplaceOther('');
-                    setAddedReplaceOther(null);
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                >
-                  이전
-                </motion.button>
-                <motion.button
-                  onClick={handleReplaceComplete}
-                  whileHover={replaceReasons.length > 0 ? { scale: 1.02 } : {}}
-                  whileTap={replaceReasons.length > 0 ? { scale: 0.98 } : {}}
-                  disabled={replaceReasons.length === 0}
-                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
-                    ${replaceReasons.length > 0
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
-                >
-                  다음
-                </motion.button>
-              </div>
             </div>
-          </>
+
+          </motion.div>
         )}
 
         {/* 첫구매/둘러보기 상황 선택 */}
         {step === 'first_situations' && (
-          <>
-            <motion.div
-              key="first_situations"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full max-w-sm"
-            >
+          <motion.div
+            key="first_situations_screen"
+            custom={transitionDirection}
+            initial={{ opacity: 0, x: transitionDirection > 0 ? 28 : -28 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: transitionDirection > 0 ? -28 : 28 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
+          >
+            <div className="w-full">
               {analysisProgressLabel && (
                 <div className="mb-3 mt-2">
                   <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[12px] font-semibold text-blue-600">
@@ -727,61 +735,71 @@ export function OnboardingPhase({
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
-
-            {/* 하단 고정 바 */}
-            <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
-              {/* 그라데이션 배경 - 뒤쪽 */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
-
-              {/* 버튼 컨테이너 - 앞쪽 */}
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
-                <motion.button
-                  onClick={() => {
-                    setStep('situation');
-                    setPurchaseSituation(null);
-                    setSelectedSituations([]);
-                    setSituationOther('');
-                    setShowSituationOtherInput(false);
-                    setAddedSituationOther(null);
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
-                >
-                  이전
-                </motion.button>
-                <motion.button
-                  onClick={handleFirstSituationComplete}
-                  whileHover={selectedSituations.length > 0 ? { scale: 1.02 } : {}}
-                  whileTap={selectedSituations.length > 0 ? { scale: 0.98 } : {}}
-                  disabled={selectedSituations.length === 0}
-                  className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
-                    ${selectedSituations.length > 0
-                      ? 'bg-gray-900 text-white hover:bg-gray-800'
-                      : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
-                >
-                  다음
-                </motion.button>
-              </div>
             </div>
-          </>
+
+          </motion.div>
         )}
       </AnimatePresence>
+
+      {isBottomNavStep && (
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[80]">
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent z-0 pointer-events-none" />
+          <div className="relative z-10 flex gap-3 justify-between bg-white rounded-[12px] p-2">
+            {step === 'situation' && !onBack ? (
+              <div />
+            ) : (
+              <motion.button
+                onClick={handleStepBack}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center bg-gray-100 text-gray-700 hover:bg-gray-200"
+              >
+                이전
+              </motion.button>
+            )}
+            <motion.button
+              onClick={handleStepNext}
+              whileHover={!isNextDisabled ? { scale: 1.02 } : {}}
+              whileTap={!isNextDisabled ? { scale: 0.98 } : {}}
+              disabled={isNextDisabled}
+              className={`w-[100px] shrink-0 py-4 rounded-[12px] text-[16px] font-semibold transition-all flex items-center justify-center
+                ${!isNextDisabled
+                  ? 'bg-gray-900 text-white hover:bg-gray-800'
+                  : 'bg-gray-100 text-gray-300 opacity-50 cursor-not-allowed'}`}
+            >
+              다음
+            </motion.button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 // 상황 선택 버튼
-function SituationButton({ label, description, onClick }: { label: string; description: string; onClick: () => void }) {
+function SituationButton({
+  label,
+  description,
+  onClick,
+  selected = false,
+}: {
+  label: string;
+  description: string;
+  onClick: () => void;
+  selected?: boolean;
+}) {
   return (
     <button
       onClick={onClick}
-      className="w-full py-4 px-5 rounded-[12px] border border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30 transition-all text-left bg-white"
+      className={`w-full py-4 px-5 rounded-[12px] border transition-all text-left ${
+        selected
+          ? 'bg-blue-50 border-blue-200'
+          : 'border-gray-100 text-gray-600 hover:border-blue-200 hover:bg-blue-50/30 bg-white'
+      }`}
     >
       <div className="flex flex-col gap-0.5">
-        <span className="text-[16px] font-bold leading-[1.4] text-gray-600">{label}</span>
-        <span className="text-[14px] font-medium text-gray-400 mt-1">{description}</span>
+        <span className={`text-[16px] font-bold leading-[1.4] ${selected ? 'text-blue-700' : 'text-gray-600'}`}>{label}</span>
+        <span className={`text-[14px] font-medium mt-1 ${selected ? 'text-blue-500' : 'text-gray-400'}`}>{description}</span>
       </div>
     </button>
   );

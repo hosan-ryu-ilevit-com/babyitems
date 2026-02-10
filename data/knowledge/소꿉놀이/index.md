@@ -1,24 +1,28 @@
 # 소꿉놀이 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T07:33:37.347Z
+> 마지막 업데이트: 2026-02-10T11:21:55.235Z
 > 분석 상품: 20개 | 분석 리뷰: 2,510개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 역할 놀이의 발달적 효과 강조
-- 다양한 장난감을 활용한 놀이
-- 상징적 사고 능력 발달 촉진
+- 역할 놀이의 중요성 증대
+- 교육적 기능 강조
+- 다양한 테마와 캐릭터 활용
+- 온라인 및 비대면 놀이 확산
+- 랜덤 요소 결합 놀이 (랜놀)
 
 ### 구매자 만족 포인트
-- ✓ 인지 발달
-- ✓ 정서 발달
-- ✓ 상징적 사고 능력 향상
-- ✓ 역할 분담 학습
+- ✓ 사회성 발달
+- ✓ 창의력 증진
+- ✓ 언어 능력 향상
+- ✓ 모방 심리 충족
+- ✓ 다양한 역할 경험
 
 ### 주의해야 할 단점
-- ⚠ 성별 고정관념 형성 가능성
-- ⚠ 과도한 교육적 접근 지양 필요
+- ⚠ 성 역할 고정관념 형성 가능성
+- ⚠ 과도한 몰입으로 인한 현실감각 저하
+- ⚠ 놀이 중 갈등 발생 가능성
 
 ### 가격대 인사이트
 
@@ -240,6 +244,6 @@
 ---
 
 ## 📊 데이터 출처
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqmcgNBimFpF7n86ZYqrkeRnwr9UvTCtCXwZO2xOBsc5XmjRdOczzCvHZD106zKCzLilFFdsAZYGaPsX12V7CxyjV5cBwpjfcwXvIEgVDxV6QUE7YrDcKDslqjzPW4iVTQ4EQ3aN3TBh0PBHIB1-4i84ahuzsiPSbouVWD4CdoEjviTfdnE7bqDyDknVuwLyzOwQ_HHbKnzaGS1Cc4PxR0m_e9y5YDm23FFWZW09PatUXEfCyb-kDH-fJyGzjGGSgytgr1gLndzqtZRrckFQ==)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfZArYLYfpk-eLDiWiGxuPZuvLJW0sYg0NlLy-Ql3SevY8dEwM_Fje7-1WyPRzXGekyTKH3eSrfDXdRiEkp73FI7ajlI6wkuhC8c0PQM87kaPEmOIqwoTwz29OZ9RA1iQFxgkl)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdUY83HuYv5eYM2g_d479m9_BZPwmDkh2Clj5NRWwZpx64pgMLCVfCEUfw8wmbH7Em3ZK0-FRgghK2oEevMTvYoqnsTAVydLMiDBxOQEqP0BLIFT8xoL9u)
+- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEL8o8lVYYjVVy0DM7ea20_MTZ_7Ii1JWEPoXAOvLrQfZ-hVYe-n4IW9RiiAU1Ti096Xn3UTFZ1Zq4NtFbbHPs6v_0KuZvpNwEOZRGkrJwebjEl9XdyWwk_1kqJ_peHJT8vJcUaxHyhF72VbVERkpIX82G8xp6S2g6HfVOCMEZn_8oGq5WLssFQ)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3SlwzIksQFN0l7NQiDFSpMTmd8TBeHVAK-w-RWIYm768B2Fyy5a5qwKlVHl_nB6BfBtAuTFE62_jN607jDKaNsMy0Wa51W18dEvmSN7PzGHPVG_ItXhbDnYGhzOjFBhN01bkchfCCWZTkH3uWYhfodoWda8e-nPbyLmsBSqglWX9dorfgVZcpuvOe7b0hROn6xuHyk3_fzRZIh2VDeR_SUEaUFVqQEXtilHQimZR18rfxQC-Ovwrb6fj3DyoZdUrKMrJt7tAa1yrxBcAbjH0=)
+- [etnews.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5naFBssgX-BglRJhxuYb9f9GsqlFNIpPGWMk_fRn3VpEpDSK2ZeGASoezDFs2zywErIbsl138duB8BfnOGtdRmZ2drWyJhvcXhDVxjT7_1IWa6PQvXUiIQA0zrTf_37g=)

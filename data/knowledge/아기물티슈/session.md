@@ -1,5 +1,5 @@
-# 세션: 20260210_034610_s4hk
-> 시작: 2026-02-10T03:46:10.804Z
+# 세션: 20260210_114126_93ng
+> 시작: 2026-02-10T11:41:26.505Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2024년부터 2032년까지 연평균 5.6%의 성장률을 기록할 것으로 예상됩니다. 특히 국내 시장에서는 베베숲이 9년 연속 판매 1위를 차지하며 시장을 선도하고 있습니다. 유아용 물티슈는 전체 물티슈 시장의 상당 부분을 차지하며, 편리성과 안전성에 대한 높은 신뢰를 바탕으로 일상생활에서도 사용이 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZr5UTYxEcOIDB8_iUuC8Nv9gehGLn-5WMAeB-u8iYyqSQgXpIXkM3QoP0m8SLTtwLDKfu_1Lmk0VGUEM-PNl1Roxp9o9eGmZ6dYxE4z2Q0pMVyUMW5ecW5eYx-r0gvmpm2LxGtrgMxtMK3hA6RWAkc69bs8zcFc3RSHIc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGam_3F_tol7BZVVag_KGuuINiP9q2-cbwAUSU_Bj8D7nVtbJmBvc8sDqJIqOSXvGRsb6_rHwpNkLUpzTVlhsVWP3D0RZtfCuMtKtOMutHpw0kPaBT4FGUPuAjrBWGC0XOS1i_KX-fA9dWOGmQ4JuK3t8C5zdMpPbZV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrHi6kIbJpyuq1ossKv50p4FroUuW85JkkmQveM2mcxB9FwJAbdzjmmtQfThafcLSm4hmhscxAalFhC1K14A4hT3PRodkjq0BnYSApEZJs0yRdrOFMEP2pLz3luwM9tNTaC_tRyqlBhEwsbCJ6L4_qLgAiaVPER5i-gaSFmLzOvlvGkd1KRyzOd5e7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWwRUSmCno3JpKYmJupRDVkQNTE8SAw8RR-5o3G9ffaDKgaeFSRfM4DhTHDr2JfKZfBqYepaRudPGTG11G0S_qryE5i3xPWIhx-lpHCNDpROcVIlfiP3MhapSXO8uWxRCtDWg8zqcnaiFGNjRMjA5kyrlFxt-wiCJkRv1-EWiQ6Qn6xFvTNy7wcj3xvKcLUXbFqodqjg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQeoBaRPCJdWFvsk_JB4q4TXrSa9vhFCm92sAXvPh0694UTrdLDcEe8XBl7ZBwlEntFAgTbrolAjdgNcAjchzCrXFHppFkFvWOHP6ZiuW7aDPmKUh09ynVg14bcxHeSiyVGn4sbB1n98xe1u4zcHsJdP8WYXE2vgL-gyNvvg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGP5B6gRO_T7Bq2T5qqF6jYX0J6kCoiW_pVnW6e9vGtVOvI5nyhmTw9stu2_yH7eGL6Gm5yO8_3jsk7MmSnqO2GZRsMN6cENXAFz8hnV72cWghddn3dmnxOaz8q0epw4O9Y3LoGJo0Q-hJwR73ETU2Obb_ts1G_D9yOzIsNNL0Y
+- 인사이트: 국내 물티슈 시장 규모는 2018년 4782억원에서 2019년 5000억원에 근접할 것으로 추정될 만큼 빠르게 성장했으며, 특히 유아용 물티슈 시장이 성장을 견인하고 있습니다. 유아용 물티슈는 편리함과 신뢰도를 바탕으로 일상생활에서도 사용이 늘고 있으며, 일반 물티슈보다 크고 두꺼우며 캡이 달려 있어 사용이 편리하다는 장점이 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7eF1CwmCfrlEu8dTWw8h8LNXMBHvzpFMFxdtjmRgs8rRX3Iz2tbSR94YM-y-e0Z23IDaIkjRIc3waRGcfXuXUSPwMgnDBrt-b4wRgCCq2rdYvgfGexChX7kp4YfWZ3cZVg6bmIw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg9DW5gb65m58hMQTC2hO-PmF3AnDeoSYcVOhWL-NkB9VYT7lkfvz1vQfSpGKL8ju4BhNR92tqc6Fri0K8nQZrGg5F3eJhI1Ur1_bXlbMgk_MZB9le4ehU5yiN7zp7pIF6wwCcHja3wVxZMTKSc4YQtyTP7kU9MGMSxrmPpUZItCX2Jo05JrPotQlmD559j2DcUmQJC_I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWX3j9za6ewnmA2otttWSDcJBCNQ_hJ5fTVQ__B9psFqCtTmi5o0cskxnCBKzPVxyOtFkcFsJL8ZhgvuQDVk0wWqwnWql4YMlCJmrIt2r3wJDzHnj87suAem-y3r64Tk1Yz86oH1SpYgpoOdYa6ntHC2i6prGNaYdxRUvrhFs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6VADiVof2jfRPWNspV2VcMENgR4y6DPe5YTL8H2M6zPvHSIP14Xf5YJJkdfAPY4bQgd7TJjlEcl7S7tBvGzBpGMStZvMf-qpoAfQcgko6JJ6h5y0SG4xse0PmaciFIXUIvip9_bLEPatC6-mtluAjS-yYMogT1hv9XBWuSfR6fTmZpoGs1Rn5BbAi7umWHq8CFHmTIIQsvS1PvFCDjZeGTQnhrL6r8SvC1uM8Skp_4-sQnaMzs2SIwIrVnFPJLEw30T0-TP9bkg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZ8A3GryGfnHcsiXMXyAVtFeM-Rh5JHnMykzmKywJfZuUvMkEwoBCUW9TTsNz5XQS0D0vrz0aOvwdVd4Q0TItMllwpQfeqMmbr4caHgcP9DUJWkDnLpm1C9P3LIScaV7ejM7FDF2jZUuOqwVcayct6JeJm, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGsmJXDr48QlfUqffm2JciOe6ZdHqjFXRZNQsR1B5vPejvX_b4ESqM7E6CYxKULDHA6XDklXfwcz30v3P5shOrhS6mQvitk4WRHmbq9OBd7R-cAFc9vsHqnwcgbkdF0QAPoWogmtk_MykQP1JstDnneurPdTk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBD1-DlpSpl2QXincqkbu1SpK0ABi80c5V1Jgmhyh704x1dhkEWFV2JN0sNWQqflWGffRh8p3XJ5_i65veTcSy8pyCkPmEhjDPVN70t-V_Ou53HXA-GxRK1L_hXeIcw0JSUmJXftrVp81zFZ2MrpphKWuA_IUSTjRKwioP
 
 ---
 
@@ -16,9 +16,8 @@
 
 | 항목 | 답변 |
 |------|------|
-| 물티슈 뽑을 때 두 장씩 겹쳐 나오는 불편함과 뚜껑이 헐거워져 마르는 문제, 어떤 점이 더 개선되었으면 하시나요? | 두 장씩 겹쳐 나오는 문제 해결 |
-| 믿고 쓰는 브랜드가 있으신가요? | 베베숲, 아이러브베베 |
-| 예산은 어느 정도로 생각하세요? (평균 1만원, 5천원~1만 3천원대가 가장 많아요) | 5천원 ~ 1만 3천원대 |
+| 신생아 피부라 성분 안전한 아기물티슈를 찾으시는군요! 어떤 성분 안전성이 가장 중요하신가요? | 자연 유래 보습 성분 |
+| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 1만원, 5천원~1만 3천원대가 가장 많아요) | 5천원 ~ 1만 3천원대 |
 
 ---
 

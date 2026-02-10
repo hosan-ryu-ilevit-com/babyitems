@@ -2256,201 +2256,120 @@ ${candidateInfo}
 }
 
 /**
- * 2단계: 한줄 평 생성 (선정된 N개에 대해서만)
- * - 입력: N개 상품 + 리뷰 원문 30개
- * - 출력: oneLiner (PLP 표시용)
- * - 장단점(pros/cons)은 별도 generateProsConsFromReviews에서 생성
+ * 2단계: AI 요약 생성 (description + points)
+ * - filterTags를 참고 태그로 제공하여 할루시네이션 방지
  */
-async function generateDetailedReasons(
+async function generateAiSummary(
   selectedProducts: HardCutProduct[],
   reviews: Record<string, ReviewLite[]>,
   categoryName: string,
+  filterTags: Array<{ id: string; label: string }>,
   collectedInfo?: Record<string, string>,
-  productInfoMap?: Record<string, ProductInfo>  // 🆕 인덱싱된 제품 정보
+  productInfoMap?: Record<string, ProductInfo>
 ): Promise<FinalRecommendation[]> {
-  console.log(`[Step2] Generating oneLiners with LLM for ${selectedProducts.length} products`);
+  console.log(`[Step2] Generating AI summary for ${selectedProducts.length} products`);
 
   // Gemini API 초기화
   if (!geminiApiKey) {
-    console.warn('[Step2] No Gemini API key - using fallback oneLiners');
+    console.warn('[Step2] No Gemini API key - using fallback');
     return selectedProducts.map((product, i) => ({
       rank: i + 1,
       pcode: product.pcode,
       product,
       reason: `${product.brand} ${product.name}`,
-      oneLiner: `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`,
     }));
   }
 
   const ai = new GoogleGenerativeAI(geminiApiKey);
-  const modelName = process.env.GEMINI_ONE_LINER_MODEL || 'gemini-2.5-flash-lite';
   const model = ai.getGenerativeModel({
-    model: modelName,
+    model: 'gemini-2.5-flash-lite',
     generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 4000,
+      temperature: 0.5,
+      maxOutputTokens: 3000,
       responseMimeType: 'application/json',
     },
   });
 
-  // 각 제품별 정보 구성
+  // 각 제품별 정보 구성 (간결하게)
   const productInfos = selectedProducts.map(p => {
-    const productReviews = reviews[p.pcode] || [];
-    const reviewTexts = productReviews.slice(0, 10).map((r, i) =>
-      `[리뷰${i + 1}] ${r.rating}점: "${r.content.slice(0, 80)}${r.content.length > 80 ? '...' : ''}"`
-    ).join('\n');
-
-    // 🆕 인덱싱된 제품 정보 포함
     const indexedInfo = productInfoMap?.[p.pcode];
-    const analysisStr = indexedInfo?.analysis
-      ? `- 분석: "${indexedInfo.analysis.oneLiner}" | ${indexedInfo.analysis.buyingPoint}`
-      : '';
-    const webStr = indexedInfo?.webEnriched
-      ? `- 웹정보: 장점[${indexedInfo.webEnriched.pros?.slice(0, 3).join(', ')}] 추천대상[${indexedInfo.webEnriched.targetUsers?.slice(0, 2).join(', ')}]`
-      : '';
+    const analysisStr = indexedInfo?.analysis?.oneLiner || '';
+    const productReviews = reviews[p.pcode] || [];
+    const topReviews = productReviews.slice(0, 5).map(r =>
+      `[${r.rating}점] ${r.content.slice(0, 60)}`
+    ).join(' | ');
 
-    return `### ${p.brand} ${p.name} (pcode: ${p.pcode})
-- 가격: ${p.price?.toLocaleString()}원
-- 스펙: ${p.specSummary || '정보 없음'}
-- 추천 이유: ${p.matchedConditions?.join(', ') || '정보 없음'}
-${analysisStr}
-${webStr}
-- 리뷰:
-${reviewTexts || '(리뷰 없음)'}`;
+    return `[${p.pcode}] ${p.brand} ${p.name}
+스펙: ${p.specSummary || ''}${analysisStr ? ` | 분석: ${analysisStr}` : ''}
+리뷰: ${topReviews || '없음'}`;
   }).join('\n\n');
 
-  // 사용자 답변 정보 포맷팅
-  const userContext = collectedInfo && Object.keys(collectedInfo).length > 0
-    ? `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 사용자가 답변한 맞춤 질문
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-${Object.entries(collectedInfo)
-  .filter(([key]) => !key.startsWith('__'))  // 내부 키 제외
-  .map(([question, answer]) => `Q: ${question}\nA: ${answer}`)
-  .join('\n\n')}
+  // 사용자 조건 요약
+  const userConditions = collectedInfo
+    ? Object.entries(collectedInfo)
+        .filter(([k]) => !k.startsWith('__'))
+        .map(([q, a]) => `- ${q}: ${a}`)
+        .join('\n')
+    : '없음';
 
-`
-    : '';
+  // 참고 태그 목록
+  const referenceTagLabels = filterTags.map(t => t.label).join(', ');
 
-  const prompt = `당신은 ${categoryName} 전문 큐레이터입니다.
-각 제품의 핵심 강점을 담은 한줄 평(oneLiner)을 작성해주세요.
+  const prompt = `## ${categoryName} 제품 ${selectedProducts.length}개의 AI 요약 생성
 
-${userContext}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 사용자 조건
+${userConditions}
+
+## 참고 태그 (사용자가 중요시하는 조건들)
+${referenceTagLabels}
+
 ## 제품 정보
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${productInfos}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 작성 규칙
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## 규칙
+1. description: 해당 제품의 핵심 특징을 1문장으로 요약 (제품명/브랜드명 제외)
+2. points: 이 제품이 사용자 조건에 맞는 이유 2~3개
+   - text: 매칭 이유를 구체적으로 설명 (1문장)
+   - tags: 해당 포인트와 관련된 짧은 키워드 태그 2~3개 (위 참고 태그를 활용해도 되고, 제품 스펙/리뷰에서 자유롭게 뽑아도 됨. 물론 양쪽 다 사용해도 됨. 더 이 제품의 매칭 이유를 디테일하고 맞춤형으로 설명할 수 있는 쪽으로 판단하여 활용)
+3. 큰따옴표 사용 금지
+4. 사용자 상황/니즈를 자연스럽게 반영
 
-### oneLiner (한줄 평) - 최대 60자 (엄수)
-- 이모지 + **핵심 강점!** + 부가 설명
-- 위 '사용자가 답변한 맞춤 질문' 내용을 적극 반영하여 개인화된 문구 작성
-- 사용자의 상황/필요(예: 신생아, 좁은 공간 등)를 한줄평에 자연스럽게 녹여내기
-- 리뷰 내용 인용 시 '작은따옴표' 사용
-- 간결하고 명확하게 작성
-- 예: 🤫 **신생아 재우기 딱 좋은 정숙함!** 수면풍 모드로 밤잠 방해 없어요
-
-### 🚫 금지 패턴
-- "실제 사용자들이...라고 평가한 제품입니다"
-- "리뷰에 따르면..."
-- 제품에 없는 기능을 있는 것처럼 언급
-- 큰따옴표(") 사용 금지 (JSON 파싱 오류 방지)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 응답 JSON 형식
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-{
-  "results": [
-    {
-      "pcode": "상품코드",
-      "oneLiner": "이모지 + 한줄 평 (최대 60자)"
-    }
-  ]
-}
-
-⚠️ JSON만 출력
-⚠️ 반드시 모든 제품(${selectedProducts.length}개)에 대해 생성
-⚠️ 각 한줄평은 60자 이내로 작성`;
+## 응답 JSON
+{"results":[{"pcode":"코드","description":"1문장 요약","points":[{"text":"매칭 이유","tags":["태그1"]}]}]}`;
 
   try {
+    const startTime = Date.now();
     const result = await model.generateContent(prompt);
     let responseText = result.response.text().trim();
     responseText = responseText.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
-    const jsonMatch = responseText.match(/\{[\s\S]*\}/);
 
-    if (jsonMatch) {
-      const rawJson = jsonMatch[0];
+    const parsed = await parseWithRetry(responseText, 'AiSummary', 1);
 
-      // Try parsing
-      let parsed: { results?: Array<{ pcode: string; oneLiner: string }> } | null = null;
-      try {
-        parsed = JSON.parse(rawJson);
-      } catch {
-        // Normalize JSON (fix quotes)
-        const normalized = rawJson
-          .replace(/[""]/g, '"')
-          .replace(/['']/g, "'")
-          .replace(/,\s*([}\]])/g, '$1');
-        try {
-          parsed = JSON.parse(normalized);
-        } catch (e2) {
-          console.warn('[Step2] JSON parse failed:', e2, 'raw snippet:', rawJson.slice(0, 300));
-        }
-      }
+    if (parsed && parsed.results && Array.isArray(parsed.results)) {
+      console.log(`[Step2] ✅ AI 요약 생성 완료: ${parsed.results.length}개 (${Date.now() - startTime}ms)`);
 
-      if (parsed && parsed.results && Array.isArray(parsed.results)) {
-        console.log('[Step2] LLM generated oneLiners for', parsed.results.length, 'products');
-        const resultMap = new Map(parsed.results.map((r: { pcode: string; oneLiner: string }) => [String(r.pcode).trim(), r.oneLiner]));
+      const summaryMap = new Map(
+        parsed.results.map((r: any) => [String(r.pcode).trim(), r])
+      );
 
-        return selectedProducts.map((product, i) => {
-          const oneLiner = resultMap.get(String(product.pcode).trim()) || `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`;
-          return {
-            rank: i + 1,
-            pcode: product.pcode,
-            product,
-            reason: `${product.brand} ${product.name}`,
-            oneLiner,
-          };
-        });
-      }
-
-      // Regex fallback
-      const regex = /"pcode"\s*:\s*"([^"]+)"[\s\S]*?"oneLiner"\s*:\s*"((?:\\.|[^"\\])*)"/g;
-      const regexResults: Array<{ pcode: string; oneLiner: string }> = [];
-      let match: RegExpExecArray | null;
-      while ((match = regex.exec(responseText)) !== null) {
-        const pcode = match[1]?.trim();
-        const oneLiner = match[2]?.replace(/\\n/g, ' ').trim();
-        if (pcode && oneLiner) {
-          regexResults.push({ pcode, oneLiner });
-        }
-      }
-
-      if (regexResults.length > 0) {
-        console.warn('[Step2] JSON parse failed; recovered via regex:', regexResults.length);
-        const resultMap = new Map(regexResults.map(r => [String(r.pcode).trim(), r.oneLiner]));
-
-        return selectedProducts.map((product, i) => {
-          const oneLiner = resultMap.get(String(product.pcode).trim()) || `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`;
-          return {
-            rank: i + 1,
-            pcode: product.pcode,
-            product,
-            reason: `${product.brand} ${product.name}`,
-            oneLiner,
-          };
-        });
-      }
-
-      if (parsed) {
-        console.warn('[Step2] LLM response missing results array');
-      }
-    } else {
-      console.warn('[Step2] LLM response missing JSON block', responseText.slice(0, 300));
+      return selectedProducts.map((product, i) => {
+        const summary = summaryMap.get(String(product.pcode).trim());
+        return {
+          rank: i + 1,
+          pcode: product.pcode,
+          product,
+          reason: `${product.brand} ${product.name}`,
+          aiSummary: summary
+            ? {
+                description: summary.description || '',
+                points: (summary.points || []).slice(0, 3),
+              }
+            : undefined,
+        };
+      });
     }
+
+    console.warn('[Step2] ⚠️ AI 요약 파싱 실패');
   } catch (error) {
     console.error('[Step2] LLM error:', error);
   }
@@ -2461,7 +2380,6 @@ ${productInfos}
     pcode: product.pcode,
     product,
     reason: `${product.brand} ${product.name}`,
-    oneLiner: `✨ ${product.brand || ''} ${product.name?.slice(0, 30) || ''}`,
   }));
 }
 
@@ -3062,8 +2980,8 @@ export async function POST(request: NextRequest) {
     const step2StartTime = Date.now();
 
     const parallelResults = await Promise.allSettled([
-      // 🆕 한줄평 생성 (PLP 표시용) - productInfoMap + 온보딩 정보 활용
-      generateDetailedReasons(selectedProducts, enrichedReviews, catName, enrichedCollectedInfo, productInfoMap),
+      // AI 요약 생성 (description + points, filterTags 참고)
+      generateAiSummary(selectedProducts, enrichedReviews, catName, filterTagsResult, enrichedCollectedInfo, productInfoMap),
       // 태그 충족도 평가 (PLP 필터 필수)
       evaluateTagScoresForProducts(
         selectedProducts.map((p: HardCutProduct) => ({ pcode: p.pcode, product: p })),
@@ -3146,7 +3064,7 @@ export async function POST(request: NextRequest) {
       // 해당 상품의 리뷰 목록
       const productReviews = reviews?.[rec.pcode] || [];
 
-      // 🆕 태그 충족도 (LLM 평가 결과)
+      // 태그 충족도 (LLM 평가 결과)
       const tagScores = tagScoresMap[rec.pcode] || {};
 
       // 🔄 장단점 (비교표용)
@@ -3166,8 +3084,6 @@ export async function POST(request: NextRequest) {
         // 🔧 product-analysis API 호환성 (highlights, concerns도 같이 전달)
         highlights: prosCons?.pros || [],
         concerns: prosCons?.cons || [],
-        // 🔧 oneLiner: product-analysis API에서 생성 (fallback은 브랜드+제품명)
-        oneLiner: rec.oneLiner || (rec.product ? `✨ ${rec.product.brand} ${rec.product.name?.slice(0, 30)}` : ''),
       };
     });
 

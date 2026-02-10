@@ -297,12 +297,25 @@ export interface ReviewCrawlStatus {
 // 최종 추천 관련 타입
 // ============================================================================
 
+/** AI 요약 불릿 포인트 (사용자 조건 매칭 이유 + 스펙 태그) */
+export interface AiSummaryPoint {
+  text: string;          // 매칭 이유 설명
+  tags: string[];        // 실제 스펙/기능 태그 칩
+}
+
+/** AI 요약 - 구조화된 제품 요약 (PLP 표시용) */
+export interface AiSummary {
+  description: string;        // 짧은 제품 설명 (2~3문장)
+  points: AiSummaryPoint[];   // 2~3개 매칭 포인트
+}
+
 export interface FinalRecommendation {
   rank: number;
   pcode: string;
   product: HardCutProduct;
   reason: string;                  // 추천 이유 (LLM 생성, 호환성 유지)
-  oneLiner?: string;               // 제품 강점 (한줄 평) - PLP에서 사용
+  oneLiner?: string;               // 제품 강점 (한줄 평) - 하위호환
+  aiSummary?: AiSummary;           // 구조화된 AI 요약 (PLP 표시용)
   personalReason?: string;         // 사용자 맞춤형 추천 이유
   reviewQuotes?: string[];         // 리뷰 인용
   bestFor?: string;                // 이런 분께 추천

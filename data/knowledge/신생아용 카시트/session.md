@@ -1,5 +1,5 @@
-# 세션: 20260210_053911_n0w9
-> 시작: 2026-02-10T05:39:11.107Z
+# 세션: 20260210_105351_bflw
+> 시작: 2026-02-10T10:53:51.739Z
 > 카테고리키: 신생아용 카시트
 > 카테고리: 신생아용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 신생아용 카시트 시장 현황
-- 인사이트: 신생아용 카시트는 신생아부터 약 18개월까지 사용 가능하며, 주로 뒤보기 장착을 하는 카시트입니다. 최근에는 ISOFIX 기능, 회전 기능, 측면 충돌 보호 기능 등이 강화된 제품들이 인기를 얻고 있습니다. 시장은 안전성과 편의성을 중심으로 성장하고 있으며, 다양한 브랜드에서 혁신적인 기술을 선보이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQK9p5CjGl2P6491KAenW5nX0QOzw8PsjjEoh4zWt7weH0qlfk9ndii0cz6v14yF5RiaFpw6JSkfBJvCzsvOXBNggF8_TNLOp1la0Eny7EVgX2siIrd8-HeuXsvNHDa5y-9BSkKApA21fSVwB7EBG2zEZ-UxdNHA6SIdEFfN9G8Q-DNm2q, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEF5sHTCdTdZx0lU8e4Mmh-dgQbOaX4GU_rYRGJpu_aSOCsd_q9UY1o10nfYcmNhUT-Zs_QfEK45EBFwiVKPSGJYnDAF2KREk_AxTEAS7DvMswgijhu-pkP7t5-nETvXGs7zKZWVVfBtrYz8jwQ3Wo9AFAG-MxuZavBqukPsLetVd8kaCQX1q1RSbYbltlw279eHp0BGGuyQEzgc8h9EtUwJR39lyBMeaFjrXS0F-xLyr5I66Zeybbfy9tC3rToGO6Gnl8VbpWoILljUWjy53oQ2EtPmUxbt5ERjMHNMaA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmjv3X0coCZ0KEWe4KZ4T9l3G1TH98-B-Cn6PD8nEZNtYxJEOGIOQSxA6CtYO34wxrHYD1qYUtFVkE78k-rd3F9Ky0U1QUOs6vZT8zQPn4NaDhwu2-VGmHgDVbiiVkuw3rvLLAGlPlz3CQlVi4eWLBrEeWBB-c_pMnyyzqAckHQGIDaW577RM68Cqd
+- 인사이트: 신생아용 카시트는 신생아의 안전과 편안함을 최우선으로 고려하여 설계된 필수 육아용품입니다. 최근 시장에서는 ISOFIX 기능, 회전 기능, 각도 조절 기능 등 안전성과 편의성을 강화한 제품들이 인기를 얻고 있습니다. 또한, 유모차와 호환되는 트래블 시스템을 갖춘 제품들도 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGaxxdtU2EDdwo_qMVWGxBCkbaRkH6-8knREg-8q_9hRpA7vkkW62vcCR7kbqqBemZrvjT0UQp2YTDzzLk97cIQ4r3ECCxPsFG1WgVAK7-z7KzQluOT2brDD8gWWjycpYZRJ008AuAdlzX7f47vDPovraz_G1cazD6BG564nBBbjOL_UV47Ek=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSu5eebiNFOUX0Bib_YVZPzVuW1cX7vKtsDJVsUxYMAXpvCiLil8NsZskfdboEKWhdkR86txCNum8QcoCHYW7fLP9wpeEjIdkK4Jws36rHdInSWYsQDkTGfZBbDS62vg8b_dO9-NteQE2wgtfWZ7nJm4DcRJCLWjsAWgfqPmc3WZ7j_TDr, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC4hwxV5FTQ1RscZMkDTqzj1ZCj1_ldtRuMM6A3j7NYs1cdJJMgQI2ZVc4subWQu7rbSemCSle1XgsI-np8DhyUgfAxXa0Flq4LyGwltryRdc9qhBn2rbNXWrdYPFpaugq_cJzUrpe9kLz1SwDwHYXKta35etDjRQHHMG_bkqaPXNdvLZ2Av0AAmg4LMUeAdnZDPLf94T1aiGSJGSgVkrG5r5AU9GTnmz1Qh119zlPUEIJuviXS-Tn4Xq89mVDccmUQrUJD9nR3bxo69CBdKHBkA_TynEha-xgbHzG2IIm4ifVTnd_fORj
 
 ---
 

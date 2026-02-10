@@ -35,7 +35,6 @@ import { FilterTagBar } from '@/components/knowledge-agent/FilterTagBar';
 import { OnboardingPhase } from '@/components/knowledge-agent/OnboardingPhase';
 import { BabyInfoPhase } from '@/components/knowledge-agent/BabyInfoPhase';
 import { ConditionReportCard, ConditionReportLoading } from '@/components/knowledge-agent/ConditionReportCard';
-import { BasicInfoSummaryCard } from '@/components/knowledge-agent/BasicInfoSummaryCard';
 import { RecommendProcessBottomSheet } from '../../../components/knowledge-agent/RecommendProcessBottomSheet';
 import { InlineFollowUpWrapper, type InlineFollowUpHandle } from '@/components/knowledge-agent/InlineFollowUp';
 import type { InlineFollowUp as InlineFollowUpType } from '@/lib/knowledge-agent/types';
@@ -1111,7 +1110,6 @@ export default function KnowledgeAgentPage() {
   const [questionsGeneratorError, setQuestionsGeneratorError] = useState<string | null>(null);
   const [conditionReport, setConditionReport] = useState<ConditionReport | null>(null);
   const [isConditionReportLoading, setIsConditionReportLoading] = useState(false);
-  const [isAnalysisSummaryShown, setIsAnalysisSummaryShown] = useState(false);
   const [selectedFilterTagIds, setSelectedFilterTagIds] = useState<Set<string>>(new Set());
 
   // 인라인 꼬리질문 상태
@@ -1165,8 +1163,6 @@ export default function KnowledgeAgentPage() {
   const [questionTodos, setQuestionTodos] = useState<QuestionTodo[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<QuestionTodo | null>(null);
   const [collectedInfo, setCollectedInfo] = useState<Record<string, string>>({});
-  // 첫 질문 대기 (분석 요약 카드로 접힌 후 표시)
-  const pendingFirstQuestionRef = useRef<{ question: QuestionTodo; total: number } | null>(null);
   const [_progress, setProgress] = useState({ current: 0, total: 0 });
 
   // Navigation state
@@ -1308,12 +1304,10 @@ export default function KnowledgeAgentPage() {
       return;
     }
     isGeneratingQuestionsRef.current = true;
-    pendingFirstQuestionRef.current = null;
     questionGenerationStartRef.current = Date.now();
     setIsGeneratingQuestions(true);
     setQuestionsGeneratorError(null);
     setPhase('question_generation');
-    setIsAnalysisSummaryShown(false);
 
     // 온보딩 완료 후에만 3단계(맞춤 질문 생성)를 active로 전환
     setAnalysisSteps(prev => prev.map(step => (
@@ -1569,39 +1563,6 @@ export default function KnowledgeAgentPage() {
     setSelectedProduct(product);
   };
 
-  // 분석 요약 카드로 접힐 때 호출 - 대기 중인 첫 질문 표시
-  const handleAnalysisSummaryShow = () => {
-    setIsAnalysisSummaryShown(true);
-    const pending = pendingFirstQuestionRef.current;
-    if (!pending) return;
-
-    const { question: firstQuestion, total } = pending;
-    pendingFirstQuestionRef.current = null; // 중복 방지
-
-    setPhase('questions');
-    const firstQuestionMsgId = `q_${firstQuestion.id}`;
-    // 인기 옵션 추출 (isPopular가 true인 것들의 label)
-    const popularOpts = firstQuestion.options
-      .filter((o: any) => o.isPopular)
-      .map((o: any) => o.label);
-    // 추천 옵션 추출 (isRecommend가 true인 것들의 label)
-    const recommendOpts = firstQuestion.options
-      .filter((o: any) => o.isRecommend)
-      .map((o: any) => o.label);
-    setMessages(prev => [...prev, {
-      id: firstQuestionMsgId,
-      questionId: firstQuestion.id,
-      role: 'assistant',
-      content: firstQuestion.question,
-      options: firstQuestion.options.map((o: any) => o.label),
-      popularOptions: popularOpts.length > 0 ? popularOpts : undefined,
-      recommendOptions: recommendOpts.length > 0 ? recommendOpts : undefined,
-      questionProgress: { current: 1, total },
-      dataSource: firstQuestion.dataSource,
-      typing: true,
-      timestamp: Date.now()
-    }]);
-  };
 
   const [crawledProducts, setCrawledProducts] = useState<CrawledProductPreview[]>([]);
 
@@ -1655,7 +1616,7 @@ export default function KnowledgeAgentPage() {
     appliedRules: Array<{ rule: string; matchedCount: number }>;
   } | null>(null);
   const [isHardcutVisualDone, setIsHardcutVisualDone] = useState(false); // 하드컷팅 결과 (시각화용)
-  const [showListView, setShowListView] = useState(false); // 리스트 뷰 토글 상태 (기본: 비교표)
+  const [showListView, setShowListView] = useState(true); // 리스트 뷰 토글 상태 (기본: 리스트)
 
   // 프로그레스 애니메이션 cleanup 함수 저장용
   const progressAnimationCleanupRef = useRef<(() => void) | null>(null);
@@ -2668,15 +2629,10 @@ export default function KnowledgeAgentPage() {
         startBackgroundExpandCrawl(localProducts);
       }
 
-      // 첫 질문은 분석 요약 카드로 접힌 후 표시 (onSummaryShow 콜백에서 처리)
       if (!deferQuestionFlow && firstQuestion) {
-        pendingFirstQuestionRef.current = {
-          question: firstQuestion,
-          total: questionTodosFromQuestions.length
-        };
-        // handleAnalysisSummaryShow 콜백이 호출되면 첫 질문이 표시됨
+        setPhase('questions');
+        appendFirstQuestionMessage(firstQuestion, questionTodosFromQuestions.length);
       } else if (deferQuestionFlow) {
-        pendingFirstQuestionRef.current = null;
         setMarketAnalysisReady(true);
         setIsInitRunning(false);
         setPhase('onboarding');
@@ -3765,9 +3721,10 @@ export default function KnowledgeAgentPage() {
             id: rec.pcode || rec.product?.pcode,
             pcode: rec.pcode || rec.product?.pcode,
             title: rec.product?.name || rec.product?.title,
-            reasoning: rec.oneLiner || rec.reason,
+            reasoning: rec.reason,
             oneLiner: rec.oneLiner || '',
-            recommendationReason: rec.oneLiner || rec.reason,
+            recommendationReason: rec.reason,
+            aiSummary: rec.aiSummary || undefined,
             highlights: rec.highlights,
             concerns: rec.concerns,
             bestFor: rec.bestFor,
@@ -4152,6 +4109,7 @@ export default function KnowledgeAgentPage() {
               reasoning: rec.reason,
               oneLiner: rec.oneLiner || '',
               recommendationReason: rec.reason,
+              aiSummary: rec.aiSummary || undefined,
               highlights: rec.highlights,
               concerns: rec.concerns,
               bestFor: rec.bestFor,
@@ -5094,9 +5052,19 @@ export default function KnowledgeAgentPage() {
         </header>
 
         {/* 스텝 인디케이터 (5단계) - 로딩/추천 완료/개인화 단계에서는 숨김 */}
-        {phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
-          <StepIndicator currentPhase={phase} parentCategory={parentCategory} />
-        )}
+        <AnimatePresence mode="wait" initial={false}>
+          {phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
+            <motion.div
+              key={`step-indicator-${phase}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <StepIndicator currentPhase={phase} parentCategory={parentCategory} />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* 개인화 단계 - Baby 카테고리에서만 표시 */}
         {/* 메인 플로우 */}
@@ -5105,28 +5073,42 @@ export default function KnowledgeAgentPage() {
           className={`px-4 pt-0 bg-white relative transition-all duration-300 ${phase === 'result' || phase === 'free_chat' ? '' : 'flex-1 min-h-0 overflow-y-auto scrollbar-hide'}`}
           style={{ paddingBottom: '500px', overflowAnchor: phase === 'result' || phase === 'free_chat' ? undefined : 'none' }}
         >
-          {/* 온보딩 Phase */}
-          {phase === 'onboarding' && (
-            <OnboardingPhase
-              categoryName={categoryName}
-              parentCategory={parentCategory}
-              onComplete={handleOnboardingComplete}
-              onBack={() => {
-                // 카테고리 선택으로 돌아가기
-                if (parentCategory === 'baby') {
-                  router.push('/knowledge-agent/baby');
-                } else {
-                  router.push('/knowledge-agent/living');
-                }
-              }}
-              // baby 카테고리도 living과 동일 플로우로 통일 (아기 정보 단계 비활성화)
-              onNeedBabyInfo={undefined}
-              initialSituation={pendingSituation}
-              babyInfo={babyInfo}
-              categoryKey={categoryKey}
-            />
-          )}
-
+          <AnimatePresence mode="wait" initial={false}>
+            {phase === 'onboarding' ? (
+              <motion.div
+                key="phase-onboarding"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <OnboardingPhase
+                  categoryName={categoryName}
+                  parentCategory={parentCategory}
+                  onComplete={handleOnboardingComplete}
+                  onBack={() => {
+                    // 카테고리 선택으로 돌아가기
+                    if (parentCategory === 'baby') {
+                      router.push('/knowledge-agent/baby');
+                    } else {
+                      router.push('/knowledge-agent/living');
+                    }
+                  }}
+                  // baby 카테고리도 living과 동일 플로우로 통일 (아기 정보 단계 비활성화)
+                  onNeedBabyInfo={undefined}
+                  initialSituation={pendingSituation}
+                  babyInfo={babyInfo}
+                  categoryKey={categoryKey}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="phase-main-flow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+              >
           {/* 아기 정보 단계 비활성화: 가전과 동일하게 온보딩만 사용 */}
 
           {phase === 'question_generation' && (
@@ -5158,7 +5140,7 @@ export default function KnowledgeAgentPage() {
           )}
 
           {/* 메인 채팅 플로우 */}
-          {phase !== 'onboarding' && phase !== 'baby_info' && phase !== 'question_generation' && (
+          {phase !== 'baby_info' && phase !== 'question_generation' && (
           <>
           <div className="space-y-4 pt-2">
             {(() => {
@@ -5299,7 +5281,6 @@ export default function KnowledgeAgentPage() {
                 showListView={showListView}
                 setShowListView={setShowListView}
                 pricesData={pricesData}
-                onAnalysisSummaryShow={handleAnalysisSummaryShow}
                 reviewsData={reviewsData}
                 webSearchProgress={webSearchProgress}
                 // 🆕 필터 태그 관련 props
@@ -5317,10 +5298,6 @@ export default function KnowledgeAgentPage() {
                   setIsChatInputHighlighted(true);
                   setTimeout(() => setIsChatInputHighlighted(false), 1500);
                 }}
-                babyInfo={babyInfo}
-                onboardingData={onboardingData}
-                parentCategory={parentCategory}
-                isAnalysisSummaryShown={isAnalysisSummaryShown}
               />
               );
 
@@ -5481,7 +5458,6 @@ export default function KnowledgeAgentPage() {
                     showListView={showListView}
                     setShowListView={setShowListView}
                     pricesData={pricesData}
-                    onAnalysisSummaryShow={handleAnalysisSummaryShow}
                     reviewsData={reviewsData}
                     webSearchProgress={webSearchProgress}
                     selectedFilterTagIds={selectedFilterTagIds}
@@ -5496,10 +5472,6 @@ export default function KnowledgeAgentPage() {
                       setIsChatInputHighlighted(true);
                       setTimeout(() => setIsChatInputHighlighted(false), 1500);
                     }}
-                    babyInfo={babyInfo}
-                    onboardingData={onboardingData}
-                    parentCategory={parentCategory}
-                    isAnalysisSummaryShown={isAnalysisSummaryShown}
                   />
                 </div>
               );
@@ -5705,6 +5677,9 @@ export default function KnowledgeAgentPage() {
           </AnimatePresence>
           </>
           )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </main>
 
         {/* 로딩 단계에서는 하단 채팅바 숨김 */}
@@ -6401,7 +6376,6 @@ function MessageBubble({
   showListView,
   setShowListView,
   pricesData,
-  onAnalysisSummaryShow,
   reviewsData,
   webSearchProgress,
   // 🆕 필터 태그 관련 props
@@ -6416,11 +6390,6 @@ function MessageBubble({
   // 🆕 채팅 입력창 하이라이트용
   chatInputRef,
   onChatInputHighlight,
-  // 기본 정보 반영 완료 카드용
-  babyInfo,
-  onboardingData,
-  parentCategory,
-  isAnalysisSummaryShown,
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
@@ -6445,7 +6414,6 @@ function MessageBubble({
   showListView: boolean;
   setShowListView: (show: boolean) => void;
   pricesData?: Record<string, any>;
-  onAnalysisSummaryShow?: () => void;
   reviewsData?: Record<string, any[]>;
   webSearchProgress?: {
     currentQuery?: string;
@@ -6464,11 +6432,6 @@ function MessageBubble({
   // 🆕 채팅 입력창 하이라이트용
   chatInputRef?: React.RefObject<HTMLTextAreaElement | null>;
   onChatInputHighlight?: () => void;
-  // 기본 정보 반영 완료 카드용
-  babyInfo?: BabyInfo | null;
-  onboardingData?: OnboardingData | null;
-  parentCategory?: 'baby' | 'living';
-  isAnalysisSummaryShown?: boolean;
 }) {
   const isUser = message.role === 'user';
 
@@ -6604,16 +6567,7 @@ function MessageBubble({
             generatedQuestions={message.analysisData.generatedQuestions}
             isComplete={message.analysisData.isComplete}
             summary={message.analysisData.summary}
-            onSummaryShow={onAnalysisSummaryShow}
             webSearchProgress={webSearchProgress}
-          />
-        )}
-
-        {!isUser && message.analysisData && isAnalysisSummaryShown && (
-          <BasicInfoSummaryCard
-            babyInfo={babyInfo}
-            onboardingData={onboardingData}
-            parentCategory={parentCategory}
           />
         )}
 
@@ -6905,50 +6859,13 @@ function MessageBubble({
         )} */}
 
         {!isUser && message.resultProducts && message.resultProducts.length > 0 && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-4">
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-2">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible text-center">
             
               
               {/* 탭 UI - 비교표/리스트 전환 */}
               <div className="flex items-center justify-center gap-1.5 mb-3 w-full">
-                {recommendProcessMeta && (
-                  <button
-                    type="button"
-                    onClick={() => onOpenRecommendProcessBottomSheet?.()}
-                    className="flex-1 min-w-0 h-[36px] px-2 rounded-xl transition-all duration-200 bg-gray-50 border border-gray-100"
-                  >
-                    <span className="text-[14px] font-semibold transition-colors whitespace-nowrap text-gray-400">
-                      추천 과정 보기
-                    </span>
-                  </button>
-                )}
-                <button
-                  onClick={() => {
-                    if (showListView) {
-                      setShowListView(false);
-                      import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
-                        logKAComparisonToggle(
-                          categoryKey || '',
-                          categoryName || '',
-                          true,  // 비교표 표시
-                          message.resultProducts?.length || 0
-                        );
-                      });
-                    }
-                  }}
-                  className={`flex-1 min-w-0 h-[36px] px-2 rounded-xl transition-all duration-200 ${
-                    !showListView
-                      ? 'bg-blue-50 border border-blue-200'
-                      : 'bg-gray-50 border border-gray-100'
-                  }`}
-                >
-                  <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
-                    !showListView ? 'text-blue-500' : 'text-gray-400'
-                  }`}>
-                    비교표로 보기
-                  </span>
-                </button>
                 <button
                   onClick={() => {
                     if (!showListView) {
@@ -6963,39 +6880,59 @@ function MessageBubble({
                       });
                     }
                   }}
-                  className={`flex-1 min-w-0 h-[36px] px-2 rounded-xl transition-all duration-200 ${
+                  className={`flex-1 min-w-0 h-[40px] px-2 rounded-xl transition-all duration-200 ${
                     showListView
                       ? 'bg-blue-50 border border-blue-200'
                       : 'bg-gray-50 border border-gray-100'
                   }`}
                 >
-                  <span className={`text-[14px] font-semibold transition-colors whitespace-nowrap ${
+                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
                     showListView ? 'text-blue-500' : 'text-gray-400'
                   }`}>
-                    리스트로 보기
+                    추천 상품 보기
+                  </span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (showListView) {
+                      setShowListView(false);
+                      import('@/lib/logging/clientLogger').then(({ logKAComparisonToggle }) => {
+                        logKAComparisonToggle(
+                          categoryKey || '',
+                          categoryName || '',
+                          true,  // 비교표 표시
+                          message.resultProducts?.length || 0
+                        );
+                      });
+                    }
+                  }}
+                  className={`flex-1 min-w-0 h-[40px] px-2 rounded-xl transition-all duration-200 ${
+                    !showListView
+                      ? 'bg-blue-50 border border-blue-200'
+                      : 'bg-gray-50 border border-gray-100'
+                  }`}
+                >
+                  <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
+                    !showListView ? 'text-blue-500' : 'text-gray-400'
+                  }`}>
+                    비교표로 보기
                   </span>
                 </button>
               </div>
 
-              {/* AI 상담하기 안내 - 탭 바로 아래 */}
-              <div className="mt-4 mb-2">
-                <span className="text-[14px] text-gray-500">
-                  어떤 제품을 선택할지 고민된다면?{' '}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    // 채팅 입력창 포커스
-                    chatInputRef?.current?.focus();
-                    // 하이라이트 효과
-                    onChatInputHighlight?.();
-                  }}
-                  className="text-[14px] text-blue-500 font-medium hover:text-blue-600 transition-colors inline-flex items-center gap-0.5"
-                >
-                  AI와 상담하기
-                  <CaretRight size={14} weight="bold" />
-                </button>
-              </div>
+              {recommendProcessMeta && (
+                <div className="mt-3 mb-2 text-center">
+                  
+                  <button
+                    type="button"
+                    onClick={() => onOpenRecommendProcessBottomSheet?.()}
+                    className="text-[16px] text-blue-500 font-medium hover:text-blue-600 transition-colors inline-flex items-center gap-0.5"
+                  >
+                    추천 과정 보기
+                    <CaretRight size={14} weight="bold" />
+                  </button>
+                </div>
+              )}
 
               {/* 🆕 필터 태그 바 - 리스트 뷰일 때만 표시 */}
               {filterTags.length > 0 && showListView && (
@@ -7155,103 +7092,142 @@ function MessageBubble({
                           >
                             자세히 보기
                           </button>
-                          {/* <a
-                            href={(pricesData && pricesData[product.pcode]?.lowestLink) || `https://prod.danawa.com/info/?pcode=${product.pcode || product.id}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 h-[40px] rounded-[12px] bg-[#1e2329] text-[14px] font-semibold text-white flex items-center justify-center hover:bg-black transition-colors"
+                          <button
+                            onClick={() => onProductClick(product, 'price')}
+                            className="flex-1 h-[40px] rounded-[12px] bg-[#1e2329] text-[14px] font-semibold text-white hover:bg-black transition-colors"
                           >
-                            최저가 구매하기
-                          </a> */}
+                            최저가 비교하기
+                          </button>
                         </div>
 
-                        {/* 한줄 평 */}
-                        {product.oneLiner && (
-                          <div className="bg-gray-50 rounded-2xl p-3">
-                            <div className="flex items-center justify-between mb-2">
+                        {/* AI 요약 */}
+                        {product.aiSummary && (
+                          <div className="p-1">
+                            {/* 제목 */}
+                            <div className="flex items-center justify-between mb-2.5">
                               <div className="flex items-center gap-1.5">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src="/icons/ic-star.png" alt="" width={16} height={16} />
-                                <span className="text-[15px] font-semibold text-gray-800">
-                                  한줄 평
+                                <img src="/icons/ic-ai.svg" alt="" className="w-[15px] h-[15px]" />
+                                <span className="text-[16px] font-bold leading-[1.4] bg-gradient-to-r from-violet-600 to-indigo-500 bg-clip-text text-transparent">
+                                 추천 이유 요약
                                 </span>
                               </div>
-                              <button
-                                onClick={() => {
-                                  onProductClick(product, 'danawa_reviews');
-                                }}
-                                className="text-[13px] text-gray-400 hover:text-gray-300 font-medium underline transition-colors"
-                              >
-                                리뷰 모두보기
-                              </button>
                             </div>
-                            <p className="text-[14px] text-gray-800 leading-[1.6] font-medium">
-                              {(() => {
-                                // 마크다운 볼드 파싱 (**text**)
-                                const parts = product.oneLiner.split(/(\*\*.*?\*\*)/g);
-                                return parts.map((part: string, index: number) => {
-                                  if (part.startsWith('**') && part.endsWith('**')) {
-                                    return <strong key={index} className="font-bold text-gray-800">{part.slice(2, -2)}</strong>;
-                                  }
-                                  return <span key={index}>{part}</span>;
-                                });
-                              })()}
-                            </p>
+
+                            <div className="ml-[7px] pl-3 border-l-2 border-gray-200">
+                              {/* 설명 */}
+                              <p className="text-[14px] font-medium text-gray-800 leading-[1.4] mb-3">
+                                {product.aiSummary.description}
+                              </p>
+
+                              {/* 매칭 포인트 + 태그 */}
+                              <div className="space-y-2.5">
+                                {product.aiSummary.points?.map((point: { text: string; tags: string[] }, idx: number) => (
+                                  <div key={idx}>
+                                    <p className="text-[14px] text-gray-800 leading-[1.4] font-medium">
+                                      <span className="text-gray-300 mr-1 text-[14px]">•</span>
+                                      {point.text}
+                                      {point.tags && point.tags.length > 0 && (
+                                        <>
+                                          {point.tags.map((tag: string, tagIdx: number) => (
+                                            <span
+                                              key={tagIdx}
+                                              className="inline-block align-middle ml-1.5 mr-1 px-1.5 py-0.5 bg-blue-50 text-blue-600 font-semibold rounded-md text-[13px]"
+                                            >
+                                              {tag}
+                                            </span>
+                                          ))}
+                                        </>
+                                      )}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
                           </div>
                         )}
 
-                        {/* 요약 섹션 */}
-                        <div className="space-y-2.5">
-                          {/* 🆕 조건 충족 태그 뱃지 */}
-                          {(() => {
-                            const tagScores = product.tagScores as Record<string, { score: 'full' | 'partial' | null }> | undefined;
-                            if (!tagScores || filterTags.length === 0) return null;
-
-                            // full 또는 partial인 태그만 표시
-                            const matchedTags = filterTags.filter(tag => {
-                              const scoreData = tagScores[tag.id];
-                              return scoreData?.score === 'full' || scoreData?.score === 'partial';
-                            });
-
-                            if (matchedTags.length === 0) return null;
-
-                            // full(○) 태그를 우선 배열 (좌측에)
-                            const sortedMatchedTags = [...matchedTags].sort((a, b) => {
-                              const aScore = tagScores[a.id]?.score === 'full' ? 0 : 1;
-                              const bScore = tagScores[b.id]?.score === 'full' ? 0 : 1;
-                              return aScore - bScore;
-                            });
-
-                            return (
-                              <div className="flex flex-wrap gap-1.5">
-                                {sortedMatchedTags.map(tag => {
-                                  const scoreData = tagScores[tag.id];
-                                  const isFull = scoreData?.score === 'full';
-                                  const isPartial = scoreData?.score === 'partial';
-                                  const isSelected = selectedFilterTagIds.has(tag.id);
-
-                                  return (
-                                    <span
-                                      key={tag.id}
-                                      className={`inline-flex items-center px-2 py-0.5 rounded-md text-[12px] font-semibold transition-all ${
-                                        isSelected
-                                          ? 'ai-gradient-border text-[#6366F1]'
-                                          : isFull
-                                            ? 'bg-blue-50 text-blue-500'
-                                            : 'bg-blue-50 text-blue-300'
-                                      }`}
-                                    >
-                                      {tag.label}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            );
-                          })()}
-                        </div>
                       </div>
                     );
                   }))}
+
+                  {/* 리스트 뷰 하단에도 비교표 노출 (탭 미인지 사용자 대비) */}
+                  <div className="mt-8 pt-5 space-y-4">
+                    <div className="space-y-2">
+                      <p className="text-[16px] font-medium text-gray-600 text-center mt-2 mb-4">
+                        상품 3개를 선택해서 비교해보세요
+                      </p>
+                      <div className="flex gap-1.5 w-full">
+                        {message.resultProducts.map((p: any) => {
+                          const pcode = p.pcode || p.id;
+                          const isSelected = selectedComparisonPcodes.has(pcode);
+                          const title = p.name || p.title || '';
+
+                          return (
+                            <button
+                              key={`list-compare-${pcode}`}
+                              onClick={() => toggleComparisonProduct(pcode)}
+                              className={`flex-1 min-w-0 flex flex-col items-center gap-1 p-1.5 rounded-xl transition-all mb-1 ${
+                                isSelected
+                                  ? 'bg-blue-50 ring-2 ring-blue-500'
+                                  : 'bg-gray-50 hover:bg-gray-100'
+                              }`}
+                            >
+                              <div className="relative w-[52px] h-[52px]">
+                                {p.thumbnail ? (
+                                  <img
+                                    src={p.thumbnail}
+                                    alt={title}
+                                    className="w-full h-full object-cover rounded-lg"
+                                  />
+                                ) : (
+                                  <div className="w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                                    <span className="text-[10px] text-gray-400">N/A</span>
+                                  </div>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <ProductComparisonGrid
+                      products={(message.resultProducts || [])
+                        .filter((p: any) => selectedComparisonPcodes.has(p.pcode || p.id))
+                        .map((p: any) => {
+                          const originalRank = (message.resultProducts || []).findIndex((product: any) =>
+                            (product.pcode || product.id) === (p.pcode || p.id)
+                          ) + 1;
+
+                          const cachedPrice = pricesData?.[p.pcode || p.id];
+                          const danawaPrice = p.danawaPrice;
+                          const resolvedPrice = cachedPrice?.lowestPrice || (danawaPrice?.lowest_price && danawaPrice.lowest_price > 0 ? danawaPrice.lowest_price : p.price);
+
+                          return {
+                            pcode: p.pcode || p.id,
+                            name: p.name || p.title,
+                            brand: p.brand || null,
+                            price: resolvedPrice || null,
+                            thumbnail: p.thumbnail || null,
+                            raw: p,
+                            rating: p.rating || p.averageRating || null,
+                            reviewCount: p.reviewCount || null,
+                            specs: p.specs || p.spec || {},
+                            prosFromReviews: p.prosFromReviews || [],
+                            consFromReviews: p.consFromReviews || [],
+                            oneLiner: p.oneLiner || '',
+                            productUrl: p.productUrl || '',
+                            tagScores: p.tagScores || {},
+                            rank: p.rank || originalRank
+                          };
+                        })}
+                      categoryKey={categoryKey || ''}
+                      categoryName={categoryName}
+                      filterTags={filterTags}
+                      onProductClick={onProductClick}
+                      totalQuestionsCount={totalQuestionsCount}
+                    />
+                  </div>
                 </motion.div>
               ) : (
                 <motion.div

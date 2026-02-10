@@ -1,14 +1,14 @@
-# 세션: 20260210_073732_8veu
-> 시작: 2026-02-10T07:37:32.295Z
-> 카테고리키: 주니어용
+# 세션: 20260210_110154_780u
+> 시작: 2026-02-10T11:01:54.730Z
+> 카테고리키: 주니어용 카시트
 > 카테고리: 주니어용 카시트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 주니어용 카시트 시장 현황
-- 인사이트: 주니어용 카시트는 만 4-12세 아동을 대상으로 하며, 약 15kg부터 36kg까지 사용할 수 있어 가장 오랜 기간 사용되는 카시트입니다. 안전 인증(KC, R44, R129 등)을 받은 제품을 선택하는 것이 중요하며, 아이의 성장 발달에 맞춰 올바른 자세를 유지하고 안전벨트가 신체에 잘 맞도록 도와주는 역할을 합니다. 최근에는 측면 충돌 보호 기능 강화, 통기성 좋은 소재 사용, 세탁 편의성 증대 등 아이의 편안함과 부모의 사용 편의성을 높인 제품들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrWxnbwTXGPj7Bz001rZzhKSZgOZKfJOT4CMv9HDTlbao6OoEZgCAon4-qYOaaOwp17vDBkHd0FwxpbOBgBYy_Xj5pkabGKT76kzJqF9ivE4l0uaZieVQviE2jNgwOPGLiSihe_ua6xNN1hy0ujamZktoN4ZCGQagz-LjY5HZoAsWNpTiFsPSYGYbmUBkKiZoTd0f0tzQDumxKNMvAu814Pc1qgeLL7hw1FxdMi1BD178lsmcbQ1Iys-SNmx6XC3paVMUbsaA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmtF9dfrVvcArnUJDPb8q4OWhfA8vlpdejjAB_xirqusSrknKy99YCkvHgbwoTbyTO6vhkze_hkYyAHfNNgC0rwojryIxUsbNXltiVFHApfww5b2CEKyEPSWDgk_za1CwGwTKRz_G0nO-V_2FZpZ2XdCmm17EF8iiKwxmHrvm3a7tuvctMFu2fbShFj_IbBAVoWGN0k1Hp8Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsyO1W1ZbAmbUuu4BKKVipnhMlKVj9DQE9eC6z6lQZHFwElku5AGmQ5gm0BiAGDodr6F4MumHCGS7Ck-wDYdYOUXfWyR-k0V5sBxqxuvhwlOwGYWWj5hLl-jCuOV8hjSCZoCzpx7hXxW7jBWq8JIIf9g0Kb2E8aGcpmHWsbLsx78qcJjuWgBCi_Al8EIJjJMkB
+- 인사이트: 주니어용 카시트는 만 4-12세, 신체 사이즈 15kg/90cm 이상 아동을 대상으로 하며, 가장 오랜 기간 사용 가능한 카시트입니다. 안전벨트가 아이에게 맞지 않아 발생하는 위험을 줄여주며, 올바른 착용 시 사고 발생 시 아이를 보호하는 중요한 역할을 합니다. 최근에는 안전성과 더불어 통풍, 세척 편의성 등 사용 편의성을 높인 제품들이 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpC9j2O-wCdI61rWnVOewggKRK2ZMNxAKNECL-FfUt4nI0FYoCbBcN4Wz-L64MHiZ3K1bDmU9ztIukj79_2NzxtNt3kxWsKnGPss26_SKUJavglzmdZMQIxxd_EZA77ZUPn0lHAt3WBBzUIN7iCLKy-6GyWSdndVGRjL-CbHVpjQYvjiCD9i1V6i16CiGmWlFBl1123sM7j7qIAuxAAdX1OfPhDRvGb5y9ANzLEkMgL91bJEaEnODVffYf9UoOy4eTETEkDA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLAy3Ddjp2f-m4ROh2DIVuyJJzWxesw3yGe2_xEf4L3Ka0HGY2QwmERVL9tLcmh9_yaMNBiBmOfKXAUBoLrStkCABUSWyi8InOoF3bGpPA-ZPQ6eQM_BLzgsDD2nk3EOHnB1leHldPdfBZ0sYstSqWXHSLYpXQqfIO21wwoJLGUcWZm_A7cthLmHSYns4wvbQ2pL42sSiy, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEawFB3NYwWsrZKbX89suf164LNxr6dLxz8PLJOuJlLixGplCARkzg_npYsuKyJ4Yr99zEhltwem3VQPCCy3G-GTlCJ_G3e29XKAWeASLmhIH-PuTyq8zxjco9Hyf3ZtmpHSfshIymSlc-A5GL8pJxS4-8pBH5cApDgEate0qvMOPbx9coSq-aULPkRi2RExFU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGFm5pBgM1mADPq6aIjyX44kD-oA-7DZpCv1goJ53RRI6y3mqt5KmVXrJa28lCF4O2TVNlgYwU4DYWY4ctD_Rv8omjnMoK8pJ0Ucf56R4xp6Ke8RvAiUPFc3aXZjgmlNneBtT9_IFgUHXnvhKEL_IMZoJrRdaQ50izKtkITWg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFA0tggw47kv7Fefu-hZ5h2kW7ld4ljuIl0ZdS31tViARHHqAlGc9RjyWp1IjE7Qg08LHNN_4oZcb0HU3a_f79ofhWgngjInQtXfSV-OjKLGuGVD0qmsb8Br4c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEcSU_5GMYQskH0hHJkio94VUUUxqYu0IsCRbx9EcbErFh2yyw_F6QISfUUWkF6MvO3Ii9xWsMKp9YYX9t0HkWMOYG8jtT_58XDvuicHZQhAwPLYac6Xq8myjmhC6BG3mhNiT3VxDmbaD-JPB2DmIZ42NfHYq0evpJQm51FPPAp064HHkcYrXrwPjJAvoCBloeqP990vPC4lM7BX4RIysNCwNvowUGgF8THUiUBg1Smob1oEp8bc_0nkGFAyIQj0fAHs6Pbkyo9OTqiddm44EpcK9QpJumWeoyw_Tnk7liYCVL0a8_Rwl4dnx9EqlrzWxep3tyG96FJLMbwzRGGw8mlCZBGrFx7Uk2zZ_Uwz62Ks-QJ8WuEm_q6Vidit3lz-YWFySQPb5MaDmMFPQ6VvQzw67Wl6y3gbEgX6LuO6BnPePQ_UBZw_AQ4k6XAvTm6AyA=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 차량 교체하시면서 카시트 교체를 고려 중이시군요! 혹시 어떤 점을 가장 중요하게 생각하시나요? | 안전 기능, 편의 기능 |
-| 카시트 선택 시 가장 중요하게 생각하시는 안전 기능은 무엇인가요? | 안전벨트 위치 고정 시스템 |
-| 아이가 카시트에 앉았을 때 편안함을 느끼게 해주는 요소 중 가장 중요하게 생각하시는 것은 무엇인가요? | 통기성 좋은 소재 |
-| 카시트 사용 및 관리 시 어떤 편의 기능이 가장 중요하신가요? | 간편한 설치 (ISOFIX) |
-| 예산은 어느 정도로 생각하세요? (평균 약 28만원, 15만원대 이하~36만원대가 가장 많아요) | 15만원 ~ 36만원 |
 
 ---
 
