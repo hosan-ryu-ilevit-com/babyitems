@@ -169,17 +169,12 @@ export function ProductComparisonGrid({
   const isEmpty = (v: any) =>
     v === null || v === undefined || v === '' || v === '-' || v === '정보없음' || String(v).toLowerCase() === 'null';
 
-  // **...** 를 <strong>...</strong> 으로 변환
-  const renderFormattedText = (text: string) => {
-    if (!text) return null;
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, i) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={i} className="font-bold text-gray-900">{part.slice(2, -2)}</strong>;
-      }
-      return part;
-    });
+  // **키워드** 에서 키워드만 추출
+  const extractKeyword = (text: string): string => {
+    const match = text.match(/\*\*(.*?)\*\*/);
+    return match ? match[1] : text;
   };
+
 
   if (displayProducts.length < 2) return null;
 
@@ -315,7 +310,7 @@ export function ProductComparisonGrid({
         {/* 별점 + 장단점 섹션 */}
         <div className="mt-3 pt-2">
           <div className="px-4 mt-4 mb-2 flex items-center gap-4">
-            <h4 className="text-[22px] font-bold text-gray-900">리뷰 장단점 요약</h4>
+            <h4 className="text-[22px] font-bold text-gray-900">AI 리뷰 요약</h4>
             {!hasProsConsData && (
               <span className="text-[12px] text-gray-400">
                 상세 정보/리뷰 분석 중 <span className="text-blue-500 font-medium">{prosConsProgress}%</span>
@@ -358,29 +353,35 @@ export function ProductComparisonGrid({
                   </svg>
                 </button>
 
-                {/* 장점 - full 표시 */}
+                {/* 장점 - 키워드 칩 */}
                 {(product.prosFromReviews && product.prosFromReviews.length > 0) && (
                   <div className="mb-2">
-                    <div className="space-y-1.5">
-                      {product.prosFromReviews.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="flex items-start gap-1 text-[13px] text-gray-700 leading-snug">
-                          <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-green-400" />
-                          <span>{renderFormattedText(pro)}</span>
-                        </div>
+                    <div className="flex flex-wrap gap-1">
+                      {product.prosFromReviews.slice(0, 4).map((pro, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-50 text-[12px] text-green-700 font-medium"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-green-400 shrink-0" />
+                          {extractKeyword(pro)}
+                        </span>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* 단점 - full 표시 */}
+                {/* 단점 - 키워드 칩 */}
                 {(product.consFromReviews && product.consFromReviews.length > 0) && (
                   <div>
-                    <div className="space-y-1.5">
+                    <div className="flex flex-wrap gap-1">
                       {product.consFromReviews.slice(0, 2).map((con, idx) => (
-                        <div key={idx} className="flex items-start gap-1 text-[13px] text-gray-500 leading-snug">
-                          <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-red-400" />
-                          <span>{renderFormattedText(con)}</span>
-                        </div>
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-50 text-[12px] text-red-500 font-medium"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-red-400 shrink-0" />
+                          {extractKeyword(con)}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -570,6 +571,7 @@ export function ProductComparisonGrid({
           display: none;
         }
       `}</style>
+
     </motion.div>
   );
 }

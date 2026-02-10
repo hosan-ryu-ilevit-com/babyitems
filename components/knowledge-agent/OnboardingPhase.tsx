@@ -743,8 +743,8 @@ export function OnboardingPhase({
 
       {isBottomNavStep && (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[80]">
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent z-0 pointer-events-none" />
-          <div className="relative z-10 flex gap-3 justify-between bg-white rounded-[12px] p-2">
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent z-0 pointer-events-none" />
+          <div className="relative z-10 flex gap-3 justify-between bg-transparent rounded-[12px] p-2">
             {step === 'situation' && !onBack ? (
               <div />
             ) : (

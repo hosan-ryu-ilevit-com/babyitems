@@ -179,6 +179,12 @@ export function FinalRecommendLoadingView({
 
   const maxVisible = Math.max(MIN_VISIBLE_THUMBNAILS, Math.min(MAX_THUMBNAILS, thumbnailPool.length));
   const isBrandPromptActive = showBrandPreferencePrompt && brandOptions.length > 0;
+  const hasFinalTop5Signal = useMemo(
+    () => thumbnailPool.some((thumb) => Number(thumb.preScore || 0) >= 190),
+    [thumbnailPool]
+  );
+  // complete 신호 직전까지는 최소 8개를 유지해 "갑작스런 5개 교체" 체감을 줄인다.
+  const minVisibleBeforeFinal = hasFinalTop5Signal ? MIN_VISIBLE_THUMBNAILS : 8;
   const [frozenProgress, setFrozenProgress] = useState<number | null>(null);
 
   useEffect(() => {
@@ -196,10 +202,10 @@ export function FinalRecommendLoadingView({
   const targetVisibleCount = useMemo(() => {
     const ratio = Math.max(0, Math.min(1, effectiveProgress / 100));
     return Math.max(
-      MIN_VISIBLE_THUMBNAILS,
-      Math.round(maxVisible - (maxVisible - MIN_VISIBLE_THUMBNAILS) * ratio)
+      minVisibleBeforeFinal,
+      Math.round(maxVisible - (maxVisible - minVisibleBeforeFinal) * ratio)
     );
-  }, [maxVisible, effectiveProgress]);
+  }, [maxVisible, effectiveProgress, minVisibleBeforeFinal]);
 
   const [visibleThumbCount, setVisibleThumbCount] = useState(maxVisible);
 
@@ -223,25 +229,37 @@ export function FinalRecommendLoadingView({
   }, [targetVisibleCount, visibleThumbCount]);
 
   useEffect(() => {
-    if (effectiveProgress >= 99 && visibleThumbCount !== MIN_VISIBLE_THUMBNAILS) {
+    if (hasFinalTop5Signal && effectiveProgress >= 99 && visibleThumbCount !== MIN_VISIBLE_THUMBNAILS) {
       setVisibleThumbCount(MIN_VISIBLE_THUMBNAILS);
     }
-  }, [effectiveProgress, visibleThumbCount]);
+  }, [effectiveProgress, visibleThumbCount, hasFinalTop5Signal]);
 
   const visibleByScore = useMemo(
     () => [...thumbnailPool].sort((a, b) => (b.preScore || 0) - (a.preScore || 0)).slice(0, visibleThumbCount),
     [thumbnailPool, visibleThumbCount]
   );
   const [finalFiveLock, setFinalFiveLock] = useState<string[]>([]);
+  const topFiveIds = useMemo(
+    () => visibleByScore.slice(0, 5).map((thumb) => String(thumb.id || thumb.thumbnail)),
+    [visibleByScore]
+  );
   useEffect(() => {
-    if (effectiveProgress >= 99 && finalFiveLock.length === 0 && visibleByScore.length >= 5) {
-      setFinalFiveLock(visibleByScore.slice(0, 5).map((thumb) => String(thumb.id || thumb.thumbnail)));
+    if (effectiveProgress < 99 || !hasFinalTop5Signal) {
+      if (finalFiveLock.length > 0) setFinalFiveLock([]);
       return;
     }
-    if (effectiveProgress < 99 && finalFiveLock.length > 0) {
-      setFinalFiveLock([]);
-    }
-  }, [effectiveProgress, finalFiveLock.length, visibleByScore]);
+    if (topFiveIds.length < 5) return;
+
+    setFinalFiveLock((prev) => {
+      if (
+        prev.length === topFiveIds.length &&
+        prev.every((id, idx) => id === topFiveIds[idx])
+      ) {
+        return prev;
+      }
+      return topFiveIds;
+    });
+  }, [effectiveProgress, finalFiveLock.length, topFiveIds, hasFinalTop5Signal]);
 
   const lockedVisibleByScore = useMemo(() => {
     if (finalFiveLock.length !== 5) return visibleByScore;

@@ -1271,6 +1271,7 @@ async function generateBudgetQuestion(
 - premium: 프리미엄 라인
 - description: 해당 가격대 제품의 특징 (간결하게)
 - isPopular: 가장 많이 선택되는 가격대 1개에만 true (보통 mid)
+- ⛔ "상관없어요", "건너뛰기", "크게 신경 쓰지 않아요", "신경 안 써요" 같은 회피성 옵션 생성 금지 (해당 옵션은 시스템이 별도로 추가함)
 
 ## 출력 JSON 형식
 {
@@ -1294,11 +1295,12 @@ JSON만 출력하세요:`;
         options: Array<{ value: string; label: string; description: string; isPopular?: boolean }>
       };
       
-      if (parsed.options && parsed.options.length >= 2) {
+      const sanitizedParsedOptions = (parsed.options || []).filter(o => !isAvoidanceOptionLabel(o.label));
+      if (sanitizedParsedOptions && sanitizedParsedOptions.length >= 2) {
         console.log(`[Step3.6] Generated budget question with LLM-enhanced descriptions`);
         // '상관없어요' 옵션 추가 (스킵 가능하도록)
         const optionsWithSkip = [
-          ...parsed.options,
+          ...sanitizedParsedOptions,
           { value: 'skip', label: '상관없어요', description: '예산에 상관없이 추천받을게요' }
         ];
         return {
@@ -1350,6 +1352,105 @@ function generateAvoidNegativesQuestion(): QuestionTodo {
     completed: false,
     dynamicOptions: true,  // 동적 옵션 필요 플래그
   } as QuestionTodo & { dynamicOptions: boolean };
+}
+
+/**
+ * 온보딩 질문 옵션 후처리:
+ * - label에 소괄호 설명이 없고 description이 있으면 자동 보강
+ * - isPopular 최대 2개, isRecommend 최대 1개로 제한
+ */
+function normalizeOnboardingQuestion(question: QuestionTodo): QuestionTodo {
+  let popularCount = 0;
+  let recommendCount = 0;
+
+  const options = question.options.map((opt, index) => {
+    const rawLabel = (opt.label || '').trim();
+    const description = (opt.description || '').trim();
+    const hasParenthetical = /\([^()]+\)/.test(rawLabel);
+
+    let label = rawLabel || `옵션 ${index + 1}`;
+    if (!hasParenthetical && description) {
+      const firstSentence = description.split(/[.!?]/)[0]?.trim() || description;
+      const shortHint = firstSentence.length > 24 ? `${firstSentence.slice(0, 24).trim()}...` : firstSentence;
+      if (shortHint) {
+        label = `${label} (${shortHint})`;
+      }
+    }
+
+    let isPopular = !!opt.isPopular;
+    if (isPopular) {
+      popularCount++;
+      if (popularCount > 2) isPopular = false;
+    }
+
+    let isRecommend = !!opt.isRecommend;
+    if (isRecommend) {
+      recommendCount++;
+      if (recommendCount > 1) isRecommend = false;
+    }
+
+    return {
+      ...opt,
+      value: opt.value || `opt${index + 1}`,
+      label,
+      isPopular: isPopular || undefined,
+      isRecommend: isRecommend || undefined,
+    };
+  });
+
+  return {
+    ...question,
+    options,
+  };
+}
+
+/**
+ * 회피성/비-MECE 옵션 판별
+ * - "상관없어요"는 시스템이 별도로 붙이므로 생성 옵션에서 금지
+ */
+function isAvoidanceOptionLabel(label: string): boolean {
+  const normalized = (label || '').replace(/\s+/g, '');
+  if (!normalized) return false;
+
+  const bannedTokens = [
+    '상관없',
+    '건너뛰',
+    '둘다',
+    '모두',
+    '기타',
+    '직접입력',
+    '잘모르겠',
+    '아무거나',
+    '다괜찮',
+    '별로안중요',
+    '둘다좋아요',
+    '둘다중요',
+    '크게신경쓰지않',
+    '신경쓰지않',
+    '신경안써',
+    '중요하지않',
+  ];
+
+  return bannedTokens.some(token => normalized.includes(token));
+}
+
+/**
+ * 생성된 질문 옵션에서 회피성 옵션 제거 (MECE 강제)
+ */
+function sanitizeQuestionOptions(question: QuestionTodo): QuestionTodo {
+  if (!question.options?.length) return question;
+  if ((question as any).dynamicOptions) return question;
+
+  const filteredOptions = question.options.filter(opt => !isAvoidanceOptionLabel(opt.label));
+  if (filteredOptions.length === question.options.length) return question;
+
+  const removedCount = question.options.length - filteredOptions.length;
+  console.log(`[Step3] ⚠️ Removed ${removedCount} non-MECE option(s) from "${question.id}"`);
+
+  return {
+    ...question,
+    options: filteredOptions,
+  };
 }
 
 /**
@@ -1448,12 +1549,21 @@ ${onboardingText}
 3. **옵션 설계 (3-4개)**
    - 온보딩 정보와 직접 연관된 구체적인 선택지
    - 모든 옵션에 소괄호 설명 필수. ex: ISOFIX (국제 표준 카시트 안전장치 인증)
-   - **⛔ "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "다 괜찮아요", "별로 안 중요해요" 등 회피성 옵션 절대 생성 금지** (복수선택 가능 + '상관없어요'는 시스템이 자동 추가함)
+   - **⛔ "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "다 괜찮아요", "별로 안 중요해요", "크게 신경 쓰지 않아요", "신경 안 써요", "중요하지 않아요" 등 회피성 옵션 절대 생성 금지** (복수선택 가능 + '상관없어요'는 시스템이 자동 추가함)
 
-4. **질문 형태**
+4. **인기 옵션 표시 (isPopular)**
+   - 시장 트렌드/일반 구매 패턴을 근거로 많이 선택될 옵션에 \`isPopular: true\`를 표시하세요.
+   - 한 질문에서 **0~2개만** 허용 (3개 이상 절대 금지)
+
+5. **개인화 추천 옵션 표시 (isRecommend)**
+   - 온보딩 정보(교체 사유/니즈/상황)에 가장 잘 맞는 옵션에 \`isRecommend: true\`를 표시하세요.
+   - 한 질문에서 **0~1개만** 허용 (2개 이상 절대 금지)
+   - isPopular와 isRecommend는 별개입니다 (둘 다 true 가능)
+
+6. **질문 형태**
    - 자연스럽고 친근한 말투
    - 온보딩에서 언급한 키워드를 그대로 활용
-   - 되도록이면 1문장으로 간결하게 
+   - 반드시 1문장으로 간결하게 
 
 ## 출력 형식
 단일 질문 객체만 출력 (배열 아님):
@@ -1462,8 +1572,8 @@ ${onboardingText}
   "id": "onboarding_1",
   "question": "질문 내용 (온보딩 키워드 포함)",
   "options": [
-    {"value": "opt1", "label": "선택지1 (구체적 설명)", "description": "부가 설명"},
-    {"value": "opt2", "label": "선택지2 (구체적 설명)", "description": "부가 설명"},
+    {"value": "opt1", "label": "선택지1 (구체적 설명)", "description": "부가 설명", "isRecommend": true},
+    {"value": "opt2", "label": "선택지2 (구체적 설명)", "description": "부가 설명", "isPopular": true},
     {"value": "opt3", "label": "선택지3 (구체적 설명)", "description": "부가 설명"}
   ],
   "type": "single",
@@ -1506,6 +1616,13 @@ ${onboardingText}
     question.priority = 0; // 가장 높은 우선순위
     question.dataSource = '온보딩 기반';
     question.completed = false;
+    question = normalizeOnboardingQuestion(question);
+    question = sanitizeQuestionOptions(question);
+
+    if (question.options.length < 2) {
+      console.log('[Step3.5] Onboarding question lost too many options after sanitize, skipping');
+      return null;
+    }
 
     console.log(`[Step3.5] ✅ Generated onboarding question: ${question.question}`);
     return question;
@@ -2168,7 +2285,7 @@ ${contextParts.join('\n')}
 당신의 목표는 방대한 정보를 나열하는 것이 아니라, **사용자가 가장 적은 문답으로 최적의 제품군으로 좁혀갈 수 있도록 돕는 것**입니다.
 
 사용자는 제품을 탐색(Search)하는 것이 아니라, 당신의 제안을 승인(Approve)하고 싶어 합니다.
-제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 2~3개**를 JSON 배열로 생성하세요.
+제공된 [시장 데이터]를 분석하여, 구매 결정에 가장 결정적인 영향을 미치는 **핵심 질문 3~4개**를 JSON 배열로 생성하세요.
 
 ⚠️ **중요: 예산 질문과 "피하고 싶은 단점" 질문은 별도로 생성되므로, 여기서는 생성하지 마세요!**
 ${personalizationSection}${userContextSection}${onboardingQuestionSection}
@@ -2189,7 +2306,7 @@ ${personalizationSection}${userContextSection}${onboardingQuestionSection}
 2. **결정적 요인 식별:** 상위 제품들의 스펙과 필터 정보를 대조하여, 제품이 가장 크게 갈리는 기준(Factor)을 찾으세요. (예: 가습기의 가열식 vs 초음파식)
 3. **트렌드 반영:** '웹 트렌드'를 참고하여 사람들이 왜 그 옵션을 고민하는지 파악하고 \`reason\` 필드에 반영하세요. 단순한 사실 전달이 아닌, **"선택의 가이드"**가 되어야 합니다.
 4. **사용자 언어:** 기술 용어보다는 사용자가 얻을 **효익(Benefit)이나 상황(Context)** 중심으로 질문하세요.
-5. **옵션 설계:** 선택지는 3~4개로 제한하되, 서로 겹치지 않아야 합니다(MECE). **⛔ "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "다 괜찮아요", "별로 안 중요해요" 등 회피성 옵션 절대 생성 금지** (복수선택 가능 + '상관없어요'는 시스템이 자동 추가함)
+5. **옵션 설계:** 선택지는 3~5개로 제한하되, 서로 겹치지 않아야 합니다(MECE). **⛔ "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "다 괜찮아요", "별로 안 중요해요", "둘다 중요해요", "크게 신경 쓰지 않아요", "신경 안 써요", "중요하지 않아요" 등 회피성 옵션 절대 생성 금지** (복수선택 가능 + '상관없어요'는 시스템이 자동 추가함)
    - **[MUST]⭐⭐ 소괄호 부가설명 필수 (매우 중요!)[MUST]:**
      * **원칙: 모든 옵션에 소괄호 안에 친절한 부가설명을 추가하세요.** 디테일하고 친절한 가이드처럼 작성해주세요.
      * **일반인이 바로 이해하기 어려운 단어는 반드시 설명 추가** (전문 용어뿐만 아니라 업계 용어, 기술 용어, 생소한 단어 모두 포함)
@@ -2514,6 +2631,10 @@ ${personalizationSection}${userContextSection}${onboardingQuestionSection}
   }
 
   // 맞춤질문 생성 실패 시 fallback
+  customQuestions = customQuestions
+    .map(q => sanitizeQuestionOptions(q))
+    .filter(q => q.options.length >= 2);
+
   if (customQuestions.length === 0) {
     customQuestions = getDefaultQuestions(categoryName, products, trendAnalysis);
   }

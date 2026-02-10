@@ -1,5 +1,5 @@
-# 세션: 20260210_064226_4con
-> 시작: 2026-02-10T06:42:26.293Z
+# 세션: 20260210_124606_39qg
+> 시작: 2026-02-10T12:46:06.293Z
 > 카테고리키: 기계식키보드
 > 카테고리: 기계식키보드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기계식 키보드 시장 현황
-- 인사이트: 기계식 키보드 시장은 게이머와 전문가들 사이에서 높은 인기를 바탕으로 꾸준히 성장하고 있습니다. 특히 최근에는 일반 사용자들에게도 그 매력이 알려지면서 시장 규모가 더욱 확대되고 있습니다. 다양한 스위치 종류와 커스터마이징 옵션은 사용자들에게 개인화된 경험을 제공하며, 이는 시장 성장의 주요 동력으로 작용하고 있습니다. 2024년 기준 약 194억 달러 규모로 추산되며, 향후에도 지속적인 성장이 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFv4z9s9ivNE9EpFxHDy9zh2DWLcqX4xipgTQCkPjBB0zUEZ-VDz_prVGuXjtCdeFwJe6Uq_GUSWPy4IxrOUfzyRS79m4BkaTJYXzYicjEpm7kIJHLy3FBhdVJB7jbACCDaQOEUsg2mODX1rkLzxS5WWo1RBVAwIzi_Cv_0o2w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSt75xM5iQd4zQXOg1f2F2ebLSTfq1yrKOEK3yjf5qj3Kx_kQOcllDchFELGPnL6cmvoe_2tm7esNNLqf8BYtiw6S_G7yosGeaFCVgOVGiAYc_y42weCefDNsNSYHfLBoUzZj8r1qVAJNblu520oQBY7wG7zVWZw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGOEvCAzHujZBWeruKWGfQdPC3YvQvOkGWB1bmomX9_DXkp5ai4gcGFVMsyx8pGhH6TzkLcZhLLkt8dmCgl7mhAZZZWKmOttD6bQQFzuBRts8W0YEIHsWyeEBg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdWhTGtxOgtLWCRUFpSzM4qgBstWD2fhCS8ZEjtCHzt_2ewjpSglNUarPrT_RXZpdM-y3urPTzr-CM4pRg6c0wYV5N7R3ZqU4jDRQ5za2RivxcmvwsBCXk-ptIutLAGI801CaUpM-7Zp9zR08j6P21o8YBQTgK4kgJYcQAgg9sybvc9cc3ph4Z-SqbYQhKeb3J1KV6cCejX2XHt28UcSasQu1v29gM4To=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7B8cLRzohEXfDa750ah-yv-6jaIrh_YXc8_sBudlCEkEnlSys1LbnnuruSFRwgnLewrZgU3WIO4hoAMImKH9Ltf5StHVh6eYXuMc6B9vFMRVr4Ant59xb4QJYyXrnAzbBZLx47L4w6mdX8WDdauiVInNu5rFm5WrdNGmYqpk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZGlEAjt99TNLKpKgwxTNYqs2JeddxL-nOMZKiUbwMc0GXz69JB77pF8OK1QJrG-Z0pM2VifHBYN7V6726pOlIEiACTDh9UNHq8lFVDtpZy0yFKhcjG18v1wo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6xpDbNkNLwqNHA9XwEJc6tsn0bnNpT-449z6OVvhKvwN8kJ1inzPmWNyha5dZ3tSLkE018-KwQwOEk8nmVZQaGFR0gvuX81OSb2eJsdy50UrwAh4TpnntlKoOthhXKtYMUKFGvHlsJWVWCLtvY5OzmGfK2U2QaoxHc-2UabMOoKUVKuaP5CApUof1Gh4vytxSZFwuJFuVYZ36ZneFRX-ZhVrbqnv8lb3afM2RYDA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHZvZvLxhSEwhMqWEjQ0VzeD2b8m-p3R0QgOocnqXUjNYdoE2tEbWj6EcoKL6w-8YrHKF4VvjhsGiyHm_k-TP3QXqIZunVx-UbILCiJrUeQnAVpIy1A-mdJq3_CS2TAtYoplsysUu0K4dHuddKaK7Mx0FWZ5P9ljcC2TSZPuocFtDu9MVIuLuk=
+- 인사이트: 기계식 키보드 시장은 게이밍 및 전문가용 수요 증가에 힘입어 지속적으로 성장하고 있으며, 특히 무선 기능과 커스터마이징 옵션이 주목받고 있습니다. 소비자들은 키감, 내구성, 연결 안정성을 중요하게 고려하며, 가성비와 사용성 향상에 대한 요구도 높습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7EFkr75Bt3yaMY9pKNHbRcvU1FgCuDtVurxBvsbtfOI3VHYq2sgSb3Zx2yQMsXVpjFRQmTi1uQJn-jc37eQ-_iP6EkGUZW4NrJekel_P22j0s5qffT0er3EPzZ-yDP6DKTzUnoK9KCeNan_616mDiDdftKfpaV2PmBo4JTpRsYeohppqT9NFMiDp43NaiNAhSsvYPOUl2h1l9RM4H5iDCi_g8J9ElPjvwMA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH3B7yKFWPkBscpPs_kg6Od7plQdA0uQ71ekcwIENzF2GUOR_20dHNOF2Wt9X4alu6D29sJREDPj5zvM0cshwvkT2JHMlLY5TU-7gYtKocn6oHK9-nBklkRAtpSPUABf8_a6tfok3HbTIEHWlBrr95pL98nE3A5rbXv_g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEv5I_bgxiZkV5xOpLs3pMM4lAlCQIgOYsyWrU6sx_068dk-l0YgVVS12tjJAbhdjBzK0uQku38AEtIgzfoy0vrqc4bc8ZoqTRwVXUX2bdRrzA77hwYwwFrctJV09E672o1ngh_ADMdhRV27YpNkstoJy0oC7x2tQg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMLV_2oMK7ywVs8AYolChVCPs0Fnnm8Trwtb5IIN-G7TH3KTzZzOW8eiPktRG403GvLniCkfaBMShJOeCOvLvRKrsEzWUxCnh51M7fm5XL4Zd0fV8khOXUfv2k97bo_qkvcHFORRlufaV_XKYE4o7x5Z-ZUZV83DUCm1RC3oTH8sRxJX2Lf7cWPh04YLiI_VatC-UkndgSPCyLEDQP1hXwvNgtlyapANWAo_n44pWgVcP7IOxeigJ1AQeUQIpoBpWJr-I303M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEl6C8fL4ADVClgKHJdjCfAG618_9E4g3y1IRACp9Ajd3IYbxkebO5MgM4rF0H_DjTbbIP0vI53SOOrWTHQzPfgJSAocNg4IhGOJzSsc2uCXRCEXC0dgaMJoEYY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3jdDbEfzJg1iO7y40FzMcG6kxP6I-ySBqooAZnahAaHEvIiqV8RCQHw096UFEjErFCDmEPlhFlehNxP7vgzOouKnrikmB1FVE-kvqdEbVqqevebXi8y4uualRNhSGJIyFPvwKI7fFgxuEVYJ3wMFJXySI-PifGCfl07rD_oDe2t5yPJS_DdoxJqKOpMZ5lRZE4lxbu2rbBlDH5RDYKSYVcsR3xmNe8T-XSSVzxF31W6CW3WBBlnjMSGMtnkYzTUQ=
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 사무실에서 조용하게 사용하면서도 게임 시 빠른 반응 속도를 원하시는군요! 어떤 종류의 스위치를 선호하시나요? | 무소음 택타일 스위치 |
-| 키보드 배열은 어떤 것을 선호하시나요? 책상 공간 활용도와 숫자 키패드 사용 빈도를 고려하여 선택해주세요. | 텐키리스 (87키) |
-| 키캡 재질은 어떤 것을 선호하시나요? 키감과 내구성에 영향을 미칩니다. | PBT (내구성 좋고 표면이 매트함) |
-| 키보드 연결 방식은 어떤 것을 선호하시나요? 사용 환경과 편의성을 고려하여 선택해주세요. | 무선 (전용 동글), 블루투스 (다중 기기 연결) |
-| 기계식 키보드 예산은 어느 정도로 생각하세요? (평균 약 6만 5천원, 4만 5천원 ~ 8만 4천원대가 가장 많아요) | 4만 5천원 ~ 8만 4천원대 |
+| 게임용으로 빠른 반응 속도와 사무실에서 조용한 타이핑, 두 가지 니즈를 모두 만족시키려면 어떤 점이 가장 중요하신가요? | 게임용 빠른 반응 속도 |
+| 어떤 종류의 키감을 선호하시나요? | 갈축 (부드러운 구분감) |
+| 키보드 연결 방식은 어떤 것을 선호하시나요? | 무선 2.4GHz (안정적인 무선), 블루투스 (다기기 연결) |
+| 키보드 배열은 어떤 것을 선호하시나요? | 텐키리스 (87키) |
+| 키캡 재질은 어떤 것을 선호하시나요? | ABS (부드러운 촉감) |
+| 예산은 어느 정도로 생각하세요? (평균 약 6만 5천원, 4만 5천원~8만 4천원대가 가장 많아요) | 4만 5천원 ~ 8만 4천원대 |
 
 ---
 

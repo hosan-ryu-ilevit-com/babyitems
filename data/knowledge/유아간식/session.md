@@ -1,14 +1,14 @@
-# 세션: 20260210_113604_4o0p
-> 시작: 2026-02-10T11:36:04.284Z
+# 세션: 20260210_130230_2c8a
+> 시작: 2026-02-10T13:02:30.923Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아간식 시장 현황
-- 인사이트: 유아 간식 시장은 건강 및 안전에 대한 부모의 관심 증가와 함께 꾸준히 성장하고 있습니다. 유기농, 천연 성분, 첨가물 없는 제품에 대한 수요가 높으며, 편리함과 휴대성을 갖춘 제품도 인기를 얻고 있습니다. 맞벌이 가구 증가와 소비력 향상도 시장 성장에 기여하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwbETCraY0EF9vfhUlNzlikRX3k4w2xAoOjZ0rTay2O2vQ3rKILfdjTMpRfY7nbtFto9yLYy7xI2NYhUNIqBA5YBDPSPXs5oApF9x36vPPLGmmNXJx8KNNg8tOj6kuZm6nNwyoammN10WuOMcoRDhqTDk861wU040JUrPP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKMSg2C9De76ifTzYTrxuGkTqrLQ-YUlyaupylnzCj4_k7oxOJyG__b6Wr4fPt-YUJsyoGk42HAQNYjGLq2cuK9qs6p4ELvlEVSmivMaVF0Eahx8TLUr9PUO3f_zXSfXXQhv3w3hofynzbWBtIp4wB1bsMfh8UrGnsinxLEbsfNnos9AucUMUlg374, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH50uICT6N3LgTxouzzUl9JR-UKEbQjjyOTLzIKsCKdf0pUAh7fSlHFaaBMzMEuZLIayFistfTvx3KNQIKtfGq4PHcNpCc_xAIgHP-F7Lw3f5lupGkS_fc_x_aTVBfjg9a8nAZDyTiwfltYvoXnYgyjDPqwK7mOBUkf--8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkTdQdLUggvVp2xJV8kMUniuu_kq5bqlTd0Mzq2qByd4B74cWP5yFD6rF1f1yKKUBoWTV367ldPwr8y-sCdipK4lyjilvbyimuuWNi5izXaTqX-5BlaOiU0A4TdtalOtXXQyWneZZl498cmXmstyFmwSKFC-fUTsfAwVkW7GNy4Emf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG5q_9z4WsWbDQRhGP7bLiSNuCZYk7Qi1XD-EH7mCjABtHZrxn3Zmff006rSFfQvNKEFSOWQBneddoOAxLXNm0ensw79S8pi2F7U5sb7wjuNb_z683UCTchmZGMv6XzUpnR_5ODdiO00EN9UQiPBGWiH4M2bHWOeXcpbE6Lcw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5TNL6SuC9LQl5vu42TGNBtHFLI1KH98utPFlm_ygqmWG7IK4OYxam1-v0L6h4Z9OzXaoQPieZ255Jmk9aamSWe0M76xO4QFcpsILVuPZF3gip7z5zwu4-TENfmlEwKXmwDQSrnePOPfwhQhMGbTOzBuZ2FZqt9hCfNYsGxQFlI0tGFw==
+- 쿼리: 유아 간식 시장 현황
+- 인사이트: 유아 간식 시장은 건강과 안전에 대한 부모의 관심 증가로 인해 지속적으로 성장하고 있습니다. 유기농, 천연 성분, 첨가물 최소화 등의 트렌드가 강세를 보이며, 프리미엄 제품에 대한 수요도 높습니다. 맞벌이 부부 증가로 인한 편의성 증대 요구 또한 시장 성장에 기여하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAYJUZwOJ3tsyNfLpd6V4rox_Es0sgZqxAJwxL7ZLcOqBwwIdLxaImB3SuFIUMMKACGl1WpZmBSw6zKHHlQUSF5yIji562NOxu88qNDNVGtaLZudtggwCQMpyMNpbbo7KfU5CPbMDw9MOVJf7_77kRKDOnlE_MpufAEbQJKA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHoJfcq-w6wU9oSCOrReicPkNM1sSZsQfSTPBJ5zq8-U1A1fOreLK53TiBgnJnigwHs2A2UzbaXkMB22uIt-qTklBqmjXO2-uDz40SSHmCuUlwiJTxz3zRj-HBA45ZEr4ngTLd7fLiIjo3re3w8dlUzkMj51ZbYtf58we1j3zD7-dxSBY8E2A8QytIa5Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKll_Np5_mMhcpPGhbLVA0zRsH99mpbTYrUyTTorfW1Apw3Gs3G1oZ8PbJJ-pSqxUsPCrbi5g6-A7tQY-zh0Js7r31TOJJYIw8eB9aHWh_f_Y9gsWjh5GPMQ8POLn2zqDaYZ5QGaBFz5YeED6gY-90blCUkJnvu_nlQMYf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGV0GaiVyWVsu37aQfdLZvdikzyyH5KyWZacZWeneSYr_Ycs8Wl9w78DCoid77os5sK7CCmRzxCJ3DJsB77t783ymWMXjIm09ho4GH-Sk1Tr9L1MZoptvN3Zymh4FhVy-TCH4gu1yykGHg4C8ulfaiIesgbVjZRnrGf8cDA9A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYobTOT-AdNLjhj_pyx8iiR1TnhDITuRPFd9GWLe_IghDgfEdF8rfqp_GXJWrUzUytqIvgRi5kUfwoOVXdJqIGk2n3tgzDAQ9s4N38j-Inhs9Sz3R1wBaW7GIXYcSjELSI0sr_FJ5ryE9fLZRC2hm9X4OwlRGH7APYkE6cgEPybArP3vJPzD1IFfpq6sqaQtVpE20lPMizvT_c1hpQoF-o7EdyiNd-iEhabz4FKaRsA4wm_fvwQgYiB2w=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjCuhVUREB5mJEGdCN2HJ9BfC-M20sAiKkFR-pfi_jCc21n9grlHmQJ7EcQ8qHKb272iGgA4OsSdcxKl2CGD-MKAvQMUxfx71wt2o0gyDETiyredLEI51rwRPNm3fx0SJ1v2Hy3TgyThS14p8dKQwfmKhTOyvIytjL5w2sAdDAANAOCw==
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 기존 간식의 인공적인 색깔 때문에 고민이셨군요! 아이에게 안심하고 줄 수 있도록, 간식 색깔은 어떤 점이 가장 중요하신가요? | 인공 색소 무첨가 |
-| 어떤 종류의 유아 간식을 찾으시나요? | 쿠키/비스킷 (씹는 재미) |
-| 간식 선택 시 가장 중요하게 생각하는 원재료는 무엇인가요? | 유기농 및 천연 재료 |
-| 간식 포장 방식은 어떤 점이 가장 중요하신가요? | 쉽게 열리고 쏟아지지 않는 포장 |
-| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 4천원대가 가장 많아요) | 6천원 ~ 1만 4천원대 |
+| 주변 지인 추천으로 유아간식을 둘러보시는군요! 어떤 종류의 간식을 선물하고 싶으신가요? | 과일 퓨레 (신선한 과일을 갈아 만든 부드러운 간식) |
+| 아이의 연령과 발달 단계에 맞춰 선호하는 간식의 식감이나 형태가 있나요? | 쫄깃하거나 젤리 형태 (씹는 재미와 식감) |
+| 간식을 통해 특별히 보충해주고 싶은 영양소가 있나요? | 비타민 및 미네랄 (면역력 강화 및 성장) |
+| 간식을 얼마나 간편하게 휴대하고 섭취할 수 있기를 원하시나요? | 상관없어요 |
+| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 4천원대가 가장 많아요) | 1만 4천원대 |
 
 ---
 

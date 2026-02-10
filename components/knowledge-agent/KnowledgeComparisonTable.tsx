@@ -12,17 +12,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { logKnowledgeAgentComparisonView } from '@/lib/logging/clientLogger';
-import { 
-  FcLineChart, 
-  FcLike, 
-  FcDislike, 
-  FcApproval, 
-  FcCurrencyExchange, 
-  FcAbout,
-  FcRating,
-  FcPodiumWithSpeaker,
-  FcFlashOn
-} from "react-icons/fc";
 
 interface ReviewItem {
   reviewId?: string;
@@ -130,6 +119,11 @@ export function KnowledgeComparisonTable({
       }
       return part;
     });
+  };
+
+  const extractKeyword = (text: string): string => {
+    const match = text.match(/\*\*(.*?)\*\*/);
+    return match ? match[1] : text;
   };
 
   return (
@@ -291,70 +285,82 @@ export function KnowledgeComparisonTable({
               {/* 장점 */}
               <tr className="border-b border-gray-100">
                 <td className="py-4 px-3 align-top text-center bg-green-50">
-                  <div className="space-y-2 inline-block text-center">
-                    {(selectedProducts[0]?.prosFromReviews || []).length > 0 ? (
-                      selectedProducts[0]!.prosFromReviews!.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
-                          <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{renderFormattedText(pro)}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-[12px] text-gray-400">정보없음</p>
-                    )}
-                  </div>
+                  {(selectedProducts[0]?.prosFromReviews || []).length > 0 ? (
+                    <div className="flex flex-wrap justify-center gap-1">
+                      {selectedProducts[0]!.prosFromReviews!.slice(0, 4).map((pro, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 text-[11px] text-green-700 font-medium"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-green-400 shrink-0" />
+                          {extractKeyword(pro)}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[12px] text-gray-400">정보없음</p>
+                  )}
                 </td>
                 <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   장점
                 </td>
                 <td className="py-4 px-3 align-top text-center bg-green-50">
-                  <div className="space-y-2 inline-block text-center">
-                    {(selectedProducts[1]?.prosFromReviews || []).length > 0 ? (
-                      selectedProducts[1]!.prosFromReviews!.slice(0, 3).map((pro, idx) => (
-                        <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
-                          <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{renderFormattedText(pro)}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-[12px] text-gray-400">정보없음</p>
-                    )}
-                  </div>
+                  {(selectedProducts[1]?.prosFromReviews || []).length > 0 ? (
+                    <div className="flex flex-wrap justify-center gap-1">
+                      {selectedProducts[1]!.prosFromReviews!.slice(0, 4).map((pro, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 text-[11px] text-green-700 font-medium"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-green-400 shrink-0" />
+                          {extractKeyword(pro)}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[12px] text-gray-400">정보없음</p>
+                  )}
                 </td>
               </tr>
 
               {/* 단점 */}
               <tr className="border-b border-gray-100">
                 <td className="py-4 px-3 align-top text-center bg-red-50">
-                  <div className="space-y-2 inline-block text-center">
-                    {(selectedProducts[0]?.consFromReviews || []).length > 0 ? (
-                      selectedProducts[0]!.consFromReviews!.slice(0, 3).map((con, idx) => (
-                        <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
-                          <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{renderFormattedText(con)}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-[12px] text-gray-400">정보없음</p>
-                    )}
-                  </div>
+                  {(selectedProducts[0]?.consFromReviews || []).length > 0 ? (
+                    <div className="flex flex-wrap justify-center gap-1">
+                      {selectedProducts[0]!.consFromReviews!.slice(0, 2).map((con, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-[11px] text-red-500 font-medium"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-red-400 shrink-0" />
+                          {extractKeyword(con)}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[12px] text-gray-400">정보없음</p>
+                  )}
                 </td>
                 <td className="py-4 px-2 text-center align-middle text-[10px] font-medium text-gray-400 bg-gray-50/50">
                   단점
                 </td>
                 <td className="py-4 px-3 align-top text-center bg-red-50">
-                  <div className="space-y-2 inline-block text-center">
-                    {(selectedProducts[1]?.consFromReviews || []).length > 0 ? (
-                      selectedProducts[1]!.consFromReviews!.slice(0, 3).map((con, idx) => (
-                        <div key={idx} className="text-[12px] leading-snug flex items-start justify-center gap-1.5 text-gray-800">
-                          <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-gray-300" />
-                          <span className="text-center">{renderFormattedText(con)}</span>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-[12px] text-gray-400">정보없음</p>
-                    )}
-                  </div>
+                  {(selectedProducts[1]?.consFromReviews || []).length > 0 ? (
+                    <div className="flex flex-wrap justify-center gap-1">
+                      {selectedProducts[1]!.consFromReviews!.slice(0, 2).map((con, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-red-100 text-[11px] text-red-500 font-medium"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-red-400 shrink-0" />
+                          {extractKeyword(con)}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[12px] text-gray-400">정보없음</p>
+                  )}
                 </td>
               </tr>
 

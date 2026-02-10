@@ -1,5 +1,5 @@
-# 세션: 20260210_110216_or7f
-> 시작: 2026-02-10T11:02:16.833Z
+# 세션: 20260210_121621_dzu2
+> 시작: 2026-02-10T12:16:21.475Z
 > 카테고리키: 로봇장난감
 > 카테고리: 로봇장난감
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 로봇장난감 시장 현황
-- 인사이트: 로봇 장난감 시장은 AI 기술 통합과 인터랙티브 기능 강화로 빠르게 성장하고 있으며, 교육적 가치와 엔터테인먼트 요소를 결합한 제품들이 인기를 얻고 있습니다. 특히 AI 로봇 장난감에 대한 소비자 관심이 급증하며 시장 수요 잠재력을 보여주고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhp42S88l3qDA211s27cuNs_yLg1MA9ltvRFIbLowLcuEOcSHH4jCeeRxYCfSVsx7TB-BOxqTzJWBf8oyXCLRdYtmY4MgL6lfum9wauLPm8CAaneK1N_uKYqR8zWZVjXzSiUwNtemvK6kME0bPeh4X0lXqOLeWpthIZZ7lri8zfL3xmgpxB677oQTLvGZal7ib_95dCWVSOmOeknFI5xsfwi2iW3a4CRuf0993686k3Q1nfh7c6vjKZy-N85rCqAG4mIp9H3c=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGp_CZMWB4EeqYc8QK38vgmME9QIOQZmoB4wrhirszhQ3S_HOqPBpzJptgBzjqninsBSAj46CJjcAyTymJaag87tYNev0ZFnt9MiLr4JWxXoz-vqQp946g1XcOVgj3R3c-SNYWRTpqfkkBmOeokdBPJcy-QhejXgwrcgTYwJP_Y2-sHzVlD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExfF2-5szxrI_xi41rwH-E0sRqVsN6nXRCwvKCGhl_hN0uTaiHNNZp9VkPf3HNj6YGjnDOvEMDP7ADli3vcL9VCD25paUmojtGNmbDsZEXACHWwFZXplE276W3qf5uUhaL-ahtfhFlQxO3srLGat4zYcccajSprDeMValvx2_wDp1nNvkRFqEVDuP_fMCjKSI5BEOXe7IUKCU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYD8rgs-GPj2agrS6fsi7hTNyJw-vkHC1cog5UxOBw-BJ8uvyxj1I_lmGctEoASejOBPxqrwW7gQsSnzvam8wFPG0NNZmmDvQfWH7MPruTdbhejGODPSdHWBSyXVHsV5RDWNl3vSCB7yfva8lOnElwEhHppLPQx6zPI90c-hLVWJ3ecuQYTacRktbJV2_3EXj03juZl-3NTuRXkTfmAxV7PVrsC0QM6Amt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcdl5rgmiWR_W_HFFjMbjaexgE_swZofom3qlyOUrOLI8ZlsIXOYJaw57DRgHOpLh6zu9zRSOKekwmDtL6zvVaapkEqXknskKRCpDBzF3fHyFQ4ne8tfRAGuBbxrF5TanUUb989A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLphOxnfmsVxmg4_pH4x0JEFs2WtnBdfV8qupyNWDXIm134d3ej0Cfu2pcqkSSi3gMagRQCWkoZaYTzdZQgrOq26l34YAxmESHjKpS6-NGXarSVN8do56KBkGFlsh0S5T3uj-5F5MACia6wG-DY4So0dIn9vS6lQT05VViSdtBOS7-U6tpSTwRwFTxTOBxp2ul2LLHcvWdPLtnJi44EKRj3wOJ9ZiCtqsSBvB-D0NTMZMtVA==
+- 인사이트: 로봇 장난감 시장은 기술 발전과 소비자 선호도 변화에 힘입어 꾸준히 성장하고 있습니다. 특히 AI와 STEM 교육에 대한 관심 증가는 시장 확장을 견인하는 주요 요인입니다. 북미가 가장 큰 시장을 형성하고 있으며, 아시아-태평양 지역의 성장세가 두드러지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFM_ughBbRwaUa7wSy-JCGcIkIEQVGURJZtPngiwe_S-EfaSjqznjYmq7yWSIr_wbxRtAu_aSGzxFgnyKEfP1U3oOfy2q1PvJeXifK5HuoaryU0mU6PvCx4kl7W7pFu723Tljez2Q8AU-v64IbBbKAmGgYaWoNkBdlsgGfYvwZoOMuFBqrG63XlDz2QFQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMIQmeo5Xs-NcJ1n-P2V-upXo_qycpcvTPSsDe2cwq4Tfonbx2aMpGlBsDSxuxyo2fnN76Sjd8kNGbylwNn_E27cgNwM94eMwJELbWxkXBipo7vayvbx9LiW-r_ZtSjjEFd7H-Jlx8s0ER3HXVov5niIEqa41lgoYwM-qL3m1Uzlx9inLfQRl9DQtJsDXPBPgchmd5Qr6TKh8mqkCsc8ulIF1Is9QEV_b2Nw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3_9sO5uq2GnCHer7YAlCzg-KbfHTe8RxnFyKwZYXNAVByy5fXokilkzLS3VXriXuky7NmkyCgwvgTtj2YS7ANqxMMevhECqVwu6r56uJbyESWm9QdyI0nbmPceiQ-ELuK37uWUeo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGb8OQmLIit_DcndOgSlPluKmsJc2wbD4ON0ggU17YPxAhdN2WRXjr82BLW8OSiLKwRNWLw7vjE69rz4CV21YNnYpIs2PLcJ7gs4gfP-NzrrkYXIbLzUNKAcE_bcX-E9UOTTmALb-jUGslZDlp9b_dUMsuHRRtNwvGyjwsmQCUW3p0egg1SphxkxG9_QPZJ8OAleL8SBoK7z239pUss
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 기존 로봇 장난감에서 어떤 점을 업그레이드하고 싶으신가요? | 향상된 상호작용 기능, 더욱 튼튼하고 안전한 소재 |
+| 어떤 종류의 로봇 장난감을 찾으시나요? | 동물형 로봇 (펫 로봇) |
+| 로봇과의 상호작용 수준은 어느 정도를 원하시나요? | AI 기반의 정교한 상호작용 |
+| 로봇 장난감에 어떤 교육 및 학습 기능이 포함되기를 바라시나요? | 코딩 및 프로그래밍 학습 |
+| 로봇 장난감의 내구성과 안전성에 대해 얼마나 중요하게 생각하시나요? | 보통 (일상적인 사용에 문제없는 수준) |
+| 예산은 어느 정도로 생각하세요? (평균 9만 3천원, 1만 4천원~12만원대가 가장 많아요) | 5만 3천원 이하, 12만원대 |
 
 ---
 

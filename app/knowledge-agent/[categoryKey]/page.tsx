@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
   CaretLeft, CaretDown, CaretUp, Lightning,
-  PaperPlaneRight, ArrowClockwise, ArrowsLeftRight, Sparkle, CaretRight
+  PaperPlaneRight, ArrowsLeftRight, CaretRight
 } from '@phosphor-icons/react/dist/ssr';
 import {
   FcSearch,
@@ -1308,6 +1308,8 @@ export default function KnowledgeAgentPage() {
     setIsGeneratingQuestions(true);
     setQuestionsGeneratorError(null);
     setPhase('question_generation');
+    // 온보딩 -> 맞춤질문 생성 전환 시 스크롤 상단 고정 (잘림 방지)
+    scrollToTop();
 
     // 온보딩 완료 후에만 3단계(맞춤 질문 생성)를 active로 전환
     setAnalysisSteps(prev => prev.map(step => (
@@ -1412,7 +1414,7 @@ export default function KnowledgeAgentPage() {
       setIsGeneratingQuestions(false);
       isGeneratingQuestionsRef.current = false;
     }
-  }, [categoryKey, appendFirstQuestionMessage]);
+  }, [categoryKey, appendFirstQuestionMessage, scrollToTop]);
 
   const handleOnboardingComplete = useCallback((data: OnboardingData) => {
     console.log('[KA Flow] 온보딩 완료:', data);
@@ -1695,6 +1697,8 @@ export default function KnowledgeAgentPage() {
 
     // 1) 제외 브랜드 질문
     const excludeOptionNames = brands.map((b) => b.brand);
+    // 로딩 시작 직후 압박감을 줄이기 위해, 브랜드 질문 노출을 살짝 지연
+    await new Promise((resolve) => setTimeout(resolve, 2200));
     setBrandPromptMode('exclude');
     setBrandPreferenceOptions(excludeOptionNames);
     setBrandPreferenceCounts(counts);
@@ -1740,14 +1744,6 @@ export default function KnowledgeAgentPage() {
     setIsCalculating(true);
     setTimelineSteps([]);
     setLoadingProgress(0);
-
-    // 랜덤 시간 variation 헬퍼 (±10%)
-    const getRandomDuration = (baseMs: number) => {
-      const variation = baseMs * 0.1;
-      return baseMs + (Math.random() * variation * 2 - variation);
-    };
-
-    // 🆕 30초 기준 부드러운 프로그레스 애니메이션 시작
     animateProgressSmoothly(30000);
 
     // 선택 조건 텍스트 동적 생성
@@ -1765,91 +1761,62 @@ export default function KnowledgeAgentPage() {
     // 브랜드 제외 질문 결과 (후보 점수화 전에 반영)
     let selectedExcludeBrands: string[] = [];
     let selectedPreferBrands: string[] = [];
-
-    // 1단계: 선호도 분석 (6.2초 ±10%)
-    const step1Duration = getRandomDuration(6200);
-    const step1: TimelineStep = {
-      id: 'step-1',
-      title: '[1/4] 사용자 취향 심층 분석 중',
+    const prepStep: TimelineStep = {
+      id: 'step-prep',
+      title: includeBrandPrompt ? '브랜드 선호/제외 조건 반영 중' : '사용자 조건 정리 중',
       icon: '',
       details: [
-        `${conditionText}을 바탕으로 선호하시는 조건과 우선순위를 파악합니다.`
+        includeBrandPrompt
+          ? '선호/제외 브랜드를 반영해 최종 후보군을 확정합니다.'
+          : `${conditionText}을 바탕으로 추천 기준을 정리합니다.`
       ],
       timestamp: Date.now(),
       startTime: Date.now(),
-      status: 'in_progress'
+      status: 'in_progress',
     };
-    setTimelineSteps([step1]);
-    await new Promise(resolve => setTimeout(resolve, step1Duration));
+    setTimelineSteps([prepStep]);
 
-    // 1단계 완료 처리
-    const step1Completed = { ...step1, status: 'completed' as const, endTime: Date.now() };
-
-    // 1단계 이후 브랜드 제외 질문 (로딩 UI가 이미 렌더된 상태에서 노출)
     const brandCandidates = includeBrandPrompt ? getTopBrandCandidates() : [];
     if (includeBrandPrompt && brandCandidates.length > 0) {
       const brandSelection = await awaitBrandPreferenceSelection(brandCandidates);
       selectedExcludeBrands = brandSelection.excludeBrands || [];
       selectedPreferBrands = brandSelection.preferBrands || [];
+    } else {
+      // 브랜드 질문이 없는 케이스도 단계 전환이 너무 급하지 않도록 최소 지연만 유지
+      await new Promise((resolve) => setTimeout(resolve, 400));
     }
 
-    // 2단계: 제품 스펙 수집 (6.2초 ±10%)
-    const step2Duration = getRandomDuration(6200);
+    const prepStepCompleted: TimelineStep = {
+      ...prepStep,
+      status: 'completed',
+      endTime: Date.now(),
+    };
     const candidateText = candidateCount > 0 ? `${candidateCount}개` : '전체';
-    const step2: TimelineStep = {
-      id: 'step-2',
-      title: `[2/4] ${candidateText} 후보 제품 스펙 수집 및 분석 중`,
+    const scoringStep: TimelineStep = {
+      id: 'step-score',
+      title: `${candidateText} 후보 점수화 및 1차 추림 진행 중`,
       icon: '',
       details: [
-        '제품 상세 스펙 데이터와 제조사 공식 정보를 수집하여 비교 분석합니다.'
+        '카테고리 적합성, 리뷰 신뢰도, 조건 부합도를 바탕으로 후보를 평가합니다.'
       ],
       timestamp: Date.now(),
       startTime: Date.now(),
-      status: 'in_progress'
+      status: 'in_progress',
     };
-    setTimelineSteps([step1Completed, step2]);
-    await new Promise(resolve => setTimeout(resolve, step2Duration));
-
-    // 2단계 완료 처리
-    const step2Completed = { ...step2, status: 'completed' as const, endTime: Date.now() };
-
-    // 3단계: 리뷰 데이터 종합 평가 (6.2초 ±10%)
-    const step3Duration = getRandomDuration(6200);
-    const step3: TimelineStep = {
-      id: 'step-3',
-      title: '[3/4] 실제 사용자 리뷰 데이터 분석 중',
+    const finalStep: TimelineStep = {
+      id: 'step-final',
+      title: 'Top5 심층 평가 및 최종 추천 생성 중',
       icon: '',
       details: [
-        '수만 건의 실제 구매 리뷰를 분석하여 장단점과 만족도를 파악합니다.'
+        '상위 후보를 심층 분석해 최종 Top5와 추천 이유를 확정합니다.'
       ],
       timestamp: Date.now(),
-      startTime: Date.now(),
-      status: 'in_progress'
+      status: 'pending',
     };
-    setTimelineSteps([step1Completed, step2Completed, step3]);
-    await new Promise(resolve => setTimeout(resolve, step3Duration));
+    setTimelineSteps([prepStepCompleted, scoringStep, finalStep]);
 
-    // 3단계 완료 처리
-    const step3Completed = { ...step3, status: 'completed' as const, endTime: Date.now() };
-
-    // 4단계: 최종 TOP 5 추천 생성 (API 완료될 때까지 계속 in_progress 유지)
-    const step4: TimelineStep = {
-      id: 'step-4',
-      title: '[4/4] Top 맞춤 추천 생성 중',
-      icon: '',
-      details: [
-        '분석 결과를 종합하여 가장 적합한 Top 제품을 선정하고 추천 이유를 작성합니다.'
-      ],
-      timestamp: Date.now(),
-      startTime: Date.now(),
-      status: 'in_progress'
-    };
-    setTimelineSteps([step1Completed, step2Completed, step3Completed, step4]);
-    // 프로그레스는 animateProgressSmoothly가 자동으로 99%까지 업데이트
-
-    // 여기서는 완료 처리하지 않음 (API 응답 시 컴포넌트가 언마운트됨)
     return { excludeBrands: selectedExcludeBrands, preferBrands: selectedPreferBrands };
-  }, [categoryName, animateProgressSmoothly, getTopBrandCandidates, awaitBrandPreferenceSelection]);
+  }, [animateProgressSmoothly, getTopBrandCandidates, awaitBrandPreferenceSelection]);
 
   const handleBrandPreferenceToggle = useCallback((brand: string) => {
     if (brandPromptMode === 'exclude') {
@@ -1928,6 +1895,24 @@ export default function KnowledgeAgentPage() {
       STORAGE_KEY
     });
 
+    let dataToSave: {
+      resultProducts: any[];
+      resultMessage: {
+        id: string;
+        role: string;
+        content: string;
+        timestamp: number | undefined;
+      };
+      pricesData: Record<string, any>;
+      filterTags: FilterTag[];
+      allFilterTags: FilterTag[];
+      productAnalyses: Record<string, any>;
+      collectedInfoForMatchRate: Record<string, string>;
+      processMeta: RecommendProcessMeta | null;
+      savedAt: number;
+    } | null = null;
+    let jsonStr = '';
+
     try {
       const resultMessage = msgs.find(m => m.resultProducts && m.resultProducts.length > 0);
       console.log('[KA Storage] resultMessage found:', !!resultMessage, resultMessage?.resultProducts?.length);
@@ -1942,13 +1927,13 @@ export default function KnowledgeAgentPage() {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const lightProducts = products.map(({ reviews, ...rest }) => rest);
 
-      const dataToSave = {
+      dataToSave = {
         resultProducts: lightProducts,
         resultMessage: {
           id: resultMessage.id,
           role: resultMessage.role,
           content: resultMessage.content,
-          resultProducts: lightProducts,
+          // resultProducts는 top-level에서 참조 (중복 저장 방지)
           timestamp: resultMessage.timestamp,
         },
         // reviewsData 제외! (Supabase에서 가져옴)
@@ -1963,21 +1948,42 @@ export default function KnowledgeAgentPage() {
         savedAt: Date.now(),
       };
 
-      const jsonStr = JSON.stringify(dataToSave);
+      jsonStr = JSON.stringify(dataToSave);
       console.log('[KA Storage] Saving data size:', (jsonStr.length / 1024).toFixed(1), 'KB');
 
       localStorage.setItem(STORAGE_KEY, jsonStr);
       console.log('[KA] ✅ Result saved to localStorage (with', tags?.length || 0, 'tags)');
     } catch (e) {
       console.error('[KA] Failed to save result:', e);
-      // QuotaExceeded 시 오래된 캐시 삭제 후 재시도
       if (e instanceof DOMException && e.name === 'QuotaExceededError') {
-        console.log('[KA Storage] QuotaExceeded - clearing all old caches...');
+        if (!jsonStr || !dataToSave) {
+          console.error('[KA Storage] Missing save payload for quota retry');
+          return;
+        }
+        // 1차: 다른 카테고리 캐시 삭제 후 재시도
+        console.log('[KA Storage] QuotaExceeded - clearing old caches and retrying...');
         const allKeys = Object.keys(localStorage).filter(k => k.startsWith('ka-result-') && k !== STORAGE_KEY);
         allKeys.forEach(k => {
           localStorage.removeItem(k);
           console.log('[KA Storage] Removed:', k);
         });
+
+        try {
+          localStorage.setItem(STORAGE_KEY, jsonStr);
+          console.log('[KA] ✅ Result saved after clearing old caches');
+          return;
+        } catch {
+          // 2차: productAnalyses 제거하여 용량 축소 후 재시도
+          console.log('[KA Storage] Still exceeds quota - saving without productAnalyses...');
+          const slimData = { ...dataToSave, productAnalyses: {}, allFilterTags: [] };
+          try {
+            const slimStr = JSON.stringify(slimData);
+            localStorage.setItem(STORAGE_KEY, slimStr);
+            console.log('[KA] ✅ Result saved (slim, without analyses):', (slimStr.length / 1024).toFixed(1), 'KB');
+          } catch {
+            console.error('[KA Storage] ❌ Cannot save even slim data - localStorage full');
+          }
+        }
       }
     }
   }, [STORAGE_KEY, recommendProcessMeta]);
@@ -2016,7 +2022,9 @@ export default function KnowledgeAgentPage() {
         }).map((p, idx) => ({ ...p, rank: idx + 1 }));
 
         setResultProducts(sortedProducts);
-        setMessages([data.resultMessage as ChatMessage]);
+        // resultProducts를 resultMessage에 복원 (저장 시 중복 방지로 제외됨)
+        const restoredMessage = { ...data.resultMessage, resultProducts: sortedProducts };
+        setMessages([restoredMessage as ChatMessage]);
         setPhase('result');
         // reviewsData 제외 - PDP에서 Supabase로 직접 fetch
         if (data.pricesData) setPricesData(data.pricesData);
@@ -3477,7 +3485,83 @@ export default function KnowledgeAgentPage() {
             } else if (line.startsWith('data: ')) {
               try {
                 const data = JSON.parse(line.slice(6));
-                if (currentEvent === 'score_update' && Array.isArray(data?.scores)) {
+                if (currentEvent === 'status') {
+                  const statusMessage = String(data?.message || '');
+                  if (statusMessage.includes('후보 점수화')) {
+                    setTimelineSteps((prev) => {
+                      const prep = prev.find((s) => s.id === 'step-prep');
+                      const prepCompleted: TimelineStep = prep
+                        ? { ...prep, status: 'completed', endTime: prep.endTime || Date.now() }
+                        : {
+                            id: 'step-prep',
+                            title: '브랜드/조건 반영 완료',
+                            icon: '',
+                            details: ['추천 기준 반영을 완료했습니다.'],
+                            timestamp: Date.now(),
+                            status: 'completed',
+                            endTime: Date.now(),
+                          };
+                      const scoringStep: TimelineStep = {
+                        id: 'step-score',
+                        title: '후보 점수화 및 1차 추림 진행 중',
+                        icon: '',
+                        details: ['후보군을 빠르게 점수화하며 상위권을 압축합니다.'],
+                        timestamp: Date.now(),
+                        startTime: Date.now(),
+                        status: 'in_progress',
+                      };
+                      const finalStep: TimelineStep = {
+                        id: 'step-final',
+                        title: 'Top5 심층 평가 및 최종 추천 생성 중',
+                        icon: '',
+                        details: ['상위 후보를 심층 분석해 최종 Top5를 확정합니다.'],
+                        timestamp: Date.now(),
+                        status: 'pending',
+                      };
+                      return [prepCompleted, scoringStep, finalStep];
+                    });
+                  } else if (statusMessage.includes('최종 AI 평가')) {
+                    setTimelineSteps((prev) => {
+                      const prep = prev.find((s) => s.id === 'step-prep');
+                      const scoring = prev.find((s) => s.id === 'step-score');
+                      const final = prev.find((s) => s.id === 'step-final');
+                      if (!scoring && !final) return prev;
+                      return [
+                        prep ? { ...prep, status: 'completed', endTime: prep.endTime || Date.now() } : {
+                          id: 'step-prep',
+                          title: '브랜드/조건 반영 완료',
+                          icon: '',
+                          details: ['추천 기준 반영을 완료했습니다.'],
+                          timestamp: Date.now(),
+                          status: 'completed',
+                          endTime: Date.now(),
+                        },
+                        scoring
+                          ? { ...scoring, status: 'completed', endTime: Date.now() }
+                          : {
+                              id: 'step-score',
+                              title: '후보 점수화 및 1차 추림 완료',
+                              icon: '',
+                              details: ['후보군 점수화가 완료되었습니다.'],
+                              timestamp: Date.now(),
+                              status: 'completed',
+                              endTime: Date.now(),
+                            },
+                        final
+                          ? { ...final, status: 'in_progress', startTime: final.startTime || Date.now() }
+                          : {
+                              id: 'step-final',
+                              title: 'Top5 심층 평가 및 최종 추천 생성 중',
+                              icon: '',
+                              details: ['상위 후보를 심층 분석해 최종 Top5를 확정합니다.'],
+                              timestamp: Date.now(),
+                              startTime: Date.now(),
+                              status: 'in_progress',
+                            },
+                      ];
+                    });
+                  }
+                } else if (currentEvent === 'score_update' && Array.isArray(data?.scores)) {
                   setLiveCandidateScores((prev) => {
                     const next = { ...prev };
                     data.scores.forEach((item: { pcode: string; score: number }) => {
@@ -3492,6 +3576,15 @@ export default function KnowledgeAgentPage() {
                 } else if (currentEvent === 'complete') {
                   finalPayload = data;
                   if (data?.success && Array.isArray(data?.recommendations)) {
+                    setTimelineSteps((prev) =>
+                      prev.map((step) =>
+                        step.id === 'step-final'
+                          ? { ...step, status: 'completed', endTime: Date.now() }
+                          : step.id === 'step-score'
+                            ? { ...step, status: 'completed', endTime: step.endTime || Date.now() }
+                            : step
+                      )
+                    );
                     const finalTop5Pcodes = data.recommendations
                       .slice(0, 5)
                       .map((r: any) => String(r?.pcode || ''))
@@ -3742,8 +3835,8 @@ export default function KnowledgeAgentPage() {
           };
         });
         setResultProducts(mappedResultProducts);
-        // 마지막 5개 썸네일/메타가 잠깐이라도 안정적으로 보이도록 한 템포 유지
-        await new Promise((resolve) => setTimeout(resolve, 180));
+        // 마지막 5개 썸네일/메타가 눈에 들어오도록 결과 전환 전 한 템포 유지
+        await new Promise((resolve) => setTimeout(resolve, 700));
         setPhase('result');
 
         // ✅ [로깅] 상품별 매칭도 로깅 (returnedFilterTags 사용 - 비동기 상태 업데이트 문제 해결)
@@ -5035,19 +5128,9 @@ export default function KnowledgeAgentPage() {
         ref={phase === 'result' || phase === 'free_chat' ? mainRef : null}
         className={`max-w-[480px] mx-auto w-full flex-1 ${phase === 'result' || phase === 'free_chat' ? 'overflow-y-auto scrollbar-hide' : 'flex flex-col min-h-0'} relative border-x border-gray-100 bg-white shadow-2xl shadow-gray-200/50`}
       >
-        <header className={`bg-white border-b border-gray-50/50 px-4 h-16 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
+        <header className={`bg-white border-b border-gray-50/50 px-4 h-12 flex items-center justify-between shrink-0 ${phase === 'result' || phase === 'free_chat' ? '' : 'sticky top-0 z-100 bg-white/80 backdrop-blur-2xl'}`}>
           <motion.button whileHover={{ x: -2 }} whileTap={{ scale: 0.95 }} onClick={() => setShowExitConfirmModal(true)} className="p-2.5 -ml-2.5 rounded-full hover:bg-gray-50 transition-colors">
             <img src="/icons/back.png" alt="뒤로가기" className="w-5 h-5" />
-          </motion.button>
-          <motion.button
-            whileHover={{ rotate: 180 }}
-            whileTap={{ rotate: 360, scale: 0.9 }}
-            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-            onClick={() => window.location.reload()}
-            className="p-2.5 -mr-2.5 rounded-full hover:bg-gray-50 active:bg-gray-100 transition-colors"
-            title="처음부터 다시 시작"
-          >
-            <ArrowClockwise size={18} weight="bold" className="text-gray-400" />
           </motion.button>
         </header>
 
@@ -5686,7 +5769,7 @@ export default function KnowledgeAgentPage() {
         {phase !== 'loading' && phase !== 'question_generation' && (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
           {/* 그라데이션 배경 - 뒤쪽 */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/75 to-transparent -z-10" />
           {/* Navigation Buttons (Prev Only)
             {activeQuestion && canGoPrev && !isTyping && (
               <div className="flex mb-4">
@@ -5855,7 +5938,7 @@ export default function KnowledgeAgentPage() {
           ) : (phase === 'questions' || phase === 'report') && (activeQuestion || inlineFollowUp) && !isTyping ? (
             inlineFollowUp ? (
               /* 인라인 꼬리질문 활성화 시: 이전/다음 버튼 */
-              <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6">
+              <div className="bg-transparent border-t border-transparent p-4 -mx-4 -mb-6">
                 <div className="flex gap-3 justify-between">
                   <motion.button
                     whileHover={{ scale: 1.01 }}
@@ -5884,7 +5967,7 @@ export default function KnowledgeAgentPage() {
               </div>
             ) : (
               /* 질문 단계: 이전/다음 버튼 */
-              <div className="bg-white border-t border-gray-100 p-4 -mx-4 -mb-6">
+              <div className="bg-transparent border-t border-transparent p-4 -mx-4 -mb-6">
                 <div className="flex gap-3 justify-between">
                   {canGoPrev ? (
                     <motion.button
@@ -6393,7 +6476,7 @@ function MessageBubble({
 }: {
   message: ChatMessage;
   onOptionToggle: (opt: string, messageId: string) => void;
-  onProductClick: (product: any, tab?: 'price' | 'danawa_reviews') => void;
+  onProductClick: (product: any, tab?: 'price' | 'danawa_reviews', scrollToPrice?: boolean) => void;
   phase: Phase;
   inputRef?: React.RefObject<HTMLTextAreaElement | null>;
   isLatestAssistantMessage?: boolean;
@@ -6862,8 +6945,8 @@ function MessageBubble({
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-2">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible text-center">
-            
-              
+              <h2 className="text-[22px] font-bold text-gray-900 mb-3">당신을 위한 <br></br>{categoryName} 추천</h2>
+
               {/* 탭 UI - 비교표/리스트 전환 */}
               <div className="flex items-center justify-center gap-1.5 mb-3 w-full">
                 <button
@@ -7093,7 +7176,7 @@ function MessageBubble({
                             자세히 보기
                           </button>
                           <button
-                            onClick={() => onProductClick(product, 'price')}
+                            onClick={() => onProductClick(product, 'price', true)}
                             className="flex-1 h-[40px] rounded-[12px] bg-[#1e2329] text-[14px] font-semibold text-white hover:bg-black transition-colors"
                           >
                             최저가 비교하기

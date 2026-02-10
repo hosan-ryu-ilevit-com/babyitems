@@ -159,6 +159,26 @@ async function generateInlineFollowUp(
     .filter(([k]) => !k.startsWith('__'))
     .map(([k, v]) => `"${k}" → ${v}`);
 
+  // 복수선택 응답 감지: "A, B", "A/B", "A 그리고 B" 등
+  const isMultiSelectAnswer = /,|\/|&|\+|\s및\s|\s그리고\s|\s와\s|\s과\s/.test(userAnswer);
+  const multiSelectRuleSection = isMultiSelectAnswer
+    ? `
+## 🆕 복수선택 응답 처리 원칙 (매우 중요)
+사용자가 여러 옵션을 함께 선택했습니다.
+이는 "선택한 항목들이 모두 괜찮다"는 의미입니다.
+
+⛔ 금지:
+- "그중에서 뭐가 더 좋으세요?"
+- "둘/셋 중 하나만 고르면?"
+- "가장 중요한 1개만 선택해주세요"
+- "우선순위를 매겨주세요"
+
+✅ 허용:
+- 선택한 항목들을 인정한 상태에서, 그와 **다른 축의 조건**을 추가로 구체화하는 질문
+- 트레이드오프/사용 환경/빈도/제약 조건을 묻는 질문
+`
+    : '';
+
   // 일반 질문에 대한 AI 기반 꼬리질문 생성
   const prompt = `당신은 "${categoryName}" 구매 상담 전문가입니다.
 
@@ -170,6 +190,7 @@ ${userContextSection}
 꼬리질문을 만들기 전에, 아래 목록을 반드시 확인하세요.
 아래 주제와 **같은 스펙/기능/속성을 묻거나, 옵션이 겹치는 질문은 절대 생성하지 마세요.**
 **표현이 달라도 수집하는 정보가 같으면 중복입니다.**
+${multiSelectRuleSection}
 
 ### ⛔ 이후 예정된 질문 (이 주제와 겹치면 중복!)
 ${avoidTopics.length > 0 ? avoidTopics.map((t, i) => `${i + 1}. ${t}`).join('\n') : '(없음)'}
@@ -202,9 +223,9 @@ ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join(
 3. clarify: 답변이 모호하거나 여러 해석이 가능할 때
 
 ## 옵션 생성 규칙
-- 옵션은 3~4개 생성
-- ⛔ "상관없어요", "잘 모르겠어요", "둘 다", "기타" 같은 회피성 옵션 금지 (시스템이 자동 추가함)
-- 옵션에는 친절한 소괄호 부가설명 추가 (예: "대용량 (5L 이상)")
+- 옵션은 3~5개 생성
+- **모든 옵션 라벨에 소괄호 부가설명 필수** (예: "대용량 (5L 이상)")
+- ⛔ **"둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "다 괜찮아요", "별로 안 중요해요", "둘다 중요해요" 등 회피성 옵션 절대 생성 금지** (복수선택 가능 + '상관없어요'는 시스템이 자동 추가함)
 - **옵션 라벨에 isPopular/isRecommend 같은 메타 문구 절대 포함 금지**
 - ⭐ **옵션은 구체적이고 정보 가치가 있어야 함**: 선택 즉시 추천에 반영 가능한 명확한 조건이어야 함
   - ❌ 나쁜 예: "피하고 싶은 성분이 있나요?", "특별히 원하는 기능이 있나요?" (그 자체로 정보값 없음)
@@ -231,7 +252,8 @@ confidence가 "high"인 경우:
     "options": [
       { "value": "option1", "label": "옵션1 라벨 (부가설명)", "isPopular": true },
       { "value": "option2", "label": "옵션2 라벨 (부가설명)", "isRecommend": true },
-      { "value": "option3", "label": "옵션3 라벨 (부가설명)" }
+      { "value": "option3", "label": "옵션3 라벨 (부가설명)" },
+      { "value": "option4", "label": "옵션4 라벨 (부가설명)" }
     ]
   }
 }
@@ -278,9 +300,65 @@ confidence가 "low"인 경우:
           .replace(/\s{2,}/g, ' ')
           .trim();
 
-      // 옵션이 2개 미만이면 스킵
-      if (!data.followUp.options || data.followUp.options.length < 2) {
-        return { hasFollowUp: false, confidence: 'low', skipReason: 'Insufficient options generated' };
+      // 옵션은 최소 3개 필요
+      if (!data.followUp.options || data.followUp.options.length < 3) {
+        return { hasFollowUp: false, confidence: 'low', skipReason: 'Insufficient options generated (need 3-5)' };
+      }
+
+      const bannedOptionPatterns = [
+        /둘\s*다/,
+        /모두/,
+        /기타/,
+        /직접\s*입력/,
+        /상관\s*없/,
+        /잘\s*모르/,
+        /아무거나/,
+        /둘다\s*좋/,
+        /다\s*괜찮/,
+        /별로\s*안\s*중요/,
+        /둘다\s*중요/
+      ];
+
+      const normalizedOptions = data.followUp.options
+        .slice(0, 5)
+        .map((opt: any) => ({
+          ...opt,
+          label: sanitizeOptionLabel(opt.label || ''),
+        }));
+
+      // 회피성 옵션 또는 소괄호 설명 누락 시 스킵 (맞춤질문 규칙과 동일 강도)
+      const hasInvalidOption = normalizedOptions.some((opt: any) => {
+        const label = String(opt.label || '');
+        const hasParentheses = /\(.+\)/.test(label);
+        const hasBannedPattern = bannedOptionPatterns.some((pattern) => pattern.test(label));
+        return !hasParentheses || hasBannedPattern;
+      });
+
+      if (hasInvalidOption || normalizedOptions.length < 3) {
+        return {
+          hasFollowUp: false,
+          confidence: 'low',
+          skipReason: 'Generated options violated strict option rules',
+        };
+      }
+
+      // 복수선택 답변인데 "하나만 고르기/우선순위"를 강요하는 꼬리질문은 금지
+      if (isMultiSelectAnswer) {
+        const followUpQuestion = String(data.followUp.question || '');
+        const forcedSingleChoicePatterns = [
+          /그\s*중.*(뭐|무엇|어느).*(더|가장)/,
+          /(하나만|딱\s*하나|1개만).*(고르|선택)/,
+          /(우선순위|순위).*(정|매겨|고르|선택)/,
+          /(둘\s*중|셋\s*중).*(고르|선택)/
+        ];
+        const isForcedSingleChoice = forcedSingleChoicePatterns.some((pattern) => pattern.test(followUpQuestion));
+        if (isForcedSingleChoice) {
+          return {
+            hasFollowUp: false,
+            confidence: 'low',
+            skipReason: 'Forced single-choice follow-up is not allowed for multi-select answers',
+          };
+        }
       }
 
       return {
@@ -289,10 +367,7 @@ confidence가 "low"인 경우:
         followUp: {
           question: data.followUp.question,
           type: data.followUp.type || 'deepdive',
-          options: data.followUp.options.slice(0, 4).map((opt: any) => ({
-            ...opt,
-            label: sanitizeOptionLabel(opt.label || ''),
-          })),
+          options: normalizedOptions,
         },
       };
     }

@@ -1,15 +1,28 @@
 # 노트북거치대 전문가 지식
 
-> 마지막 업데이트: 2026-02-03T08:02:55.526Z
-> 분석 상품: 20개 | 분석 리뷰: 3,511개
+> 마지막 업데이트: 2026-02-10T12:53:57.523Z
+> 분석 상품: 20개 | 분석 리뷰: 891개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 인체공학적 설계 및 접이식 디자인
+- 냉각 기능 및 조절 가능성
+- 휴대성 및 간편한 사용
 
 ### 구매자 만족 포인트
+- ✓ 자세 교정 및 거북목 예방
+- ✓ 책상 공간 효율적 사용
+- ✓ 손목 및 어깨 통증 완화
+- ✓ 화면 각도 및 위치 조절 용이
+- ✓ 쿨링 효과
+- ✓ 뛰어난 가성비 (일부 제품)
 
 ### 주의해야 할 단점
+- ⚠ 휴대 시 무게감
+- ⚠ 최대 높이 조절 시 화면 보기 불편
+- ⚠ 일부 제품의 불안정한 고정력
+- ⚠ 노트북 미사용 시 보관 공간 필요 (일부 제품)
 
 ### 가격대 인사이트
 
@@ -20,7 +33,7 @@
 
 ### 1. 앱코 NC50 360도 회전 멀티 디바이스 거치대
 - **브랜드**: 앱코
-- **가격**: 17,650원
+- **가격**: 17,290원
 - **평점**: ⭐4.9 (25개 리뷰)
 - **핵심 스펙**: 받침대/쿨러 / 받침대 / 20인치대 / 조절 기능 / 높이 / 각도 / 회전 / 2관절 / 알루미늄 / 260mm / 225mm
 - **장점 요약**: 분석 중
@@ -28,17 +41,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=52061792)
 
-### 2. 카멜인터내셔널 카멜마운트 RT3 노트북 홀더
-- **브랜드**: 카멜인터내셔널
-- **가격**: 23,750원
-- **평점**: ⭐4.5 (53개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 스탠드암 / 17인치대
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=17462789)
-
-### 3. 잘만 ZM-NS2 노트북 거치대
+### 2. 잘만 ZM-NS2 노트북 거치대
 - **브랜드**: 잘만
 - **가격**: 15,510원
 - **평점**: ⭐4.3 (21개 리뷰)
@@ -48,7 +51,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=17185739)
 
-### 4. 잘만 ZM-NS1 노트북 거치대
+### 3. 잘만 ZM-NS1 노트북 거치대
 - **브랜드**: 잘만
 - **가격**: 22,540원
 - **평점**: ⭐4.5 (107개 리뷰)
@@ -57,6 +60,16 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13554350)
+
+### 4. 이킵먼트 EKMT-LS1 하이라이저 노트북 거치대
+- **브랜드**: 이킵먼트
+- **가격**: 29,900원
+- **평점**: ⭐4.9 (78개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 조절 기능 / 높이 / 각도 / 알루미늄 / 290mm / 228mm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=15244571)
 
 ### 5. 이킵먼트 EKMT-LS1 하이라이저 노트북 거치대
 - **브랜드**: 이킵먼트
@@ -78,35 +91,35 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=13832369)
 
-### 7. 감성공장 LHD-15 알루미늄 휴대용 2단 접이식 노트북 거치대
-- **브랜드**: 감성공장
-- **가격**: 17,990원
-- **평점**: ⭐4.7 (71개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 10단계 이상 / 알루미늄 / 200mm / 285mm
+### 7. 우영커뮤니케이션 애니클리어 AP-8 노트북 거치대
+- **브랜드**: 우영커뮤니케이션
+- **가격**: 28,900원
+- **평점**: ⭐4.7 (98개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 2관절 / 알루미늄 / 270mm / 225mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=13418906)
+- [상세보기](https://prod.danawa.com/info/?pcode=17209766)
 
-### 8. 해피앤몰 HPN-041 접이식 노트북 거치대
-- **브랜드**: 해피앤몰
-- **가격**: 6,970원
-- **평점**: ⭐4.5 (303개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 각도 / 6단계 / 알루미늄 / 180mm / 255mm
+### 8. 우영커뮤니케이션 애니클리어 AP-8H 리프트 노트북 거치대
+- **브랜드**: 우영커뮤니케이션
+- **가격**: 38,900원
+- **평점**: ⭐4.9 (13개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 270mm / 210mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=30298175)
+- [상세보기](https://prod.danawa.com/info/?pcode=16423946)
 
-### 9. 이킵먼트 EKMT-LS1 하이라이저 노트북 거치대
-- **브랜드**: 이킵먼트
-- **가격**: 29,900원
-- **평점**: ⭐4.9 (78개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 받침대 / 조절 기능 / 높이 / 각도 / 알루미늄 / 290mm / 228mm
+### 9. 큐데스크 메탈 노트북 거치대
+- **브랜드**: 큐데스크
+- **가격**: 27,900원
+- **평점**: ⭐4.7 (13개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 메탈 / 렌치 조절식 / 230mm / 40mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=15244571)
+- [상세보기](https://prod.danawa.com/info/?pcode=73429040)
 
 ### 10. 이킵먼트 EKMT-VS1 수직 노트북 거치대
 - **브랜드**: 이킵먼트
@@ -128,15 +141,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=16379522)
 
-### 12. 비프렌드 IM1000 노트북거치대
-- **브랜드**: 비프렌드
-- **가격**: 11,160원
-- **평점**: ⭐4.6 (2,239개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 받침대 / 15인치대 / 조절 기능 / 각도 / 5단계 / 플라스틱 / 279mm / 249mm
+### 12. 리버네트워크 NEXI NX-NBH-2 NX1198 노트북 거치대
+- **브랜드**: 리버네트워크
+- **가격**: 7,300원
+- **평점**: ⭐4.4 (31개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 스탠드암 / 15인치대
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=1709505)
+- [상세보기](https://prod.danawa.com/info/?pcode=14780714)
 
 ### 13. 앱코 NS11 2in1 조립형 노트북 거치대
 - **브랜드**: 앱코
@@ -148,15 +161,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=16636118)
 
-### 14. 해브잇올 morac MR-MS-SIMULAS 시뮬러S 노트북 거치대
-- **브랜드**: 해브잇올
-- **가격**: 29,600원
-- **평점**: ⭐4.7 (155개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 알루미늄 / 250mm / 220mm
+### 14. 벨레스 알루미늄 2단 접이식 노트북 거치대
+- **브랜드**: 벨레스
+- **가격**: 16,900원
+- **평점**: ⭐4.6 (129개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 조절 기능 / 각도 / 알루미늄 / 210mm / 300mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=18018113)
+- [상세보기](https://prod.danawa.com/info/?pcode=14951738)
 
 ### 15. UGREEN LP825 클램쉘 3슬롯 수직 노트북 거치대
 - **브랜드**: UGREEN
@@ -168,17 +181,27 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=90437402)
 
-### 16. 삼성전자 ST-N1000S 접이식 노트북 거치대
-- **브랜드**: 삼성전자
-- **가격**: 44,010원
-- **평점**: ⭐4.8 (126개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 2관절 / 알루미늄 / 270mm / 224mm
+### 16. 라라밤 360도 회전 노트북 거치대
+- **브랜드**: 라라밤
+- **가격**: 29,900원
+- **평점**: ⭐4.6 (46개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 19인치대 / 조절 기능 / 높이 / 각도 / 회전 / 2관절 / 알루미늄 / 237mm / 247mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=18681803)
+- [상세보기](https://prod.danawa.com/info/?pcode=18587867)
 
-### 17. DEEPCOOL E-GOLF BRAVOTEC 휴대용 노트북 받침대
+### 17. basix BST-20 Wind-Z 노트북 거치대
+- **브랜드**: basix
+- **가격**: 33,780원
+- **평점**: ⭐4.9 (29개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 받침대 / 17인치대 / 조절 기능 / 높이 / 각도 / 2관절 / 알루미늄 / 240mm / 251mm
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=15580364)
+
+### 18. DEEPCOOL E-GOLF BRAVOTEC 휴대용 노트북 받침대
 - **브랜드**: DEEPCOOL
 - **가격**: 8,350원
 - **평점**: ⭐4.7 (4개 리뷰)
@@ -187,16 +210,6 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=1855657)
-
-### 18. 애니클리어 노트북 거치대 OA-1
-- **브랜드**: 애니클리어
-- **가격**: 35,720원
-- **평점**: ⭐4.8 (16개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 스탠드암 / 15인치대 / 알루미늄
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=8812784)
 
 ### 19. DEEPCOOL V5 PRO BRAVOTEC 멀티 거치대
 - **브랜드**: DEEPCOOL
@@ -208,15 +221,15 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=4567999)
 
-### 20. 리버네트워크 NEXI NX-NBH-2 NX1198 노트북 거치대
-- **브랜드**: 리버네트워크
-- **가격**: 9,660원
-- **평점**: ⭐4.4 (31개 리뷰)
-- **핵심 스펙**: 받침대/쿨러 / 스탠드암 / 15인치대
+### 20. 모프트 부착식 노트북 받침대
+- **브랜드**: 모프트
+- **가격**: 43,500원
+- **평점**: ⭐4.8 (15개 리뷰)
+- **핵심 스펙**: 받침대/쿨러 / 부착식 거치대 / 15인치대 / 조절 기능 / 각도 / 2단계 / 224mm / 170mm
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=14780714)
+- [상세보기](https://prod.danawa.com/info/?pcode=15965288)
 
 ---
 
@@ -231,11 +244,11 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz6pdFNiJFp-S5gBDoLUDZDCy_wW3qMr6FndwCeacoe2XmLgTIY__Agr4N3BA5jdVrOWEwLIrzJVsMHRnzaxsdwZH6x0NRv09PXoGINpBqYz25Vu2Kkb8gxr2x_rHQBk4-iOKDJBIl1bt9iBY71Otqx_Zb0F3OlL8nAOra3gH35ZO99w==)
-- [databridgemarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyaIXn9Zks6ZlGaCqVKCJT-udG9FaY7xjARSM5bW_m0_Gv2J-D4Bejo7sGyJ57zPxI7Csy9RfuqwPvHdWU0-S61tGvLdFTKYtxqmZe33Sd6FAuXpZvihma2ajQnqpkUSClnAf-Pn3BvWoJ9ajs0ZuHdJd6p37S-WHhp6KMqtbEp8_S1ZHDViBnaM3Z0CAw)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHtizFO5jb52SKGYGRwpzv8wI1Y-aoYrM5tYy108wOvsAes7OEkw2mHTVKAReX6I10OYl2ETRuzNwC7SfV_ti7pjF4yFb4ksYuQNbc7b5jgB7XpvRub-Ouu6lr-kA==)
-- [itworld.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkPn4eA03Z5YtkgCYFmV0_hIyCr1ym2de9aV49BxP7PN-gD3AG7JIm2Qseo08_yMwX54_JbziHVP2nYgsP3uEZWFWEtQG0A_2Tg8qQ_RiGHcsJm575nvDEK0IdF4JlHXY-OZffQ4EcXhLdhN1pYEBLd1K8NsZBs2Eduw2k1a39ckzq5dC0zn3DgbDYtqiipx14_B3-x3gb_RKXURRuDn04eFBDwLUwdka5XC2_EuCGZxiZZJEVEoFJcQ2QjwenfHgaRBhe7DCULlho-ebBjxBeWjQVuCDcUVvjrWh0OyoerybUc8ELFNT9f3tbaK3hhAkcGGRI_z54EdVGfk2uh2mw1Ai48wdA1Ch5HF9k5hW5sRymdCdbW7KNSgOl)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVk6857O1lyO6BdvbDLsJceJVma8AnCNq4dFknSNzXzqVBXhE6JV1blIIR__1zB-R4i-uzfhrbWStquCRN9ctfVeC_TDUaLrLEUvyWKT-EcwemZe7TkD9U40MAH9dazlBT0bXOMVU=)
-- [gola4u.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC3dBmlHgAoEQTDwoMrMbAvN6WK6jZtGBj58lHNs4sYi_9YTXMnbCZexL0JypbcWIpTfdI-ZK8hvN96jvzWmOSrIhJ_lrRKTP6hJs0J8COuS5aQGAQXHa_vjPTHDMaAshrbZw-SOZvA-Ci3gWnbLY=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHOIMYB2tvXaSXt-7kpX-ARJl5Qh0uyPPDC3VT-KQ4REntaHVuG7CKo0AuPZEpsph06LL9KtUyrLostbPy5gAIsDlJQ_SvCrbAs_Tp_3BePPvowXstGiqIunDxuHB2cwVjZU5Vj-H4=)
-- [brainbox.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkyKjE_jPfF78PSFTwB93OK6h9dzkCjrXGKWkGt_EUgg7NIaDLMIqYMKi_4LWCD3szIQ-wbVy-U1lqJKTomKcvk5lN6i2rzbyUyUwsHK7gge-Hf1VKGkm7ruq4RXhmoD4HcRJsKCtlMCqI2-r4SvtX-fTesx_lA7R0cqkyFk4B2P5_zQq05IfyZJfnGhpnQ-2IhI1m6tbT1AvqlGql5ZI=)
+- [daum.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBymXYK78Xk9ShpMymUx8veHZFEIeWs9K8A54KLcKok9pDsXidwfRI5n57QOOF2echfpVuLIpPKGuGaKbXh82sadCMy1WX6Epcor5XdY_GGgHdqY6wz6iQHH0=)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFAxef1wHVC1tB9B7amr_ijIU1GtLCjGwx4PqYZhGaRW8cF3iX5YE3gp9XTi1wPx6TQL9q1FYhGZxrV8Q94_qx247bj7Hk8XU2RmCdt7Fa1zCVvoYH63KnszpXbB5FbwtyiUw8uQrCn2PVVAvtqZFysP9HRq6TVL51x8lW-BlcalpFyE1dxd4TvqtjyGIKX_6iCPdWCeqk8SeKbRwN5MOnDolusCGlCbL98SAw_dmmJO2eG_ZB5wSpoeAduNtRZHjV7FVucasE=)
+- [deltagrandtheatre.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTmC6zotLCstRvzxxtwiMUarSqBQoreKUTtKMfvm72wQrtmDsrLZwXyjqZcPSGn_nzDEJJO9MSQSn7_ljzsXNqPqx4LEREJKXnyWm8EhYR4B8f2wlA1sVpMHMeTD9oOjTjLmgLbwbHvjLXAUE8gGba7A81CXqggGHzlsoZOhSYXRp2fpJAHrMYsihR2yDEGzLieYN1WRHD82-5JfmIjoOSZ-eYidLsh_Pb8zMTt3PUQIKY7JMnT2dE_k_5fgX5ZGb0EkZhgHPrdMwqKsgjCUO7uk7isSutfpt4Po09-oLEq8Tc916UNuNiINY_hICQr3tnK0qwsO0S1guCv1LSD3SAJv48XEFYQQhHofpvdBhodA==)
+- [gola4u.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETj0u31pZlhlIEjPYv4bdN-friqoXHdpYxFYRLzqzOGn8-YaF-u-vKnmmDFijW36HVnpwmlugPc8JPxPukRw37PwvTScYE-DFE_Xp5Z598W60dP2RtJWunjxYFMmKDn2C1H09lJ607g6NLLWpCmw==)
+- [icbanq.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz6xbM-GYczCVdEOuWNRmHHQpZ2SkeKiYQrcjlyRrSeQZK9x-Q7o-n8SW5wdkYQlFD9Gz4hX-pylYrdphnrjoaBFKD6SIr0bU_6u7FXTIJmSr_Qm5vf1IIovzb)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0cceaAsGQ3YLq17kM_7Jctz-n4GPbibsB0agZIyY9pPCgh3EY0oy9ew-PnPjp0wVtZoKedcABDM0b-YcsYVyQPYLumm8A5wFYqky5dI-kU4WU7So7vG-vVBjOvMWohcYxll9cgA==)
+- [candyinform.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFwbcysHQwEWPO7tBYOcT5v44DczXAmmE3xZQrXU9DdhnvNP07MuOYHp88kIGicPs7bvKu-uvvgDA8RGyg0B9e3R_3xIWRrvdPwtAkVrYIAtgNMO1oHvDK2uZKPUg0eaw9LsF-KaR95RiOEePN_bYXWL-1FdH2gemJ6oCx9dDaMkFuGrxNnrNC-W1O7MvF_DSpZmgzDGFxU32YAw-ErsreCHUbyLj0cTwB6I70U6Uw0kFOH3b1V9iG5M9uBYsw9Iv-UsvLLvZbVRZ5rLYIoSv6znY4FaNITUPUtth0foaGlkjvUdkejQLzltjSjBXqq0dADpJHizvHfaz9plCIquu8AcP5eSvz7P7I-qCgQoUeOwo8z3ja1uz5FrwKFSBD8n64YRk9EQ75d5mw2G_XrdJ1zMD3qpT2o6jHQtSdu4vtNzV3kq3slvt_J1WP0oAq4iNk5-UwUjhdOpxlObII=)
+- [guidewell.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4AmIjtYVkfZ8ndkUWG-K-4aN18tIXq3tn2IavJFfiHe9KhldKrrHGOp1qijS9VA6tkKsekF4n8fma2fJjxxhxRhZS7gXM4Wt1aYU-M8hOA609x8qZP2O32qzD-x1J-CkpgQ==)

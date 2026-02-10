@@ -1,5 +1,5 @@
-# 세션: 20260210_060941_6xg9
-> 시작: 2026-02-10T06:09:41.022Z
+# 세션: 20260210_122406_ksd3
+> 시작: 2026-02-10T12:24:06.359Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 국내 기저귀 시장은 저출산 및 고령화 추세에 따라 성인용 기저귀의 수요가 증가하고 어린이용 기저귀의 수요는 감소하는 추세입니다. 전체 위생용품 시장은 꾸준히 성장하고 있으며, 기저귀는 화장지, 일회용 컵에 이어 세 번째로 높은 생산액을 차지하고 있습니다. 친환경 및 고기능성 소재 개발, 재활용 이슈가 중요한 트렌드로 부상하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdlkbfUIkOHElYeeKz0xDBIpqt4wPCBsPJuNoDwQJqBPuML1mAiUnYae0ezd3Tb6t6drrZAKXOOXv5QZO2hKmKBOYrCQ-x2-Hps5ZOhanmBwMcTzw2-0BO4Sm2tjvt, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZp72Qb1g-HLw1gBy31gs7_z9G8FtQHraZsk5ayCCgnapYVYEVTopgmg2csolagUKqIJEuj5dzsMpK709Ij079p17n5Zl7OxG5-ERwVDmQNkMFcrVKkmvIgb9g4m0O6wEzKyDtoedtCU_P9ZAHUOvLYyLryBdBCwflCeYbGla0pwOi6zlktDdJw2WJPzg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGBkkbGHnaljNK3zXbVWzyXVYuVMO0_OrDSyRCdTj2X9vKWNdAarIHrerK0DWzaLHZoZsVlu6FYZUJuX0KXLGR5odsp-9Fjt9vudr6VxCg6Ox0huWb0YAOw1CteDFJkLPkwmuC7h5_BYNvtms87H65Dj4rvktM7DA==
+- 인사이트: 국내 기저귀 시장은 저출산 및 고령화 추세에 따라 어린이용 기저귀 공급량은 감소하고 성인용 기저귀 공급량은 증가하는 변화를 보이고 있습니다. 전체 위생용품 시장 규모는 꾸준히 성장하고 있으나, 기저귀 생산액은 전체 위생용품 생산액의 약 12.8%를 차지하며 화장지, 일회용 컵에 이어 세 번째로 높은 비중을 차지합니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOLgZ3nFGxm3h08H44MoWsI8WIrQK-lYUCL80mbjlukgmkaE_QahH1VHNtYiugp4pSdxQfQx770WuK7fLXccwxpRJGpdGOJiX_7gvphyNggXtiVoFrm0MPXWzez3sLQ6G4-mtxt3I=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9Tegye3tYx-QtiLqLp5Ty8JHkLkJkn-NTfmbjbjZ1F2ivX_Puk5VnUgRRE6ydKj2L8vGiGXy8UYvAoYcUpLvDn2IjEb0dXJnEf-b3UZpZ5u5ZqugPyPhEPTntU7bQIMGTT8XDhvxmj3Touon6C1BxprF-FxEmrET8xNDnONxAVsUfchUpjJgf3Ed_MTmHVUI_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcNF0Ec2ICN21eqbrGReh9aA2JDj2aSAOeuSkhEAsz_zfshJNfHzTPbk1e0bFKAxP4Yl1ZC26gcOsdw5g1C7jaRnQIxzMY4xEuyvGfI_ARAyB7pcH782bcZZHBcG7z_ptUwnoCg_2S4y5X_G7E, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLpXeR6m0DbDkYUB8a5nVdllAK7I1VLbc7-wc7Ks4Y5C8hukuD3APnzxkEkcJWBiAbPCmkKGuLHiWUi14N02v-IZjygH4-hNQgWWhtUm2r4Rxn_M3A8Yikf_F2GPw9, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJGAh8H4cB6keCecdba5mWxipBY4N9x__l8ow0hYaLYBvnS2bx-BtMySn7RdbCCS2o3rqHd8iaSMTc4xxzRUbQoaTjxQ8V6zHLjaFPoNai2eCtisWJYCyv4MxtC1OoNydPnKzT2MAmDRw_JzYI_QLPs7kX3fCxk-8GXmUF0m0NypLQpvmmUtc=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFapGqejGczHYQ0UejqjglZS6qtEND7miULYBTHy_vzi7vTrHSM4QpHof9k8Hcc6s9jBBcyf0W2mrtMf1_PAdqIWXCKVXUDeuYUz9HZZTzO-GNtLkG6LAzxzby_sjthbxVQjusYPm6cK5QkBA4HSs13YOajR2CekcjK38w=
 
 ---
 
@@ -16,9 +16,10 @@
 
 | 항목 | 답변 |
 |------|------|
-| 신생아용 기저귀 사이즈, 어떤 기준으로 고르셨나요? | 직접 채워보고 결정 |
-| 아기 피부는 민감할 수 있어 소재 선택이 중요해요. 아기 피부 타입에 맞는 소재를 선택해 드릴까요? | 극도로 부드러운 저자극 소재 (민감한 아기 피부에 적합) |
-| 샘 방지 기능과 흡수력은 기저귀의 핵심 기능이에요. 어떤 점을 더 중요하게 생각하시나요? | 최강 흡수력 (샘 걱정 최소화) |
+| 기존 기저귀의 허리 밴드가 말리는 불편함과 사타구니 쓸림을 개선하기 위해, 어떤 점에 가장 중점을 두시겠어요? | 부드러운 허리 밴드 |
+| 기저귀의 흡수력과 통기성은 어느 정도가 중요하신가요? | 샘 걱정 없는 오랜 시간 흡수력 (장시간 사용 가능) |
+| 아기 피부에 직접 닿는 기저귀 소재는 어떤 점을 고려하시나요? | 매우 부드러운 촉감 (아기 피부 자극 최소화) |
+| 기저귀의 두께와 휴대성은 어느 정도가 중요하신가요? | 얇고 가벼운 휴대성 (외출 시 편리) |
 | 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 1천원, 1만 8천원~4만원대가 가장 많아요) | 1만 8천원 ~ 4만원대 |
 
 ---

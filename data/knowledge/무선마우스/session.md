@@ -1,5 +1,5 @@
-# 세션: 20260210_061904_p816
-> 시작: 2026-02-10T06:19:04.427Z
+# 세션: 20260210_123750_5n7w
+> 시작: 2026-02-10T12:37:50.625Z
 > 카테고리키: 무선마우스
 > 카테고리: 무선마우스
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 무선마우스 시장 현황
-- 인사이트: 무선 마우스 시장은 2025년 기준 지속적인 성장세를 보이고 있으며, 2033년까지 약 37억 4천만 달러 규모에 이를 것으로 예측됩니다. 소비자들은 단순한 기능성을 넘어 편안함, 디자인, 지속 가능성, 개인화된 경험을 추구하며, 고성능 무선 마우스, 프로그래밍 가능한 기능, 경량화된 디자인이 주요 트렌드로 부상하고 있습니다. 특히, 유선 마우스보다 무선 마우스의 판매량이 증가하는 추세이며, 유무선 겸용 마우스 또한 급성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBlKOLwUDahKkdv6Cdh7IPqB0yoqE5fWU51YMMSAhBqL_T29phxg0J1zezHJjrK4hVTEjfKZwUK1Xwb8v2IeOa_hgKXhcLpvz6s31KR7L0fMopyrfRuvZ-TAWS4MBxpkXqxMn5iy1TIUK2mdXiTni7DI2EHZ7ZmNqGA0sZtr0TYxNbIkMA0O4jDUNU0rbS89YZn0tUPI6ulapwCKEvXtEnz785O6sgfIuXL5mIyxHbazUKBow2Qz8Hcc-7SdBXMnTWHlwM_hLe, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHj1ZPAAgMRf0U4EkTnxdPAxWBU1VbKYGOBsKZ7jyao2M8nUXpyRkam91zujOCthEPiYBIaUr4COYqLZk-aMZ70e2WMsJ45a-MgJlyUSqH8hcRorGedmHOqodJr3AO3adcGR5L5GNDpwh96s858ggEde2KfAbNJs4gCi0eylDK3DeqvgJdKg8bC85IUOBQEgmWzCJXNPmsWROchP-izyyb36L6KHgAL0_VPoUqUh1tiAhPbvLCkUPiDghLeTKw1MYcV1UK_926gKLVV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJdJEUrZJYQ4D4vSfrqQvGFpNVGk1nucav6cnl4ztBiD-5eYtCSZlroSGOLhoAxnsH4GmiLJNzqMkI9yclGjgXAu9IdXdqSU990bLRcELIdrYkVjWOtmLfqeYWHvGw04XD5J4OsMFQDeLX4jaLI0xYoep3VMXrkune6RB3vO9IavYiYDcysbmkK2Bdclf-BGFmD2SDYiMPXGjHiBtaGzyjfIZ1D_RyBY7F8Q9G8W7ujwM8UupwfJ5y3DS6TOjawDOv, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELYlRjU0v2xPujDnFCYvv6KpUlvH6r0m5GMe0zW3lDHVS_rLqSRnjHTqPfQRGlKabXSW8i5-UNYXPU5P5SAvcLZWISsTSKMGZlp0b1-mUfXQixBCicLkzSKUt52jqjWpmiKaoLETAvYOyM8MWu68XgW59q, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEb0_X9fFrYMycawCUNvSWhmXoFmM-7D1WcDydpThTejJxG3ihKVZnaAWDCpGfwHpV760EzBxJdSN2fTcjOBpsR0QvUSnaA0iQV0K2kNtQIqR91zcnHHTGwqEeGx3Xkx1P724IDCi3Cam2c3ytlMg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-AIJqoG2BnuJhD_5_-gw7HONPg0uB26RQ_1o5Ndp21koOSgXOUPApPPYjW86Z92TZqPODl0Q1OMq0zRJ08Uitrv654utdNf_279I6vqbsH48rZFCxxCBAS9TTlG2H_gRO0GQGCyg=
+- 인사이트: 무선 마우스 시장은 지속적으로 성장하고 있으며, 특히 편의성과 디자인, 개인화된 경험을 추구하는 소비자들이 늘어나고 있습니다. 게이밍 시장에서의 수요 증가와 기술 발전으로 인해 무선 마우스는 이제 필수 주변기기로 자리 잡았습니다. 2025년에는 무선 마우스의 시장 점유율이 유선을 넘어섰으며, 유무선 겸용 제품의 성장세도 두드러지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfvRLnhTiQN7KTss6lgCw_2hP1Z9_iTuNLj8DcwG2cYjvDuKYyOzjkqoumhYYb4OPzc-lxmFPMClm4wI4YlKV9MMK9OMG_5ygziFeKJCpaeRaGoEep4kHlJktCW1gxUTIFairNOnNaEGElIfFYmxr8It5QE1Yk85LjM1lCKa3u, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX2lyTJP9GEA9t3K97693X4Y4-TRSxs-xub6LQ8L6xP5ZouHYmUQiQyR9WzSdJPlUMQfHsNBmxyiqjBHG8ybyNSixKWknYT4ASYgWZEQfVhQHMR6JnRkbDoew=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSXwLQ7yYhvoFeC0MY2sqtZtWuvDYbGkg32UPgS79xlkI8Q4tr0T9qNwCnxjyEpDoi0FReSBEdxlQS-Mer4dTzqln_PFw7eEGeW7qk9U2E-S913P9kPO8nqWqGQBvsyJ2O3hObUJqco_rIGJOfr9skr1SuW8on_QSeIwiw8O6cMNPtA4CI21exw4DCEHFpXtquF9scUciKt0_tBZGRgBSzG-qao2dvlnjZLbcAKKUfPbmVxyF3G_sikCL-GMY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEoSsc1vUx_uy-jerYl46evfE4q0xbY4mu5k7cFIWmr8u9O6APxebIeJaBa_FXmvQzz-514kbpo79MYqoNRD6J7I9hIhZIqYSnHDwTT9yTaSKjOZ1bNIBypqyZtpz1sn163UMZ2CwVBOXNGtIYORBWbwqhPHPWoykk-xkM961H8YlynNhMNBA29bfypl3CpvPbZY1O29fxGUNKoxUYWEzzx44KfvuYDjORzDMK7eY_IuI0OObiBOhOBeUKDmZKRPfchsdbw_Ek_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5Qq0V3rIbHHb0Nj2yOh6OtxwgiRa0zYWyWVswg5rAQ-UhfILXKDCHP-bUbg6HHLoriA32odzWx72NdpvPbBO_A5B4QXc9Yn9RFWU-J3YQTs-zIOr_oGyI1DahX6eSvs36Eu1xXXpx_T2lI_Pp1lOp0D2lksXSvaJ3qdHKFtYTFIfX-gSfCkRUjJ7wsoOLdbtLD86MKdmsyBL-oWF9oRwdeWGELWEEM-FwddR2OCrlyvPjVjhe079FFyRTHVfUqJ3GhgoQmKEhFDP1, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF06uu-r7pUcG3jAez_T_raONbERiFXmNVJCEdXZKKPw4q9UCR5kxIOUjHqdDkzOA7MdIdsP93RkwtTdKcBDIhxaZPdXaeAILftisH5cBtR6OKJcxCE_7Bwfg0OkuhP0f73p-e_vXHb5nncW-wz0f8cqXcaJjzgONEO5HgsTCPkhI_793R7JRqzQ6V_JYrK2d0SiZhOUDOKHGx73S4owgyA_ptn3ayayBCwCaAACXYmswmDsOBjSDjoYha11MAi6bLy
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 재택근무 시 편안한 사용을 위해 어떤 그립감을 선호하시나요? | 인체공학적 그립 |
-| 무선 마우스 연결 방식은 어떤 것을 선호하시나요? | 블루투스, 유무선 겸용 (동글 + 블루투스) |
-| 마우스의 형태는 어떤 디자인을 선호하시나요? | 인체공학적 디자인 |
-| 마우스의 버튼 수는 어느 정도가 필요하신가요? | 상관없어요 |
-| 예산은 어느 정도로 생각하세요? (평균 약 9만 6천원, 5만원대~12만원대가 가장 많아요) | 5만원 ~ 12만원대 |
+| 현재 사용 중인 유선 마우스가 불편하신 이유가 무엇인가요? 어떤 점이 가장 개선되었으면 하시나요? | 선 걸림, 포트 부족 |
+| 무선 마우스를 어떤 방식으로 연결하시겠어요? | 블루투스 (다양한 기기 연결) |
+| 마우스를 쥘 때 어떤 그립 방식을 선호하시나요? | 팜 그립 (손바닥 전체 지지) |
+| 마우스 배터리는 어떤 방식이 좋으신가요? | 내장 충전식 (USB 충전) |
+| 마우스에 추가적으로 필요한 기능이 있으신가요? | 상관없어요 |
+| 예산은 어느 정도로 생각하세요? (평균 약 9만 5천원, 5만원대~12만원대가 가장 많아요) | 5만원 ~ 12만원대 |
 
 ---
 

@@ -235,7 +235,7 @@ export function BabyInfoPhase({ onComplete, onBack, categoryName, categoryKey }:
 
             {/* 하단 고정 바 */}
             <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-[60]">
-              <div className="relative flex gap-3 justify-between bg-white rounded-[12px] p-2">
+              <div className="relative flex gap-3 justify-between bg-transparent rounded-[12px] p-2">
                 {onBack && (
                   <motion.button
                     onClick={onBack}
@@ -522,9 +522,9 @@ function NextButton({ onClick, disabled, onBack }: any) {
   return (
     <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent z-0" />
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-transparent z-0" />
 
-      <div className="relative z-10 flex gap-3 justify-between bg-white rounded-[12px] p-2">
+      <div className="relative z-10 flex gap-3 justify-between bg-transparent rounded-[12px] p-2">
         {onBack && (
           <motion.button
             onClick={onBack}

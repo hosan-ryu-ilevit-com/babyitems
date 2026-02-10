@@ -396,21 +396,17 @@ export function RecommendProcessBottomSheet({
                       </div>
 
                       <div className="mt-2.5 flex flex-wrap gap-1">
-                        {preferredBrands.length > 0 && (
+                        {preferredBrands.length > 0 && item.preferredBrandMatched && (
                           <span
-                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                              item.preferredBrandMatched
-                                ? 'bg-white text-blue-600'
-                                : 'bg-white text-gray-500'
-                            }`}
+                            className="inline-flex items-center rounded-[6px] px-2 py-0.5 text-[10px] font-semibold bg-blue-50 text-blue-600"
                           >
-                            선호브랜드 {item.preferredBrandMatched ? '일치' : '불일치'}
+                            선호브랜드 일치
                           </span>
                         )}
                         {item.fullTags.slice(0, 4).map((tag) => (
                           <span
                             key={`${item.pcode}-full-${tag}`}
-                            className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-white text-indigo-600"
+                            className="inline-flex items-center rounded-[6px] px-2 py-0.5 text-[10px] font-semibold bg-blue-50 text-blue-600"
                           >
                             {tag}
                           </span>
@@ -418,17 +414,16 @@ export function RecommendProcessBottomSheet({
                         {item.partialTags.slice(0, 3).map((tag) => (
                           <span
                             key={`${item.pcode}-partial-${tag}`}
-                            className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold bg-white text-sky-600"
+                            className="inline-flex items-center rounded-[6px] px-2 py-0.5 text-[10px] font-semibold bg-yellow-50 text-yellow-700"
                           >
                             {tag} (부분일치)
                           </span>
                         ))}
                       </div>
 
-                      {item.unmetTags.length > 0 && (
+                      {item.unmetTags.length > 3 && (
                         <p className="mt-1.5 text-[10px] text-gray-500">
-                          불일치 조건: {item.unmetTags.slice(0, 3).join(', ')}
-                          {item.unmetTags.length > 3 ? ` 외 ${item.unmetTags.length - 3}개` : ''}
+                          불일치 조건 외 {item.unmetTags.length - 3}개
                         </p>
                       )}
                     </div>
