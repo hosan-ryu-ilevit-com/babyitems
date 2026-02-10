@@ -1,5 +1,5 @@
-# 세션: 20260210_060355_uh75
-> 시작: 2026-02-10T06:03:55.956Z
+# 세션: 20260210_131535_bfob
+> 시작: 2026-02-10T13:15:35.060Z
 > 카테고리키: 분유
 > 카테고리: 분유
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유 시장 현황
-- 인사이트: 국내 분유 시장은 출산율 반등과 MZ세대 부모들의 프리미엄 분유 소비 증가에 힘입어 장기 침체에서 벗어나고 있습니다. 다만, 유럽 및 미국산 유기농 수입 분유의 점유율 확대와 함께 시장 재편이 이루어지고 있습니다. 2025년 글로벌 분유 시장은 약 351억 달러 규모로 성장할 것으로 예상되며, 2031년에는 439억 달러에 이를 전망입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAMyGBxq3HVeJ6HU9LfSAvAZdvKYl5Ik6iRvOUMkZT9Nhx1aFGveqa2gzZZGip7W7zbZCvVk8QyuGh-0oKKtvClQBnU72u3CgS92xOmCe4E76GhUdDnCNdybTAtSNsVSd9JA7hfx05sIvlG5-Og0BnRNM5EpFdl5eDBPAcUl-AHfQCG4B01vz2HiaVo9EUCbtpuBVpXA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHA65KIxcFN1q_3an7188j-TXrLYQSNigzaJnRJuqf6OVphNj2rNqAsiylGHTZbP1k6vQOeDBVZCXrOznzg0UpnEpx70Q2n7El_3eAtrK522ymxoU7_jh60xmRo3ngFhR_Vd4mmQMu23zx2k3u-T9By5lvW4DcttmzGFh7t_3LHfLn-947dPMEPMAwRI84YFxxYRPDAfL1F, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-dUTCED46jrKSdLlyAfe3fRXljqbKW5jMEfRwTxd1MFl_5VZJJOnsyiUVjvJlgcDbpYJc3NICqqZIUn-X6ixkJTaiNpIsIcf5nwfIiXS_ZKLR7rm8F2p7H1aEwloeVS6kEs2oHakGWVT8Z9KtKHxSUw2jV_QFX1LrubWJYeD38ZOz
+- 인사이트: 국내 분유 시장은 저출산으로 인해 전체 규모는 감소하는 추세이나, 프리미엄 제품을 중심으로 경쟁이 치열해지고 있습니다. 특히, 수입 분유의 인기가 높아지고 있으며, 온라인 채널의 성장이 두드러지고 있습니다. 또한, AI와 빅데이터를 활용한 개인 맞춤형 영양 추천 및 기술 발전을 통한 제품 안전성과 효능 향상이 중요한 동향으로 나타나고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-Unr2D2xyYzX8QOVbl4iw1QwPTTqXEPYvB3LXYhZrkwkIqQKQu6DLHJslsrcyQL21U3UcVAuZRYQue_6vwoK2CxttCZ7g8o-tI5yaqF9xdW3sgMch_xqYLGpaURa15e_R3j3cNazEYddaLrCFvkYfT2HjK5X8kfi-CE7y1vzbP5DB4MXRlboRmXB4HpLTMBfQ29OG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqX87zA2Ohlnc8MDx-YWW8PAWzqYXCmpprJNhesGEt0hkB9Y0V797sFrtlIyTpVLHirOplmZTvqbvJTzZM5QimrJASOmNnOLFXcE81m6sK_YoPwCzToRcKDsFGB6p_5PGgr2hB54bnmouSYc2You7gMh4gQryA2yWHldoJadrer8ADQ8lxnN-MPkCLTrYFT6xfVdR80D1v, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYaAWBpPZK186PN02Rzl6xiMLCZqTg40w6zPJIexrE15rXpBiTW-8VVySQCusDQ6khNr7zDrvRXT1ofkS0K46qIW_ZbVPnZT2_DtYgOAjMak25OfT51JcjqJDmSEgV-Xo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPjL_peBkpDNrQFoE1PDDxm9bRLcDQrSeXNZFhDTWcDzYuMxu--i-3xbRrQIN-D5c7q6-VRMLpk2yuejaeZ_TZzqFt2UGBYNCzUfZDTSu7qdSqTTK0Y5WCEA7oLutSowhS8tZKA1zFG3Z86YLS3Ht0UaB9JgoNizgm7_zr3DenosQZe6ZsyyMqSVZLEBQWFkIin0DJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOopvrWg-Veax0dR8H74sxb1TDDG_AJSTYAaM6Mg7vvdUOYJsel5D75XOMEn5JTnpWMakdL82OqSV7dDKy0RMqbc62LD5oBwnt1Oeac6LYEEUInyNDGZr6rJFmPNTZ_t33pSUl3TdQfkh-_LpPYGsFcrH0H4PM22GKtksYnvSSPb_tmdomhZuf1jjfS9YjAqidicjk9A==
 
 ---
 
@@ -16,6 +16,8 @@
 
 | 항목 | 답변 |
 |------|------|
+| 조리원 퇴소 후 바로 먹일 분유를 찾으시는군요! 혹시 아기에게 특별히 고려하고 싶은 성분이 있으신가요? | 모유 유사 성분 (유당, DHA) |
+| 아기에게 어떤 종류의 분유를 고려하고 계신가요? | 일반 분유 (모유와 유사한 성분) |
 
 ---
 

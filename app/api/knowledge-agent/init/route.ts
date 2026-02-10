@@ -1356,7 +1356,7 @@ function generateAvoidNegativesQuestion(): QuestionTodo {
 
 /**
  * 온보딩 질문 옵션 후처리:
- * - label에 소괄호 설명이 없고 description이 있으면 자동 보강
+ * - 라벨/설명 문구는 LLM 생성값을 그대로 유지
  * - isPopular 최대 2개, isRecommend 최대 1개로 제한
  */
 function normalizeOnboardingQuestion(question: QuestionTodo): QuestionTodo {
@@ -1364,18 +1364,7 @@ function normalizeOnboardingQuestion(question: QuestionTodo): QuestionTodo {
   let recommendCount = 0;
 
   const options = question.options.map((opt, index) => {
-    const rawLabel = (opt.label || '').trim();
-    const description = (opt.description || '').trim();
-    const hasParenthetical = /\([^()]+\)/.test(rawLabel);
-
-    let label = rawLabel || `옵션 ${index + 1}`;
-    if (!hasParenthetical && description) {
-      const firstSentence = description.split(/[.!?]/)[0]?.trim() || description;
-      const shortHint = firstSentence.length > 24 ? `${firstSentence.slice(0, 24).trim()}...` : firstSentence;
-      if (shortHint) {
-        label = `${label} (${shortHint})`;
-      }
-    }
+    const label = (opt.label || '').trim() || `옵션 ${index + 1}`;
 
     let isPopular = !!opt.isPopular;
     if (isPopular) {
@@ -1549,6 +1538,9 @@ ${onboardingText}
 3. **옵션 설계 (3-4개)**
    - 온보딩 정보와 직접 연관된 구체적인 선택지
    - 모든 옵션에 소괄호 설명 필수. ex: ISOFIX (국제 표준 카시트 안전장치 인증)
+   - **라벨 소괄호는 짧고 핵심만** 작성 (키워드/수치 중심, 가급적 12~16자 내)
+   - 자세한 설명 문장은 \`description\` 필드에 작성
+   - 옵션 라벨/소괄호에 \`...\` 생략기호 사용 금지
    - **⛔ "둘 다", "모두", "기타", "직접 입력", "상관없어요", "잘 모르겠어요", "아무거나", "둘다 좋아요", "다 괜찮아요", "별로 안 중요해요", "크게 신경 쓰지 않아요", "신경 안 써요", "중요하지 않아요" 등 회피성 옵션 절대 생성 금지** (복수선택 가능 + '상관없어요'는 시스템이 자동 추가함)
 
 4. **인기 옵션 표시 (isPopular)**

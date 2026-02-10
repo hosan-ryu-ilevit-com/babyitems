@@ -343,12 +343,22 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
   }
 
   // -------------------------------------------------------------------------
-  // 3. 리뷰 크롤링 (상위 N개 제품)
+  // 3-4. 리뷰/가격 크롤링 병렬 실행
   // -------------------------------------------------------------------------
   let totalReviews = 0;
-  const topPcodes = products.slice(0, reviewsTopN).map(p => p.pcode);
+  let totalPrices = 0;
 
-  if (!skipReviews && topPcodes.length > 0) {
+  const topPcodes = products.slice(0, reviewsTopN).map(p => p.pcode);
+  // 다나와 pcode만 필터링 (숫자로만 이루어진 것만 - TH201_, TP40F_ 등 타사 pcode 제외)
+  let allPcodes = products
+    .map(p => p.pcode)
+    .filter(pcode => /^\d+$/.test(pcode));
+
+  const skippedNonDanawa = products.length - allPcodes.length;
+
+  const crawlReviewsTask = async () => {
+    if (skipReviews || topPcodes.length === 0) return;
+
     console.log(`\n📝 [Step 3] 리뷰 크롤링 중... (${topPcodes.length}개 제품)`);
     try {
       const reviewResults = await crawlers.fetchReviewsBatchParallel(topPcodes, {
@@ -364,7 +374,6 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
         },
       });
 
-      // DB 저장
       if (!dryRun) {
         console.log(`\n💾 [Step 3-1] 리뷰 DB 저장 중... (UPSERT 방식 - 기존 리뷰 보존)`);
 
@@ -405,26 +414,17 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
       console.error(`   ❌ ${msg}`);
       errors.push(msg);
     }
-  }
+  };
 
-  // -------------------------------------------------------------------------
-  // 4. 가격 크롤링 (전체 제품) - 로컬 Puppeteer 사용
-  // -------------------------------------------------------------------------
-  let totalPrices = 0;
-  // 다나와 pcode만 필터링 (숫자로만 이루어진 것만 - TH201_, TP40F_ 등 타사 pcode 제외)
-  let allPcodes = products
-    .map(p => p.pcode)
-    .filter(pcode => /^\d+$/.test(pcode));
+  const crawlPricesTask = async () => {
+    if (skipPrices || allPcodes.length === 0) return;
 
-  const skippedNonDanawa = products.length - allPcodes.length;
-
-  if (!skipPrices && allPcodes.length > 0) {
     console.log(`\n💰 [Step 4] 가격 크롤링 준비 중...`);
 
     // forcePrices가 아니면 이미 캐시된 pcode 스킵
     if (!forcePrices) {
       try {
-        const { data: cachedPrices } = await db!
+        const { data: cachedPrices } = await db
           .from('knowledge_prices_cache')
           .select('pcode')
           .in('pcode', allPcodes);
@@ -450,11 +450,10 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
 
     if (allPcodes.length === 0) {
       console.log(`   ✅ 모든 가격이 이미 캐시되어 있습니다.`);
-    } else {
-      console.log(`\n💰 [Step 4-1] 가격 크롤링 중... (${allPcodes.length}개)`);
+      return;
     }
 
-    if (allPcodes.length > 0) {
+    console.log(`\n💰 [Step 4-1] 가격 크롤링 중... (${allPcodes.length}개)`);
     try {
       // 로컬 Puppeteer 순차 배치 크롤링 (최적화된 딜레이)
       const priceResults: DanawaPriceResult[] = await crawlers.fetchDanawaPricesBatch(
@@ -467,7 +466,6 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
         }
       );
 
-      // DB 저장
       if (!dryRun) {
         console.log(`\n💾 [Step 4-1] 가격 DB 저장 중...`);
 
@@ -505,8 +503,12 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
       console.error(`   ❌ ${msg}`);
       errors.push(msg);
     }
-    } // if (allPcodes.length > 0)
-  }
+  };
+
+  await Promise.all([
+    crawlReviewsTask(),
+    crawlPricesTask(),
+  ]);
 
   // -------------------------------------------------------------------------
   // 결과 요약

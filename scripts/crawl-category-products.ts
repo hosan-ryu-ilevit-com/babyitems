@@ -3,7 +3,7 @@
  *
  * 기능:
  * - 인기순 120개 + 리뷰순 120개 크롤링 후 합집합
- * - 리뷰 10개 이하 상품 자동 스킵
+ * - 리뷰 5개 이하 상품 자동 스킵
  * - 이미 저장된 pcode는 스킵 (랭킹만 업데이트)
  *
  * 실행: npx tsx scripts/crawl-category-products.ts
@@ -11,7 +11,7 @@
  *   --category=분유        특정 카테고리만 크롤링
  *   --dry-run             DB 저장 없이 테스트
  *   --limit=60            카테고리별 크롤링 개수 (기본 120)
- *   --min-reviews=5       최소 리뷰 수 (기본 10)
+ *   --min-reviews=5       최소 리뷰 수 (기본 5)
  */
 
 import { createClient } from '@supabase/supabase-js';
@@ -88,7 +88,7 @@ function parseArgs(): {
   let targetCategory: string | null = null;
   let dryRun = false;
   let limit = 200;
-  let minReviews = 10;
+  let minReviews = 5;
 
   for (const arg of args) {
     if (arg.startsWith('--category=')) {
@@ -98,7 +98,7 @@ function parseArgs(): {
     } else if (arg.startsWith('--limit=')) {
       limit = parseInt(arg.split('=')[1], 10) || 120;
     } else if (arg.startsWith('--min-reviews=')) {
-      minReviews = parseInt(arg.split('=')[1], 10) || 10;
+      minReviews = parseInt(arg.split('=')[1], 10) || 5;
     }
   }
 

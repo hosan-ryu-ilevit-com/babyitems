@@ -1,30 +1,24 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T06:03:53.947Z
+> 마지막 업데이트: 2026-02-10T13:15:32.722Z
 > 분석 상품: 20개 | 분석 리뷰: 34,492개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 및 특수 분유 시장 성장
+- 프리미엄 및 특수 분유 수요 증가
 - 온라인 유통 채널 확장
-- 건강 및 안전성 강조
-- 수출 확대 및 해외 시장 공략 (특히 동남아)
-- 성인용 분유 시장 등장
+- 개인 맞춤형 영양 및 기술 통합
 
 ### 구매자 만족 포인트
-- ✓ 프리미엄 제품 다양화
-- ✓ 소화 용이성 강화
-- ✓ 수출 호조
-- ✓ 성분 투명성 및 유기농 인증 (수입 분유)
-- ✓ 국내 브랜드 인지도 상승 (동남아 시장)
+- ✓ 높은 품질
+- ✓ 다양한 성분 강화
+- ✓ 온라인 구매 편리성
 
 ### 주의해야 할 단점
-- ⚠ 수입 분유 경쟁 심화
-- ⚠ 높은 가격대 (수입 분유)
-- ⚠ 국내 브랜드의 해외 시장 의존도
-- ⚠ 특정 성분 (팜유, A1 단백질, 덱스트린 등)에 대한 우려
-- ⚠ 온라인 판매 의존도 증가에 따른 오프라인 채널 약세
+- ⚠ 높은 가격
+- ⚠ 수입 의존도 증가
+- ⚠ 성분 안정성 우려
 
 ### 가격대 인사이트
 
@@ -246,6 +240,8 @@
 ---
 
 ## 📊 데이터 출처
-- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEAMyGBxq3HVeJ6HU9LfSAvAZdvKYl5Ik6iRvOUMkZT9Nhx1aFGveqa2gzZZGip7W7zbZCvVk8QyuGh-0oKKtvClQBnU72u3CgS92xOmCe4E76GhUdDnCNdybTAtSNsVSd9JA7hfx05sIvlG5-Og0BnRNM5EpFdl5eDBPAcUl-AHfQCG4B01vz2HiaVo9EUCbtpuBVpXA==)
-- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHA65KIxcFN1q_3an7188j-TXrLYQSNigzaJnRJuqf6OVphNj2rNqAsiylGHTZbP1k6vQOeDBVZCXrOznzg0UpnEpx70Q2n7El_3eAtrK522ymxoU7_jh60xmRo3ngFhR_Vd4mmQMu23zx2k3u-T9By5lvW4DcttmzGFh7t_3LHfLn-947dPMEPMAwRI84YFxxYRPDAfL1F)
-- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-dUTCED46jrKSdLlyAfe3fRXljqbKW5jMEfRwTxd1MFl_5VZJJOnsyiUVjvJlgcDbpYJc3NICqqZIUn-X6ixkJTaiNpIsIcf5nwfIiXS_ZKLR7rm8F2p7H1aEwloeVS6kEs2oHakGWVT8Z9KtKHxSUw2jV_QFX1LrubWJYeD38ZOz)
+- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-Unr2D2xyYzX8QOVbl4iw1QwPTTqXEPYvB3LXYhZrkwkIqQKQu6DLHJslsrcyQL21U3UcVAuZRYQue_6vwoK2CxttCZ7g8o-tI5yaqF9xdW3sgMch_xqYLGpaURa15e_R3j3cNazEYddaLrCFvkYfT2HjK5X8kfi-CE7y1vzbP5DB4MXRlboRmXB4HpLTMBfQ29OG)
+- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqX87zA2Ohlnc8MDx-YWW8PAWzqYXCmpprJNhesGEt0hkB9Y0V797sFrtlIyTpVLHirOplmZTvqbvJTzZM5QimrJASOmNnOLFXcE81m6sK_YoPwCzToRcKDsFGB6p_5PGgr2hB54bnmouSYc2You7gMh4gQryA2yWHldoJadrer8ADQ8lxnN-MPkCLTrYFT6xfVdR80D1v)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYaAWBpPZK186PN02Rzl6xiMLCZqTg40w6zPJIexrE15rXpBiTW-8VVySQCusDQ6khNr7zDrvRXT1ofkS0K46qIW_ZbVPnZT2_DtYgOAjMak25OfT51JcjqJDmSEgV-Xo=)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPjL_peBkpDNrQFoE1PDDxm9bRLcDQrSeXNZFhDTWcDzYuMxu--i-3xbRrQIN-D5c7q6-VRMLpk2yuejaeZ_TZzqFt2UGBYNCzUfZDTSu7qdSqTTK0Y5WCEA7oLutSowhS8tZKA1zFG3Z86YLS3Ht0UaB9JgoNizgm7_zr3DenosQZe6ZsyyMqSVZLEBQWFkIin0DJ)
+- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOopvrWg-Veax0dR8H74sxb1TDDG_AJSTYAaM6Mg7vvdUOYJsel5D75XOMEn5JTnpWMakdL82OqSV7dDKy0RMqbc62LD5oBwnt1Oeac6LYEEUInyNDGZr6rJFmPNTZ_t33pSUl3TdQfkh-_LpPYGsFcrH0H4PM22GKtksYnvSSPb_tmdomhZuf1jjfS9YjAqidicjk9A==)
