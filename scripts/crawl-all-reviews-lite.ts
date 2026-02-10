@@ -10,7 +10,7 @@
  *   npx tsx scripts/crawl-all-reviews-lite.ts --skip-existing    # 이미 있는 제품 스킵
  *   npx tsx scripts/crawl-all-reviews-lite.ts --dry-run          # DB 저장 없이 테스트
  *   npx tsx scripts/crawl-all-reviews-lite.ts --max-reviews=100  # 제품당 100개 리뷰
- *   npx tsx scripts/crawl-all-reviews-lite.ts --concurrency=4    # 동시 처리 수
+ *   npx tsx scripts/crawl-all-reviews-lite.ts --concurrency=8    # 동시 처리 수
  */
 
 import * as dotenv from 'dotenv';
@@ -59,7 +59,7 @@ function parseArgs(): Options {
     skipExisting: hasFlag('skip-existing'),
     dryRun: hasFlag('dry-run'),
     maxReviews: parseInt(getArg('max-reviews') || '100', 10),
-    concurrency: parseInt(getArg('concurrency') || '4', 10),
+    concurrency: parseInt(getArg('concurrency') || '8', 10),
   };
 }
 

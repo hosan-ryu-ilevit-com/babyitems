@@ -416,15 +416,15 @@ export function FinalRecommendLoadingView({
             gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
           }}
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence initial={false}>
             {visibleThumbs.map((thumb) => (
               <motion.div
                 key={String(thumb.id || thumb.thumbnail || 'placeholder')}
-                layout
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.86 }}
-                transition={{ type: 'spring', stiffness: 190, damping: 26, mass: 0.9 }}
+                layout="position"
+                initial={{ opacity: 0, y: 4, scale: 0.985 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -4, scale: 0.985 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 className="overflow-hidden bg-gray-100 border border-gray-100 rounded-[8px] w-full aspect-square"
               >
                 {thumb.thumbnail ? (

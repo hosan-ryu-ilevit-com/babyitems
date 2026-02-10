@@ -1,5 +1,5 @@
-# 세션: 20260127_074705_oiyb
-> 시작: 2026-01-27T07:47:05.816Z
+# 세션: 20260210_135137_v7kx
+> 시작: 2026-02-10T13:51:37.992Z
 > 카테고리키: 분유제조기
 > 카테고리: 분유제조기
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유제조기 시장 현황
-- 인사이트: 최근 출산율 반등과 함께 국내 분유 시장에 활기가 돌고 있으며, 시장은 프리미엄화 추세를 보이고 있습니다. 저출산 기조로 인해 시장 규모는 축소되었으나, 프리미엄 분유의 점유율은 높아지고 있으며, 해외 시장 진출 및 고가 제품 출시로 돌파구를 모색하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtVYjQuWHM_uGovAV5MsNH3JfT9r13sYnTTnY6uP6I1G7VcBSPhToF4fa-yNK8QSwQcUmDOYzUB83d-0avyxc99LFPyZXrL8GawJ6NrsX8tRbOmPsA3vcHjgDUTv3Nh4A6wvZeoI3XNEbR7FLYwOIQFdBpYAP7xfwe0rNddWF2K2vFVG6b9fQwQHU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEceDeGZ0Gehh_nxZPAbmrzskhRFIKvYNenjhG6QP_2c5MCor9eC0_N2iuRmpkn6GJAL5XkXMF_Za1u9khcrosL-PV0u-_h1UzEc7scBM7e3vCPme0QKa9kX6oQuxoxEzQW6c7SS4k266Y-QVB87KqlEoD40tFD-as=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEu5kvP6HogtvTp69Lkg944FkSM39lo2fJfsg68e_3kofSUTXZstjtI6zkVbODF3qXw-8rYXledBesBRPrZ4nzPY0DagB-IY86eWywLeVPqv6i3CFOPC85LjywwUN1Wb08t-E69c-yJkqleRwwkdYchgSSbQHD5wb9kI12UDXeXRbLaokdC1A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwgMy1dMPEF2tPWNg5t3qVpjrV9p1YO7tHg_Zvb4laM-Aog-TOa9Rf6WL4CCiILoFv3f4MlXPIUANoc12hFJaqGk7Q5O0dle8VRqAs7VWTQTjAHzuRC3vni9dGb2-jpVXhtd1rxhAiPk4pt5lHXGTg8L4tVvMl5FLa4Fs53oZlyRGOvoyfzHLKfw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUaMZTvWaWD-OjK1DNPc8JCVD9rjQbOpBGDux6U1JNsjxl8twfvkYSK9a8QwA3W6LEO64M-IckI6jVqx2fj2StIIktVDf6RSnwfya2DgzBIReZuYxuM6AGDRzJ_-ck8BzEucRcw1yhxveRv6wu7kniCOHS, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGl2R4dU3loIYSCVOlOUHR3kPdXk1HUAcROQDQI85WyCGgh7d1E0iRYMDUzCIOxixZ0TBO4yFyJUc7wEdVAAbKSO8Q1ctdQuB6NWh3iRe782lxuOC52pmymb0EwIrx_wUxyrOVbPVL0LwYkhL0nOxiiXFlxjLBXQA8iCclxOS7Z, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0sIK10llW6VhgdXg55P3nd-a2EXnYymJKIxkFsNbekFxrs56WWe1-uqSulpX40b_FB5gJwFGIEpfhd9Znjp8SUE93oHW1E8HGDVnu74Nu9nuOUOavKoesrQefCxz2KXdSpqiZqA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9q8tfBUGinjA8yUqrefqSMc_vul9JcrMosNw0sWfnW2S2lRmWwMC7oMPq1ntkTXVDhUbwIx2dYHomjK4Pc9H5YNy4H3zInLS9WwyrL5EbdR5Iv1atU5V3aiRDxBVLw_wDy-6oltNvCEElUf_O7Xd_jygELbsFceU5VCmSKoIjurVCcUtt18l5W08=
+- 인사이트: 국내 분유제조기 시장은 저출산 추세에도 불구하고 육아 편의성을 높여주는 제품으로 꾸준히 수요가 있습니다. 특히 스마트 기능과 정확한 조유 성능을 갖춘 제품들이 인기를 얻고 있으며, 가격대는 20만원대부터 40만원대까지 다양하게 형성되어 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHL7rbSzxD-Hx6A1Oue3S6Ii9Q6HtwGDaeQwE5BKasVeV-L_FURUg3RLi68ngKEhT2sX8_3HngOHwA5Q70RFBgL1uC4JD3kqor4--MCsGIhPU8FvpF9JRQ6EWu6ywroiXCMsqFKVA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQpL3twN7V372dIkVFw16h4ZaNkalLOnFK138WOJAfoN2yz8xTL_xKSzyzz7nedAbv4SWxsSBBTLjQ__cxzpqQ4G7X9v-4JRagUlm1o_Ta4sSDx5wTHfyeBJ9mVmkA8ZGazJ2KVw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaKBPOoHGta1E-PpS-4QwABjs6H8SfVTE9Y9-BVVCmjsH2WTnvm9j2DnnTS9Rt8pOG_xKEWRiJLmPqwyWMmiAoFuQasAxePM-gCq7jRpFzatpc4gk4aiFLm_-0eIHyQqlVsOAr8XD0t5zudIi8oi-NLq2aS3N0Ed6zYL8q8_0mBAWIuFg4xOpuvaU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHHWVmTBIvod3gd2dS1SINyLyXNV_8GTRuClV8n4RpYnahXk8eXtFshjCeCkRHEPjoDttKhAX8jlwwzct0cTAA9AsK3zn8HvVj7m_grJWoEzimq0YTxLf8Ji6b5BexRH7Gglw1ZvGU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHz9HKcFQZeu1Dn990GNUC1Qt9ztYlgCKntS17JwHoM7xDfvKTdr9ViuWtCbUbdic3nUPnlPRBFaz9wm6U4i5bQKMUQEAlK1FUopGqxP4TiJbTMp5-sr-pEnToJ-blSEU1sVOlytz0hAjwDHDkJmlvDS2qjEUJlPlllAwpJTfMYrUMwqhh
 
 ---
 
@@ -16,28 +16,23 @@
 
 | 항목 | 답변 |
 |------|------|
-| 분유 제조 방식은 어떤 방식을 선호하시나요? | 자동 분유 토출 방식 (원터치) |
-| 세척 및 관리 편의성은 어느 정도를 중요하게 생각하시나요? | 매우 간편함 (자동 세척 기능), 간편함 (분리/세척 용이) |
-| 물 양 조절 단위는 어떤 것을 선호하시나요? | 10ml 단위 조절 |
-| 어떤 디자인 스타일을 선호하시나요? | 상관없어요 |
-| 예산은 어느 정도로 생각하세요? (평균 약 21만원, 11만원~27만원대가 가장 많아요) | 11만원 ~ 27만원 |
-| 밤중 수유 시 정확한 온도 맞추기가 어려우시고, 아기가 뒤집기 시작해 수유 중 잠시도 못 놔주시는 상황이시네요. 분유제조기 사용 시 가장 중요하게 생각하시는 기능은 무엇인가요? | 빠른 분유 제조 기능 |
 
 ---
 
 ## 🎯 필터링된 후보군
 
-현재 후보: 8개 (전체 8개 중)
+현재 후보: 9개 (전체 9개 중)
 
 ### 후보 상품
-1. 베이비브레짜 포뮬러 프로 어드밴스드 분유제조기 - 291,840원 - ⭐4.9
-2. 아이닉 iEK01 - 119,970원 - ⭐4.8
+1. 베이비브레짜 포뮬러 프로 어드밴스드 분유제조기 - 293,550원 - ⭐4.9
+2. 아이닉 iEK01 - 129,000원 - ⭐4.8
 3. 리하스 자동 분유제조기 KHV-001 - 12,200원 - ⭐5
 4. 리하스 KHV-001 - 224,300원 - ⭐4.9
-5. 버들 버들맘마 자동분유제조기 SMART - 492,100원 - ⭐5
-6. 허밍베베 HBAF-2402W - 236,370원 - ⭐4
-7. 라이녹스 티엠포 RXMX-T25D - 207,780원 - ⭐4.7
-8. 미엘루 AI-GN2202B - 62,900원 - ⭐5
+5. 라이녹스 티엠포 RXMX-T25D - 207,900원 - ⭐4.7
+6. 버들 버들맘마 자동분유제조기 SMART - 492,100원 - ⭐5
+7. 베이비부스트 스마트 분유포트 - 198,000원 - ⭐4.7
+8. 허밍베베 HBAF-2402W - 236,370원 - ⭐4
+9. 미엘루 AI-GN2202B - 62,900원 - ⭐5
 
 ---
 

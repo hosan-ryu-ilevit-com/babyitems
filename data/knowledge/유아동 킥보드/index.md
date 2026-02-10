@@ -1,32 +1,30 @@
 # 유아동 킥보드 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T07:16:22.498Z
+> 마지막 업데이트: 2026-02-10T13:52:37.973Z
 > 분석 상품: 20개 | 분석 리뷰: 13,326개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전성 강화 및 지속 가능성 중시
-- 전동 킥보드 인기 상승
-- 소셜 미디어 중심의 쇼핑 습관 변화
-- 온라인 플랫폼(쇼피파이, 틱톡 등)에서의 정보 탐색 및 구매 증가
-- 제품 품질 및 조립 편의성에 대한 높은 요구
+- 전동 킥보드 인기 증가
+- 안전성 및 내구성 강화
+- 지속 가능한 소재 및 친환경 패키징
+- AI 기반 개인화 마케팅
+- 옴니채널 전략 강화
 
 ### 구매자 만족 포인트
+- ✓ 균형감각 및 운동능력 발달
+- ✓ 자신감, 자율성, 성취감 향상
 - ✓ 안전하고 튼튼한 내구성
-- ✓ 부드러운 핸들링 및 안정적인 주행감
-- ✓ LED 바퀴 등 재미 요소
-- ✓ 2in1 또는 3in1 등 다기능 활용성
-- ✓ 휴대 및 보관 용이성 (폴딩 기능 등)
-- ✓ 합리적인 가격
+- ✓ 다양한 기능 (LED 바퀴, 이중 브레이크 등)
+- ✓ 쉬운 조립 및 휴대성
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격대
-- ⚠ 별도 발판 구매 필요
-- ⚠ 일부 제품의 내구성 문제 (너트 헐거움, 부품 이탈 등)
-- ⚠ 조립 어려움 및 부품 누락 가능성
-- ⚠ 핸드 브레이크 조작의 어색함 (초기)
-- ⚠ 무게감
+- ⚠ 부품 누락 및 품질 불량 가능성
+- ⚠ 조립 어려움
+- ⚠ 일부 제품의 내구성 차이
+- ⚠ 핸드 브레이크의 불필요성 및 위험성 (유아동)
 
 ### 가격대 인사이트
 
@@ -248,6 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [gpkorea.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFZQzqJdcJpd3AJCxCel33ZMef3tYclWX7WA5TrPzG1TChR9QLO82TQsIgAaaBuIho_x9WIJKwNRMV2JSIwRZzgokapMfay1N-QDfMqBahDEz_Ol50Ruc7efQrV34Bkrm37OxRfJoGyer3BdDQPD1npTfoahg==)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGeA007DhmBTB0yt_v6XaymxBH77W2e0sqDI0tD4UIkZgsvlMXOkdL-dUgiwcqrdf4eVXo_N_zKl42IDixW4Cer5EijLKlsLLIuHmyPXLFk6bBGVY5zhfkSQ9p-GyTkAmZztDHYZAem7ADuzgynMa6PWm5HapRyoaxUMIZ7gfwNtGzDWGDgoY2r_-LtFb6KJRJ0vuluiEIRI6sIkHvTH6bbyxvFDg==)
-- [accio.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi5WT2Afb6Y-0STuUigtoMlwN9M8cAmHMX4coyPZt6LLbjLwRfJ_HXfBsfXDd1JfSmZ3qOBC8NgNFhUXimdOSAcXlFJwz1K_clIrsQjCERvnQ-c-oGh6XulC0oknOdi4gwIImuGEPBMy8yY2_-o1L-4rKfDuyLorZDvNPBRLiFo7-YiZDabM2slRhol95iItV6og3qGNTPChXVk7ibmKZN-GpQPfU2hrBn)
+- [kats.go.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEf9TqzXCj-N-oDlFCSFKMEj3OJV3tqTwbWCGU5xY0FyLb_sYaL-zIcpjlPwCv-QlXqroGV6mdl5fGAgEJ4kpq_ejh7Yo2DbVpPf8LP3YlpPhOntCPTwm2Vud8x7o8biHjbxMidptVx8jfRUWKtjBb0kPWTosOFI9Bz0GpDyEBha1sfdM8Xn-8kk4136OY4QCaVelWKyF9us6xN4xHydq1A6GoPzA==)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtuMUXbtODyWmOr_S5afkFIp49Lo212SsOlIngv2Qux7aK8-UkBoc2UD7yj7R81RgSdWKdivLRIbeXpS8gT-T08uHCrgr39Li9BU_Cbkw8i6kdxI2FD9D9lb9Zfjgj9qpFeQyfgw==)
+- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElv_JgE__6QVfoSsvwFGQc-xdQaCoQzt2oK3RDckuPsNi9M8Y2uG25TUw14F6KAtkR2sUwCsEvJ_Xb2-ZsOFhL8fEgRWZHxbuwC7Dpfrd9vjotH-WOLob5sHiKiKl6wmFwlz1s-mJuAWDO)

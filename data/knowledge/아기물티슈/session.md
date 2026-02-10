@@ -1,5 +1,5 @@
-# 세션: 20260210_125758_qarw
-> 시작: 2026-02-10T12:57:58.358Z
+# 세션: 20260210_134038_ghlh
+> 시작: 2026-02-10T13:40:38.238Z
 > 카테고리키: 아기물티슈
 > 카테고리: 아기물티슈
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기물티슈 시장 현황
-- 인사이트: 아기 물티슈 시장은 2023년 약 124억 달러 규모로 평가되었으며, 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 특히 아기 물티슈는 전체 물티슈 시장 매출의 상당 부분을 차지하며, 위생에 대한 중요성, 일상적인 사용, 지속적인 제품 혁신에 힘입어 꾸준히 성장하고 있습니다. 안전성과 제품력을 기반으로 한 브랜드들이 소비자들의 선택을 받고 있으며, 베베숲과 같은 브랜드가 시장 점유율 1위를 기록하며 높은 신뢰도를 쌓아가고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaV0W0H6VqUB89EwUts41ZdaSjv1IncardS9qnQS_aHD3E6kO2Moaf4jkiv_IoAQLH4HlP2Tsiak8zXFAaue1HY5aEAXEiLXkIvQZ65P_bijksQfMqltHYy6PR9wn6O4Zq_g81yiz9oqp2BAQ0acNAIYal8d-9VSaC9_U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJjbX1k__2v7kJ5j3JnZYWlH9tKotJ4ca_FOnq0r6y_7_GEDk1ngFfjqOOTSESuvK-nonaCOjReXZirOqlNHxFwFNoMyUvsP4fDvx0387kccRMFpF_YNZwdwj3Y78vBkfpouxQMMhGKVBAI89P6u9_r3UD8_mhUuFI, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSZjzztEG3LjqAhFbUcdZGdCInbgl68NzGHHPqUY7Qc72dNSyro0QGvf_9Ggs7tonBTC5W6AmcUK5KO-I7bKCReSXLr3EHaRnJzCE0doPbzyJaPU-FktoZCr-Cx0fwpM1fhc4uh_HpUVuVT4mlsrIUs6Af8NqWMTzZzds=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFUFDuH7bsFYqZ0M2zIAEd_TTqGCJ8248g1XacNsS4S_sURGu_24Hc81L8Si6Ylf6f_PMoe7-R9xD4m1ijE0cp3oxvFXoyM01dfDFR5I8UpcABoPJDsx5BbeVwf1MBKGC4TVFx1oklsBH8H7fjN6QgawThZzGd5l4lgakYE5Lh8t93sDp60E23Sirpvd3Bf5GdlIQBLz00=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWIzUtQ3RszIp9R2jONjcKazjCKSOFWHoKOJNG8N01fhnsDoSwVB0OuKDZeqUkerg6XViS0M9sMbXricOJ77dU6nDuox24YidcBBr4cxwQsDKsd8s0nwl46g8CcXWkGxGaCp1iSg_ACl2cc_Kmrqv1BW-iVIy1AXtQusVvKJY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEVZL9r-OIxHN2uy6XAnSQQhu6CpC-D2wC-qXn_MXBIsJmUUj4fN7HLS_497ZLZUe3xFRE_p3lFO9bhG_8wNiZG7Q_mYkqsE43J_EkH17aVovA2KoCYOxNriYlQSPudbmVJG9hehJEas0p0YkeHk8AlHOmF-CZ9LXdw8xPP7YMpxA==
+- 인사이트: 2023년 기준 약 124억 달러 규모로 평가된 아기 물티슈 시장은 가처분 소득 증가에 힘입어 2032년까지 연평균 5.6% 성장할 것으로 예상됩니다. 특히 한국 시장에서는 베베숲이 9년 연속 1위를 차지하며 높은 점유율을 기록하고 있습니다. 편리성과 위생에 대한 수요 증가, 그리고 친환경 제품으로의 전환이 주요 시장 동향으로 나타나고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2Wy8e27QwSEGdzxHNOSefA3AcCRF7DXOwhXhWYb1Dnq90wdNgQ3e7g1JYbTEiy_LJM0Khs0Glx_fQzwgaovDDzLDutCUPkANDJzz4WY7qfrb2lIN1eA2m3kSk4Mj9LQSVUJi8zdkDA-M2HExuYmaoAPVcgtPgSbQZD4eQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGfz5LRpjZDbP934LpDieg3wAwSojgtRs-HSCYwqo7-enEjojdd1hJymjGoTrk38UpaVOhg0DidmB9n6ClYwWuXXC2R32N3rYyFL2e_koDLigwU4wJbqtCl9Oygm1Px3vdtF9NW5icbg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0o4R3_CHty0_febhw5I_4M29wAEt5ejWhSYX9eut_aEHAdGwwShLm_IKM8LVFX1netWl32cuvW-RizvLjqkNLu3M2cae0THSwWcys7KYVQzoLs0ZP_pVMXnEen1tskyxQEShufENikOdg4RVniZY8lSDR, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuax2iVVFQXxlofNIaRg3syfHQLnZji23pevDrPLzGVwXl87x_5vQfS2QQf1cknsftq_15FnE82Syl-oXbYO7GaTEBHwSemO3zAuK3TmowGqkzbT8GMLDhvWhgN1bU7KrRoKh6DYuRMTDqYTkNq7XYKh0EvGR7jZ_f_rVy0zsFf45toAMcRZ344TuKsHjgzX5AnHr3ink=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF42wn55Vxv_-6NAyFzS2xXZ-wkARij8LbEdtEmdRZm8T5CvE1u9yZh56oWrEPS5kUewiwsouWEsYJjjM5n1wenaP0zZBqGf3R6H2aYigI-yRo00hDdtFj04qyR_iuanErwc5zzRj9RTrd0WXnLcigsfzwu3yiSDrz6cEtFx6Q=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH__IuDByzvH31V5P7qutyvZ1OGJyqoHL8v10AIIn9yvguqAofWT-WVvfgxmeHJop3fA3Z3n4gTbphadH0Yy1D6z5nbEst8mTh0bqgxx6poebBuFGiKYa4SZxz3pb0MM-HT4Dc2_WO_o62cXo7l7WCesIshOFcpdCxPQlaPlN0lAQ==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 기존 물티슈 사용 후 잔여 물기가 신경 쓰이셨다면, 물티슈의 촉촉함은 어느 정도로 선호하시나요? | 적당히 촉촉하게 (기분 좋은 촉촉함이 느껴지지만, 바로 마르는...) |
-| 물티슈의 두께는 어느 정도로 선호하시나요? | 도톰한 두께 (70gsm 이상) |
-| 물티슈 표면의 엠보싱 처리는 선호하시나요? | 엠보싱 있음 (닦임성 우수) |
-| 물티슈 성분 중 가장 중요하게 생각하는 부분은 무엇인가요? | 저자극성 (EWG 그린 등급 등) |
-| 물티슈 뚜껑은 어떤 방식이 편리하신가요? | 캡형 (단단히 닫힘) |
-| 아기 물티슈 예산은 어느 정도로 생각하세요? (평균 1만원, 5천원~1만 3천원대가 가장 많아요) | 5천원 ~ 1만 3천원대 |
+| 기존 물티슈 캡이 잘 안 닫혀서 마르는 불편함 때문에 교체를 고민 중이시라면, 어떤 방식의 캡이 가장 편리하실까요? | 한 번에 닫히는 캡 |
+| 물티슈의 두께는 어느 정도를 선호하시나요? | 일반적인 두께 (50-70gsm) |
+| 물티슈 표면의 엠보싱 처리는 신경 쓰시나요? | 강한 엠보싱 (잘 닦이고 시원한 느낌) |
+| 물티슈의 향은 어떤 것을 선호하시나요? | 무향 (향이 전혀 없는 제품) |
+| 물티슈 성분 중 가장 중요하게 생각하는 부분은 무엇인가요? | EWG 그린 등급 성분 위주 |
+| 예산은 어느 정도로 생각하세요? (평균 1만 2천원, 6천원~1만 5천원대가 가장 많아요) | 6천원 ~ 1만 5천원 |
 
 ---
 
@@ -31,25 +31,25 @@
 
 ### 후보 상품
 1. 베베숲 시그니처 위드 블루 물티슈 캡형 70매 - 1,680원 - ⭐4.8
-2. 미엘 클래식 물티슈 캡형 100매 - 22,140원 - ⭐4.8
-3. 마렌비 프리셔스 퍼플터치 물티슈 캡형 72매 - 12,780원 - ⭐4.6
-4. 아이러브베베 시그니앙 블랙라벨 물티슈 캡형 70매 - 14,110원 - ⭐4.7
-5. 베베숲 프리미어 물티슈 캡형 70매 - 1,150원 - ⭐4.8
+2. 미엘 클래식 물티슈 캡형 100매 - 13,010원 - ⭐4.8
+3. 아이러브베베 시그니앙 블랙라벨 물티슈 캡형 70매 - 14,010원 - ⭐4.7
+4. 크리넥스 마이비데 퓨어 화장실용 물티슈 캡형 40매 - 10,690원 - ⭐4.8
+5. 베베앙 오리지널 플러스 물티슈 캡형 100매 - 6,670원 - ⭐4.7
 6. 코멧 오리지널 물티슈 캡형 100매 - 10,890원 - ⭐4.6
 7. 베베숲 시그니처 위드 레드 물티슈 캡형 70매 - 18,210원 - ⭐4.8
-8. 코멧 오리지널 물티슈 캡형 100매 - 10,890원 - ⭐4.3
-9. 베베앙 오리지널 플러스 물티슈 캡형 100매 - 6,770원 - ⭐4.7
-10. 베베숲 프리미어 물티슈 캡형 70매 - 1,150원 - ⭐4.7
-11. 리벤스 퓨어 워터99 물티슈 캡형 100매 - 8,930원 - ⭐4.7
-12. 리벤스 시그니처 블랙라벨 물티슈 캡형 70매 - 9,970원 - ⭐5
-13. 크리넥스 마이비데 퓨어 화장실용 물티슈 캡형 40매 - 10,690원 - ⭐4.8
-14. 베베숲 센시티브 물티슈 캡형 80매 - 10,490원 - ⭐4.8
-15. 베베숲 프라임 물티슈 캡형 70매 - 18,900원 - ⭐4.8
-16. 아이러브베베 핑크 물티슈 캡형 100매 - 13,990원 - ⭐4.7
-17. 베베앙 120 물티슈 캡형 120매 - 6,280원 - ⭐4.3
-18. 베베숲 시그니처 위드 브라운 물티슈 캡형 70매 - 15,920원 - ⭐4.8
-19. 베베숲 오리진 물티슈 캡형 100매 - 6,400원 - ⭐4.8
-20. 베베숲 트러스트 프리미엄 물티슈 캡형 80매 - 990원 - ⭐4.8
+8. 코멧 오리지널 물티슈 캡형 100매 - 8,990원 - ⭐4.3
+9. 베베숲 시그니처 위드 레드 물티슈 캡형 70매 - 18,480원 - ⭐4.7
+10. 마렌비 프리셔스 퍼플터치 물티슈 캡형 72매 - 13,110원 - ⭐4.6
+11. 베베숲 프리미어 물티슈 캡형 70매 - 1,150원 - ⭐4.7
+12. 베베숲 프리미어 물티슈 캡형 70매 - 1,150원 - ⭐4.8
+13. 리벤스 시그니처 블랙라벨 물티슈 캡형 70매 - 9,970원 - ⭐5
+14. 베베숲 프라임 물티슈 캡형 70매 - 19,950원 - ⭐4.8
+15. 리벤스 스페셜 민트 물티슈 캡형 100매 - 7,350원 - ⭐4.3
+16. 크리넥스 마이비데 퓨어 화장실용 물티슈 캡형 50매 - 18,500원 - ⭐4.9
+17. 미엘 더 클래식 시그니처 물티슈 캡형 100매 - 21,290원 - ⭐4.7
+18. 베베앙 120 물티슈 캡형 120매 - 11,680원 - ⭐4.3
+19. 베베숲 시그니처 위드 브라운 물티슈 캡형 70매 - 15,920원 - ⭐4.8
+20. 베베숲 시그니처 위드 그린 물티슈 캡형 70매 - 17,640원 - ⭐4.8
 
 ---
 

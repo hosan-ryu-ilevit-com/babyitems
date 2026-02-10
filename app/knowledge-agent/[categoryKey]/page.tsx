@@ -1644,7 +1644,13 @@ export default function KnowledgeAgentPage() {
       const elapsed = now - startTime;
       const percentage = Math.min(Math.round((elapsed / targetDuration) * 100), 99); // 99%까지만
 
-      setLoadingProgress(percentage);
+      // 진행률은 절대 역행하지 않도록 보장한다.
+      // (외부에서 100%를 먼저 세팅한 뒤 RAF가 99%를 다시 덮어쓰면,
+      // 마지막 전환 구간에서 그리드가 여러 번 재연산되어 번쩍임이 생길 수 있음)
+      setLoadingProgress((prev) => {
+        if (prev >= 100) return 100;
+        return Math.max(prev, percentage);
+      });
 
       if (now < endTime) {
         animationFrameId = requestAnimationFrame(updateProgress);
@@ -5614,7 +5620,7 @@ export default function KnowledgeAgentPage() {
                   />
                 </div>
               )}
-              {isTyping && !isCalculating && <SearchingIndicator queries={activeSearchQueries} statusMessage={activeStatusMessage} />}
+              {isTyping && !isCalculating && phase !== 'result' && <SearchingIndicator queries={activeSearchQueries} statusMessage={activeStatusMessage} />}
             </AnimatePresence>
 
             <div ref={messagesEndRef} />
