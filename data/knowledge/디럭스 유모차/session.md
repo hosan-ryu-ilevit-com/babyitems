@@ -1,14 +1,14 @@
-# 세션: 20260127_104131_5lh2
-> 시작: 2026-01-27T10:41:31.895Z
-> 카테고리키: 디럭스
+# 세션: 20260210_042550_60kf
+> 시작: 2026-02-10T04:25:50.059Z
+> 카테고리키: 디럭스 유모차
 > 카테고리: 디럭스 유모차
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 디럭스 유모차 시장 현황
-- 인사이트: 2025년 디럭스 유모차 시장은 다기능성, 사용 편의성, 모듈형 디자인을 중심으로 진화하고 있으며, 특히 신생아부터 유아기까지 편안하고 안전하게 사용할 수 있는 고급형 유모차로 인기를 얻고 있습니다. 소비자들은 제품의 공간 효율성, 편안함, 그리고 고급 소재 및 안정적인 주행 성능을 중시하는 경향을 보입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsgKu3-MP0-bCBRb1SSjyUlVqY-wkMJf9ZQkh4Xo7zcnbrGFgbloL6L9Kl_YTPksXL5j88yvqU0qmh5j64rMzyyTVMyULmdQOjrC_MVMZrN5SQG4uIgKVF0uMF8L9O7uc69Fqzwsj0aQUzbVUEK92eX5PTwtU7VfzoW8ccXG54zwc5bxJ6JbaC5X_9aebLBaoCkb8Qm8Wxua7WCjTs1Av03Yangzf8a3xX_g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMz-GPg8rc1E3MTPyxiHmPSigce8K4l8E-vxSKN05w-hsnjZ30ij-F3O-v4jqlUmvxa564TU17S6DfECFacc6Ac4qmLcOwUU3zUuwhEb8BTbWzg5ss27fMqkOTWMyu-8ElD6XBqRjsTKF4vFh52lwMqV8zd70DsoAH87TLHxMvmo8x3jjWkeKbctxhw7ofJdG5ixrfTnfqVVKg7ToDla3TBvOEJ4Bz7YTrRC_akGbWuIg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGtAXxVV7FRhPNf4Lz0jJh4noJ_IHzcRVJlbXe9Bg67-97p17Y_56ULcs3Cej_q83oo0_elqIL1fyH5ML6uurZcxGk0HOjHwxVLQKLjzDeFqFDmxZC8YmeAj0gr-dFevG2GdvE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGecMPUyN1RyDDpdyRJzFLc4Oo36rf_vuqLCfoByJNQ51gCWaYZbeIChcPsFDcyKgBgOgzDTuiA_IZkHPtobXIOyWCBeaMqxriQ9ArEBVdf8IOewujwdqwNmjM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWLaDiBGxrt3sik10opm6iis8x8gOwMZ_5_GpxnMuuUaBp4hDSYdG4oE9-nOBbuBzbhToxg7bLWXgv78g5t0O4VS-dh-L_GBkPXZGv7Rw0sIXQYbfETUFN0IQDs8QBKYtTiXvpZgw0FXtgThPijoUCRXDMiW9Ayv8q5CNolTjFF0hWuirM-9B_NkW24uaIILv9ThHqONjXzb519jqgkFSdbk6SEGbEv9As, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6SgXxrCWZrxg7_BGtVejb3hrl8RN66mBX_Gb_LQyXVHwwFFZcE9JUj-APa_W5IyFm0yMs_1KaCBP-ozCGjIY2k0gWlepbcWJ1b9OOQZKSF7yz3D9Jw0kdqAh_cZQy0_OFHqL1IekBOgok70lEchJhoZSSpYlzrn6tXEHWNPX3p_U=
+- 인사이트: 디럭스 유모차는 신생아부터 유아기까지 편안하고 안전하게 사용할 수 있는 고급형 유모차로, 뛰어난 안정성과 핸들링이 장점입니다. 최근에는 블랙 색상과 실용성을 강조한 제품들이 인기를 얻고 있으며, 국내외 브랜드 간의 경쟁이 치열합니다. 가격대가 높은 편이지만, 고급 소재와 다양한 기능으로 소비자들의 만족도를 높이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQuBwOEUbmLJrYPuNvDH_kVJNEWdcVvMSkvAwnsRwImo43fCugxT-6z-J8awOvF9z1wRRnr21NMAzi1Ynj5pf-Acb0YgM-CARDAX58aw590ECj3GY5F_jPjiAeMoNMYar3kETk-wp8GdVzRsqlNEYbu4qNdPEt-30jJDrfR8sNDxGbocOw0rx0NdFPKPT1CkXlAZsvJ_BeRUkQCzd8s0w_5wKJ_L3V_Rui9RvS0Yc690Y=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFei_4KkkKQXvfe7_DIR0qcaNm4GXxAYbfBKtRMxpVwRVrOAqh0tvNXUDSeyPeL4Cyr-WKcT_rpXqYwSmpJfJXZFrYucxqDRfjY097W5ngZL0Lbvd4f7K3Qf_osZmMUJI0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvKg60SAJbZGSB1oZa9nDgKyCyqxa5s2JuOA-PiJYb9WjnqsQZL6JBUMx-DFAkXLnre8ZfVrq4o5tJzsxrGGkiBgW32vk7awnQ7eQyEMFkTWPkjKZJj7y3cAlI610-k-r3cKCaRw7CnS-oWZkohWlg_p6QmaucvIyva32BtH5L6T3D82PPTWjJAy_VfCuq6VeSWhHjyXYwoFVbcK6nVbVVRw3igFqmEAsZ75MVPlhSCPGmOT_HvrnKQTJrd95Hfxj3S5n3PH7GTFioEnfAfawWoRpllmCa7oTFnagr3bCW6Y79nMZAZA3QfA3CmwToqzJ6js-ZSry7S2gqPP7Sv3e8-NXSoCoUwpUcjHn0dfNDlWps_fIGolpbnMghhJJsccHcanmx2kWOzROD0ovzwhAwD6aRS0CCd6alwOREuOd_, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyTp0naqkaLtJojOJ50sQWq-fiWh-F4gRzOcsle-JeR7fCIuaIECy5m7_Jr9xUadpTOVt_BwrZ-Q7J-1mqVCjy2uGFu0W6TmAUCdCtGl_mZYcSMSs0GFIO4QfZMPJEafkdzzOJUg6aHlLQ2J4_06JJ3VLogS8YQzuaWEBaelcj4xergFrOcUzlujIk6FO2T6vI7ZeWfTWbFE4XVuEljYAmoieknra4oiHFOg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE19Z07tjgC6byUEhxpSk2Db4MeYmhhv6Trsv0srp8rwBGAJwFH3H046SEgCE-8wPn_wW-6WV8jUOXEIsZ8SWB7WBVJjjtIvvJxu5ESnJA8GZYNihP_QPBdCCzXArqeVAAtWi1QnFXHOnAkenmi3ZGw6SSR87ZHu9XgzrXnPkL5g17M, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGacfI1lyD8N212rTqTLM9XDT17grFkaJl4UGSudIMZhvhbDwiYWs8BBEXZje7b2UaCpPgd5j8w9NNZ_jL7a3uj9NsSbc1q1NWsA6Wkx9B5msJ8X3lbhNxCWEfzsvqBwZ4bcNam9IcUlXI=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기가 혼자 앉기 시작해서 휴대성보단 안정감이 중요하다고 하셨는데, 유모차 선택 시 가장 중요하게 생각하시는 안정감은 어떤 부분인가요? | 견고한 프레임 |
-| 믿고 구매할 수 있는 선호하는 브랜드가 있으신가요? | 부가부 (프리미엄, 고평점), 에그 (프리미엄, 고평점) |
-| 유모차 폴딩(접는 방식)은 어떤 방식이 편리하실까요? | 원터치 폴딩 (한 손으로 간편하게) |
-| 아기의 편안함과 편의성을 위한 시트 기능은 어떤 것을 중요하게 생각하시나요? | 다단계 등받이 조절 (최적의 각도) |
-| 예산은 어느 정도로 생각하세요? (평균 약 74만원, 37만원~96만원대가 가장 많아요) | 37만원 ~ 96만원대 |
 
 ---
 
@@ -29,26 +24,26 @@
 현재 후보: 30개 (전체 30개 중)
 
 ### 후보 상품
-1. 조이 피니티 시그니처 디럭스 유모차 - 701,100원 - ⭐4.7
+1. 쉬크 SEEC 미뇽 양대면 오토폴딩 절충형 유모차 블랙 - 712,500원 - ⭐5
 2. 부가부 폭스5 디럭스 유모차 - 2,118,500원 - ⭐5
 3. 오르빗베이비 G5 유모차 - 1,225,500원 - ⭐4.9
-4. 리안 솔로 절충형 유모차 제트 블랙 - 598,000원 - ⭐5
-5. 리안 디럭스 모기장 방한 방풍커버 스핀LX/로얄/솔로 - 25,200원 - ⭐5
-6. 부가부 폭스5 디럭스 유모차 - 2,118,500원 - ⭐5
-7. 에어보스 뷰텍 디럭스 유모차 - 265,050원 - ⭐5
-8. 에그 하이엔드 디럭스 유모차 - 1,990,000원 - ⭐5
-9. 에그 에그 2 브론즈 에디션 디럭스 유모차 - 1,990,000원 - ⭐5
-10. 뉴나 믹스 디럭스 유모차 - 1,434,600원 - ⭐4.9
-11. 제이엠아이엔티엘 폼포라 N 디럭스 접이식 유아웨건 - 730,550원 - ⭐5
-12. 쉬크 SEEC 미뇽 양대면 오토폴딩 절충형 유모차 블랙 - 731,500원 - ⭐5
-13. 리첼 절충형 휴대용 유모차 - 55,090원 - ⭐4
-14. 굿베이비 헤라시스 엘리시안 유모차 - 389,030원 - ⭐5
-15. 토이트론 달님이 디럭스 유모차 - 58,800원 - ⭐5
-16. 리안 디럭스/휴대용 솔로 스핀LX 그램플러스 방풍커버 - 26,100원 - ⭐2.5
-17. 쉬크 SEEC 미뇽 양대면 오토폴딩 절충형 유모차 메도우 베이지 - 731,500원 - ⭐5
-18. 중모토이플러스 코지 스핀 유모차[색상선택] - 314,560원 - ⭐5
-19. 리안 솔로 디럭스 절충형 유모차 방풍커버 - 34,000원 - ⭐5
-20. 리안 디럭스 유모차 모기장 - 26,000원 - ⭐3.5
+4. 조이 피니티 시그니처 디럭스 유모차 - 701,100원 - ⭐4.7
+5. 치코 디럭스 어반플러스 유모차 - 197,030원 - ⭐4.4
+6. 뉴나 믹스 디럭스 유모차 - 1,382,470원 - ⭐4.9
+7. 쁘띠베베 디럭스 유모차 컵홀더 - 12,100원 - ⭐4.5
+8. 부가부 폭스5 디럭스 유모차 - 2,118,500원 - ⭐5
+9. 맘네스트 디럭스 범용 S타입 유모차 사계절커버 - 33,510원 - ⭐5
+10. 해피박스 코지 디럭스 유모차[일반] - 102,710원 - ⭐4.3
+11. 리안 솔로 절충형 유모차 제트 블랙 - 598,000원 - ⭐5
+12. 리안 디럭스 모기장 방한 방풍커버 스핀LX/로얄/솔로 - 25,200원 - ⭐5
+13. 에어보스 뷰텍 디럭스 유모차 - 265,050원 - ⭐5
+14. 에그 하이엔드 디럭스 유모차 - 1,990,000원 - ⭐5
+15. 에그 에그 2 브론즈 에디션 디럭스 유모차 - 1,990,000원 - ⭐5
+16. 제이엠아이엔티엘 폼포라 N 디럭스 접이식 유아웨건 - 730,550원 - ⭐5
+17. 리첼 절충형 휴대용 유모차 - 55,090원 - ⭐4
+18. 굿베이비 헤라시스 엘리시안 유모차 - 389,030원 - ⭐5
+19. 토이트론 달님이 디럭스 유모차 - 58,800원 - ⭐5
+20. 리안 디럭스/휴대용 솔로 스핀LX 그램플러스 방풍커버 - 26,100원 - ⭐2.5
 
 ---
 

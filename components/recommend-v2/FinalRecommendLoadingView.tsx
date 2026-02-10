@@ -20,6 +20,13 @@ import type { TimelineStep } from '@/types/recommend-v2';
 interface FinalRecommendLoadingViewProps {
   steps: TimelineStep[];
   progress: number;           // 0-100
+  showBrandPreferencePrompt?: boolean;
+  brandOptions?: string[];
+  preferBrands?: string[];
+  excludeBrands?: string[];
+  onBrandToggle?: (brand: string, type: 'prefer' | 'exclude') => void;
+  onBrandConfirm?: () => void;
+  onBrandSkip?: () => void;
 }
 
 // ============================================================================
@@ -172,6 +179,13 @@ function StepCard({ step, index, totalSteps }: { step: TimelineStep; index: numb
 export function FinalRecommendLoadingView({
   steps,
   progress,
+  showBrandPreferencePrompt = false,
+  brandOptions = [],
+  preferBrands = [],
+  excludeBrands = [],
+  onBrandToggle,
+  onBrandConfirm,
+  onBrandSkip,
 }: FinalRecommendLoadingViewProps) {
   // 현재 활성화된 단계 찾기
   const currentStep = steps.find(s => s.status === 'in_progress') || steps[steps.length - 1];
@@ -262,6 +276,61 @@ export function FinalRecommendLoadingView({
           />
         ))}
       </div>
+
+      {showBrandPreferencePrompt && brandOptions.length > 0 && (
+        <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/50">
+          <p className="text-[14px] font-semibold text-gray-800 mb-3">
+            추천 정확도를 높이기 위해 브랜드 선호를 알려주세요
+          </p>
+          <div className="space-y-2">
+            {brandOptions.map((brand) => {
+              const isPreferred = preferBrands.includes(brand);
+              const isExcluded = excludeBrands.includes(brand);
+              return (
+                <div key={brand} className="flex items-center justify-between gap-2">
+                  <span className="text-[14px] text-gray-700">{brand}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onBrandToggle?.(brand, 'prefer')}
+                      className={`px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-colors ${
+                        isPreferred ? 'bg-blue-500 text-white' : 'bg-white text-blue-600 border border-blue-200'
+                      }`}
+                    >
+                      우선 추천
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onBrandToggle?.(brand, 'exclude')}
+                      className={`px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-colors ${
+                        isExcluded ? 'bg-gray-800 text-white' : 'bg-white text-gray-600 border border-gray-200'
+                      }`}
+                    >
+                      제외
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={onBrandSkip}
+              className="px-3 py-1.5 rounded-lg text-[12px] font-semibold text-gray-500 bg-white border border-gray-200"
+            >
+              건너뛰기
+            </button>
+            <button
+              type="button"
+              onClick={onBrandConfirm}
+              className="px-3 py-1.5 rounded-lg text-[12px] font-semibold text-white bg-gray-900"
+            >
+              반영하기
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -15,6 +15,7 @@ interface OnboardingPhaseProps {
   initialSituation?: 'first' | 'replace' | null; // baby_info 완료 후 복귀 시 이어서 진행할 상황
   babyInfo?: BabyInfo | null; // 아기 정보 (상황 옵션 생성에 사용)
   categoryKey?: string;
+  analysisProgressLabel?: string;
 }
 
 // 카테고리별 기본 불편사항 옵션 (AI 생성 전 fallback)
@@ -28,7 +29,17 @@ const DEFAULT_REPLACE_REASONS: Record<string, string[]> = {
   ],
 };
 
-export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBack, onNeedBabyInfo, initialSituation, babyInfo, categoryKey }: OnboardingPhaseProps) {
+export function OnboardingPhase({
+  categoryName,
+  parentCategory,
+  onComplete,
+  onBack,
+  onNeedBabyInfo,
+  initialSituation,
+  babyInfo,
+  categoryKey,
+  analysisProgressLabel,
+}: OnboardingPhaseProps) {
   const [step, setStep] = useState<'situation' | 'replace_reasons' | 'first_situations'>(() => {
     // baby_info에서 복귀한 경우 바로 후속 단계로
     if (initialSituation) {
@@ -229,6 +240,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               exit={{ opacity: 0, y: -20 }}
               className="w-full max-w-sm"
             >
+              {analysisProgressLabel && (
+                <div className="mb-3">
+                  <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[12px] font-semibold text-blue-600">
+                    {analysisProgressLabel}
+                  </span>
+                </div>
+              )}
               {/* 질문 */}
               <div className="mb-8">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-2">
@@ -291,6 +309,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               exit={{ opacity: 0, y: -20 }}
               className="w-full max-w-sm"
             >
+              {analysisProgressLabel && (
+                <div className="mb-3 mt-2">
+                  <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[12px] font-semibold text-blue-600">
+                    {analysisProgressLabel}
+                  </span>
+                </div>
+              )}
               {/* 질문 */}
               <div className="mb-4">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1 mt-4">
@@ -517,6 +542,13 @@ export function OnboardingPhase({ categoryName, parentCategory, onComplete, onBa
               exit={{ opacity: 0, y: -20 }}
               className="w-full max-w-sm"
             >
+              {analysisProgressLabel && (
+                <div className="mb-3 mt-2">
+                  <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-1 text-[12px] font-semibold text-blue-600">
+                    {analysisProgressLabel}
+                  </span>
+                </div>
+              )}
               {/* 질문 */}
               <div className="mb-4 mt-4">
                 <h2 className="text-[18px] font-semibold text-gray-900 leading-snug break-keep mb-1">

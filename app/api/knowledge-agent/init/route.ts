@@ -38,7 +38,7 @@ import { getQueryCache, setQueryCache } from '@/lib/knowledge-agent/cache-manage
 import { fetchReviewsBatchParallel, type ReviewCrawlResult } from '@/lib/danawa/review-crawler-lite';
 
 // Supabase 캐시 (프리페치된 데이터)
-import { getProductsFromCache, getReviewsFromCache, getFiltersFromCache, getCategoryInfo } from '@/lib/knowledge-agent/supabase-cache';
+import { getProductsFromCache, getReviewsFromCache, getFiltersFromCache, getCategoryInfo, getPricesFromCache } from '@/lib/knowledge-agent/supabase-cache';
 
 // Gemini 헬퍼
 import { callGeminiWithRetry } from '@/lib/ai/gemini';
@@ -2811,6 +2811,11 @@ export async function POST(request: NextRequest) {
     const {
       categoryKey: rawCategoryKey,
       streaming = true,
+      questionsOnly = false,
+      skipQuestionGeneration = false,
+      productsForQuestions,
+      filtersForQuestions,
+      trendAnalysisForQuestions,
       personalizationContext,
       onboarding,  // 온보딩 데이터 (구매 상황, 불편사항 등)
       babyInfo,    // 아기 정보 (성별, 개월수)
@@ -2823,6 +2828,34 @@ export async function POST(request: NextRequest) {
     // URL 인코딩된 키를 디코딩
     const categoryKey = decodeURIComponent(rawCategoryKey);
     const categoryName = CATEGORY_NAME_MAP[categoryKey] || categoryKey;
+
+    // 질문 생성 전용 모드 (시장분석 이후 맥락 수집 단계에서 호출)
+    if (questionsOnly) {
+      const questionProducts = (productsForQuestions || []).slice(0, 20);
+      if (!Array.isArray(questionProducts) || questionProducts.length === 0) {
+        return NextResponse.json({ error: 'productsForQuestions required for questionsOnly mode' }, { status: 400 });
+      }
+
+      const knowledge = await loadKnowledgeMarkdown(categoryKey);
+      const questionTodos = await generateQuestions(
+        categoryKey,
+        categoryName,
+        questionProducts,
+        trendAnalysisForQuestions || null,
+        knowledge || '',
+        filtersForQuestions || [],
+        null,
+        personalizationContext,
+        onboarding,
+        babyInfo
+      );
+
+      return NextResponse.json({
+        success: true,
+        questionTodos,
+        currentQuestion: questionTodos[0] || null,
+      });
+    }
 
     // 🆕 온보딩/아기정보 컨텍스트 로깅
     if (onboarding || babyInfo) {
@@ -2895,6 +2928,7 @@ export async function POST(request: NextRequest) {
           let currentFilters: DanawaFilterSection[] = [];
           let currentSearchUrl = '';
           let initialDataResolved = false;
+          const lowestMallByPcode = new Map<string, string | null>();
 
           const checkAndResolveInitialData = (force = false) => {
             if (initialDataResolved) return;
@@ -2913,7 +2947,7 @@ export async function POST(request: NextRequest) {
           const crawlPromise = crawlProductsWithStreaming(
             categoryKey,
             categoryName,
-            (products, isComplete, isFirstBatchComplete) => {
+            async (products, isComplete, isFirstBatchComplete) => {
               // 상품 배치가 도착할 때마다 전송
               if (products.length > 0) {
                 allProducts = [...allProducts, ...products];
@@ -2933,6 +2967,29 @@ export async function POST(request: NextRequest) {
 
               // isComplete가 true이거나 products가 있으면 전송 (빈 배열 + isComplete도 전송해야 완료 처리됨)
               if (products.length > 0 || isComplete) {
+                if (products.length > 0) {
+                  const missingPcodes = products
+                    .map(p => p.pcode)
+                    .filter(pcode => !lowestMallByPcode.has(pcode));
+
+                  if (missingPcodes.length > 0) {
+                    try {
+                      const priceCache = await getPricesFromCache(missingPcodes);
+                      Object.entries(priceCache.prices).forEach(([pcode, price]) => {
+                        lowestMallByPcode.set(pcode, price?.lowestMall || null);
+                      });
+                      // 캐시 미스인 pcode도 중복 조회 방지를 위해 null로 표시
+                      missingPcodes.forEach((pcode) => {
+                        if (!lowestMallByPcode.has(pcode)) {
+                          lowestMallByPcode.set(pcode, null);
+                        }
+                      });
+                    } catch (priceError) {
+                      console.warn('[Phase1] lowestMall cache lookup failed:', priceError);
+                    }
+                  }
+                }
+
                 send('products', {
                   batch: products.map(p => ({
                     pcode: p.pcode,
@@ -2944,6 +3001,7 @@ export async function POST(request: NextRequest) {
                     rating: p.rating || 0,
                     specSummary: p.specSummary,
                     danawaRank: p.danawaRank || null,
+                    lowestMall: lowestMallByPcode.get(p.pcode) || null,
                   })),
                   total: Math.min(allProducts.length, displayProductCount), // UI 표시용: DB product_count
                   isComplete,
@@ -3066,55 +3124,65 @@ export async function POST(request: NextRequest) {
             return { allReviews, totalReviewsCrawled, reviewAnalysis };
           })();
 
-          // 🔥 Phase 3: 질문 생성 (웹검색 데이터로 시작, 리뷰 분석과 병렬 실행)
+          // 🔥 Phase 3: 질문 생성 (옵션)
           const phase3Start = Date.now();
-          console.log(`[Phase3] Starting question generation with web search data (parallel with review analysis)`);
-
           const [longTermData, knowledge] = await Promise.all([
             Promise.resolve(updateLongTermMemory(categoryKey, categoryName, top20ForQuestions, trendAnalysis)),
             Promise.resolve(loadKnowledgeMarkdown(categoryKey)),
           ]);
 
-          // 질문 생성과 리뷰 분석을 병렬로 실행 (질문 생성은 웹검색 데이터만 활용)
-          const [questionTodos, reviewResult] = await Promise.all([
-            generateQuestions(
-              categoryKey,
-              categoryName,
-              top20ForQuestions,
-              trendAnalysis,
-              knowledge || generateLongTermMarkdown(longTermData),
-              crawledFilters,
-              null,  // 리뷰 분석 없이 웹검색 + 상품 데이터만 활용 (속도 최적화)
-              personalizationContext,  // 🆕 개인화 메모리 컨텍스트
-              onboarding,  // 🆕 온보딩 데이터
-              babyInfo     // 🆕 아기 정보
-            ),
-            reviewPromise,
-          ]);
+          let questionTodos: QuestionTodo[] = [];
+          let reviewResult: { allReviews: Record<string, ReviewCrawlResult>; totalReviewsCrawled: number; reviewAnalysis: ReviewAnalysis | null };
+
+          if (skipQuestionGeneration) {
+            console.log('[Phase3] Skipping question generation by request');
+            reviewResult = await reviewPromise;
+          } else {
+            console.log(`[Phase3] Starting question generation with web search data (parallel with review analysis)`);
+            const [generatedQuestions, reviewData] = await Promise.all([
+              generateQuestions(
+                categoryKey,
+                categoryName,
+                top20ForQuestions,
+                trendAnalysis,
+                knowledge || generateLongTermMarkdown(longTermData),
+                crawledFilters,
+                null,  // 리뷰 분석 없이 웹검색 + 상품 데이터만 활용 (속도 최적화)
+                personalizationContext,  // 🆕 개인화 메모리 컨텍스트
+                onboarding,  // 🆕 온보딩 데이터
+                babyInfo     // 🆕 아기 정보
+              ),
+              reviewPromise,
+            ]);
+            questionTodos = generatedQuestions;
+            reviewResult = reviewData;
+          }
 
           const { allReviews, totalReviewsCrawled, reviewAnalysis } = reviewResult;
-          const phase3Duration = Date.now() - phase3Start;
+          const phase3Duration = skipQuestionGeneration ? 0 : (Date.now() - phase3Start);
           const phase15Duration = Date.now() - phase15Start;
           const phase1Duration = Date.now() - phase1Start; // Phase 1 전체 시간 (120개 포함)
 
-          console.log(`[Phase3] Question generation completed in ${phase3Duration}ms (${questionTodos.length} questions)`);
+          if (!skipQuestionGeneration) {
+            console.log(`[Phase3] Question generation completed in ${phase3Duration}ms (${questionTodos.length} questions)`);
 
-          // ✅ 질문 생성 완료 후 전송
-          send('questions', {
-            questionTodos,
-            currentQuestion: questionTodos[0] || null,
-          });
+            // ✅ 질문 생성 완료 후 전송
+            send('questions', {
+              questionTodos,
+              currentQuestion: questionTodos[0] || null,
+            });
 
-          // ✅ [로깅] AI가 생성한 질문들과 옵션들 로깅
-          questionTodos.forEach((q: any) => {
-            logKAQuestionGenerated(
-              categoryKey,
-              categoryName,
-              q.id,
-              q.question,
-              q.options.map((opt: any) => opt.label)
-            );
-          });
+            // ✅ [로깅] AI가 생성한 질문들과 옵션들 로깅
+            questionTodos.forEach((q: any) => {
+              logKAQuestionGenerated(
+                categoryKey,
+                categoryName,
+                q.id,
+                q.question,
+                q.options.map((opt: any) => opt.label)
+              );
+            });
+          }
 
           // 리뷰 0개인 상품 필터링 (품질 향상) - review_count 우선 사용
           const productsBeforeFilter = allProducts.length;

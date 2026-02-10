@@ -518,14 +518,21 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
     const searchQuery = query || inputValue.trim();
     if (!searchQuery || isProcessing) return;
 
-    // 카테고리 버튼 클릭 시 - 바로 페이지 이동 (바텀시트는 온보딩 완료 후 표시)
+    // 카테고리 버튼 클릭 시 - 랜딩 페이지에서 확인 모달 표시 후 이동
     if (query) {
       logKnowledgeAgentSearchRequest(query, 'button_click', selectedMainCategory, selectedSubCategory || undefined);
-      router.push(`/knowledge-agent/${encodeURIComponent(query)}`);
+      // 저장된 추천 결과가 있으면 바로 결과 페이지로 이동
+      if (savedCategories.has(query)) {
+        router.push(`/knowledge-agent/${encodeURIComponent(query)}`);
+        return;
+      }
+      setExtractedKeyword(query);
+      setActiveSearchItem(query);
+      setShowConfirmModal(true);
       return;
     }
 
-    // 입력창 검색 시 키워드 추출 후 바로 페이지 이동
+    // 입력창 검색 시 키워드 추출 후 확인 모달 표시
     setIsProcessing(true);
     logKnowledgeAgentSearchRequest(searchQuery, 'search_input');
     try {
@@ -536,12 +543,13 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
       });
       const data = await res.json();
       const finalKeyword = data.success && data.keyword ? data.keyword : searchQuery;
-      logKnowledgeAgentSearchConfirm(finalKeyword, inputValue);
-      router.push(`/knowledge-agent/${encodeURIComponent(finalKeyword)}`);
+      setExtractedKeyword(finalKeyword);
+      setShowConfirmModal(true);
     } catch (error) {
       console.error('[Landing] Search failed:', error);
-      // 실패 시에도 원본 검색어로 이동
-      router.push(`/knowledge-agent/${encodeURIComponent(searchQuery)}`);
+      // 실패 시에도 원본 검색어로 확인 모달 표시
+      setExtractedKeyword(searchQuery);
+      setShowConfirmModal(true);
     } finally {
       setIsProcessing(false);
     }
@@ -550,8 +558,9 @@ export default function KnowledgeAgentLanding({ defaultTab }: KnowledgeAgentLand
   const handleConfirmSearch = () => {
     if (!extractedKeyword) return;
     logKnowledgeAgentSearchConfirm(extractedKeyword, inputValue);
-    setIsProcessing(true);
-    router.push(`/knowledge-agent/${encodeURIComponent(extractedKeyword)}`);
+    setShowConfirmModal(false);
+    setActiveSearchItem(null);
+    router.push(`/knowledge-agent/${encodeURIComponent(extractedKeyword)}?autoStart=1`);
   };
 
   const handleCancelSearch = () => {

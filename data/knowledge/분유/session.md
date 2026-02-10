@@ -1,5 +1,5 @@
-# 세션: 20260129_054114_gwcq
-> 시작: 2026-01-29T05:41:14.773Z
+# 세션: 20260210_055251_7jdr
+> 시작: 2026-02-10T05:52:51.433Z
 > 카테고리키: 분유
 > 카테고리: 분유
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유 시장 현황
-- 인사이트: 국내 분유 시장은 수입 분유의 강세 속에서 국내 브랜드들이 어려움을 겪고 있습니다. 특히 '압타밀'과 같은 수입 분유는 높은 가격에도 불구하고 안전성과 성분에 대한 신뢰를 바탕으로 인기를 얻고 있으며, 국내 시장 점유율에서도 높은 순위를 차지하고 있습니다. 반면, 매일유업의 앱솔루트, 일동후디스의 산양분유 등 국내 브랜드들은 매출 감소세를 보이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHn-qyKfXeU2wi9irhFTbLVA5NjOm42495h6HGBRgl-lVHxMIX9TX8ILXUDlLFNlSLRHsuBHVsqILhUbfF89HQ14bJxw-iMN0CpKlt8gu2LIzavg5ugEues5oYhrVmlqdEfs2fFaugn6dRIvBrN3oUuL1FgHxKrFCFeST0L_L44AWH4xKHarx96a0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHMk0L07XOgRuvGwWNJdn0DiDIzbfWu_uyOXIAz1EOxYVAEqK0MVmsOmjqaU7gky0Q18JXiINbUIU899xvDX1oMHwIAJHWUEjdGAIO1OykB0njhc2E3lowQ_mXwmTI-vPQm0lNNXxk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNcAZz2DDoenwXhi-NyDd_upS2-afvA-A-M0zo3rapM-0R-y4JlgXmbIhQuvZ7p9Cc06_pQF5CPaYScIOuJ0hWVH0VNv5P2MzTHcFufEy5WBEDhhzjwvXJao0ccTP6MppAqMIqTK_KpblkLF9R2k_vMEGMzK9y5GcbOVIlfbtGESFDEVIy-C7Hiq4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFtNBOg5NwbkjXcJXwp32SVL0BnRBA9HCi_mFoFuoJtMNlDImJoR4dcDw9sQ1JWmaCmXv7SPDGHrkFRlObt-bmgvVHaGwd8vBPD81rNYc7zgoH-F-O9cZbOudQSJIbeOnz0HWLmGaoh-BJ249AoPSbzqL_Mk6hgKw==
+- 인사이트: 국내 분유 시장은 출산율 반등과 프리미엄 제품 선호 현상에 힘입어 축소 흐름에서 벗어나 반등의 실마리를 보이고 있습니다. 2016년 약 4700억 원 규모에서 2022년 3045억 원까지 축소되었으나, 최근 출생아 수 증가와 함께 1인당 소비 단가가 상승하며 새로운 성장 동력을 얻고 있습니다. 다만, 유럽 및 미국발 유기농 수입 분유가 빠르게 점유율을 확대하며 시장 재편이 이루어지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxsbaq10F9MAs5liNyiSaNiwxtZu8yghiy99n2QGdy2Wvg75njWoVOEMsInsgeX1GJyuJ3HvIWRKxwYiq9VecY-Pyz1SeS5iz9gEiYUjJ4_c4FPFCOpZ_CJSHwTkjhL_dJglusQ1JTfV8Trj7FraWJO9KigSVvUf9vyfKtHTUUd5pVWke2-e8WLmudJRjClA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZSs_6wO5oFs2NulFaFO21gpl7EFnrkwFemL3w-clzJbOnWgMaJTATZ5tQM5wyDn0pxLt0rGWLzsqsNLPS_iKD2m4Ym84EDAB0LiT3-tLKssRld4Hw0w1CnVAqiC_hb9mhzxScP8aj-8_HjFm8dMoTI07EhXLlIJIbS0WPQMbDH1jr3W7nNsAGcPVjEb2lDFfdT_NTllsc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0IBbTpDW00ln3pdXckR5k_eQDa9aB9T-UXv-1Kdm_tgjhcu7_VzVEj1bWP7Bh_YD4HxqGQyjXqfsyK3708eWjT5GQIcypng55XQDw2hMjUT6V8OQ7FLd9sx9VpzBd86k1-GkEJjZFUzWqQv09DbeuPejrOIVQMymB4DPOWa4B-u0fVe1xxKkfMfjjbhjLN2hRF-VMdg==
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 갑자기 분유를 거부해서 대안을 찾고 계시는군요! 혹시 아이가 분유를 거부하는 특별한 이유가 있을까요? | 맛이 없어서, 식감이 별로라서 |
-| 어느 나라에서 생산된 분유를 선호하시나요? | 국내산 |
-| 특별히 중요하게 생각하는 분유 성분이 있으신가요? | A2 베타카제인 (소화 개선) |
-| 아기의 소화 및 편안함을 위해 특별히 고려하는 부분이 있으신가요? | 소화 용이성 |
-| 아기의 성장 발달을 위해 추가적으로 강화되었으면 하는 영양소가 있나요? | DHA/ARA (두뇌, 시력 발달) |
-| 분유 예산은 어느 정도로 생각하세요? (평균 4만 3천원대, 2만 9천원~5만 6천원대가 가장 많아요) | 3만원 ~ 6만원대 |
 
 ---
 
@@ -30,26 +24,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 압타밀 프로푸트라 듀오 어드밴스 1단계 800g (해외구매) - 218,770원 - ⭐4.8
-2. 압타밀 프로푸트라 듀오 어드밴스 2단계 800g (해외구매) - 222,090원 - ⭐4.8
-3. 매일유업 앱솔루트 명작 2FL 2단계 800g - 17,320원 - ⭐4.7
-4. 매일유업 앱솔루트 명작 2FL 1단계 800g - 22,000원 - ⭐4.8
+1. 압타밀 프로푸트라 듀오 어드밴스 2단계 800g (해외구매) - 36,100원 - ⭐4.8
+2. 압타밀 프로푸트라 듀오 어드밴스 1단계 800g (해외구매) - 40,000원 - ⭐4.8
+3. 매일유업 앱솔루트 명작 2FL 2단계 800g - 107,830원 - ⭐4.7
+4. Hipp 힙 콤비오틱 유기농 2단계 800g - 129,170원 - ⭐4.9
 5. 뉴트리시아 인파트리니 400g - 64,130원 - ⭐4.7
-6. Hipp 힙 콤비오틱 유기농 2단계 800g - 49,600원 - ⭐4.9
-7. Hipp 힙 콤비오틱 유기농 1단계 800g - 129,170원 - ⭐4.9
-8. Hipp 힙 콤비오틱 프레 600g (해외구매) - 22,230원 - ⭐4.7
-9. 매일유업 앱솔루트 명작 2FL 2단계 800g - 18,650원 - ⭐4.7
+6. 매일유업 앱솔루트 명작 2FL 2단계 800g - 19,330원 - ⭐4.7
+7. 와이어스 일루마 1단계 810g - 59,560원 - ⭐4.9
+8. 매일유업 앱솔루트 명작 2FL 1단계 800g - 22,000원 - ⭐4.8
+9. Hipp 힙 콤비오틱 1단계 600g (해외구매) - 15,600원 - ⭐4.7
 10. Hipp 힙 콤비오틱 유기농 1단계 800g - 43,220원 - ⭐4.9
-11. 일동후디스 산양분유 시그니처 1단계 400g - 23,000원 - ⭐5
-12. 일동후디스 2024 NEW 트루맘 뉴클래스 슈퍼프리미엄 1단계 800g - 36,730원 - ⭐4.8
-13. 남양유업 유기농 산양유아식 3단계 800g - 118,230원 - ⭐4.9
-14. 일동후디스 하이키드 밀크 600g - 108,930원 - ⭐4.6
-15. 뉴오리진 A2 플래티넘 2단계 900g - 52,500원 - ⭐5
-16. 압타밀 프로푸트라 듀오 어드밴스 2단계 800g - 47,500원 - ⭐4.8
-17. 압타밀 프로푸트라 듀오 어드밴스 킨더밀쉬 1단계 800g (해외구매) - 38,243원 - ⭐4.9
-18. 압타밀 프로푸트라 듀오 어드밴스 프레 800g (해외구매) - 40,000원 - ⭐4.8
+11. Hipp 힙 콤비오틱 프레 600g (해외구매) - 22,230원 - ⭐4.7
+12. Hipp 힙 콤비오틱 유기농 1단계 800g - 129,150원 - ⭐4.9
+13. 일동후디스 산양분유 시그니처 1단계 400g - 23,000원 - ⭐5
+14. 남양유업 2023 아이엠마더 1단계 800g - 20,810원 - ⭐4.9
+15. 일동후디스 2024 NEW 트루맘 뉴클래스 슈퍼프리미엄 1단계 800g - 36,730원 - ⭐4.8
+16. 매일유업 앱솔루트 명작 2FL 1단계 800g - 22,000원 - ⭐4.8
+17. 매일유업 앱솔루트 명작 2FL 3단계 800g - 19,330원 - ⭐4.6
+18. 매일유업 앱솔루트 명작 2FL 1단계 800g - 22,000원 - ⭐4.7
 19. 매일유업 앱솔루트 플래티넘 산양 1단계 350g - 17,890원 - ⭐4.9
-20. 와이어스 일루마 1단계 810g - 55,450원 - ⭐4.9
+20. 남양유업 임페리얼 드림 XO 골드 1단계 800g - 20,580원 - ⭐4.8
 
 ---
 

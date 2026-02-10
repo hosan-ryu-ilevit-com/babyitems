@@ -110,6 +110,11 @@ interface AgenticLoadingPhaseProps {
   onSummaryShow?: () => void;
   // 웹검색 실시간 진행 상황
   webSearchProgress?: WebSearchProgressData;
+  // 진행 태그 강제 표기 (예: 3/3)
+  stepCounterOverride?: {
+    current: number;
+    total: number;
+  };
 }
 
 // ============================================================================
@@ -266,148 +271,117 @@ function ProductAnalysisContent({
   step: AnalysisStep;
   crawledProducts?: AgenticLoadingPhaseProps['crawledProducts'];
 }) {
-  const PREVIEW_COUNT = 10; // 미리보기 개수
+  const TARGET_COUNT = 100;
   const products = crawledProducts || [];
-  const count = step.analyzedCount || products.length; // 전체 수집 개수
-  const filters = step.result?.filters || [];
-  const filterCount = step.result?.filterCount || filters.length;
+  const count = step.analyzedCount || products.length;
+  const progress = Math.max(5, Math.min(100, Math.round((count / TARGET_COUNT) * 100)));
+  const displayPercent = step.status === 'done' ? 100 : Math.min(progress, 99);
 
-  // 로딩 상태 텍스트 (전환 효과용)
-  const loadingTexts = [
-    '판매 데이터 조회 중...',
-    '인기 상품 분석 중...',
-    '필터 정보 추출 중...',
-    '브랜드 정보 수집 중...',
+  const groupedSources = useMemo(() => {
+    const normalizeSourceName = (raw?: string | null): string | null => {
+      if (!raw) return null;
+      const source = raw.trim();
+      const lower = source.toLowerCase();
+
+      if (lower.includes('coupang') || source.includes('쿠팡')) return 'coupang.com';
+      if (lower.includes('11st') || source.includes('11번가')) return '11st.co.kr';
+      if (lower.includes('gmarket') || source.includes('g마켓')) return 'gmarket.co.kr';
+      if (lower.includes('auction') || source.includes('옥션')) return 'auction.co.kr';
+      if (lower.includes('naver') || source.includes('네이버')) return 'brand.naver.com';
+      if (lower.includes('ssg') || source.includes('신세계')) return 'ssg.com';
+      if (lower.includes('lotteon') || source.includes('롯데')) return 'lotteon.com';
+      if (lower.includes('hmall') || source.includes('현대')) return 'hmall.com';
+      if (lower.includes('emart') || source.includes('이마트')) return 'emart.ssg.com';
+
+      return source;
+    };
+
+    const groups = new Map<string, typeof products>();
+    products.forEach((product) => {
+      const sourceName =
+        normalizeSourceName((product as any).lowestMall) ||
+        normalizeSourceName((product as any).mallName) ||
+        normalizeSourceName((product as any).mall) ||
+        normalizeSourceName((product as any).sourceDomain) ||
+        '기타';
+      const existing = groups.get(sourceName);
+      if (existing) {
+        existing.push(product);
+      } else {
+        groups.set(sourceName, [product]);
+      }
+    });
+
+    return Array.from(groups.entries())
+      .map(([source, items]) => ({ source, items }))
+      .sort((a, b) => {
+        if (a.source === '기타' && b.source !== '기타') return 1;
+        if (b.source === '기타' && a.source !== '기타') return -1;
+        return b.items.length - a.items.length;
+      });
+  }, [products]);
+
+  const mallLogoByKeyword: Array<{ keywords: string[]; icon: string }> = [
+    { keywords: ['쿠팡', 'coupang'], icon: '/icons/malls/name=coupang.png' },
+    { keywords: ['11번가', '11st', '11'], icon: '/icons/malls/name=11.png' },
+    { keywords: ['g마켓', 'gmarket'], icon: '/icons/malls/name=gmarket.png' },
+    { keywords: ['옥션', 'auction'], icon: '/icons/malls/name=auction.png' },
+    { keywords: ['네이버', 'naver'], icon: '/icons/malls/name=naver.png' },
+    { keywords: ['ssg', '신세계'], icon: '/icons/malls/name=ssg.png' },
+    { keywords: ['롯데온', 'lotteon'], icon: '/icons/malls/name=lotteon.png' },
+    { keywords: ['현대', 'hmall'], icon: '/icons/malls/name=hmall.png' },
+    { keywords: ['이마트', 'emart'], icon: '/icons/malls/name=emart.png' },
   ];
-  const [loadingTextIndex, setLoadingTextIndex] = useState(0);
 
-  useEffect(() => {
-    if (products.length > 0 || step.status === 'done') return;
-    const interval = setInterval(() => {
-      setLoadingTextIndex(prev => (prev + 1) % loadingTexts.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [products.length, step.status, loadingTexts.length]);
+  const getMallLogoPath = (sourceName: string): string | null => {
+    const lower = sourceName.toLowerCase();
+    const match = mallLogoByKeyword.find(({ keywords }) =>
+      keywords.some((keyword) => lower.includes(keyword.toLowerCase()))
+    );
+    return match?.icon || null;
+  };
 
   return (
-    <AnimatePresence mode="wait">
-      {(products.length === 0 && step.status !== 'done') ? (
-        <motion.div
-          key="skeleton"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="space-y-2"
-        >
-          {/* 로딩 상태 텍스트 */}
-          <div className="flex items-center gap-2 mb-2">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            >
-              <FcProcess size={14} />
-            </motion.div>
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={loadingTextIndex}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.2 }}
-                className="text-[12px] text-gray-500 font-medium"
-              >
-                {step.loadingText || loadingTexts[loadingTextIndex]}
-              </motion.span>
-            </AnimatePresence>
-          </div>
-          <div className="space-y-1.5">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="flex items-center gap-2">
-                <Shimmer className="w-8 h-8 rounded" />
-                <div className="flex-1 space-y-1">
-                  <Shimmer className="h-3 w-full" />
-                  <Shimmer className="h-2 w-20" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+    <div className="space-y-4">
+      <div className="text-center space-y-1">
+        <p className="text-[13px] font-semibold text-gray-700">
+          제품을 불러오고 있어요 <span className="text-blue-500">{displayPercent}%</span>
+        </p>
+        <p className="text-[12px] text-gray-400">가장 잘 맞는 제품을 찾고 있어요</p>
+      </div>
+
+      {products.length === 0 && step.status !== 'done' ? (
+        <div className="grid grid-cols-8 gap-1.5">
+          {Array.from({ length: 40 }).map((_, i) => (
+            <Shimmer key={i} className="w-8 h-8 rounded-[8px]" />
+          ))}
+        </div>
       ) : (
-        <motion.div
-          key="content"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-3"
-        >
-          {/* 핵심 필터 정보 (상단) */}
-          {filters.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-2"
-            >
-              <div className="flex items-center">
-                <p className="text-[14px] tracking-tight font-medium">
-                  <span className="text-gray-400">핵심 스펙 필터 </span>
-                  <span className="text-gray-500">{filterCount}개</span>
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {filters.slice(0, 8).map((filter: { title: string; options: string[]; optionCount: number }, i: number) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.03 }}
-                    className="group relative"
-                  >
-                    <span className="px-2 py-1 bg-purple-50 border border-purple-100/50 rounded-lg text-[11px] font-semibold text-purple-700 cursor-default">
-                      {filter.title}
-                      <span className="text-purple-400 ml-1">({filter.optionCount})</span>
-                    </span>
-                    {/* 호버 시 옵션 표시 */}
-                    <div className="absolute bottom-full left-0 mb-1 hidden group-hover:block z-10">
-                      <div className="bg-gray-900 text-white text-[10px] rounded-lg px-2 py-1.5 whitespace-nowrap shadow-lg">
-                        {filter.options.slice(0, 4).join(', ')}
-                        {filter.optionCount > 4 && ` 외 ${filter.optionCount - 4}개`}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-                {filters.length > 8 && (
-                  <span className="px-2 py-1 text-[11px] text-gray-400">
-                    +{filters.length - 8}개 더
-                  </span>
+        <div className="space-y-3">
+          {groupedSources.map((group, groupIdx) => (
+            <div key={group.source} className="space-y-1.5">
+              <div className="flex items-center gap-1.5">
+                {getMallLogoPath(group.source) ? (
+                  <img
+                    src={getMallLogoPath(group.source)!}
+                    alt=""
+                    className="w-4 h-4 rounded-[4px] border border-gray-100 bg-white shrink-0"
+                  />
+                ) : (
+                  <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
                 )}
+                <span className="text-[13px] font-semibold text-gray-700">{group.source}</span>
+                <span className="text-[12px] text-gray-400">{group.items.length}개</span>
               </div>
-            </motion.div>
-          )}
-
-          {/* 상품 리스트 */}
-          <div className="space-y-2">
-            <div className="flex items-center">
-              <p className="text-[14px] tracking-tight font-medium">
-                <span className="text-gray-400">수집된 상품 </span>
-                <span className="text-gray-500">{count}개</span>
-              </p>
-            </div>
-
-            {/* 상품 리스트 - 최대 10개 미리보기 */}
-            <div className="space-y-1 max-h-64 overflow-y-auto">
-              {products.slice(0, PREVIEW_COUNT).map((p, i) => (
-                <motion.div
-                  key={p.pcode || i}
-                  initial={{ opacity: 0, x: -5 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.03 }}
-                  className="flex items-center gap-3 p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  {/* 순번 */}
-                  <span className="text-[14px] text-gray-600 font-medium w-4 shrink-0">
-                    {i + 1}
-                  </span>
-                  {/* 썸네일 */}
-                  <div className="w-10 h-10 rounded overflow-hidden bg-gray-100 border border-gray-100 shrink-0">
+              <div className="flex flex-wrap items-center gap-1">
+                {group.items.map((p, i) => (
+                  <motion.div
+                    key={`${group.source}-${p.pcode}-${i}`}
+                    initial={{ opacity: 0, x: -4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: groupIdx * 0.04 + i * 0.01 }}
+                    className="w-8 h-8 rounded-[6px] overflow-hidden bg-gray-100 border border-gray-100 shrink-0"
+                  >
                     {p.thumbnail ? (
                       <img
                         src={p.thumbnail}
@@ -419,53 +393,24 @@ function ProductAnalysisContent({
                         }}
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-[7px] text-gray-400">{p.brand?.substring(0, 2) || '?'}</span>
-                      </div>
+                      <div className="w-full h-full bg-gray-100" />
                     )}
-                  </div>
-                  {/* 상품 정보 */}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[13px] text-gray-600 font-medium truncate leading-tight">
-                      {p.name.length > 35 ? p.name.substring(0, 35) + '...' : p.name}
-                    </p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      {p.brand && (
-                        <span className="text-[13px] text-gray-400 font-medium">{p.brand}</span>
-                      )}
-                      {p.price && (
-                        <span className="text-[13px] text-blue-500 font-medium">
-                          {p.price.toLocaleString()}원
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </div>
-
-            {/* 더 보기 - 전체 수집 개수 기준 */}
-            {count > PREVIEW_COUNT && (
-              <p className="text-[11px] text-gray-400 text-center">
-                +{count - PREVIEW_COUNT}개 더 분석됨
-              </p>
-            )}
-          </div>
-
-          {/* 인기 브랜드 */}
-          {step.analyzedItems && step.analyzedItems.length > 0 && (
-            <div className="flex items-center gap-1 pt-1 border-t border-gray-100">
-              <span className="text-[11px] text-gray-400">인기:</span>
-              {step.analyzedItems.slice(0, 4).map((brand, i) => (
-                <span key={i} className="text-[11px] px-1.5 py-0.5 bg-blue-50 rounded text-blue-600">
-                  {brand}
-                </span>
-              ))}
-            </div>
-          )}
-        </motion.div>
+          ))}
+        </div>
       )}
-    </AnimatePresence>
+
+      {step.status === 'done' && (
+        <div className="pt-1 border-t border-gray-100">
+          <p className="text-[12px] text-gray-500">
+            TOP {Math.min(count, TARGET_COUNT)}개 분석 완료
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -995,6 +940,7 @@ function QuestionGenerationContent({
   generatedQuestions?: GeneratedQuestion[];
 }) {
   const questions = generatedQuestions || [];
+  const waveDelays = [0, 100, 200, 0, 100, 200, 0, 100, 200];
 
   return (
     <AnimatePresence mode="wait">
@@ -1004,18 +950,35 @@ function QuestionGenerationContent({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="space-y-2"
+          className="space-y-3"
         >
-          <div className="flex items-center gap-1.5">
-            <Shimmer className="h-3 w-28" />
-          </div>
-          <div className="space-y-1.5">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="flex items-center gap-2">
-                <Shimmer className="w-4 h-4 rounded" />
-                <Shimmer className="h-3 flex-1" />
-              </div>
-            ))}
+          {step.thinking && (
+            <motion.p
+              key={step.thinking}
+              initial={{ opacity: 0, y: 3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="text-[13px] text-gray-600 leading-relaxed"
+            >
+              {step.thinking}
+            </motion.p>
+          )}
+          <div className="pt-1.5">
+            <div className="inline-grid grid-cols-3 gap-1.5">
+              {waveDelays.slice(0, 3).map((delay, i) => (
+                <motion.span
+                  key={`wave-lr-${i}`}
+                  className="w-3 h-3 bg-violet-400/90"
+                  animate={{ opacity: [0.25, 1, 0.25] }}
+                  transition={{
+                    duration: 0.6,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: delay / 1000,
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
       ) : (
@@ -1025,6 +988,17 @@ function QuestionGenerationContent({
           animate={{ opacity: 1 }}
           className="space-y-2"
         >
+          {step.thinking && (
+            <motion.p
+              key={step.thinking}
+              initial={{ opacity: 0, y: 3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="text-[13px] text-gray-600 leading-relaxed"
+            >
+              {step.thinking}
+            </motion.p>
+          )}
           <div className="flex items-center">
             <p className="text-[14px] tracking-tight font-medium">
               <span className="text-gray-400">생성된 질문 </span>
@@ -1501,6 +1475,8 @@ function SlideStepContent({
   globalStartTime,
   stepIndex,
   totalSteps,
+  counterCurrent,
+  counterTotal,
   webSearchProgress,
 }: {
   step: AnalysisStep;
@@ -1510,6 +1486,8 @@ function SlideStepContent({
   globalStartTime?: number; // 전체 분석 시작 시간 (연속 타이머용)
   stepIndex: number; // 현재 단계 인덱스 (0-based)
   totalSteps: number; // 전체 단계 수
+  counterCurrent?: number;
+  counterTotal?: number;
   webSearchProgress?: WebSearchProgressData;
 }) {
   const getStatusIcon = () => {
@@ -1539,7 +1517,7 @@ function SlideStepContent({
         </div>
         {/* n/4 진행 태그 */}
         <span className="text-[12px] font-semibold text-gray-600 bg-gray-100 px-2.5 py-1 rounded-[6px]">
-          {stepIndex + 1}/{totalSteps}
+          {counterCurrent ?? (stepIndex + 1)}/{counterTotal ?? totalSteps}
         </span>
       </div>
 
@@ -1583,12 +1561,23 @@ export function AgenticLoadingPhase({
   isComplete = false,
   onSummaryShow,
   webSearchProgress,
+  stepCounterOverride,
 }: AgenticLoadingPhaseProps) {
   // 최소 표시 시간 (결과를 사용자가 인지할 수 있도록)
   const MIN_DISPLAY_TIME = 1600; // 1.6초
 
+  const allStepsDone = useMemo(
+    () => steps.length > 0 && steps.every(s => s.status === 'done'),
+    [steps]
+  );
+
   // 현재 화면에 표시되는 단계 인덱스
-  const [displayIndex, setDisplayIndex] = useState(0);
+  const [displayIndex, setDisplayIndex] = useState(() => {
+    if (isComplete && steps.length > 0 && steps.every(s => s.status === 'done')) {
+      return steps.length;
+    }
+    return 0;
+  });
 
   // 데이터 상으로 진행되어야 할 단계 인덱스
   const dataIndex = useMemo(() => {
@@ -1625,6 +1614,13 @@ export function AgenticLoadingPhase({
     return () => clearTimeout(timer);
   }, [steps, displayIndex, dataIndex]);
 
+  // 완료 상태로 진입할 때 1->2->3 재생 없이 즉시 요약으로 이동
+  useEffect(() => {
+    if (isComplete && allStepsDone && displayIndex < steps.length) {
+      setDisplayIndex(steps.length);
+    }
+  }, [isComplete, allStepsDone, displayIndex, steps.length]);
+
   // 현재 표시할 단계
   const currentStep = steps[displayIndex] || null;
 
@@ -1634,7 +1630,7 @@ export function AgenticLoadingPhase({
   }, [steps]);
 
   // 완료 여부 체크 (모든 단계 done + displayIndex가 끝까지 도달)
-  const showSummary = isComplete && steps.length > 0 && steps.every(s => s.status === 'done') && displayIndex >= steps.length;
+  const showSummary = isComplete && allStepsDone && displayIndex >= steps.length;
 
   // 요약 카드로 전환될 때 콜백 호출 (ref로 중복 호출 방지)
   const summaryShownRef = useRef(false);
@@ -1674,6 +1670,8 @@ export function AgenticLoadingPhase({
               globalStartTime={globalStartTime}
               stepIndex={displayIndex}
               totalSteps={steps.length}
+              counterCurrent={stepCounterOverride?.current}
+              counterTotal={stepCounterOverride?.total}
               webSearchProgress={currentStep.id === 'web_search' ? webSearchProgress : undefined}
             />
           </motion.div>
@@ -1699,12 +1697,6 @@ export function createDefaultSteps(categoryName: string): AnalysisStep[] {
       id: 'web_search',
       label: '웹검색 트렌드 수집',
       type: 'search',
-      status: 'pending',
-    },
-    {
-      id: 'review_extraction',
-      label: '리뷰 키워드 분석',
-      type: 'analyze',
       status: 'pending',
     },
     {

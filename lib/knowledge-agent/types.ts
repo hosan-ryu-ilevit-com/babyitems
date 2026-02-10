@@ -316,6 +316,8 @@ export interface FinalRecommendationRequest {
   collectedInfo: Record<string, string>;
   balanceSelections: BalanceSelection[];
   negativeSelections: string[];
+  preferBrands?: string[];
+  excludeBrands?: string[];
 }
 
 export interface FinalRecommendationResponse {
@@ -394,6 +396,7 @@ export type Phase =
   | 'onboarding'          // 1단계: 구매 상황 파악
   | 'baby_info'           // 1.1단계: 아기 정보 (baby 카테고리만)
   | 'loading'             // 데이터 분석 + 질문 생성
+  | 'question_generation' // 맥락 기반 맞춤질문 생성
   | 'report'              // 분석 보고서 (legacy)
   | 'questions'           // 맞춤질문 + 인라인 꼬리질문 + 브랜드/예산
   | 'condition_report'    // 조건 보고서 (인라인 카드)

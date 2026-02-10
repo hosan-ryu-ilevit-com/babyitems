@@ -2527,12 +2527,18 @@ async function selectTopProducts(
   reviews: Record<string, ReviewLite[]>,
   collectedInfo: Record<string, string>,
   balanceSelections: BalanceSelection[],
+  preferBrands: string[] = [],
+  excludeBrands: string[] = [],
   expandedKeywords?: ExpandedKeywords,
   freeInputAnalysis?: FreeInputAnalysis | null,
   personalizationContext?: string | null,  // 🆕 개인화 메모리 컨텍스트
   conditionReport?: { userProfile: { situation: string; keyNeeds: string[] }; analysis: { recommendedSpecs: Array<{ specName: string; value: string; reason: string }> } } | null,
 ): Promise<{ selectedProducts: HardCutProduct[]; productInfoMap: Record<string, ProductInfo> }> {
-  const pcodes = candidates.map(c => c.pcode);
+  const preferSet = new Set(preferBrands.map(b => b.trim()).filter(Boolean));
+  const excludeSet = new Set(excludeBrands.map(b => b.trim()).filter(Boolean));
+  const filteredCandidates = candidates.filter(c => !excludeSet.has((c.brand || '').trim()));
+  const effectiveCandidates = filteredCandidates.length > 0 ? filteredCandidates : candidates;
+  const pcodes = effectiveCandidates.map(c => c.pcode);
 
   // 🆕 다나와 랭크 + product_info 병렬 조회
   const [rankMap, productInfoMap] = await Promise.all([
@@ -2565,13 +2571,13 @@ async function selectTopProducts(
 
   let topNSelection: { pcode: string; briefReason: string }[];
 
-  if (USE_PARALLEL_LLM_EVAL && candidates.length > 10) {
+  if (USE_PARALLEL_LLM_EVAL && effectiveCandidates.length > 10) {
     // 🆕 새 방식: 전체를 병렬 LLM 평가
-    console.log(`[FinalRecommend] 🆕 Using parallel LLM evaluation for ${candidates.length} candidates`);
+    console.log(`[FinalRecommend] 🆕 Using parallel LLM evaluation for ${effectiveCandidates.length} candidates`);
 
     const evaluations = await evaluateAllCandidatesWithLLM(
       categoryName,
-      candidates,
+      effectiveCandidates,
       reviews,
       collectedInfo,
       balanceSelections,
@@ -2604,7 +2610,14 @@ async function selectTopProducts(
     });
 
     // 리뷰 충분한 제품 우선 + 부족하면 점수순으로 채움
-    const finalSelection = [...withEnoughReviews, ...withoutEnoughReviews].slice(0, RECOMMENDATION_COUNT);
+    const sortedByBrandPreference = [...withEnoughReviews, ...withoutEnoughReviews].sort((a, b) => {
+      const aProduct = effectiveCandidates.find(c => c.pcode === a.pcode);
+      const bProduct = effectiveCandidates.find(c => c.pcode === b.pcode);
+      const aPreferred = aProduct?.brand ? (preferSet.has(aProduct.brand.trim()) ? 1 : 0) : 0;
+      const bPreferred = bProduct?.brand ? (preferSet.has(bProduct.brand.trim()) ? 1 : 0) : 0;
+      return bPreferred - aPreferred;
+    });
+    const finalSelection = sortedByBrandPreference.slice(0, RECOMMENDATION_COUNT);
 
     topNSelection = finalSelection.map(e => ({
       pcode: e.pcode,
@@ -2619,17 +2632,17 @@ async function selectTopProducts(
     console.log(`[FinalRecommend] Using legacy rule-based prescreen`);
 
     // 50개 이상이면 사전 스크리닝으로 25개로 줄임
-    let filteredCandidates = candidates;
-    if (candidates.length > PRESCREEN_LIMIT) {
-      filteredCandidates = prescreenCandidates(candidates, reviews, collectedInfo, expandedKeywords, rankMap);
+    let filteredCandidatesForPrescreen = effectiveCandidates;
+    if (effectiveCandidates.length > PRESCREEN_LIMIT) {
+      filteredCandidatesForPrescreen = prescreenCandidates(effectiveCandidates, reviews, collectedInfo, expandedKeywords, rankMap);
     }
 
-    console.log(`[FinalRecommend] 2-Step Architecture: ${candidates.length} → ${filteredCandidates.length} candidates`);
+    console.log(`[FinalRecommend] 2-Step Architecture: ${effectiveCandidates.length} candidates`);
 
     // Top N pcode 선정 (가벼운 호출)
     topNSelection = await selectTopNPcodes(
       categoryName,
-      filteredCandidates,
+      filteredCandidatesForPrescreen,
       reviews,
       collectedInfo,
       balanceSelections,
@@ -2649,7 +2662,7 @@ async function selectTopProducts(
       continue;
     }
 
-    const product = candidates.find(c => c.pcode === sel.pcode);
+    const product = effectiveCandidates.find(c => c.pcode === sel.pcode);
     if (!product) continue;
 
     // 🆕 유사 제품 중복 체크 (95% 이상 유사하면 스킵)
@@ -2664,7 +2677,13 @@ async function selectTopProducts(
 
   // N개 미만이면 후보에서 채우기 (유사 제품도 제외)
   if (selectedProducts.length < RECOMMENDATION_COUNT) {
-    const remaining = candidates.filter(c => !seenPcodes.has(c.pcode));
+    const remaining = effectiveCandidates
+      .filter(c => !seenPcodes.has(c.pcode))
+      .sort((a, b) => {
+        const aPreferred = preferSet.has((a.brand || '').trim()) ? 1 : 0;
+        const bPreferred = preferSet.has((b.brand || '').trim()) ? 1 : 0;
+        return bPreferred - aPreferred;
+      });
 
     for (const next of remaining) {
       if (selectedProducts.length >= RECOMMENDATION_COUNT) break;
@@ -2692,6 +2711,8 @@ export async function POST(request: NextRequest) {
       collectedInfo,
       balanceSelections,
       negativeSelections,
+      preferBrands = [],
+      excludeBrands = [],
       personalizationContext,  // 🆕 개인화 메모리 컨텍스트
       onboarding,  // 🆕 온보딩 데이터 (구매 상황, 기존 불편사항)
       babyInfo,    // 🆕 아기 정보 (개월수, 성별)
@@ -2701,6 +2722,8 @@ export async function POST(request: NextRequest) {
       onboarding?: { purchaseSituation?: string; replaceReasons?: string[]; replaceOther?: string; firstSituations?: string[]; firstSituationOther?: string };
       babyInfo?: { gender?: string; calculatedMonths?: number; expectedDate?: string; isBornYet?: boolean };
       conditionReport?: { userProfile: { situation: string; keyNeeds: string[] }; analysis: { recommendedSpecs: Array<{ specName: string; value: string; reason: string }> } };
+      preferBrands?: string[];
+      excludeBrands?: string[];
     };
 
     if (!candidates || candidates.length === 0) {
@@ -2867,6 +2890,8 @@ export async function POST(request: NextRequest) {
         reviews || {},
         enrichedCollectedInfo,  // 🆕 온보딩/아기정보 포함
         balanceSelections || [],
+        preferBrands,
+        excludeBrands,
         expandedKeywords,
         freeInputAnalysisResult,
         extendedContext || null,  // 🆕 온보딩/아기정보 포함된 확장 컨텍스트

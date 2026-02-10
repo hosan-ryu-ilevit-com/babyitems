@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { flushSync } from 'react-dom';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
@@ -99,14 +99,14 @@ import type { Phase, OnboardingData, BabyInfo, ConditionReport } from '@/lib/kno
 
 const STEPS_BABY = [
   { id: 1, label: '기본 상황', phases: ['onboarding', 'baby_info'] }, // onboarding 먼저, baby_info는 조건부
-  { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
+  { id: 2, label: '맞춤 질문', phases: ['loading', 'question_generation', 'questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
 
 const STEPS_LIVING = [
   { id: 1, label: '기본 상황', phases: ['onboarding'] },
-  { id: 2, label: '맞춤 질문', phases: ['loading', 'questions', 'report'] },
+  { id: 2, label: '맞춤 질문', phases: ['loading', 'question_generation', 'questions', 'report'] },
   { id: 3, label: '선호도 파악', phases: ['condition_report', 'hardcut_visual', 'follow_up_questions', 'balance', 'final_input'] },
   { id: 4, label: '추천 완료', phases: ['result', 'free_chat'] },
 ];
@@ -600,6 +600,7 @@ interface CrawledProductPreview {
   thumbnail: string | null;
   danawaRank?: number | null;
   specSummary?: string;
+  lowestMall?: string | null;
 }
 
 // ============================================================================
@@ -1035,8 +1036,10 @@ function useAutoScroll(containerRef: React.RefObject<HTMLDivElement | null>) {
 export default function KnowledgeAgentPage() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const categoryKey = params.categoryKey as string;
   const categoryName = decodeURIComponent(categoryKey);
+  const autoStart = searchParams?.get('autoStart') === '1';
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -1044,6 +1047,24 @@ export default function KnowledgeAgentPage() {
   const hardcutRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const crawledProductsRef = useRef<CrawledProductPreview[]>([]);
+  const webSearchContextRef = useRef<{
+    marketSummary?: {
+      topBrands?: string[];
+      topPros?: string[];
+      topCons?: string[];
+      priceRange?: { min: number; max: number };
+      reviewCount?: number;
+    };
+    trendAnalysis?: {
+      top10Summary?: string;
+      trends?: string[];
+      pros?: string[];
+      cons?: string[];
+      priceInsight?: string;
+      sources?: Array<{ title: string; url: string; snippet?: string }>;
+    };
+  } | null>(null);
 
   // 자동 스크롤 훅
   const { scrollToMessage, scrollToTop } = useAutoScroll(mainRef);
@@ -1079,6 +1100,12 @@ export default function KnowledgeAgentPage() {
   const [onboardingData, setOnboardingData] = useState<OnboardingData | null>(null);
   const [babyInfo, setBabyInfo] = useState<BabyInfo | null>(null);
   const [pendingSituation, setPendingSituation] = useState<'first' | 'replace' | null>(null);
+  const [, setMarketAnalysisReady] = useState(false);
+  const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
+  const isGeneratingQuestionsRef = useRef(false);
+  const questionGenerationStartRef = useRef<number | null>(null);
+  const [questionGenerationThinking, setQuestionGenerationThinking] = useState('수집한 맥락으로 맞춤 질문을 준비하고 있어요');
+  const [questionsGeneratorError, setQuestionsGeneratorError] = useState<string | null>(null);
   const [conditionReport, setConditionReport] = useState<ConditionReport | null>(null);
   const [isConditionReportLoading, setIsConditionReportLoading] = useState(false);
   const [isAnalysisSummaryShown, setIsAnalysisSummaryShown] = useState(false);
@@ -1094,6 +1121,7 @@ export default function KnowledgeAgentPage() {
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const [showAnalysisBottomSheet, setShowAnalysisBottomSheet] = useState(false); // 🆕 분석 시작 바텀시트
+  const [isInitRunning, setIsInitRunning] = useState(false);
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [isChatInputHighlighted, setIsChatInputHighlighted] = useState(false);
   const chatInputRef = useRef<HTMLTextAreaElement>(null);
@@ -1107,6 +1135,10 @@ export default function KnowledgeAgentPage() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [timelineSteps, setTimelineSteps] = useState<TimelineStep[]>([]);
+  const [brandPreferenceOptions, setBrandPreferenceOptions] = useState<string[]>([]);
+  const [showBrandPreferencePrompt, setShowBrandPreferencePrompt] = useState(false);
+  const [preferBrands, setPreferBrands] = useState<string[]>([]);
+  const [excludeBrands, setExcludeBrands] = useState<string[]>([]);
 
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
   const [analysisSteps, setAnalysisSteps] = useState<AnalysisStep[]>(() => createDefaultSteps(categoryName));
@@ -1233,14 +1265,156 @@ export default function KnowledgeAgentPage() {
   // ============================================================================
   // 온보딩 완료 핸들러
   // ============================================================================
+  const appendFirstQuestionMessage = useCallback((firstQuestion: QuestionTodo, total: number) => {
+    const firstQuestionMsgId = `q_${firstQuestion.id}`;
+    const popularOpts = firstQuestion.options
+      .filter((o: any) => o.isPopular)
+      .map((o: any) => o.label);
+    const recommendOpts = firstQuestion.options
+      .filter((o: any) => o.isRecommend)
+      .map((o: any) => o.label);
+
+    setMessages(prev => [...prev, {
+      id: firstQuestionMsgId,
+      questionId: firstQuestion.id,
+      role: 'assistant',
+      content: firstQuestion.question,
+      options: firstQuestion.options.map((o: any) => o.label),
+      popularOptions: popularOpts.length > 0 ? popularOpts : undefined,
+      recommendOptions: recommendOpts.length > 0 ? recommendOpts : undefined,
+      questionProgress: { current: 1, total },
+      dataSource: firstQuestion.dataSource,
+      typing: true,
+      timestamp: Date.now()
+    }]);
+  }, []);
+
+  const generateQuestionsAfterContext = useCallback(async (
+    latestOnboarding: OnboardingData,
+    latestBabyInfo: BabyInfo | null
+  ) => {
+    if (isGeneratingQuestionsRef.current) {
+      console.log('[KA Flow] 질문 생성 중복 호출 차단');
+      return;
+    }
+    isGeneratingQuestionsRef.current = true;
+    pendingFirstQuestionRef.current = null;
+    questionGenerationStartRef.current = Date.now();
+    setIsGeneratingQuestions(true);
+    setQuestionsGeneratorError(null);
+    setPhase('question_generation');
+    setIsAnalysisSummaryShown(false);
+
+    // 온보딩 완료 후에만 3단계(맞춤 질문 생성)를 active로 전환
+    setAnalysisSteps(prev => prev.map(step => (
+      step.id === 'question_generation'
+        ? { ...step, status: 'active', startTime: Date.now(), endTime: undefined }
+        : step
+    )));
+    setMessages(prev => prev.map(message => {
+      if (message.id !== 'analysis-progress' || !message.analysisData?.steps) return message;
+      const nextSteps = message.analysisData.steps.map(step => (
+        step.id === 'question_generation'
+          ? {
+            ...step,
+            status: 'active' as const,
+            startTime: Date.now(),
+            endTime: undefined,
+            thinking: '수집한 맥락으로 맞춤 질문을 생성하고 있어요',
+          }
+          : step
+      ));
+      return {
+        ...message,
+        analysisData: {
+          ...message.analysisData,
+          steps: nextSteps,
+          isComplete: false,
+        }
+      };
+    }));
+
+    try {
+      const res = await fetch('/api/knowledge-agent/init', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          categoryKey,
+          streaming: false,
+          questionsOnly: true,
+          productsForQuestions: crawledProductsRef.current.slice(0, 20),
+          trendAnalysisForQuestions: webSearchContextRef.current?.trendAnalysis || null,
+          onboarding: latestOnboarding,
+          babyInfo: latestBabyInfo || undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data?.success || !Array.isArray(data.questionTodos) || data.questionTodos.length === 0) {
+        throw new Error(data?.error || '질문 생성에 실패했습니다.');
+      }
+
+      const generatedTodos = data.questionTodos as QuestionTodo[];
+      const firstQuestion = generatedTodos[0];
+      setAnalysisSteps(prev => prev.map(step => (
+        step.id === 'question_generation'
+          ? {
+            ...step,
+            status: 'done',
+            endTime: Date.now(),
+            analyzedCount: generatedTodos.length,
+            thinking: `맞춤 질문 ${generatedTodos.length}개 생성 완료`,
+          }
+          : step
+      )));
+      setMessages(prev => prev.map(message => {
+        if (message.id !== 'analysis-progress' || !message.analysisData?.steps) return message;
+        const generatedQuestions = generatedTodos.map(todo => ({ id: todo.id, question: todo.question }));
+        const nextSteps = message.analysisData.steps.map(step => (
+          step.id === 'question_generation'
+            ? {
+              ...step,
+              status: 'done' as const,
+              endTime: Date.now(),
+              analyzedCount: generatedTodos.length,
+              thinking: `맞춤 질문 ${generatedTodos.length}개 생성 완료`,
+            }
+            : step
+        ));
+        return {
+          ...message,
+          analysisData: {
+            ...message.analysisData,
+            steps: nextSteps,
+            generatedQuestions,
+            isComplete: true,
+          }
+        };
+      }));
+      setQuestionTodos(generatedTodos);
+      setCurrentQuestion(firstQuestion);
+      setProgress({ current: 1, total: generatedTodos.length });
+      // 완료된 맞춤질문 리스트를 잠시 보여준 뒤 질문 단계로 진입
+      setIsGeneratingQuestions(false);
+      isGeneratingQuestionsRef.current = false;
+      await new Promise(resolve => setTimeout(resolve, 1400));
+      setPhase('questions');
+      appendFirstQuestionMessage(firstQuestion, generatedTodos.length);
+    } catch (error) {
+      console.error('[KA Flow] 맥락 기반 질문 생성 실패:', error);
+      setQuestionsGeneratorError('질문 생성에 실패했어요. 다시 시도해주세요.');
+      setPhase('onboarding');
+    } finally {
+      setIsGeneratingQuestions(false);
+      isGeneratingQuestionsRef.current = false;
+    }
+  }, [categoryKey, appendFirstQuestionMessage]);
+
   const handleOnboardingComplete = useCallback((data: OnboardingData) => {
     console.log('[KA Flow] 온보딩 완료:', data);
     setOnboardingData(data);
-
-    // 🆕 온보딩 완료 후 바텀시트 표시 (initializeAgent는 바텀시트 확인 후 호출)
-    console.log('[KA Flow] 분석 시작 바텀시트 표시');
-    setShowAnalysisBottomSheet(true);
-  }, []);
+    generateQuestionsAfterContext(data, babyInfo);
+  }, [babyInfo, generateQuestionsAfterContext]);
 
   // 아기 정보 필요 핸들러 (onboarding에서 첫구매/교체 선택 시 호출)
   const handleNeedBabyInfo = useCallback((situation: 'first' | 'replace') => {
@@ -1263,24 +1437,24 @@ export default function KnowledgeAgentPage() {
   // 분석 시작 바텀시트 핸들러
   // ============================================================================
   const handleAnalysisBottomSheetConfirm = useCallback(() => {
-    console.log('[KA Flow] 분석 시작 확인 - initializeAgent 호출');
+    console.log('[KA Flow] 분석 시작 확인 - 시장 분석 init 시작');
     setShowAnalysisBottomSheet(false);
     setPhase('loading');
+    setIsInitRunning(true);
 
     // 스크롤 컨테이너(mainRef)를 최상단으로 리셋
     if (mainRef.current) {
       mainRef.current.scrollTop = 0;
     }
 
-    // onboardingData와 babyInfo를 사용하여 initializeAgent 호출
-    if (onboardingData) {
-      initializeAgent(onboardingData, babyInfo);
-    }
-  }, [onboardingData, babyInfo]);
+    setMarketAnalysisReady(false);
+    initializeAgent(undefined, undefined, { deferQuestionFlow: true });
+  }, []);
 
   const handleAnalysisBottomSheetCancel = useCallback(() => {
     console.log('[KA Flow] 분석 시작 모달 닫기');
     setShowAnalysisBottomSheet(false);
+    setIsInitRunning(false);
   }, []);
 
   // ============================================================================
@@ -1466,6 +1640,7 @@ export default function KnowledgeAgentPage() {
 
   // 프로그레스 애니메이션 cleanup 함수 저장용
   const progressAnimationCleanupRef = useRef<(() => void) | null>(null);
+  const brandPromptResolverRef = useRef<((value: { preferBrands: string[]; excludeBrands: string[] }) => void) | null>(null);
 
   /**
    * 프로그레스 바를 부드럽게 애니메이션 (22초 완료 기준)
@@ -1507,8 +1682,40 @@ export default function KnowledgeAgentPage() {
     return cleanup;
   }, []);
 
+  const getTopBrandCandidates = useCallback((limit: number = 8): string[] => {
+    const source = crawledProducts.length > 0 ? crawledProducts : hardCutProducts;
+    const brandCounts = new Map<string, number>();
+    source.forEach((p: any) => {
+      const brand = String(p?.brand || '').trim();
+      if (!brand) return;
+      brandCounts.set(brand, (brandCounts.get(brand) || 0) + 1);
+    });
+    return Array.from(brandCounts.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limit)
+      .map(([brand]) => brand);
+  }, [crawledProducts, hardCutProducts]);
+
+  const awaitBrandPreferenceSelection = useCallback((brands: string[]): Promise<{ preferBrands: string[]; excludeBrands: string[] }> => {
+    if (brands.length === 0) {
+      return Promise.resolve({ preferBrands: [], excludeBrands: [] });
+    }
+    setBrandPreferenceOptions(brands);
+    setPreferBrands([]);
+    setExcludeBrands([]);
+    setShowBrandPreferencePrompt(true);
+    return new Promise((resolve) => {
+      brandPromptResolverRef.current = resolve;
+    });
+  }, []);
+
   // 최종 추천 단계의 타임라인 UX 헬퍼
-  const runFinalTimelineUX = useCallback(async (candidateCount: number, userSelectionCount: number, negativeCount: number) => {
+  const runFinalTimelineUX = useCallback(async (
+    candidateCount: number,
+    userSelectionCount: number,
+    negativeCount: number,
+    includeBrandPrompt: boolean = false
+  ) => {
     setIsCalculating(true);
     setTimelineSteps([]);
     setLoadingProgress(0);
@@ -1573,6 +1780,12 @@ export default function KnowledgeAgentPage() {
     // 2단계 완료 처리
     const step2Completed = { ...step2, status: 'completed' as const, endTime: Date.now() };
 
+    // 로딩 중간 지점에서 브랜드 우선/제외 선호 수집
+    const brandCandidates = includeBrandPrompt ? getTopBrandCandidates() : [];
+    if (includeBrandPrompt && brandCandidates.length > 0) {
+      await awaitBrandPreferenceSelection(brandCandidates);
+    }
+
     // 3단계: 리뷰 데이터 종합 평가 (6.2초 ±10%)
     const step3Duration = getRandomDuration(6200);
     const step3: TimelineStep = {
@@ -1608,7 +1821,37 @@ export default function KnowledgeAgentPage() {
     // 프로그레스는 animateProgressSmoothly가 자동으로 99%까지 업데이트
 
     // 여기서는 완료 처리하지 않음 (API 응답 시 컴포넌트가 언마운트됨)
-  }, [categoryName, animateProgressSmoothly]);
+  }, [categoryName, animateProgressSmoothly, getTopBrandCandidates, awaitBrandPreferenceSelection]);
+
+  const handleBrandPreferenceToggle = useCallback((brand: string, type: 'prefer' | 'exclude') => {
+    if (type === 'prefer') {
+      setPreferBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
+      setExcludeBrands(prev => prev.filter(b => b !== brand));
+      return;
+    }
+    setExcludeBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
+    setPreferBrands(prev => prev.filter(b => b !== brand));
+  }, []);
+
+  const confirmBrandPreferenceSelection = useCallback(() => {
+    setShowBrandPreferencePrompt(false);
+    const payload = {
+      preferBrands: [...preferBrands],
+      excludeBrands: [...excludeBrands],
+    };
+    const resolver = brandPromptResolverRef.current;
+    brandPromptResolverRef.current = null;
+    resolver?.(payload);
+  }, [preferBrands, excludeBrands]);
+
+  const skipBrandPreferenceSelection = useCallback(() => {
+    setPreferBrands([]);
+    setExcludeBrands([]);
+    setShowBrandPreferencePrompt(false);
+    const resolver = brandPromptResolverRef.current;
+    brandPromptResolverRef.current = null;
+    resolver?.({ preferBrands: [], excludeBrands: [] });
+  }, []);
 
   // 웹서치 Context (밸런스게임/단점 생성용 - 리뷰 크롤링 전에 사용)
   const [webSearchContext, setWebSearchContext] = useState<{
@@ -1847,11 +2090,25 @@ export default function KnowledgeAgentPage() {
       return;
     }
 
-    // 모든 카테고리 onboarding부터 시작 (baby_info는 상황 선택 후 조건부 표시)
-    console.log(`[KA Flow] onboarding phase 시작 (parentCategory: ${getParentCategoryTab(categoryName)})`);
-    setPhase('onboarding');
+    // 랜딩에서 autoStart=1로 들어오면 모달 재표시 없이 즉시 init 시작
+    if (autoStart) {
+      console.log('[KA Flow] autoStart detected - init immediately');
+      setPhase('loading');
+      setShowAnalysisBottomSheet(false);
+      setIsInitRunning(true);
+      setMarketAnalysisReady(false);
+      initializeAgent(undefined, undefined, { deferQuestionFlow: true });
+      return;
+    }
+
+    // 기본 진입: 카테고리 페이지에서 분석 시작 모달 표시
+    console.log(`[KA Flow] start sheet phase 시작 (parentCategory: ${getParentCategoryTab(categoryName)})`);
+    setPhase('loading');
+    setShowAnalysisBottomSheet(true);
+    setIsInitRunning(false);
+    setMarketAnalysisReady(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryKey]);
+  }, [categoryKey, autoStart]);
 
   // [자동 스크롤] 새 메시지가 추가될 때 해당 메시지를 화면 상단에 위치
   const prevMessagesLengthRef = useRef(messages.length);
@@ -1908,6 +2165,67 @@ export default function KnowledgeAgentPage() {
   useEffect(() => {
     reviewsDataRef.current = reviewsData;
   }, [reviewsData]);
+
+  useEffect(() => {
+    crawledProductsRef.current = crawledProducts;
+  }, [crawledProducts]);
+
+  useEffect(() => {
+    webSearchContextRef.current = webSearchContext;
+  }, [webSearchContext]);
+
+  // 맞춤 질문 생성 단계 thinking 문구 순환
+  useEffect(() => {
+    if (phase !== 'question_generation') return;
+
+    if (!isGeneratingQuestions) {
+      setQuestionGenerationThinking('맞춤 질문 생성 완료');
+      return;
+    }
+
+    const situationLabel = onboardingData?.purchaseSituation === 'first'
+      ? '첫 구매 맥락'
+      : onboardingData?.purchaseSituation === 'replace'
+        ? '교체 맥락'
+        : onboardingData?.purchaseSituation === 'gift'
+          ? '탐색 맥락'
+          : null;
+
+    const cues: string[] = [
+      '수집한 맥락으로 맞춤 질문을 준비하고 있어요',
+      '핵심 구매 조건 우선순위를 정리하고 있어요',
+    ];
+
+    if (situationLabel) {
+      cues.push(`${situationLabel}을 반영해 질문 톤을 조정하고 있어요`);
+    }
+    if (onboardingData?.replaceReasons?.length) {
+      cues.push(`기존 불편사항 ${onboardingData.replaceReasons.length}개를 반영하고 있어요`);
+    }
+    if (onboardingData?.firstSituations?.length) {
+      cues.push(`구매 목적 ${onboardingData.firstSituations.length}개를 기준으로 질문을 다듬고 있어요`);
+    }
+    if (typeof babyInfo?.calculatedMonths === 'number') {
+      cues.push(`아기 월령(${babyInfo.calculatedMonths}개월)에 맞는 포인트를 반영하고 있어요`);
+    }
+    const trendCount = webSearchContext?.trendAnalysis?.trends?.length || analysisSummary?.trends?.length || 0;
+    if (trendCount > 0) {
+      cues.push(`실시간 트렌드 ${trendCount}개를 질문 맥락에 반영하고 있어요`);
+    }
+    const brandCount = analysisSummary?.topBrands?.length || 0;
+    if (brandCount > 0) {
+      cues.push(`주요 브랜드 신호 ${brandCount}개를 참고해 질문을 최적화하고 있어요`);
+    }
+
+    let index = 0;
+    setQuestionGenerationThinking(cues[0]);
+    const timer = setInterval(() => {
+      index = (index + 1) % cues.length;
+      setQuestionGenerationThinking(cues[index]);
+    }, 1250);
+
+    return () => clearInterval(timer);
+  }, [phase, isGeneratingQuestions, onboardingData, babyInfo, webSearchContext, analysisSummary]);
 
   // 내비게이션 가능 여부 업데이트
   useEffect(() => {
@@ -2051,7 +2369,12 @@ export default function KnowledgeAgentPage() {
     }
   }, [phase, resultProducts, messages, reviewsData, pricesData, filterTags, productAnalyses, allFilterTags, collectedInfo, saveResultToStorage]);
 
-  const initializeAgent = async (onboarding?: OnboardingData | null, babyInfoArg?: BabyInfo | null) => {
+  const initializeAgent = async (
+    onboarding?: OnboardingData | null,
+    babyInfoArg?: BabyInfo | null,
+    options?: { deferQuestionFlow?: boolean }
+  ) => {
+    const deferQuestionFlow = options?.deferQuestionFlow === true;
     const initialQueries = [
       `${categoryName} 인기 순위 2026`,
       `${categoryName} 추천 베스트`,
@@ -2068,7 +2391,7 @@ export default function KnowledgeAgentPage() {
 
     // 모든 Promise를 미리 생성하여 resolver를 즉시 등록 (이벤트 손실 방지)
     const stepPromises: Record<string, Promise<any>> = {};
-    const stepIds = ['product_analysis', 'filters', 'web_search', 'review_extraction', 'question_generation', 'complete'];
+  const stepIds = ['product_analysis', 'filters', 'web_search', 'question_generation', 'complete'];
     for (const stepId of stepIds) {
       stepPromises[stepId] = new Promise(resolve => {
         stepDataResolvers[stepId] = resolve;
@@ -2105,7 +2428,13 @@ export default function KnowledgeAgentPage() {
     // UI 흐름 제어 (비동기) - 미리 생성된 Promise 사용
     const driveUIFlow = async () => {
       // 1. 인기상품 분석 대기
+      const productAnalysisStartTime = Date.now();
       const productAnalysisResult = await stepPromises['product_analysis'] as { count?: number };
+      const MIN_PRODUCT_ANALYSIS_ACTIVE_MS = 3000;
+      const elapsedProductAnalysis = Date.now() - productAnalysisStartTime;
+      if (elapsedProductAnalysis < MIN_PRODUCT_ANALYSIS_ACTIVE_MS) {
+        await new Promise(r => setTimeout(r, MIN_PRODUCT_ANALYSIS_ACTIVE_MS - elapsedProductAnalysis));
+      }
       // DB의 product_count 사용 (first_batch_complete 이벤트에서 전달됨)
       const displayCount = productAnalysisResult?.count || localProducts.length;
       updateStepAndMessage('product_analysis', {
@@ -2122,8 +2451,14 @@ export default function KnowledgeAgentPage() {
         startTime: Date.now(),
         searchQueries: initialQueries,
       });
+      const webSearchStartTime = Date.now();
 
       const trendResult = await stepPromises['web_search'] as { searchQueries?: string[]; sources?: any[]; trendAnalysis?: { top10Summary?: string } };
+      const MIN_WEB_SEARCH_ACTIVE_MS = 2200;
+      const elapsedWebSearch = Date.now() - webSearchStartTime;
+      if (elapsedWebSearch < MIN_WEB_SEARCH_ACTIVE_MS) {
+        await new Promise(r => setTimeout(r, MIN_WEB_SEARCH_ACTIVE_MS - elapsedWebSearch));
+      }
 
       updateStepAndMessage('web_search', {
         status: 'done',
@@ -2132,71 +2467,35 @@ export default function KnowledgeAgentPage() {
         searchResults: (trendResult?.sources || []).slice(0, 5),
         thinking: trendResult?.trendAnalysis?.top10Summary || '',
       });
-      await new Promise(r => setTimeout(r, 600)); // 사용자가 결과 인식할 시간
+      await new Promise(r => setTimeout(r, 1100)); // 사용자가 결과 인식할 시간
 
-      // 3. 리뷰 분석 시작
-      updateStepAndMessage('review_extraction', {
-        status: 'active',
-        startTime: Date.now(),
-      });
-
-      // 리뷰 분석 완료 대기 (SSE review_analysis_complete 이벤트에서 resolve)
-      const reviewResult = await stepPromises['review_extraction'] as {
-        prosTags?: string[];
-        consTags?: string[];
-        analyzedCount?: number;
-        positiveKeywords?: string[];
-        negativeKeywords?: string[];
-        commonConcerns?: string[];
-      } | undefined;
-
-      // 결과가 있으면 리뷰 분석 결과 사용, 없으면 웹트렌드 데이터 폴백
-      const reviewProsTags = reviewResult?.prosTags || [];
-      const reviewConsTags = reviewResult?.consTags || [];
-      const reviewAnalyzedCount = reviewResult?.analyzedCount || 0;
-      const reviewPositiveKeywords = reviewResult?.positiveKeywords || [];
-      const reviewNegativeKeywords = reviewResult?.negativeKeywords || [];
-      const reviewCommonConcerns = reviewResult?.commonConcerns || [];
-
-      // 기존 step의 result에서 positiveSamples, negativeSamples 유지 (SSE review_analysis_start에서 설정됨)
-      const existingReviewResult = localSteps.find(s => s.id === 'review_extraction')?.result;
-      updateStepAndMessage('review_extraction', {
-        status: 'done',
-        endTime: Date.now(),
-        analyzedCount: reviewAnalyzedCount || localProducts.reduce((sum: number, p: any) => sum + (p.reviewCount || 0), 0),
-        analyzedItems: reviewProsTags.length > 0
-          ? [...reviewProsTags.slice(0, 3), ...reviewConsTags.slice(0, 2)]
-          : [...(trendData?.pros || []).slice(0, 3), ...(trendData?.cons || []).slice(0, 2)],
-        result: {
-          ...existingReviewResult, // 기존 positiveSamples, negativeSamples 유지
-          prosTags: reviewProsTags,
-          consTags: reviewConsTags,
-          analyzedCount: reviewAnalyzedCount,
-          // 전체 분석 결과 포함
-          positiveKeywords: reviewPositiveKeywords,
-          negativeKeywords: reviewNegativeKeywords,
-          commonConcerns: reviewCommonConcerns,
-        },
-        thinking: `리뷰 키워드 분석 완료`,
-      });
-      await new Promise(r => setTimeout(r, 600)); // 사용자가 태그 인식할 시간
-
-      // 4. 질문 생성 시작 & 대기 (실제 서버의 질문 생성을 기다림)
-      updateStepAndMessage('question_generation', {
-        status: 'active',
-        startTime: Date.now(),
-      });
-      const questionResult = await stepPromises['question_generation'] as { questionTodos?: any[] };
-      const generatedQuestions = (questionResult?.questionTodos || []).map((q: any) => ({ id: q.id, question: q.question }));
-      localSteps = localSteps.map(s => s.id === 'question_generation' ? {
-        ...s, status: 'done' as const, endTime: Date.now(), analyzedCount: generatedQuestions.length, thinking: `맞춤 질문 ${generatedQuestions.length}개 생성 완료`,
-      } : s);
-      setAnalysisSteps([...localSteps]);
-
-      // ✅ 질문 생성 완료 즉시 첫 질문 표시! (리뷰 크롤링 기다리지 않음)
-      // avoid_negatives도 맞춤 질문 마지막에 포함 (동적 옵션은 해당 질문 표시 시점에 로드)
-      const questionTodosFromQuestions = questionResult?.questionTodos || [];
-      const firstQuestion = questionTodosFromQuestions[0];
+      // 3. 질문 생성 단계
+      let questionTodosFromQuestions: any[] = [];
+      let firstQuestion: any = null;
+      let generatedQuestions: Array<{ id: string; question: string }> = [];
+      if (!deferQuestionFlow) {
+        updateStepAndMessage('question_generation', {
+          status: 'active',
+          startTime: Date.now(),
+        });
+        const questionResult = await stepPromises['question_generation'] as { questionTodos?: any[] };
+        generatedQuestions = (questionResult?.questionTodos || []).map((q: any) => ({ id: q.id, question: q.question }));
+        localSteps = localSteps.map(s => s.id === 'question_generation' ? {
+          ...s, status: 'done' as const, endTime: Date.now(), analyzedCount: generatedQuestions.length, thinking: `맞춤 질문 ${generatedQuestions.length}개 생성 완료`,
+        } : s);
+        setAnalysisSteps([...localSteps]);
+        questionTodosFromQuestions = questionResult?.questionTodos || [];
+        firstQuestion = questionTodosFromQuestions[0];
+      } else {
+        localSteps = localSteps.map(s => s.id === 'question_generation' ? {
+          ...s,
+          status: 'pending' as const,
+          startTime: undefined,
+          endTime: undefined,
+          thinking: '온보딩 완료 후 맞춤 질문을 생성합니다',
+        } : s);
+        setAnalysisSteps([...localSteps]);
+      }
 
       // 임시 상태 설정 (complete 이벤트 전에 미리 UI 업데이트)
       setIsLoadingComplete(true);
@@ -2214,31 +2513,46 @@ export default function KnowledgeAgentPage() {
       });
       setMessages(prev => prev.map(m => m.id === 'analysis-progress' ? {
         ...m,
-        analysisData: { steps: [...localSteps], crawledProducts: localProducts, generatedQuestions, isComplete: true, summary: tempSummaryData }
+        analysisData: {
+          steps: [...localSteps],
+          crawledProducts: localProducts,
+          generatedQuestions,
+          isComplete: !deferQuestionFlow,
+          summary: tempSummaryData
+        }
       } : m));
-      setQuestionTodos(questionTodosFromQuestions);
-      setCurrentQuestion(firstQuestion);
-      setProgress({ current: 1, total: questionTodosFromQuestions.length });
       setCrawledProducts(localProducts);
 
-      // ✅ avoid_negatives 질문 처리: 동적 옵션 vs 정적 옵션
-      const avoidNegativesQuestion = questionTodosFromQuestions.find(
-        (q: any) => q.id === 'avoid_negatives'
-      );
-      if (avoidNegativesQuestion?.dynamicOptions) {
-        // 동적 옵션 필요 - 런타임에 API 호출로 생성
-        setNeedsDynamicNegativeOptions(true);
-        needsDynamicNegativeOptionsRef.current = true; // ref도 업데이트 (클로저 문제 해결)
-        console.log('[V2 Flow] avoid_negatives requires dynamic options generation');
-      } else if (avoidNegativesQuestion?.options && avoidNegativesQuestion.options.length > 0) {
-        // 정적 옵션 - 바로 설정 (폴백 또는 이전 버전 호환)
-        const negativeOpts: NegativeOption[] = avoidNegativesQuestion.options.map((opt: any, idx: number) => ({
-          id: `neg_${idx}`,
-          label: opt.label || opt.value || opt,
-          target_rule_key: opt.value || opt.label || `neg_key_${idx}`,
-        }));
-        setNegativeOptions(negativeOpts);
-        console.log('[V2 Flow] negativeOptions set from avoid_negatives question:', negativeOpts.length);
+      if (!deferQuestionFlow) {
+        setQuestionTodos(questionTodosFromQuestions);
+        setCurrentQuestion(firstQuestion);
+        setProgress({ current: 1, total: questionTodosFromQuestions.length });
+      } else {
+        setQuestionTodos([]);
+        setCurrentQuestion(null);
+        setProgress({ current: 0, total: 0 });
+      }
+
+      if (!deferQuestionFlow) {
+        // ✅ avoid_negatives 질문 처리: 동적 옵션 vs 정적 옵션
+        const avoidNegativesQuestion = questionTodosFromQuestions.find(
+          (q: any) => q.id === 'avoid_negatives'
+        );
+        if (avoidNegativesQuestion?.dynamicOptions) {
+          // 동적 옵션 필요 - 런타임에 API 호출로 생성
+          setNeedsDynamicNegativeOptions(true);
+          needsDynamicNegativeOptionsRef.current = true; // ref도 업데이트 (클로저 문제 해결)
+          console.log('[V2 Flow] avoid_negatives requires dynamic options generation');
+        } else if (avoidNegativesQuestion?.options && avoidNegativesQuestion.options.length > 0) {
+          // 정적 옵션 - 바로 설정 (폴백 또는 이전 버전 호환)
+          const negativeOpts: NegativeOption[] = avoidNegativesQuestion.options.map((opt: any, idx: number) => ({
+            id: `neg_${idx}`,
+            label: opt.label || opt.value || opt,
+            target_rule_key: opt.value || opt.label || `neg_key_${idx}`,
+          }));
+          setNegativeOptions(negativeOpts);
+          console.log('[V2 Flow] negativeOptions set from avoid_negatives question:', negativeOpts.length);
+        }
       }
 
       // V2 Flow: 질문 응답 중 백그라운드에서 확장 크롤링 시작
@@ -2247,12 +2561,17 @@ export default function KnowledgeAgentPage() {
       }
 
       // 첫 질문은 분석 요약 카드로 접힌 후 표시 (onSummaryShow 콜백에서 처리)
-      if (firstQuestion) {
+      if (!deferQuestionFlow && firstQuestion) {
         pendingFirstQuestionRef.current = {
           question: firstQuestion,
           total: questionTodosFromQuestions.length
         };
         // handleAnalysisSummaryShow 콜백이 호출되면 첫 질문이 표시됨
+      } else if (deferQuestionFlow) {
+        pendingFirstQuestionRef.current = null;
+        setMarketAnalysisReady(true);
+        setIsInitRunning(false);
+        setPhase('onboarding');
       }
 
       // 백그라운드에서 complete 이벤트 데이터 업데이트 (리뷰 크롤링 완료 후)
@@ -2306,6 +2625,7 @@ export default function KnowledgeAgentPage() {
         body: JSON.stringify({
           categoryKey,
           streaming: true,
+          skipQuestionGeneration: deferQuestionFlow,
           // 온보딩 데이터 전달 (질문 생성 시 활용)
           onboarding: onboarding || undefined,
           babyInfo: babyInfoArg || undefined,
@@ -2464,8 +2784,12 @@ export default function KnowledgeAgentPage() {
                   stepDataResolvers['review_extraction']?.(data);
                   break;
                 case 'questions':
-                  // 리뷰 추출 데이터와 질문 데이터를 버퍼링
-                  stepDataResolvers['review_extraction']?.(data);
+                  // 질문 생성 데이터 버퍼링
+                  // deferQuestionFlow=true 인 경우에는 review_extraction을 questions 이벤트로 resolve하면
+                  // 온보딩 진입 시점이 앞당겨질 수 있어 차단
+                  if (!deferQuestionFlow) {
+                    stepDataResolvers['review_extraction']?.(data);
+                  }
                   stepDataResolvers['question_generation']?.(data);
                   break;
                 case 'complete':
@@ -2491,6 +2815,7 @@ export default function KnowledgeAgentPage() {
         }
       }
     } catch (e) {
+      setIsInitRunning(false);
       setPhase('free_chat');
     }
   };
@@ -3104,6 +3429,8 @@ export default function KnowledgeAgentPage() {
           collectedInfo: finalCollectedInfo,
           balanceSelections,
           negativeSelections: [], // 회피조건 제거
+          preferBrands,
+          excludeBrands,
           onboarding: onboardingData, // 🆕 온보딩 데이터 (불편사항 포함)
           babyInfo, // 🆕 아기 정보 (개월수, 성별)
           conditionReport, // 🆕 중간 보고서 (AI 요약 컨텍스트)
@@ -3251,18 +3578,18 @@ export default function KnowledgeAgentPage() {
       }]);
     }
 
+    setShowBrandPreferencePrompt(false);
+    setPreferBrands([]);
+    setExcludeBrands([]);
     setIsTyping(true);
 
     try {
       // 🆕 DB의 product_count 우선 사용
       const candidateCount = dbProductCount || crawledProducts.length || hardCutProducts.length;
 
-      // 타임라인 UX와 실제 추천 생성을 병렬로 실행
-      const uxPromise = runFinalTimelineUX(candidateCount, userSelectionCount, 0);
-      // ✅ 수정: updatedInfo를 직접 전달하여 비동기 문제 해결
-      const apiPromise = handleV2FinalRecommend([], updatedInfo);
-
-      const [apiResult] = await Promise.all([apiPromise, uxPromise]);
+      // 로딩 UX 중간에 브랜드 선호/제외를 수집한 뒤 최종 추천 실행
+      await runFinalTimelineUX(candidateCount, userSelectionCount, 0, true);
+      const apiResult = await handleV2FinalRecommend([], updatedInfo);
 
       // 이전 프로그레스 애니메이션 취소
       if (progressAnimationCleanupRef.current) {
@@ -4706,8 +5033,36 @@ export default function KnowledgeAgentPage() {
             />
           )}
 
+          {phase === 'question_generation' && (
+            <div className="py-2">
+              <AgenticLoadingPhase
+                categoryName={categoryName}
+                categoryKey={categoryKey}
+                steps={[
+                  {
+                    id: 'question_generation',
+                    label: '맞춤 구매질문 생성',
+                    type: 'generate',
+                    status: isGeneratingQuestions ? 'active' : 'done',
+                    startTime: questionGenerationStartRef.current || Date.now(),
+                    endTime: isGeneratingQuestions ? undefined : Date.now(),
+                    analyzedCount: questionTodos.length,
+                    thinking: questionGenerationThinking,
+                  }
+                ]}
+                crawledProducts={crawledProducts}
+                generatedQuestions={questionTodos.map(q => ({ id: q.id, question: q.question }))}
+                isComplete={false}
+                stepCounterOverride={{ current: 3, total: 3 }}
+              />
+              {questionsGeneratorError && (
+                <p className="mt-2 text-[13px] text-red-500">{questionsGeneratorError}</p>
+              )}
+            </div>
+          )}
+
           {/* 메인 채팅 플로우 */}
-          {phase !== 'onboarding' && phase !== 'baby_info' && (
+          {phase !== 'onboarding' && phase !== 'baby_info' && phase !== 'question_generation' && (
           <>
           <div className="space-y-4 pt-2">
             {(() => {
@@ -5087,7 +5442,17 @@ export default function KnowledgeAgentPage() {
             <AnimatePresence>
               {isCalculating && (
                 <div className="py-4">
-                  <LoadingAnimation progress={loadingProgress} timelineSteps={timelineSteps} />
+                  <LoadingAnimation
+                    progress={loadingProgress}
+                    timelineSteps={timelineSteps}
+                    showBrandPreferencePrompt={showBrandPreferencePrompt}
+                    brandOptions={brandPreferenceOptions}
+                    preferBrands={preferBrands}
+                    excludeBrands={excludeBrands}
+                    onBrandToggle={handleBrandPreferenceToggle}
+                    onBrandConfirm={confirmBrandPreferenceSelection}
+                    onBrandSkip={skipBrandPreferenceSelection}
+                  />
                 </div>
               )}
               {isTyping && !isCalculating && <SearchingIndicator queries={activeSearchQueries} statusMessage={activeStatusMessage} />}
@@ -5239,7 +5604,7 @@ export default function KnowledgeAgentPage() {
         </main>
 
         {/* 로딩 단계에서는 하단 채팅바 숨김 */}
-        {phase !== 'loading' && (
+        {phase !== 'loading' && phase !== 'question_generation' && (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
           {/* 그라데이션 배경 - 뒤쪽 */}
           <div className="absolute inset-0 bg-gradient-to-t from-white via-white/95 to-transparent -z-10" />
@@ -5893,7 +6258,7 @@ export default function KnowledgeAgentPage() {
         categoryName={categoryName}
         onConfirm={handleAnalysisBottomSheetConfirm}
         onCancel={handleAnalysisBottomSheetCancel}
-        isLoading={phase === 'loading'}
+        isLoading={isInitRunning}
       />
     </div>
   );
@@ -6427,7 +6792,7 @@ function MessageBubble({
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible text-center">
               <h3 className="text-[24px] font-bold text-gray-900 mb-5 leading-tight">
-                조건에 맞는<br></br> {categoryName} 추천
+                조건에 맞는<br></br>{categoryName} TOP 5 
               </h3>
              
               

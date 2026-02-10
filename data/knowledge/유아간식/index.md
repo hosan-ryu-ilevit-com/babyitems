@@ -1,26 +1,30 @@
 # 유아간식 전문가 지식
 
-> 마지막 업데이트: 2026-02-09T06:12:16.552Z
+> 마지막 업데이트: 2026-02-10T05:58:28.552Z
 > 분석 상품: 20개 | 분석 리뷰: 978개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
 - 유기농 및 천연 성분 선호
-- 건강 및 영양 강조 (글루텐 프리, 알레르기 프리 등)
-- 편리한 포장 및 휴대성 증대
-- 온라인 채널을 통한 구매 증가
+- 편리성과 휴대성을 갖춘 제품
+- 온라인 판매 채널 성장
+- 개인 맞춤형 영양 및 발달 단계 고려 제품
+- 건강 기능성 강화 (유산균, 홍삼 등)
 
 ### 구매자 만족 포인트
 - ✓ 영양 강화
 - ✓ 안전한 성분
-- ✓ 다양한 맛과 형태
 - ✓ 편리한 휴대성
+- ✓ 다양한 맛과 식감
+- ✓ 유기농 원료 사용
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격대
 - ⚠ 첨가물 포함 가능성
-- ⚠ 과도한 당분 함유 우려
+- ⚠ 알레르기 유발 가능성
+- ⚠ 과도한 당분 함유
+- ⚠ 엄격한 규제
 
 ### 가격대 인사이트
 
@@ -242,9 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHicXZU-MV3ndDWEdOqv7cyF2lHu83gftCAKaqTVujwGz_Fet4euTLv1gS17YIkjFKow7bFU8DnAC_7XuMO-JNCcrrLsVtFRKTGquIgQiku9AetweKdBQzdOC6ArBzFBnu_8WqmNrBppLylfeEG3w6XnHHyIvWyl7eua8fF)
-- [reseat.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEI0UWapzK8UaIxjUpsibYcE-MTMgjqkw7-X1jdJtnBO4lNqZaLThMXPJZvEKwONTYQzHgcrLFhbTeV3SwPsDAsFZzckxWVZBwb7i6Wly5XWs30CdwacegDWtPTTwAZhdjrh6dhGAC4j-O7jFUdCIcP0a-ZI5UsMVTD9c5sycS03CyN0cxFPrqAB-1I6k7-4Ju2etH9EM47QZbq3IANS4EgsZXBygtaxOT7_iDzccq2J752TzM1niSP8Q==)
-- [ud-machine.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYhu5VKVWhp5dY2BiBlBT9a_XB-ItJCSePqT2pG0A42xl0bC7nqdtPb3kxaYWbbcb3UVJyfeXkMVbcRBH8VaF6GyRxAshAMaPJqCB9PUrQKoSDPV6iu8K48rMaZjSZmCqUI2pUBkrK-3exvSpCMR6GBY2o-fa5K-TN)
-- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHO5dpFEuMyjzwCdnpxXrY8rb9z3JFTgg29SGZcIyjFARyHSgtrPIUu93cQ8zZjMYnQT0PS42OGlkoLOX1iwd1E3wmTaLGssGBfUMdJuACoWuS3sz3uKA1n6xjqfs1zHBdLy8x0shZf9aJBXDd04bsnvaogO0zPuA==)
-- [reseat.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaUy2dHWx-w_G043bSYHGnUSScH2pIuemOABDAELegF8XYQ-YBAQ6PcRYjemzjjbGjB0qkKhLWLmm1TpDiNqeYs310AAwtcoEdTDtZaU8lBFHiUyxwVX8M4gy6g7JCE3gdEOX8yZpAJBvUzRkl-WNJfvc70s6tS6ny-0T6ShduKs-uAvn9ZyzDv3pj5L5S5VU88HZStj8Gf6vqqvIF8y0vTDlRXuAg-D005Mi7An6CDcbx9Vdl0h3oGAg=)
-- [ud-machine.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHriPHRE7TMb6giSN0ORbOUsHv2kH9zkmpmmyE6f3IwVQAhrxztcET017mb-OSgEIN2QIVUTxfKJpwsikvoI_4R1VgA59u2auKF9iE1eiT98W7jIf3Id7VFTNgDrWN25pxAUnWJEbcOhy2AiGG9iYVC-9GosJPJFJWlHA==)
+- [thinkfood.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpGCnP6kSr_B7sz_-nSOMO_ZDQw-8Iw-vMIxoC4Yi_DXbnmzEwiMzoa6HyxkMdB28dKBre-fUab4von4TzqGa0_0wDD8dBTYYPEgXDt-2z5w7hUiiwpdi756yrTw69MHCQmeaPh57gAzJE9uRqv9amqU1tpvHV6w==)
+- [reseat.or.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPHdlnJx4upoUWNCBEi34Gh9NoTuh3lZQY8dgmAoOln0q9--CgAAELkxsB5hk2ThN2wwXkyfjdtM6CdNV9kjw0aDn74PtSPFJOlEnI9Eo3-yn9ySnKXI1u4OTTu03RDqiC1k_RCCfmbSSkcoLRp4kytG4hnuR3zK-CJbQ8FSB5uL2O0_1bQM8WpXkL2x_cBhrbgft50rR8k8iAOMmefk2mB8alwPerP9sNW5_GmXdDNfK6DFBCEGTb0Q==)
+- [wiseguyreports.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf-Zhm9utRkzyZBPjJ0_aiwKZik6MMt6MUyeMErkA_wdVONR7aTO-G0W9x5FELXppxQ34GEmFM5WSFygADrhIBGxee8K5VVrfm0ndPQQoTvEEriJxtRQy76jkDnDmV-_C6vngprxQi4Pu5hxl4y3mla7bUHJZprtjhTv3cyoge-Q0E)

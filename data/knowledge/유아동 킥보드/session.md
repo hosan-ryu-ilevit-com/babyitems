@@ -1,14 +1,14 @@
-# 세션: 20260127_050428_e7av
-> 시작: 2026-01-27T05:04:28.194Z
-> 카테고리키: 유아동
+# 세션: 20260210_055625_xaao
+> 시작: 2026-02-10T05:56:25.017Z
+> 카테고리키: 유아동 킥보드
 > 카테고리: 유아동 킥보드
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 유아동 킥보드 시장 현황
-- 인사이트: 유아동 킥보드 시장은 꾸준히 성장하고 있으며, 안전성과 휴대성을 겸비한 제품들이 인기를 얻고 있습니다. 특히 발광 바퀴, 접이식 기능 등 다양한 편의 기능이 탑재된 제품들이 소비자들의 선택을 받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGqyVxTeQpXodxdVEE9hmKExSjWWpeQtAOkTPodWAkwqUkUSc-24usCPPW00kw6xZkl5rcUq9j6Ix6646LRU4GVilj4Kg_fqAODrcrqc-W8Y3rH_rLe7d6RUWSybKLpmNXOsQ9EviE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHaguxVvp-SXcouMpJlmX6h0G701FR7cDa6Ej0b4Q8vxAKy2sfLJOmRJkmoltqb96pNSjKY_-DAnFLQLVicAPrIL2ADm9mYclKfgXle3_2PguHH2NcFsNF4fYSOJjpmCUdQ7WyPR8qs1nxCLohL3nDH2ReDtNqGK_wugv00D5_I6iRrwmahRi4ajdGiewCRzzmOL7yP1Vr2EtGKp-PNso1ixTDd7ruOXFwWCX-bt1sJZ4UG8DwTW9EjlQaJeS-7L4TvUOxYwMetVq8k7pM8enTcGoGLLxFu-t2DPDRX12asKk2srIJDHttW0xqkcoC1qNGiEYTTe61TjNKj0TJN1OC3UrgP4aFlNObnIw5aGFarIrtCnXMDAawfllr-pZWWSRQEEBpHK-piKyMIC-UizVQiFpqQJf2MTqqMuTyDvCvS1zgyzSWZTqx3oMAFyl62KLvkDwikoYyuIDP-aAorTIOENA-e7YkPqxb3sB1Y18CHhryLOiGFfT717dhISOuLFaAtBzNBCGPn09ncfD8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFQibbuF9iEoWViDOrSdw1X0wl8yyNC_bLtSj2KV3MykIZFqYxm5kyq-fPSoN5c_sTX2j01ptrbIhoadAJmx3dCreBo_SbMinw3SD0au65hH-24MKE3MDA_GA68vdDMv-Cb-uqVkx-fSXUYaoLkEssjKbxrkIa1jqTw57SNXqTn-Ws2, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJ3PvH1rPpr98-Hm4HRke3f-1OP0YFGVobuqGWpjYI9H19yTA5QwKC_kNIiEE7f1mxSWsFv1JHrAiFtYjxPqB57lIB4XqGDhshAjWd6HmoQl5SfOpPmMDanbOIdZCdGtOGwhqSKuoaIQMvZam8VbUs30PFVIPrA774fXGpo4Zhy-vHsat1VzclS9ICxm7BjckmixgKyqs7M2aYBuhcct2-wwOCMjP8IGpTjuL0KnThmEQCOt3TiSL1M_Q4h3QYK54OmjA3IN-AbrCPYnQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGkMSZaQeNQrB-V5yYCuAdcUkj_xhX1OOZ9i9Nfqijz7bzFHsZmq5RStczAMK_L8R9gHNiY79oKkYDteKZpxE4imb_LdYL1F6zZzYQsNQau93WQVr_dIM3nC4sa77w=
+- 인사이트: 유아동 킥보드 시장은 아이들의 균형 감각과 운동 능력 발달을 돕는 중요한 놀이 도구로서 꾸준한 수요를 보이고 있습니다. 안전성, 내구성, 사용 편의성이 중요하게 고려되며, 최근에는 친환경 소재와 에코 패키징 등 지속 가능성도 중요한 구매 결정 요소로 떠오르고 있습니다. 또한, 소셜 미디어를 통한 마케팅과 온라인 및 오프라인 채널을 통합한 옴니채널 전략이 중요해지고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFYGmM1E7lwixda19PTETMUzl-UKN8imrcHLBOb2HP4b4nIGObprjB-7lcOVJB_ilsZ7tDTvKa8kZ6gvpfwEBvo6SH0CpJ0PtUZ4iQsT2TdurLWPPpQng1N_9GZOpk6lR3ZjOUJqOShGoQUdudjBhzjD5huPsZJrwqXoxiM8nd9IoKXsXsdTdSJZlvV2m8L6aWIxOJmcts53o4qFf8To8zSWIMgK-4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6oBuIXsbccxFNvV5sgGBi7lLqwjWZNBufUk4NQeWIiNrnIizI2du2uHnfKSsHmKOMlZfbWvvomO7q6PJQyJTtaxpWnDEonTJKxmJryAX1UywWz6a9JTYSvZeyxxTB7ubchshsnnJaK_uhDcj3EOl0lJWJee7mdpmiqUDyr185A1FtghxXqC8SUN7NL72uHqXx_uFR16K0twVeiM-NHBNCSvjFkBjtQEHRKg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSjbvP7RauFtbY8kfFLCAhRXXngO1McRFGxbTpzfM21H5gsirdBNObUm6YKb31ln11ilrxHzDFb_2bLM4fN3NdjbWK79Ns3Nm_bkMipefbmnxZv9DrobbdbQwDh095u4MtZrrfGaK0as0Ris9PBTi1vEd03-s=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJQuQzik5tWZDQ5viuRjZwYSRg8v2JRgdsz33GSAt-o6MVYdR0QLer6Wbj-vvC37WobojhkEU36rQ50-zkUqhs2dfjXe4FlNghXxjae2sM-jndhB984Ic9ZI5owlOhJLStyalU5v4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcxJvX-5AVlLBrh4HlmGI81EpIJhIfN7KmCTiedRxu2kE8V1Wp4SebD2P4D_MdUUmDli4w3JOfCb7TSRn5qCQN_n6OdxsKgWtbcvgKqFJoKPczUZb5FsrAC66AxnHjdXjFXCcgQf34Dnp13PkgCohHHH94C7RN3YAGGj_2_3oKd2VLN_47Ng-7bRovK-enot8IztJTC8n39zsOZFNjlX4zPQcc8WY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8axxZvX6abquYZmSy3ZKFB5YkpYn7g8Bh8p6ojMJNJWNh2Mahd3fa_tK4dGu-P3jP_TRszeDd6PxqcFKCO1Jl4iTApeEOe7Vmr2Yr5zMmANU9XqkUXZry6zdSXbhrXYfK2_oIM5cf7KzgGwJjd1tXt5NjKVlem5qYzMCy4cFcvUHm3_3y8t9s3stfaf1nHLN7qk0h6cwepzc1U80ioThWcsBzlb5_y2uBafzmhv1AzFM55pEo-1r7X7GkciyNJBPf9glkv406m58eF0nJvksSqWPKKrRnJYlOaYdsxz41pksu1gKrQ2b528Z1yONk, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFnzsUUljLex7UGSuXzGGT-_lUeuPNVIAW8pVhkKy_1yXk4GXLNwve0t3zjvBTzZNeI3G3AaP1dp79Tgl6B6nA5hY5klF0NgLyvnLyT7j55LhQXgM8FNAOUQi0VCYwq-ZZBJqE2z2zksSIOioj2Zj4ipAai2UABNQfTKNNepC-CK_QXHT-6FMS1ZFWyTkv9038HN7FHvapIQmId5pKqz_6-MGVHmgw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzb3oRWx0CFJc1119veyHmprjCjSU0Oe0-bn4MAD8zXlyVfPxljZE_h6mSq1HqPDTOpJYEG0oAM9G4V2LpXpdO4ACdrSmdf20QgLjpq6HiP23VtqYpA_Y-OlqKr3Z6duBPjED2QPQ=
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이의 연령에 맞는 킥보드를 찾아드릴게요. 아이는 몇 개월인가요? | 12개월 ~ 36개월 |
-| 킥보드 조작 방식은 어떤 것을 선호하시나요? | 핸들 조작 방식 |
-| 휴대 및 보관이 용이한 접이식 기능을 원하시나요? | 접이식 |
-| 안전과 관련하여 특별히 고려하는 기능이 있으신가요? | 미끄럼 방지, 안정적인 브레이크, KC 인증 |
-| 예산은 어느 정도로 생각하세요? (평균 15만원, 9만원~20만원대가 가장 많아요) | 10만원 ~ 20만원대, 10만원 이하 |
 
 ---
 

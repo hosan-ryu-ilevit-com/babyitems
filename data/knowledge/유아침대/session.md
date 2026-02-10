@@ -1,5 +1,5 @@
-# 세션: 20260127_070749_v8xp
-> 시작: 2026-01-27T07:07:49.411Z
+# 세션: 20260210_055017_jot7
+> 시작: 2026-02-10T05:50:17.769Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아침대 시장 현황
-- 인사이트: 유아침대는 아기의 안전하고 편안한 수면 환경을 조성하는 데 중요한 역할을 합니다. 최근에는 아기 침대의 안전 기준 강화와 함께 밀레니얼 세대를 중심으로 프리미엄 제품에 대한 수요가 증가하는 추세입니다. 또한, 아기의 성장에 맞춰 변형 가능한 확장형 침대나 일반 슈퍼싱글 침대로 변형되는 제품들이 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG8wa8lLt_ULMLav3Xny_uDTopuifV33s30GdnzfsNFb9pbCb8Y_cH-DFPuY5Bqt-bFKZfKbmn3U0CgEIwBu4MWtu8uMfWyeVaTvgz_53IZPYBBvKNoviNPVHnuqBORVjNWnDOkHoij, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYvwRZqN87vdJ9CCG7DesYkovXYN0n_CQeoTvJ8QmgxXEM0XM890_Tu9AO70xj30STWKBFc04SjUL_8SRldYYUVirM8RE_GKVPjqKJfxZdIWXEdj2XhoRkyP7Xu6O-Y9CE6NPBWQH003tjTAeLwGy0-KpPP3NnW21d5MyTx7-KelEvBYLUf5xMaKeISAkalFHP, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmzxF6cEg23ftKRk2zfgFnOfb2nlIhduoLLGvVfgy1GBWKsLJbmlFaLRZGsI6nx-aOyqQQXXlLZVhUX5BWo4okH4DQq2PCeMP_dPfO_lvVjo4wgKZtASgwajGCmFSSH0-ckgU_rWIm4TzC5CW0ueIgSDumMPJEtmVKLNGCgBgZQvEsaEQRzXQIaW3TFz7i0VZPXBphkOOuZ2SewFqAeUn5, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFb8zVBzAty-QCy-UQG4yCDKZ4ic6HmBwbMzi5RNMbailUls8rGMyCBYIhp2VUaN0yJEU4yZn5-YBQ5SjbcoLxHEEd0Cs2_MZkJCJ3lPQGZA4F3M3qUZO-WEE7xU5fvounf_v6Jk37XV5SpUN9Fn4cXJFZaVlbSOMybtgy3fC8poaw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH631GmE6Rqj5cwTSNJVD05B-X7RAwcqbsJmpAfahAZymxt9fXOuArRB6DDrHFaSCydSUdq5odj4bEzFzjD9LbgJtjCi_m_Y016quFmHMbIChYRrhcMUe5gUPkqRpBqSvVHQC9zbmzqawaV_vhuuvEmoO51cNMsgDvEH29q7blF7wr7mZ59EZQRTIFojkbj9bhr, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNJaLKKYzS67IBlK9zsTACzUw3puvXvYw2AD1HsFN2rtTrSDF7OAqz5IjlrthzCNaYr2akJUHGXJHN4r8MgQbSiGDic6S9RcYDE3w7NQO-4nrUpVnglJEn21oJC6gnzwPCQFt-a5NM1ROXfV8Mbk5TsAVVDjO9nJr7w8yTcw1dXf11eSbV3gMmrM6xASguLE8j6XKLBNlrjwIKlugVJu7hmMJiMw-hBdI2RU5dHyQ8xkzU8-Fjm-P2LJVNnj1V
+- 인사이트: 유아 침대 시장은 출산율 증가, 유아 안전에 대한 인식 증대, 고품질 유아 가구 선호도 증가에 힘입어 꾸준한 성장세를 보이고 있습니다. 부모들은 내구성이 뛰어나고 무독성이며 심미적으로 만족스러운 침대를 선호하며, 특히 목재 및 전통적인 디자인에 대한 수요가 높습니다. 스마트 침대와 같이 기술이 접목된 제품도 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH6koXa6inIV22Ij35vv-77hkVQGikf9y9XLemvhhb5yyak6SpiR-fLEROGSm73bOl3l0uYcsJvUtAab0lX6pWBeAM1xYKJ34VyWYMLDGC_BbwwWz3BLMb-T8O0wBQDa-e83VTLzPKFSjGO_mLcapgbL2nG2PiqwcCrGqPuMqblRiczK3O4kimIoz2I0ELxtbRCfi3pINTebaS3YXhq_nM9tiESxi-myrUZ-S_-aizKU-B8J5xQuNcZ5ZI9Fw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHu8_6rEh2cZBvm5tgz8fC757oxBD5_u4Ndcl8cH2yzxteIquEws0BqJHTP_wuaKZ45QikDRwQwG31rCzjCo_J4dSG8hKlBE1M9zUtkYMeychkfbJrIczj-pY2JKq_7g2Lna15nYLU2aV7uJIxc1muTHGC4abNkpZdoIecu7jORAkYgtW4Xn3A=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfBdoUS-n8n0PU_qBh1q1K3LEytGWgrBdu6qzEZX6y1Tjth6kK6u3qmIg7QEta7XeHltsRkv6IVKP1RLaTCrCok3cCT0_2sDDeELQN-PPRzySw_D-bEaG6nUYnvyUKO7fNtmOOmJU8akBxPCFKZhpk0vM7bE15IOkjyTohf6uMYny-tHHosTcZGrMYwYE2uK6kaA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQED2ODV_mW3QVVeahfut5D7K8QMy4mM8RhRkgaBBtwYEDKPcm1yg-hJUqgt_pqWH7DobI5fLXV3qiJbxD674E2w_fepeXtyHL5kLcWL1n6rkUs2A7uBDzuGxtpSEQPcokG0VIjueGt1p5L2cKZnAZNMIGYupm7wDpdJ0Doj0RxVoECT, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpwu0Ao0cWF-4x4m8oDwbFv2CEUbckeCwVgxjiLSKc9AkudUthRA0fRYzShUEWYlETDqkXl_gj-CxWQQfnkZjKXB-5UbAB5QN2WpRpVoCt0Jw4BaMkWXof4MNBxb9wx-vgD6s8coYNa_yGwW0unXkudvJMjqpWP5FhAjfIYozvT0Yv5zv7ToqeNw==
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기방 인테리어와 잘 어울리는 유아침대 디자인은 어떤 스타일을 선호하시나요? | 모던 스타일 |
-| 어떤 형태의 유아 침대를 찾으시나요? | 일반 아기 침대 (가드형) |
-| 유아 침대의 소재는 어떤 것을 선호하시나요? | 패브릭 (안정감 있고 부드러움) |
-| 믿고 구매할 만한 선호하는 유아 침대 브랜드가 있으신가요? | 상관없어요 |
-| 유아 침대에 꼭 필요한 기능이 있다면 무엇인가요? | 이동용 바퀴 |
-| 예산은 어느 정도로 생각하세요? (평균 34만원, 24만원~44만원대가 가장 많아요) | 24만원 ~ 44만원대 |
 
 ---
 
@@ -30,26 +24,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 레이디가구 레브 패브릭 슬림헤드 데이베드 침대 SS+높은형 안전가드 - 664,050원 - ⭐4.7
-2. 에이원 리안 드림콧 아기침대 - 260,000원 - ⭐4.8
-3. 도노도노 튼튼 하이가드 멀티 범퍼침대 - 306,420원 - ⭐4.8
+1. 에이원 리안 드림콧 아기침대 - 247,000원 - ⭐4.8
+2. 도노도노 튼튼 하이가드 멀티 범퍼침대 - 366,210원 - ⭐4.8
+3. 레이디가구 레브 패브릭 슬림헤드 데이베드 침대 SS+높은형 안전가드 - 671,140원 - ⭐4.7
 4. 퍼니코 빈 아쿠아텍스 패브릭 데이베드 침대 SS - 289,000원 - ⭐5
-5. 도노도노 먼지제로 라운드 범퍼침대 - 271,150원 - ⭐4.8
-6. 도노도노 패밀리 멀티 범퍼침대 패밀리킹 - 404,420원 - ⭐4.8
-7. 상일리베가구 헤이 원목 키즈 침대 SS - 272,400원 - ⭐5
-8. 벨라 멀티형 원목 아기침대 - 143,000원 - ⭐4.6
-9. 꿈비 하이가드 범퍼침대 - 206,050원 - ⭐4.8
-10. 에이원 리안 드림콧 아기침대+기저귀교환대 - 275,500원 - ⭐4.8
-11. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 290,030원 - ⭐4.6
-12. 도노도노 먼지제로 하이가드 멀티 범퍼침대 - 306,420원 - ⭐5
-13. 뉴나 세나 에어 침대 - 752,020원 - ⭐5
-14. 에이스침대 BMA 1034-A 침대 SS 하드 타입 - 1,102,830원 - ⭐4.8
-15. 알레르망베이비 베어트리 범퍼침대 - 295,450원 - ⭐4.6
-16. 이케아 SNIGLAR 아기침대 - 126,900원 - ⭐5
-17. 다이치 리우 아기침대+트래블백 - 279,000원 - ⭐4.8
-18. 히트디자인 일레스 책상형 벙커침대 SS - 787,430원 - ⭐5
-19. 비비엔다 범퍼침대+범퍼루프+모빌대+양면패드 - 284,050원 - ⭐4.8
-20. 알집매트 포레스트 범퍼침대 - 363,130원 - ⭐4.6
+5. 비비엔다 아기 특대형 범퍼침대 - 239,750원 - ⭐4.7
+6. 도노도노 먼지제로 라운드 범퍼침대 - 296,290원 - ⭐4.8
+7. 벨라 멀티형 원목 아기침대 - 143,000원 - ⭐4.6
+8. 상일리베가구 헤이 원목 키즈 침대 SS - 272,400원 - ⭐5
+9. 알레르망베이비 베어트리 범퍼침대 - 321,810원 - ⭐4.6
+10. 에이원 리안 드림콧 아기침대+기저귀교환대 - 269,700원 - ⭐4.8
+11. 비비엔다 한샘몰 샘키즈 아기 범퍼침대 - 278,070원 - ⭐4.6
+12. 도노도노 패밀리 멀티 범퍼침대 패밀리킹 - 427,390원 - ⭐4.8
+13. 꿈비 럭키스타 클린 범퍼침대+소파커버 - 265,628원 - ⭐4.7
+14. 도노도노 먼지제로 하이가드 멀티 범퍼침대 - 306,420원 - ⭐5
+15. 보니타베베 구르구르 하이가드60 멀티 범퍼침대+확장멀티가드 - 400,200원 - ⭐4.5
+16. 보니타베베 구르구르 ALLNEW 점보형 범퍼침대 - 264,800원 - ⭐4.8
+17. 뉴나 세나 에어 침대 - 752,020원 - ⭐5
+18. 꿈비 하이가드 범퍼침대 - 278,100원 - ⭐4.8
+19. 다이치 리우 아기침대+트래블백 - 299,000원 - ⭐4.8
+20. 이케아 SNIGLAR 아기침대 - 126,900원 - ⭐5
 
 ---
 

@@ -1,5 +1,5 @@
-# 세션: 20260129_083719_6fiw
-> 시작: 2026-01-29T08:37:19.617Z
+# 세션: 20260210_054436_19tz
+> 시작: 2026-02-10T05:44:36.961Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: 소꿉놀이는 아이들의 상징 조작 능력과 역할 놀이를 통해 사회성을 발달시키는 데 중요한 역할을 하는 놀이입니다. 주로 엄마, 아빠 등의 역할을 나누어 놀이를 진행하며, 이는 아이의 인지 발달에 긍정적인 영향을 미칩니다. 최근에는 교육 장난감 시장의 성장과 함께 다양한 형태의 소꿉놀이 제품들이 출시되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKYzy67lw5IF_aU9-V438gs_UCauiZlo8Doh0jH26ZTpz8WSOUyOAd0_GYLu0Z5Y7tGhE292wkmTsKExpi1Z5-mFlmTmPlt3TWghjAb3inV5Nz_U0Q4o7nIlCdzgleA2cs2p5NPqOfU91Zz-u9s7h_hK4-XelqCt0XEcbhHnl87LZfmYxVfI5JL8PJ0YiCEVkRocHXkxIpzhJKLASK8wAhb-Nc2o9ZVO_M82Vl4BmrQuJ8PSvpLhkAv_2rS_ONCX_EBTOw-gR-Cs3A_LFYxw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZ6gJ_PuSEGteYDfju3JXIDDtB35KGwDbFhDMaJpre12rN4gj2Wl_CTRYtGIWl8AW6Xii1H-bDSCera5NF7sCZYmdb_Plf55peUk7z-701jieGWR-8bTnRv1o5vJnaH2Z0iX3z, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjGaNY-UMkftQXZMEic00NhGitRUGYq7yp6MH6p8mQ_yxBoXTbKTNSDCpIn1A8sTppn2v7STbPMIjXhangtLfOIaghSmzfdur80fu2s-04bGp1aXF5V41Rij3LPR4NjGR7i9CWGZeeKvWdyiVUonzeql-ZcFEgHh4px2-IXe_O2YIGkmZqdgQ=
+- 인사이트: 소꿉놀이는 아이들의 역할 놀이 중 하나로, 엄마, 아빠 등의 역할을 나누어 놀이를 진행합니다. 최근에는 교육용 장난감 시장의 성장과 함께 소꿉놀이 제품에 대한 관심도 높아지고 있습니다. 특히 STEM 교육과 연계된 교육적 가치를 지닌 소꿉놀이 제품이 주목받고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGypbFQpn1b8Qhmz67yuvJ8KdXbsCcMMm80YsyTxIUOOmzNx2KLfzDGbCgIzvru19HtSoSW8vHlSB267w6Wg--3cb8xi_bM4ZwvP0Rf_Ex_VmPiUmdAZUx2xCXi2IEJkn3_7ri943auFKsYbuzJxZDrNP3F4Yp7fbEdYxtLxkiYytU_dsF9yNn, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHadiVgtrvI-whl4x1yAMoA9blsCHetf8M3VtVFF30UKE6u_z7czdYWGW-jwcCIM85mDynnLX_1qfqRq9CkkYyrwzpQ4R7ZgeWrVJa8zAE8Gbm0mPFmZP2vWfx5AhMQf68Xj90fifi0mCg-t_0ufBh71KvdZYvSNiRAiAl2lM7VBh2q9f3p9CN7wgi9Uu65Hp3eoKvTbZKD1Kr2M54sEFQIIZopyx8Zq1TbaHf1iXxPtO2sxsfVyhGr5BCSxWl0yG5NUpEWRb7SpTVhzGfoLxk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGw1caP4KcoD0oj9AxZ2SLIonuBgrWuua5DjLsTq0jsJI7zoc6EE9SpxkxK8EvszYzaR8DnIc3VGGeQMJv62U70acdvTWp5ZyTWDDEpZaEWngAl4d5AM8VE2dxzS4N0mcINxmfPCw==
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 테마의 소꿉놀이를 가장 좋아하나요? | 펫 케어, 카페놀이 |
-| 소꿉놀이 장난감의 소재는 어떤 것을 선호하시나요? | 원목 |
-| 선호하는 소꿉놀이 브랜드가 있으신가요? | 상관없어요 |
-| 어떤 교육적 효과를 가장 기대하시나요? | 창의력 및 상상력 향상, 사회성 및 정서 발달 |
-| 예산은 어느 정도로 생각하세요? (평균 약 4만원, 2만원~5만원대가 가장 많아요) | 2만원 ~ 5만원대 |
 
 ---
 
@@ -29,26 +24,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 플레이맥스 내 마음대로 초이스 주방놀이소품 소꿉놀이 01망고 - 400원 - ⭐4.8
-2. 해피플레이 리틀쉐프 리얼밥솥 주방놀이 장난감 유아 아기 소꿉놀이 - 25,120원 - ⭐5
-3. 업스케일 아이러브펫 가방속에 토끼하우스 소꿉놀이 - 35,910원 - ⭐5
-4. 공주구두 유리구두 소꿉놀이 여아장난감 - 3,830원 - ⭐4.8
-5. 키앤비 모더닉 소꿉놀이 자석 자르기 55pcs 세트 - 101,130원 - ⭐4.2
-6. 피에스타 원목 소꿉놀이 홈카페 세트 - 29,870원 - ⭐4.7
-7. 피에스타 원목 소꿉놀이 케이크 세트 - 15,700원 - ⭐5
-8. 핑크 공주구두 유리구두 핑크  소꿉놀이 여아장난감 - 3,830원 - ⭐4.2
-9. 피에스타 원목 소꿉놀이 텃밭 세트 - 25,550원 - ⭐4.3
-10. 바니랜드 홈키친 시그니처 주방놀이 소꿉놀이 엄마놀이 - 85,760원 - ⭐4
-11. 숲소리 소꿉놀이세트 V2 - 192,920원 - ⭐4.9
-12. 리틀타익스 원목 자르기29종 /소꿉놀이 - 40,950원 - ⭐4.4
-13. 리틀타익스 원목자석 요리놀이 20종세트  소꼽놀이 - 39,020원 - ⭐4.5
-14. 러닝리소스 과일 야채 색깔구분 세트 - 76,650원 - ⭐4.5
-15. 플레이맥스 캐니멀 싹둑싹둑 과일자르기 (+대형바구니) - 45,173원 - ⭐4.7
-16. 플레이맥스 과일자르기 소꿉놀이세트 - 19,900원 - ⭐4.5
-17. 플레이맥스 아이사랑 과일야채 시장놀이 소꿉놀이세트 - 14,170원 - ⭐4.7
-18. 코발트블루 뽀로로 캐리어 소꿉세트 - 22,900원 - ⭐4.5
-19. 바니랜드 뽀로로 캠핑놀이 - 21,400원 - ⭐4.6
-20. 플레이맥스 소꿉놀이 16종 - 15,470원 - ⭐4.6
+1. 스텝2 소꿉놀이 식품세트 - 100,800원 - ⭐4.7
+2. 공주구두 유리구두 소꿉놀이 여아장난감 - 3,990원 - ⭐4.8
+3. 플레이맥스 아이사랑 과일야채 시장놀이 소꿉놀이세트 - 14,170원 - ⭐4.7
+4. 피에스타 원목 소꿉놀이 바베큐그릴 세트 - 20,160원 - ⭐4.8
+5. 플레이맥스 캐니멀 싹둑싹둑 과일자르기 (+대형바구니) - 46,210원 - ⭐4.7
+6. 야야 헬로키티 클래식 티타임 소꿉놀이 여아장난감 - 15,840원 - ⭐4.7
+7. 피에스타 원목 소꿉놀이 브런치 세트 - 43,090원 - ⭐5
+8. 올리버 원목 소꿉놀이 케이크 세트 - 14,140원 - ⭐5
+9. 해피플레이 리틀쉐프 리얼밥솥 주방놀이 장난감 유아 아기 소꿉놀이 - 25,120원 - ⭐5
+10. 멜로디 생일케이크 어린이 역할놀이 소꿉놀이 선물 - 10,350원 - ⭐4.6
+11. 피에스타 원목 소꿉놀이 케이크 - 14,440원 - ⭐4.8
+12. 업스케일 아이러브펫 가방속에 토끼하우스 소꿉놀이 - 35,910원 - ⭐5
+13. 콩순이영화관미니스낵바 소꿉놀이 팝콘가게 - 9,720원 - ⭐4.8
+14. 숲소리 소꿉놀이세트 V2 - 192,920원 - ⭐4.9
+15. 키앤비 모더닉 소꿉놀이 자석 자르기 55pcs 세트 - 101,130원 - ⭐4.2
+16. 플레이맥스 내 마음대로 초이스 주방놀이소품 소꿉놀이 01망고 - 400원 - ⭐4.8
+17. 피에스타 원목 소꿉놀이 홈카페 세트 - 29,870원 - ⭐4.7
+18. 오즈토이 작동 미니 세탁기 파랑 3521-7 장난감/가전/소꿉 - 6,740원 - ⭐4.6
+19. 피에스타 원목 소꿉놀이 케이크 세트 - 15,700원 - ⭐5
+20. 리틀타익스 원목 자르기29종 /소꿉놀이 - 45,600원 - ⭐4.4
 
 ---
 

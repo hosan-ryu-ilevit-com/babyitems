@@ -9,6 +9,13 @@ import type { TimelineStep } from '@/types/recommend-v2';
 interface LoadingAnimationProps {
   progress: number;
   timelineSteps: TimelineStep[];
+  showBrandPreferencePrompt?: boolean;
+  brandOptions?: string[];
+  preferBrands?: string[];
+  excludeBrands?: string[];
+  onBrandToggle?: (brand: string, type: 'prefer' | 'exclude') => void;
+  onBrandConfirm?: () => void;
+  onBrandSkip?: () => void;
 }
 
 /**
@@ -18,7 +25,17 @@ interface LoadingAnimationProps {
  * - 실시간 타이머
  * - 펼치기: 3단계 Accordion
  */
-export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationProps) {
+export function LoadingAnimation({
+  progress,
+  timelineSteps,
+  showBrandPreferencePrompt = false,
+  brandOptions = [],
+  preferBrands = [],
+  excludeBrands = [],
+  onBrandToggle,
+  onBrandConfirm,
+  onBrandSkip,
+}: LoadingAnimationProps) {
   const calculatingRef = useRef<HTMLDivElement>(null);
 
   // 자동 스크롤 (calculatingRef가 화면에 보이도록)
@@ -58,6 +75,13 @@ export function LoadingAnimation({ progress, timelineSteps }: LoadingAnimationPr
           <FinalRecommendLoadingView
             steps={timelineSteps}
             progress={progress}
+            showBrandPreferencePrompt={showBrandPreferencePrompt}
+            brandOptions={brandOptions}
+            preferBrands={preferBrands}
+            excludeBrands={excludeBrands}
+            onBrandToggle={onBrandToggle}
+            onBrandConfirm={onBrandConfirm}
+            onBrandSkip={onBrandSkip}
           />
         )}
       </motion.div>

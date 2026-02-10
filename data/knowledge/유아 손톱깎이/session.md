@@ -1,14 +1,14 @@
-# 세션: 20260127_050109_p362
-> 시작: 2026-01-27T05:01:09.671Z
-> 카테고리키: 유아
+# 세션: 20260210_055137_9r0r
+> 시작: 2026-02-10T05:51:37.103Z
+> 카테고리키: 유아 손톱깎이
 > 카테고리: 유아 손톱깎이
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 유아 손톱깎이 시장 현황
-- 인사이트: 유아 손톱깎이 시장은 안전성과 편의성을 중심으로 성장하고 있으며, 전동 손톱깎이와 친환경 소재 제품이 주목받고 있습니다. 기술 발전과 함께 AI 통합, 지속 가능한 제품 개발이 주요 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUUwHyGGwOrmXz4cXnMsmfnURpy6fmVJriBghzW5YPun9usrrtJFSqCzl6Tb7ANnHex8A3qugGZSB1e26Od5E6vK70Vy-1bGzEVMWKElpdIhOz9ZJk5mfggNsshxoY2vC7W_S4pmA487szy_53ZVhif2EzlFbFl_fqA2mhCePLF8yEsUr4niNlUg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEdIftV-9W4Z3Ua9_IB4dH2N6u-p21IJJO_Ke6kqxe4pDCFolnLDGOgj4uqSme-fiyOnF3MgB7zxpMxYd4hzWPGfu06cJEan-dGDZKYZWLUaX81mq1E1MJXh2hDhv1snpS7OYTrzPylFpxjGTHB3PbJ34UHWT--wgY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE_iJuFwyX3IviHjJ3SJk8wTnblDcMD6hUbRXz1t792VQtT4yrhXSGbwMm5fmRURJKu0h-SbKDwkIuOW0DkbLpxF-GwwOxVxmc4zhSrOoAVGoj5RQEyDDix_tYZK59CrKnkohoUUzT1NeDAGaBQOdm_hEbx_dUL1Xucdzk6V_ZChIyXGA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKLljc6ALYld99rUcsGHz9VCMmeq3MHlvS_PY_Oouw5fnnYD9OzdPR80dSclYGAiZqKBXob3Hwvqi7vt87zLIFJOf-4lTuQVudfmQnt2fjLXyMM3dGqJ166UW1w2N2FU_vkjBV1zomh6TgfDDxCvFQB9SxFjDr
+- 인사이트: 유아 손톱깎이는 아기의 섬세한 손톱을 안전하고 정밀하게 관리하는 데 필수적인 육아용품입니다. 최근에는 안전성, 휴대성, 위생을 고려한 다양한 디자인의 제품들이 출시되고 있으며, 친환경 소재를 사용한 제품들도 주목받고 있습니다. 시장은 지속적인 성장세를 보이며, 기술 발전과 함께 더욱 혁신적인 제품들이 등장할 것으로 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXkfWvmnF-0JMaO1o0kTROcEONb9yT2_b2mxSpY4ltm11K5bZtnQPXTIeIc8F_KRc7N20pA_yyWDUm1ZwHiIKq1CTtToWwGmaXGuzldXQ24XOqHtgcElBsvfN3k36NyqK8_rDrkg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQER7IWyBvkfX8IgQeoJaesPw1tVQD4IR-NbBFQoVARXOZQfIYQPh9Bmb3-8jd-D852W6Q9N56sybn7v_Mje-caWoaXpiKzH8IDNuQd21GXxtqYIogiOfMb-zyfHD1VuS-gbR-df9RNK8etWkQ66BA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyEVBv2mk1vdGF6w3XdZGgz5GMoxanpPlXKIZ79bFY6YVEfbKJeJiJAmC3VCwSEfdtwu3hUTBHttR46yhg_6eaH3gCeRqu4iTj9hqIwvz5ocDs9FcqIRc133ZCAHkyfCgtxuH7VsQdQXc7vcGsgGzLOD2mPT66YnXYcsTGgqdgieNfkFKl0557
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 8개월 아기 손톱을 안전하게 관리하기 위해 어떤 점이 가장 중요하신가요? | 날카롭지 않은 곡선형 날 |
-| 손톱깎이 디자인은 어떤 스타일을 선호하시나요? | 인체공학적 디자인 (편안한 그립감) |
-| 손톱깎이 소재는 어떤 것을 선호하시나요? | 친환경 소재 플라스틱 (안전하고 가벼움) |
-| 아기 손톱깎이로 특별히 선호하는 브랜드가 있으신가요? | 더블하트, 퍼펙션, 네이쳐러브메레 |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 4천원, 7천원대~1만 7천원대가 가장 많아요) | 7천 5백원 ~ 1만 7천원대 |
 
 ---
 

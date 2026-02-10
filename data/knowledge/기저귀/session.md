@@ -1,5 +1,5 @@
-# 세션: 20260129_133405_da7e
-> 시작: 2026-01-29T13:34:05.763Z
+# 세션: 20260210_054823_ssyn
+> 시작: 2026-02-10T05:48:23.754Z
 > 카테고리키: 기저귀
 > 카테고리: 기저귀
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 기저귀 시장 현황
-- 인사이트: 한국 기저귀 시장은 2024년 기준 약 17억 달러 규모로 추정되며, 저출산으로 인한 영유아 인구 감소와 고령화 사회 진입으로 성인용 기저귀 시장이 어린이용 기저귀 시장을 추월하는 등 판도 변화를 겪고 있습니다. 이러한 시장 변화 속에서 소비자들은 가성비와 기능성을 동시에 갖춘 제품을 선호하는 경향을 보입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGS5MbvDLk6Un1358n_-3EWKtdU0pvJSfZIrjsYHG4oik2dNeYG-q7P9JGulree2mSn79QS_SzpJZvDL0mmAEuvPmeSHs5PAh35LOKywL1oMwlzotPjIxkHqLWwMAgU-4_RjYpITtDUD8Xas4Sx6vhGEcWpb5rG6sba, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkN_u767scrqPJZpE91jiuhbDAOYxx5Fxz5AraImCPBXwEvTZQYl4k2gH4zY69xgaHdXqt1vYbIhoCS1LvEEX88Uezbs81emxJQkVx2qthK8Kmb0_yMoYkt-wcQ4vT8Xccrf7G32VKFTEHI-D7bG1hGbWy2WUH8eKUe5187cY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2M4aQUFOIh54tEGBsdLKIocQ0Rf5gQVWy2rzOpXGv7gx5cwBGgxudY3QIOhIwwSJLU1Hj6Cf53Y5GbG_1X8Lvms9L1yYk__hv-Tf2Ypp01jlLoEWGWtkjs_gV3msKjR0ZZDwa-CKoc7SpSwsoh3QKxNkC, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyy3-5VouQGjOjCrmJatgJkzgzn3Tlcr3cD7d9bGnnary5jnd_I4_scOzI5PNOB0KFQP9NY9qY4obDoessTTFZy9PnzkztCdieThT5R3nwxZEdRQqb-Jxb_0Sf7ZFkT78u28XbVjsCEW2OmuDc, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmHxbWPOrOUpNOdoDG4Pez1HP2LWVnr9KiawP3xbHD0mECoM2SFkhSvmiZCh44DmbZZHeStedjQzEGTDCNurcOhtTuR8kxUuz-j_7pwMbscvgb8-vNETG28vWDsZJ29Sc8lBNFBEnUCufWq6Hpd0G9kqbmBtg3m6sxhD7vtw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGC-c8juCIxNcst3piByECVx1T8AK_EuhUZnHc3Y2nYs5NrtfKlAe4mTmZ1A54KJ2jdv1-gb6tQeQ9B5pnCC4ZTHGJhqfBVyBvVHJy00vQBJUDyN8pkYpjjYUfLqipWHAwkPMwTkNyL9iOH5pKqdZUZ4wpQ
+- 인사이트: 기저귀 시장은 2025년 약 1,099억 달러에서 2032년에는 1,943억 달러에 이를 것으로 예상되며, 연평간 8.48%의 성장률을 보일 전망입니다. 특히 유아용 기저귀 시장은 2025년 772억 6천만 달러를 넘어 2035년에는 1,319억 7천만 달러에 이를 것으로 예상되며, 연평균 5.5%의 성장률을 기록할 것으로 보입니다. 성인용 기저귀 시장 또한 2024년 216억 4천만 달러에서 2032년까지 연평균 8.73% 성장할 것으로 예측됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzDu2-fO0MucO8ZTNL4kR8JkpRWQwqfPqlnwSWVH-Z35ChcelVWXDzIYcjo5KvYYMFzOU_c11vDXmW6-_YF3pstKyJ05Y9EgT7kmk9K-i8r8Q28DKCqbsL1bZZAMKHs1ZV0WZXTTZvVtp_VNb7rWphKF4TxYNOfGqIPkjgc45xm4wh4ZY14CeYCSK95dzzHMJQ0OwW0Gg=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFH5AS0koqNI5sLj0pEhnHXoByUKzhU6LqE8Od6f8NxVsgwuMoCP569WmMWhZEpP4lO-ey_klnC5DjDn5K8u4hKOvl5gV_p9zao_YjbOHGC5kVYPyitCBAW3Cgs-47fGc1IqQ2d4rDba1KQcHCQHaVupyiXCPh2qu5-QZ2l, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrvj5eqe5-aaWHLBHKDDKOWVb9F_F48nLbRnGi-EQ7pFTwYQrGypy7JScymPczH-wZ1148WMxbbppTbLTt13DsR9oAkCN4qr_OBZrfeNBkrABNv0ATYxrCEovkBmSSF7NtIrh0xZwuy5RUzw6aj6HGn4IZDmlbE7eFfHlY7kbcn2Y1vrhZOP4HeQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFpt1l0hN92m_hlPnOmef-7tONy0o0OTbA_5Fta6raAVwZaqOWiHPzlJYFmMuG55OMg4q12sypii5ADcuhUQFtFaeph9oGWkxmK2ydJwpsops9j6B5MsWcr0zSLqVcd, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHgdyyHOHv3jKt71_L10ij_mCj9wqCP47b6NDvUmwkKMIvXpWDdl9WYvFu6FWFcRU7nvHn-lAX_5ygo5gFD6pakMW446PRFyY1D2UOc2S4ddPv8UcCAYleraB_H6r-2BA-BgmNV9FkSIV85RSCEfoWT_qm_N8gsCeA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2pJr5Nv7fG43FTQAS7MZzD5Eq7UCGbvo8XX7Hc8gwRkkQiR8yyIb-IFvgnyJ4D_zggVB1B2w0iuAizqsMfLRnpMth4HCSgO21gacQ0r14sC99rJf6i7TGz2jc2koLaI4XI6tNhb_XKwGlinrV_6lgiBTEMI-2_mYVL8D3i0pa8-LPd4ZOQj_KlOMDaRZrx4fVHts9EpTEVAuFowL2EdDcxJkHsenass8wbFxEVzqvugtrK-gkjrsS9-MOitidt-__elkMdjvuMYCwOiAM4x7NXcOsD-jOj4IkGMYpmZkTFzaCemf9OaOvI_0Uqk_nkYTJeoZdtRcPIzZV4Jc6onJ_3hus7rGm
 
 ---
 
@@ -16,10 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 5개월 아기가 뒤집기를 시작하면서 밴드형 기저귀를 찾으시는군요! 혹시 밴드형 기저귀에서 가장 중요하게 생각하시는 기능이 있으신가요? | 샘 방지 기능 |
-| 아기 피부에 닿는 기저귀 소재는 어떤 점을 가장 중요하게 생각하시나요? | 부드럽고 통기성 좋은 소재 (피부 자극 최소화) |
-| 기저귀 예산은 어느 정도로 생각하세요? (평균 3만 1천원, 1만 8천원~4만원대가 가장 많아요) | 1만 8천원 ~ 4만원대 |
-| 5개월 아기에게 선물할 기저귀, 주변 육아맘 추천 제품들을 비교해보고 계시는군요! 혹시 가장 중요하게 생각하시는 기저귀 기능이 있으신가요? | 샘 방지 기능 |
 
 ---
 
@@ -28,26 +24,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용 - 63,870원 - ⭐4.8
-2. 킨도 오슬림 에어 팬티형 6단계-공용 - 22,610원 - ⭐4.8
+1. 킨도 오슬림 에어 팬티형 6단계-공용 - 21,896원 - ⭐4.8
+2. 팸퍼스 2025 베이비드라이 팬티형 6단계-공용 - 62,160원 - ⭐4.9
 3. 팸퍼스 2025 베이비드라이 팬티형 6단계-공용 - 20,670원 - ⭐5
-4. 나비잠 울트라씬 듀얼핏 팬티형 중형-공용 - 9,450원 - ⭐4.8
-5. 킨도 오슬림 밴드형 4단계-공용 - 46,370원 - ⭐4.8
-6. 하기스 맥스드라이 팬티형 5단계-남아용 - 29,510원 - ⭐5
-7. 하기스 2024 네이처메이드 밤부 팬티형 5단계-남아용 - 39,600원 - ⭐5
-8. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용 - 63,870원 - ⭐4.7
-9. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용 - 20,720원 - ⭐5
-10. 하기스 맥스드라이 팬티형 5단계-남아용 - 52,000원 - ⭐4.5
-11. 나비잠 시그니처 팬티형 대형-공용 - 10,900원 - ⭐4.9
-12. 하기스 2024 네이처메이드 팬티형 6단계-여아용 - 51,390원 - ⭐4
-13. 하기스 2024 네이처메이드 밴드형 1단계-공용 - 19,890원 - ⭐4.9
-14. 몰텍스 퓨어 앤 네이처 팬티형 5단계-공용 - 16,810원 - ⭐5
-15. 모모래빗 에코드라이 팬티형 특대형-공용 - 37,500원 - ⭐4.8
-16. 하기스 2023 네이처메이드 팬티형 5단계-남아용 - 29,380원 - ⭐4.9
-17. 하기스 2024 네이처메이드 밤부 팬티형 6단계-남아용 - 108,210원 - ⭐5
-18. 군 2018 슈퍼빅 테이프 기저귀 밴드형-공용 - 69,750원 - ⭐4.7
-19. 보솜이 NEW 메가드라이 팬티형 5단계-공용 - 5,450원 - ⭐4.8
-20. 팸퍼스 2025 통잠팬티 팬티형 6-7단계-공용 - 16,200원 - ⭐5
+4. 팸퍼스 2025 베이비드라이 팬티형 5단계-공용 - 61,840원 - ⭐4.8
+5. 하기스 2022 보송보송 밴드형 4단계-공용 - 15,900원 - ⭐4.7
+6. 하기스 2023 크린베베 일자형 3단계-공용 - 8,550원 - ⭐4.6
+7. 팸퍼스 2025 통잠팬티 팬티형 5단계-공용 - 47,020원 - ⭐4.7
+8. 보솜이 NEW 메가드라이 팬티형 5단계-공용 - 5,450원 - ⭐4.8
+9. 하기스 2024 네이처메이드 밤부 팬티형 5단계-남아용 - 39,600원 - ⭐5
+10. 하기스 2023 크린베베 일자형 3단계-공용 - 8,940원 - ⭐4.7
+11. 나비잠 울트라씬 듀얼핏 밴드형 소형-공용 - 12,500원 - ⭐4.8
+12. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용 - 20,720원 - ⭐5
+13. 하기스 맥스드라이 팬티형 5단계-남아용 - 52,000원 - ⭐4.5
+14. 팸퍼스 2025 베이비드라이 팬티형 4단계-공용 - 62,170원 - ⭐4.7
+15. 나비잠 울트라씬 듀얼핏 팬티형 중형-공용 - 9,450원 - ⭐4.8
+16. 하기스 2024 네이처메이드 팬티형 6단계-여아용 - 51,390원 - ⭐4
+17. 하기스 2022 보송보송 팬티형 5단계-공용 - 19,800원 - ⭐4.7
+18. 소베맘 프리미엄 원터치 기저귀교환대 - 74,900원 - ⭐4.9
+19. 몰텍스 퓨어 앤 네이처 팬티형 5단계-공용 - 16,810원 - ⭐5
+20. 하기스 2024 매직컴포트 밴드형 1단계-공용 - 13,640원 - ⭐4.8
 
 ---
 

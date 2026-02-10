@@ -1,24 +1,28 @@
 # 분유 전문가 지식
 
-> 마지막 업데이트: 2026-02-09T05:19:49.868Z
+> 마지막 업데이트: 2026-02-10T05:52:49.619Z
 > 분석 상품: 20개 | 분석 리뷰: 34,492개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄화 가속
-- 수입 분유 인기 증가
-- 해외 시장 공략 (예: 베트남)
+- 프리미엄 및 특수 분유 시장 성장
+- 온라인 유통 채널 확장
+- 건강 및 안전성 강조
+- 수입 분유 시장 점유율 확대
 
 ### 구매자 만족 포인트
-- ✓ 성분 및 안전성 신뢰도 (수입산)
-- ✓ 다양한 제품 라인업
-- ✓ 프리미엄 이미지
+- ✓ 일정한 영양 균형 유지
+- ✓ 특수 분유 선택 가능 (알레르기, 소화 장애)
+- ✓ 편리한 보관 및 사용
+- ✓ 모유 영양과 유사하게 개선된 제품
 
 ### 주의해야 할 단점
-- ⚠ 높은 가격
-- ⚠ 국내 브랜드 경쟁력 약화
-- ⚠ 성분 논란 (팜유 등)
+- ⚠ 모유 대비 낮은 흡수율 (지방, 무기질)
+- ⚠ 비타민 C 함량 부족
+- ⚠ 비용 부담
+- ⚠ 모유의 복잡한 면역 성분 대체 불가
+- ⚠ 일부 성분 (팜유, A1 단백질)에 대한 우려
 
 ### 가격대 인사이트
 
@@ -240,7 +244,6 @@
 ---
 
 ## 📊 데이터 출처
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGcUcICdJ8v-GjAlU47jJ1AvGLo1a2gJNcC2nriqMt3BlU_Fm2-KIySfAs9H4_MRkFM8y_OHocJ4MVdXkRMxPzIbu2lklKD1J34vO4Qx449Da-2xPJEWpDaR_4F-9sk8jN13tOLbW8ohdJQkpo63wjkwQkQEACyxMTAcypNNaxCflDlteRiVP5udMg=)
-- [newslock.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEBYD1_xr_nGu4P6mDrIJWnXGmMth_BIWgsPpH2z8qRdmGmFbPQ78zCTaMry__UPECNpMoujVeYvmLmSlKPvzq8UrmD5W1ducLeUw6ZSKhxYVeG4AETfs0pYeVBuo7MBn3Sd-Po9OKm0e6omVjlsRT6OWVL2RQPQQ==)
-- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXDtvU24gUX8rWQdYBoXyslA1tZqCvsLXg-L3oBJeK9yG8Wdbkia1DFCt3DlXSgRAV-Z0qpysXVG0y0C54BQY8bdwFWagvJitlL9Gkk16pnOUlPZfeo4U2UzL_s7wgOe9v2gTAp4CrP6xBtndSFo5LSiqUGZYUZg==)
-- [mk.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGe907i9dcG-sSTojyojChdZKG4lG3pewBkzyJTQBRC67d_Vkex5ncJn7Zgk2WVBdmxLUlszDME5nRRi6XVzP3cpXcNRLspCm1lbWy5jQZB-B0pOJSkZN58-ewVBMHkJzUN4EpRjQ==)
+- [globalgrowthinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxsbaq10F9MAs5liNyiSaNiwxtZu8yghiy99n2QGdy2Wvg75njWoVOEMsInsgeX1GJyuJ3HvIWRKxwYiq9VecY-Pyz1SeS5iz9gEiYUjJ4_c4FPFCOpZ_CJSHwTkjhL_dJglusQ1JTfV8Trj7FraWJO9KigSVvUf9vyfKtHTUUd5pVWke2-e8WLmudJRjClA==)
+- [businessresearchinsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZSs_6wO5oFs2NulFaFO21gpl7EFnrkwFemL3w-clzJbOnWgMaJTATZ5tQM5wyDn0pxLt0rGWLzsqsNLPS_iKD2m4Ym84EDAB0LiT3-tLKssRld4Hw0w1CnVAqiC_hb9mhzxScP8aj-8_HjFm8dMoTI07EhXLlIJIbS0WPQMbDH1jr3W7nNsAGcPVjEb2lDFfdT_NTllsc)
+- [giikorea.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0IBbTpDW00ln3pdXckR5k_eQDa9aB9T-UXv-1Kdm_tgjhcu7_VzVEj1bWP7Bh_YD4HxqGQyjXqfsyK3708eWjT5GQIcypng55XQDw2hMjUT6V8OQ7FLd9sx9VpzBd86k1-GkEJjZFUzWqQv09DbeuPejrOIVQMymB4DPOWa4B-u0fVe1xxKkfMfjjbhjLN2hRF-VMdg==)

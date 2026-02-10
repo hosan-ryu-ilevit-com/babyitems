@@ -1,30 +1,30 @@
 # 이유식 전문가 지식
 
-> 마지막 업데이트: 2026-02-09T05:45:59.023Z
+> 마지막 업데이트: 2026-02-10T05:50:48.496Z
 > 분석 상품: 20개 | 분석 리뷰: 35,016개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 프리미엄 및 유기농 이유식 선호
-- 간편성 및 휴대성 강조 (파우치, 즉석 이유식)
-- 클린 라벨 및 안전성 중시 (유기농, 무첨가)
-- 다양한 맛과 식감 제공
-- 온라인 유통 채널 확대
+- 프리미엄 이유식 선호
+- 온라인 판매 채널 성장
+- 맞춤형 케어 및 통합 육아 솔루션 확장
+- 다양한 메뉴 및 월령별 세분화
+- 유기농 및 친환경 재료 강조
 
 ### 구매자 만족 포인트
-- ✓ 영양 균형
-- ✓ 편리성
 - ✓ 시간 절약
-- ✓ 다양한 메뉴
-- ✓ 위생적 생산
+- ✓ 다양한 식단 구성
+- ✓ 영양 균형
+- ✓ 편의성
+- ✓ 아기의 흥미 유발 (자기주도 이유식)
 
 ### 주의해야 할 단점
 - ⚠ 높은 가격
-- ⚠ 신선도 저하 우려
-- ⚠ 첨가물 포함 가능성
-- ⚠ 제한된 맛 경험
-- ⚠ 과도한 당분 함유 우려
+- ⚠ 첨가물 및 방부제 우려
+- ⚠ 수제 이유식 선호
+- ⚠ 부모의 부담 (준비 및 정리)
+- ⚠ 아이의 식감 거부 (자기주도 이유식 시)
 
 ### 가격대 인사이트
 
@@ -246,6 +246,6 @@
 ---
 
 ## 📊 데이터 출처
-- [datainsightsmarket.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG9k684nUvEA-F6yohzovPcS5C_ByayR8tQcYoKjTH7tJ1N4gdgMWhYbqsg5e1oOah4DjHhZvHjkazPmkTIqE79SdhuF4rYZJPneFtMyhBUT6q1COsy6-ARdDY3UNKz81klhVfdneQWsbKLoXqf2Rypy8gzR_Kp-iVNCKfaZQ==)
-- [babyinnovationawards.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyTOdpzZmJvb-bTsxfbMR_3w-6ua9tM9Oum4FnGpM4hk8kp45lLAJHuHV2EFAC12wCGoRssGkRWAuwc8DaVA2vMgjbXwvDbkbuWaMEqoVQervyGxG6w9cSdNKZsCTh0CZVrRI=)
-- [researchnester.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDiZH96c5Bs-ZEvrtmPvuMlOuRZoqF4tUF4la6sRJjh2kiwn8rT3QdeAKbS6yxL5bhqEung8SakjXp746wps9bi0qfLh7iKlPe_A_-CN3BW1kMEyXQIkvhAHCPICLqofEurUjWO0sEhvnMFcexgb4DsIQ96BcJ_LiTU7SPm752CMZq)
+- [mordorintelligence.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVyEuPrUda2cm1Jkix5RdmhV3JLME3Of56ONm-Iga37O8iZqFuz_JmFUnzGSaDc9FwVoyi6CZvqHiIV5L3qdPU1RNSLJ7C8aAStE8iKWTepm0cYyU-AbLmE3086uvJcHB6eGqd-cLX4Gud733XZdacc3lFbCZeFJQOyQVzSz0=)
+- [towardshealthcare.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEY1t1N1fNu-Kt9W-6vj43RyMjqIEmVQ_9MOYVgA-m2iJsFkg5stNmRW_ln_jTF95j80BYYbVOCP15Q9LNQ_hZwuHerUgEtxIpu8O2eZ4UDSqMDAWEW5caccBe2QNU-WZxPqFVOU1JHUwUyLFojfMrHz8zNMEv7OvGldWcOiiJqvjxxuw==)
+- [foodicon.co.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6VDdoyyRiE0YropgD9Y2EjFlLRO-5hbaUVFrHCd8U7NkeQDs43vVYQQq3ox-CFmoAYSUtQnxK3ZWQDdA70Y9wha16VyGqxDI6LfBQV57mtu8U0GHYxZhCI1o6DIlmjyTEWsmx12HaYY3HUE-t7BFE0PbZNqUy)

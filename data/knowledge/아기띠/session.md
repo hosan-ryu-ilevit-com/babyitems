@@ -1,5 +1,5 @@
-# 세션: 20260129_081615_pax8
-> 시작: 2026-01-29T08:16:15.855Z
+# 세션: 20260210_055000_cx2b
+> 시작: 2026-02-10T05:50:00.829Z
 > 카테고리키: 아기띠
 > 카테고리: 아기띠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기띠 시장 현황
-- 인사이트: 아기띠 시장은 다양한 제품군이 혼재되어 있으며, 힙시트 기능이 포함된 올인원 제품이 인기를 얻고 있습니다. 특히 코니아기띠와 같은 브랜드는 자체 개발 원단과 인체공학적 디자인을 바탕으로 국내외 시장에서 높은 판매량을 기록하며 성장하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1fDFALnR_sbRCOV_WRjLbDrvsih6xq96troGoG_TZetkqAcV2UGhkfkoBLaJIKSHUDokzkgUe9tpynAXknmOp_-iTIDGXeCIXSFJp2zjVKRXtG6QYZlVmZUc6eBUEZYkY5bjHZxReJ-A8hlohmRmNlLkY7Z7Gzh4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlEysnhtuUBw69VbdqdMWDdcEQh_mzkW6dubNWYXlCp_KmqdlntONZmNU6Hi6W4C47Qs8TN_EtfASqH0VlZ73HKu2dxQzCz_Wyl5xorA5bLLa8-qOykLgj1PTZIKNMmFJ-0_D_LUM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKYVQ7a6X_00jKwjqAE8QfCMI6hYjglfM1Wg5KiMHUHv-ETVGuMXPteK6nHvU_0Uik003CcJJY5yxlpYjd_J7jh7v56-M_7oULGQRKDbvDOZwU_jEE4T_UhPKslgoDNGVb, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGcv9OJ4i6zYPKxofqYTR03VNtviqhWCKPsAYRQWSlDLZyM9hOaHrNImJhaYwN8UVnnpH77rhpSpXpS9AQ4rfq-P6yTkT8TZKjhVDgD-pt4antaclk6cxdYBi-nCiPgLpT6ArBs55gaVrWh_NgFfD9vfk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGG-t44XHdgRmSezUPnDufbduIPeN-S10zhE5nYduVXeOYnXpP5WxLbBQIFgLQa-sRpdK4pRF4JEzGPZX3SiuRYUgd2onvrzLy3IylAkfC6VTeLtrUYup9CGOM6xklt6lJkkbd6A6fkIkWo4EM8b80jyrAjU2JpfxCQPhqGlw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpwA_PMTG_PH5GFSX_KkDWq6joE_LhZU3Pl-aYyVyPB5u-h3JNsz06sDQlIAUS_FjtGnZd2-zbsCAiOIRH2QGiGBc3xYWBlU2zsZdbW7e_ByadYpomKB6VnkMayQLtkyITqJFxy2t5LJrq3lXu41iVpJNC3ZqvfI3AFR2Il2dxXSKX
+- 인사이트: 아기띠 시장은 2026년 약 6억 9,812만 달러에서 2031년 9억 7,549만 달러로 연평균 6.92% 성장할 것으로 예상됩니다. 이는 변화하는 라이프스타일과 함께 꾸준한 수요 증가를 보이고 있습니다. 특히, 국내 브랜드 '코니'는 해외 시장에서 큰 성공을 거두며 글로벌 인지도를 높이고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFY1Usv4-47H9PnwOvZjTyS0o_OcalkcuI4RPHogf6GwG9n_H-uHs4J8lcpzCO70wOxwK9hBhxuxpaoO9sYQGItDDbmPgx3TXmqXnNk2miT7pkW0gsnEroG6by5-bR3YRgXvVV_YOw56VuWo6sFVu40mU3p7N7ejuTn4LOsWAHsKZQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJGuX7ZX_wWLVBQjfXFBLaM5U2MGCA0k272G2hwve_dRTFF0qwWQQb38T_XSAslr-ZCfzajUk5RRWGaLNf-5qvKQiT2yw8YmtYZEHMtEzkzV9xr1IA2oq3BfE9Xve1fApY_ISOdGyuCin05aAFC8YYGxaX8lM-dg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGxagy8TZR_GOVHykRdJXSn0gfs-bHMvAPpDAB0-VvOcWyKclRRB2b5oGiDBFmqGCd9SEaGdRCl8RefonowlRdOoQGiyOmWEhweAsPghdZUszRU-V_-EQKPOXxasi1-j0GrJGmUZCE=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8KN6YxR9eBYu6bNjR6eTXn-MjFVd6U_HGcvFWts7drD-i9F3vXcvQ_zEzfRlHZCivtgEePwMreH3yEyZRRdr_afT7gqx3cVZmr8GZKzK22Ehw_DJk9v-CeQ2Jeai9E8q-vWVF88GSZYUuJCJvATX8fmw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQEc9WWXIHM1y5CEzvb64LzetOo0m9OhkL19gTzz6lEcgmFZHD3qyo_b8v5Uc6q9t1JYwWS5FXcUdkmM-MfJER7kuNaQdUUEcUjaaGXaZZQ-Ur9sT8bHoA5htBq0AH5gFR-ywQ3tOjxuei7cJaZlk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjFtXKz7OjRPIA_NFJHlKbFZzGJ8Tj_bZ9PBg_6BcHuNBdPGsMPgoYTDR0Cy3ftFoo0THsujcCsMZnvGTRrK5skv8V4tXoWWzs27w-zR2ShIgTGTjOI5r5XpWrK1a9ElH8zlBb-qrHAJ4dBw==
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기의 개월 수 또는 몸무게는 어떻게 되나요? | 1~6개월 (3.2kg ~ 7kg) |
-| 어떤 형태의 아기띠를 선호하시나요? | 힙시트 올인원 아기띠 |
-| 선호하는 아기띠 브랜드가 있으신가요? | 에르고베이비 |
-| 아기띠 착용 시 가장 중요하게 생각하는 편안함 및 안전 기능은 무엇인가요? | 아기 성장 단계별 편안함 및 안전성 |
-| 아기띠 예산은 어느 정도로 생각하세요? (평균 약 15만원, 8만원~19만원대가 가장 많아요) | 8만원 ~ 19만원대 |
 
 ---
 
@@ -29,26 +24,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 에르고베이비 옴니 브리즈 메쉬 아기띠 - 259,000원 - ⭐5
-2. 베이비뵨 베이비 캐리어 하모니 3D 메쉬 - 306,000원 - ⭐5
-3. 베이비뵨 베이비 캐리어 미니 3D 메쉬 - 128,290원 - ⭐4.9
-4. 아이엔젤 닥터다이얼 플러스 올인원 아기띠 색상 택1 - 314,070원 - ⭐5
-5. 어린이안전벨트 아동보조벨트 유아보조벨트 카시트 - 35,500원 - ⭐4.7
-6. 베이비뵨 베이비 캐리어 미니 코튼 - 118,580원 - ⭐5
-7. 포그내 스텝원 UV CUT 에어 아기띠 - 99,580원 - ⭐4.7
-8. 에르고베이비 옴니 360 쿨에어 캐리어 - 245,300원 - ⭐4.4
-9. 무무브 에르고베이비 호환 아기띠 침받이 - 11,950원 - ⭐5
-10. 해피코튼 오가닉 아기띠립 가슴침받이 - 9,040원 - ⭐4.7
-11. 허그파파 허그파파 NEW 다이얼핏 올인원 아기띠 - 298,030원 - ⭐4.3
-12. 통가 프랑스 그물형 피트 아기띠 버클형 혼합색 - 37,000원 - ⭐3.4
-13. 에르고베이비 옴니 360 쿨에어 아기띠 - 189,050원 - ⭐5
-14. 아이앤나무 미마자리 실리콘바퀴커버 - 61,200원 - ⭐4.3
-15. 나와니스 나와니스 전통포대기 나와니스/포대기/아기띠/애기띠/포데기 - 33,940원 - ⭐4.3
-16. 베베핏 시그니처7 올인원 힙시트 아기띠 - 155,770원 - ⭐5
-17. 주영 주영 슬링벨트 50MM-2M - 5,290원 - ⭐5
-18. 에르고베이비 아기띠 방풍 커버 - 67,716원 - ⭐5
-19. 포브 프리아핏 에어 올인원 아기띠 베이지 - 306,900원 - ⭐5
-20. 토드비 에어피셀 힙시트 올인원 아기띠 - 256,500원 - ⭐4.8
+1. 베이비뵨 베이비 캐리어 원 에어 - 247,470원 - ⭐4.8
+2. 에르고베이비 옴니 브리즈 메쉬 아기띠 - 233,100원 - ⭐5
+3. 어린이안전벨트 아동보조벨트 유아보조벨트 카시트 - 35,500원 - ⭐4.7
+4. 베이비뵨 베이비 캐리어 미니 3D 메쉬 - 128,290원 - ⭐4.9
+5. 베이비뵨 베이비 캐리어 하모니 3D 메쉬 - 301,644원 - ⭐5
+6. 아이엔젤 닥터다이얼 플러스 올인원 아기띠 색상 택1 - 314,070원 - ⭐5
+7. 에르고베이비 옴니 브리즈 메쉬 아기띠 - 246,050원 - ⭐5
+8. 베이비뵨 베이비 캐리어 One+ - 247,470원 - ⭐4.9
+9. 베이비뵨 베이비 캐리어 원 코튼믹스 - 247,181원 - ⭐4.7
+10. 왈라부 메쉬슬링 - 59,700원 - ⭐4.4
+11. 베이비뵨 베이비 캐리어 미니 코튼 - 118,580원 - ⭐5
+12. 포그내 스텝원 UV CUT 에어 아기띠 - 99,580원 - ⭐4.7
+13. 벨라 올인원 힙시트 아기띠 스카이블루 - 53,100원 - ⭐4.4
+14. 조이멀티 일본 프리미엄 신생아 조이멀티 아기띠 - 24,550원 - ⭐4.5
+15. 에르고베이비 옴니 360 쿨에어 캐리어 - 245,300원 - ⭐4.4
+16. 토드비 에어피셀 힙시트 올인원 아기띠 - 251,100원 - ⭐4.8
+17. 무무브 에르고베이비 호환 아기띠 침받이 - 11,950원 - ⭐5
+18. 에르고베이비 엠브레이스 신생아 아기띠 - 82,770원 - ⭐5
+19. 허그파파 허그파파 NEW 다이얼핏 올인원 아기띠 - 298,030원 - ⭐4.3
+20. 베이비뵨 오리지날 아기띠 - 151,019원 - ⭐4.9
 
 ---
 

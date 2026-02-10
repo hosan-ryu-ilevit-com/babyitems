@@ -1,5 +1,5 @@
-# 세션: 20260129_131258_7fj2
-> 시작: 2026-01-29T13:12:58.537Z
+# 세션: 20260210_055830_p0pw
+> 시작: 2026-02-10T05:58:30.710Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아간식 시장 현황
-- 인사이트: 국내 영유아식 시장은 저출산 영향으로 성장이 정체되었으나, 간편 영유아식 시장은 연평균 20%의 성장세를 보이며 전체 시장을 견인하고 있습니다. 맞벌이 부부 증가로 편리한 주문 배달 영유아식 수요가 늘고 있으며, 코로나19 이후 직접 조리에 대한 관심도 다시 확산되고 있습니다. [1, 7, 9] 어린이 간식 시장 또한 성장세를 보이며, 일반 과자보다 영유아식에서 확대된 어린이 간식류로 소비가 전환되는 추세입니다. [1]
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE4E1bRxi3TBI9UIqQmU4qm5lTPuBH5UUGHqhqH74GxMlCoJ1PVFlelS6pBBgYZYvlLr24KcQhxxTuNJV4LLz-9tjplRzGetcPlxlQaWrvLav2Rxocra8LeqMYxWTy_mKxei9Y7gkQtTXCx9CDZW0rsgPx-Y_MZiw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7EJKRLh6Ead60ovEcb6pcoy_bxXqq_-ftvwPMTl38F5UA9Bi3-lahEr3AEKh5YuNRSFtgVLwkBof-VdnCPckC6WPvrw_3UgBDS0aXaONQ7ub6v66VHAW9C6BHl2r7LdwX-Lsg-AVwlVCqPVsBXz-KYVzwMZ5P, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiVPKSgWwjZbxepX9hY9uN-XeN-vKUnewQwnmpIYV8jlOcArgybHGSgQzkJC8cCIjqkQ81T5b45v9a0fSS4GsQUnsHqQsBEg-D2w7Lm1euhWZKTynnSiigqCLBHWjEIYl3HM2QsKHE7vqjhP0nstpZwXxX92SFFAzucQQaOWqYXb9RkCDgJL1iFUQvVPWankw1evhTceKw3QyKjaPbLDh-d2cescTHYq78WX5A6AJuvl-8KO_y3sLvM8l0aFosRHfs5C1hP3KWECo=
+- 인사이트: 유아 간식 시장은 건강에 대한 부모의 관심 증가와 함께 유기농 및 천연 성분 선호도가 높아지면서 꾸준히 성장하고 있습니다. 맞벌이 가구 증가로 인한 편리함 추구와 함께, 온라인 채널의 발달로 접근성이 향상되었습니다. 다만, 높은 제품 가격과 엄격한 규제는 시장 성장의 잠재적 제약 요인이 될 수 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpGCnP6kSr_B7sz_-nSOMO_ZDQw-8Iw-vMIxoC4Yi_DXbnmzEwiMzoa6HyxkMdB28dKBre-fUab4von4TzqGa0_0wDD8dBTYYPEgXDt-2z5w7hUiiwpdi756yrTw69MHCQmeaPh57gAzJE9uRqv9amqU1tpvHV6w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFPHdlnJx4upoUWNCBEi34Gh9NoTuh3lZQY8dgmAoOln0q9--CgAAELkxsB5hk2ThN2wwXkyfjdtM6CdNV9kjw0aDn74PtSPFJOlEnI9Eo3-yn9ySnKXI1u4OTTu03RDqiC1k_RCCfmbSSkcoLRp4kytG4hnuR3zK-CJbQ8FSB5uL2O0_1bQM8WpXkL2x_cBhrbgft50rR8k8iAOMmefk2mB8alwPerP9sNW5_GmXdDNfK6DFBCEGTb0Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHf-Zhm9utRkzyZBPjJ0_aiwKZik6MMt6MUyeMErkA_wdVONR7aTO-G0W9x5FELXppxQ34GEmFM5WSFygADrhIBGxee8K5VVrfm0ndPQQoTvEEriJxtRQy76jkDnDmV-_C6vngprxQi4Pu5hxl4y3mla7bUHJZprtjhTv3cyoge-Q0E
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 어떤 원료를 사용한 간식을 선호하시나요? | 과일 및 채소 베이스 (영양 균형과 맛), 유기농 및 천연 원료 (가장 안전하고 건강한 선택) |
-| 선호하는 간식의 형태가 있으신가요? | 퓨레 (부드럽고 삼키기 쉬움) |
-| 믿고 구매할 수 있는 선호하는 브랜드가 있으신가요? | 유기농산 (고평점 유기농) |
-| 간식에 추가적인 건강 기능이 포함되기를 원하시나요? | 비타민 및 무기질 (성장 발달 지원), 프로바이오틱스 (장 건강 도움) |
-| 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 4천원대가 가장 많아요) | 6천원 ~ 1만 4천원대 |
 
 ---
 
@@ -30,25 +25,25 @@
 
 ### 후보 상품
 1. 핑크퐁 아기상어 아이비타CD+아연 30정 - 1,010원 - ⭐5
-2. 핑크퐁 핑크퐁 아기상어 자일리100 40g - 8,400원 - ⭐5
-3. 앙팡 밀크릿 220g 국산 우유사탕 밀크캔디 대략 100개입 아기사탕 - 7,560원 - ⭐4.5
-4. 코스트코 깐메추리알 1kg 3 메추리알 장조림 아기반찬 - 24,830원 - ⭐4.3
-5. 매일유업 요미요미 유기농과자 초록2단계 25GX3봉/아기간식 - 10,000원 - ⭐4.6
-6. 머거본 베이비스타 라멘 치킨맛 - 1,500원 - ⭐4.7
-7. 핑크퐁 아기상어 자일리100 40g - 2,600원 - ⭐4.6
-8. 타마고보로 120g 계란과자 아기간식 핑거스낵 130g - 2,490원 - ⭐4.3
-9. 유기농산 오가닉스토리 유기농 베이비퍼프 사과야 25g 1개 - 2,460원 - ⭐5
-10. 오리온 후레쉬베리 아기펭귄 친구들 만들기 421g - 9,480원 - ⭐5
-11. 미니멈 뽀로로 비타민C 50정 유아동어린이비타민 - 2,500원 - ⭐4.5
-12. 핑크퐁 아기상어 자일리100 40g 1개/핀란드산 자일리톨 무설탕캔디 - 2,800원 - ⭐5
-13. 메이지 초코베이비 초콜릿 32g x 10개 한박스 - 16,950원 - ⭐4.8
-14. 오가닉스토리 유기농 쌀로 만든 사과 유아 떡튀밥 30g 5개 - 13,450원 - ⭐4
-15. 핑크퐁 핑크퐁 아기상어 식이대장 식이섬유 스틱젤리 30포 - 23,600원 - ⭐4.7
-16. 핑크퐁 핑크퐁 아기상어 식이대장 젤리 딸기맛 100g 푸룬함유 - 3,300원 - ⭐5
-17. 핑크퐁 핑크퐁 아기상어 비타톡톡 80포 키즈 자 톨 V - 23,750원 - ⭐4.7
-18. 핑크퐁 핑크퐁 핑크퐁 아기상어 자일리100 40g-10개 자일리톨캔디 - 26,400원 - ⭐4.3
-19. 신라명과 신라 과 브라우니쿠키 세트 선물용쇼핑백포함 유아동 종합쇼핑몰 - 25,800원 - ⭐2
-20. 더존건강 더조은 곡물그대로 21 크리스피롤 딸기 4봉 유아동 종합쇼핑몰 - 15,000원 - ⭐4.7
+2. 유기농산 오가닉스토리 유기농 베이비퍼프 사과야 25g 1개 - 2,460원 - ⭐5
+3. 해태제과 계란과자 핑크퐁 70g - 5,450원 - ⭐4.7
+4. 머거본 베이비스타 라멘 치킨맛 - 1,500원 - ⭐4.7
+5. 코스트코 깐메추리알 1kg 3 메추리알 장조림 아기반찬 - 26,030원 - ⭐4.3
+6. 핑크퐁 핑크퐁 아기상어 자일리100 40g - 8,400원 - ⭐5
+7. 메이지 초코베이비 초콜릿 32g x 10개 한박스 - 16,950원 - ⭐4.8
+8. 앙팡 밀크릿 220g 국산 우유사탕 밀크캔디 대략 100개입 아기사탕 - 7,560원 - ⭐4.5
+9. 핑크퐁 핑크퐁 아기상어 비타톡톡 80포 키즈 자 톨 V - 26,730원 - ⭐4.7
+10. 타마고보로 120g 계란과자 아기간식 핑거스낵 130g - 2,392원 - ⭐4.3
+11. 매일유업 요미요미 유기농과자 초록2단계 25GX3봉/아기간식 - 10,000원 - ⭐4.6
+12. 매일유업 요미요미 유기농과자 초록2단계 25GX8봉/아기간식 - 20,960원 - ⭐4.8
+13. 핑크퐁 아기상어 자일리100 40g - 2,600원 - ⭐4.6
+14. 오리온 후레쉬베리 아기펭귄 친구들 만들기 421g - 9,480원 - ⭐5
+15. 미니멈 뽀로로 비타민C 50정 유아동어린이비타민 - 2,500원 - ⭐4.5
+16. 핑크퐁 아기상어 자일리100 40g 1개/핀란드산 자일리톨 무설탕캔디 - 2,800원 - ⭐5
+17. 오가닉스토리 유기농 쌀로 만든 사과 유아 떡튀밥 30g 5개 - 13,450원 - ⭐4
+18. 핑크퐁 핑크퐁 아기상어 식이대장 식이섬유 스틱젤리 30포 - 23,600원 - ⭐4.7
+19. 핑크퐁 핑크퐁 아기상어 식이대장 젤리 딸기맛 100g 푸룬함유 - 3,300원 - ⭐5
+20. 핑크퐁 핑크퐁 핑크퐁 아기상어 자일리100 40g-10개 자일리톨캔디 - 26,400원 - ⭐4.3
 
 ---
 

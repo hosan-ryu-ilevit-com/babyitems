@@ -1,28 +1,26 @@
 # 신생아용 카시트 전문가 지식
 
-> 마지막 업데이트: 2026-02-09T07:27:07.207Z
+> 마지막 업데이트: 2026-02-10T05:39:09.314Z
 > 분석 상품: 19개 | 분석 리뷰: 3,517개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 안전 기능 강화 (측면 충격 보호, 에너지 흡수 소재 등)
-- 사용 편의성 증대 (쉬운 설치, 조절 가능한 하네스, 경량 디자인)
-- 다기능성 (회전 기능, 호환되는 유모차 등)
-- 강화된 측면 충돌 보호 기능: 2026년 12월 5일부터 신생아 및 컨버터블 카시트는 새로운 연방 규정에 따라 측면 충돌 테스트를 통과해야 합니다. 이는 T-본 충돌 시 어린이 보호를 강화하기 위한 조치입니다.
-- 인체공학적 디자인 및 다기능성: 사용 편의성을 높인 디자인이 주목받고 있습니다. 카시트 설치 및 아이를 태우는 과정을 간소화하고, 카시트 외부에서도 활용 가능한 헤드 및 바디 서포트 쿠션, 가벼운 무게, 휴대성, 세척 용이성 등이 강조됩니다.
+- ISOFIX 기능 강화
+- 360도 회전 기능
+- 측면 충돌 보호 기능 강화
 
 ### 구매자 만족 포인트
-- ✓ 높은 안전성
-- ✓ 편안한 각도 조절
-- ✓ 편리한 설치 및 사용
-- ✓ 다양한 브랜드 및 가격대
+- ✓ 안전성
+- ✓ 편의성
+- ✓ 휴대성
+- ✓ 경제성 (컨버터블 카시트 대비)
+- ✓ 유모차 호환성
 
 ### 주의해야 할 단점
-- ⚠ 비교적 짧은 사용 기간 (바구니형)
-- ⚠ 높은 가격대 (프리미엄 브랜드)
-- ⚠ 부피 및 무게 (일부 모델)
-- ⚠ 국내 시장의 획일적인 제품 구성 및 높은 가격
+- ⚠ 짧은 사용 기간
+- ⚠ 무게 (휴대 시)
+- ⚠ 높은 가격대 (일부 모델)
 
 ### 가격대 인사이트
 
@@ -234,6 +232,6 @@
 ---
 
 ## 📊 데이터 출처
-- [sarahknowsherstuff.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0p2cyYg2e4jX926s9sgBIUh7zXSLpHxZxEp5SAjszlV-XOeJAXtrEkshKxRkUgUI6wLD11eAXMl0jEH8mWbUwgBuUzaph2dAzT9ooUeoSSt4IPLW_W2qMxcpGg4pOPVfLN5zg3pmJX42gnxNE327lCjv8zF5q-giTkNEND6aEovroCMy6OtuM1hhp3TWvGezUSA-T2G9wJHz7rEuDytILejIMwSzytQ2Me7VPd-e3HLUL1yAxq-6x)
-- [babylist.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFzER7g4tVT6xYPIkdXhZOgX7R3ye42Qad2JqZZJonh4IHqKXBXwAlIwzR6a86hcckndOCkJIH7JeEkTdAN7TcXno55WCk-cvS_J6VfrOmlgIBoJ9lRBgHd3UxyRysOBw1NvnRZIZkHntEfW5YFvFw5G6rpCb6cM3Hf7cq9znHPOjIx_pM=)
-- [statsmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNoxh4ZU2e5Y2aKxbp7G8dXnWWU2tpxPwQcfb82BhWSTQYHl_P0mc81CTx3_6rVEP-v7HAG0HpVWu0EsSTYkOs7ruaMssI9LSkgYdZcmIjwD2s8gNNi_cE9fGuafaag8bJhdh4mkOcGhtyfWWbbRWbgW8CKxzmHxoQqbivW_JaD1Nxn-ALayGwPMwkGw4rdWwsNUZmtY9K2wwN)
+- [babyenroute.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQK9p5CjGl2P6491KAenW5nX0QOzw8PsjjEoh4zWt7weH0qlfk9ndii0cz6v14yF5RiaFpw6JSkfBJvCzsvOXBNggF8_TNLOp1la0Eny7EVgX2siIrd8-HeuXsvNHDa5y-9BSkKApA21fSVwB7EBG2zEZ-UxdNHA6SIdEFfN9G8Q-DNm2q)
+- [chungnam.go.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEF5sHTCdTdZx0lU8e4Mmh-dgQbOaX4GU_rYRGJpu_aSOCsd_q9UY1o10nfYcmNhUT-Zs_QfEK45EBFwiVKPSGJYnDAF2KREk_AxTEAS7DvMswgijhu-pkP7t5-nETvXGs7zKZWVVfBtrYz8jwQ3Wo9AFAG-MxuZavBqukPsLetVd8kaCQX1q1RSbYbltlw279eHp0BGGuyQEzgc8h9EtUwJR39lyBMeaFjrXS0F-xLyr5I66Zeybbfy9tC3rToGO6Gnl8VbpWoILljUWjy53oQ2EtPmUxbt5ERjMHNMaA=)
+- [naturalbabyshower.co.uk](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGmjv3X0coCZ0KEWe4KZ4T9l3G1TH98-B-Cn6PD8nEZNtYxJEOGIOQSxA6CtYO34wxrHYD1qYUtFVkE78k-rd3F9Ky0U1QUOs6vZT8zQPn4NaDhwu2-VGmHgDVbiiVkuw3rvLLAGlPlz3CQlVi4eWLBrEeWBB-c_pMnyyzqAckHQGIDaW577RM68Cqd)
