@@ -262,6 +262,31 @@ function RealTimeTimer({ startTime }: { startTime: number }) {
 }
 
 /**
+ * 상품 썸네일 칩 (렌더 함수 바깥에 정의하여 안정적인 컴포넌트 참조 유지)
+ */
+function ProductThumbnailChip({ thumbnail }: { thumbnail: string | null }) {
+  if (!thumbnail) {
+    return <div className="w-full h-full bg-gray-100" />;
+  }
+
+  return (
+    <img
+      src={thumbnail}
+      alt=""
+      width={32}
+      height={32}
+      loading="lazy"
+      decoding="async"
+      className="w-full h-full object-cover"
+      onError={(e) => {
+        const target = e.target as HTMLImageElement;
+        target.style.display = 'none';
+      }}
+    />
+  );
+}
+
+/**
  * 인기상품 분석 컨텐츠 - 상품 리스트 형식 + 필터 정보
  */
 function ProductAnalysisContent({
@@ -339,28 +364,6 @@ function ProductAnalysisContent({
       keywords.some((keyword) => lower.includes(keyword.toLowerCase()))
     );
     return match?.icon || null;
-  };
-
-  const ProductThumbnailChip = ({ thumbnail }: { thumbnail: string | null }) => {
-    if (!thumbnail) {
-      return <div className="w-full h-full bg-gray-100" />;
-    }
-
-    return (
-      <img
-        src={thumbnail}
-        alt=""
-        width={32}
-        height={32}
-        loading="lazy"
-        decoding="async"
-        className="w-full h-full object-cover"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.style.display = 'none';
-        }}
-      />
-    );
   };
 
   return (
