@@ -5690,7 +5690,9 @@ export default function KnowledgeAgentPage() {
             {(() => {
               // 꼬리질문이 있으면 꼬리질문을 우선 사용
               if (inlineFollowUp) {
-                // 꼬리질문에서는 선택이 있어도 버튼 표시
+                // 맞춤질문과 동일하게, 1개 이상 선택되면 "잘 모르겠어요" 버튼 숨김
+                if (hasInlineFollowUpSelection) return null;
+
                 return (
                   <div className="fixed inset-x-0 bottom-0 pointer-events-none z-[112]">
                     <div className="max-w-[480px] mx-auto w-full relative">

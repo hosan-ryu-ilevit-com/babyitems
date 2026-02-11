@@ -267,7 +267,7 @@ export function FinalRecommendLoadingView({
 
     const scheduleDecay = () => {
       if (!active) return;
-      const delay = 260 + Math.floor(Math.random() * 61); // 260~320ms
+      const delay = 390 + Math.floor(Math.random() * 91); // 390~480ms
       timeoutId = setTimeout(() => {
         setVisibleThumbCount((prev) => {
           if (prev <= MIN_VISIBLE_THUMBNAILS) return prev;
