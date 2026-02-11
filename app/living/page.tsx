@@ -134,18 +134,41 @@ export default function LivingHome() {
     router.push('/knowledge-agent/living');
   };
 
+  const handleBack = () => {
+    const historyState = window.history.state as { idx?: number } | null;
+    const canGoBack = typeof historyState?.idx === 'number' && historyState.idx > 0;
+
+    if (canGoBack) {
+      router.back();
+      return;
+    }
+    router.replace('/living');
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
       <div className="max-w-[480px] mx-auto min-h-screen flex flex-col relative">
         {/* 헤더 */}
-        <header className="h-[54px] flex items-center px-5 sticky top-0 z-50 bg-[#FBFBFD]">
-          <Image
-            src="/images/img-logo2-ai3.svg"
-            alt="가전 AI 로고"
-            width={47}
-            height={25}
-            priority
-          />
+        <header className="h-[54px] flex items-center justify-between px-5 sticky top-0 z-50 bg-[#FBFBFD]">
+          <button onClick={handleBack} className="p-2 -ml-2">
+            <Image
+              src="/icons/back.png"
+              alt="뒤로가기"
+              width={20}
+              height={20}
+              priority
+            />
+          </button>
+          <div className="flex items-center">
+            <Image
+              src="/images/img-logo2-ai3.svg"
+              alt="가전 AI 로고"
+              width={47}
+              height={25}
+              priority
+            />
+          </div>
+          <div className="w-10" />
         </header>
 
         {/* 메인 컨텐츠 */}

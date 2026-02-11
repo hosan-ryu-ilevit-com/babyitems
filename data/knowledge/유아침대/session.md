@@ -1,5 +1,5 @@
-# 세션: 20260211_040109_obls
-> 시작: 2026-02-11T04:01:09.632Z
+# 세션: 20260211_073210_4mj8
+> 시작: 2026-02-11T07:32:10.356Z
 > 카테고리키: 유아침대
 > 카테고리: 유아침대
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아침대 시장 현황
-- 인사이트: 유아 침대 시장은 출산율 증가와 유아 안전에 대한 인식 증대로 꾸준히 성장하고 있습니다. 부모들은 내구성이 뛰어나고 안전하며 미학적으로 만족스러운 침대를 선호하며, 특히 목재 소재와 전통적인 디자인에 대한 수요가 높습니다. 스마트 기술이 접목된 유아 침대도 인기를 얻고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFVaidL6n6GzXRCX0aDX1nlYNcWTyzfd6s7rb1I1FE85IIRx3XZaatZm9GAxJoGA_dmLhzftR6GXaA81PKthPoJ3i85nyvKWorjgSQGi-A5-_A--VjtTWwYcw5sbFIFKtrVwxtNvSJ2f-pGlQkLja9eMoBm9Y2qR0FH77-mt4Xl0AZF-S0soyHcKpUMzYEvaJ9VKc9A01qt6pNXwR_8LxgRrHQ8Q8B26URTODE1I_vCSUoIVXhVKpVOpSJlw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNMHAeHoPBiuzCpavOoKo0GHy6w1sXq5Mbq-nuAf8O9u4Cr9idshuS5hNA3N_qFF_Ij37RNBefrJRfdD3diDLTYjLsULzz3aZkKks7EBa751im5KAhs7c0I9Z-YGl4xCB-ILjfN5KJumyDZLVwYJOwm9caKUukllqrYiQPQQI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUeUyG2xHiuwn46KXBGFjIsqGxb4ioLedxr1caBuzCYYncMZq-EhrGhuFS_a3hXLDQ_aNTSNnkXniDyQM8-cFutBq7HWL-lxg50tbHHY7-uEbsLcttu3AMqXDmqbXCEoKbT7cU20Yz172oW6vcjyMECEHVEnUz2PyU5pw4nP5ojERckiqbjwM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElDBtKv7bj57TuqXqT7_detRP8Q5iMiNGfBsaxLui1eg16VK4cAaInnBNDu9oQa1pC0dIJ82MjuZvG8-HNDkJ9JQ40Pr-oFM64Siy-6voyg8NWpym4IkC-VPEbjWZ6EjqV_lqjqN71SKxLJmfLFK3ObtsJMAKN93VYFPPcTBZgxprq_Yo8ps6ezb4_qqisqz8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHatOa92tj3NTl6pFiu2XrgjP4MZ--3PQr3dU2yWngLmfTgThym7qeEN3EVCyPS37EGMsyYURAmjrIv5yB4bGzw61zpPCJiJL-s8XPr1SBJfj-miBeV8FSyVouzzYgbLdpsZCPV4ZcPFid6YV1utgjeX3jJm1DDGMCckl9qTfWgxokad3FM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVbn2riTXNqBlp_TPVpQyZ2982Iq2yQd8pNHSmV8NA7ahVEPWpJk6vD1Wfe2I3n-MHJJKOMSDichobJZtc_F6eY9ztA1PImTfeuGe4iUMNZNYPjZ2-QUpRpzf6SDDC_MRuPzj-HMo=
+- 인사이트: 유아 침대 시장은 출산율 증가, 유아 안전에 대한 인식 증대, 고품질 유아용 가구 선호도 증가에 힘입어 꾸준한 성장을 보이고 있습니다. 부모들은 내구성이 뛰어나고 무독성이며 미적으로 만족스러운 침대를 선호하며, 특히 목재와 전통적인 디자인에 대한 수요가 높습니다. 전문 유아용품 매장이 주요 유통 채널로 남아 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGJvXNbCkKpSBXzLP4ahKKWN3oeXitRVFtT6iATDXvWF1TiFNCnL-PUz17DODW2_88rJMntSfuq1iYqGxoChIAt4OfV7rNoCPyYjdPJIKhtNdlpJ73H7gIGscVuR1g6kzvt5YEurH2HXu_qON9jR-muMBpqh42gETC2ogw-jx_-cmDUeIlW8iaRGOGYaZDvgsLuBQgg2BpjsaIavAUjlUFJ1dHhFSp5kvgU1TdjBb0loRevHcK2dYQIM9io
 
 ---
 
@@ -16,6 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
+| 기존 아기 침대 옆으로 이동 시 삐걱거림 때문에 불편하셨군요. 혹시 침대 이동 시 소음은 어느 정도까지 신경 쓰이시나요? | 낮은 소음 (미세한 소리) |
+| 어떤 형태의 아기 침대를 찾으시나요? | 일반 아기 침대 (가드형) |
+| 아기 침대의 소재는 어떤 것을 선호하시나요? | 원목 |
+| 아기 침대의 높이 조절 기능은 어느 정도 필요하신가요? | 다단계 높이 조절 |
+| 아기 침대를 이동하거나 보관할 필요가 있으신가요? | 접이식/휴대 가능 |
+| 유아침대 예산은 어느 정도로 생각하세요? (평균 33만원, 23만원~43만원대가 가장 많아요) | 43만원대 |
 
 ---
 

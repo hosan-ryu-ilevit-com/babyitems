@@ -1940,117 +1940,6 @@ ${productList}
   return results;
 }
 
-// ============================================================================
-// 🆕 LLM 기반 카테고리 사전 필터링 (액세서리/소모품 제외)
-// - flash-lite + 대용량 배치(20개) + 고병렬(10) = 빠른 처리
-// - 키워드 매칭보다 정확한 LLM 판단
-// ============================================================================
-const CATEGORY_FILTER_MODEL = 'gemini-2.5-flash-lite';
-const CATEGORY_FILTER_BATCH_SIZE = 20;  // 배치당 20개 제품
-const CATEGORY_FILTER_MAX_CONCURRENT = 10;  // 동시 10개 배치
-
-interface CategoryFilterResult {
-  pcode: string;
-  isMainProduct: boolean;
-}
-
-async function filterByCategoryWithLLM(
-  candidates: HardCutProduct[],
-  categoryName: string
-): Promise<HardCutProduct[]> {
-  if (!ai || candidates.length === 0) {
-    return candidates;
-  }
-
-  const startTime = Date.now();
-  console.log(`[CategoryFilter] 🚀 LLM 카테고리 필터 시작: ${candidates.length}개 제품`);
-
-  const model = ai.getGenerativeModel({
-    model: CATEGORY_FILTER_MODEL,
-    generationConfig: {
-      temperature: 0.1,  // 낮은 온도로 일관된 판단
-      maxOutputTokens: 800,
-      responseMimeType: 'application/json',
-    },
-  });
-
-  // 배치 처리 함수
-  const processBatch = async (batch: HardCutProduct[], batchIndex: number): Promise<CategoryFilterResult[]> => {
-    const productList = batch.map((p, i) =>
-      `${i + 1}. [${p.pcode}] ${p.brand || ''} ${p.name}`
-    ).join('\n');
-
-    const prompt = `## "${categoryName}" 카테고리 제품 분류
-
-제품 목록:
-${productList}
-
-## 판단 기준
-- **해당 카테고리 (Y)**: "${categoryName}" 제품 자체 (해당 카테고리로 판매되는 본품)
-- **해당 카테고리 아님 (N)**:
-  1. **다른 카테고리 제품**: 포대기, 아기띠, 수면벨트, 보호대, 방한용품 등 "${categoryName}"이 아닌 별도 카테고리 제품
-  2. **액세서리/소모품**: 커버, 시트, 부품, 교체용, 리필, 패드, 매트, 케이스, 장난감, 젖꼭지, 세정제 등
-
-핵심: "${categoryName}"으로 검색했을 때 나올 법한 본품만 Y. 이름에 "${categoryName}" 관련 키워드가 없거나 완전히 다른 종류의 제품이면 N.
-
-## 응답 (JSON만)
-{"results":[{"pcode":"코드","y":true/false}]}
-
-⚠️ 애매하면 N으로 판단 (다른 카테고리 제품 유입 방지)`;
-
-    try {
-      const result = await model.generateContent(prompt);
-      let text = result.response.text().trim();
-      text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
-
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]) as { results: Array<{ pcode: string; y: boolean }> };
-        if (parsed.results && Array.isArray(parsed.results)) {
-          return parsed.results.map(r => ({
-            pcode: String(r.pcode).trim(),
-            isMainProduct: r.y === true,  // 명시적 true만 통과
-          }));
-        }
-      }
-    } catch (error) {
-      console.error(`[CategoryFilter] Batch ${batchIndex + 1} error:`, error);
-    }
-
-    // 실패 시 모두 제외 (다른 카테고리 제품 유입 방지)
-    console.warn(`[CategoryFilter] ⚠️ Batch ${batchIndex + 1} 실패 - ${batch.length}개 제품 제외 처리`);
-    return batch.map(p => ({ pcode: p.pcode, isMainProduct: false }));
-  };
-
-  // 배치 분할
-  const batches: HardCutProduct[][] = [];
-  for (let i = 0; i < candidates.length; i += CATEGORY_FILTER_BATCH_SIZE) {
-    batches.push(candidates.slice(i, i + CATEGORY_FILTER_BATCH_SIZE));
-  }
-
-  // 고병렬 처리
-  const allResults: CategoryFilterResult[] = [];
-  for (let i = 0; i < batches.length; i += CATEGORY_FILTER_MAX_CONCURRENT) {
-    const concurrentBatches = batches.slice(i, i + CATEGORY_FILTER_MAX_CONCURRENT);
-    const batchResults = await Promise.all(
-      concurrentBatches.map((batch, idx) => processBatch(batch, i + idx))
-    );
-    allResults.push(...batchResults.flat());
-  }
-
-  // 본품만 필터링
-  const mainProductPcodes = new Set(
-    allResults.filter(r => r.isMainProduct).map(r => r.pcode)
-  );
-  const filtered = candidates.filter(c => mainProductPcodes.has(c.pcode));
-
-  const elapsed = Date.now() - startTime;
-  const removedCount = candidates.length - filtered.length;
-  console.log(`[CategoryFilter] ✅ 완료 (${elapsed}ms): ${removedCount}개 제외 (${candidates.length} → ${filtered.length}), ${batches.length}배치`);
-
-  return filtered;
-}
-
 /**
  * 120개 후보에서 사전 스크리닝 (규칙 기반)
  * - matchScore(사용자 선택 기반) 우선 + 리뷰/평점 보조
@@ -2916,19 +2805,8 @@ export async function POST(request: NextRequest) {
       console.log(`[FinalRecommend] 🗑️ 리뷰 0개 제품 제외: ${filteredOutCount}개 (${candidates.length} → ${candidatesWithReviews.length})`);
     }
 
-    // ============================================================================
-    // 🆕 LLM 기반 카테고리 사전 필터링 (액세서리/소모품 제외)
-    // - flash-lite + 대용량 배치(20개) + 고병렬(10) = 빠른 처리
-    // - 키워드 매칭보다 정확한 LLM 판단
-    // ============================================================================
-    let candidatesFiltered = await filterByCategoryWithLLM(candidatesWithReviews, catName);
-
-    // 카테고리 필터 후 후보가 너무 적으면 원본 사용 (최소 5개 보장)
-    const MIN_CANDIDATES_AFTER_FILTER = 5;
-    if (candidatesFiltered.length < MIN_CANDIDATES_AFTER_FILTER && candidatesWithReviews.length >= MIN_CANDIDATES_AFTER_FILTER) {
-      console.warn(`[FinalRecommend] ⚠️ 카테고리 필터 후 ${candidatesFiltered.length}개만 남음 → 원본 ${candidatesWithReviews.length}개 사용`);
-      candidatesFiltered = candidatesWithReviews;
-    }
+    // 카테고리 필터링은 hard-cut 단계에서 이미 처리됨 (filterByCategoryLLM)
+    const candidatesFiltered = candidatesWithReviews;
 
     // ============================================================================
     // 1단계: Top N 상품 선정 + FilterTags 생성 (병렬 실행) 🚀

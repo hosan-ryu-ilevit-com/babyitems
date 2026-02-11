@@ -1,5 +1,5 @@
-# 세션: 20260210_055137_9r0r
-> 시작: 2026-02-10T05:51:37.103Z
+# 세션: 20260211_080223_2lkk
+> 시작: 2026-02-11T08:02:23.416Z
 > 카테고리키: 유아 손톱깎이
 > 카테고리: 유아 손톱깎이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아 손톱깎이 시장 현황
-- 인사이트: 유아 손톱깎이는 아기의 섬세한 손톱을 안전하고 정밀하게 관리하는 데 필수적인 육아용품입니다. 최근에는 안전성, 휴대성, 위생을 고려한 다양한 디자인의 제품들이 출시되고 있으며, 친환경 소재를 사용한 제품들도 주목받고 있습니다. 시장은 지속적인 성장세를 보이며, 기술 발전과 함께 더욱 혁신적인 제품들이 등장할 것으로 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHXkfWvmnF-0JMaO1o0kTROcEONb9yT2_b2mxSpY4ltm11K5bZtnQPXTIeIc8F_KRc7N20pA_yyWDUm1ZwHiIKq1CTtToWwGmaXGuzldXQ24XOqHtgcElBsvfN3k36NyqK8_rDrkg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQER7IWyBvkfX8IgQeoJaesPw1tVQD4IR-NbBFQoVARXOZQfIYQPh9Bmb3-8jd-D852W6Q9N56sybn7v_Mje-caWoaXpiKzH8IDNuQd21GXxtqYIogiOfMb-zyfHD1VuS-gbR-df9RNK8etWkQ66BA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyEVBv2mk1vdGF6w3XdZGgz5GMoxanpPlXKIZ79bFY6YVEfbKJeJiJAmC3VCwSEfdtwu3hUTBHttR46yhg_6eaH3gCeRqu4iTj9hqIwvz5ocDs9FcqIRc133ZCAHkyfCgtxuH7VsQdQXc7vcGsgGzLOD2mPT66YnXYcsTGgqdgieNfkFKl0557
+- 인사이트: 
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYqKrJjAh68-1a8gr202NhThzajo16zfuqs5nlGgcBs3XhxG8axKsK0cx-SA8NziaOam4ny9bjfGYu8zrhe701d0ch1JpGtPehQJ666NRzZI6Iwe0rD5EPenbwnrPSnk9sAVCUR72x2OJNE1X3owthTcbaT6B0kypcCadLVcgoukHnI-IMwshooQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH0sZUVoSia07k5nZALAk13qMYNdXCRHtNy0DOf3PYKjiGvp9iBmmlrHx550e33Kr4lpK853EBbXOXac_0VgkdV3Gq7CVJv5QrdrVBZWYzVGf2cbCxqRQYvheNy3H6Qa_tFEvELcKKTBVTY_KMQo204d_BphEbnAaE3gZ71rXvUjiPcKgxmMwAxCP6XEt4=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHUYk6s2Nd2wmdTqneiopiFAR-mJRdLiy7VrS5fJDG3rov_8hA0EanZB-4JK1U_74CojxFCy8ZFLgi26hIh23AiXQqFAFhIuIqvtm9Hy7tBYqzAusi_EfXq3V7cVsiGrnxXQzRzkf8uBElc5ohQXx-Ig2riQ06Fl7prA0xNL3OJMPj_pIOIH5sjRJr2Q1fdB-F94oHCrdVnzObvZcu4ay0dLAKsl1zBPcz4aLf-5aF_vLzG9LWqvO07BOEOFnMqTw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4QE0iv-7ECLQVuT5N3Lc9_V2hrgQYCgABBaVZNv7WDGPDvpHiT0jMuHThmrGFFsvBUBPtAvnylpd2opoewZUtIFIj57xLo572V00kG6aZjIN2vDVo3yBDIbTp-dEdJVKjDNGO5ps=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE974z0CxVzSUwRyhksd5bc7yegY7DoL3u7k3EVBkls8VcP1Gk4P5WR8OQ09bv4A0NQ6N8_hGzlqLHbw3RlPrguGiCHMiGfja35v3J6rKl7LLQEDiT4m-04PZth10smmBNu71PZEvsDoStn2kkzK187bWRyisz3fV-Faqt_7W8N2dJn3A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGK6uCS8L8TT0uPns9eDzLWcbbroeL1m9pO15AAYZ497dqq7G7zKig9ZkiFg9VPoY8lWoh8VcG-Fw5pNJ4NNupLFkk1bkLtJcqaHT8JwfxLoDvHmUGYg1YjxVAfMIDk3qDdEkchqsx1C7WXITbrDCGijJ6YzrLL
 
 ---
 

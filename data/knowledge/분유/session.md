@@ -1,5 +1,5 @@
-# 세션: 20260210_134713_czb7
-> 시작: 2026-02-10T13:47:13.956Z
+# 세션: 20260211_065245_y7vg
+> 시작: 2026-02-11T06:52:45.556Z
 > 카테고리키: 분유
 > 카테고리: 분유
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 분유 시장 현황
-- 인사이트: 국내 분유 시장은 저출산으로 인해 전체 규모는 감소하는 추세이나, 프리미엄 제품을 중심으로 경쟁이 치열해지고 있습니다. 특히, 수입 분유의 인기가 높아지고 있으며, 온라인 채널의 성장이 두드러지고 있습니다. 또한, AI와 빅데이터를 활용한 개인 맞춤형 영양 추천 및 기술 발전을 통한 제품 안전성과 효능 향상이 중요한 동향으로 나타나고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-Unr2D2xyYzX8QOVbl4iw1QwPTTqXEPYvB3LXYhZrkwkIqQKQu6DLHJslsrcyQL21U3UcVAuZRYQue_6vwoK2CxttCZ7g8o-tI5yaqF9xdW3sgMch_xqYLGpaURa15e_R3j3cNazEYddaLrCFvkYfT2HjK5X8kfi-CE7y1vzbP5DB4MXRlboRmXB4HpLTMBfQ29OG, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqX87zA2Ohlnc8MDx-YWW8PAWzqYXCmpprJNhesGEt0hkB9Y0V797sFrtlIyTpVLHirOplmZTvqbvJTzZM5QimrJASOmNnOLFXcE81m6sK_YoPwCzToRcKDsFGB6p_5PGgr2hB54bnmouSYc2You7gMh4gQryA2yWHldoJadrer8ADQ8lxnN-MPkCLTrYFT6xfVdR80D1v, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYaAWBpPZK186PN02Rzl6xiMLCZqTg40w6zPJIexrE15rXpBiTW-8VVySQCusDQ6khNr7zDrvRXT1ofkS0K46qIW_ZbVPnZT2_DtYgOAjMak25OfT51JcjqJDmSEgV-Xo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPjL_peBkpDNrQFoE1PDDxm9bRLcDQrSeXNZFhDTWcDzYuMxu--i-3xbRrQIN-D5c7q6-VRMLpk2yuejaeZ_TZzqFt2UGBYNCzUfZDTSu7qdSqTTK0Y5WCEA7oLutSowhS8tZKA1zFG3Z86YLS3Ht0UaB9JgoNizgm7_zr3DenosQZe6ZsyyMqSVZLEBQWFkIin0DJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOopvrWg-Veax0dR8H74sxb1TDDG_AJSTYAaM6Mg7vvdUOYJsel5D75XOMEn5JTnpWMakdL82OqSV7dDKy0RMqbc62LD5oBwnt1Oeac6LYEEUInyNDGZr6rJFmPNTZ_t33pSUl3TdQfkh-_LpPYGsFcrH0H4PM22GKtksYnvSSPb_tmdomhZuf1jjfS9YjAqidicjk9A==
+- 인사이트: 최근 한국 분유 시장은 출산율 반등과 함께 프리미엄 제품 중심으로 소비가 살아나며 침체에서 벗어나는 추세입니다. 2016년 약 4700억 원 규모였던 시장은 2022년 3045억 원까지 축소되었으나, 최근 10년 만의 출산율 증가로 인해 1인당 소비 단가가 상승하며 새로운 성장 동력을 얻고 있습니다. 다만, 유럽 등 수입 분유의 점유율 확대도 동시에 이루어지고 있어 시장 재편이 예상됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMSJqwAtwJJX41zxzIvFAJIvsHBAis4j-JPXBG0GN0FYcDJSR1cLeVP60kAuJC0qkGtNPnD9V4Gt_MZ1SGCNozOjz-ObIq8Iqun01zmgZwVTNX4Fne_xo_gpJJyYqCUyE4bWWq_2a95GX0ZIrV46tbmw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvGegfWoWSUfOPXWjZ6FS65PcB_okPo4zw1wkjCZaqqOkN5OetESMyM-OztPc3HrySJYGi5zaIKP6IRlUN6zXukPauTWYLRqcaihP0xU7GTTJLLOX55rpFbiu32qMVA3T3N7QNvdf-QkmSQAYP_MiW2LNXxMYljdpcxhmZwkUYoUy8dYk3kEpsxmM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGTKRcZAFpg-iIfoLli5zizufjpP21INQkSfbhWxXB8q_n0C284DdrH_IlWyZR8iHDT-3PON5tloaqLKsxMgGpqbdkmm0IY7aHGuJiNt1qIJSETSRiMPDhH5ESu3Qsy5tHvaPU7xcWjVALkCSzwZrx_dDyM5TVr5z_JFxCi-Zrev05hAxDC9RnZMX73jwPbPPy8Yjpr, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE39OmxSxEuUdce0EbRF-92NtptC9V3F6O7Ohr3KEeJuT0giUsqAxe-ertsgnBHcLM9D2cUjdDY8BM3leFBVbB_j99XPqEimsvjJBuYOusfDmTdvoDXA0_Laqm0KdOmMHGyIMwdDYAnaZCujhDtHJIVgaUtwmnT6YVEyUmfS7xCTowZJWGcqCxwEAggVO10-yl1ePtWnOI=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBUSdhgsec9NwBEsAIAGDoZ8jozUA-ApLOVyLtf19pDYVX67CmTrm_-E1L8q_8mV4WGkpLSKaCz3bv7crj0tXW74zOXdiy_WDihGfwO-n80xGtwMuIqgg73-kE8Hu-6OAtMa_27CCWVCg_ZY8PrpZgrb1SgiAYWoglaQHkYhcqhziWOmpWhUOZJy6WYcCh1cv8-l3M9bXL
 
 ---
 
@@ -16,11 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
-| 기존 분유가 찬물에 잘 녹지 않고 비린내가 심했다면, 어떤 점을 가장 개선하고 싶으신가요? | 찬물에도 잘 녹는 용해도 |
-| 아기에게 어떤 종류의 분유를 찾으시나요? | 일반 분유 (가장 보편적) |
-| 분유의 단백질은 어떤 원료를 선호하시나요? | A2 우유 단백질 (소화 용이) |
-| 분유의 지방은 어떤 원료를 선호하시나요? | 팜유 무첨가 |
-| 아기에게 추가적으로 필요한 기능성 성분이 있나요? | 유산균/프리바이오틱스 (장 건강) |
+| 기존 분유가 찬물에 잘 녹지 않고 젖병에 찌꺼기가 남는 불편함이 있으셨군요. 분유가 물에 얼마나 잘 녹는 것이 중요하신가요? | 찬물에도 뭉침 없이 잘 녹아요 (빠른 용해) |
+| 분유가 물에 얼마나 잘 녹는 것이 중요하신가요? | 찬물에도 뭉침 없이 잘 녹아요 (빠른 용해) |
+| 분유의 단백질은 어떤 원료를 선호하시나요? | 산양유 단백질 (저자극), A2 단백질 (소화 용이) |
+| 분유의 원산지나 제조사에 대해 어떤 점을 중요하게 생각하시나요? | 국내 생산/유명 제조사 |
+| 아기의 특정 증상 완화를 위해 고려하는 기능성 성분이 있나요? | 장 건강 개선 (유산균, 프리바이오틱스 등), 뇌 발달 강화 (DHA/ARA 등) |
 | 예산은 어느 정도로 생각하세요? (평균 약 7만 9천원, 4만 8천원 ~ 10만원대가 가장 많아요) | 5만원 ~ 10만원대 |
 
 ---

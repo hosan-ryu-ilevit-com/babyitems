@@ -436,6 +436,83 @@ function calculateProductScore(
   };
 }
 
+// ============================================================================
+// LLM 카테고리 필터 (다른 카테고리 제품 제거)
+// - 소풍가방, 포대기 등 해당 카테고리가 아닌 제품을 빠르게 걸러냄
+// ============================================================================
+async function filterByCategoryLLM(
+  categoryName: string,
+  products: HardCutProduct[]
+): Promise<HardCutProduct[]> {
+  if (!ai || products.length === 0) return products;
+
+  const startTime = Date.now();
+  const model = ai.getGenerativeModel({
+    model: 'gemini-2.5-flash-lite',
+    generationConfig: {
+      temperature: 0.1,
+      maxOutputTokens: 800,
+      responseMimeType: 'application/json',
+    },
+  });
+
+  // 배치 처리 (20개씩)
+  const BATCH_SIZE = 20;
+  const batches: HardCutProduct[][] = [];
+  for (let i = 0; i < products.length; i += BATCH_SIZE) {
+    batches.push(products.slice(i, i + BATCH_SIZE));
+  }
+
+  const validPcodes = new Set<string>();
+
+  await Promise.all(batches.map(async (batch, idx) => {
+    const productList = batch.map((p, i) =>
+      `${i + 1}. [${p.pcode}] ${p.brand || ''} ${p.name}`
+    ).join('\n');
+
+    const prompt = `## "${categoryName}" 카테고리 제품 분류
+
+제품 목록:
+${productList}
+
+## 판단 기준
+- **Y**: "${categoryName}" 카테고리에 해당하는 제품 (본품)
+- **N**: 다른 카테고리 제품 (포대기, 가방, 수면벨트, 보호대, 방한용품 등) 또는 액세서리/소모품 (커버, 부품, 리필 등)
+
+핵심: "${categoryName}"으로 검색했을 때 나올 법한 본품만 Y.
+
+## 응답 (JSON만)
+{"results":[{"pcode":"코드","y":true/false}]}
+
+⚠️ 애매하면 N으로 판단`;
+
+    try {
+      const result = await model.generateContent(prompt);
+      let text = result.response.text().trim();
+      text = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]) as { results: Array<{ pcode: string; y: boolean }> };
+        if (parsed.results && Array.isArray(parsed.results)) {
+          for (const r of parsed.results) {
+            if (r.y === true) validPcodes.add(String(r.pcode).trim());
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`[HardCut CategoryFilter] Batch ${idx + 1} error:`, error);
+      // 실패 시 해당 배치 제외 (안전하게)
+    }
+  }));
+
+  const filtered = products.filter(p => validPcodes.has(p.pcode));
+  const removedCount = products.length - filtered.length;
+  console.log(`[HardCut CategoryFilter] ✅ ${removedCount}개 제외 (${products.length} → ${filtered.length}) in ${Date.now() - startTime}ms`);
+
+  return filtered;
+}
+
 /**
  * 상품 스펙에서 고유 키워드 추출
  */
@@ -540,9 +617,14 @@ export async function POST(request: NextRequest) {
       };
     });
 
-    // 4. 점수순 정렬 후 상위 N개 선별 (항상 targetCount개 보장)
+    // 4. 카테고리 필터링 + 점수순 정렬 후 상위 N개 선별
     scoredProducts.sort((a, b) => b.matchScore - a.matchScore);
-    const filteredProducts = scoredProducts.slice(0, targetCount);
+
+    // 4-1. LLM 카테고리 필터 (다른 카테고리 제품 제거)
+    const categoryFiltered = await filterByCategoryLLM(categoryName, scoredProducts);
+    // 필터 후 너무 적으면 원본 사용
+    const effectiveProducts = categoryFiltered.length >= targetCount ? categoryFiltered : scoredProducts;
+    const filteredProducts = effectiveProducts.slice(0, targetCount);
 
     // 점수 분포 로그
     const lowScoreCount = scoredProducts.filter(p => p.matchScore < 30).length;
