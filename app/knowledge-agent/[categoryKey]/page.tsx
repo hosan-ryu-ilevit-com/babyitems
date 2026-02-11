@@ -1467,6 +1467,26 @@ export default function KnowledgeAgentPage() {
   // 인라인 꼬리질문 핸들러
   // ============================================================================
 
+  const INLINE_FOLLOW_UP_HISTORY_KEY = '__inline_followup_history__';
+
+  const parseInlineFollowUpHistory = (raw: string | undefined): Array<{ question: string; options: string[] }> => {
+    if (!raw) return [];
+    try {
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .filter((item: any) => item && typeof item.question === 'string')
+        .map((item: any) => ({
+          question: item.question,
+          options: Array.isArray(item.options)
+            ? item.options.filter((opt: any) => typeof opt === 'string')
+            : [],
+        }));
+    } catch {
+      return [];
+    }
+  };
+
   // 꼬리질문 생성 요청
   const fetchInlineFollowUp = useCallback(async (questionText: string, userAnswer: string, questionId?: string) => {
     // 예산 질문은 꼬리질문 없음 (브랜드 질문은 API에서 별도 처리)
@@ -1484,6 +1504,7 @@ export default function KnowledgeAgentPage() {
     const remainingQuestions = questionTodos
       .filter(q => !q.completed && q.id !== questionId)
       .map(q => ({ question: q.question, options: q.options.map(o => o.label) }));
+    const previousFollowUps = parseInlineFollowUpHistory(collectedInfo[INLINE_FOLLOW_UP_HISTORY_KEY]);
 
     setIsLoadingInlineFollowUp(true);
     try {
@@ -1499,6 +1520,7 @@ export default function KnowledgeAgentPage() {
           onboarding: onboardingData,
           babyInfo,
           remainingQuestions,
+          previousFollowUps,
         }),
       });
 
@@ -4879,10 +4901,23 @@ export default function KnowledgeAgentPage() {
     ]);
 
     // collectedInfo에 추가
-    setCollectedInfo(prev => ({
-      ...prev,
-      [`${originalQuestion}_추가정보`]: label,
-    }));
+    setCollectedInfo(prev => {
+      const history = parseInlineFollowUpHistory(prev[INLINE_FOLLOW_UP_HISTORY_KEY]);
+      const nextHistory = inlineFollowUp
+        ? [
+          ...history,
+          {
+            question: inlineFollowUp.question,
+            options: inlineFollowUp.options.map(o => o.label),
+          },
+        ]
+        : history;
+      return {
+        ...prev,
+        [`${originalQuestion}_추가정보`]: label,
+        [INLINE_FOLLOW_UP_HISTORY_KEY]: JSON.stringify(nextHistory),
+      };
+    });
 
     // 꼬리질문 Q&A를 캡처 (inlineFollowUp 클리어 전에)
     const followUpQA = inlineFollowUp ? { question: inlineFollowUp.question, answer: label } : undefined;
@@ -4942,6 +4977,23 @@ export default function KnowledgeAgentPage() {
         timestamp: Date.now(),
       },
     ]);
+
+    // 스킵한 꼬리질문도 히스토리에 기록 (중복 재생성 방지)
+    setCollectedInfo(prev => {
+      if (!inlineFollowUp) return prev;
+      const history = parseInlineFollowUpHistory(prev[INLINE_FOLLOW_UP_HISTORY_KEY]);
+      const nextHistory = [
+        ...history,
+        {
+          question: inlineFollowUp.question,
+          options: inlineFollowUp.options.map(o => o.label),
+        },
+      ];
+      return {
+        ...prev,
+        [INLINE_FOLLOW_UP_HISTORY_KEY]: JSON.stringify(nextHistory),
+      };
+    });
 
     setInlineFollowUp(null);
     setHasInlineFollowUpSelection(false);
@@ -5127,6 +5179,15 @@ export default function KnowledgeAgentPage() {
   // 현재 활성화된 질문의 선택된 옵션 개수 확인
   const activeQuestion = [...messages].reverse().find(m => m.role === 'assistant' && (m.options || m.negativeFilterOptions) && !m.isFinalized);
   const selectedCount = activeQuestion?.selectedOptions?.length || 0;
+  const questionGenerationStep = analysisSteps.find(step => step.id === 'question_generation');
+  const shouldShowOnboardingStepInInitLoading =
+    phase === 'loading' &&
+    questionGenerationStep?.status === 'pending';
+  const shouldShowStepIndicator =
+    (phase !== 'loading' || shouldShowOnboardingStepInInitLoading) &&
+    phase !== 'result' &&
+    phase !== 'free_chat';
+  const stepIndicatorPhase: Phase = shouldShowOnboardingStepInInitLoading ? 'onboarding' : phase;
 
   return (
     <div className="h-screen bg-[#F8F9FB] flex flex-col font-sans overflow-hidden">
@@ -5140,17 +5201,17 @@ export default function KnowledgeAgentPage() {
           </motion.button>
         </header>
 
-        {/* 스텝 인디케이터 (5단계) - 로딩/추천 완료/개인화 단계에서는 숨김 */}
+        {/* 스텝 인디케이터 (5단계) - init 초기 로딩(탑100/웹트렌드)에서는 기본 상황으로 유지 */}
         <AnimatePresence mode="wait" initial={false}>
-          {phase !== 'loading' && phase !== 'result' && phase !== 'free_chat' && (
+          {shouldShowStepIndicator && (
             <motion.div
-              key={`step-indicator-${phase}`}
+              key="step-indicator"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <StepIndicator currentPhase={phase} parentCategory={parentCategory} />
+              <StepIndicator currentPhase={stepIndicatorPhase} parentCategory={parentCategory} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -5168,7 +5229,6 @@ export default function KnowledgeAgentPage() {
                 key="phase-onboarding"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
               >
                 <OnboardingPhase
@@ -5195,7 +5255,6 @@ export default function KnowledgeAgentPage() {
                 key="phase-main-flow"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
                 transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
               >
           {/* 아기 정보 단계 비활성화: 가전과 동일하게 온보딩만 사용 */}

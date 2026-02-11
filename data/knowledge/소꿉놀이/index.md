@@ -1,26 +1,24 @@
 # 소꿉놀이 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T13:52:51.469Z
+> 마지막 업데이트: 2026-02-11T04:01:16.583Z
 > 분석 상품: 20개 | 분석 리뷰: 1,161개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 교육적 가치 중시
-- 다양한 역할 경험
-- 사회성 및 언어 능력 발달
-- 스마트기기 영향으로 인한 변화
+- 역할 놀이의 중요성 증대
+- 스마트 기기 사용 증가로 인한 놀이 방식 변화
+- 성별 고정관념 탈피한 놀이 문화 확산
 
 ### 구매자 만족 포인트
-- ✓ 정서적 안정
-- ✓ 사회성 발달
-- ✓ 언어 능력 향상
-- ✓ 창의력 및 상상력 증진
-- ✓ 역할 학습
+- ✓ 상징 조작 능력 발달
+- ✓ 역할 수행 능력 향상
+- ✓ 사회성 및 정서 발달
 
 ### 주의해야 할 단점
-- ⚠ 성 역할 고정관념 형성 가능성
-- ⚠ 스마트기기 선호 증가로 인한 참여 감소
+- ⚠ 스마트 기기 의존도 증가
+- ⚠ 현실 반영의 어려움
+- ⚠ 성별 고정관념 강화 (일부 제품)
 
 ### 가격대 인사이트
 
@@ -242,6 +240,6 @@
 ---
 
 ## 📊 데이터 출처
-- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHX-qcQyyTay2zjYRRLXIhT-QfucnZjrp89f31gpnBl619Rjd2oN2FEH2EsxNvH_mz58jdz7Ej_Ou5IchWLzRwi3F_Tl7SRQCbXNBiqFx4AeZ8bdGTijKg3en2VP4X8YQipk_6wKIvES64h9G3PM4gZAZpPMTehuSHZxm0IJHl91X6W5odJ-gq7)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFclhvgZnipKDUHh1EOPi1HCo-S2BBKwU78JA-vC9MEMFrCY1sNezXuJMRrBVafbRxBsBdIIiNkjFcvvmW7vkXhIy5VrzZkp16dn1ETBW-P0o3tCX6PaHpbKuEMSshqZb6YURKMuyuWBPXqJSoY72V-mFWnEwYwwzZbMEoUQAQuXefHoA3fCTBWEp69liQjChgrBv1qlU4LCGyVJyG203TwBu1EutBKcGNyRDm653xXQ8_hRfFrTWxjjhw84FRBPyGmLuwlDi7z5ntp8B8tQWo=)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLVpU37iY9ddFW0EAckx3EG3gGm8yFv0VnnCQ5lWSYzWn0i-XaNOPsyZMboULNNUESb9JbBSpY-zksDNhoB13nIAn3-yEwhTIgAPXlxxY6-iRhtbAGqQG4PLDwJOMrY8Y910KC9g==)
+- [chengjitoy.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbFnuSgo-EzXvXvMRFgi8M0L-BRszCsT97bG5cyr0fuAXZn0DqOGjpbQGG3eGqz8yB9LgajSWjrzZvEBMBCcLUFOU4KdpTYcviwIc-wIMbj9qbEKQ0XRTYFcaX_jKGwC3YFv9FTgJ7NVRSGH3v34JNCvlTv50F9iD5BYFFcpaLD2YEwKW_Hrwi)
+- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYBXBcqTvvIjDboL_M-2scMLCTc82lXm_udydyLctX8_AfzQwxm_HDgErRPAlL674ftPjSjFieKDhjliAKYR4GASHGkqd3I94RCJv_GL4Ix1ZKNeOnuKiNNIHxmXxz40t3SVbgIdHuJpWTnL-oynshcsZ1ESFjfjqX3Ou0cR7eP5eU5rmaN3KmFWSwXQIq09sMhTCo7cF0rTUX6MLqWRqSK99BS6wiCAlVo4PSvL678F9Dv1hJ139l7D30IxSUNCaaENCxT2_UXZWbLxIcoG8=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7LAffCt9eo8kAHSjoaw0dLGt4xXzWIWitYsbTNWK1mk7w_31AL1zV9SP0lWW2H-PuFlW60d3ja8ToG3Mm62VceYQboEkwff_Wha_ZWVkI_TYF0CUiX9KnoQU-Gg-iTPv1R4-gaw==)

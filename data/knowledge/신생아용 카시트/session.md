@@ -1,14 +1,14 @@
-# 세션: 20260210_105351_bflw
-> 시작: 2026-02-10T10:53:51.739Z
-> 카테고리키: 신생아용 카시트
+# 세션: 20260211_035658_i8ca
+> 시작: 2026-02-11T03:56:58.131Z
+> 카테고리키: 신생아용
 > 카테고리: 신생아용 카시트
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 신생아용 카시트 시장 현황
-- 인사이트: 신생아용 카시트는 신생아의 안전과 편안함을 최우선으로 고려하여 설계된 필수 육아용품입니다. 최근 시장에서는 ISOFIX 기능, 회전 기능, 각도 조절 기능 등 안전성과 편의성을 강화한 제품들이 인기를 얻고 있습니다. 또한, 유모차와 호환되는 트래블 시스템을 갖춘 제품들도 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGaxxdtU2EDdwo_qMVWGxBCkbaRkH6-8knREg-8q_9hRpA7vkkW62vcCR7kbqqBemZrvjT0UQp2YTDzzLk97cIQ4r3ECCxPsFG1WgVAK7-z7KzQluOT2brDD8gWWjycpYZRJ008AuAdlzX7f47vDPovraz_G1cazD6BG564nBBbjOL_UV47Ek=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSu5eebiNFOUX0Bib_YVZPzVuW1cX7vKtsDJVsUxYMAXpvCiLil8NsZskfdboEKWhdkR86txCNum8QcoCHYW7fLP9wpeEjIdkK4Jws36rHdInSWYsQDkTGfZBbDS62vg8b_dO9-NteQE2wgtfWZ7nJm4DcRJCLWjsAWgfqPmc3WZ7j_TDr, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFC4hwxV5FTQ1RscZMkDTqzj1ZCj1_ldtRuMM6A3j7NYs1cdJJMgQI2ZVc4subWQu7rbSemCSle1XgsI-np8DhyUgfAxXa0Flq4LyGwltryRdc9qhBn2rbNXWrdYPFpaugq_cJzUrpe9kLz1SwDwHYXKta35etDjRQHHMG_bkqaPXNdvLZ2Av0AAmg4LMUeAdnZDPLf94T1aiGSJGSgVkrG5r5AU9GTnmz1Qh119zlPUEIJuviXS-Tn4Xq89mVDccmUQrUJD9nR3bxo69CBdKHBkA_TynEha-xgbHzG2IIm4ifVTnd_fORj
+- 인사이트: 신생아용 카시트는 신생아의 연약한 신체 구조를 고려하여 최적의 안전성과 편안함을 제공하도록 설계되었습니다. 특히 목과 머리를 안전하게 지지하는 기능이 중요하며, 수평에 가까운 각도 조절 기능은 신생아의 호흡을 원활하게 돕습니다. 최근에는 안전성과 편의성을 모두 갖춘 회전형 카시트가 인기를 얻고 있으며, 유모차와의 호환성도 중요한 고려 사항입니다.
+- 출처: https://search.danawa.com/dsearch.php?query=%EC%8B%A0%EC%83%9D%EC%95%84%EC%9A%A9%20%EC%B9%B4%EC%8B%9C%ED%8A%B8&sort=saveDESC
 
 ---
 
@@ -16,6 +16,9 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아기 목 가눔 전, 안전하고 편안한 바구니형 카시트를 찾으시는군요! 차량 이동이 잦으신 편인데, 카시트 설치는 어떤 방식으로 선호하시나요? | 휴대용 베이스 (결합) |
+| 카시트 선택 시 가장 중요하게 생각하는 안전 인증은 무엇인가요? | i-Size (ECE R129) |
+| 카시트 회전 기능은 얼마나 중요하신가요? | 필수 (매우 중요) |
 
 ---
 
@@ -24,17 +27,17 @@
 현재 후보: 19개 (전체 19개 중)
 
 ### 후보 상품
-1. 조이 아이스핀 360 아이사이즈 회전형 카시트 (ISOFIX) - 577,600원 - ⭐4.8
-2. 브라이텍스 듀얼픽스 플러스 아이사이즈 신생아 회전형 카시트 - 674,500원 - ⭐5
-3. 싸이벡스 제로나 티 베이스 신생아 카시트 - 1,130,500원 - ⭐5
-4. 싸이벡스 클라우드 티 베이스 바구니 카시트 - 731,500원 - ⭐5
-5. 순성산업 데일리 오가닉 카시트 (ISOFIX) - 219,000원 - ⭐4.9
-6. 브라이텍스 듀얼픽스 프로 아이사이즈 신생아 카시트 - 902,510원 - ⭐5
+1. 조이 아이스핀 360 아이사이즈 회전형 카시트 (ISOFIX) - 537,540원 - ⭐4.8
+2. 브라이텍스 듀얼픽스 플러스 아이사이즈 신생아 회전형 카시트 - 660,300원 - ⭐5
+3. 싸이벡스 제로나 티 베이스 신생아 카시트 - 1,098,900원 - ⭐5
+4. 순성산업 데일리 오가닉 카시트 (ISOFIX) - 219,000원 - ⭐4.9
+5. 브라이텍스 듀얼픽스 프로 아이사이즈 신생아 카시트 - 880,000원 - ⭐5
+6. 싸이벡스 클라우드 티 베이스 바구니 카시트 - 736,560원 - ⭐5
 7. 조이 아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX) - 649,140원 - ⭐4.9
-8. 조이 아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX) - 698,000원 - ⭐5
-9. 뉴나 뉴나 넥스트시스템(토틀넥스트+피파넥스트) - 1,634,800원 - ⭐5
-10. 치코 컨버터블 엘레타 카시트 - 274,550원 - ⭐4.6
-11. 리안 페도라 C0 신생아 바구니 카시트 방풍커버 - 19,590원 - ⭐4.6
+8. 리안 페도라 C0 신생아 바구니 카시트 방풍커버 - 19,580원 - ⭐4.6
+9. 조이 아이스핀 360 메쉬 아이사이즈 회전형 카시트 (ISOFIX) - 698,000원 - ⭐5
+10. 뉴나 뉴나 넥스트시스템(토틀넥스트+피파넥스트) - 1,634,800원 - ⭐5
+11. 치코 컨버터블 엘레타 카시트 - 274,550원 - ⭐4.6
 12. 다이치 2018 퍼스트세븐 플러스 (ISOFIX) - 279,250원 - ⭐4.8
 13. 엘츠 360 회전형 유아 카시트 (ISOFIX) - 438,320원 - ⭐5
 14. 악스키드 원플러스 아이사이즈 스웨디시 카시트 - 1,368,000원 - ⭐5

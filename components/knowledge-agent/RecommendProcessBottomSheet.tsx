@@ -414,7 +414,7 @@ export function RecommendProcessBottomSheet({
                         {item.partialTags.slice(0, 3).map((tag) => (
                           <span
                             key={`${item.pcode}-partial-${tag}`}
-                            className="inline-flex items-center rounded-[6px] px-2 py-0.5 text-[10px] font-semibold bg-yellow-50 text-yellow-700"
+                            className="inline-flex items-center rounded-[6px] px-2 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-600"
                           >
                             {tag} (부분일치)
                           </span>

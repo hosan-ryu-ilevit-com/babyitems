@@ -1,5 +1,5 @@
-# 세션: 20260210_135600_jymn
-> 시작: 2026-02-10T13:56:00.707Z
+# 세션: 20260211_033934_s3t2
+> 시작: 2026-02-11T03:39:34.988Z
 > 카테고리키: 이유식
 > 카테고리: 이유식
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 이유식 시장 현황
-- 인사이트: 국내 영유아 간편식 시장은 이유식 위주로 성장하여 2022년 2,530억 원을 돌파했으며, 2025년에는 3,000억 원을 넘어설 것으로 예상됩니다. 여성 경제활동 참가율 증가와 가처분 소득 증대가 주요 성장 동력이며, 아동 영양에 대한 인식 제고 또한 시장 성장에 기여하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgFB-hp1rFXwOnc04CbwzEqFcy1G6RqrJMQmeu3GRkuKhEmhBh0HX0vQrq-34E2vXvj9R6vw36rFdaJ1SUU0HjVrg9YMvMtpQcgJR-Zt8AoJNp4Yvfo49l0w9xqeWoCPaPqJWecyo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFP1mGoruGbKsKXY0D-JHWUyX3gQ2Qf4rFVQ9UYZqlCdd302M2AzcONhf6IOPr5o6cxIXo0wewxm5is2Ir3P4ZMugHFLsWtqdjjfYv_xYt48p5_AtGgNP79Cqz_XiEQAtSSebL0jB8UjRB54CjWQdrpzR_zwJndBFMHLD67x53wtrpRhpn1TiTD1Pw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpPXh-s2OsJ7R2IMdtI1srV14CCgGThY_kQmKgHi_bF9M35L46NX1KLq-wxsJyuQxJo1DVVfozLVGR7ah-2WfpmNmGDhpxVZ752TL9rw2ZPtw1dzQClCbpo3VwtcuFzkf8YAzbJFljtQ8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjoP_mTSjD8dE4Lq87j2TJ7Jx2DBfI8X0EcbDzzdWi7rCw4gNBYLipzYtMKeIiAtZ1xRGWYEr9LVRBygesBLpLa2XkaqfKCdk2XlH5kVANu5unt3KUoEtLMn4qqEgXwZdmjtqg616HSOJQY9gtrjMtBcISyfjrlecs1I1kYQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1iSt1MLzguyNRgvQyHMjsqqLfFMsIj47KU9tSEmrwveciHok-ilDE9Jlz9OsnR-L7s5a6k-y7oCDjXJEL5Ow1gEqa0j5tv-YkJKNti9eQf_OEJE_ZbZAydDbb_rA-kQ-yCH3bJMhzZuCNptJRLGWU93ZQGKeVyCjMfVrm2C5m, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEhhLYNLCTYwinvQyVMWhiPC7jOGSJISXxFM5GJ5JYOpTQWsOEpEf9dqudEb5di_HQK-_RSxGY9QTlnjbysAZ7LU4gpQ-j7ybiaV4OxS9YTAYgFQNrvZCNcqYhAUjFNNkfFI8twiC3uMIi9kZa4jOQ=
+- 인사이트: 국내 이유식 시장은 맞벌이 부부 증가와 함께 지난 10년간 5배 이상 성장하여 2022년 기준 2,530억 원을 돌파했으며, 2024년에는 764억 달러(약 1000억 원) 규모에 이를 것으로 예상됩니다. 저출산으로 인한 영유아 수 감소에도 불구하고, 프리미엄 및 간편 이유식에 대한 수요 증가가 시장 성장을 견인하고 있습니다. 특히 편리한 구독 서비스와 다양한 메뉴 구성이 소비자들에게 인기를 얻고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEzJHaM8BnJ0MsSWqF3ekj2_PRXVkpOMQU2BQnD88LdMRhrLCRP1ywZifscfOJoou6M1xjVaNv0hkF_WIXQZSysKdkMOuXctdoWxVWM9EVE4wr3vaPvHTNnhWra0T9ZCZw340MiL5ZvW5F6M9iZd1itegwaRKiHZKW9r7IxLQD, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEn7fmTjnLBAPiekd966wGdpW5TWg2SZ0rcoTkEEfYaoSOtNiUhXNE_JJBhHR3a-I_mRDUwqgUuexZLM4r9Djl2BP3765E_AR3RoH_EvOec3knL7j3LaIvrrUkSO6bTya2YmWJVpIwTwUMLQCeL9-vBsUlLd0rPN5ZCC1yX-l6z8-MXGEA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyzH8VxS-rZm2Q3WTWTvWEgHlletsU2srBX8ooR3nMPrEligZAKbdE6_Tr9KWhL0kPxtCwicCBiyn1xnojRpuSodedcdhYb42n6OcdT4zZALXEo5O7CSavgwXMAP-54HUmTNaEjL_9PiyXlOcLWyMyGvXuhhe1QhMPgA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjqpd8VO-rX_FjPZ7jTo9uEMKVePWKnmSAGj2zLLrznvusUBRgoyzFIx1am_YVYWq2BYjil4wjHSeH8wJuYMPhAlCxjO5S5w9UL43uXKnP5l_Y3B0xf7bF4wMuvSpvaqdp4rPJ4MM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBL28AL3n5sZxjYCjsGva9iKrNa-tds5nmBjnXfm0hxC4mRYZjgcVRX7PfZQG2i1J3Ju8meJMU7yM2I5ob1Ug7SN4x1AZJaBDiQm6uS3pcif37yMbc4CnYZE3q4KGcVVr7NY6uFIbIXCtK4BkngzZ9SWG9VtY=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaeO9ZkbNLdp6y9Aid3pMH14vxUv-GjBc19O6YdfWaEoxN9p174exYoP1_t4G1TbHedBxigtN-XPsiZkEXFDZUGzft8I6NPuZeRrBZrP2b2-Y8_Za4xi9SSc_prWqhiK8pE8n3v4J1qWNAyB9uPPE=
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 기존 이유식 용기가 데울 때 눌어붙거나 개봉 후 보관이 번거로우셨다면, 어떤 점이 가장 개선되었으면 하시나요? | 눌어붙지 않는 용기 (열 보존력 우수) |
+| 이유식 선택 시 가장 중요하게 생각하는 원재료는 무엇인가요? | 유기농 및 친환경 재료 (안심하고 먹일 수 있음) |
+| 아기 개월 수에 맞는 이유식의 입자감과 식감을 중요하게 생각하시나요? | 초기 (부드러운 퓨레) |
+| 이유식 보관은 어떤 방식을 선호하시나요? | 냉동 보관 (장기 보관) |
+| 이유식 예산은 어느 정도로 생각하세요? (평균 약 1만 1천원, 6천원~1만 5천원대가 가장 많아요) | 6천원 ~ 1만 5천원대 |
 
 ---
 

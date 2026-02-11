@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { callGeminiWithRetry, getModel } from '@/lib/ai/gemini';
+import { deduplicateQuestions, type QuestionForDedup } from '@/lib/knowledge-agent/question-dedup';
 import type { InlineFollowUpResponse } from '@/lib/knowledge-agent/types';
 
 
@@ -22,6 +23,7 @@ export async function POST(request: NextRequest) {
       onboarding,
       babyInfo,
       remainingQuestions,  // 아직 안 보여준 맞춤질문 목록 (중복 방지용)
+      previousFollowUps,   // 이전 인라인 꼬리질문 목록 (중복 방지용)
     } = await request.json();
 
     if (!categoryName || !questionText || !userAnswer) {
@@ -39,7 +41,8 @@ export async function POST(request: NextRequest) {
       questionId,
       onboarding,
       babyInfo,
-      remainingQuestions
+      remainingQuestions,
+      previousFollowUps
     );
 
     return NextResponse.json(result);
@@ -68,6 +71,11 @@ interface BabyInfoContext {
   isBornYet?: boolean;
 }
 
+interface PreviousFollowUpContext {
+  question: string;
+  options?: string[];
+}
+
 /**
  * 인라인 꼬리질문 생성
  */
@@ -79,7 +87,8 @@ async function generateInlineFollowUp(
   questionId?: string,
   onboarding?: OnboardingContext | null,
   babyInfo?: BabyInfoContext | null,
-  remainingQuestions?: { question: string; options: string[] }[] | null
+  remainingQuestions?: { question: string; options: string[] }[] | null,
+  previousFollowUps?: PreviousFollowUpContext[] | null
 ): Promise<InlineFollowUpResponse> {
   // 브랜드/예산 질문은 별도 처리 (정해진 꼬리질문 또는 없음)
   if (questionId === 'brand' || questionId === 'preferred_brand' || questionId === 'brand_preference') {
@@ -159,6 +168,16 @@ async function generateInlineFollowUp(
     .filter(([k]) => !k.startsWith('__'))
     .map(([k, v]) => `"${k}" → ${v}`);
 
+  const previousFollowUpTopics = (previousFollowUps || [])
+    .filter((f): f is PreviousFollowUpContext => !!f?.question)
+    .map((f, idx) => `${idx + 1}. "${f.question}"${f.options?.length ? ` (옵션: ${f.options.join(', ')})` : ''}`);
+
+  const previousFollowUpSection = previousFollowUpTopics.length > 0
+    ? `
+### ⛔ 이전 꼬리질문 (같은 주제/의미 재질문 금지)
+${previousFollowUpTopics.join('\n')}`
+    : '';
+
   // 복수선택 응답 감지: "A, B", "A/B", "A 그리고 B" 등
   const isMultiSelectAnswer = /,|\/|&|\+|\s및\s|\s그리고\s|\s와\s|\s과\s/.test(userAnswer);
   const multiSelectRuleSection = isMultiSelectAnswer
@@ -197,6 +216,7 @@ ${avoidTopics.length > 0 ? avoidTopics.map((t, i) => `${i + 1}. ${t}`).join('\n'
 
 ### ⛔ 이미 수집된 정보 (이 주제를 다시 묻지 마세요!)
 ${coveredTopics.length > 0 ? coveredTopics.map((t, i) => `${i + 1}. ${t}`).join('\n') : '(없음)'}
+${previousFollowUpSection}
 
 → 꼬리질문은 위 주제들과 **완전히 다른 관점/측면**에서만 생성하세요.
 → 사용자의 답변("${userAnswer}")에서 위 목록이 다루지 않는 **다른 세부사항**을 파고드세요.
@@ -359,6 +379,40 @@ confidence가 "low"인 경우:
             skipReason: 'Forced single-choice follow-up is not allowed for multi-select answers',
           };
         }
+      }
+
+      // 2차 중복 검증: 기존 맞춤질문 dedup과 동일하게 Flash Lite 하드게이트 적용
+      const candidateId = '__inline_followup_candidate__';
+      const toDedup: QuestionForDedup[] = [{
+        id: candidateId,
+        question: String(data.followUp.question || ''),
+        options: normalizedOptions.map((opt: any) => String(opt.label || '')),
+      }];
+
+      const existingFromFollowUps: QuestionForDedup[] = (previousFollowUps || [])
+        .filter((f): f is PreviousFollowUpContext => !!f?.question)
+        .map((f, idx) => ({
+          id: `prev_followup_${idx + 1}`,
+          question: f.question,
+          options: Array.isArray(f.options) ? f.options : [],
+        }));
+
+      const dedupResult = await deduplicateQuestions(
+        toDedup,
+        {
+          existingQuestions: existingFromFollowUps,
+          collectedInfo,
+          remainingQuestions: remainingQuestions || [],
+        },
+        { categoryName, verbose: true }
+      );
+
+      if (dedupResult.removedIds.includes(candidateId)) {
+        return {
+          hasFollowUp: false,
+          confidence: 'low',
+          skipReason: dedupResult.removalReasons[candidateId] || 'Duplicate follow-up with existing context',
+        };
       }
 
       return {

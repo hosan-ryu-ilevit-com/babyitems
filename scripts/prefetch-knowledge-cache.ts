@@ -117,6 +117,8 @@ interface PrefetchOptions {
   skipReviews: boolean;
   skipPrices: boolean;
   forcePrices: boolean;   // 이미 캐시된 가격도 강제 업데이트
+  priceConcurrency: number; // 가격 크롤링 동시 처리 수 (1=순차)
+  priceDelayMs: number;     // 가격 요청 간 딜레이(ms)
   dryRun: boolean;
 }
 
@@ -134,7 +136,19 @@ interface PrefetchResult {
 // ============================================================================
 
 async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> {
-  const { query, productLimit, reviewsTopN, reviewsPerProduct, skipProducts, skipReviews, skipPrices, forcePrices, dryRun } = options;
+  const {
+    query,
+    productLimit,
+    reviewsTopN,
+    reviewsPerProduct,
+    skipProducts,
+    skipReviews,
+    skipPrices,
+    forcePrices,
+    priceConcurrency,
+    priceDelayMs,
+    dryRun,
+  } = options;
   const startTime = Date.now();
   const errors: string[] = [];
 
@@ -455,16 +469,26 @@ async function prefetchQuery(options: PrefetchOptions): Promise<PrefetchResult> 
 
     console.log(`\n💰 [Step 4-1] 가격 크롤링 중... (${allPcodes.length}개)`);
     try {
-      // 로컬 Puppeteer 순차 배치 크롤링 (최적화된 딜레이)
-      const priceResults: DanawaPriceResult[] = await crawlers.fetchDanawaPricesBatch(
-        allPcodes,
-        300,   // delayMs: 0.3초 간격 (최소화)
-        (current: number, total: number, result: DanawaPriceResult) => {
-          if (current % 10 === 0 || current === total) {
-            console.log(`   진행: ${current}/${total} ${result.success ? '✅' : '❌'}`);
-          }
-        }
-      );
+      const priceResults: DanawaPriceResult[] = priceConcurrency > 1
+        ? await crawlers.fetchDanawaPricesBatchParallel(
+            allPcodes,
+            priceConcurrency,
+            priceDelayMs,
+            (current: number, total: number, result: DanawaPriceResult) => {
+              if (current % 10 === 0 || current === total) {
+                console.log(`   진행: ${current}/${total} ${result.success ? '✅' : '❌'}`);
+              }
+            }
+          )
+        : await crawlers.fetchDanawaPricesBatch(
+            allPcodes,
+            priceDelayMs,
+            (current: number, total: number, result: DanawaPriceResult) => {
+              if (current % 10 === 0 || current === total) {
+                console.log(`   진행: ${current}/${total} ${result.success ? '✅' : '❌'}`);
+              }
+            }
+          );
 
       if (!dryRun) {
         console.log(`\n💾 [Step 4-1] 가격 DB 저장 중...`);
@@ -559,6 +583,8 @@ async function main() {
   const skipReviews = hasFlag('skip-reviews');
   const skipPrices = hasFlag('skip-prices');
   const forcePrices = hasFlag('force-prices');    // 캐시된 가격도 강제 업데이트
+  const priceConcurrency = Math.max(1, parseInt(getArg('price-concurrency') || '1', 10));
+  const priceDelayMs = Math.max(0, parseInt(getArg('price-delay') || '300', 10));
   const dryRun = hasFlag('dry-run');
 
   // 사용법 출력
@@ -582,6 +608,8 @@ Knowledge Agent 캐시 프리페치 스크립트
   --skip-reviews       리뷰 크롤링 건너뛰기
   --skip-prices        가격 크롤링 건너뛰기
   --force-prices       이미 캐시된 가격도 강제 업데이트
+  --price-concurrency=<N> 가격 동시 크롤링 수 (기본: 1)
+  --price-delay=<ms>   가격 요청 간 딜레이 ms (기본: 300)
   --dry-run            DB 저장 없이 크롤링만 테스트
 
 기본 카테고리 목록:
@@ -632,6 +660,9 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
   console.log(`#  제품: ${skipProducts ? 'DB 캐시 사용' : `${productLimit}개 크롤링`}`);
   console.log(`#  리뷰: ${skipReviews ? '스킵' : `상위 ${reviewsTopN}개 x ${reviewsPerProduct}개`}`);
   console.log(`#  가격: ${skipPrices ? '스킵' : (forcePrices ? '전체 강제 업데이트' : '신규만 크롤링')}`);
+  if (!skipPrices) {
+    console.log(`#  가격 병렬: ${priceConcurrency} / 딜레이: ${priceDelayMs}ms`);
+  }
   console.log(`${'#'.repeat(60)}`);
 
   const results: PrefetchResult[] = [];
@@ -647,6 +678,8 @@ ${DEFAULT_QUERIES.map(q => `  - ${q}`).join('\n')}
       skipReviews,
       skipPrices,
       forcePrices,
+      priceConcurrency,
+      priceDelayMs,
       dryRun,
     });
     results.push(result);

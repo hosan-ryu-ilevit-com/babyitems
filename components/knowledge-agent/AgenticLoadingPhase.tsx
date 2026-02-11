@@ -300,7 +300,42 @@ function ProductAnalysisContent({
   const products = crawledProducts || [];
   const count = step.analyzedCount || products.length;
   const progress = Math.max(5, Math.min(100, Math.round((count / TARGET_COUNT) * 100)));
-  const displayPercent = step.status === 'done' ? 100 : Math.min(progress, 99);
+  const targetPercent = step.status === 'done' ? 100 : Math.min(progress, 99);
+  const [displayPercent, setDisplayPercent] = useState(() => (step.status === 'done' ? 100 : 5));
+
+  // 실제 수집 진행(targetPercent)을 기준으로, UI는 1%씩 자연스럽게 따라가게 만든다.
+  useEffect(() => {
+    setDisplayPercent((prev) => {
+      if (prev === targetPercent) return prev;
+      if (prev > targetPercent) return targetPercent;
+      return prev;
+    });
+  }, [targetPercent]);
+
+  useEffect(() => {
+    if (displayPercent >= targetPercent) return;
+
+    const gap = targetPercent - displayPercent;
+    const stepSize =
+      step.status === 'done'
+        ? Math.max(1, Math.ceil(gap / 6))
+        : gap >= 30
+          ? 4
+          : gap >= 15
+            ? 3
+            : gap >= 7
+              ? 2
+              : 1;
+    const tickMs = step.status === 'done' ? 14 : 28;
+    const timer = window.setTimeout(() => {
+      setDisplayPercent((prev) => {
+        if (prev >= targetPercent) return prev;
+        return Math.min(prev + stepSize, targetPercent);
+      });
+    }, tickMs);
+
+    return () => window.clearTimeout(timer);
+  }, [displayPercent, targetPercent, step.status]);
 
   const groupedSources = useMemo(() => {
     const normalizeSourceName = (raw?: string | null): string | null => {

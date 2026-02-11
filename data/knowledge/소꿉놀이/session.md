@@ -1,5 +1,5 @@
-# 세션: 20260210_135253_os54
-> 시작: 2026-02-10T13:52:53.994Z
+# 세션: 20260211_040118_eq5w
+> 시작: 2026-02-11T04:01:18.304Z
 > 카테고리키: 소꿉놀이
 > 카테고리: 소꿉놀이
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 소꿉놀이 시장 현황
-- 인사이트: 소꿉놀이는 아이들의 정서적 안정과 사회성 발달에 큰 영향을 미치는 대표적인 역할 놀이입니다. 아이들은 소꿉놀이를 통해 현실 세계를 탐색하고 이해하며, 사회적 기술, 언어 능력, 창의력, 상상력 등을 키울 수 있습니다. 최근에는 스마트기기 보급으로 인해 소꿉놀이를 덜 하는 경향도 있지만, 여전히 교육적 가치가 높은 놀이로 인식되고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHX-qcQyyTay2zjYRRLXIhT-QfucnZjrp89f31gpnBl619Rjd2oN2FEH2EsxNvH_mz58jdz7Ej_Ou5IchWLzRwi3F_Tl7SRQCbXNBiqFx4AeZ8bdGTijKg3en2VP4X8YQipk_6wKIvES64h9G3PM4gZAZpPMTehuSHZxm0IJHl91X6W5odJ-gq7, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFclhvgZnipKDUHh1EOPi1HCo-S2BBKwU78JA-vC9MEMFrCY1sNezXuJMRrBVafbRxBsBdIIiNkjFcvvmW7vkXhIy5VrzZkp16dn1ETBW-P0o3tCX6PaHpbKuEMSshqZb6YURKMuyuWBPXqJSoY72V-mFWnEwYwwzZbMEoUQAQuXefHoA3fCTBWEp69liQjChgrBv1qlU4LCGyVJyG203TwBu1EutBKcGNyRDm653xXQ8_hRfFrTWxjjhw84FRBPyGmLuwlDi7z5ntp8B8tQWo=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGLVpU37iY9ddFW0EAckx3EG3gGm8yFv0VnnCQ5lWSYzWn0i-XaNOPsyZMboULNNUESb9JbBSpY-zksDNhoB13nIAn3-yEwhTIgAPXlxxY6-iRhtbAGqQG4PLDwJOMrY8Y910KC9g==
+- 인사이트: 소꿉놀이는 아이들의 역할 놀이 중 하나로, 엄마, 아빠 등의 역할을 나누어 놀이를 진행합니다. 이는 아이의 상징 조작 능력 발달에 도움을 주며, 특히 여자아이들이 선호하는 경향이 있으나 남자아이들도 즐길 수 있습니다. 최근에는 스마트 기기의 보급으로 인해 소꿉놀이를 덜 하는 아이들도 늘고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbFnuSgo-EzXvXvMRFgi8M0L-BRszCsT97bG5cyr0fuAXZn0DqOGjpbQGG3eGqz8yB9LgajSWjrzZvEBMBCcLUFOU4KdpTYcviwIc-wIMbj9qbEKQ0XRTYFcaX_jKGwC3YFv9FTgJ7NVRSGH3v34JNCvlTv50F9iD5BYFFcpaLD2YEwKW_Hrwi, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYBXBcqTvvIjDboL_M-2scMLCTc82lXm_udydyLctX8_AfzQwxm_HDgErRPAlL674ftPjSjFieKDhjliAKYR4GASHGkqd3I94RCJv_GL4Ix1ZKNeOnuKiNNIHxmXxz40t3SVbgIdHuJpWTnL-oynshcsZ1ESFjfjqX3Ou0cR7eP5eU5rmaN3KmFWSwXQIq09sMhTCo7cF0rTUX6MLqWRqSK99BS6wiCAlVo4PSvL678F9Dv1hJ139l7D30IxSUNCaaENCxT2_UXZWbLxIcoG8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7LAffCt9eo8kAHSjoaw0dLGt4xXzWIWitYsbTNWK1mk7w_31AL1zV9SP0lWW2H-PuFlW60d3ja8ToG3Mm62VceYQboEkwff_Wha_ZWVkI_TYF0CUiX9KnoQU-Gg-iTPv1R4-gaw==
 
 ---
 
@@ -16,6 +16,11 @@
 
 | 항목 | 답변 |
 |------|------|
+| 아이의 식습관 개선을 위해 어떤 점에 가장 중점을 두고 싶으신가요? | 편식 교정 (골고루 먹기), 즐거운 식사 시간 (놀이 연계), 스스로 먹는 습관 (자립심 향상) |
+| 소꿉놀이 제품의 소재는 어떤 것을 선호하시나요? | 원목 (자연 친화적이고 튼튼함) |
+| 소꿉놀이 시 아이가 더 몰입할 수 있도록 어떤 확장 기능을 선호하시나요? | 다양한 소품 포함 (풍부한 역할 놀이), 자석 활용 (조립/분리 재미) |
+| 아이의 안전을 위해 소꿉놀이 제품에서 가장 중요하게 생각하는 부분은 무엇인가요? | 모서리 마감 처리 (찍힘/긁힘 방지), 무독성/유해성분 불검출 (KC 인증) |
+| 예산은 어느 정도로 생각하세요? (평균 3만 4천원, 2만~4만원대가 가장 많아요) | 2만원 이하 |
 
 ---
 

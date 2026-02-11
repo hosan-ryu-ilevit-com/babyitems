@@ -8,7 +8,7 @@
  * - 펼친 상태: 3단계 Accordion (아이콘 + 라벨 + 시간)
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import type { TimelineStep } from '@/types/recommend-v2';
@@ -183,9 +183,12 @@ export function FinalRecommendLoadingView({
     () => thumbnailPool.some((thumb) => Number(thumb.preScore || 0) >= 190),
     [thumbnailPool]
   );
-  // complete 신호 직전까지는 최소 8개를 유지해 "갑작스런 5개 교체" 체감을 줄인다.
-  const minVisibleBeforeFinal = hasFinalTop5Signal ? MIN_VISIBLE_THUMBNAILS : 8;
+  // Top5 확정 전에는 7개까지 자연스럽게 줄여 정체 구간(10개 고정)을 줄인다.
+  const minVisibleBeforeFinal = hasFinalTop5Signal ? MIN_VISIBLE_THUMBNAILS : 7;
   const [frozenProgress, setFrozenProgress] = useState<number | null>(null);
+  const prevBrandPromptActiveRef = useRef(false);
+  const [postPreferAnchorProgress, setPostPreferAnchorProgress] = useState<number | null>(null);
+  const [isPostPreferDecaying, setIsPostPreferDecaying] = useState(false);
 
   useEffect(() => {
     if (isBrandPromptActive && frozenProgress === null) {
@@ -197,15 +200,42 @@ export function FinalRecommendLoadingView({
     }
   }, [isBrandPromptActive, frozenProgress, progress]);
 
+  useEffect(() => {
+    // 선호 브랜드(2번째 질문) 종료 직후부터 축소 속도를 살짝 낮춘다.
+    if (prevBrandPromptActiveRef.current && !isBrandPromptActive && brandPromptMode === 'prefer') {
+      setPostPreferAnchorProgress(frozenProgress ?? progress);
+      setIsPostPreferDecaying(true);
+    }
+    prevBrandPromptActiveRef.current = isBrandPromptActive;
+  }, [brandPromptMode, frozenProgress, isBrandPromptActive, progress]);
+
+  useEffect(() => {
+    if (!isBrandPromptActive && showBrandPreferencePrompt === false && brandPromptMode === 'exclude') {
+      setIsPostPreferDecaying(false);
+      setPostPreferAnchorProgress(null);
+    }
+  }, [brandPromptMode, isBrandPromptActive, showBrandPreferencePrompt]);
+
   const effectiveProgress = frozenProgress ?? progress;
+  const gridProgress = useMemo(() => {
+    if (postPreferAnchorProgress === null || effectiveProgress <= postPreferAnchorProgress) {
+      return effectiveProgress;
+    }
+    const delta = effectiveProgress - postPreferAnchorProgress;
+    return postPreferAnchorProgress + delta * 0.78;
+  }, [effectiveProgress, postPreferAnchorProgress]);
 
   const targetVisibleCount = useMemo(() => {
-    const ratio = Math.max(0, Math.min(1, effectiveProgress / 100));
+    const ratio = Math.max(0, Math.min(1, gridProgress / 100));
+    // 초반/중반 축소를 늦춰 "수십개 -> 10개" 구간을 더 길게 가져간다.
+    const easedRatio = hasFinalTop5Signal
+      ? Math.pow(ratio, 1.15)
+      : Math.pow(ratio, 1.9);
     return Math.max(
       minVisibleBeforeFinal,
-      Math.round(maxVisible - (maxVisible - minVisibleBeforeFinal) * ratio)
+      Math.round(maxVisible - (maxVisible - minVisibleBeforeFinal) * easedRatio)
     );
-  }, [maxVisible, effectiveProgress, minVisibleBeforeFinal]);
+  }, [gridProgress, hasFinalTop5Signal, maxVisible, minVisibleBeforeFinal]);
 
   const [visibleThumbCount, setVisibleThumbCount] = useState(maxVisible);
 
@@ -216,6 +246,7 @@ export function FinalRecommendLoadingView({
   useEffect(() => {
     if (visibleThumbCount === targetVisibleCount) return;
     const direction = targetVisibleCount > visibleThumbCount ? 1 : -1;
+    if (isPostPreferDecaying && direction > 0) return;
     const timer = setInterval(() => {
       setVisibleThumbCount((prev) => {
         if (prev === targetVisibleCount) return prev;
@@ -226,7 +257,33 @@ export function FinalRecommendLoadingView({
     }, 42);
 
     return () => clearInterval(timer);
-  }, [targetVisibleCount, visibleThumbCount]);
+  }, [targetVisibleCount, visibleThumbCount, isPostPreferDecaying]);
+
+  // 진행률 정체가 발생해도, 2번째 질문 이후에는 짧은 주기로 계속 1개씩 줄어들게 보정한다.
+  useEffect(() => {
+    if (!isPostPreferDecaying || isBrandPromptActive || visibleThumbCount <= MIN_VISIBLE_THUMBNAILS) return;
+    let active = true;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    const scheduleDecay = () => {
+      if (!active) return;
+      const delay = 260 + Math.floor(Math.random() * 61); // 260~320ms
+      timeoutId = setTimeout(() => {
+        setVisibleThumbCount((prev) => {
+          if (prev <= MIN_VISIBLE_THUMBNAILS) return prev;
+          return prev - 1;
+        });
+        scheduleDecay();
+      }, delay);
+    };
+
+    scheduleDecay();
+
+    return () => {
+      active = false;
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [isPostPreferDecaying, isBrandPromptActive, visibleThumbCount]);
 
   useEffect(() => {
     if (hasFinalTop5Signal && effectiveProgress >= 99 && visibleThumbCount !== MIN_VISIBLE_THUMBNAILS) {
@@ -347,66 +404,83 @@ export function FinalRecommendLoadingView({
         )}
       </div>
 
-      {isBrandPromptActive && (
-        <div className="mt-0 mb-6 p-4 rounded-2xl border border-gray-200 bg-white">
-          <p className="text-[16px] font-semibold text-gray-700 mb-1">
-            {brandPromptMode === 'exclude' ? '선호하지 않는 브랜드가 있나요?' : '선호하는 브랜드가 있나요?'}
-          </p>
-          <p className="text-[14px] text-gray-500 mb-4">
-            {brandPromptMode === 'exclude'
-              ? '추천 결과에서 제외해드릴게요'
-              : '최종 Top 추천에서 가중치를 반영할게요'}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {brandOptions.map((brand) => {
-              const isActive = brandPromptMode === 'exclude'
-                ? excludeBrands.includes(brand)
-                : preferredBrands.includes(brand);
-              const count = brandOptionCounts[brand] || 1;
-              return (
-                <button
-                  key={brand}
-                  type="button"
-                  onClick={() => onBrandToggle?.(brand)}
-                  className={`px-3 py-2 rounded-xl text-[13px] font-semibold transition-colors border ${
-                    isActive
-                      ? (brandPromptMode === 'exclude'
-                          ? 'bg-red-50 text-red-700 border-red-200'
-                          : 'bg-blue-50 text-blue-700 border-blue-200')
-                      : 'bg-white text-gray-700 border-gray-200'
-                  }`}
-                >
-                  <span>{brand}</span>
-                  <span className={`${
-                    isActive
-                      ? (brandPromptMode === 'exclude' ? 'text-red-400' : 'text-blue-400')
-                      : 'text-gray-400'
-                  } ml-1 text-[12px] font-normal`}>
-                    ({count})
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          <div className="mt-5">
-            <button
-              type="button"
-              onClick={
-                (brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
-                  ? onBrandConfirm
-                  : onBrandSkip
-              }
-              className="w-full py-3.5 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center"
-            >
-              {(brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
-                ? (brandPromptMode === 'exclude'
-                    ? `선택한 ${excludeBrands.length}개 브랜드 제외할게요`
-                    : `선택한 ${preferredBrands.length}개 브랜드 우선 추천 받을게요`)
-                : '상관없어요'}
-            </button>
-          </div>
-        </div>
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        {isBrandPromptActive && (
+          <motion.div
+            key={brandPromptMode}
+            initial={{ opacity: 0, y: 18, scale: 0.985 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.985 }}
+            transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-0 mb-6 p-4 rounded-2xl border border-gray-200 bg-white"
+          >
+            <p className="text-[16px] font-semibold text-gray-700 mb-1">
+              {brandPromptMode === 'exclude' ? (
+                <>
+                  <span className="text-red-500">선호하지 않는 브랜드</span>가 있나요?
+                </>
+              ) : (
+                <>
+                  <span className="text-blue-500">선호하는 브랜드</span>가 있나요?
+                </>
+              )}
+            </p>
+            <p className="text-[14px] text-gray-500 mb-4">
+              {brandPromptMode === 'exclude'
+                ? '추천 결과에서 제외해드릴게요'
+                : '최종 Top 추천에서 가중치를 반영할게요'}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {brandOptions.map((brand) => {
+                const isActive = brandPromptMode === 'exclude'
+                  ? excludeBrands.includes(brand)
+                  : preferredBrands.includes(brand);
+                const count = brandOptionCounts[brand] || 1;
+                return (
+                  <button
+                    key={brand}
+                    type="button"
+                    onClick={() => onBrandToggle?.(brand)}
+                    className={`px-3 py-2 rounded-xl text-[13px] font-semibold transition-colors border ${
+                      isActive
+                        ? (brandPromptMode === 'exclude'
+                            ? 'bg-red-50 text-red-700 border-red-200'
+                            : 'bg-blue-50 text-blue-700 border-blue-200')
+                        : 'bg-white text-gray-700 border-gray-200'
+                    }`}
+                  >
+                    <span>{brand}</span>
+                    <span className={`${
+                      isActive
+                        ? (brandPromptMode === 'exclude' ? 'text-red-400' : 'text-blue-400')
+                        : 'text-gray-400'
+                    } ml-1 text-[12px] font-normal`}>
+                      ({count})
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="mt-5">
+              <button
+                type="button"
+                onClick={
+                  (brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
+                    ? onBrandConfirm
+                    : onBrandSkip
+                }
+                className="w-full py-3.5 bg-gray-900 text-white font-bold rounded-2xl flex items-center justify-center"
+              >
+                {(brandPromptMode === 'exclude' ? excludeBrands.length : preferredBrands.length) > 0
+                  ? (brandPromptMode === 'exclude'
+                      ? `선택한 ${excludeBrands.length}개 브랜드 제외할게요`
+                      : `선택한 ${preferredBrands.length}개 브랜드 우선 추천 받을게요`)
+                  : '상관없어요'}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 후보 썸네일 그리드 (Top5 직전까지 축소 + 확대) */}
       <div className="mt-2 mb-4">

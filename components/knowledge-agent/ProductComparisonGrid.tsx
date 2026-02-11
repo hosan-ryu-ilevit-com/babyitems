@@ -162,7 +162,18 @@ export function ProductComparisonGrid({
         });
       }
     });
-    return Array.from(keys);
+    // 표시 중인 상품들의 값이 모두 비어있으면 해당 스펙 row는 숨김
+    const isEmptySpecValue = (v: any) =>
+      v === null ||
+      v === undefined ||
+      v === '' ||
+      v === '-' ||
+      v === '정보없음' ||
+      String(v).toLowerCase() === 'null';
+
+    return Array.from(keys).filter((key) =>
+      displayProducts.some((product) => !isEmptySpecValue(product.specs?.[key]))
+    );
   }, [displayProducts]);
 
   // 빈 값 체크
@@ -211,11 +222,9 @@ export function ProductComparisonGrid({
               style={{ width: columnWidth, scrollSnapAlign: 'start' }}
             >
               {/* 이미지 - 회색 배경 없이, 이미지 자체에 곡률 */}
-              <button
-                type="button"
-                onClick={() => onProductClick?.(product.raw ?? product)}
-                className="relative w-full aspect-square mb-2 cursor-pointer block"
-                aria-label={`${product.name} 상세 보기`}
+              <div
+                className="relative w-full aspect-square mb-2 block"
+                aria-hidden="true"
               >
                 {product.thumbnail ? (
                   <Image
@@ -243,7 +252,7 @@ export function ProductComparisonGrid({
                     </span>
                   </div>
                 </div>
-              </button>
+              </div>
 
               {/* 제품명 - flex-grow로 공간 채움 */}
               <p className="text-[13px] font-medium text-gray-800 line-clamp-3 leading-tight mb-1 flex-grow">

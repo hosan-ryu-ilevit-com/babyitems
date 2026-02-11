@@ -21,7 +21,11 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 import { createClient } from '@supabase/supabase-js';
-import { fetchDanawaPrice, DanawaPriceResult } from '../lib/danawa/price-crawler';
+import {
+  fetchDanawaPrice,
+  fetchDanawaPricesBatchParallel,
+  DanawaPriceResult
+} from '../lib/danawa/price-crawler';
 
 // =====================================================
 // 환경 설정
@@ -49,6 +53,7 @@ interface Options {
   dryRun: boolean;
   delayMs: number;
   batchSize: number;
+  concurrency: number; // 가격 크롤링 동시 처리 수
   resume: boolean;  // 이어하기 모드
 }
 
@@ -58,6 +63,7 @@ function parseArgs(): Options {
     dryRun: false,
     delayMs: 2000,      // 2초 딜레이 (Rate limit)
     batchSize: 50,      // 50개씩 DB 저장
+    concurrency: 1,     // 기본: 순차 처리
     resume: false,      // 이어하기 모드
   };
 
@@ -72,6 +78,12 @@ function parseArgs(): Options {
       options.dryRun = true;
     } else if (args[i] === '--delay' && args[i + 1]) {
       options.delayMs = parseInt(args[i + 1], 10);
+      i++;
+    } else if (args[i] === '--batch-size' && args[i + 1]) {
+      options.batchSize = parseInt(args[i + 1], 10);
+      i++;
+    } else if (args[i] === '--concurrency' && args[i + 1]) {
+      options.concurrency = Math.max(1, parseInt(args[i + 1], 10));
       i++;
     } else if (args[i] === '--resume') {
       options.resume = true;
@@ -200,6 +212,47 @@ async function savePriceToDb(result: DanawaPriceResult): Promise<boolean> {
   return true;
 }
 
+function toUpsertRow(result: DanawaPriceResult) {
+  return {
+    pcode: result.pcode,
+    lowest_price: result.lowestPrice,
+    lowest_mall: result.lowestMall,
+    lowest_delivery: result.lowestDelivery,
+    lowest_link: result.lowestLink,
+    mall_prices: result.mallPrices,
+    mall_count: result.mallCount,
+    price_min: result.priceMin,
+    price_max: result.priceMax,
+    price_updated_at: result.updatedAt.toISOString(),
+  };
+}
+
+async function savePricesBatchToDb(results: DanawaPriceResult[], batchSize: number): Promise<{ saved: number; failed: number }> {
+  const successResults = results.filter((r) => r.success && r.lowestPrice !== null);
+  if (successResults.length === 0) {
+    return { saved: 0, failed: 0 };
+  }
+
+  let saved = 0;
+  let failed = 0;
+
+  for (let i = 0; i < successResults.length; i += batchSize) {
+    const chunk = successResults.slice(i, i + batchSize).map(toUpsertRow);
+    const { error } = await supabase.from('danawa_prices').upsert(chunk, {
+      onConflict: 'pcode',
+    });
+
+    if (error) {
+      console.error(`   ❌ DB batch save failed (${i + 1}-${i + chunk.length}):`, error.message);
+      failed += chunk.length;
+    } else {
+      saved += chunk.length;
+    }
+  }
+
+  return { saved, failed };
+}
+
 async function updateDanawaPrices(options: Options): Promise<void> {
   console.log('\n========================================');
   console.log('🚀 다나와 가격 배치 업데이트 시작');
@@ -231,51 +284,88 @@ async function updateDanawaPrices(options: Options): Promise<void> {
 
   const startTime = Date.now();
 
-  // 3. 순차 크롤링
-  for (let i = 0; i < products.length; i++) {
-    const product = products[i];
-    const progress = `[${i + 1}/${stats.total}]`;
-
-    console.log(`\n${progress} 📦 ${product.name}`);
-    console.log(`   pcode: ${product.pcode}`);
-
-    try {
-      const result = await fetchDanawaPrice(product.pcode);
-
-      if (result.success && result.lowestPrice) {
-        console.log(`   ✅ ${result.lowestPrice.toLocaleString()}원 (${result.lowestMall})`);
-        console.log(`   📊 ${result.mallCount}개 쇼핑몰, 가격 범위: ${result.priceMin?.toLocaleString()}~${result.priceMax?.toLocaleString()}원`);
-        stats.success++;
-
-        // DB 저장
-        if (!options.dryRun) {
-          const saved = await savePriceToDb(result);
-          if (saved) {
-            stats.dbSaved++;
-          } else {
-            stats.dbFailed++;
+  console.log(`🚦 크롤링 모드: ${options.concurrency > 1 ? `병렬(${options.concurrency})` : '순차(1)'}`);
+  const pcodes = products.map((p) => p.pcode);
+  const nameByPcode = new Map(products.map((p) => [p.pcode, p.name]));
+  const results: DanawaPriceResult[] = options.concurrency > 1
+    ? await fetchDanawaPricesBatchParallel(
+        pcodes,
+        options.concurrency,
+        options.delayMs,
+        (current, total, result) => {
+          if (current % 10 === 0 || current === total) {
+            const elapsed = (Date.now() - startTime) / 1000;
+            const rate = current / Math.max(elapsed, 1);
+            const remaining = (total - current) / Math.max(rate, 0.01);
+            console.log(`   진행: ${current}/${total} ${result.success ? '✅' : '❌'} | 속도: ${rate.toFixed(2)}개/초 | 남은 시간: ${Math.ceil(remaining / 60)}분`);
           }
         }
-      } else {
-        console.log(`   ⚠️ 가격 정보 없음: ${result.error || 'No price found'}`);
+      )
+    : await (async () => {
+        const sequentialResults: DanawaPriceResult[] = [];
+        for (let i = 0; i < products.length; i++) {
+          const product = products[i];
+          const progress = `[${i + 1}/${stats.total}]`;
+          console.log(`\n${progress} 📦 ${product.name}`);
+          console.log(`   pcode: ${product.pcode}`);
+          const result = await fetchDanawaPrice(product.pcode);
+          sequentialResults.push(result);
+          if (result.success && result.lowestPrice) {
+            console.log(`   ✅ ${result.lowestPrice.toLocaleString()}원 (${result.lowestMall})`);
+            console.log(`   📊 ${result.mallCount}개 쇼핑몰, 가격 범위: ${result.priceMin?.toLocaleString()}~${result.priceMax?.toLocaleString()}원`);
+          } else {
+            console.log(`   ⚠️ 가격 정보 없음: ${result.error || 'No price found'}`);
+          }
+          if (i < products.length - 1) {
+            await new Promise((resolve) => setTimeout(resolve, options.delayMs));
+          }
+          if ((i + 1) % 10 === 0) {
+            const elapsed = (Date.now() - startTime) / 1000;
+            const rate = (i + 1) / Math.max(elapsed, 1);
+            const remaining = (stats.total - i - 1) / Math.max(rate, 0.01);
+            console.log(`\n   ⏱️ 진행률: ${((i + 1) / stats.total * 100).toFixed(1)}% | 속도: ${rate.toFixed(2)}개/초 | 남은 시간: ${Math.ceil(remaining / 60)}분\n`);
+          }
+        }
+        return sequentialResults;
+      })();
+
+  // 4. 결과 집계
+  for (const result of results) {
+    if (result.success && result.lowestPrice !== null) {
+      stats.success++;
+    } else if (result.success) {
+      stats.noPrice++;
+    } else {
+      // "가격 정보 없음" 류는 noPrice로 분류, 그 외는 failed
+      const err = String(result.error || '');
+      if (err.toLowerCase().includes('no price') || err.includes('가격 정보 없음')) {
         stats.noPrice++;
+      } else {
+        stats.failed++;
       }
-    } catch (error) {
-      console.error(`   ❌ 크롤링 실패:`, error);
-      stats.failed++;
+      const name = nameByPcode.get(result.pcode);
+      if (name) {
+        console.log(`   ⚠️ 실패/미검출: ${name} (${result.pcode}) - ${result.error || 'unknown'}`);
+      }
     }
+  }
 
-    // Rate limit (마지막 요청 제외)
-    if (i < products.length - 1) {
-      await new Promise(resolve => setTimeout(resolve, options.delayMs));
-    }
-
-    // 진행률 표시 (10개마다)
-    if ((i + 1) % 10 === 0) {
-      const elapsed = (Date.now() - startTime) / 1000;
-      const rate = (i + 1) / elapsed;
-      const remaining = (stats.total - i - 1) / rate;
-      console.log(`\n   ⏱️ 진행률: ${((i + 1) / stats.total * 100).toFixed(1)}% | 속도: ${rate.toFixed(2)}개/초 | 남은 시간: ${Math.ceil(remaining / 60)}분\n`);
+  // 5. DB 저장
+  if (!options.dryRun) {
+    if (options.concurrency > 1) {
+      const saveStats = await savePricesBatchToDb(results, options.batchSize);
+      stats.dbSaved += saveStats.saved;
+      stats.dbFailed += saveStats.failed;
+    } else {
+      for (const result of results) {
+        if (!result.success || result.lowestPrice === null) continue;
+        const saved = await savePriceToDb(result);
+        if (saved) {
+          stats.dbSaved++;
+        } else {
+          stats.dbFailed++;
+        }
+      }
     }
   }
 
@@ -311,6 +401,8 @@ async function main() {
   console.log(`   - Dry Run: ${options.dryRun}`);
   console.log(`   - Resume: ${options.resume}`);
   console.log(`   - Delay: ${options.delayMs}ms`);
+  console.log(`   - Concurrency: ${options.concurrency}`);
+  console.log(`   - Batch Size: ${options.batchSize}`);
 
   try {
     await updateDanawaPrices(options);
