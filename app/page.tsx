@@ -136,14 +136,19 @@ export default function Home() {
   };
 
   const handleBack = () => {
-    const historyState = window.history.state as { idx?: number } | null;
-    const canGoBack = typeof historyState?.idx === 'number' && historyState.idx > 0;
-
-    if (canGoBack) {
-      router.back();
+    if (!document.referrer) {
+      router.replace('/');
       return;
     }
-    router.replace('/');
+
+    const currentUrl = window.location.href;
+    window.history.back();
+
+    window.setTimeout(() => {
+      if (document.visibilityState === 'visible' && window.location.href === currentUrl) {
+        router.replace('/');
+      }
+    }, 250);
   };
 
   return (

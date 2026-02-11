@@ -135,14 +135,19 @@ export default function LivingHome() {
   };
 
   const handleBack = () => {
-    const historyState = window.history.state as { idx?: number } | null;
-    const canGoBack = typeof historyState?.idx === 'number' && historyState.idx > 0;
-
-    if (canGoBack) {
-      router.back();
+    if (!document.referrer) {
+      router.replace('/living');
       return;
     }
-    router.replace('/living');
+
+    const currentUrl = window.location.href;
+    window.history.back();
+
+    window.setTimeout(() => {
+      if (document.visibilityState === 'visible' && window.location.href === currentUrl) {
+        router.replace('/living');
+      }
+    }, 250);
   };
 
   return (
