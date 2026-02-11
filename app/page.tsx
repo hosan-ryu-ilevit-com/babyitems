@@ -136,19 +136,7 @@ export default function Home() {
   };
 
   const handleBack = () => {
-    if (!document.referrer) {
-      router.replace('/');
-      return;
-    }
-
-    const currentUrl = window.location.href;
-    window.history.back();
-
-    window.setTimeout(() => {
-      if (document.visibilityState === 'visible' && window.location.href === currentUrl) {
-        router.replace('/');
-      }
-    }, 250);
+    router.back();
   };
 
   return (

@@ -135,19 +135,7 @@ export default function LivingHome() {
   };
 
   const handleBack = () => {
-    if (!document.referrer) {
-      router.replace('/living');
-      return;
-    }
-
-    const currentUrl = window.location.href;
-    window.history.back();
-
-    window.setTimeout(() => {
-      if (document.visibilityState === 'visible' && window.location.href === currentUrl) {
-        router.replace('/living');
-      }
-    }, 250);
+    router.back();
   };
 
   return (
