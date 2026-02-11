@@ -1,5 +1,5 @@
-# 세션: 20260210_135358_5p2m
-> 시작: 2026-02-10T13:53:58.997Z
+# 세션: 20260211_064541_jns8
+> 시작: 2026-02-11T06:45:41.980Z
 > 카테고리키: 유아용
 > 카테고리: 유아용 카시트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아용 카시트 시장 현황
-- 인사이트: 전 세계 유아용 카시트 시장은 2025년 약 56억 달러에서 2035년 102억 달러 이상으로 성장할 것으로 예상되며, 연평균 성장률은 6.2%를 기록할 전망입니다. 엄격한 안전 규제 시행과 더불어 어린이 안전에 대한 인식 증가가 시장 성장을 견인하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrNMjwjl8XDxLUZorT6TPHQzV-jwbpT2NXeOk9oKDZAzNzciUwFBZwAl23JiNSaNvWq2mt8CPwbWZ3h9g1B2nmUhQTZDR6eFWsrlKYtAbOgBqN4x1oE2u97tFlbijstRHsaohe41k7fwc8Jdt2UO8rO6X66L3iKiTyHkamjqnhOwp3788_ncrdj0kKe7O6n26BVOh-, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE77ofD8gImuTjOHrxVxaIt3WCXFcchmAPvSIsA_tf9R4ZMdSg0Xt2tsQ7M02EqriGJYWgDSPz9qRJ1-yR8Q-LNx68sufpITTLfJE-M-pJy5HFBnh9DgsK0CQCGjKC-_FDJDkZ2QXSi7l2x4QKv3Hvim2cZ9pIyZN4XFDLh9IRA, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1HED26dns12eWVTFMBTP2uZkpJkjdu_5qVL-zuWq14fV49MyIhrNZ-327CAu_4WJ_05PKyxNQJw6h2PY3gfnnkUZbfkYTSntlIDrW4HkdJ6P6949EQLIUtRUlyZd51tEWjo19cw2DDjWZURn9gySA0R5rp0MBpOb2VxoVegAzoVXKPpf4kLalHUv-GXZu7yA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGLcycbjmwMzneFzQAceku9Lh_iuVS2ZVA7YT-I7h70xL48UZu0GafNiRy0brEtogQ0_aCtUQ-oCOgVDfFu3kGuDbNLx3dowzx4UPfFrCbW3VXm1HCyTaiKQcp482gb4pxu99zKkNu_TPQQDY2fkQBUZ_K20xI9xvUb0kzncvCF_7i5bS4obLNMgr2-l2Djl2j, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEi6ZqGAJNxl4xMtLkn56KqxalrOORZmF8vqa-7B2N09aMtTUOUCInXMVqA3CdkdCWFmyWy8ZP57E3jc4Dv5tv3_0Vhvgk8_Im12imFYo7iKKUqZ3u1OwXTI3aJG8iYHrspBPgeDH_YH3FJQnApXPdGa9cGHsTct0ftKY3Mu0dnTO8hxZqlEGB0HN56MQDTEBGDA60i9uwn8h0brgnchY-k, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJqpH-CLS0teySnEwZYaoIslT02bcEuxrQFXbq_OOJiN42-f0_ovu4_JeOD7wyd1516h0V8tZpQwm1Ej_qq8veM7YRRDCVXSiBfDfmfEY_JpX36nvgdHNDuEFvvwKEbLHAMtCcDlCb1uJqDBYyj10z40y76TpxcDsl4R8a1hvGLOy981mAdCLiAw5X33WxZIBuWbY4_F18ZJ0RmA1nYczzNyviQb3A43dCi-_o_QnhuiUs4bpcV1QwDZYYQtx2H_tHJ7vIxhcTxy933_g=
+- 인사이트: 유아용 카시트 시장은 지속적인 성장세를 보이며, 2030년까지 약 79억 달러 규모에 이를 것으로 예상됩니다. 이는 정부의 안전 규제 강화와 소비자들의 안전 의식 향상에 따른 것으로 분석됩니다. 주요 시장 참여자로는 Graco, Dorel Industries, Britax, Evenflo, Chicco 등이 있으며, 이들은 혁신적인 제품 개발과 전략적 마케팅을 통해 시장을 선도하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQ8V5jhwzNqNksi-McK2ctKLKltQonBB78al-12_nGX6BhFtAOR-voaRh_zJQ0zFH02Xk0zn4_SmZSBa5kIJHAaY6ymtNtB9hXDG09_wgk-23mPArTqkhI1SdvNfek_1j5B5KT7rMeubCq9f4VZKOIEG5x32yxSVqsSU9xund34WUPGvUK4leiHgku84qQUayCkgCY, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFiw7qRd5EShd4nZUq0uu-4qqAtV54WADBWDH4pGfRndR_QHJ0Ps7HLrXe0Tg0LV5FuoJybeJ3AnNF1S5gIyKFH46seDOE1RMeAUxDaTXzrm9_midFjf27tjH_1YEs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJOu6he_uvgfBgvASl5duTkL_voGoxT8pRpWQRrwpwCWYblhSqTRG_fGrMmPIIueWoCDE6YR7G11i0afpxZlpSjBFjoDUrgqQ0g6X5zmQx73vJ_jUquoFWnvSKwZpwI-C-RNT60QnAIh0hWWNMsg_gPJBQ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQTEpK5B3coosOiT-ufBMUp8qXuMTWR7rDhAmQI7C-k7JJLJWDLYQeOPh3bn8Me6urrTUx-3zTsF3HZ7iDTOUetg6_3GGBoQ99ofnZ9a9ZaA6DAOxw_F8VRiCkiA7gRwB-kNR9mjA29eMsSm5k7XWbaGSv1r___g5LqoQ8gqFHmZadjmvRH6LhJ-8pD92mN2JZ5RZXgGsJrmmEs88LPj0=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGzhbqkw3FczIMmiJng56QEz8U-sj08sZ2ohaFvUx3xvzAfHjf9_XVjhSkqLAUTxtnRlUBvCDha7ERP9ETo_EP3CKaO28wPC4SOf8c9lzgXiyqL39jeF4osDyS9xm_FWfcQCaLco4L9nyGEVi8UWEHpFTpC9iqvtvoyrPPU0DQmAMvWT3qKlkw=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNbpIjUPhOyY7ov8OqzzrxRklXUKByR0a5swzUN57YDbZpx8gW1l4UBpjtxmr2-bHcrXa5gAprw4SihEzfvvvZwyxnsrPY4APFDBNxUHpVWd33Xy-ozka80cf9dnKTfKbU8SvoB9NJK06tfdToJvsxnIXnN_uqh7KEE28qCKkFWh-iKYJaPv_jIHFwJhRXWnig_LubfmRIIaH5KaSQrsp_sI8n_Izv_zKVCp5SBXN3C9tmOA5ICbrX-qexqJE2k9PKxgE2RNom1sDWzA==
 
 ---
 
@@ -16,12 +16,8 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아기가 잠들 때 머리가 앞으로 쏠리는 불편함을 해결하기 위해, 어떤 각도 조절 기능이 가장 중요하신가요? | 자동 각도 조절 (주행 연동) |
-| 카시트 고정 방식은 어떤 방식을 선호하시나요? | ISOFIX (가장 안전하고 간편한 설치) |
-| 카시트 회전 기능이 필요하신가요? | 360도 회전 (탑승 및 하차 편리) |
-| 아기의 편안한 숙면을 위해 헤드레스트 조절 기능이 얼마나 중요하신가요? | 다단계 높이 조절 (성장에 맞춰 사용), 자동 높이 조절 (원터치 조절) |
-| 카시트 소재는 어떤 점을 가장 중요하게 생각하시나요? | 높은 통기성 (땀 적고 쾌적), 내구성과 세척 용이성 |
-| 유아용 카시트 예산은 어느 정도로 생각하세요? (평균 약 6만 8천원, 3만 5천원~8만 8천원대가 가장 많아요) | 3만 5천원 ~ 8만 8천원대 |
+| 아기가 뒤집기 시작해서 안전이 걱정되시는데, 카시트 설치는 어떤 방식이 가장 편하실까요? | ISOFIX (국제 표준 안전장치) |
+| 예산은 어느 정도로 생각하세요? (평균 약 6만 8천원, 3만 5천원 ~ 8만 8천원대가 가장 많아요) | 3만 5천원 ~ 8만 8천원대 |
 
 ---
 

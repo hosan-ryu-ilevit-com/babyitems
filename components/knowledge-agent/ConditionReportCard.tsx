@@ -36,10 +36,10 @@ function renderHighlightedText(text: string, style: 'bold' | 'code' = 'bold') {
 export function ConditionReportCard({
   report,
   categoryName,
-  onContinue,
-  products,
+  onContinue: _onContinue,
+  products: _products,
 }: ConditionReportCardProps) {
-  const [isSpecOpen, setIsSpecOpen] = useState(true);
+  const [isSpecOpen, setIsSpecOpen] = useState(false);
 
   return (
     <motion.div
@@ -80,9 +80,17 @@ export function ConditionReportCard({
           type="button"
           onClick={() => setIsSpecOpen(prev => !prev)}
           className="w-full flex items-center justify-between text-left"
+          aria-expanded={isSpecOpen}
         >
           <p className="text-[16px] font-bold text-gray-800">추천하는 주요 조건</p>
-         
+          <svg
+            className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isSpecOpen ? 'rotate-180' : 'rotate-0'}`}
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="M5 8L10 13L15 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </button>
     
         <AnimatePresence>
@@ -115,34 +123,6 @@ export function ConditionReportCard({
           )}
         </AnimatePresence>
       </div>
-
-      {/* 대표 상품 미리보기 */}
-      {products && products.length > 0 && (
-        <div className="bg-gray-50 rounded-[16px] p-4">
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-[16px] font-bold text-gray-800">대표 상품</p>
-          </div>
-          <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1">
-            {products.slice(0, 6).map((p) => (
-              <div key={p.pcode} className="flex-shrink-0 w-[80px]">
-                {p.thumbnail ? (
-                  <img
-                    src={p.thumbnail}
-                    alt=""
-                    className="w-[80px] h-[80px] rounded-[12px] object-cover bg-gray-100"
-                  />
-                ) : (
-                  <div className="w-[80px] h-[80px] rounded-[12px] bg-gray-100 flex items-center justify-center">
-                    <span className="text-[11px] text-gray-300 font-bold">{p.brand?.slice(0, 2)}</span>
-                  </div>
-                )}
-                <p className="text-[11px] text-gray-400 mt-1.5 truncate">{p.brand}</p>
-                <p className="text-[12px] font-medium text-gray-700 line-clamp-1">{p.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       {/* 신뢰 메시지 */}
       <div>
@@ -198,20 +178,6 @@ export function ConditionReportLoading() {
             <div className="h-3 w-10 bg-gray-200 rounded animate-shimmer" />
             <div className="h-3 w-full bg-gray-100 rounded animate-shimmer" />
           </div>
-        </div>
-      </div>
-
-      {/* 대표 상품 미리보기 */}
-      <div className="bg-gray-50 rounded-[16px] p-4 space-y-3">
-        <div className="h-4 w-20 bg-gray-200 rounded animate-shimmer" />
-        <div className="flex gap-3 overflow-hidden">
-          {Array.from({ length: 4 }).map((_, idx) => (
-            <div key={idx} className="w-[80px] flex-shrink-0 space-y-2">
-              <div className="w-[80px] h-[80px] rounded-[12px] bg-gray-100 animate-shimmer" />
-              <div className="h-3 w-12 bg-gray-100 rounded animate-shimmer" />
-              <div className="h-3 w-16 bg-gray-100 rounded animate-shimmer" />
-            </div>
-          ))}
         </div>
       </div>
 

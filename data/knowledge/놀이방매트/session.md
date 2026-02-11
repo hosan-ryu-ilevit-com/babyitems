@@ -1,5 +1,5 @@
-# 세션: 20260211_035444_d44i
-> 시작: 2026-02-11T03:54:44.203Z
+# 세션: 20260211_064151_am7q
+> 시작: 2026-02-11T06:41:51.338Z
 > 카테고리키: 놀이방매트
 > 카테고리: 놀이방매트
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 놀이방매트 시장 현황
-- 인사이트: 놀이방매트는 아이가 있는 가정에서 필수품으로 자리 잡았으며, 층간소음 완화 및 안전사고 예방을 위한 수요가 꾸준히 증가하고 있습니다. 최근에는 북유럽풍 인테리어와 조화를 이루는 디자인과 양면 사용이 가능한 제품들이 인기를 얻고 있으며, 다양한 연령층으로 사용 범위가 확대되고 있습니다. 아기 놀이 매트 시장은 2026년부터 2035년까지 연평균 6.7%에서 8.44%의 성장률을 보이며 지속적인 성장이 예상됩니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFomkum-SDc19U1ms5PAtmyvjJ6gP0NxtDmpusMpaU7C7iB9w3asz58t5o-SMAeA5TCE4z3c_1ukfpASu_uC1WhTPSbRUYCZhwLQcexGTOU_s65VeomfvWdUn8U3PQ4D_6kjqb3wxZ-JN8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwJlK6KVhzQ3ZZeKkA-j3w97vYFsxh5vQgVq3Z2qSWiBkGXp4whOeg1TNwjoImZpU7cwO8iwOyxNZMHUiUk51QPvHLaygoIK1OVQhSeYSsmdsS8ZH7S0RH03jIwE30w3NngnEkgJf7CurmKlkhifGArE1ZCEME_RoKkTCDKJ-St91ioSBGOTgPPBH52faldN5WXQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDupCQvt2hMNn3jAEl5kCIVMN_JpVLNIVyXphp5f66Xb-SI2CWbRf_uwSGbAmt8g9-yB76VqtbAf2YtEz4xXUpkbbt_L4enb7FYz_QXjUzR_TaK_8X0KG9esDTs4G7xshPqQJxhwZ1k_eB6OOXf4RzKhVmLZdHxg8d8wu2jWATU4iQCw9TAtnbOCX4pAhx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEp4_UyJwGEdp7Cw0N2p_MZmoNCXSH2Yt6HFT9Hs-83aYR-T5-4Ajs7wcfAKm4EAJvQe3VXm7jd3XotVxLIhrByxe1gvQuCxOPOitmwBy495meWU0pO5-nvt25jGAVu01GJi1Ee-vqQMwPmzeY8zPAeBl2CAy5uHfQVKFCQRfUG6uAtN5RSoXvSYrqqQFRVirKEBHTu-ALF_myeFUgJ-2ULfq_4z8Kyw9AAD3K330_HgtkCNxL5VpC-JhYncli4_zEvZfOyrjT4RJTIm6hmMGmANe8ZSvbaGJi4Kt7xE_8HN8DiALBjR-YaKkuCvBhbkG-mU-IdwXLwmQ4o-Qj-Km023d2LgHDg3AG8cwY-R0JtkEzeRRKTXEbX0A==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjpaVpX17DztJJJSDPJZwPNOHNhR5tWg1wTu_MZUEUyyoqdG6F7OfcQVsrhLpj5cmAhyCaVXQqXCJU_epGjxJRr-er7_9pLhE2QY-KYvC9rBtupUxfsDqQvgGxKkR4BeY1SWEuK6lgbJ0-M8T7joGKWheGvecLPt9L3BjNjaYP_XkAT5y3Jv5bZryXDpSYZ8S-dxt0PDE0BzG1ib-xLc0n9WrCgCzoZYBYVG1nNR3aKY9H8s26ezqaax7_RGOTrj1_XkFig7vXaKDaHHd9B0G1o29D2UQ__QVCbNC0leqWcJiTs17zcFFMSPQc27c6Gg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEX2n8h1SmJ4Nm5Qp7QE21BH8wxPAAxUu3yXu-Kh_1HTpxokCpO2DgU27-ZFtXSDMaD8n-_Ax3EpnjJxYnkti4JZtlX7A0wfXQP3yw6s1ARfKZqBK9SX2Z8mtGemO7Ag_J5vv0-dhvRQxAmjXDuB1AG1Bm2ZR0YELAF7ESYTK3aVT9QwlEXY0IZAiM1q6CVrmp627XIanXpI3QrluT8l8bU4Q7M0sEuLIJBs7Sp_OZU32dSZ3AvYZ0PIKVX1NFud0s=
+- 인사이트: 놀이방 매트 시장은 2026년 약 13억 2천만 달러 규모로 추산되며, 2035년에는 23억 8천만 달러까지 성장할 것으로 예상됩니다 [6]. 층간소음 문제와 실내 활동 증가로 인해 수요가 꾸준히 증가하고 있으며, 단순 유아용품을 넘어 인테리어 상품으로 가치를 인정받고 있습니다 [9].
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5PgvuZzAn4Nu0Vlvkgmy2JtSiOYZh--HiidYApfR6146PMyszD4KKVhUzlMmDrroBHH8c2KUPOzMhX5WS2XKoKJPAGVAMaUxaOA0FjoRpUKwOmCi8nWTjLopDuWHXvJHNp79jwhs_HzYmHCQt9Z7KsEb76I8zP9AFcXQK-X86CoHHvMsuSlZVGXrz, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEmCIaTJdH_hWRST3PI3D_sUHno6ydaJaJuP0XxlfFFCsdHhy30tzt8dbIhOLpi0v_W0oxbvNvASWXEkHTaL2iewuih4ZHUOWCm8YOojcx5RcVkc8tCaqr0LEhycyNq2IutCoN52doF-ucZ_9NysC-c1Usb_ta5Fp-CSW0pRw7bdw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEz1-hnyY-P-gKJzJJtD4neHQ343QZbVVV81TbDK_u1OuDDp_Kg12cpTwFXUpDHm3GTKZOkEq-iMfq7sRZpKcN4HXMTyKvkFbL9RKTK80N20Et02pRn5MJS2v-y16o-pKOlKZIIv4o=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEQmWKJTNlXaHQCNopD9bfxxXaaI_qiluov6kcUfwj1oGOUPWHOOU0R_VQ83gqYYwlR64sgOhDLeMiGUxiVKK_szjD5S-vcy1Heh_qJ5gRGys_57fuh9Acmsdt6MKcBXQRZATEA6H2CDYMuIJRATakkKFkNEqzuM7lmIpv2rug2NyLrY0Zut7fdQzqYIP-Vlog7Xl-dk770ti6s_kfkbeki7SLlOfU-UVqXeY3jDcZt41z1odN2YxMAtqvzv5CMDNqFkOsjQBIDz3QJeB_rraIkuoYHv35pW9TwFaQJlPjLvCP-mRTIUX3KF7JB-HUyBhaVKwd-nZU6UT8MQKoUKWKv4GRs_SSY2e1Jl0qsI-rY-h3AMUcQriH7NQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGri4mJ_tp4VWa-ZmHmZq4LsnfZ1T5cGVyo9drNsaHWSWaftFlbp7Q3XLNXDHgZyVfFiGrrYFp2drKyZRsfXten3otdCSFoKqRwJ6WgB_vWETFtTamH8IVgegmuyXVPVtQDQ3cXoCDFvwt1yz2F54hYEMRgJsbKXz4A53gWkf8_R-Qit_ZSw-2fR5zQbypgHnyoL_abE9Lcm93h7mX5YkkyMrHdcvwEz0xTPG-iublYpoZy6EIyO5ieXfU2TcTTZbPr1xYWQThvfqel6ded28zfYzwFciUHTNF_t91i, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH8sxiaXRhkdXhtNr9i4b2x4_rEvE-kldkAwUtzUWSwWnUQrF6w2Xt0zAFW6HgObTo3UiLD1Twx0NgbXQ8-SkfboW5oH2ahHLuP4Vi0hXtSmPPJKECGNwkDJJUd6TXifsQPOnVe
 
 ---
 
@@ -16,6 +16,9 @@
 
 | 항목 | 답변 |
 |------|------|
+| 곧 태어날 아기를 위한 안전한 공간 마련을 위해, 놀이방매트의 어떤 점이 가장 중요하신가요? | 최대 충격 흡수 (두꺼운 두께) |
+| 놀이방매트의 디자인은 어떤 스타일을 선호하시나요? | 심플하고 모던한 디자인 |
+| 예산은 어느 정도로 생각하세요? (평균 약 14만원, 7만원~18만원대가 가장 많아요) | 7만원 ~ 18만원대 |
 
 ---
 

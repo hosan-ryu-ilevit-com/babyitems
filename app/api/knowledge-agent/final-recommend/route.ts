@@ -1855,8 +1855,9 @@ ${productList}
    - 예산 내: 기본 점수 유지
    - 예산 초과 15% 이내: -10점
    - 예산 초과 15% 이상: -30점 (큰 감점)
-2. **카테고리 적합성**: "${categoryName}" 본품인가? (액세서리/소모품 제외)
-   - 불일치 시 score: 0
+2. **카테고리 적합성**: "${categoryName}" 카테고리에 속하는 제품인가?
+   - 다른 카테고리 제품 (예: 포대기, 수면벨트, 보호대 등) → score: 0
+   - 액세서리/소모품 (커버, 부품, 리필 등) → score: 0
 3. **조건 충족도**: 사용자 조건을 얼마나 만족하는가?
    - 선호 브랜드 일치 시 +${brandBonus}점
    - "특히 중요" 항목 가중치 높게
@@ -1881,13 +1882,17 @@ ${productList}
           score: r.score,
         }));
 
-        // 누락된 제품은 fallback 점수 부여
+        // 누락된 제품은 0점 처리 (카테고리 불일치 가능성)
         const resultPcodes = new Set(validResults.map(r => r.pcode));
         const missingProducts = batchProducts.filter(p => !resultPcodes.has(p.pcode));
 
+        if (missingProducts.length > 0) {
+          console.warn(`[BatchEval] ⚠️ Batch ${batchIndex + 1}: ${missingProducts.length}개 제품 LLM 응답 누락 → 0점 처리`);
+        }
+
         const fallbackResults = missingProducts.map(p => ({
           pcode: p.pcode,
-          score: p.matchScore || 50,
+          score: 0,  // 카테고리 불일치 가능성이 높으므로 0점
         }));
 
         return [...validResults, ...fallbackResults];
@@ -1896,10 +1901,11 @@ ${productList}
       console.error(`[BatchEval] Batch ${batchIndex + 1} failed:`, error);
     }
 
-    // 배치 전체 실패 시 fallback
+    // 배치 전체 실패 시 0점 처리 (카테고리 불일치 제품 유입 방지)
+    console.warn(`[BatchEval] ⚠️ Batch ${batchIndex + 1} 전체 실패 → ${batchProducts.length}개 제품 0점 처리`);
     return batchProducts.map(p => ({
       pcode: p.pcode,
-      score: p.matchScore || 50,
+      score: 0,
     }));
   };
 
@@ -1974,19 +1980,23 @@ async function filterByCategoryWithLLM(
       `${i + 1}. [${p.pcode}] ${p.brand || ''} ${p.name}`
     ).join('\n');
 
-    const prompt = `## "${categoryName}" 본품 vs 액세서리/소모품 분류
+    const prompt = `## "${categoryName}" 카테고리 제품 분류
 
 제품 목록:
 ${productList}
 
 ## 판단 기준
-- **본품 (Y)**: "${categoryName}" 자체 (예: 유모차, 카시트, 젖병 본체)
-- **액세서리/소모품 (N)**: 커버, 시트, 부품, 교체용, 리필, 패드, 매트, 케이스, 장난감, 젖꼭지, 세정제 등
+- **해당 카테고리 (Y)**: "${categoryName}" 제품 자체 (해당 카테고리로 판매되는 본품)
+- **해당 카테고리 아님 (N)**:
+  1. **다른 카테고리 제품**: 포대기, 아기띠, 수면벨트, 보호대, 방한용품 등 "${categoryName}"이 아닌 별도 카테고리 제품
+  2. **액세서리/소모품**: 커버, 시트, 부품, 교체용, 리필, 패드, 매트, 케이스, 장난감, 젖꼭지, 세정제 등
+
+핵심: "${categoryName}"으로 검색했을 때 나올 법한 본품만 Y. 이름에 "${categoryName}" 관련 키워드가 없거나 완전히 다른 종류의 제품이면 N.
 
 ## 응답 (JSON만)
 {"results":[{"pcode":"코드","y":true/false}]}
 
-⚠️ 애매하면 Y (본품)로 판단`;
+⚠️ 애매하면 N으로 판단 (다른 카테고리 제품 유입 방지)`;
 
     try {
       const result = await model.generateContent(prompt);
@@ -1999,7 +2009,7 @@ ${productList}
         if (parsed.results && Array.isArray(parsed.results)) {
           return parsed.results.map(r => ({
             pcode: String(r.pcode).trim(),
-            isMainProduct: r.y !== false,  // 기본값 true
+            isMainProduct: r.y === true,  // 명시적 true만 통과
           }));
         }
       }
@@ -2007,8 +2017,9 @@ ${productList}
       console.error(`[CategoryFilter] Batch ${batchIndex + 1} error:`, error);
     }
 
-    // 실패 시 모두 본품으로 간주 (안전하게)
-    return batch.map(p => ({ pcode: p.pcode, isMainProduct: true }));
+    // 실패 시 모두 제외 (다른 카테고리 제품 유입 방지)
+    console.warn(`[CategoryFilter] ⚠️ Batch ${batchIndex + 1} 실패 - ${batch.length}개 제품 제외 처리`);
+    return batch.map(p => ({ pcode: p.pcode, isMainProduct: false }));
   };
 
   // 배치 분할
@@ -2910,7 +2921,14 @@ export async function POST(request: NextRequest) {
     // - flash-lite + 대용량 배치(20개) + 고병렬(10) = 빠른 처리
     // - 키워드 매칭보다 정확한 LLM 판단
     // ============================================================================
-    const candidatesFiltered = await filterByCategoryWithLLM(candidatesWithReviews, catName);
+    let candidatesFiltered = await filterByCategoryWithLLM(candidatesWithReviews, catName);
+
+    // 카테고리 필터 후 후보가 너무 적으면 원본 사용 (최소 5개 보장)
+    const MIN_CANDIDATES_AFTER_FILTER = 5;
+    if (candidatesFiltered.length < MIN_CANDIDATES_AFTER_FILTER && candidatesWithReviews.length >= MIN_CANDIDATES_AFTER_FILTER) {
+      console.warn(`[FinalRecommend] ⚠️ 카테고리 필터 후 ${candidatesFiltered.length}개만 남음 → 원본 ${candidatesWithReviews.length}개 사용`);
+      candidatesFiltered = candidatesWithReviews;
+    }
 
     // ============================================================================
     // 1단계: Top N 상품 선정 + FilterTags 생성 (병렬 실행) 🚀

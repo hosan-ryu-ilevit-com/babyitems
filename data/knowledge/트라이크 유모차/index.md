@@ -1,25 +1,15 @@
 # 트라이크 유모차 전문가 지식
 
-> 마지막 업데이트: 2026-02-05T03:00:00.974Z
+> 마지막 업데이트: 2026-02-11T06:49:58.898Z
 > 분석 상품: 6개 | 분석 리뷰: 659개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
-- 휴대성 및 컴팩트한 디자인 강화
-- 프리미엄 및 다기능 유모차 수요 증가
-- 안전 기능 및 편의성 향상
 
 ### 구매자 만족 포인트
-- ✓ 뛰어난 휴대성 (기내 반입 가능)
-- ✓ 가벼운 무게
-- ✓ 우수한 가성비
-- ✓ 부드러운 핸들링
-- ✓ 간편한 폴딩 및 언폴딩
 
 ### 주의해야 할 단점
-- ⚠ 익숙해질 때까지 시간 필요 (폴딩/언폴딩)
-- ⚠ 디럭스 유모차 대비 제한적인 기능
 
 ### 가격대 인사이트
 
@@ -30,7 +20,7 @@
 
 ### 1. 베이블퓨어리 트라이크 유모차 T2
 - **브랜드**: 베이블퓨어리
-- **가격**: 50,210원
+- **가격**: 50,730원
 - **평점**: ⭐4.7 (55개 리뷰)
 - **핵심 스펙**: 유모차 / 휴대용 / 사용대상: 3세부터 / 허용무게: 30kg까지 / 유모차무게: 3.7kg / 출시년도: 2020년 / 기내반입가능 / 양대면전환: 시트 전환 / 3점식벨트 유모차 / 3점식벨트
 - **장점 요약**: 분석 중
@@ -60,7 +50,7 @@
 
 ### 4. 이알씨에듀케이션 벤틀리 트라이시클 뮬리너
 - **브랜드**: 이알씨에듀케이션
-- **가격**: 595,730원
+- **가격**: 595,690원
 - **평점**: ⭐4.8 (589개 리뷰)
 - **핵심 스펙**: 유모차 / 트라이크 / 사용대상: 6~48개월 / 허용무게: 30kg까지 / 유모차무게: 13.5kg / 출시년도: 2023년 / 양대면전환: 시트 전환 / 5점식벨트
 - **장점 요약**: 분석 중
@@ -101,8 +91,7 @@
 ---
 
 ## 📊 데이터 출처
-- [gminsights.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfZGo8_tJ7Ek2Lkpel7Wsvp9ydCCoimWQCVaDIEHh1dR3gionmoFM_4XmG_x0zjphId8k_o9GTedFPYI1JMPmR5KinPIpPDrlk997ajcK0VTFDpi_QlSAfQUyjNTRPRBgmU9gugfli5PQUpeAMYMLubTlyyT54hosEkXNJY6FKI_aCoj9pkh6r)
-- [verifiedmarketresearch.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHQzCDEYoAovP-MyUO2aqE2BogiYKlTX4HGUvGV7sRtA9JDHza6O-H5PLKmBM5hZZVRviJPzGWozfgWAInb4TPiIqatGEt-dKyrAWNa9kpTSLO2P2faDP_YjknhgtZtkuIReW9zclyLOrp2jeia5aoFHv30ykq1Smb-_xC3F6uJloYXjt4pvBlbFTmt5LVV)
-- [mordorintelligence.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNMZsOQ6nlQQLZfIP6y70z6714q_5PVCmrx7L8c9khG4sqFWpAvBB82Y82n-gCAxT6tAlmaowEBMdhc9gWXLHubqKbN7-B6FzhvNh07fWfcP3rLGBTJSFgZOa8u3M4gq5HkVQtDJbX0NH8Wj6EKjs1ZRRLnH26SHEjx8nVvPu6kXq6)
-- [made-in-china.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNB79nny5KlFIOg5l2RLPSAiheHUursbS5mz65zkhu8RMjWHNHU9FSsNBEspuidAbNgI8OHYMR7cOF2ZrU_UwAL_Gbgtspkjp4LeSWpq-WEmVLRTNVgmJ5Vy0TcdelNrrGzYBnBsIj5meVnZJVDWHaoW_53I2_FGxzWXxFDbsZekqSA4B2S6-janS83JUTYLyZoVK2MCrNnvmb7Si-yLmoQVAxTcI3DtY3MsbkmS9YCLyvPax1jeQb)
-- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWDMN_7-G_d4qlfUUvtriRJ0j8M071JHXuYc2ul7opV6EPqKeQFFQvc8aLxI9GAWZuJOmRhNymVwG6WN8kkQsg1jU0TQuWjtUqtV8p6gJCUYEYDUZuyGxr7C7M3z2k1zfi1NDj7NA=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhFa54BPlbERzlMJiNqEDLgFEFnb7Jd5OUSSCD5cXMS15ztWEXzdOKu5y9Y9McRlHOTu5_Pws3JVgVPvP7PZRuKbypIOPbyBo70UmsLKNY2L8xviSVN_BXn_o=)
+- [youtube.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHln8-aoH5BEE0OAz_e-U0zHIg3ABiYEY03qcqr20E7SxhQEinhpEkmbFfE3L6a2K_AuaDgTe_ADb72Fazc9mPrkcuYqG7fN5r2bNb9_WoeJ0ii1G0amHhAUCeKytTxfR-8ok70AJo=)
+- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHb8u7Xsif33L7VHBbKiyzKW6Mrjd1ZJVDS3RIgJxA2TtA-PkjtcfKE_mlLYOPblZNsXP4ta2zEm4xDugJVGItG1TZxf4WYJPzb6jBPNT6QJc9n6IIwiUdcg5770oT_)
+- [yulseohouse.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE3zls9Zm2YW9QhWWO7YeC_MMZp8I8Rr2iNwSvsynyl-VgBsU4U-3xNztiZMSVf-Tg8Umou5OV76lU93ONsA9vjq09GjCkHQHmNDGo8v7i8sSurU5l_gpGzug5-V2G-KBM6H5daaM7RzKxjCALjOhiowxMmLxJcPcUoryjX7QbWraXoUSeRmEuJI4DV5M3QUVzZrGJLdd7x2thsTlEtyEphV7LNvtPt5LCj5R2tZX9sC61oxdmVb8SJdfe7gMV0Ck2kEYLl6OKw4VRV_yFk0FSZI2QURi4Nfu-xkwtlVPK0VmAK7Uad09grScQl-XvVl6_d3Gc=)
