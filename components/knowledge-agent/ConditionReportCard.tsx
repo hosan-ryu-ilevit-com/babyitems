@@ -82,7 +82,12 @@ export function ConditionReportCard({
           className="w-full flex items-center justify-between text-left"
           aria-expanded={isSpecOpen}
         >
-          <p className="text-[16px] font-bold text-gray-800">추천하는 주요 조건</p>
+          <div className="flex items-center gap-2">
+            <p className="text-[16px] font-bold text-gray-800">추천하는 주요 조건</p>
+            <span className="inline-flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-blue-400 px-1 text-[10px] font-bold text-white leading-none">
+              {report.analysis.recommendedSpecs.length}
+            </span>
+          </div>
           <svg
             className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isSpecOpen ? 'rotate-180' : 'rotate-0'}`}
             viewBox="0 0 20 20"

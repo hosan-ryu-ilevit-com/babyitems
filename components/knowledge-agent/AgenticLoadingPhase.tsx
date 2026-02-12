@@ -299,9 +299,9 @@ function ProductAnalysisContent({
   const TARGET_COUNT = 100;
   const products = crawledProducts || [];
   const count = step.analyzedCount || products.length;
-  const progress = Math.max(5, Math.min(100, Math.round((count / TARGET_COUNT) * 100)));
+  const progress = Math.max(0, Math.min(100, Math.round((count / TARGET_COUNT) * 100)));
   const targetPercent = step.status === 'done' ? 100 : Math.min(progress, 99);
-  const [displayPercent, setDisplayPercent] = useState(() => (step.status === 'done' ? 100 : 5));
+  const [displayPercent, setDisplayPercent] = useState(() => (step.status === 'done' ? 100 : 0));
 
   // 실제 수집 진행(targetPercent)을 기준으로, UI는 1%씩 자연스럽게 따라가게 만든다.
   useEffect(() => {

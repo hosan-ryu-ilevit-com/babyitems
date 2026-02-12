@@ -5829,7 +5829,7 @@ export default function KnowledgeAgentPage() {
         </main>
 
         {/* 로딩 단계에서는 하단 채팅바 숨김 */}
-        {phase !== 'loading' && phase !== 'question_generation' && (
+        {phase !== 'loading' && phase !== 'question_generation' && !isCalculating && (
         <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] px-4 pb-6 pt-4 z-50">
           {/* 그라데이션 배경 - 뒤쪽 */}
           <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/75 to-transparent -z-10" />
