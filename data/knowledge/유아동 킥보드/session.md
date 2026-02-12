@@ -1,14 +1,14 @@
-# 세션: 20260211_040454_dvgu
-> 시작: 2026-02-11T04:04:54.117Z
-> 카테고리키: 유아동
+# 세션: 20260212_044157_gy1d
+> 시작: 2026-02-12T04:41:57.162Z
+> 카테고리키: 유아동 킥보드
 > 카테고리: 유아동 킥보드
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
 - 쿼리: 유아동 킥보드 시장 현황
-- 인사이트: 유아동 킥보드 시장은 안전성과 지속 가능성을 중시하는 추세이며, 소셜 미디어에서의 홍보와 옴니채널 전략이 중요해지고 있습니다. 또한, 2-12세 아동을 대상으로 하며, 재미있고 안전한 디자인, 쉬운 조립이 강점으로 꼽히지만, 품질 불량이나 조립 어려움은 개선이 필요한 부분입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCCJARZyKVFGvBYS1zNP7SiJmjxTGH3kCeYSWd36J_cZy96Dx0emdoJDu7o0zXtzCedPljlCUAWOJ0EA8uu6kN0sqMOt9HU38bUSsxiKh-n1otcc2UkNXwoXc-pjKMbeoxlZFHrjRyE10bkq2lMB9UOnUBlQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGU5TxlM6Oxe0KbSEd296iK8Y0anOd7sefLt32FvCB0Q5WtusQdgy6Il2A-Ri3m_OS09XuJQ3zB94e580glYfm0ebiAguVYcQnXTOWAV0gs4bAZxaRd2V2B7kgaSvhjRUN4_wurRSU5tzgCUNv619dB3WEXyXsIuRFZ16OgIobLhd2780Rc4wv65rlrftSFMasuvcJYbtNwQxXBYCP7Qk93_wE1YzNYS_ii, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFyHQNX8az8mpnv8uEm6TGycXCOiMQObwZh60RWKpm4YMfkpz3BNz8ItK8QIWSw8YDUcg4Mkghqzd2TMtkeN-0Oh1D57vuN9zbPeM9n14lkpD8GCQIDLiAzI1BXXYUPMSR8YA5AP1BdhVOC_ossQot1oOiLcE8aQlk9kQ==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFNdWk4djmd1rbuMiRJdSyaLY9DzPADKhJpiPaGUJM7I9UXX_wmnECtZF0M34lTzkk79acaCe7rlLQCbIXGDF2FZWF3TyBeSc6pqyu0b-Y9-0Yhmg7jUO5ggEmxbyUJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFrCXUHLQEfBsNETSBzHbBtGgk3AS8hDrxoleSYAzO1Hxblmqf3RVEuvdbsES_K7a5jdtxFL5hi0KkQZIlyd7M1i4Pr8nnBvuG8IjmrLMeeR2F9NAeZ51D0FjJMKKjyJtJvh4QeWToY-dMYjA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9oGAVltxI1AOJEkz__8VPXo-vkLzcxmdBNst6iIKdCyiwStzo5LhaS4cP1JRus3UGGu9iLQT5PisjaJrK2mgZjMF8SRumiH74_egyVYsUOesNL590t0b_v2_3RSVEvvjFI-gLf3ri4XsTfvmc3gieedCnhoxAJaddj9tg5N0Fav804uwx5A0KMSjQV5HxO3eXjaaV5f8xX4LcXYjYYe1ojg==
+- 인사이트: 유아동 킥보드 시장은 안전성과 내구성, 그리고 아이들의 흥미를 유발하는 디자인을 중심으로 성장하고 있습니다. 최근에는 지속 가능성과 친환경 소재에 대한 관심도 높아지고 있으며, 온라인 채널과 소셜 미디어를 통한 구매가 증가하는 추세입니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEguFd1EnqPRjsC1xprqJePvqfaeWzkdQVoQrO90FeLUukLKwXr9kVaS2IW2aHMZSVsIaYcNthd6QiqF3H66THHGVNXNYAtGs8KCLxdXH6nSJ8D8GqksGkckdvm0L28ImNZGTxwpnhx-Vu2VFgIlqPweKzQREiX7EyLCzpcAS2CG0jO3uYHIT0KerJjk9ZRVQtAhNsKOo2degiYRG8qlSjW0ZIAC7U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG19GgD5X7Q2rfxHgGpE71UbKAlbjpIt6dF8Dq0xV1xDMqetgCwD3UarA1bEcROYakT_cPEh0xou0k3DNOiHIWQA0OaIsrqh9VgaVxau5KzrwvI97dr_xTexGQGoHKLUVNNim9IsfG2f3e0H9orDqnPaIJfDJ_g8_kASrKq6f0ommIBAcld6_CHsNhzIwsNCLJLJyL0VrauB8ekr1QCNZk-8LuFGMCC69QxgA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqKT_5VKBY7vvUfBTVfCDmoj9uvraMl7XWNiNiasgsK-9rRcf7p9zFIrLo2uGOD5mcALUnNJw4bh3yXDS8vo4hzfrv2oc72wj4WIpLH5Ens7qCyPqYlRdUfa6mlWTCwkUbWiHkYhhCgsAhSeUMlJEJd0e0i6aAubRzZvIgXqAEHUlC-AlaeFkUGLVBpbGsx6D8fowEByPny4m1pw0TS5qnxrqBL7M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJswUIj5VEL61OQNRq_yFZRZeOontb_Jldkp9Q_l5LseiKu3PspLyl81XzPJx178Wo4Y9Z5yeRKTyIIo4xYyW31HMB0MsA1iVZf5eh1vGj0JE5wTZ4PPC_Ta3ergs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGxtNlYE3pUYHRj8hHTJlJzrHG8jNhtZq1KAmOI5IOwQY-fjtNAOurLNbxiGvznKNDVcmLDVYwS37WnfUD_c35hLS9owxom6uhUIIb3visTnOq-cTO4i1t74P6bDt_F_pD3rhohrg=
 
 ---
 
@@ -16,12 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 아이가 균형 감각을 기르기 시작했는데, 어떤 점을 가장 중요하게 생각하시나요? | 안정성 (낮은 무게중심) |
-| 핸들바 높이 조절 기능은 어느 정도 중요하신가요? | 필수 (아이가 성장함에 따라 높이 조절이 꼭 필요해요) |
-| 바퀴는 어떤 소재와 크기를 선호하시나요? | 고무/폴리우레탄 소재의 큰 바퀴 (충격 흡수 및 부드러운 주행) |
-| 브레이크 시스템은 어떤 방식이 더 적합할까요? | 상관없어요 |
-| 킥보드 재질 및 내구성은 어느 정도 중요하게 생각하시나요? | 매우 중요 (오래 사용하고 튼튼한 소재) |
-| 예산은 어느 정도로 생각하세요? (평균 15만원, 9만원~20만원대가 가장 많아요) | 10만원 이하 |
 
 ---
 

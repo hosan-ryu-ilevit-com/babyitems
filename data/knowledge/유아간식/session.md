@@ -1,14 +1,14 @@
-# 세션: 20260210_134502_e5qf
-> 시작: 2026-02-10T13:45:02.205Z
+# 세션: 20260212_043715_t4jh
+> 시작: 2026-02-12T04:37:15.743Z
 > 카테고리키: 유아간식
 > 카테고리: 유아간식
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 유아 간식 시장 동향
-- 인사이트: 유아 간식 시장은 프리미엄 제품에 대한 수요 증가와 함께 꾸준히 성장하고 있습니다. 특히 맞벌이 부부의 증가로 간편하면서도 안전하고 영양가 높은 간식에 대한 선호도가 높아지고 있습니다. 중국 시장에서도 고급 육아 트렌드에 따라 어린이 식품 시장이 활황을 보이며, 로컬 브랜드들이 시장 지배력을 키워가고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELl6amdulSGmNddOetQgbmA0TQTMWrtaNpJ_tXLzxqM4dwbfGPu_yFt8LeVBpc6t6Wqst0V5FI6V2zq4TcCWnK5PrhT3r92CSopk1QNldnem0aepJqTYk_IsTKHNfCcHU92B7IhxWejil3xSq4k45QqRLpkAszbrpOCuyNHg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHZ_D9Wb56HV4j6mSiSzy11tX0lB8MiBZHbwKh0O1oYLTbL14NJFsSseBy16yp_5-HV8cFZc4ukAeV1z5yKkpvmX2yxYkJeBnqWz6HQwO5GMH7T2PXPn-IwKJF_YvZgaIexbOjq_22hsFiwQCpKx_v3KOZOnuxcRk=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGY7vX4JDrhgCxvu6-ehQD5D5qSt5fACPHFYamUQYbit6-OR8l4cjjY17HOnyrWLvc12z_8hUAlIhm2fkpDjnGrH5Le0shmBZZA4IRY2u_G8Zh_jWoHJGP4wKuBS5xnrC_KM8BWt5HavhqNFVTrKt-gCBS8ixec9FGevEOJ, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGjgXaE2HUWoYlrQtv9YAiMuQqePC1L2eFSli2u-HbWlVPaau_ok2meA_gVC_hVaHoYfrF2WQmuGkWNhL7u_2aUBdZ42hjIcp81P152NWsUrPRpS60NWxSPJWC1Ku8mViJKasQPN5w7dHzD-k7_gTl4g6O6BaptNQU=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFsnof9d-SpCavMxfOhGqDhWdJ8vxpnTw4Am-Op0xwbFp7uWKNCeQeEeJ5s96Bthq50jscn0yvn9gkCTmZffr9vHUBvqsBBY4Ii6QXo39qTRpqMqwq9o6hhKEGaTrAG45-rsZqDMIA81GLYmdL6wvIZyGdGyis-gQrppcjjQKBbPAnf, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLKFDXkIJj0H2WsesDMyed8Ens6a_uqldtE2A-miOIvZzAp0nyMW5Ew1iWTy6dmqOs3Kwwm5IWuOwT4RogEtSd5Oon1lhz1Lb8EAUDa9XZaS3fNGZx2u-saxVhoFJLoOaU5CE3PVnmny8xlv_dwdVuzEkmnC55uSTNut894XiCSieKNVBQlAG9gbblJwe5ZpWiGA80-mUDLzIeM1gyKXZVO2vaeWbMPUddg1uyGIMX99w-jYMmXJUItQg=
+- 쿼리: 유아간식 시장 현황
+- 인사이트: 유아 간식 시장은 저출산에도 불구하고 '골드 키즈' 및 '에잇 포켓' 트렌드에 힘입어 성장하고 있습니다. 특히 미음, 퓨레, 유아 간식 등 간편 영유아식 시장은 연평균 20%의 높은 성장세를 보이며 전체 시장을 견인하고 있습니다. 맞벌이 부부 증가로 편리한 주문 배달 영유아식 수요도 커지고 있으며, 2025년에는 7천억 원 규모로 성장할 것으로 전망됩니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGi--0knQ9zipwl5wip4d60wFRYrqzkOLdHZDaXKf8Wcnqg_X-b1buNdUy_u0VvRv-FUC14KlvcmnHBixH34OkjJqTGZsaxfGICbUsqqymo0GYkuPmMq-T1pncVhqXLv-M4gaHRyXyziQ0f5VnXkdo1bilUKwS3BcFcbA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEaFKY0GpgI-OcvGWrWxTVBRgEXMSXIUr9Ga4F9SX36xT9K5PT_gSM0shlb9yRSphQPQrafR4UAgkibEp5QDkbHd6CiZ-Nb8GHknYxeXu06nxO5neaijng8vu3N_sNXWfGyDOPSgwN34CXlgqZb7Kgt5gIU03Rg-wXUaVA=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGUUxS6zo1hUSHSQxLwqUW9PEZpxnGzwwhNRcd9UPf0RcXtcdOX5-S_ru0BgWdRbr-zNDzLeZM6G0bJi65NBEMXSObiHgOHdIYvhP1VpZHf6PEQh3YomqXUqs3O_wexKkfx, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4awpuHCv7vAGALPrJXZV-BYu4Q210YThikPmhj-daPc5NdUcOYGQ2KDD85nsR5OETwbzuQcNL6i_lIcaNvUv9AVABNwiZC7K_QWG6GyqZnb2KNFJvZ9893u_meIojWIG3i19b7MQ0BgUEim0X2Jm7JwaSpRHeFA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH4qYs633JdHv05heBgXnYsVsftAVKXZjjcL9I4Gdsc8CSJ5DcbXO3qU-QDfEE9mn5_r-K1zhsupHya-QmJnVRvdS0IpQrR5oUS933kMaTrwkMJE4jk728GDVN622_6lhkh5_6PaElgnmhDGCMTP5oIi5osDjqxNrxFiWAOWQ==
 
 ---
 
@@ -16,11 +16,6 @@
 
 | 항목 | 답변 |
 |------|------|
-| 외출 시 휴대하기 좋은 간식, 어떤 형태가 가장 편하실까요? | 개별 포장 (하나씩 뜯어먹기 좋아요) |
-| 간식의 원재료는 어떤 점을 가장 중요하게 생각하시나요? | 유기농/무첨가 (믿을 수 있는 재료) |
-| 아이가 먹기 편한 간식의 식감은 어떤 것을 선호하시나요? | 부드럽고 씹기 쉬운 식감 |
-| 간식 선택 시 식품 안전과 관련하여 가장 중요하게 확인하는 부분이 있으신가요? | HACCP/ISO 등 식품 안전 인증 |
-| 유아 간식 예산은 어느 정도로 생각하세요? (평균 약 1만원, 5천원~1만 3천원대가 가장 많아요) | 5천원~1만 3천원대 |
 
 ---
 

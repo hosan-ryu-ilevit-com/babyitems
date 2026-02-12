@@ -186,6 +186,17 @@ export function ProductComparisonGrid({
     return match ? match[1] : text;
   };
 
+  // evidence 내 **강조** 구문을 실제 bold 텍스트로 렌더링
+  const renderBoldText = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g).filter(Boolean);
+    return parts.map((part, idx) => {
+      if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+        return <strong key={`b-${idx}`}>{part.slice(2, -2)}</strong>;
+      }
+      return <span key={`t-${idx}`}>{part}</span>;
+    });
+  };
+
 
   if (displayProducts.length < 2) return null;
 
@@ -481,7 +492,7 @@ export function ProductComparisonGrid({
                         {evidence && score !== null && (
                           <div className="mt-1">
                             <p className="text-[13px] text-gray-600 leading-snug">
-                              {evidence}
+                              {renderBoldText(evidence)}
                             </p>
                           </div>
                         )}

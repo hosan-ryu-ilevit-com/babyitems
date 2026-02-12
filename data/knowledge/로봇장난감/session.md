@@ -1,14 +1,14 @@
-# 세션: 20260210_135618_rxl5
-> 시작: 2026-02-10T13:56:18.006Z
+# 세션: 20260212_043629_1bay
+> 시작: 2026-02-12T04:36:29.390Z
 > 카테고리키: 로봇장난감
 > 카테고리: 로봇장난감
 
 ## 🔍 웹서치 인사이트
 
 ### Init 단계
-- 쿼리: 로봇 장난감 시장 현황
-- 인사이트: 로봇 장난감 시장은 AI 기술 통합, 교육적 가치 강조, 그리고 다양한 연령대를 아우르는 제품 개발로 빠르게 성장하고 있습니다. 특히 인터랙티브 기능과 STEM 학습 연계가 중요한 트렌드로 자리 잡고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGCrcEHFQg-2b-0fOZjoW0HFE92kiGkSVub-Lob0djafEpnMNvyw5AZu0YOYZzzu2uYjv3vSitfTMEooaGIploZqW0yBbLlivPAIm_A6Ppec7xm2ETug9jRU4tywKObSYuOR9ZQ2FlLhXBTC04LSvXCn1LFJGgg87kTlA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9wE8joQ7KgBahObMDIIfZVQx_QVX1Q2gr5RWZlfibsIkUA_L2A76Tk8Bd6uEBGhYVKOlmlFMjEbKNho2csFjzBKix--1Yt1naPb40bYR5Bi80_GBHCa_xeNDJQN-aKqUQD5GXROE3KBlGlUxTFRJa0gFcYFMfDsX7FyPn8Va0YCg1TErLq62qbxGxC9cfST8VtrKuP1kJA1Hhssyb5o-d-f9furL9Ka6_yavZTYEA75RPOjBPRcJa2dZy-1_ZCYuAfTzynw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGycto_i-TAFZLmyJEiyS8UAKqmRR_WtYues0l6_WXw9PIRmz-g9_gAMeyw-3zg0fUBAbFWTq6rQI-9DEoOKkoHpXMlt1S7Fgsl8y-bottixV-bUbIajiwMALE_6QjJcYJXAtVWmA77Rb2T1VzWN9J1JLoePhcRb4iksXtUDE-PnpHU4nyfDsT6aAqh0RVlgDToIq_8cibM4Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2Htu7SrP7uQorAyZWDEOJHs3nCnVTTCVGpZlruFsppKxmIGm_xD4MuMWVydiVG3eOB-2kfmNbRwj7iqaSO7T8U-tU6Jpu7EYJfrvS42e0q1WZisO1en9YkILDV1aOxPKJwAZjf9jUU-9pjdtRMw45Rmvfu3o4Dc_vLVoVGPC8Y3SKcd6ywJIxfCZCK31U3eVw0z59MmwH61W4mv3UzpHrvpQv64M14po=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGRmMMSfOVFiCRymqL0mSpxxyRYZlhL76ZXALcIjBxEMU11s5aKIuktlSlugqp3PckJDoOKdu4F40Xh55uQD4j8mrOgbWbDoLDPSFwdxonnK9_b9KR0LTtQS-mFwEfwA1qnOsDdKzjMMRxRk2DR9N8bXlexO3Zh3vnWHt2wEvDYiPAMwtyzS2nZNaF7g381W4nhi_ORxFeGX3dwg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCXK935OkP3cmNGNy4Ab-pzTldqHYUT0m1lQEikxpVlnD-4BEuwZF9b0TkeGVQ-ggs79AUVswckvIkOTTGhnSxIv9OTOijUzW71M2LfQIOi9LfFDgounDfyoFk2E5aSn1FyGJq
+- 쿼리: 로봇 장난감 시장 동향
+- 인사이트: 로봇 장난감 시장은 AI 기술 통합과 STEM 교육에 대한 관심 증가로 인해 빠르게 성장하고 있습니다. 특히 교육용 및 엔터테인먼트용 로봇 장난감 모두에서 혁신이 이루어지고 있으며, 아시아-태평양 지역이 가장 빠르게 성장하는 시장으로 부상하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcHzS-pF1-HIDV4_IWJBVisqVViysv3-zPGhA5O4vtSChGCRa71Pkg5k6GphvEOuq1XSAO4sMFzeGUDiTwXYUbRbP3XBMVAIaQPAs5gqo8OR2oeIPkL_5OhzOSc_yOQlhM90i3g9wqJeIrn5oxuaGs3cAjF6hoPabTIwEtHfpJWyBVwO-IWTJ6v4KDgg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1hF-98bLoLUf23f3o3t9kFoAhrWpJGaPT4Y-KE_TQBFkn0Jss4ftQOgv5Pg8UyjobGtruM3gUJ9biY5phBxUDfvAnpU6zE3QFhD_4eOCQvkgyO1ofUsEU2Do99nRcPF-pjdMz2YPWxj0YC8eNrLxfKPd28188o642LyD2kzzbu00arrn94rzE--Gt2Tv_3g5pwPaItw63jj8=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEG8BPP77aU7hM6SEMSGSmy2yKuBQnRM-2O4w6-K3H1j0mc_sDnMVFapU4gFdSYzafsrhfGaLcjOBIPqxuUQRusOOEatKsFucc03IFzwRgLXn4-Qla4T2JPZb5iLDciNw1YqV4zPe9i5Z6gtixLjDsrW5cbJVsX-lY0RbBCJT1ZdqqwQnkHCqsySaNOaREejOsZY1ToxWWYZ1JoHaU=
 
 ---
 

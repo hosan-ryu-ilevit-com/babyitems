@@ -1,15 +1,24 @@
 # 바운서 전문가 지식
 
-> 마지막 업데이트: 2026-02-10T07:47:30.139Z
+> 마지막 업데이트: 2026-02-12T04:36:31.260Z
 > 분석 상품: 20개 | 분석 리뷰: 2,042개
 
 ## 📈 2026년 시장 트렌드
 
 ### 핵심 트렌드
+- 안전 기준 강화 및 리콜
+- 다양한 기능 탑재 (진동, 모빌, 음악)
+- 휴대 및 세척 용이성
 
 ### 구매자 만족 포인트
+- ✓ 부모의 육아 부담 경감
+- ✓ 아기의 안정감 및 수면 유도
+- ✓ 다양한 기능 및 편의성
 
 ### 주의해야 할 단점
+- ⚠ 영아 질식 위험
+- ⚠ 아기별 호불호
+- ⚠ 초기 투자 비용
 
 ### 가격대 인사이트
 
@@ -28,9 +37,19 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=26609729)
 
-### 2. BABOCUSH 신생아 바운서
+### 2. 콤비 네무리라 전동 자동 바운서
+- **브랜드**: 콤비
+- **가격**: 582,385원
+- **평점**: ⭐4.8 (124개 리뷰)
+- **핵심 스펙**: 바운서 바운서
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20810327)
+
+### 3. BABOCUSH 신생아 바운서
 - **브랜드**: BABOCUSH
-- **가격**: 236,810원
+- **가격**: 220,233원
 - **평점**: ⭐5 (6개 리뷰)
 - **핵심 스펙**: 바운서 바운서
 - **장점 요약**: 분석 중
@@ -38,27 +57,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20813426)
 
-### 3. 베이비뵨 블리스 메쉬 바운서
-- **브랜드**: 베이비뵨
-- **가격**: 324,220원
-- **평점**: ⭐4.9 (996개 리뷰)
-- **핵심 스펙**: 바운서 바운서
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=21657263)
-
-### 4. 키즈투 브라이트스타트 레인포레스트 바운서
-- **브랜드**: 키즈투
-- **가격**: 28,610원
-- **평점**: ⭐4.7 (57개 리뷰)
-- **핵심 스펙**: 바운서 바운서
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20809886)
-
-### 5. 이오맘 베이비 스윙 바운서 풀패키지
+### 4. 이오맘 베이비 스윙 바운서 풀패키지
 - **브랜드**: 이오맘
 - **가격**: 139,000원
 - **평점**: ⭐5 (1개 리뷰)
@@ -68,15 +67,25 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=28256765)
 
-### 6. 마텔 피셔프라이스 바운서 인펀트 투 토들러 락커
-- **브랜드**: 마텔
-- **가격**: 50,540원
-- **평점**: ⭐4.6 (530개 리뷰)
+### 5. 키즈투 브라이트스타트 레인포레스트 바운서
+- **브랜드**: 키즈투
+- **가격**: 29,090원
+- **평점**: ⭐4.7 (57개 리뷰)
 - **핵심 스펙**: 바운서 바운서
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20810315)
+- [상세보기](https://prod.danawa.com/info/?pcode=20809886)
+
+### 6. 베이비뵨 블리스 메쉬 바운서
+- **브랜드**: 베이비뵨
+- **가격**: 325,870원
+- **평점**: ⭐4.9 (996개 리뷰)
+- **핵심 스펙**: 바운서 바운서
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=21657263)
 
 ### 7. 키즈투 브라이트스타트 기글 사파리 바운서 (11480)
 - **브랜드**: 키즈투
@@ -88,17 +97,7 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=20845349)
 
-### 8. 키즈투 브라이트스타트 딜 브라이트스타트 바운서
-- **브랜드**: 키즈투
-- **가격**: 10,760원
-- **평점**: ⭐4.6 (51개 리뷰)
-- **핵심 스펙**: 신생아완구,젖병 / 발육용품 / 흔들침대 신생아완구,젖병 / 흔들침대
-- **장점 요약**: 분석 중
-- **단점 요약**: 분석 중
-- **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=26609297)
-
-### 9. 쁘띠엘린 세이지폴 스튜디오 원목 코지핏 바운서 세트
+### 8. 쁘띠엘린 세이지폴 스튜디오 원목 코지핏 바운서 세트
 - **브랜드**: 쁘띠엘린
 - **가격**: 92,950원
 - **평점**: ⭐5 (1개 리뷰)
@@ -108,17 +107,17 @@
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=37299890)
 
-### 10. 콤비 네무리라 전동 자동 바운서
-- **브랜드**: 콤비
-- **가격**: 594,909원
-- **평점**: ⭐4.8 (124개 리뷰)
-- **핵심 스펙**: 바운서 바운서
+### 9. 키즈투 브라이트스타트 딜 브라이트스타트 바운서
+- **브랜드**: 키즈투
+- **가격**: 10,760원
+- **평점**: ⭐4.6 (51개 리뷰)
+- **핵심 스펙**: 신생아완구,젖병 / 발육용품 / 흔들침대 신생아완구,젖병 / 흔들침대
 - **장점 요약**: 분석 중
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
-- [상세보기](https://prod.danawa.com/info/?pcode=20810327)
+- [상세보기](https://prod.danawa.com/info/?pcode=26609297)
 
-### 11. 인제뉴어티 인저누티 신생아 바운서 아기 흔들침대 피셔프라이스 대체
+### 10. 인제뉴어티 인저누티 신생아 바운서 아기 흔들침대 피셔프라이스 대체
 - **브랜드**: 인제뉴어티
 - **가격**: 165,900원
 - **평점**: ⭐5 (1개 리뷰)
@@ -127,6 +126,16 @@
 - **단점 요약**: 분석 중
 - **추천 대상**: 일반 사용자
 - [상세보기](https://prod.danawa.com/info/?pcode=26439569)
+
+### 11. 마텔 피셔프라이스 바운서 인펀트 투 토들러 락커
+- **브랜드**: 마텔
+- **가격**: 50,540원
+- **평점**: ⭐4.6 (530개 리뷰)
+- **핵심 스펙**: 바운서 바운서
+- **장점 요약**: 분석 중
+- **단점 요약**: 분석 중
+- **추천 대상**: 일반 사용자
+- [상세보기](https://prod.danawa.com/info/?pcode=20810315)
 
 ### 12. DW 아기 전동 바운서 아기요람 흔들요람 흔들침대
 - **브랜드**: DW
@@ -231,9 +240,9 @@
 ---
 
 ## 📊 데이터 출처
-- [mom-mom.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLfBAkac4wT3Tt6MksnZZ8QNctty9_ITG8yDGwXv707pGw_mZdC0oxsgv_cKgRB-ozdTEQle7qjySIaE3CEW85-IUqO4gvkKs_cm05Eg41sgOTNZUTH0AwMNX_y4HeScWtYRmJjKSPcmFrPS8f5j3j8Ykj)
-- [issue-m.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHTHg3aRNRuOP46Zmoq-33f4w8hEgUEkmcdSvtnupA9juKep6MMywbJo3GYFjC9mqxLodoZx6AVEfPcUxDTBH6PEbgyv8T8l_xlAUnEpH1aiU22s9-E4tqj4da7bkAnl6KiL1DEL3LmtJ6jqwFxxZb8OjHTJYR1PaGXSa6AH0WN2lAbFiqBlm8lcSboLBA8oa5yGAJggxZfWiGc1JpI7RukcCfa9OP-bsqcTOqLo0cfoHVPCn4x2gmJdZN__C9tEsX0huWmOEqzJGaAMIS9qYaneDQmljaKqXWoIk5iHMsk2bmzyTr6fncltXjM7ZOofr3FbuFQJ3Ixku3WG4v9QGSuNapRl2TKgPQNF32PSlXqczAsvNS8)
-- [tistory.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAUjUBHK1xO1hWNdyhVZM5g7eYmy7H7Cb0UWcGUo0XSuA4MxKMluS8fDTpvR18OW-59MSlbg-tb4qwXZlIopHLEcjpAaTEVnZfdCj3Cf52IPaYqU7TcQt7sLy3m0Wy)
-- [naver.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7mAR2LScD8AMneiWlUcRDtOJiOzGuACXn9zY5ewZyXZViUHjF5GEEURHJLN-XT02a5I7MbzSIp0O39BKCFI14CvD2ykowR5k9P9uml9xWfiKzoiT6iJRutnCItNRKVDjQeHK3NO9o4w==)
-- [plateer.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKHTpcGGJW0Zz34pjNsrffOtQsWZchKUd8lNKXZMovAMqvI7NDqN0JGYkYmDkLd5do4FCdodHdX4mPna3ItNNueaNrcigLVunWA3itG_FwAx3n_Dt1CEU4_XdMVQfrDmwBxgKeRapk7EhlQgdoSTOOrZToqRhlSypxpyMegd_pQO2XmYXxrJQRP2ZThz8DUuGgSpd336uoCW0c2uOCw-S4h2C770paAv8cMKYRnhDHORMYvWWtsMEFSppnMvAXd0I7FhTk9WkS0oD5jFAaonQm2lqNSvRILboWAtI=)
-- [newneek.co](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFvgtk64O6x6FrUMyn0raEJDoZg3_UfLxTK8oMK5Kai8pskJNrh8B0joDK5dKwozGvATjLxbK48FhkjsIb5s4Lct4YZ4yAwnWqWVcCxvVbip5PZH4lcFxQk2f9RUfqd3xWTs6z7OQ==)
+- [hankyung.com](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHR9CwaHlUeOA0QSCHoFcPfEfm1-pUjYFzb1UkhLcU130LErOUv6jIgkevd34uImpj85bq2tAGSE0MR8VBY3QRRPxo6_TqiLHpLIwQz-3rMvxGW7SO1D-T1pAw3AyOniBc81owqglbXnRUw7iUSitOolLTqvC7blA==)
+- [cityhoppers.co](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbdE8GOE9AHkw1xNaqzROegsj9sbWPKtNRGSOyV5vZ1JMfOChL63FmA3psAU4J3Kngel33V_TGpj8awK6jfSo4kkHAGKqcDiSeFzfNjBsH9fFL_dCUStlN0v8na-eM)
+- [newneek.co](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHE3W25Gl6iFc_cdrXKo2n_o6tIswIFoRFWMEXivzKVbl4E5lEYbwCtR-zctLa22k99BQpOC4bqSBY7NSp2C0GVYUETIc4Xk1tjfiQRUBKTzRKCC5-KmCLf2H2iXza3AjYVI9lA6g==)
+- [babybilly.app](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE7xUGky49e4JZNtLdaqwCSofum2-C6rqLryeOKW5WuRYd3k1RAHYrxg2jQ6Z2Y9LlbL8MO-9LsfRKou5DbEOhIYClYuoKBjV-WMioWUmrSBFVkzkxKInMW6X9FEifPYA==)
+- [aving.net](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgxiFSbLAHl9CdLLjFvltGOGE4h5BfWIgabUHDlJrm3AbExY2r869CmaWvzlnYZay_wEyBMJh_zzpUbQBAsDPiKuGlvrpNveXNMRUZQ9oVFhScMQAKQfStr0jLQCVQKktc66VcRX4FP6gqWywmy8C6TI04)
+- [babybjorn.kr](https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHC3v9LRiozWlS2oQlwAXdf4gpPSwpa7dF3TbVdXlz89EsmsZ9zdouAgtEah3P3OLxGutJ1UbMxMr2cCTMvRUcQNQPB5AaU8O_OJnMiCOF2qzWhD6AIceZ8FnrzWBgN9Mm2HOjhWePGnYey411WOpyrlg==)

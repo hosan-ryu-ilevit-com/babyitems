@@ -1,5 +1,5 @@
-# 세션: 20260127_121516_pxpi
-> 시작: 2026-01-27T12:15:16.881Z
+# 세션: 20260212_035737_8fnh
+> 시작: 2026-02-12T03:57:37.086Z
 > 카테고리키: 빨대컵
 > 카테고리: 빨대컵
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 빨대컵 시장 현황
-- 인사이트: 빨대컵 시장은 영유아 육아용품 시장에서 중요한 위치를 차지하며, 다양한 브랜드와 기능성을 갖춘 제품들이 경쟁하고 있습니다. 최근에는 캐릭터 협업이나 친환경 소재를 활용한 제품들이 주목받고 있으며, 휴대성과 사용 편의성을 높인 디자인이 인기를 얻고 있습니다. 또한, 구강 발달을 돕는 기능성 빨대컵에 대한 관심도 꾸준히 증가하고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkYlTA_-ufn2RcWCqqugjLI9A-Ok_J-GyqHMZXWjrVaFQnJksE8zGc5e4WAkNydPjoA-G43oysLOYE9YJdPXW4eNIjcEuVi59xCy26VsgGhx1tGUIDqdCxqFEQOdEUacIoxCXnJg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-HpsNXdrw_5Gk8vwoF0NQe4zyEsQe2G2LASapFqZZn_OCTwDzWNy6iH5mfxCN3V7egEnzuYwvm8ttSSXdI9nVENyeoM15DD1mai9Eu-1H6NfggSLknUpUI3AW6jTZyXgK2reevtUVB9YMlpm65XYPgWXbhekaig==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFowDcX6YgsD4WvLr9PHbUkDV8UzFntsiDa1McFhvVfkyrnpHarlSsEeJBHZu3Lh5dmxLfKtwSYbJFKVdz__TY1JQ8ZPEfL8peW8syTsymp_qJCokpADA6SNLhRiXUOmNC
+- 인사이트: 빨대컵 시장은 유아용 및 성인용 제품으로 다양화되고 있으며, 특히 유아용 빨대 흡입컵과 스테인리스 스틸 빨대 텀블러가 인기를 얻고 있습니다. 친환경 소재에 대한 수요 증가와 함께 스마트 기술이 접목된 제품도 등장하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDMfr4_PTg0sZ67tAk5DpthatdyPVVcWKos06XTShP3sBdoy5bWkkUCYKrJKYAMNqkcObryBi8KOocgGqnMmM5skZO3zqSdFNHaGmEZs44e3zvoVXf5Ww3_rBZxosv5k35EulCUkYogpMk6PFkJ_4oi4A5YT7Udv4bxGLhEgdUD521uChgoNIjTc4wrPge, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEjswqP33AHNUBC7NxgHie1wNP9fmFuO7y5vfks1GVpRYFHKnZLEoev0SdtJKtKTzl9E_eYfRnbNwRsbR8n9MY2LEPMUvSDa_JiA0dMzd8Mk7tkb1BV6VsuWl1LjbFns4zsmw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5R9UgErIhbW_MK_I3mbCbyL5GRPSFysBDwHnT9JftcgVNqK8FTpp3oa5N9BsALP_zasa-wshKGp84m8qVrldQw2aGusXF-P8WsbYwxKANlSLtZkG2dssO-hjHE68p5Ce8vDfLUighL6PE5XfaM1hV9yPEyuO2E9tTUvLQSubdE0HI4VeCRunmrGtmqS7rK7A68vc8D1vQypWV, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHmF_ImFBPHlRxsSywy91agHaVufRcTI4Y977DTAb-xiV8-bvx4IIRi66IrVahNYyXYk53IjiPSrqwobVuyKQR54P62W9_XW2y-bZD_poE0djmFcqku9QvgKBLXTKpar0xb-uTgcOUDZNY4oR2Vk1Z0f0hfXwdQcA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHAHATpTU3__Bu80epEyIZMfbQubIvFY6mRDdONDyF3s3GiFConbL7khMkad7Q1GmWPkmHf6tcpiW67MWEZpl_upyKbhUk2iz--zaQfrIZr6ovwxuIZzoDC17vl-fFjs9SBrWuYFsQ=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbPgGh0Ipwoo-PRKz78o01bS0Q0kJKxhgHVv3T4sJRUsEBNxJbP0fj4aCSPKLBDNg7UISsJJ3S-McbjnUmR05a-GNA5M_hCrG5s67ObBp9o_YLYyOsckoNcMsOeQO-Uco0pxBGWM3ukoOZ84ZgK-3Sv0DOGZ3T
 
 ---
 
@@ -16,11 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 빨대컵 소재는 어떤 것을 선호하시나요? | 실리콘 (부드러운 재질), 스테인리스 (보온/보냉) |
-| 손잡이가 있는 빨대컵을 선호하시나요? | 손잡이 있음 (아기 스스로 잡기 편함) |
-| 빨대컵 용량은 어느 정도가 적당할까요? | 200ml ~ 400ml (일상 사용) |
-| 선호하시는 빨대컵 브랜드가 있으신가요? | 상관없어요 |
-| 예산은 어느 정도로 생각하세요? (평균 약 2만원, 1만원 초반~2만원 중반이 가장 많아요) | 2만 5천원대 |
+| 육아 선배 추천으로 첫 빨대컵을 구매하시는데, 어떤 기능이 가장 중요하신가요? | 세척 편의성 (분리/간편) |
+| 아기가 사용할 빨대컵 소재는 어떤 것을 선호하시나요? | 스테인리스 스틸 (보온/보냉) |
+| 빨대컵의 누수 방지 기능은 어느 정도 수준을 원하시나요? | 완벽 방수 (가방 휴대) |
+| 아기가 빨대컵을 잡기 편하도록 어떤 디자인을 선호하시나요? | 양손잡이 (독립심 함양) |
+| 빨대컵 세척은 얼마나 간편한 것을 선호하시나요? | 간편 분리 세척 |
+| 예산은 어느 정도로 생각하세요? (평균 1만 8천원, 1만 1천원~2만 4천원대가 가장 많아요) | 1만 1천원 ~ 2만 4천원대 |
 
 ---
 
@@ -29,26 +30,26 @@
 현재 후보: 120개 (전체 120개 중)
 
 ### 후보 상품
-1. 먼치킨 손잡이 추빨대컵 리필 - 3,340원 - ⭐4.3
-2. 리첼 AQ 첫걸음 머그 스텝업 세트 - 14,850원 - ⭐4.8
-3. 푸고 푸고 뉴트럴 빨대컵 350ml (TKFE-350) - 31,040원 - ⭐4.9
-4. 리첼 AQ 스트로 머그 200 - 13,360원 - ⭐4.8
-5. 써모스 더 콤팩트 스트로 컵앤텀블러 720ml - 26,260원 - ⭐4.5
-6. 그로미미 원터치 스테인리스 빨대컵 300ml - 26,900원 - ⭐5
-7. 그로미미 원터치 스테인리스 빨대컵 200ml - 26,900원 - ⭐4.2
-8. 유비맘 데일리 원터치 빨대컵 추대롱용 청소솔 1P - 1,000원 - ⭐4.6
-9. 아이조움 핑크퐁 아기상어 심플 끈달린 빨대물통 - 8,800원 - ⭐4.6
-10. 써모스 더 콤팩트 스트로 컵앤텀블러 600ml - 27,190원 - ⭐4.6
-11. 에디슨 스스로 실리콘 양손 빨대컵 200ml - 10,220원 - ⭐4.5
-12. 누비 클릭잇 귀여운 추 빨대컵 270ml - 4,275원 - ⭐4.8
-13. 유비맘 데일리 원터치 빨대컵 교체세트 - 8,900원 - ⭐4.6
-14. 비박스 빨대컵 240ml 전용 고무링 2P - 3,760원 - ⭐5
-15. 에디슨 프렌즈 흘림방지 양손 빨대컵3 - 11,520원 - ⭐4.1
-16. 이마트 노브랜드 집합몰 12 x 21 버블 스트로우 파스텔 벌크 1봉  200개입 - 5,330원 - ⭐4.7
-17. 푸고 빨대컵 빨대리필 A-BS535-SS 모음 - 3,300원 - ⭐5
-18. 써모스 더 콤팩트 스트로 컵앤텀블러 1L - 28,380원 - ⭐4.8
-19. 락앤락 데일리 핸들 콜드컵 720ml - 6,400원 - ⭐4.3
-20. 푸고 프리미엄 뉴트럴시리즈 유아컵/빨대컵/텀블러 소모품 부속품 D16-TKFF-280_뚜껑마개패킹+음용구마개패킹 - 2,900원 - ⭐5
+1. 베베락 아이와 PPSU 원터치 빨대컵 210ml 2P - 32,600원 - ⭐4.8
+2. 리첼 AQ 첫걸음 머그 스텝업 세트 - 14,520원 - ⭐4.8
+3. 에디슨 스스로 실리콘 양손 빨대컵 200ml - 11,200원 - ⭐4.5
+4. 그로미미 PPSU 다크시리즈 빨대컵 200ml - 16,300원 - ⭐4.8
+5. 써모스 더 콤팩트 스트로 컵앤텀블러 600ml - 27,285원 - ⭐4.6
+6. 푸고 시리즈 빨대컵 텀블러 빨대리필 부속품 소모품 - 5,090원 - ⭐4.7
+7. 그로미미 원터치 스테인리스 빨대컵 300ml - 26,900원 - ⭐5
+8. 푸고 뉴트럴 빨대컵 대용량 뚜껑 유니트(TKFE-350) - 7,290원 - ⭐4.8
+9. 그로미미 원터치 스테인리스 빨대컵 200ml - 26,900원 - ⭐4.2
+10. 써모스 더 콤팩트 스트로 컵앤텀블러 720ml - 27,880원 - ⭐4.5
+11. 써모스 더 콤팩트 스트로 컵앤텀블러 1L - 30,260원 - ⭐4.8
+12. 그린핑거 베베그로우 젖병&빨대컵 핸들 - 3,430원 - ⭐5
+13. 순수아 빨대컵 240ml - 9,230원 - ⭐4.7
+14. 리첼 AQ 빨대컵 세트 옐로우 - 23,320원 - ⭐5
+15. 마더케이 허그 보온 빨대컵 350ml - 22,990원 - ⭐4.5
+16. 비박스 비박스 스텐 빨대컵 350ml - 17,070원 - ⭐4.6
+17. 유비맘 데일리 원터치 빨대컵 교체세트 - 8,900원 - ⭐4.6
+18. 모윰 PPSU 올인원 젖병 170ml 트리플팩 빨대컵 호환 - 40,410원 - ⭐4.8
+19. 에디슨 프렌즈 흘림방지 양손 빨대컵3 - 11,520원 - ⭐4.1
+20. 비박스 빨대컵 240ml 전용 고무링 2P - 3,760원 - ⭐5
 
 ---
 

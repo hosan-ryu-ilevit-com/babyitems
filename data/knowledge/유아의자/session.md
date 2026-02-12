@@ -1,5 +1,5 @@
-# 세션: 20260129_123454_gq4f
-> 시작: 2026-01-29T12:34:54.929Z
+# 세션: 20260212_041001_bq2r
+> 시작: 2026-02-12T04:10:01.695Z
 > 카테고리키: 유아의자
 > 카테고리: 유아의자
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아의자 시장 현황
-- 인사이트: 유아의자 시장은 프리미엄화, 키즈테크, 캐릭터IP, 글로벌 시장 진출 등의 트렌드를 보이며 성장하고 있습니다. 특히 어린이용 의자는 2031년까지 가장 빠른 성장률을 기록할 것으로 전망됩니다. 부모의 경제력 확대와 자녀의 발달 및 복지에 대한 관심 증가는 인체공학적이고 안전한 가구에 대한 수요를 높이고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGnf5B7cr1yNIoGZz9L0ZlJ-NDLUOotKXASmCUYZGxtO4phjYbxgLu0H74NLjHn5CZrWbv-DKnpLMQPKzMb3GCX-dAo9pp_Ti7Xtk4M529eSNlXhg84-JXkUdygTJnQvIEPGeX-153B5Pn5qhWkkgRso-ujLi0l0ZPu_pLWoKTn71_tEzQKxP6hFA1I3NI5Bml0nTX-l1AZfwmmeWGrrsR_V2HynC4qmH26R-IKNuVnLvUFjmAvVoauYI2GQ0Z-mf24OIrHCqY1fjDwPp27yQFWAuwL5_yOadC9V_q7C-vRzgSFG20r3mTVJS49Z83j_TtysFIowtp1zXPstm_6CVV66bKR6kHEkWVzX7JecrWV-3MU-o2K5pa-ACnvlI24asZrKLSV3esVkLHc4m4RonDZmufGhqwAJtXUiBKRT2stM0Hz15U_Is7IFg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGr12RXYSz-htiTAwQSLwlSREoI1nhJr88gG5k2ZcfeS7d4WiuZM-fgQhcVbJ4jkJDLprmyvXCD8C2q2J0RHcXTazMFCRC1OBWFspwIWUh2LJN2sSBcLKlY2hYt8N7unIQzdDqITPTzzKq9OrKJ8z27FVrw-nbVxZpVWsJ4Czu4m-NfKvXy5axRyy5ZosUL, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE5T3mjsu17PPfMm_gOqvHDOGA4cYR6dC5SwuSm-azYyXVg0ewemQy4qrZckBf51zqHdvoeuqEYMT5ds66wu7SEAmq2t-yOQ0ECp0kjXeqAbCRHbKOcpPnYPOD1svMEs9EtmMtOxblk763MFCNE7uOylAC-Og==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE61yJZbMIfSu4vPcRbVJRv0BtVagYh6SHUbXshFvMzCBCMl153Ji5FyXQwhFBdK1qxptKrkj7a7eqp1E-PIljY6qjGz-KTxZfgZwcktRlPX0M6z7cF3aKPN81gMPlVJW7YLKKHKPcY9eYX9GT6ovqr9O4Rg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEh9Vwp8jkQx30grRhTK8w241PXJciF08FbY9VfAhAFXhGPyyicp70Jv7-r76mm23332fx71fxScGNZT8-1DKD8ouE8-g6Veo9XUWkRf_H4w3YVn_kTW8-et5c9LO61mNdsWiUDfrVclbiySKCFKlF4w3JbhMnkZnL2zBgC9EDPxGxkWyJEYD-pi6u00zTl, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGfbCkarUqpTkarcp_U8Dt0B1LWMahuWo-W72aPzRLd5yOp37RX_00jFNKex-fvgJf2XiV5kQIqUw_Nid6-dDu2NqYjCvac2p3mPaZ2yVB6mUP0Jl7YkwH2-x16E-5TO_YxQ-8SvQ==
+- 인사이트: 유아의자 시장은 지속적으로 성장하고 있으며, 특히 프리미엄 제품에 대한 수요가 높습니다. 안전성, 편의성, 디자인을 갖춘 제품들이 인기를 얻고 있으며, 온라인 채널의 성장세도 두드러집니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0vIFeSxMZIjkvnPqLAhr6n_jHPwjWR9Vcdf44RNR2ARAf-0r8kV62PEQeWxMSiRRF5i2MY6iOA8iMQnoTIiwd60KuDluUKjwI8sR9BmkvaCEDMz7F1QAL7_bua7nVdjjWbfMNk4WvtbJVeMnZ-Kf4Jx0fM11geo90B-zuCPBfEX8en78-ELWrie6V0IPM, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEE0Q1ZLTAT55sqy87R0LZKM1eTw3piH3K_9QQnlZZuICQ4qrIkkCRD-ADSjfoi0JEIA2nwcHYKOp6tIkgvCRpLTIpbYeUA4XEPgOqm95ZFdgp91mMLupBalr04rlteyN7advQbXhsaMOKVIP01SukWznfskhg1pxh8T9pNLCZhxXqJTmT_PP-6lY-IJRVypbOUwn-FLzJ1s8OEcJITM6xhqSRfuF6XeBUFvt5bZm6CiIzp6Brp2k4cZ5TYQv-Sa4ffUwyJkMZaOMcLxJtQKedJy4Ajwlaj75un4Zlc26aGw6ygQjM51oo_WcCrAPELiNdJqA3ik-bLoJd1JczeiQip1HEUQwL6OjVpMZ0meHeR0d5yWXTKCDoU2exVt2cf_Eq42uFdGUHRTA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMPayiW0VAOHGjH9L_pRlE6yLj6DxptTjxU4y4a-k4GaeEsg29RvFOJUsxH_M05JVYAMyvlSrEzErjldxbto9hhWfcEnRVILAB6V0vGm2LvhXahpraM6mAmNjNovWmcazqMDqeJLWnAR51SXlh6WuSiPr564-L2Q==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGHwWSzM_rNi9Gu1qo2NihGDKBiwDAx1FXTlbGvSn6nNPKTF5a4FigtJTYIedaSvBZ9CfcFXI22QUv_V_OGolqpVWbRyDRyCU_tB8zAZRVdj8TLC3FdVC6OcJGXxHC9iw6e4ZGb7OFdq5DD00JXrRdGrO4LA6bKRA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSOTO5Xq-ZKXhyXX8WNTf8X1eM7o-GKFhIjhhKJD6ywuYJBQ6nuRwdVWnmhwFSITESoUQTWUmxtXF1yorbXeETOR-yT6TH0cyIw8DnUbCvBULWhVGMy78o0pjzypZEldrV37nIi3cvvMpu6TbETs76rHp7DxNoCZ1dCNIiKg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGGG_7iftfGulgsKnuvGhLnpIuxJJiPVQREfTSsuKSI7MllDQzRXOw2fTiQpZrzyLeTOt5yhAXDodDBJTN5zNyYl6t8XltvdMu9aaVj7obA5Z0gQVny_fBSqGeAR-jMQORcp-_w9hz3BvlZDii5d8iHmHxHiXi1SuhiBHwtA==
 
 ---
 
@@ -16,12 +16,12 @@
 
 | 항목 | 답변 |
 |------|------|
-| 돌잔치 이후 아이 식사 환경을 업그레이드하고 싶으신데, 식사 시간마다 아이가 식탁 의자에서 자꾸 일어나는 점 때문에 고민이시군요. 36개월 아이가 식탁 의자에 더 잘 앉아있도록 도와줄 수 있는 기능으로 어떤 것이 가장 중요하신가요? | 안전 벨트/하네스, 식탁/트레이 |
-| 아이가 사용할 유아의자, 어떤 디자인 스타일을 선호하시나요? | 모던하고 심플한 디자인 |
-| 유아의자 소재는 어떤 것을 선호하시나요? | 원목 (따뜻하고 고급스러운 느낌) |
-| 유아의자 브랜드는 특별히 선호하시는 곳이 있으신가요? | 싸이벡스 (프리미엄 라인), 도노도노/야마토야 (중가, 고평점) |
-| 유아의자를 사용하지 않을 때 보관이나 이동은 어떻게 하시는 편인가요? | 가벼워서 이동 용이 |
-| 예산은 어느 정도로 생각하세요? (평균 23만원, 13만원~30만원대가 가장 많아요) | 13만원 ~ 30만원대 |
+| 이유식 시작 전 식사용 의자를 찾으시는군요! 어떤 점을 가장 중요하게 생각하시나요? | 안전 기능 강화 (5점 벨트) |
+| 아기 의자의 좌석 소재는 어떤 것을 선호하시나요? | 인조가죽/PU (생활 방수 및 쉬운 관리) |
+| 아기 의자의 디자인 스타일은 어떤 것을 선호하시나요? | 모던/미니멀 (심플하고 깔끔함), 클래식/우드톤 (따뜻하고 안정감 있음) |
+| 아기 의자의 휴대 및 보관 용이성은 어느 정도가 중요하신가요? | 보통 (가끔 이동/보관) |
+| 아기의 성장 발달을 얼마나 지원하는 기능이 중요하신가요? | 매우 중요 (성장 단계별 맞춤) |
+| 예산은 어느 정도로 생각하세요? (평균 약 21만원, 12만원~27만원대가 가장 많아요) | 12만원 이하 |
 
 ---
 
@@ -32,24 +32,24 @@
 ### 후보 상품
 1. 스토케 트립트랩 하이체어 - 372,000원 - ⭐4.9
 2. 리바트 세계가구 피노 토들러 높이조절 멀티 의자 - 221,130원 - ⭐4.5
-3. 야마토야 노스타3 의자 원목 유아 아기 높이조절 의자 - 47,950원 - ⭐5
-4. 싸이벡스 레모 4-in-1 하이체어 - 779,000원 - ⭐4.9
-5. 베이비캠프 유아용 내츄럴 식탁의자 - 65,880원 - ⭐4.7
-6. 도노도노 맘마존 아기 이유식의자 하이체어 - 170,100원 - ⭐4.8
-7. 싸이벡스 레모 3-in-1 하이체어 - 591,950원 - ⭐4.9
-8. 본베베 멀티레벨 하이체어 Z 식탁의자 - 129,000원 - ⭐5
-9. 생활특권 쫀득 빈백 대형 1인용 - 94,540원 - ⭐3
-10. 시디즈 트레보 어린이 식탁 학습용 공부의자 - 129,000원 - ⭐4.7
-11. 야마토야 아펠 트레이 하이체어 식탁의자 - 279,300원 - ⭐4.8
-12. 도노도노 맘마존 아기 이유식의자 하이체어+쿠션 세트 - 191,410원 - ⭐4.9
-13. 파파스토이 베이블퓨어리 NEW 베이비 하이체어 - 94,050원 - ⭐5
-14. 부가부 지라프 하이체어 식탁의자+베이비 세트+트레이 - 578,000원 - ⭐4.8
-15. 에시앙 P-Edition 아기 의자 + 베리유 래빗베개 - 122,610원 - ⭐4.7
-16. 이케아 AGAM 하이체어 - 84,540원 - ⭐3.9
-17. 시디즈 몰티 헬로베이비 세트 - 389,000원 - ⭐4.9
-18. 베이비캠프 PU시트 유아 식탁의자 - 47,740원 - ⭐4.3
-19. 부가부 지라프 하이체어 식탁의자+베이비 세트 - 502,000원 - ⭐5
-20. 꿈비 고이터 syt 원목 하이체어 유아식탁의자+트레이+쿠션 - 278,970원 - ⭐4.8
+3. 생활지음 제미니 4LEGS 높이조절 유아동의자 - 137,310원 - ⭐4.7
+4. 시디즈 트레보 어린이 식탁 학습용 공부의자 - 129,000원 - ⭐4.7
+5. 싸이벡스 레모 4-in-1 하이체어 - 809,100원 - ⭐4.9
+6. 시디즈 몰티 헬로베이비 세트 - 389,000원 - ⭐4.9
+7. 도노도노 맘마존 아기 이유식의자 하이체어+쿠션 세트 - 181,183원 - ⭐4.9
+8. 베이비캠프 유아용 내츄럴 식탁의자 - 67,030원 - ⭐4.7
+9. 리바트 뚜뚜 높이조절 시바 냥이 아이 의자 - 105,411원 - ⭐4.9
+10. 싸이벡스 레모 3-in-1 하이체어 - 614,080원 - ⭐4.9
+11. 생활특권 쫀득 빈백 대형 1인용 - 94,540원 - ⭐3
+12. 싸이벡스 아기 식탁의자 레모 하이체어 - 406,510원 - ⭐5
+13. 디홀릭 리틀피노 원목 어린이 식탁의자 - 66,000원 - ⭐4.9
+14. 일룸 아띠 아이 의자 - 75,000원 - ⭐4.9
+15. 도노도노 맘마존 아기 이유식의자 하이체어 - 162,955원 - ⭐4.8
+16. 파파스토이 베이블퓨어리 NEW 베이비 하이체어 - 94,050원 - ⭐5
+17. 본베베 멀티레벨 하이체어 Z 식탁의자 - 129,000원 - ⭐5
+18. hoo 어린이 원목 하이체어 - 63,000원 - ⭐4.8
+19. 마켓비 SIGTAG 유아 식탁의자 - 28,900원 - ⭐4.4
+20. 베이비캠프 유아용 접이식 원목 식탁의자 - 48,000원 - ⭐4.8
 
 ---
 

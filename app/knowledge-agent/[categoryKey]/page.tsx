@@ -1092,8 +1092,8 @@ export default function KnowledgeAgentPage() {
   // Parent category (baby/living)
   const parentCategory = getParentCategoryTab(categoryName);
 
-  // State - 모든 카테고리 onboarding부터 시작 (baby_info는 상황 선택 후 조건부 표시)
-  const [phase, setPhase] = useState<Phase>('onboarding');
+  // State - autoStart 진입 시 첫 렌더부터 loading으로 시작해 onboarding 플리커 방지
+  const [phase, setPhase] = useState<Phase>(autoStart ? 'loading' : 'onboarding');
   const [resultProducts, setResultProducts] = useState<any[]>([]);
   const [filterTags, setFilterTags] = useState<FilterTag[]>([]);
   const [allFilterTags, setAllFilterTags] = useState<FilterTag[]>([]);  // 🆕 필터링 전 전체 태그 (PDP 조건 매핑용)
@@ -1124,7 +1124,7 @@ export default function KnowledgeAgentPage() {
   const [showReRecommendModal, setShowReRecommendModal] = useState(false);
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
   const [showAnalysisBottomSheet, setShowAnalysisBottomSheet] = useState(false); // 🆕 분석 시작 바텀시트
-  const [isInitRunning, setIsInitRunning] = useState(false);
+  const [isInitRunning, setIsInitRunning] = useState(autoStart);
   const [isChatLoading, setIsChatLoading] = useState(false);
   const [isChatInputHighlighted, setIsChatInputHighlighted] = useState(false);
   const chatInputRef = useRef<HTMLTextAreaElement>(null);
@@ -2488,6 +2488,11 @@ export default function KnowledgeAgentPage() {
     ];
 
     let localSteps = createDefaultSteps(categoryName);
+    // deferQuestionFlow에서는 온보딩 진입 전 "맞춤 질문 생성" 단계를 렌더하지 않음
+    // (3단계 슬라이드가 잠깐 보이는 플리커 방지)
+    if (deferQuestionFlow) {
+      localSteps = localSteps.filter(step => step.id !== 'question_generation');
+    }
     let localProducts: CrawledProductPreview[] = [];
     let trendData: any = null;
 
@@ -2591,15 +2596,6 @@ export default function KnowledgeAgentPage() {
         setAnalysisSteps([...localSteps]);
         questionTodosFromQuestions = questionResult?.questionTodos || [];
         firstQuestion = questionTodosFromQuestions[0];
-      } else {
-        localSteps = localSteps.map(s => s.id === 'question_generation' ? {
-          ...s,
-          status: 'pending' as const,
-          startTime: undefined,
-          endTime: undefined,
-          thinking: '온보딩 완료 후 맞춤 질문을 생성합니다',
-        } : s);
-        setAnalysisSteps([...localSteps]);
       }
 
       // 임시 상태 설정 (complete 이벤트 전에 미리 UI 업데이트)
@@ -5182,7 +5178,7 @@ export default function KnowledgeAgentPage() {
   const questionGenerationStep = analysisSteps.find(step => step.id === 'question_generation');
   const shouldShowOnboardingStepInInitLoading =
     phase === 'loading' &&
-    questionGenerationStep?.status === 'pending';
+    (questionGenerationStep?.status === 'pending' || isInitRunning);
   const shouldShowStepIndicator =
     (phase !== 'loading' || shouldShowOnboardingStepInInitLoading) &&
     phase !== 'result' &&
@@ -6410,7 +6406,7 @@ export default function KnowledgeAgentPage() {
                       logKnowledgeAgentReRecommendSameCategory(categoryKey || '', categoryName || '');
                       // 로컬스토리지에서 저장된 결과 삭제
                       localStorage.removeItem(STORAGE_KEY);
-                      window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}`;
+                      window.location.href = `/knowledge-agent/${encodeURIComponent(categoryName || categoryKey || '')}?autoStart=1`;
                     }}
                     className="w-full h-[72px] bg-[#191D28]/80 border border-gray-800 rounded-[12px] flex items-center px-4 group active:scale-[0.98] transition-all backdrop-blur-[6px]"
                   >
@@ -7012,7 +7008,7 @@ function MessageBubble({
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ delay: 0.3, duration: 0.5 }} className="space-y-4 pt-2">
             {/* 타이틀 및 비교표 토글 */}
             <div className="px-1 overflow-visible text-center">
-              <h2 className="text-[22px] font-bold text-gray-900 mb-3">당신을 위한 <br></br>{categoryName} 추천</h2>
+              <h2 className="text-[20px] font-bold text-gray-800 mb-3 leading-6">당신을 위한 <br></br>{categoryName} 추천</h2>
 
               {/* 탭 UI - 비교표/리스트 전환 */}
               <div className="flex items-center justify-center gap-1.5 mb-3 w-full">
@@ -7037,7 +7033,7 @@ function MessageBubble({
                   }`}
                 >
                   <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
-                    showListView ? 'text-blue-500' : 'text-gray-400'
+                    showListView ? 'text-blue-500' : 'text-gray-600'
                   }`}>
                     추천 상품 보기
                   </span>
@@ -7063,7 +7059,7 @@ function MessageBubble({
                   }`}
                 >
                   <span className={`text-[16px] font-semibold transition-colors whitespace-nowrap ${
-                    !showListView ? 'text-blue-500' : 'text-gray-400'
+                    !showListView ? 'text-blue-500' : 'text-gray-600'
                   }`}>
                     비교표로 보기
                   </span>
