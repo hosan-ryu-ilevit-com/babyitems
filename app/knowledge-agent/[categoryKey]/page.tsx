@@ -1295,6 +1295,26 @@ export default function KnowledgeAgentPage() {
     }]);
   }, []);
 
+  const ensureQuestionGenerationStep = useCallback((steps: AnalysisStep[]): AnalysisStep[] => {
+    if (steps.some((step) => step.id === 'question_generation')) return steps;
+
+    const questionStep: AnalysisStep = {
+      id: 'question_generation',
+      label: '맞춤 구매질문 생성',
+      type: 'generate',
+      status: 'pending',
+    };
+
+    const webSearchIndex = steps.findIndex((step) => step.id === 'web_search');
+    if (webSearchIndex === -1) return [...steps, questionStep];
+
+    return [
+      ...steps.slice(0, webSearchIndex + 1),
+      questionStep,
+      ...steps.slice(webSearchIndex + 1),
+    ];
+  }, []);
+
   const generateQuestionsAfterContext = useCallback(async (
     latestOnboarding: OnboardingData,
     latestBabyInfo: BabyInfo | null
@@ -1312,14 +1332,17 @@ export default function KnowledgeAgentPage() {
     scrollToTop();
 
     // 온보딩 완료 후에만 3단계(맞춤 질문 생성)를 active로 전환
-    setAnalysisSteps(prev => prev.map(step => (
-      step.id === 'question_generation'
-        ? { ...step, status: 'active', startTime: Date.now(), endTime: undefined }
-        : step
-    )));
+    setAnalysisSteps((prev) => {
+      const stepsWithQuestion = ensureQuestionGenerationStep(prev);
+      return stepsWithQuestion.map((step) => (
+        step.id === 'question_generation'
+          ? { ...step, status: 'active', startTime: Date.now(), endTime: undefined }
+          : step
+      ));
+    });
     setMessages(prev => prev.map(message => {
       if (message.id !== 'analysis-progress' || !message.analysisData?.steps) return message;
-      const nextSteps = message.analysisData.steps.map(step => (
+      const nextSteps = ensureQuestionGenerationStep(message.analysisData.steps).map(step => (
         step.id === 'question_generation'
           ? {
             ...step,
@@ -1362,21 +1385,24 @@ export default function KnowledgeAgentPage() {
 
       const generatedTodos = data.questionTodos as QuestionTodo[];
       const firstQuestion = generatedTodos[0];
-      setAnalysisSteps(prev => prev.map(step => (
-        step.id === 'question_generation'
-          ? {
-            ...step,
-            status: 'done',
-            endTime: Date.now(),
-            analyzedCount: generatedTodos.length,
-            thinking: `맞춤 질문 ${generatedTodos.length}개 생성 완료`,
-          }
-          : step
-      )));
+      setAnalysisSteps((prev) => {
+        const stepsWithQuestion = ensureQuestionGenerationStep(prev);
+        return stepsWithQuestion.map((step) => (
+          step.id === 'question_generation'
+            ? {
+              ...step,
+              status: 'done',
+              endTime: Date.now(),
+              analyzedCount: generatedTodos.length,
+              thinking: `맞춤 질문 ${generatedTodos.length}개 생성 완료`,
+            }
+            : step
+        ));
+      });
       setMessages(prev => prev.map(message => {
         if (message.id !== 'analysis-progress' || !message.analysisData?.steps) return message;
         const generatedQuestions = generatedTodos.map(todo => ({ id: todo.id, question: todo.question }));
-        const nextSteps = message.analysisData.steps.map(step => (
+        const nextSteps = ensureQuestionGenerationStep(message.analysisData.steps).map(step => (
           step.id === 'question_generation'
             ? {
               ...step,
@@ -1414,7 +1440,7 @@ export default function KnowledgeAgentPage() {
       setIsGeneratingQuestions(false);
       isGeneratingQuestionsRef.current = false;
     }
-  }, [categoryKey, appendFirstQuestionMessage, scrollToTop]);
+  }, [categoryKey, appendFirstQuestionMessage, scrollToTop, ensureQuestionGenerationStep]);
 
   const handleOnboardingComplete = useCallback((data: OnboardingData) => {
     console.log('[KA Flow] 온보딩 완료:', data);

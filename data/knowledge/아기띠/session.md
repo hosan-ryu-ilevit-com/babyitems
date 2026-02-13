@@ -1,5 +1,5 @@
-# 세션: 20260212_050421_8h9h
-> 시작: 2026-02-12T05:04:21.606Z
+# 세션: 20260213_121602_5d21
+> 시작: 2026-02-13T12:16:02.818Z
 > 카테고리키: 아기띠
 > 카테고리: 아기띠
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 아기띠 시장 현황
-- 인사이트: 아기띠 시장은 변화하는 라이프스타일과 함께 꾸준히 성장하고 있으며, 2026년에는 약 6억 9,812만 달러 규모에 이를 것으로 예상됩니다. 특히 국내에서는 저출산에도 불구하고 프리미엄 유아용품에 대한 수요 증가로 시장 규모가 확대되는 추세입니다. 해외 시장에서도 K-아기띠의 인기가 높아 수출 비중이 높은 브랜드들이 주목받고 있습니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHPvfzPo2cwaMnruJ1LVYoJhaybZwpkPNR_XTgSJpAoNh7vmee-RvynPFCK_GkJD5i2x5yfTvjwxaNx112WGwYVDU0SCYCoq0SBsQmaZVUF6tFkk18CYf-hMmGA3TkKcDTwRU-uIzeOm_ciXZ4og==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGti_KYy0v1fob0ragCpmg5fsqZ7PbJEOET2VhyConfIPAaYM0d7lJMU8lNfRDkjipG3JErGEtAkbdwQR9KiHDeV5SzD_wqAHE1Zx3oMdHwkgf5YMUkk2fgf_Oo-us=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKFa-JOE8zGX7ePfEC-mlUgv5WHzXU0uv1el_ngQQo2wrbHTWAtie-3RdPiCEq6E9j7_nm1x8OiRL-jGftaP0DfgggsBcyj89iJNXA8t5usvCnXQqqZUcI30V7tpTaf7GJDHqGZrNxZltd
+- 인사이트: 아기띠 시장은 2026년 약 6억 9,812만 달러에서 2031년 9억 7,549만 달러로 연평균 6.92% 성장할 것으로 예상됩니다. 맞벌이 부부 증가와 라이프스타일 변화가 성장을 견인하며, 특히 밀레니얼 세대 부모들은 아기띠를 라이프스타일 표현으로 여기고 미적으로 차별화된 제품을 선호합니다. 인도와 인도네시아 등 신흥 시장의 출산율 증가와 가처분 소득 증대도 시장 성장에 기여하고 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcehzSVhbjUXjGHcE6Q29mUTPKp0MaHQaH73SfPcRIbxkhEOAV4gfo8WFR2yiWWhg51p29g3NH7TbcllAkj469wbSgTdo4Rk2qBkciP14_LLjCnm2lR6Z3aOyO5UOhn68vt0XHqKuSxOZi-x_6xj-j2S4p4baiahNdNg5hMhwtUAM=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwH2jA8BiW3odUCOhkyqXocans9ZOv4r9912H3-ntgr--RYLHfMyYkb7ahAbVmRkasItJifucD3DGbI6e8AdEE2Mcbo0b-tn2VBMwokGmxARrUlNVf30bXP2pI66cM0y-iqAuPSC7rPGI_vXwxZ-BzI8F93eWZD4i6O_NYpQRKHPxMwZYRYw==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQENdWBkEeEnuSiIvXZRdzBxCofre_3XusKGJQt-YUOaURTgQMoA_0Z-ag9G_cO9rWEjlODNAyzr0mKXYP9Evs3OoQJIyv4Kl9cfD9YzU4MpvdAwwqtoUee3afgl3BncTFtPM54OtlTkwdT-5w==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGA60QheeiHlV5adOLlmzQGX9HApvkzmfJb1Dmb6bl3_VP3katDmfdUy_vWuqfHPpER3WjYThbe2uEPnScdyLxQ7W2V2LS1JNrXlsTMLMD_GlDYUOFC0dLYn6u0_2De4B81jRc1DeRnNHryVo5yBx-sJZVD8EQ45DaVJ7f5isd-HCoavRyD8_DsI2ljJCdWy4Bk_0S7Wpp4cw2KDbNTGO_8_j4WbmR7jTbKQZlcKH-rv9mT0pprwtGfUqAiWNwp8gC8kUWebROePNO5ikTbDw==
 
 ---
 

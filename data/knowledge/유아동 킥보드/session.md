@@ -1,5 +1,5 @@
-# 세션: 20260212_050531_anpr
-> 시작: 2026-02-12T05:05:31.907Z
+# 세션: 20260213_121456_67ur
+> 시작: 2026-02-13T12:14:56.886Z
 > 카테고리키: 유아동 킥보드
 > 카테고리: 유아동 킥보드
 
@@ -7,8 +7,8 @@
 
 ### Init 단계
 - 쿼리: 유아동 킥보드 시장 현황
-- 인사이트: 유아동 킥보드 시장은 안전성과 내구성, 그리고 아이들의 흥미를 유발하는 디자인을 중심으로 성장하고 있습니다. 최근에는 지속 가능성과 친환경 소재에 대한 관심도 높아지고 있으며, 온라인 채널과 소셜 미디어를 통한 구매가 증가하는 추세입니다.
-- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEguFd1EnqPRjsC1xprqJePvqfaeWzkdQVoQrO90FeLUukLKwXr9kVaS2IW2aHMZSVsIaYcNthd6QiqF3H66THHGVNXNYAtGs8KCLxdXH6nSJ8D8GqksGkckdvm0L28ImNZGTxwpnhx-Vu2VFgIlqPweKzQREiX7EyLCzpcAS2CG0jO3uYHIT0KerJjk9ZRVQtAhNsKOo2degiYRG8qlSjW0ZIAC7U=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG19GgD5X7Q2rfxHgGpE71UbKAlbjpIt6dF8Dq0xV1xDMqetgCwD3UarA1bEcROYakT_cPEh0xou0k3DNOiHIWQA0OaIsrqh9VgaVxau5KzrwvI97dr_xTexGQGoHKLUVNNim9IsfG2f3e0H9orDqnPaIJfDJ_g8_kASrKq6f0ommIBAcld6_CHsNhzIwsNCLJLJyL0VrauB8ekr1QCNZk-8LuFGMCC69QxgA==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFqKT_5VKBY7vvUfBTVfCDmoj9uvraMl7XWNiNiasgsK-9rRcf7p9zFIrLo2uGOD5mcALUnNJw4bh3yXDS8vo4hzfrv2oc72wj4WIpLH5Ens7qCyPqYlRdUfa6mlWTCwkUbWiHkYhhCgsAhSeUMlJEJd0e0i6aAubRzZvIgXqAEHUlC-AlaeFkUGLVBpbGsx6D8fowEByPny4m1pw0TS5qnxrqBL7M=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJswUIj5VEL61OQNRq_yFZRZeOontb_Jldkp9Q_l5LseiKu3PspLyl81XzPJx178Wo4Y9Z5yeRKTyIIo4xYyW31HMB0MsA1iVZf5eh1vGj0JE5wTZ4PPC_Ta3ergs=, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFGxtNlYE3pUYHRj8hHTJlJzrHG8jNhtZq1KAmOI5IOwQY-fjtNAOurLNbxiGvznKNDVcmLDVYwS37WnfUD_c35hLS9owxom6uhUIIb3visTnOq-cTO4i1t74P6bDt_F_pD3rhohrg=
+- 인사이트: 유아동 킥보드 시장은 안전성과 지속 가능성을 중시하는 추세이며, 소셜 미디어 중심의 쇼핑 습관 변화와 브랜드 충성도 감소가 주요 특징입니다. 특히, TikTok, Instagram 등에서 시각적인 콘텐츠를 통해 제품의 안전성과 기능을 전달하는 것이 중요해지고 있습니다. 또한, 소비자들은 환경 영향을 투명하게 요구하며 지속 가능한 비즈니스 관행을 가진 브랜드를 선호하는 경향이 있습니다.
+- 출처: https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9jIdLOwo2B2udgZNoJTVNkO4EfvTjL711pKyrFqHbiN3y6mC092oCuyOh2v6Ls9RwghuxUQrQJcxjYQ5N1DtvH293FX52Zsr90WRFrbCPeXi0Hp6F0xMy3Y2sfuwoktkFJmI5-gK3a5nF23z7huzXp5Aqgg==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJ320NN7yNE9LygIYrxn0wcwQFMaPj03NbFBDXx_VEjgJK976qSYSzsjgJ_tXk-zxVkbryHOZjHTcf0EdZmiLWqKWpANo5yUaITXIBWEDpTefaduyr_pIGDDK5e-M3GoXdpYZUyq57buZekTN61g==, https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJZ6PE-HIDiKGFG-LD9QszxmTY4_IUkf130YhivkcxdLVNoUjct32lJjDNr3L1eK3BXDAk_blfNVg0SAUAKF6B3N6cTTSeW7RhB6desfqso4tVB5aIqFO09hrk9pS_GwQTTXA2D8Hxr7sVZUduYkH9Yzl-EtMKuSqMbyHt78gjucJhJl_rMie-MSQW0FZtwKJZIgAIAnr_bdUjBaQ5PJsA9qubaA==
 
 ---
 
